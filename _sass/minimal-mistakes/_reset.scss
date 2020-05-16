@@ -15,11 +15,11 @@ html {
   }
 
   @include breakpoint($large) {
-    font-size: 20px;
+    font-size: 18px;
   }
 
   @include breakpoint($x-large) {
-    font-size: 22px;
+    font-size: 18px;
   }
 
   -webkit-text-size-adjust: 100%;
@@ -39,7 +39,7 @@ body { margin: 0; }
 
 ::selection {
   color: #fff;
-  background: #000;
+  background: #fd9d6d;
 }
 
 /* Display HTML5 elements in IE6-9 and FF3 */
