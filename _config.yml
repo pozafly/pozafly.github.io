@@ -16,7 +16,7 @@ minimal_mistakes_skin    : "default" # "default" "air", "aqua", "contrast", "dar
 
 # Site Settings
 locale                   : "ko-KR"
-title                    : "My Awsome Site"
+title                    : "우물쭈물하다 내 이럴줄 알았지"
 title_separator          : "-"
 subtitle                 : "기술블로그" # site tagline that appears below site title in masthead
 name                     : "pozafly"
