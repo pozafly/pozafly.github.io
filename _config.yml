@@ -20,7 +20,7 @@ title                    : "우물쭈물하다 내 이럴줄 알았지"
 title_separator          : "-"
 subtitle                 : "기술블로그" # site tagline that appears below site title in masthead
 name                     : "pozafly"
-description              : "우물쭈물 하지만 잡다한 것을 씁니다."
+description              : "잡다한 것을 씁니다."
 url                      : "https://pozafly.github.io/" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
