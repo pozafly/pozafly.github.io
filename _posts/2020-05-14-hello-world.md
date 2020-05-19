@@ -17,3 +17,4 @@ public List<Map<String, Object>> saveInvAtmtRgst( List<Map<String, Object>> para
         
 ```
 
+이렇게 하긴하는데 짜증나는군 블록 드래그 했을 때 변하지가 않아.
