@@ -44,10 +44,6 @@ Web 프로젝트를 하다보면 오류는 당연히 만나는 것이고 그 때
 
 
 
-
-
-## 3. 환경설정
-
 ## 3. 환경설정
 
 먼저 IDE에서 Spring Starter Project로 SpringBoot 프로젝트를 생성해보자. 나는 Gradle 과 Java 1.8을 설정하고, 디펜던시는 가장 대중적으로 사용하는 Spring Web, Spring Boot DevTools, Lombok, Spring Data JPA를 체크하고 생성했다.
