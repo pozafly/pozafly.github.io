@@ -39,7 +39,7 @@ body { margin: 0; }
 
 ::selection {
   color: #fff;
-  background: #fd9d6d;
+  background: mix(#fff, #FE6F61, 15%);
 }
 
 /* Display HTML5 elements in IE6-9 and FF3 */

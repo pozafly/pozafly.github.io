@@ -1,15 +1,18 @@
 ---
-
+title: "단위 테스트(JUnit4 - SpringBoot)"
+excerpt: "JUnit 단위테스트에 대해서"
+categories:
+  - JUnit
+tags:
+  - JUnit4
+  - 단위테스트
+  - TDD
+last_modified_at: 2020-05-20T20:06:00-05:00
 ---
-
-
-
-# 단위 테스트(JUnit4 - SpringBoot)
 
 Web 프로젝트를 하다보면 오류는 당연히 만나는 것이고 그 때마다 *System.out.println()*을 찍어보거나 *@Slf4j*로 log를 찍는일이 대부분이었다. 또 log를 확인하기 위해 **WAS를 올렸다 내렸다**하는 번거로움까지. 하지만 WAS를 반복적으로 올렸다 내렸다 하지 않고, 소스 상으로 기능이 제대로 동작하는 코드가 짜여졌는지 알 수 있는 것이 `테스트 프레임워크`이며, 그 중 하나인 JUnit을 알아보고자 한다.
 
 > 참고로 가장 대중적인 테스트 프레임워크는 이름이 xxxUnit 이다.
->
 > - java : JUnit
 > - DB : DBUnit
 > - C++ : CPPUnit
@@ -27,11 +30,8 @@ Web 프로젝트를 하다보면 오류는 당연히 만나는 것이고 그 때
 ## 2. JUnit이란?
 
 - java에서 독립된 **단위테스트**(Unit Test)를 지원해주는 프레임워크이다.
-
 - 단정(assert) 메서드로 테스트 케이스의 수행 결과를 판별한다.(ex. assertEquals(예상값, 실제값))
-
 - JUnit4 이후부터는 테스트를 지원 어노테이션을 제공한다.(@Test, @Before, @After 등)
-
 - @Test 메서드가 호출할 때마다 *새로운 인스턴스*를 생성하여 **독립적인 테스트**가 이루어지게 한다.
 
 
@@ -85,19 +85,12 @@ test {
 이렇게 바꿔준 후, Project Explorer에서 해당 프로젝트 우클릭 -> Gradle -> Reflesh Gradle Project 를 눌러서 디펜던시를 받아주자.
 
 > 여기 붙어있는 **spring-boot-starter-test**에는 다름 라이브러리들이 포함되어있다.
->
 > - JUnit 5 (JUnit 4와의 하위 호환성을 위한 빈티지 엔진 포함) => 이에 별다른 설정 없이 JUnit 5도 사용 가능
->
 > - 스프링 테스트 및 스프링 부트 테스트
->
 > - AssertJ
->
 > - Hamcrest
->
 > - Mockito
->
 > - JSONassert
->
 > - JsonPath
 
 
@@ -143,7 +136,6 @@ public class ProductTest {
 
 
 > - 테스트 클래스는 반드시 public으로 선언해야 한다.
->
 > - @Test : 이 어노테이션을 선언한 메서드는 JUnit이 알아서 실행할 수 있게 함.
 
 JUnit을 통해 아주 간단한 단위 테스트를 해보았다. 여기서 사용된 assert 메서드에 대해 좀 더 알아보자.
