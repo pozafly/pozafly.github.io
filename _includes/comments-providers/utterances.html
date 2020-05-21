@@ -1,4 +1,4 @@
-<!-- <script>
+<script>
   'use strict';
 
   (function() {
@@ -10,19 +10,11 @@
 
     var script = document.createElement('script');
     script.setAttribute('src', 'https://utteranc.es/client.js');
-    script.setAttribute('repo', '{{ site.repository }}');
-    script.setAttribute('issue-term', '{{ site.comments.utterances.issue_term | default: "pathname" }}');
-    script.setAttribute('theme', '{{ site.comments.utterances.theme | default: "github-light" }}');
+    script.setAttribute('repo', 'pozafly/pozafly.github.io/');
+    script.setAttribute('issue-term', 'og:title');
+    script.setAttribute('theme', 'github-light');
     script.setAttribute('crossorigin', 'anonymous');
 
     commentContainer.appendChild(script);
   })();
-</script> -->
-
-<script src="https://utteranc.es/client.js"
-        repo="pozafly/pozafly.github.io/"
-        issue-term="og:title"
-        theme="github-light"
-        crossorigin="anonymous"
-        async>
 </script>
