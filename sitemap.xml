@@ -6,7 +6,7 @@ layout: null
 
   {% for post in site.posts %}
     <url>
-      <loc><![CDATA[{{ site.url }}{{ post.url }}]]></loc>
+      <loc>{{ site.url }}{{ post.url }}</loc>
       {% if post.lastmod == null %}
         <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
       {% else %}
