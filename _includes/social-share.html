@@ -41,7 +41,7 @@
         templateArgs: {
           title: "{{ page.title }}",
           description: "{{ page.excerpt }}",
-          url : "{{ page.url | absolute_url | url_encode }}",
+          url : "{{ page.url }}",
         },
       });
     }
