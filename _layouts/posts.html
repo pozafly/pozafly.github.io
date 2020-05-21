@@ -4,6 +4,14 @@ layout: archive
 
 {{ content }}
 
+<script src="https://utteranc.es/client.js"
+        repo="pozafly/pozafly.github.io/"
+        issue-term="og:title"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
 <ul class="taxonomy__index">
   {% assign postsInYear = site.posts | group_by_exp: 'post', 'post.date | date: "%Y"' %}
   {% for year in postsInYear %}
