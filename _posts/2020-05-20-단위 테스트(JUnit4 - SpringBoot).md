@@ -1,5 +1,5 @@
 ---
-title: "단위 테스트(JUnit4 - SpringBoot)"
+title: "단위 테스트(JUnit4-SpringBoot)"
 excerpt: "JUnit 단위테스트에 대해서"
 categories:
   - JUnit
