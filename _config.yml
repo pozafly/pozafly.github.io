@@ -18,7 +18,7 @@ minimal_mistakes_skin    : "default" # "default" "air", "aqua", "contrast", "dar
 locale                   : "ko-KR"
 title                    : "우물쭈물하다 내 이럴줄 알았지🙃"
 title_separator          : "-"
-subtitle                 : "기술블로그" # site tagline that appears below site title in masthead
+subtitle                 : # "기술블로그" # site tagline that appears below site title in masthead
 name                     : "pozafly"
 description              : "잡다한 것을 씁니다."
 url                      : "https://pozafly.github.io/" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
@@ -111,12 +111,12 @@ author:
     - label: "Facebook"
       icon: "fab fa-fw fa-facebook-square"
       url: "https://facebook.com/pozaflyz"
-    - label: "GitHub"
-      icon: "fab fa-fw fa-github"
-      url: "https://github.com/pozafly/"
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
       url: "https://instagram.com/pozafly_/"
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/pozafly/"
 
 # Site Footer
 footer:
