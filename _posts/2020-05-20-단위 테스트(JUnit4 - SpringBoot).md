@@ -154,7 +154,7 @@ JUnit을 통해 아주 간단한 단위 테스트를 해보았다. 여기서 사
 | assertTrue(a)      | 조건 a(boolean)가 true 인지 확인                             |
 | assertNotNull(a)   | 객체 a가 null이 아님을 확인                                  |
 
-더 자세한 내용은 [JUnit Assert Class 사전](http://junit.sourceforge.net/javadoc/org/junit/Assert.html)에 기록되어 있다.
+더 자세한 내용은 [JUnit Assert Class 사전🔗](http://junit.sourceforge.net/javadoc/org/junit/Assert.html)에 기록되어 있다.
 
 이렇게 간단하게 @Test 어노테이션을 사용, assert 메서드로 Product라는 도메인을 테스트 해봤다. 😎
 
