@@ -303,7 +303,16 @@ body {
    Page taxonomy
    ========================================================================== */
 
+.page__date {
+  font-size: $type-size-7;
+  display: block;
+  text-align: center;
+}
 .page__taxonomy {
+  margin-top: $type-size-4;
+  font-size: $type-size-6;
+  float: right;
+  height: 0px;
   .sep {
     display: none;
   }
@@ -315,12 +324,8 @@ body {
 
 .page__taxonomy-item {
   display: inline-block;
-  margin-right: 5px;
-  margin-bottom: 8px;
-  padding: 5px 10px;
+  padding: 1px 4px;
   text-decoration: none;
-  border: 1px solid mix(#000, $border-color, 25%);
-  border-radius: $border-radius;
 
   &:hover {
     text-decoration: none;
