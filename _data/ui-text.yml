@@ -625,7 +625,7 @@ ko: &DEFAULT_KO
   search_label_text          :
   search_placeholder_text    : "검색어를 입력하세요🔥"
   results_found              : "결과 발견✨"
-  back_to_top                : "맨 위로 이동🤩"
+  back_to_top                : "맨 위로 이동😝"
 ko-KR:
   <<: *DEFAULT_KO
 

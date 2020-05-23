@@ -14,14 +14,15 @@
   height: $nav-toggle-height;
   border: 0;
   outline: none;
-  color: $primary-color;
+  color: mix(#fff, $link-color, 15%);
   background-color: transparent;
   cursor: pointer;
   -webkit-transition: 0.2s;
   transition: 0.2s;
+  font-size: $type-size-6;
 
   &:hover {
-    color: mix(#000, $primary-color, 25%);
+    color: mix(#fff, $link-color, 65%);
   }
 }
 
