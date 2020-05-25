@@ -35,37 +35,21 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 그리고, ProductService다.
 
 ```java
-import java.util.List;
-import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import kr.co.test.repository.ProductRepository;
 import kr.co.test.vo.Product;
 
 @Service
 public class ProductService {
     
-    @Autowired
-    private ProductRepository productRepository;
-
-    public List<Product> readAll() {
-        return productRepository.findAll();
-    }
-
-    public Optional<Product> readById(Long id) {
-        return productRepository.findById(id);
-    }
-
-    public void createProduct(Product product) {
-        productRepository.save(product);
-    }
-
-    public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
-    }
+    final String message = "배달 보내겠습니다.";
     
+    public void deleveryProduct(Product product) {
+        product.setMessage(message);
+    }
 }
 ```
+
+이렇게 아주 간단한 Service를 만들었고, 상품을 담아 배달할 때, message를 '배달 보내겠습니다.' 라는 아주 간단한 로직만 집어넣은 Service다.
 
 
 
