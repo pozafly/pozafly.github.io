@@ -53,6 +53,12 @@ class A{
 }
 ```
 
+  
+
+  
+
+  
+
 
 
 4. `ClassCastException` - 형변환 변수가 더 작은 부모 형태로 변환되었을 때.
@@ -77,8 +83,6 @@ class A{
 2. `Unchecked Exception` : RuntimeException 똑같은 폭탄()인데, 컴파일러가 신경을 안써줌.
 
    ※Exception 을 폭탄이라고 가정.
-
- 
 
  
 
@@ -148,7 +152,7 @@ class A {
 }
  ```
 
-`※`주의사항
+**※**주의사항
 
 - 다중 catch 시, Exception 이 위에 catch절에 있을 때, 상속관계상 모두 잡아버리기 때문에 밑으로 가야함.그렇지 않으면 error.
 
