@@ -25,7 +25,7 @@ class A{
 }
 ```
 
- 
+<br/>
 
 2. `NullPointerException` - 주소가 가르키는 것이 없을 때, 호출한 경우.
 
@@ -38,7 +38,9 @@ class A{
 }
 ```
 
+<br/>
 
+<br/>
 
 3. `ArrayIndexOutOfBoundsException`  -  배열 방 번호를 잘못 입력했을 때.
 
