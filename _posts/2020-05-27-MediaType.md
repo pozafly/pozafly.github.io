@@ -95,47 +95,51 @@ public class SampleControllerTest {
 테스트를 실행해보면, console에
 
 ```
-	MockHttpServletRequest:
-		  HTTP Method = GET
-		  Request URI = /hello
-		   Parameters = {}
-			  Headers = [Content-Type:"application/json;charset=UTF-8"]
+MockHttpServletRequest:
+  HTTP Method = GET
+  Request URI = /hello
+   Parameters = {}
+		  Headers = [Content-Type:"application/json;charset=UTF-8"]
 				 Body = null
-		Session Attrs = {}
+Session Attrs = {}
 
-	Handler:
-				 Type = com.hwan.jpaTest.controller.SampleController
-			   Method = com.hwan.jpaTest.controller.SampleController#hello()
+Handler:
+	 Type = com.hwan.jpaTest.controller.SampleController
+   Method = com.hwan.jpaTest.controller.SampleController#hello()
 
-	Async:
-		Async started = false
-		 Async result = null
+Async:
+	Async started = false
+	 Async result = null
 
-	Resolved Exception:
-				 Type = null
+Resolved Exception:
+			 Type = null
 
-	ModelAndView:
-			View name = null
-				 View = null
-				Model = null
+ModelAndView:
+	View name = null
+			 View = null
+			Model = null
 
-	FlashMap:
-		   Attributes = null
+FlashMap:
+   Attributes = null
 
-	MockHttpServletResponse:
-			   Status = 200
-		Error message = null
-			  Headers = [Content-Type:"text/plain;charset=UTF-8", Content-Length:"5"]
-		 Content type = text/plain;charset=UTF-8
+MockHttpServletResponse:
+		   Status = 200
+Error message = null
+		  Headers = [Content-Type:"text/plain;charset=UTF-8", Content-Length:"5"]
+ Content type = text/plain;charset=UTF-8
 				 Body = hello
-		Forwarded URL = null
-	   Redirected URL = null
-			  Cookies = []
+Forwarded URL = null
+Redirected URL = null
+		  Cookies = []
 ```
 
 이렇게 찍히는 것을 볼 수 있다. Test 코드에 자세히 보면, `.contentType(MediaType.APPLICATION_JSON_UTF8))` 즉, MediaType을 `APPLICATION_JSON_UTF8`로 보냈고, controller 코드에서는 `consumes = MediaType.APPLICATION_JSON_VALUE`이렇게, `APPLICATION_JSON_VALUE`로 받는걸 볼 수 있는데 content-Type은 http의 스펙이지만, charset은 스펙이 아니고 특정 브라우저에서 지원해주는 기능이다. 따라서 UTF-8로 해도 에러가 나지 않는 것이다. 
 
+
+
 ---
+
+<br/>
 
 ### consumes & produces
 
