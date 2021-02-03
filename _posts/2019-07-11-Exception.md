@@ -15,7 +15,7 @@ toc_sticky: true
 
 ## 자주 발생하는 Excetion
 
-1. `NumberFormatException` - 숫자형식에러
+- `NumberFormatException` - 숫자형식에러
 
 ```java
 class A{
@@ -25,9 +25,7 @@ class A{
 }
 ```
 
-<br/>
-
-2. `NullPointerException` - 주소가 가르키는 것이 없을 때, 호출한 경우.
+- `NullPointerException` - 주소가 가르키는 것이 없을 때, 호출한 경우.
 
 ```java
 class A{
@@ -38,11 +36,7 @@ class A{
 }
 ```
 
-<br/>
-
-<br/>
-
-3. `ArrayIndexOutOfBoundsException`  -  배열 방 번호를 잘못 입력했을 때.
+- `ArrayIndexOutOfBoundsException`  -  배열 방 번호를 잘못 입력했을 때.
 
 ```java
 class A{
@@ -53,15 +47,7 @@ class A{
 }
 ```
 
-  
-
-  
-
-  
-
-
-
-4. `ClassCastException` - 형변환 변수가 더 작은 부모 형태로 변환되었을 때.
+- `ClassCastException` - 형변환 변수가 더 작은 부모 형태로 변환되었을 때.
 
 ```java
 class A{
@@ -74,7 +60,7 @@ class A{
 
 
 
-
+<br/>
 
 ## Exception의 종류
 
@@ -84,7 +70,9 @@ class A{
 
    ※Exception 을 폭탄이라고 가정.
 
- 
+
+
+<br/>
 
 ## Exception의 처리방법
 
@@ -109,7 +97,7 @@ class A {
 
  
 
- 
+ <br/>
 
 #### 2. try, catch절 사용(예외처리기).
 
@@ -128,7 +116,7 @@ try catch절의 문법은 위와 같이 사용하는데, 예외가 발생할 것
 
  
 
-
+<br/>
 
 #### 3. 다중 catch절
 
@@ -152,6 +140,8 @@ class A {
 }
  ```
 
+<br/>
+
 **※**주의사항
 
 - 다중 catch 시, Exception 이 위에 catch절에 있을 때, 상속관계상 모두 잡아버리기 때문에 밑으로 가야함.그렇지 않으면 error.
@@ -160,7 +150,7 @@ class A {
 
 - catch() 안에 or연산자(|) 사용가능.
 
- 
+<br/> 
 
 
 
@@ -187,7 +177,7 @@ Exception에서 무슨 예외가 일어났는지 정확히 알기 위해서는 S
 
   
 
-
+<br/>
 
 #### 5. 사용자 정의 Exception
 
