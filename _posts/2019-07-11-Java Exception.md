@@ -1,10 +1,10 @@
 ---
-title: "Java의 Exception에 대해서"
+title: "Java Exception"
 excerpt: "여러가지 Exception 처리에 대해서 알아보자."
 categories:
   - JAVA
 tags:
-  - Exception 종류
+  - Exception
   - try,catch
 last_modified_at: 2019-07-11
 toc: true
