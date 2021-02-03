@@ -25,7 +25,7 @@ class A{
 }
 ```
 
-
+ 
 
 2. `NullPointerException` - 주소가 가르키는 것이 없을 때, 호출한 경우.
 
