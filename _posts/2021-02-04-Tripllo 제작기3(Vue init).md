@@ -1,6 +1,6 @@
 ---
-title: "Tripllo 제작기 3 (Vue init & ESLint, Prettier 설정)"
-excerpt: ""
+title: "Tripllo 제작기 3<br/>(Vue init & ESLint, Prettier 설정)"
+excerpt: "백엔드 Setting은 끝났으니 이제 프론트엔드 Setting이 필요하다. npm 으로 Vue를 생성하고, 코드 포맷터인 ESLint, Prettier 설정을 해보자."
 categories:
   - Tripllo
 tags:

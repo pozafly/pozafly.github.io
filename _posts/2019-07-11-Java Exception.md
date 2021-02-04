@@ -76,7 +76,7 @@ class A{
 
 ## Exception의 처리방법
 
-#### 1. throw, throws사용.
+### 1. throw, throws사용.
 
 - throw는 해당 Exeption을 선언된 메소드가 속한 곳으로 던지는 역할을 한다.
 
@@ -99,7 +99,7 @@ class A {
 
  <br/>
 
-#### 2. try, catch절 사용(예외처리기).
+### 2. try, catch절 사용(예외처리기).
 
 ```java
 [sy]
@@ -118,7 +118,7 @@ try catch절의 문법은 위와 같이 사용하는데, 예외가 발생할 것
 
 <br/>
 
-#### 3. 다중 catch절
+### 3. 다중 catch절
 
  : catch절은 여러번 사용할 수 있다. 그것을 다중 catch절이라 한다.
 
@@ -154,7 +154,7 @@ class A {
 
 
 
-#### 4. finally절
+### 4. finally절
 
 - 반드시 실행해야하는 소스코드 - catch처리 후 finally안에 있는 소스를 반드시 실행한 후 마친다.
 
@@ -179,7 +179,7 @@ Exception에서 무슨 예외가 일어났는지 정확히 알기 위해서는 S
 
 <br/>
 
-#### 5. 사용자 정의 Exception
+### 5. 사용자 정의 Exception
 
 - Exception과 Runtime Exception 둘 중 하나를 상속받아 새로운 class 정의 해야한다.
 

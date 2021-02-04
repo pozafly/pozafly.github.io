@@ -1,5 +1,5 @@
 ---
-title: "Tripllo 제작기 2 (MySQL 설계 & SpringBoot 연동)"
+title: "Tripllo 제작기 2<br/>(MySQL 설계 & SpringBoot 연동)"
 excerpt: "Tripllo 백엔드 세팅을 해보자. Workbench로 DB를 설계하고 MySQL, MyBatis와 SpringBoot를 연동한다."
 categories:
   - Tripllo

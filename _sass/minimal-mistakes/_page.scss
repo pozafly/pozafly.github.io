@@ -88,6 +88,12 @@ body {
     padding-bottom: 0.5em;
     border-bottom: 1px solid $border-color;
   }
+  img {
+    display: block;
+    margin: 3em auto;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.5) 0 0 19px;
+  }
 
 	h1, h2, h3, h4, h5, h6 {
 		.header-link {
@@ -109,7 +115,7 @@ body {
   p,
   li,
   dl {
-    font-size: 0.9em;
+    font-size: 0.8rem;
   }
 
   /* paragraph indents */
