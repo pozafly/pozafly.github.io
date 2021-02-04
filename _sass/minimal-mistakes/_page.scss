@@ -24,6 +24,7 @@ body {
   display: -ms-flexbox;
   display: flex;
   min-height: 100vh;
+  word-break: keep-all;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
@@ -113,7 +114,7 @@ body {
 
   /* paragraph indents */
   p {
-    margin: 0 0 0;
+    margin: 0 0 1em;
 
     /* sibling indentation*/
     @if $paragraph-indent == true {

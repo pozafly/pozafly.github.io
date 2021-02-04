@@ -308,7 +308,14 @@ blockquote {
   margin: 24px 0 36px;
   line-height: 1.6;
   text-indent: 0;
-  background-color: var(--main-1);
+  background-color: #fef8f7;
+  border-radius: 10px;
+}
+
+blockquote {
+  p {
+    padding: 12px 0;
+  }
 }
 
 blockquote blockquote {
