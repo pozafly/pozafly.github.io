@@ -1,138 +1,41 @@
 ---
-title: "Tripllo 제작기 4-1<br/>(로그인-SpringSecurity & JWT)"
-excerpt: "Spring Security와 JWT를 사용해서 로그인 기능을 구현했다. Spring Security와 JWT를 사용해서 알게된 지식들을 정리하고 구현된 소스를 보고자 한다."
+title: "Tripllo 제작기 5<br>(로그인2 -SpringBoot 구현)"
+excerpt: "Spring Security와 JWT를 사용해서 로그인 기능을 구현했다. Spring Security의 구현된 소스와 login의 Service 단 내부 로직을 개념에 맞춰서 알아보자."
 categories:
   - Tripllo
 tags:
   - Tripllo 제작기
-  - SpringSecurity
-  - JWT
-last_modified_at: 2021-02-03
+  - 로그인
+  - SpringBoot
+last_modified_at: 2021-02-04
 toc: true
 toc_sticky: true
-
 ---
 
-> Spring Security와 JWT를 사용해서 로그인 기능을 구현했다. Spring Security와 JWT를 사용해서 알게된 지식들을 정리하고 구현된 소스를 보고자 한다.
-
-## Spring Security
-
-Spring Security는 Spring 기반의 어플리케이션의 보안(`인증`과 권한, `인가` 등)을 담당하는 스프링 하위 프레임워크이다. Spring Security는 '인증'과 '권한'에 대한 부분을 Filter 흐름에 따라 처리하고 있다. Filter는 Dispatcher Servlet으로 가기 전에 적용되므로 가장 먼저 URL 요청을 받지만, Interceptor는 Dispatcher와 Controller사이에 위치한다는 점에서 적용 시기의 차이가 있다. Spring Security는 보안과 관련해서 체계적으로 많은 옵션을 제공해주기 때문에 개발자 입장에서는 일일이 보안관련 로직을 작성하지 않아도 된다는 장점이 있다. 구조를 잡아보자.
-
-### 기본용어
-
-1. Principal(접근주체) : 접근하는 대상(User)
-2. Authentication(인증) : 리소스에 접근한 User가 누구인지 식별
-3. Authorize(인가) : 접근한 User가 리소스에 접근 권한이 있는지 검사
-
-### 간단 매커니즘 - Filter Chain
-
-Spring Security는 Filter 구조이다. 사용자의 정보가 여러 체이닝 된 Filter들을 거치게 된다. 예를 들어 OAuth 2.0 인증을 시도하려고 할 때는 앞선 Filter인 "UsernamePasswordAuthenticationFilter"는 OAuth2.0 인증을 실시할 수 없으니 인증되지 않은 채로 다음 필터를 넘어가게 된다.
-
-그 후 다른 필터인 "OAuth2ClientAuthenticationProcessingFilter"라는 필터에서 OAuth2.0을 이용한 인증을 진행한다. 따라서 여러 필터를 거치면서 인증을 진행하게 되고 앞선 Filter에서 인증이 완료되었다면 뒤에 따라오는 Filter에 걸리지 않고 그대로 인증된 사용자가 되는 것이다. 만약 모든 Filter를 거쳐도 인증이 되지 않았다면 이 User가 보내는 요청은 말 그대로 인증되지 않은 요청이 되는 것이다.
-
-### 전체 구조
+> Spring Security와 JWT를 사용해서 로그인 기능을 구현했다. Spring Security의 구현된 소스와 login의 Service 단 내부 로직을 개념에 맞춰서 알아보자.
 
 ![ss](https://user-images.githubusercontent.com/59427983/106862908-1d5f0600-670b-11eb-8b65-8e83e71636e3.png)
 
-`**이 그림은 밑에서도 계속 나옴**`
-
-1. 클라이언트가 Http Request로 로그인 요청을 보낸다.
-2. 요청은 맨 처음 AuthenticationFilter에 가게 되고, UsernamePasswordAuthenticationFilter 로 가게 된다. 여기서 AuthenticationFilter는, Spring Security와 관련된 여러 **Filter List**를 가지고 있다. 그 중 하나인 UsernamePasswordAuthenticationFilter는 ID, PW를 이용한 인증을 담당하는 Filter다. 얻어온 ID, PW로 UsernamePasswordAuthenticationToken(Authentication)을 생성한다. Tripllo 프로젝트는 `JwtAuthenticationFilter` 를 이용한다.
-3. ProviderManager의 구현체인 AuthenticationManager 에서 인증 과정을 수행할 것이다. 2번에서 받아온 UsernamePasswordAuthenticationToken 객체를 받아서 인증하고 인증 되었다면 다시 그 객체를 돌려주는 메서드를 구현한 인터페이스. 하지만 ProviderManager는 실제로 인증을 진행하는게 아니라 4번의 AuthenticationProvider들에게 인증을 위임하고 인증에 성공하면 다시 AuthenticationFilter에게 인증에 성공했다고 알려주는 방식인 것.
-4. 3번에서 받아온 객체를 인증 가능한 클래스인지 확인하는 과정을 거친다. 즉, UsernamePasswordAuthenticationToken 이 AuthenticationProviders에 도착하면 ProviderManager는 AuthenticationProviders 목록을 순회하면서 해결 가능한 Provider에게 인증을 실시하라고 명령한다.
-5. AuthenticationProvider는 인터페이스다. 즉, 우리는 이 인터페이스를 구현한 class를 만들면 해당 class가 실질적인 인증 처리를 하게 된다. Tripllo 프로젝트는 `JwtTokenProvider`를 이용한다.
-6. 인증을 실행하기 위해서는 UserDetailService가 필요하다. 유저 정보를 전달하는 서비스의 인터페이스이고, DB단에서 User의 정보를 들고온다. 우리는 Mybatis의 select 문으로 해당 User 정보를 가져올 것이다. Tripllo 프로젝트는 `UserSerivceImpl`과 `SecurityUser(UserDetails의 구현체)`을 이용한다.
-7. 이제 이곳에서 UserDetailService로 인해 가져온 User 정보를 검사하고 인증하여
-8. 다시 이곳으로 돌려주고, 
-9. 원래 Filter로 돌려준다.
-10. 사용자 데이터가 담긴 UsernamePasswordAuthenticationToken(Authentication) 객체를 SecurityContextHolder에 저장하고 AuthenticationSuccessHandle를 실행. (실패시 AuthenticationFailureHandler 실행)
-
-참고자료 : <https://jeong-pro.tistory.com/205>, <https://jeong-pro.tistory.com/205>, <https://sjh836.tistory.com/165>
-
-<hr/>
+`이 그림이 중요하고 밑에서 구현하며 계속 사용될 것이기 때문에 한번 더 가져왔다.`
 
 <br/>
 
-## JWT
+이제 실제적으로 SpringBoot부터 구현하자. 
 
-JWT(JSON Web Token)은 클라이언트와 서버, 서비스와 서비스 사이 api를 주고 받을 때 권한 인가(Authorization)를 위해 사용하는 토큰이다. JSON 객체를 암호화 하며 만든 String 값. 암호화 되어있어 변조하기 어려운 정보다. 토큰 자체에 데이터를 가지고 있다. 서버에서는 로그인이 완료된 클라이언트에게 회원을 구분할 수 있는 값을 넣은 JWT를 생성 & 발급한다.
+## Dependency 등록
 
-기존 레거시 시스템에서는 서버 기반의 인증 방식을 사용했지만 시스템이 커지면서 한계점이 생기게 된다. 그러면서 나온 것이 토큰 기반의 인증 방식이다.
-
-### 토큰 기반 인증 방식
-
-![22](https://user-images.githubusercontent.com/59427983/106880800-260e0700-6720-11eb-8682-44f9a389721b.png)
-
-위의 그림을 보면 이해하기 쉽다. 
-
-1. 로그인에 검증 가능한 ID, PW를 실어서 서버로 보냄.
-2.  서버는 검증이 끝나면 토큰을 생성해서 클라이언트에게 토큰을 응답
-3.  클라이언트는 앞으로 로그인을 제외한 다른 api를 요청할 때마다 header에 토큰을 실어서 보냄.
-4.  서버에서는 다시 header에 실려온 토큰을 검증후 인증되면 응답을 해주는 구조이다.
-
-
-
-- 장점
-
-1. **무상태성(Stateless) & 확장성(Scalability)**
-   토큰은 클라이언트 측에 저장되기 때문에 서버는 완전히 Stateless(비보존)하고, 클라이언트와 서버의 연결고리가 없기 때문에 확장하기에 매우 적합하다. 만약 사용자 정보가 서버 측 세션에 저장된 경우에 서버를 확장하여 분산처리 한다면, 해당 사용자는 처음 로그인 했었던 서버에만 요청을 받도록 설정을 해주어야 한다. 하지만 토큰을 사용한다면 어떠한 서버로 요청이 와도 상관이 없다.
-2. **보안성**
-   클라이언트가 서버로 요청을 보낼 때 더 이상 쿠키를 전달하지 않으므로, 쿠키 사용에 의한 취약점이 사라지게 된다.
-3. **확장성(Extensibility)**
-   시스템의 확장성을 의미하는 Scalability와 달리 Extensibility는 로그인 정보가 사용되는 분야의 확정을 의미한다. 토큰 기반의 인증 시스템에서는 토큰에 선택적인 권한만 부여하여 발급할 수 있으며 OAuth의 경우 Facebook, Google 등과 같은 소셜 계정을 이용하여 다른 웹서비스에서도 로그인을 할 수 있다.
-4. **여러 플랫폼 및 도메인**
-   서버 기반 인증 시스템의 문제점 중 하나인 CORS를 해결할 수 있는데, 애플리케이션과 서비스의 규모가 커지면 여러 디바이스를 호환시키고 더 많은 종류의 서비스를 제공하게 된다. 토큰을 사용한다면 어떤 디바이스, 어떤 도메인에서도 토큰의 유효성 검사를 진행한 후에 요청을 처리할 수 있다. 이런 구조를 통해 정적 파일(Image, html, css, js 등)은 모두 CDN에서 제공하고, 서버 측에서는 API만 다루도록 설게할 수 있다. 즉, MSA 구조에서도 유용하게 사용할 만하다.
-
-### 구조
-
-```json
-HEADER.PAYLOAD.SIGNATURE
-```
-
-헤더(Header), 페이로드(Payload), 서명(Signature) 세 부분을 점(.)으로 구분하는 구조다.
-
-- Header
-
-JWT를 검증하는데 필요한 정보를 가진 JSON 객체는 Base64 URL-Safe 인코딩된 문자열이다. 헤더(Header)는 JWT를 어떻게 검증(Verify)하는가에 대한 내용을 담고 있다. 참고로 alg는 서명 시 사용하는 알고리즘이고, kid는 서명 시 사용하는 키(Public/Private Key)를 식별하는 값이다.
-
-- Payload
-
-JWT의 내용이다. 페이로드(Payload)에 있는 속성들을 클레임 셋(Claim Set)이라 부른다. 클레임 셋은 JWT에 대한 내용(토큰 생성자(클라이언트)의 정보, 생성 일시 등)이나 클라이언트와 서버 간 주고 받기로 한 값들로 구성된다.
-
-- Signature
-
-점(.)을 구분자로 해서 헤더와 페이로드를 합친 문자열을 서명한 값이다. 서명은 헤더의 alg에 정의된 알고리즘과 비밀 키를 이용해 성성하고 Base64 URL-Safe로 인코딩한다.
-
-```
-eyJhbGciOiJFUzI1NiIsImtpZCI6IktleSBJRCJ9.eyJpYXQiOjE1ODYzNjQzMjcsImlzcyI6ImppbmhvLn
-NoaW4ifQ.eyJhbGciOiJFUzI1NiIsImtpZCI6IktleSBJRC9.eyJpYXQiOjE1ODYzNjQzMjcsImlzcyI6Imp
-pbmhvLnNoaW4ifQ.MEQCIBSOVBBsCeZ_8vHulOvspJVFU3GADhyCHyzMiBFVyS3qAiB7Tm_ME
-Xi2kLusOBpanIrcs2NVq24uuVDgH71M_fIQGg
-```
-
-이런 문자열이 생성되는 것을 볼 수 있다.
-
-참고자료 : <https://mangkyu.tistory.com/55>,  <https://meetup.toast.com/posts/239>, <https://webfirewood.tistory.com/115>
-
-
-
-<hr/>
-
-<br/>
-
-## 구현
-
-개념은 어느정도 익혔으니 이제 실제적으로 SpringBoot부터 구현하자. 첫번째로, build.gradle에 dependencies를 추가해주자.
+첫번째로, build.gradle에 dependencies를 추가해주자.
 
 ```
 implementation 'org.springframework.boot:spring-boot-starter-security'
 implementation 'io.jsonwebtoken:jjwt:0.9.1'
 ```
 
-common이란 패키지 밑에 security 패키지를 만들었다. 이곳에 이제 Security 관련 class들이 들어갈 예정이다. 그 밑에 UserService 관련 객체가 들어갈 securityUser 패키지를 만들고 Spring Security의 전체 구조 사진의 5,6,7 번에 해당하는 UserDetailsService, UserDetail을 구현한 클래스를 만들었다.
-
 <br/>
+
+## Common 세팅
+
+common이란 패키지 밑에 security 패키지를 만들었다. 이곳에 이제 Security 관련 class들이 들어갈 예정이다. 그 밑에 UserService 관련 객체가 들어갈 securityUser 패키지를 만들고 Spring Security의 전체 구조 사진의 5,6,7 번에 해당하는 UserDetailsService, UserDetail을 구현한 클래스를 만들었다.
 
 ### SecurityUser
 
@@ -185,7 +88,7 @@ public interface UserDetailsService {
 }
 ```
 
-다음으로 볼 것은 5,6,7 번이 모두 물려있는 UserDetailService다. 이 인터페이스는 구현체인 UserDetailServiceImpl에서 이어지는데 하나의 메서드만 가지고 있다. `loadUserByUsername()`. 이 메서드 또한 SpringSecurity에서 자체적으로 제공하는 메서드인데 매개변수로 String username이 들어간다. 이름에서 알 수 있듯, username이라는 구분 값으로 DB에 접속해서 user의 정보를 가져오는 메서드.
+다음으로 볼 것은 위 그림에 5,6,7 번이 모두 물려있는 UserDetailService다. 이 인터페이스는 구현체인 UserDetailServiceImpl에서 이어지는데 하나의 메서드만 가지고 있다. `loadUserByUsername()`. 이 메서드 또한 SpringSecurity에서 자체적으로 제공하는 메서드인데 매개변수로 String username이 들어간다. 이름에서 알 수 있듯, username이라는 구분 값으로 DB에 접속해서 user의 정보를 가져오는 메서드.
 
 <br/>
 
@@ -303,8 +206,7 @@ public class JwtTokenProvider {
                 .setClaims(claims) // 정보 저장
                 .setIssuedAt(now) // 토큰 발행 시간 정보
                 .setExpiration(new Date(now.getTime() + tokenValidTime)) // set Expire Time
-                .signWith(SignatureAlgorithm.HS256, secretKey)  // 사용할 암호화 알고리즘과
-                // signature 에 들어갈 secret값 세팅
+                .signWith(SignatureAlgorithm.HS256, secretKey)  // 사용할 암호화 알고리즘, signature 에 들어갈 secret값 세팅
                 .compact();
     }
 
@@ -319,7 +221,7 @@ public class JwtTokenProvider {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
-    // Request의 Header에서 token 값을 가져옵니다. "Authorization" : "TOKEN값'
+    // Request의 Header에서 token 값을 가져옴. "Authorization" : "TOKEN값'
     public String resolveToken(HttpServletRequest request) {
         return request.getHeader("Authorization");
     }
@@ -392,14 +294,14 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        // 헤더에서 JWT 를 받아옵니다.
+        // 헤더에서 JWT 를 받아옴.
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
 
-        // 유효한 토큰인지 확인합니다.
+        // 유효한 토큰인지 확인함.
         if (token != null && jwtTokenProvider.validateToken(token)) {
-            // 토큰이 유효하면 토큰으로부터 유저 정보를 받아옵니다.
+            // 토큰이 유효하면 토큰으로부터 유저 정보를 받아옴.
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
-            // SecurityContext 에 Authentication 객체를 저장합니다.
+            // SecurityContext 에 Authentication 객체를 저장함.
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         chain.doFilter(request, response);
@@ -437,13 +339,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtTokenProvider jwtTokenProvider;
 
-    // 암호화에 필요한 PasswordEncoder 를 Bean 등록합니다.
+    // 암호화에 필요한 PasswordEncoder를 Bean으로 등록함.
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // authenticationManager를 Bean 등록합니다.
+    // authenticationManager를 Bean 등록함.
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -454,7 +356,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
       final CorsConfiguration configuration = new CorsConfiguration();
-      configuration.setAllowedOrigins(ImmutableList.of("http://localhost:8080", "https://github.com/**", "http://tripllo.tech.s3-website.ap-northeast-2.amazonaws.com", "http://tripllo.tech", "https://tripllo.tech"));
+      configuration.setAllowedOrigins(ImmutableList.of("http://localhost:8080", "http://tripllo.tech.s3-website.ap-northeast-2.amazonaws.com", "http://tripllo.tech", "https://tripllo.tech"));
       configuration.setAllowedMethods(ImmutableList.of("HEAD","GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
       configuration.setAllowCredentials(true);
       // 토큰을 Authorization 이라는 이름으로 받겠다.
@@ -475,7 +377,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests() // 요청에 대한 사용권한 체크
             //                .antMatchers("/admin/**").hasRole("ADMIN")
             .antMatchers("/profile").permitAll()
-            .antMatchers("/websocket").permitAll()
+            .antMatchers("/websocket/**").permitAll()
             // post 방식의 user create(회원가입)은 허용한다.
             .antMatchers(HttpMethod.POST, "/api/user").permitAll()
             // 회원가입 전 사용하고 싶은 회원 id를 validation 해볼 수 있는 api도 open
@@ -483,13 +385,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             // 로그인 오픈
             .antMatchers("/api/login/**").permitAll()
             .antMatchers("/api/logout").permitAll()
-            .antMatchers("/api/email/*").permitAll()
+            .antMatchers("/api/email/**").permitAll()
 
             // 인증된 사용자만 가능하다(즉, 헤더에 토큰을 준 사람만이 가능한 것임.)
             .antMatchers("/api/**").authenticated()
             // role이 ROLE_USER 인 역할만 통과
             .antMatchers("/api/**").hasRole("USER")
-            .anyRequest().permitAll() // 그외 나머지 요청은 누구나 접근 가능
+            .anyRequest().authenticated()   // 그외 나머지 요청은 인증 가능 해야한다.
           .and()
 	          .cors()
           .and()
@@ -511,7 +413,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 - corsConfigurationSource 는 cors 설정이다. cors는 제작기를 따로 만들어서 다룰 예정이지만 가볍게 짚고 넘어가보자. cors란, 서로 다른 도메인 간 api response를 막는걸 말한다. 쉽게 말해 vue는 **8080** 포트를 사용하고, SpringBoot는 **3000**포트를 사용하는데 포트가 다르기 때문에 리소스를 막아주는 역할을 한다.
 
-   SpringSecurity를 도입하기 전에는 WebMvcConfigurer를 상속받은 CorsConfig class를 따로 만들어서 해결했지만, 여기서 cors 설정을 해주면 CorsConfig 가 무시되므로 여기서 보면된다.
+  SpringSecurity를 도입하기 전에는 WebMvcConfigurer를 상속받은 CorsConfig class를 따로 만들어서 해결했지만, 여기서 cors 설정을 해주면 CorsConfig 가 무시되므로 여기서 보면된다.
 
   - setAllowedOrigins() : url에 해당하는 출처를 허가하겠다라는 뜻이다. ImmutableList.of() 안에 허용하고 싶은 도메인들을 String 형식으로 적어주면 된다.
   - setAllowedMethods() : 허용하고 싶은 http 메서드를 마찬가지로 적어준다. 가령 "GET", "POST", "PUT", "DELETE", "OPTIONS" 같은 메서드들.
@@ -522,11 +424,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 - configure 메서드에서 SpringSecurity 설정을 해줄 수 있다.
 
   - httpBasic().disable() : rest api 이므로 기본설정 사용안함. 기본설정은 비인증시 로그인폼 화면으로 리다이렉트 됨.(vue를 사용할 것이므로.)
+
   - .csrf().disable() : 마찬가지로 rest api이므로 csrf 보안이 필요없으므로 disable처리.
+
   - STATELESS 란 무상태성, 비보존한다는 뜻이다. 마찬가지로, 우리는 토큰 기반으로 인증을 계속 할것이기 때문에 세션이 필요없으므로 STATELESS를 사용한다.
+
+    > ★위 3가지가 중요하다. react 나 vue 같이 서버단에서 화면을 보여주는것이 아니라 따로 존재하는 프론트 단에서는 위 설정이 필요없기 때문이다.
+
   - antMatchers() 는 http 메서드와 url을 적어줄 수 있는데 controller에서 접근하는 url을 말한다. 뒤에 따라오는 .permitAll()은 모두 허용하겠다는 뜻이된다.
+
   - .antMatchers("/api/**").authenticated() 이 부분은 헤더에 토큰은 준 user만 허락한다는 뜻이 된다.
+
   - .antMatchers("/api/**").hasRole("USER") : 이부분은 role에 대한 부분이다. role이  밑에서 설명하겠다.
+
   - 그리고 마지막으로 우리가 만들어준 JwtAuthenticationFilter 와 사용하는 UsernamePasswordAuthenticationFilter 를 등록하고 마친다.
 
 참고자료 : <https://dongdd.tistory.com/175>,  <https://postitforhooney.tistory.com/entry/SpringSecurity-%EC%B4%88%EB%B3%B4%EC%9E%90%EA%B0%80-%EC%9D%B4%ED%95%B4%ED%95%98%EB%8A%94-Spring-Security-%ED%8D%BC%EC%98%B4>,  <https://velog.io/@tlatldms/Spring-boot-Spring-security-JWT-Redis-mySQL-2%ED%8E%B8>
@@ -543,11 +453,135 @@ role이란, `역할`을 말한다. Workbench의 user 테이블을 보자.
 
 
 
-이렇게 Spring Security 와 JWT의 설정을 끝냈다. 이제 UserServiceImpl의 비지니스 로직에서 password를 어떤 암호화로, 보안을 설정해서 저장하는지 다음 포스팅에서 알아볼 것이다.
+이렇게 Spring Security 와 JWT의 설정을 끝냈다. 이제 UserServiceImpl, LoginServiceImpl의 비지니스 로직에서 password를 어떻게 암호화할 수 있는지 알아보자.
+
+<hr/>
 
 
+
+## 서비스 로직
+
+### 회원가입 프로세스
+
+![회원가입 로그인 프로세스 001](https://user-images.githubusercontent.com/59427983/106987685-5c479700-67b1-11eb-8937-3507056b0b22.jpeg)
+
+1. front에서 회원가입 시 이미 회원가입이 된 ID인지 검사하는 Http Call을 날린다. MySQL에서 회원 ID를 SELECT, 가입 가능한지 판별하여 return. 보면 Spring Security config 파일에 .antMatchers("/api/user/valid/**").permitAll() 로 프론트에서 header를 가지고 들어오지 않아도 리소스를 요청할 수 있도록 풀어주었기 때문에 가능하다.
+2. 가입 가능하다면 나머지 정보를 입력해서 Create Http Call을 날림. 여기도 마찬가지로 permitAll()로 풀어둔 상태다.
+3. Spring Security에서 제공하는 PasswordEncoder를 통해 `.encode()`메서드로 BCrypt 방식으로 인코딩 후 INSERT
+
+
+
+### 로그인 프로세스
+
+![회원가입 로그인 프로세스 002](https://user-images.githubusercontent.com/59427983/106987714-68cbef80-67b1-11eb-98d2-17faa2b688c3.jpeg)
+
+1. 로그인 시 ID, Password는 GET 방식으로 날릴 시 url 파라미터에 노출되므로 POST 방식으로 접근.
+2. Payload에 담긴 ID로 유저 정보 조회
+3. 회원가입 시 사용했던 SpringSecurity의 PasswoardEncoder에서 `.matches()` 메서드로 유저가 보낸 password와 DB에 BCrypt 방식으로 인코딩된 password를 가져와서 비교함.
+4. 통과 된다면, JwtTokenProvider의 createToken으로 token 생성.
+5. 토큰과 유저정보를 가지고 리턴.
+
+핵심은 PasswordEncoder다.
 
 <br/>
+
+#### PasswordEncoder(BCrypt)
+
+2가지 메서드를 사용했다. 
+
+- .encode(String password) : BCrypt 방식으로 String password를 인코딩해준다.
+
+- .matches(String requestPassword, String DBSavedPassword) : 파라미터로 유저가 요청한 password를 첫번째로 넣어주고, DB에서 조회해온 BCrypt 방식으로 가져온 password와 같은지 내부적으로 판단해 boolean 값으로 리턴해준다. `순서가 중요`하다. 첫번째 파라미터와 두번째 파라미터를 반대로 적으면 체크가 제대로 되지 않는다.
+
+<img width="408" alt="스크린샷 2021-02-05 오후 12 49 05" src="https://user-images.githubusercontent.com/59427983/106990185-1c83ae00-67b7-11eb-8ce3-6dc6a9df66dd.png">
+
+DB에 접속해서 select 해보면 이런 값이 들어가있는 것을 확인할 수 있다. 지금 위의 값은 내가 임의로 만든 사용자인데 모두 *같은 비밀번호*를 입력했음에도 불구하고 서로 다른 값이 들어가있는 것을 볼 수 있다. 이는 DBA도 유저가 **어떤 패스워드를 사용했는지 모르게** 한다.
+
+내부 소스를 보자. Service 단 소스다.
+
+### 회원가입
+
+```java
+@Transactional
+@Override
+public ResponseEntity<Message> createUser(UserApiRequest request) {
+    if (userIdValid(request.getId())) {
+
+        // 소셜 로그인 패스워드 만들기
+        if (!StringUtils.isEmpty(request.getSocial())) {
+            PasswordUtil pw = new PasswordUtil();
+            String newPw = pw.encryptSHA256(request.getId());
+            request.setPassword(newPw);
+        }
+
+        String encodePassword = passwordEncoder.encode(request.getPassword()); // 이곳
+        request.setPassword(encodePassword);
+
+        userDao.createUser(request);
+
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        message.setStatus(StatusEnum.OK);
+        message.setMessage(ResponseMessage.CREATED_USER);
+        message.setData(request);
+
+        return new ResponseEntity <> (message, headers, HttpStatus.OK);
+    } else {
+        message.setStatus(StatusEnum.BAD_REQUEST);
+        message.setMessage(ResponseMessage.ALREADY_USE);
+        return new ResponseEntity <> (message, headers, HttpStatus.NOT_FOUND);
+    }
+}
+```
+
+### 로그인
+
+```java
+@Override
+public ResponseEntity<Message> login(LoginApiRequest request) {
+    User user = userDao.readUser(request.getId());
+    if (!ObjectUtils.isEmpty(user)) {
+
+        boolean check = passwordEncoder.matches(request.getPassword(), user.getPassword());
+        if (check) { // 유저가 보유한 패스워드와 입력받은 패스워드가 일치하는 지 확인한다.
+            log.info("로그인 성공");
+
+            List <String> roles = new ArrayList <> ();
+            roles.add("ROLE_USER");
+
+            String token = jwtTokenProvider.createToken(user.getId(), roles); // id, role 정보만 가지고 token을 만든다.
+            LoginApiResponse response = new LoginApiResponse(
+                token, user.getId(), user.getEmail(), user.getName(), user.getPicture(), user.getBio(), user.getRecentBoard(), user.getInvitedBoard(),
+                user.getCreatedAt(), user.getCreatedBy(), user.getUpdatedAt(), user.getUpdatedBy()
+            );
+
+            headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+            message.setStatus(StatusEnum.OK);
+            message.setMessage(ResponseMessage.LOGIN_SUCCESS);
+            message.setData(response);
+
+            return new ResponseEntity <> (message, headers, HttpStatus.OK);
+        } else {
+            log.info("비번이 틀립니다");
+            message.setStatus(StatusEnum.NOT_FOUND);
+            message.setMessage(ResponseMessage.PASSWORD_WRONG);
+            return new ResponseEntity <> (message, headers, HttpStatus.FORBIDDEN); // 403
+        }
+    } else {
+        log.info("해당 id가 없습니다.");
+        message.setStatus(StatusEnum.NOT_FOUND);
+        message.setMessage(ResponseMessage.NOT_FOUND_USER);
+        return new ResponseEntity <> (message, headers, HttpStatus.FORBIDDEN); // 403
+    }
+}
+```
+
+참고자료 : <https://mia-dahae.tistory.com/120>
+
+<br/>
+
+여기까지가 SpringBoot의 내부 처리 로직이다. 회원가입과 로그인 로직이 완성되었으므로 vue에서 어떻게 이것을 표현할지 다음 포스팅에서 알아보자. 소셜 로그인까지 같이.
+
+<hr/>
 
 >프로젝트 구경하기 -> [Tripllo_메인](https://tripllo.tech),  [Vue_Github](https://github.com/pozafly/tripllo_vue), [SpringBoot_Github](https://github.com/pozafly/tripllo_springBoot)
 
