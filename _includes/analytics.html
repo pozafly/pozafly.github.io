@@ -1,4 +1,4 @@
-{% if jekyll.environment == 'production' and site.analytics.provider and page.analytics != false %}
+<!-- {% if jekyll.environment == 'production' and site.analytics.provider and page.analytics != false %}
 
 {% case site.analytics.provider %}
 {% when "google" %}
@@ -11,4 +11,14 @@
   {% include /analytics-providers/custom.html %}
 {% endcase %}
 
-{% endif %}
+{% endif %} -->
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SLQNH3ND3J"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SLQNH3ND3J');
+</script>
