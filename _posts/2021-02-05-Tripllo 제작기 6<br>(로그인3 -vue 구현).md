@@ -103,7 +103,7 @@ export default {
 </script>
 ```
 
-뼈대 Page는 이렇게 생겼다. `        <router-view></router-view>`이 부분이 router에서 설계한 child 컴포넌트들이 뿌려질 곳이다. created() 메서드에는 이 다음에 포스팅 할 소셜 로그인 기능을 위해 둔 것.
+뼈대 Page는 이렇게 생겼다. \<router-view>\</router-view> 이 부분이 router에서 설계한 child 컴포넌트들이 뿌려질 곳이다. created() 메서드에는 이 다음에 포스팅 할 소셜 로그인 기능을 위해 둔 것.
 
 <br/>
 
@@ -308,7 +308,7 @@ export default {
 </button>
 ```
 
-이렇게 :disable 을 걸어주고 btnDisabled에는 초깃 값은 true로 비활성화이며, 모든 값이 찼을 때는 false로 활성화를 시켜줬다. 색 변경은 css로..
+이렇게 :disable 을 걸어주고 btnDisabled에는 초깃값은 true로 비활성화이며, 모든 값이 찼을 때는 false로 활성화를 시켜줬다. 색 변경은 css로..
 
 ```vue
 <script>

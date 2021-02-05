@@ -89,7 +89,7 @@ analytics:
   google:
     tracking_id          : "G-SLQNH3ND3J"
     anonymize_ip         : false # true, false (default)
-
+google_analytics: 'G-SLQNH3ND3J'
 
 # Site Author
 author:
