@@ -6,7 +6,7 @@ import { lighten } from 'polished';
 // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
 // @ts-ignore
 // import favicon from '../../src/favicon.ico';
-import favicon from '../content/img/alien.png';
+import favicon from '../content/img/common/alien.png';
 import { colors } from '../styles/colors';
 
 interface IndexProps {

@@ -1,22 +1,23 @@
-- id: Ghost
-  avatar: avatars/ghost.png
-  bio: The professional publishing platform
-  github: TryGhost
-  instagram: ghost
-  website: https://ghost.org/
-  location: San Francisco
+# - id: Ghost
+#   avatar: avatars/ghost.png
+#   bio: The professional publishing platform
+#   github: TryGhost
+#   instagram: ghost
+#   website: https://ghost.org/
+#   location: San Francisco
 - id: Pozafly
-  avatar: img/my-logo.png
+  avatar: img/common/pozafly.png
   bio: Frontend Developer
   github: TryGhost
   instagram: ghost
   website: https://pozafly.github.io
   location: Seoul
-- id: Another Author
-  avatar: avatars/ghost.png
-  bio: This is another test author with a profile background image
-  twitter: TryGhost
-  facebook: ghost
-  website: https://ghost.org/
-  location: San Francisco
-  profile_image: img/alex-knight-326705-unsplash.jpg
+  profile_image: img/sample/alex.jpg
+# - id: Another Author
+#   avatar: avatars/ghost.png
+#   bio: This is another test author with a profile background image
+#   twitter: TryGhost
+#   facebook: ghost
+#   website: https://ghost.org/
+#   location: San Francisco
+#   profile_image: img/alex-knight-326705-unsplash.jpg

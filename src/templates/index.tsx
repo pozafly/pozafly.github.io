@@ -143,7 +143,7 @@ const IndexPage: React.FC<IndexProps> = props => {
   );
 };
 
-// logo: file(relativePath: { eq: "img/my-logo.png" }) {
+// logo: file(relativePath: { eq: "img/common/pozafly.png" }) {
 //   childImageSharp {
 //         # Specify the image processing specifications right in the query.
 //         # Makes it trivial to update as your page's design changes.
@@ -156,7 +156,7 @@ const IndexPage: React.FC<IndexProps> = props => {
 export const pageQuery = graphql`
   query blogPageQuery($skip: Int!, $limit: Int!) {
 
-    header: file(relativePath: { eq: "img/back.png" }) {
+    header: file(relativePath: { eq: "img/common/back.png" }) {
       childImageSharp {
         # Specify the image processing specifications right in the query.
         # Makes it trivial to update as your page's design changes.

@@ -286,7 +286,7 @@ export const NoImage = css`
 export const PostFullHeader = styled.header`
   position: relative;
   margin: 0 auto;
-  padding: 70px 170px 50px;
+  padding: 70px 70px 50px;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
 
@@ -440,7 +440,7 @@ const PostFullImage = styled.figure`
 
 export const query = graphql`
   query($slug: String, $primaryTag: String) {
-    logo: file(relativePath: { eq: "img/my-logo.png" }) {
+    logo: file(relativePath: { eq: "img/common/pozafly.png" }) {
       childImageSharp {
         fixed {
           ...GatsbyImageSharpFixed
