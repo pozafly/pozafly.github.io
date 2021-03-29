@@ -20,6 +20,7 @@ import { colors } from '../styles/colors';
 import { inner, outer, SiteMain } from '../styles/shared';
 import config from '../website-config';
 import { AuthorList } from '../components/AuthorList';
+import Utterances from '../components/Utterances';
 
 export interface Author {
   id: string;
@@ -234,6 +235,7 @@ const PageTemplate = ({ data, pageContext, location }: PageTemplateProps) => {
               {/* The big email subscribe modal content */}
               {config.showSubscribe && <Subscribe title={config.title} />}
             </article>
+            <Utterances repo="pozafly/blog-comments" />
           </div>
         </main>
 

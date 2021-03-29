@@ -5,7 +5,7 @@ module.exports = {
   siteMetadata: {
     title: '우물쭈물하다 내 이럴줄 알았지🙃',
     description: 'pozafly의 기술 블로그',
-    siteUrl: 'https://pozafly.github.io/', // full path to blog - no ending slash
+    siteUrl: 'https://pozafly.github.io', // full path to blog - no ending slash
   },
   mapping: {
     'MarkdownRemark.frontmatter.author': 'AuthorYaml',
@@ -54,7 +54,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-canonical-urls',
       options: {
-        siteUrl: 'https://gatsby-casper.netlify.com',
+        siteUrl: 'https://pozafly.github.io',
       },
     },
     'gatsby-plugin-typescript',
@@ -72,7 +72,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-google-analytics',
       options: {
-        trackingId: 'UA-XXXX-Y',
+        trackingId: 'G-SLQNH3ND3J',
         // Puts tracking script in the head instead of the body
         head: true,
         // IP anonymization for GDPR compliance
