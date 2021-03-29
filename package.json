@@ -5,6 +5,7 @@
   "private": true,
   "author": "Scott Cooper <scttcper@gmail.com>",
   "license": "MIT",
+  "homepage": "https://pozafly.github.io",
   "scripts": {
     "build": "gatsby build",
     "dev": "gatsby develop",
@@ -12,7 +13,7 @@
     "lint:fix": "eslint --fix --ext .js,.ts,.tsx .",
     "start": "npm run dev",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "gatsby build --prefix-paths && gh-pages -d public"
+    "deploy": "gatsby build && gh-pages -d public -b master"
   },
   "dependencies": {
     "@emotion/react": "11.1.5",
