@@ -13,7 +13,8 @@ export const Footer: React.FC = () => {
     <footer css={[outer, SiteFooter]}>
       <div css={[inner, SiteFooterContent]}>
         <section className="copyright">
-          <Link to="/">{config.title}</Link> &copy; {new Date().getFullYear()}{' '}
+          {/* <Link to="/">{config.title}</Link> */}
+          &copy; {new Date().getFullYear()}{' '}
           {config.footer && (
             <Link to="/">
               | {config.title} {config.footer}
@@ -22,22 +23,22 @@ export const Footer: React.FC = () => {
         </section>
         <SiteFooterNav>
           <Link to="/">Latest Posts</Link>
-          {config.facebook && (
-            <a href={config.facebook} target="_blank" rel="noopener noreferrer">
-              Facebook
+          {config.instagram && (
+            <a href={config.instagram} target="_blank" rel="noopener noreferrer">
+              Instagram
             </a>
           )}
-          {config.twitter && (
-            <a href={config.twitter} target="_blank" rel="noopener noreferrer">
-              Twitter
+          {config.github && (
+            <a href={config.github} target="_blank" rel="noopener noreferrer">
+              Github
             </a>
           )}
 
-          <a href="https://github.com/scttcper/gatsby-casper" target="_blank" rel="noopener noreferrer">
+          {/* <a href="https://github.com/scttcper/gatsby-casper" target="_blank" rel="noopener noreferrer">
             Casper
-          </a>
+          </a> */}
 
-          <a href="/rss.xml">RSS</a>
+          {/* <a href="/rss.xml">RSS</a> */}
         </SiteFooterNav>
       </div>
     </footer>

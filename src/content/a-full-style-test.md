@@ -2,7 +2,7 @@
 layout: post
 title: A Full and Comprehensive Style Test
 image: img/testimg-cover.jpg
-author: [Ghost]
+author: [Pozafly]
 date: 2018-09-30T07:03:47.149Z
 tags:
   - Tests
@@ -107,6 +107,31 @@ highlight a block of code. Because we have more specific typographic needs for c
   width: 100%;
 }
 ```
+
+```jsx
+function App() {
+  return (
+    <div>
+      <div>상단 메뉴</div>
+      <Profile username="hst" /> // 📌 1<div>하단 메뉴</div>
+    </div>
+  );
+}
+
+function Profile({ username }) {
+  return (
+    <div>
+      <Greeting username={username} /> // 📌 2
+    </div>
+  );
+}
+
+function Greeting({ username }) {
+  return <p>{`${username}님 안녕하세요`}</p>;
+}
+```
+
+`djfkdjrnd` djkfjenrj 기본 폰트가 뭘까요?
 
 ---
 

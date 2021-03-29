@@ -72,14 +72,14 @@ const Tags = ({ pageContext, data, location }: TagTemplateProps) => {
         <meta property="og:type" content="website" />
         <meta property="og:title" content={`${tag} - ${config.title}`} />
         <meta property="og:url" content={config.siteUrl + location.pathname} />
-        {config.facebook && <meta property="article:publisher" content={config.facebook} />}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`${tag} - ${config.title}`} />
-        <meta name="twitter:url" content={config.siteUrl + location.pathname} />
-        {config.twitter && (
+        {config.instagram && <meta property="article:publisher" content={config.instagram} />}
+        <meta name="github:card" content="summary_large_image" />
+        <meta name="github:title" content={`${tag} - ${config.title}`} />
+        <meta name="github:url" content={config.siteUrl + location.pathname} />
+        {config.github && (
           <meta
-            name="twitter:site"
-            content={`@${config.twitter.split('https://twitter.com/')[1]}`}
+            name="github:site"
+            content={`@${config.github.split('https://github.com/')[1]}`}
           />
         )}
       </Helmet>

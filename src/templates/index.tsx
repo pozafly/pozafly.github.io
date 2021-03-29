@@ -68,22 +68,22 @@ const IndexPage: React.FC<IndexProps> = props => {
           property="og:image"
           content={`${config.siteUrl}${props.data.header.childImageSharp.fixed.src}`}
         />
-        {config.facebook && <meta property="article:publisher" content={config.facebook} />}
+        {config.instagram && <meta property="article:publisher" content={config.instagram} />}
         {config.googleSiteVerification && (
           <meta name="google-site-verification" content={config.googleSiteVerification} />
         )}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={config.title} />
-        <meta name="twitter:description" content={config.description} />
-        <meta name="twitter:url" content={config.siteUrl} />
+        <meta name="github:card" content="summary_large_image" />
+        <meta name="github:title" content={config.title} />
+        <meta name="github:description" content={config.description} />
+        <meta name="github:url" content={config.siteUrl} />
         <meta
-          name="twitter:image"
+          name="github:image"
           content={`${config.siteUrl}${props.data.header.childImageSharp.fixed.src}`}
         />
-        {config.twitter && (
+        {config.github && (
           <meta
-            name="twitter:site"
-            content={`@${config.twitter.split('https://twitter.com/')[1]}`}
+            name="github:site"
+            content={`@${config.github.split('https://github.com/')[1]}`}
           />
         )}
         <meta property="og:image:width" content={width.toString()} />
@@ -103,7 +103,7 @@ const IndexPage: React.FC<IndexProps> = props => {
               <SiteTitle className="site-title">
                 {props.data.logo ? (
                   <img
-                    style={{ maxHeight: '55px' }}
+                    style={{ maxHeight: '75px', borderRadius: '15px', marginBottom: '1.5rem' }}
                     src={props.data.logo.childImageSharp.fixed.src}
                     alt={config.title}
                   />
@@ -143,18 +143,20 @@ const IndexPage: React.FC<IndexProps> = props => {
   );
 };
 
+// logo: file(relativePath: { eq: "img/my-logo.png" }) {
+//   childImageSharp {
+//         # Specify the image processing specifications right in the query.
+//         # Makes it trivial to update as your page's design changes.
+//     fixed {
+//           ...GatsbyImageSharpFixed
+//     }
+//   }
+// }
+
 export const pageQuery = graphql`
   query blogPageQuery($skip: Int!, $limit: Int!) {
-    logo: file(relativePath: { eq: "img/ghost-logo.png" }) {
-      childImageSharp {
-        # Specify the image processing specifications right in the query.
-        # Makes it trivial to update as your page's design changes.
-        fixed {
-          ...GatsbyImageSharpFixed
-        }
-      }
-    }
-    header: file(relativePath: { eq: "img/blog-cover.png" }) {
+
+    header: file(relativePath: { eq: "img/back.png" }) {
       childImageSharp {
         # Specify the image processing specifications right in the query.
         # Makes it trivial to update as your page's design changes.

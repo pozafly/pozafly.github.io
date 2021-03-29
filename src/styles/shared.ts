@@ -36,7 +36,7 @@ export const SiteMain = css`
 `;
 
 export const SiteTitle = styled.h1`
-  z-index: 10;
+  z-index: 110;
   margin: 0 0 0 -2px;
   padding: 0;
   font-size: 5rem;
@@ -49,9 +49,9 @@ export const SiteTitle = styled.h1`
 `;
 
 export const SiteDescription = styled.h2`
-  z-index: 10;
+  z-index: 140;
   margin: 0;
-  padding: 5px 0;
+  padding: 15px 0;
   font-size: 2.1rem;
   line-height: 1.4em;
   font-weight: 400;
@@ -114,7 +114,7 @@ export const SiteHeaderContent = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 6vw 3vw;
+  padding: 3vw 3vw;
   min-height: 200px;
   max-height: 340px;
 `;
@@ -137,7 +137,8 @@ export const SiteHeaderStyles = css`
     left: 0;
     z-index: 10;
     display: block;
-    background: rgba(0, 0, 0, 0.18);
+    /* background: rgba(0, 0, 0, 0.18); */
+    background: rgba(0,0,0,.6);
   }
   :after {
     content: '';
@@ -148,8 +149,9 @@ export const SiteHeaderStyles = css`
     left: 0;
     z-index: 10;
     display: block;
-    height: 140px;
-    background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0));
+    height: 100%;
+    /* background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0)); */
+    background: linear-gradient(rgba(0,0,0,.15),#191b1f);
   }
 
   @media (prefers-color-scheme: dark) {

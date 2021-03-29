@@ -44,8 +44,8 @@ interface AuthorTemplateProps {
     authorYaml: {
       id: string;
       website?: string;
-      twitter?: string;
-      facebook?: string;
+      github?: string;
+      instagram?: string;
       location?: string;
       profile_image?: {
         childImageSharp: {
@@ -95,19 +95,19 @@ const Author = ({ data, location }: AuthorTemplateProps) => {
         <meta property="og:url" content={config.siteUrl + location.pathname} />
         <meta property="article:publisher" content="https://www.facebook.com/ghost" />
         <meta property="article:author" content="https://www.facebook.com/ghost" />
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content={`${author.id} - ${config.title}`} />
-        <meta name="twitter:url" content={config.siteUrl + location.pathname} />
-        {config.twitter && (
+        <meta name="github:card" content="summary" />
+        <meta name="github:title" content={`${author.id} - ${config.title}`} />
+        <meta name="github:url" content={config.siteUrl + location.pathname} />
+        {config.github && (
           <meta
-            name="twitter:site"
-            content={`@${config.twitter.split('https://twitter.com/')[1]}`}
+            name="github:site"
+            content={`@${config.github.split('https://github.com/')[1]}`}
           />
         )}
-        {config.twitter && (
+        {config.github && (
           <meta
-            name="twitter:creator"
-            content={`@${config.twitter.split('https://twitter.com/')[1]}`}
+            name="github:creator"
+            content={`@${config.github.split('https://github.com/')[1]}`}
           />
         )}
       </Helmet>
@@ -157,25 +157,25 @@ const Author = ({ data, location }: AuthorTemplateProps) => {
                         </AuthorSocialLinkAnchor>
                       </AuthorSocialLink>
                     )}
-                    {author.twitter && (
+                    {author.github && (
                       <AuthorSocialLink className="author-social-link">
                         <AuthorSocialLinkAnchor
-                          href={`https://twitter.com/${author.twitter}`}
+                          href={`https://github.com/pozafly`}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          Twitter
+                          Github
                         </AuthorSocialLinkAnchor>
                       </AuthorSocialLink>
                     )}
-                    {author.facebook && (
+                    {author.instagram && (
                       <AuthorSocialLink className="author-social-link">
                         <AuthorSocialLinkAnchor
-                          href={`https://www.facebook.com/${author.facebook}`}
+                          href={`https://www.instagram.com/pozafly_/`}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          Facebook
+                          Instagram
                         </AuthorSocialLinkAnchor>
                       </AuthorSocialLink>
                     )}
@@ -205,9 +205,9 @@ export const pageQuery = graphql`
     authorYaml(id: { eq: $author }) {
       id
       website
-      twitter
+      github
       bio
-      facebook
+      instagram
       location
       profile_image {
         childImageSharp {

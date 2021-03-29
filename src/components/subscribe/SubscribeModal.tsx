@@ -203,7 +203,7 @@ const SubscribeOverlayDescription = styled.p`
   margin: 0 auto 50px;
   max-width: 650px;
   color: #fff;
-  font-family: Georgia, serif;
+  /* font-family: Georgia, serif; */
   font-size: 2.4rem;
   line-height: 1.3em;
   font-weight: 300;
