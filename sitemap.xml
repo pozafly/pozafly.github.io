@@ -3,8 +3,17 @@
 <url> <loc>https://pozafly.github.io/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/a-full-style-test/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/java/다형적변수/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://pozafly.github.io/tripllo/Tripllo(3) Vue init &amp; ESLint, Prettier 설정/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://pozafly.github.io/tripllo/Tripllo(1) 제작동기/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://pozafly.github.io/tripllo/Tripllo(2) MySQL 설계 &amp; SpringBoot init/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://pozafly.github.io/tripllo/Tripllo(4) 로그인1 -SpringSecurity &amp; JWT 개념/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://pozafly.github.io/tripllo/Tripllo(5) 로그인2 -SpringBoot 구현/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://pozafly.github.io/tripllo/Tripllo(6) 로그인3 -vue 구현/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://pozafly.github.io/tripllo/Tripllo(7) 로그인4 -vue 소셜로그인/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://pozafly.github.io/tripllo/Tripllo 후기/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tags/tests/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tags/java/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://pozafly.github.io/tags/tripllo-제작기/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/author/pozafly/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/about/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 </urlset>
