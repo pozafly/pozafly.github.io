@@ -5,7 +5,7 @@ author: [Pozafly]
 tags:
   - Tripllo 제작기
 image: ../img/tripllo/tripllo3.png
-date: '2021-02-03'
+date: '2021-02-03T19:03:47.149Z'
 draft: false
 excerpt: 백엔드 Setting은 끝났으니 이제 프론트엔드 Setting이 필요하다. npm 으로 Vue를 생성하고, 코드 포맷터인 ESLint, Prettier 설정을 해보자.
 ---

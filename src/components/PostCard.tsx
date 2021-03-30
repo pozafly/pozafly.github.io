@@ -47,7 +47,7 @@ export const PostCard: React.FC<PostCardProps> = ({ post, large = false }) => {
         <Link className="post-card-content-link" css={PostCardContentLink} to={post.fields.slug}>
           <PostCardHeader className="post-card-header">
             {post.frontmatter.tags && (
-              <PostCardPrimaryTag className="post-card-primary-tag">
+              <PostCardPrimaryTag className="post-card-primary-tag" to={`/tags/${_.kebabCase(post.frontmatter.tags[0])}/`}>
                 {post.frontmatter.tags[0]}
               </PostCardPrimaryTag>
             )}
@@ -154,7 +154,7 @@ const PostCardImageLink = css`
 const PostCardImage = styled.div`
   width: auto;
   height: 200px;
-  background: ${colors.lightgrey} no-repeat center center;
+  background: #fff no-repeat center center;
   background-size: cover;
 
   @media (prefers-color-scheme: dark) {
@@ -179,7 +179,7 @@ const PostCardContentLink = css`
   }
 `;
 
-const PostCardPrimaryTag = styled.div`
+const PostCardPrimaryTag = styled(Link)`
   margin: 0 0 0.2em;
   /* color: var(--blue); */
   color: ${colors.blue};

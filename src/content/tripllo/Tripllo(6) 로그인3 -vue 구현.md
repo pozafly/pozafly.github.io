@@ -5,7 +5,7 @@ author: [Pozafly]
 tags:
   - Tripllo 제작기
 image: ../img/tripllo/tripllo6.png
-date: '2021-02-05'
+date: '2021-02-05T07:03:47.149Z'
 draft: false
 excerpt: SpringBoot 쪽 서비스 로직이 만들어졌으므로 이번엔 vue에서 화면을 만들고 회원가입과 로그인을 진행해보자. 우리는 vue의 기능을 최대한 살려서 뼈대가 되는 페이지 하나에 login과 signup 2개의 컴포넌트를 붙이고 watch를 활용해 데이터를 검증할 것이다.
 ---

@@ -5,7 +5,7 @@ author: [Pozafly]
 tags:
   - Tripllo 제작기
 image: ../img/tripllo/tripllo5.png
-date: '2021-02-04'
+date: '2021-02-04T15:03:47.149Z'
 draft: false
 excerpt: Spring Security와 JWT를 사용해서 로그인 기능을 구현했다. Spring Security의 구현된 소스와 login의 Service 단 내부 로직을 개념에 맞춰서 알아보자.
 ---

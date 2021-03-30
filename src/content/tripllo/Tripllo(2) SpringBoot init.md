@@ -1,11 +1,11 @@
 ---
 layout: post
-title: 'Trillo(2) MySQL 설계 & SpringBoot init'
+title: 'Tripllo(2) MySQL 설계 & SpringBoot init'
 author: [Pozafly]
 tags:
   - Tripllo 제작기
 image: ../img/tripllo/tripllo2.png
-date: '2021-02-03'
+date: '2021-02-03T12:03:47.149Z'
 draft: false
 excerpt: Tripllo 백엔드 세팅을 해보자. Workbench로 DB를 설계하고 MySQL, MyBatis와 SpringBoot를 연동한다.
 ---

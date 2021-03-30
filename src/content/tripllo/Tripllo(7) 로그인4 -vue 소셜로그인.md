@@ -5,7 +5,7 @@ author: [Pozafly]
 tags:
   - Tripllo 제작기
 image: ../img/tripllo/tripllo7.jpeg
-date: '2021-02-05'
+date: '2021-02-05T10:03:47.149Z'
 draft: false
 excerpt: vue에서 소셜 로그인 기능을 만들어보자. 보통 요즘 서비스들은 다 소셜 로그인으로 가입, 로그인이 되므로 앞으로 서비스 개발할 때 거의 필수적으로 들어갈 기능이라고 생각했다. 또 backend보다는 frontend 개발자로 지원하고 싶기 때문에 백엔드의 OAuth2.0 을 사용하는 것 보다는 Javascript단에서 로그인 기능을 넣고 싶었다.
 ---
