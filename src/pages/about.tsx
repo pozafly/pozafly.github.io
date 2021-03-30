@@ -75,16 +75,18 @@ const About: React.FC = () => (
                 </p>
                 <p>
                   프론트엔드는 Vue와 React, 백엔드는 SpringBoot, SQL을 다룰 줄 압니다. 이 페이지를 작성하고 있는 시점엔 React를 배우고 있습니다.
-                  비교적 피드백이 바로 나타나는 Front 개발에 집중하려고 합니다. 무언가 딱 맞아떨어질 때의 쾌감, 유의미한 것을 만들었다는 쾌감이
+                  비교적 피드백이 바로 나타나는 Frontend 개발에 집중하려고 합니다. 무언가 딱 맞아떨어질 때의 쾌감, 유의미한 것을 만들었다는 쾌감이
                   개발의 즐거움인 듯합니다.
                   깔끔하고 정갈한 코드를 작성하는 개발자가 되고 싶습니다.
                 </p>
                 <p>
                   이 블로그는 기술을 사용하고 적용한 내용 위주, 기술에 대한 생각이나 회고로 채우고, static한 공부 내용은 {' '}
                   <a href="https://github.com/pozafly/TIL" target="_blank" rel="noreferrer">TIL</a>에 채워갈 생각입니다.
+                  들러주셔서 감사합니다.
                   <br />
-                  <p style={{ textAlign: 'right' }}><strong>2021/3/30</strong></p>
                 </p>
+                <div style={{ textAlign: 'right' }}>2021/3/30</div>
+                <br />
                 <br />
                 <br />
                 <h2>Toy Project</h2>
@@ -114,6 +116,24 @@ const About: React.FC = () => (
                     </ul>
                   </li>
                 </ul>
+                <br />
+                <br />
+                <br />
+                <h2>Contact Me</h2>
+                <ul>
+                  <li>Email: {' '}
+                    <a href="mailto:pozafly@gmail.com" target="_blank" rel="noreferrer">
+                      pozafly@gmail.com
+                    </a>
+                  </li>
+                  <li>
+                    Github: {' '}
+                    <a href="https://github.com/pozafly" target="_blank" rel="noreferrer">
+                      pozafly@gmail.com
+                    </a>
+                  </li>
+                </ul>
+                <br />
               </div>
             </PostFullContent>
           </article>

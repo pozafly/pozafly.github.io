@@ -8,6 +8,8 @@ export interface IUtterancesProps {
 
 const Utterances: React.FC<IUtterancesProps> = React.memo(({ repo }) => {
   const containerRef = createRef<HTMLDivElement>();
+  const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const theme = isDark ? 'dark-blue' : 'github-light';
 
   useLayoutEffect(() => {
     const utterances = document.createElement('script');
@@ -17,7 +19,7 @@ const Utterances: React.FC<IUtterancesProps> = React.memo(({ repo }) => {
       repo,
       'issue-term': 'pathname',
       label: 'comment',
-      theme: 'dark-blue',
+      theme,
       crossOrigin: 'anonymous',
       async: 'true',
     };
@@ -28,7 +30,6 @@ const Utterances: React.FC<IUtterancesProps> = React.memo(({ repo }) => {
 
     containerRef.current.appendChild(utterances);
   }, [repo]);
-
   return <div ref={containerRef} />;
 });
 
