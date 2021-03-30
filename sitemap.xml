@@ -1,83 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
 <url> <loc>https://pozafly.github.io/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://pozafly.github.io/2</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/a-full-style-test/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 2/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 3/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 4/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 5/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 6/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 7/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 8/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 9/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 10/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 11/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 12/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 13/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 14/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 15/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 16/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 17/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 18/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 19/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 20/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 21/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 22/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 23/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 24/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 25/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 26/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 27/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 28/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 29/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 30/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 31/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 32/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 33/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 34/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 35/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 36/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 37/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 38/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 39/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 40/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 41/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 42/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 43/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 44/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 45/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 46/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 47/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 48/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 49/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 50/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 51/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 52/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 53/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 54/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 55/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 56/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 57/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 58/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 59/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 60/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 61/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 62/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 63/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 64/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 65/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 66/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 67/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 68/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 69/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 70/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 71/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 72/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 73/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 74/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 75/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/a-full-style-test copy 76/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/java/다형적변수/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/spring/JUnit(1)개념/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/spring/JUnit(2)Mockito/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
@@ -85,9 +10,9 @@
 <url> <loc>https://pozafly.github.io/oracle/계정관련 명령어/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/oracle/테이블스페이스 조작/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/oracle/CHR-ASCII/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/tripllo/Tripllo(1) 제작동기/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/tripllo/Tripllo(2) SpringBoot init/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tripllo/Tripllo(3) Vue init/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://pozafly.github.io/tripllo/Tripllo(2) SpringBoot init/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://pozafly.github.io/tripllo/Tripllo(1) 제작동기/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tripllo/Tripllo(4) SpringSecurity/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tripllo/Tripllo(5) 로그인2 -SpringBoot 구현/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tripllo/Tripllo(6) 로그인3 -vue 구현/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
