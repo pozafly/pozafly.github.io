@@ -99,19 +99,19 @@ export const PostFullContent = styled.section`
 
   a {
     /* color: var(--darkgrey); */
-    color: ${colors.darkgrey};
+    color: ${colors.blue};
     word-break: break-word;
     /* box-shadow: var(--darkgrey) 0 -1px 0 inset; */
-    box-shadow: ${colors.darkgrey} 0 -1px 0 inset;
+    box-shadow: ${colors.blue} 0 -1px 0 inset;
     transition: all 0.2s ease-in-out;
   }
 
   a:hover {
     /* color: var(--blue); */
-    color: ${colors.blue};
+    color: ${colors.darkgrey};
     text-decoration: none;
     /* box-shadow: var(--blue) 0 -1px 0 inset; */
-    box-shadow: ${colors.blue} 0 -1px 0 inset;
+    box-shadow: ${colors.darkgrey} 0 -1px 0 inset;
   }
 
   strong,
@@ -450,8 +450,12 @@ export const PostFullContent = styled.section`
     }
 
     a {
-      color: #fff;
-      box-shadow: inset 0 -1px 0 #fff;
+      color: #26a6ed;
+      box-shadow: inset 0 -1px 0 #26a6ed;
+      &:hover {
+        color: #fff;
+        box-shadow: inset 0 -1px 0 #fff;
+      }
     }
 
     strong {
