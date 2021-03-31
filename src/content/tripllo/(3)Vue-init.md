@@ -24,7 +24,7 @@ $ brew install nvm
 
 그리고 나는 zsh를 사용하므로 .zshrc 파일에 설정을 추가해주어야 한다. 터미널에서 `vi ~/.zshrc` 명령어로 파일에 접근후 아래와 같은 설정을 해주자.
 
-```sh
+```shell
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 ```
@@ -55,7 +55,7 @@ $ npm install -g @vue/cli
 
 cli가 설치 되었으면 이제 Vue 프로젝트를 생성해보자.
 
-```sh
+```shell
 $ vue create <프로젝트명>
 ```
 

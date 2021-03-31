@@ -15,6 +15,23 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-sharp',
       options: {
+        output: 'sitemap.xml',
+        query: `
+          {
+            site {
+              siteMetadata {
+                siteUrl
+              }
+            }
+            allSitePage {
+              edges {
+                node {
+                  path
+                }
+              }
+            }
+          }
+        `,
         defaultQuality: 100,
         stripMetadata: true,
       },

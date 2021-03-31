@@ -54,7 +54,7 @@ excerpt: SpringBoot 쪽 서비스 로직이 만들어졌으므로 이번엔 vue�
 
 ### AuthPage.vue
 
-```vue
+```html
 <template>
   <div class="page">
     <header>
@@ -71,7 +71,7 @@ excerpt: SpringBoot 쪽 서비스 로직이 만들어졌으므로 이번엔 vue�
         <a href="" @click.prevent="$router.push('/privacy')">Privacy Policy</a>
       </aside>
     </div>
-    <Footer />
+    <footer />
     <div class="back">
       <img class="back item1" src="@/assets/user/back/1.png" />
       <img class="back item2" src="@/assets/user/back/2.png" />
@@ -80,22 +80,22 @@ excerpt: SpringBoot 쪽 서비스 로직이 만들어졌으므로 이번엔 vue�
 </template>
 
 <script>
-import Footer from '@/components/common/Footer';
+  import Footer from '@/components/common/Footer';
 
-export default {
-  components: { Footer },
-  methods: {
-    goMain() {
-      this.$router.push('/main');
+  export default {
+    components: { Footer },
+    methods: {
+      goMain() {
+        this.$router.push('/main');
+      },
     },
-  },
-  created() {
-    this.$loadScript(`https://developers.kakao.com/sdk/js/kakao.js`).then(() => {
-      if (!window.Kakao.isInitialized()) this.$Kakao.init();
-    });
-    this.$Facebook.init();
-  },
-};
+    created() {
+      this.$loadScript(`https://developers.kakao.com/sdk/js/kakao.js`).then(() => {
+        if (!window.Kakao.isInitialized()) this.$Kakao.init();
+      });
+      this.$Facebook.init();
+    },
+  };
 </script>
 ```
 
@@ -119,47 +119,47 @@ SignupForm.vue와 LoginForm.vue는 비슷한 로직으로 되어있어 SignupFor
 
 ※ 사실 lodash는 배열과 객체를 다루는데 좋은 라이브러리라고 한다.. npm으로 lodash를 다운받고 import해서 아래와 같이 사용했다.
 
-```vue
+```html
 <script>
-import _ from 'lodash';
-...
+  import _ from 'lodash';
+  ...
 
-export default {
-  data() {
-    return {
-      userData: {
-        id: '',
-      	...
-      }
-      push: {
-        pushYn: false,
-        message: '',
+  export default {
+    data() {
+      return {
+        userData: {
+          id: '',
+        	...
+        }
+        push: {
+          pushYn: false,
+          message: '',
+        },
+        ...
+      };
+    },
+    watch: {
+  		...
+      'userData.id': _.debounce(function(e) {
+        this.validUserId(e);
+      }, 750),
+      ...
+    },
+    methods: {
+      ...mapActions(['VALID_ID']),
+      ...
+      async validUserId(id) {
+        ...
+        try {
+          await this.VALID_ID(id);
+          this.push.pushYn = false;
+        } catch ({ response }) {
+          this.pushInsert(response.data.message);
+        }
       },
       ...
-    };
-  },
-  watch: {
-		...
-    'userData.id': _.debounce(function(e) {
-      this.validUserId(e);
-    }, 750),
-    ...
-  },
-  methods: {
-    ...mapActions(['VALID_ID']),
-    ...
-    async validUserId(id) {
-      ...
-      try {
-        await this.VALID_ID(id);
-        this.push.pushYn = false;
-      } catch ({ response }) {
-        this.pushInsert(response.data.message);
-      }
     },
-    ...
-  },
-};
+  };
 </script>
 ```
 
@@ -221,70 +221,70 @@ export { validateId, validatePw, validateEmail };
 
 이걸 이제 SignupForm.vue에다가 import 해와서 사용할 것이다.
 
-```vue
+```html
 <script>
-...
-import { validateId, validatePw, validateEmail } from '@/utils/validation';
+  ...
+  import { validateId, validatePw, validateEmail } from '@/utils/validation';
 
-export default {
-  data() {
-    return {
-      userData: {
-        id: '',
-        password: '',
-        email: '',
-        name: '',
+  export default {
+    data() {
+      return {
+        userData: {
+          id: '',
+          password: '',
+          email: '',
+          name: '',
+        },
+        againPassword: '',
+  			...
+      };
+    },
+    watch: {
+      ...
+      'userData.password': _.debounce(function(e) {
+        this.validatePw(e);
+      }, 750),
+      againPassword: _.debounce(function(e) {
+        this.validateAgainPw(e);
+      }, 750),
+      'userData.email': _.debounce(function(e) {
+        this.validateEmail(e);
+      }, 750),
+    },
+    methods: {
+      ...mapActions(['SIGNUP', 'LOGIN', 'VALID_ID']),
+      ...
+      validatePw(pw) {
+        let pwValid = validatePw(pw);
+        if (!pwValid[0]) {
+          this.pushInsert(pwValid[1]);
+        } else {
+          this.push.pushYn = false;
+        }
       },
-      againPassword: '',
-			...
-    };
-  },
-  watch: {
-    ...
-    'userData.password': _.debounce(function(e) {
-      this.validatePw(e);
-    }, 750),
-    againPassword: _.debounce(function(e) {
-      this.validateAgainPw(e);
-    }, 750),
-    'userData.email': _.debounce(function(e) {
-      this.validateEmail(e);
-    }, 750),
-  },
-  methods: {
-    ...mapActions(['SIGNUP', 'LOGIN', 'VALID_ID']),
-    ...
-    validatePw(pw) {
-      let pwValid = validatePw(pw);
-      if (!pwValid[0]) {
-        this.pushInsert(pwValid[1]);
-      } else {
-        this.push.pushYn = false;
-      }
+      validateAgainPw(pw) {
+        const realPw = this.userData.password;
+        const againPw = this.againPassword;
+        if (realPw !== againPw) {
+          this.pushInsert('다시 입력한 비밀번호가 같지 않습니다.');
+        } else {
+          this.push.pushYn = false;
+        }
+      },
+      validateEmail(email) {
+        if (!validateEmail(email)) {
+          this.pushInsert('이메일 유형에 맞지 않습니다.');
+        } else {
+          this.push.pushYn = false;
+        }
+      },
+      pushInsert(message) {
+        this.push.pushYn = true;
+        this.push.message = message;
+      },
+      ...
     },
-    validateAgainPw(pw) {
-      const realPw = this.userData.password;
-      const againPw = this.againPassword;
-      if (realPw !== againPw) {
-        this.pushInsert('다시 입력한 비밀번호가 같지 않습니다.');
-      } else {
-        this.push.pushYn = false;
-      }
-    },
-    validateEmail(email) {
-      if (!validateEmail(email)) {
-        this.pushInsert('이메일 유형에 맞지 않습니다.');
-      } else {
-        this.push.pushYn = false;
-      }
-    },
-    pushInsert(message) {
-      this.push.pushYn = true;
-      this.push.message = message;
-    },
-    ...
-  },
-};
+  };
 </script>
 ```
 
@@ -296,50 +296,50 @@ export default {
 
 모든 Form 값이 입력되었을 때 버튼이 초록색으로 활성화 되도록 하고 싶었다. 또, 하나의 값이라도 들어왔을 때, 소셜 로그인 버튼들을 보이지 않게끔 처리하고 싶었다.
 
-```vue
+```html
 <button class="submit-item btn" type="submit" :disabled="btnDisabled">
-	<b>Log in</b>
+  <b>Log in</b>
 </button>
 ```
 
 이렇게 :disable 을 걸어주고 btnDisabled에는 초깃값은 true로 비활성화이며, 모든 값이 찼을 때는 false로 활성화를 시켜줬다. 색 변경은 css로..
 
-```vue
+```html
 <script>
-...
-export default {
-  data() {
-    return {
+  ...
+  export default {
+    data() {
+      return {
+        userData: {
+          id: '',
+          password: '',
+          email: '',
+          name: '',
+        },
+        ...
+        btnDisabled: true,
+        isSocialForm: true,
+      };
+    },
+    watch: {
       userData: {
-        id: '',
-        password: '',
-        email: '',
-        name: '',
+        handler(e) {
+          e.id === '' && e.password === '' && e.email === '' && e.name === ''
+            ? (this.isSocialForm = true)
+            : (this.isSocialForm = false);
+
+          e.id !== '' && e.password !== '' && e.email !== '' && e.name !== ''
+            ? (this.btnDisabled = false)
+            : (this.btnDisabled = true);
+        },
+        deep: true,
       },
       ...
-      btnDisabled: true,
-      isSocialForm: true,
-    };
-  },
-  watch: {
-    userData: {
-      handler(e) {
-        e.id === '' && e.password === '' && e.email === '' && e.name === ''
-          ? (this.isSocialForm = true)
-          : (this.isSocialForm = false);
-
-        e.id !== '' && e.password !== '' && e.email !== '' && e.name !== ''
-          ? (this.btnDisabled = false)
-          : (this.btnDisabled = true);
-      },
-      deep: true,
     },
-    ...
-  },
-  methods: {
-   ...
-  }
-};
+    methods: {
+     ...
+    }
+  };
 </script>
 ```
 

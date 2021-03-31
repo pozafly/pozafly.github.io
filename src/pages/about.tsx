@@ -74,7 +74,7 @@ const About: React.FC = () => (
                   블로그일 뿐, 포트폴리오가 아닌데 각 잡고 About 페이지를 쓰려니 도무지 답이 나오지 않네요. 다만, 그냥 즐겁게 개발하고 싶습니다.
                 </p>
                 <p>
-                  프론트엔드는 Vue와 React, 백엔드는 SpringBoot, SQL을 다룰 줄 압니다. 이 페이지를 작성하고 있는 시점엔 React를 배우고 있습니다.
+                  Frontend는 Vue와 React, Backend는 SpringBoot, SQL을 다룰 줄 압니다. 이 페이지를 작성하고 있는 시점엔 React를 배우고 있습니다.
                   비교적 피드백이 바로 나타나는 Frontend 개발에 집중하려고 합니다. 무언가 딱 맞아떨어질 때의 쾌감, 유의미한 것을 만들었다는 쾌감이
                   개발의 즐거움인 듯합니다.
                   깔끔하고 정갈한 코드를 작성하는 개발자가 되고 싶습니다.
@@ -129,7 +129,7 @@ const About: React.FC = () => (
                   <li>
                     Github: {' '}
                     <a href="https://github.com/pozafly" target="_blank" rel="noreferrer">
-                      pozafly@gmail.com
+                      https://github.com/pozafly
                     </a>
                   </li>
                 </ul>
