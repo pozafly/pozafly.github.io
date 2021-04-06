@@ -333,7 +333,7 @@ export default new Vuex.Store({
 
 <br/>
 
-## webStorage 변경, encode 작업
+## webStorage 변경, encoding 작업
 
 ```js
 function saveUserToLocalStorage(user) {
@@ -436,7 +436,89 @@ method: {
 
 `data-...` 는 태그에 연결은 안해도 된다. dataSet은 프레임워크가 없을 때 예전에 사용하던 방법이다.
 
+```html
+<someComponent :data-id="data.id" ref="some"></someComponent>
 
+(...)
+
+<script>
+  const id = this.$ref.some.dataset.id;
+</script>
+```
+
+이렇게 되어 있는 녀석을
+
+```html
+<someComponent :id="data.id" ref="some"></someComponent>
+
+(...)
+
+<script>
+  const id = this.$ref.some.getAttribute('id');
+</script>
+```
+
+이런 형식으로 가져오게 만들었다.
+
+<br/>
+
+## nextTick 없애기 & 사용자 지정 디렉티브 연결
+
+### nextTick 없애기
+
+nextTick을 의미 없이 사용한 곳이 많다. 단지, nextTick을 DOM이 페이지에 마운트 되었을 때 실행되게 하는 것인데, 남용한 것. 따라서 mounted 라이프사이클 메서드 후에 nextTick을 사용한 것은 모두 정리하고, 
+
+1. created로직에서 비동기 api 호출 후 DOM을 업데이트 해야할 시,
+2. Modal 같이 DOM에 달라붙는 순간 작업이 필요할 때,
+
+두가지에만 nextTick을 유지했다. 
+
+### 사용자 지정 디렉티브 연결
+
+그리고, 주로 nextTick을 사용할 때는 mounted 메서드에서 input 태그에 focus를 줄 때가 많았으므로 사용지 지정 디렉티브를 만들어 연결시켜 주었다.
+
+```js
+// main.js
+Vue.directive('focus', {
+  inserted: function(el) {
+    el.focus();
+  },
+});
+```
+
+```html
+<input
+  ref="title"
+  (...)
+/>
+
+(...)
+
+mounted() {
+  this.titleFocus();
+},
+
+methods: {
+  titleFocus() {
+    this.$refs.title.focus();
+  },
+}
+```
+
+이렇게 되어 있는 녀석을
+
+```html
+<input
+  v-focus
+  (...)
+/>
+```
+
+이렇게 해주면 한방에 해결된다. 쓸데없는 mounted와 methods를 하나 줄인 셈. 코드 량이 무척 많이 줄었고, nextTick은 전부 다 없어졌다... 
+
+<br/>
+
+## 
 
 <br/>
 
