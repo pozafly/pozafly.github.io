@@ -7,7 +7,7 @@ tags:
 image: ../img/tripllo/travis.png
 date: '2021-04-06T17:13:47.149Z'
 draft: false
-excerpt: Frontend인 vue를 travis를 통해 aws의 S3와 CloudFront를 통해 배포하는 법을 정리한다.
+excerpt: Vue프로젝트를 aws의 S3와 CloudFront에 Travis CI를 통해 배포 자동화를 해보자.
 ---
 
 # Travis

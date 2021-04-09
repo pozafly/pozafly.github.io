@@ -151,6 +151,70 @@ new Vue({
 
 완성.
 
+📌 추가.
+
+아래의 사용자 정의 디렉티브를 쓰면서 main.js 가 다시 더렵혀졌다. 따라서 제대로 모듈화를 해보자.
+
+src 아래에 features(기능)이라는 폴더를 만들었다. 그곳에 directive.js, filter.js, plugin.js 3개의 파일을 만들고 각각 정의 해주었다.
+
+- directive.js : 사용자 지정 디렉티브
+
+  ```js
+  const useDirective = Vue => {
+    // v-focus
+    (...)
+  };
+  export { useDirective };
+  ```
+
+- filter.js : 시간 관련 필터
+
+  ```js
+  (...)
+  export const useFilter = Vue => {
+    Vue.filter('normalFormatDate', normalFormatDate);
+    Vue.filter('timeForToday', timeForToday);
+  };
+  ```
+
+- plugin.js : 외부 플러그인, 내가 정의한 플러그인
+
+  ```js
+  import $_Google from '@/utils/social/Google';
+  (...)
+  const usePlugin = Vue => {
+    (...)
+  };
+  export { usePlugin };
+  ```
+
+그리고, main.js 에서 깔끔하게 불러들여보자.
+
+```js
+import Vue from 'vue';
+import App from './App.vue';
+import router from '@/routes';
+import store from '@/store';
+import { usePlugin } from '@/features/plugin';
+import { useDirective } from '@/features/directive';
+import { useFilter } from '@/features/filter';
+import '@/utils/fontAwesomeIcon.js';
+
+Vue.config.productionTip = false;
+
+Vue.use(usePlugin);
+Vue.use(useDirective);
+Vue.use(useFilter);
+
+new Vue({
+  render: h => h(App),
+  router,
+  store,
+}).$mount('#app');
+```
+
+이렇게.
+
 <br/>
 
 ## 3. 컴포넌트 명 변경
@@ -514,11 +578,93 @@ methods: {
 />
 ```
 
-이렇게 해주면 한방에 해결된다. 쓸데없는 mounted와 methods를 하나 줄인 셈. 코드 량이 무척 많이 줄었고, nextTick은 전부 다 없어졌다... 
+이렇게 해주면 한방에 해결된다. 쓸데없는 mounted와 methods를 하나 줄인 셈. 코드 량이 무척 많이 줄었고, nextTick은 거의 다 없어졌다... 
 
 <br/>
 
-## 
+## mainTapId state에서 제거
+
+sessionStorage에 mainTapId를 넣어서, state에서 사용하지 않게끔 했다. main페이지에서 tab별로 보여지는 데이터가 다른데, 1 depts만 서로 주고받기 때문에 state보다는 sessionStorage를 사용하는게 맞다고 생각된다. 그리고 데이터를 굳이 보존하는 이유는, 탭에서 board 페이지로 접근 후, 다시 빠져나왔을 때, 해당 tab 화면이 유지가 되어야 하기 때문이다.
+
+<br/>
+
+## 비동기 메서드 에러 핸들링
+
+에러처리를 어디서 하는지 굉장히 고민을 많이 했다. 선택지는 3가지다.
+
+- 실제적인 axios api 호출하는 파일(ex api/board.js)
+- Vuex의 actions.js
+- 컴포넌트단
+
+우선 api 호출 파일은 제외. 그리고 actions와 컴포넌트 단 둘 중 어디서 해야할까 고민했을 때, 이미 login signup 관련 api 에러처리는 컴포넌트단에서 하고 있었다. 후에 [Vuex Tip 작업 오류 처리](https://medium.com/js-dojo/vuex-tip-error-handling-on-actions-ee286ed28df4)라는 글을 읽게 되었고, 여기서 하는 말이, **각 구성 요소의 오류를 처리해야하는 경우 로드를 유지 하고 때로는 오류 상태 구성 요소를 전역 / vuex 상태에서 벗어나는 것이 훨씬 더 모범 사례 입니다. ** 라고 했다. 따라서 일반적인 경우 actions.js 에서 에러 핸들링을 하고, 특별히 컴포넌트 단에서 필요한 에러처리는 컴포넌트에서 하는 것으로 정했다.
+
+### actions.js 에서 에러 핸들링
+
+```js
+READ_USER({ commit }, userId) {
+  return userApi
+    .readUser(userId)
+    .then(({ data }) => {
+      commit('setUser', data.data);
+    })
+    .catch(error => {
+      console.log(error);
+      alert('유저 정보를 읽어오지 못했습니다.');
+    });
+},
+```
+
+이런식으로 .then만 있었던 곳에 `.catch` 절을 적어주었다. .catch절을 .then 보다 위에 적는 것을 습관화 하게 되면 더 좋다고 했는데, catch절에 걸리고 다시 .then에 걸리는 경우가 생겨서 우선에는 catch절을 밑에 적었다. 컴포넌트 단에서 에러 핸들링 후 컴포넌트 조작 작업이 필요한 녀석들은 모두 컴포넌트 단에서 해결했다.
+
+### axios interceptor 에서 에러 핸들링
+
+```js
+// response
+instance.interceptors.response.use(
+  response => {
+    return response;
+  },
+  error => {
+    if (error.response.status === 403) {
+      alert('권한이 없습니다.');
+    }
+    return Promise.reject(error);
+  },
+);
+```
+
+기존의 에러 핸들링이다. 하지만, 이렇게되면 403 으로 인해서 권한이 없다는 alert 창이 한번 뜨고, actions.js에서 해당 비동기 처리 메서드가 실패했다는 alert이 또 한번 더 뜨게 된다. 따라서 `return` 문을 넣어주었다.
+
+```js
+if (error.response.status === 403) {
+  alert('권한이 없습니다.');
+  return;
+}
+```
+
+이렇게. 그러면 alert 창은 권한이 없을 때 1번만 뜨게 되고, 권한 문제가 아닌 다른 에러는 actions.js에서 잡아준다. 그리고, 인터셉터에서 아예 모든 에러 핸들링을 할까도 고민했었다.
+
+```js
+else {
+  alert(response.data.message);
+}
+```
+
+이렇게. 사실 백엔드에서 data.message에 api에 알맞은 message가 같이 넘어온다. 여전히 지금도 고민중. actions.js에서 api별로 따로 catch절로 에러핸들링을 하는 것이 맞는지, interceptor에서 한번에 묶어서 해주는 것이 맞는지. 일단, 공통적으로 interceptor 에서 묶어서 처리하지 않은 것은 에러 처리를 일부러 각각 명확하게 하기 위해서다.
+
+<br/>
+
+## Travis 배포 자동화
+
+[Tripllo(9) Frontend -travis 배포 자동화](https://pozafly.github.io/tripllo/(9)travis-auto-deploy/) 여기 따로 정리해두었다.
+
+<br/>
+
+## Sentry 에러 로깅 시스템 도입
+
+
+
+
 
 <br/>
 
@@ -527,7 +673,6 @@ methods: {
 - button type 넣어주기(접근성 차원에서)
 - if문 block 넣어주기(javascript 만든 할아버지께서 말씀하심 - 안정성 때문인듯.)
 - es6 화살표 함수 안되어있었던 것 다 처리.
-
 
 
 
