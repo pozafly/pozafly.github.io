@@ -212,9 +212,10 @@ const NavStyles = css`
   }
 
   li a {
+    font-size: 1.2rem;
     position: relative;
     display: block;
-    padding: 12px 12px;
+    padding: 14px 12px;
     color: #fff;
     opacity: 0.8;
     transition: opacity 0.35s ease-in-out;

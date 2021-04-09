@@ -201,7 +201,7 @@ const PostCardTitle = styled.h2`
 
 const PostCardExcerpt = styled.section`
   /* font-family: Georgia, serif; */
-
+  font-size: 1.7rem;
   @media (prefers-color-scheme: dark) {
     /* color: color(var(--midgrey) l(+10%)); */
     color: ${lighten('0.1', colors.midgrey)} !important;
@@ -221,7 +221,7 @@ const PostCardBylineContent = styled.div`
   margin: 4px 0 0 10px;
   /* color: color(var(--midgrey) l(+10%)); */
   color: ${lighten('0.1', colors.midgrey)};
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   line-height: 1.4em;
   font-weight: 400;
   letter-spacing: 0.2px;

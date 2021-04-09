@@ -129,8 +129,10 @@ export const PostFullContent = styled.section`
   video {
     display: block;
     margin: 1.5em auto;
-    max-width: 1040px;
+    max-width: 888px;
     height: auto;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0 0 23px;
   }
   @media (max-width: 1040px) {
     img,
@@ -587,6 +589,10 @@ export const PostFullContent = styled.section`
     white-space: normal;
   }
 
+  .token {
+    font-size: 1.4rem;
+  }
+
   .token.attr-name {
     color: rgb(173, 219, 103);
     font-style: italic;
@@ -676,6 +682,7 @@ export const PostFullContent = styled.section`
   .gatsby-highlight pre[class*='language-'] {
     float: left;
     min-width: 100%;
+    font-size: 1.5rem;
   }
   /* End Syntax Highlighting */
 `;

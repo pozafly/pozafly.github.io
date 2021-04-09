@@ -102,8 +102,12 @@ const IndexLayout: React.FC<IndexProps> = props => {
             padding: 0;
             border: 0;
             font: inherit;
-            font-size: 100%;
+            font-size: 93%;
             vertical-align: baseline;
+
+            .copyright {
+              font-size: 1.4rem;
+            }
           }
           body {
             line-height: 1;

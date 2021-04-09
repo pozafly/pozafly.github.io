@@ -52,7 +52,7 @@ export const Footer: React.FC = () => {
 const SiteFooter = css`
   position: relative;
   padding-top: 20px;
-  padding-bottom: 60px;
+  padding-bottom: 22px;
   color: #fff;
   background: ${setLightness('0.0015', colors.darkgrey)};
 `;
@@ -82,6 +82,7 @@ const SiteFooterNav = styled.nav`
   a {
     position: relative;
     margin-left: 20px;
+    font-size: 1.3rem;
   }
 
   a:before {
