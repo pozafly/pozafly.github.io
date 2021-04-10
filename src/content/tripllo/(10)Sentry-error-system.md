@@ -94,6 +94,8 @@ configuration.setAllowedOrigins(ImmutableList.of("http://localhost:8080", "https
 
 SpringSecurity config에서 이렇게 8080을 허용하고 있었는데, Sentry를 입히면서 여기에서 문제가 생긴 것이다. 따라서 vue.config.js 파일에 proxy 설정을 해주도록 하자.
 
+<br/>
+
 ### proxy devServer 설정
 
 기존에 개발환경은 SpringSecurity에서 localhost:8080을 허용해주는 것으로 해결하고 있었는데, 이제는 백엔드와 프론트 환경에 proxy(대리자)를 두어 동일한 3000번 포트에서 동작하는 것처럼 환경을 구성해줄 것이다.
@@ -169,12 +171,16 @@ Sentry.init({
 
 [공식 Docs](https://docs.sentry.io/product/sentry-basics/guides/integrate-frontend/upload-source-maps/)에 자세한 설명이 있다. sentry 화면에서 에러가 표시될 때, 소스코드와 함께 어디서 에러가 났는지 알려면 소스맵을 sentry 서버에 올려줘야 한다. sentry-cli를 설치해서 로컬 컴퓨터에서 수동으로 소스맵을 올려주거나, 빌드시 자동으로 올려주는 방법이 있다. 우리는 빌드 시 자동으로 올려주는 방법을 선택할 것인데 이게 자동화가 되어있기 때문에 쉽다.
 
+<br/>
+
 ### 프로젝트 이름 등록
 
 1. Organization 이름 등록 : 좌측 텝에 보면 Settings가 있다. -> General Settins에 Organization Slug에 프로젝트 명을 등록해주자. 
 2. Project 이름 등록 : 이번엔, General Settins 말고 바로 밑 Projects에 들어가자 -> 자신의 Project를 클릭하면 Name을 정할 수 있다. 프로젝트 이름을 등록해주자.
 
 이 두가지가 설정 되었으면, 
+
+<br/>
 
 ### 토큰 획득
 
@@ -185,6 +191,8 @@ Sentry.init({
 ![스크린샷 2021-04-08 오후 9 40 21](https://user-images.githubusercontent.com/59427983/114043983-bd7b0c00-98c1-11eb-8990-a632c5bd0f7e.png)
 
 이렇게. 이걸 잘 가지고 있자.
+
+<br/>
 
 ### 웹팩 플러그인 설치 & 등록
 
@@ -241,6 +249,8 @@ module.exports = {
 
 이렇게 정상적으로 어느 소스코드에서 에러를 냈는지 자세하게 알려준다. 
 
+<br/>
+
 ### development 환경 막기
 
 이제, development(local) 환경과 production 환경에서 에러 로깅 시스템이 잘 동작하는 것을 확인했으므로 development 환경에서는 에러 로깅 시스템을 꺼주도록 하자.
@@ -274,3 +284,6 @@ export default Sentry.init({
 
 에러 로깅 시스템을 도입하면서 사용자에게 어떻게 하면 더 안정적이고 견고한 소프트웨어를 제공할 수 있을지 고민이 되는 좋은 시간이었다! 또 Sentry를 도입하면서 내가 놓쳤던 Error를 고치고,  사용자한테 일어나지 않을 것 같은 Error까지 잡아보면서 대수롭지 않게 넘겼던 Error에 대해 다시 한번 생각해볼 수 있는 기회였다.
 
+<br/>
+
+> 프로젝트 구경하기 -> [Tripllo\_메인](https://tripllo.tech), [Vue_Github](https://github.com/pozafly/tripllo_vue), [SpringBoot_Github](

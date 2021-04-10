@@ -6,7 +6,7 @@ tags:
   - 주간회고
 image: ../img/retrospective/lone.jpg
 date: '2021-04-04T22:03:47.149Z'
-draft: false
+draft: true
 excerpt: 사실 vue 프로젝트를 만들고 나서 바로 이력서를 적어도 됐을텐데 적지 않았던 이유는 더 좋은 곳에 가기 위한 이유도 있겠지만, 사실 마음 깊은 곳에서는 면접에서 떨어지는 고통을 당하지 않기 위해 이력서 적는 것을 미루고 react 공부를 시작한 것이다.
 ---
 

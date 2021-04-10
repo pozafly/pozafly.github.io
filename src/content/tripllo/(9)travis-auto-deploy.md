@@ -98,6 +98,8 @@ $ travis login --pro
 
 --com, --org 옵션을 줄 수 있는데, pro를 붙여주자. 아니면 빌드시 오류 발생. org를 사용하고 있다면 org를 써도 된다. login을 할 때 Not Found 에러가 날 수 있다. [travis login Not Found 오류 정리](https://github.com/pozafly/TIL/blob/main/%F0%9F%A7%A8%E1%84%8B%E1%85%A9%E1%84%85%E1%85%B2%E1%84%8B%E1%85%AA%E1%84%8B%E1%85%B4%20%E1%84%8C%E1%85%A9%E1%84%8B%E1%85%AE/travis/travis%20login%20Not%20Found.md) 이곳에 정리해 뒀으니, github token으로 로그인 해주자.
 
+<br/>
+
 ### endpoint 설정
 
 우리는 pro로 설정했으니 endpoint를 잡아주자. endpoint를 잡아주지 않으면, 암호화를 진행할 때, `not logged in -try running travis login --org` 오류가 뜰 수 있다. [github issues](https://github.com/travis-ci/travis-ci/issues/9668) 이곳을 참고 했다.
@@ -105,6 +107,8 @@ $ travis login --pro
 ```shell
 $ travis endpoint --pro
 ```
+
+<br/>
 
 ### .env 파일 암호화
 
@@ -130,6 +134,8 @@ $ travis encrypt-file --pro .env.production --add
 
 📌 .env 파일은 반드시 gitignore 처리. .env.enc 파일은 ignore 하면 안된다.
 
+<br/>
+
 ### 빌드 test
 
 이제 암호화 된 파일이 생겼으니, 얘를 push 해서 build 해주자. 우선 travis 서버 상 build가 성공했으면 반은 성공한거임.
@@ -144,11 +150,15 @@ traivs 상에서 내 파일이 build 까지 완료되었다면, 이제 호스팅
 - s3 버킷은 public 접근 가능함.
 - 버킷 정책 JSON이 설정되어 있을 것.
 
+<br/>
+
 ### AWS IAM key 받기
 
 [IAM](https://console.aws.amazon.com/iam/home?region=ap-northeast-2#/home)에 사용자 탭 -> 사용자 추가 -> 이름 설정 -> AWS 액세스 유형은 *프로그래밍 방식 엑세스* 체크 -> 기존 정책 직접 연결 -> 정책 필터에 *s3full* 검색 후 AmazonS3FullAccess 체크. -> cloudfront 검색 후 CloudFrontFullAccess 체크 -> 태그 등록 -> 권한 최종 확인 후 생성이 완료 되면 엑세스 키와 비밀 엑세스 키가 생성된다.
 
 즉, IAM 에서는 `AmazonS3FullAccess`, `CloudFrontFullAccess` 두가지 권한이 필요한 것이다.
+
+<br/>
 
 ### Travis CI에 키 등록
 
@@ -290,3 +300,6 @@ notifications:
 
 아쉬운 점은 npm모듈을 사용하지 않고 CloudFront 설정을 할 수 있을텐데 하지 못했다. [여기1](https://medium.com/lunit/travis-ci%EB%A1%9C-aws-s3%EC%97%90-spa-%EB%B0%B0%ED%8F%AC%ED%95%98%EA%B8%B0-c081e25335b5), [여기2](https://renzolucioni.com/s3-deployment-with-travis/), [여기3](https://github.com/CircleCI-Public/aws-cli-orb/issues/24) 를 보면서 연구했는데 잘 안됐다...
 
+<br/>
+
+> 프로젝트 구경하기 -> [Tripllo\_메인](https://tripllo.tech), [Vue_Github](https://github.com/pozafly/tripllo_vue), [SpringBoot_Github](

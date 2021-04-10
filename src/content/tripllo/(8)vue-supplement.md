@@ -63,6 +63,8 @@ excerpt: 멘토링 후, 조언을 주신대로 Vue쪽 보완을 한 내용을 �
 
 <br/>
 
+<br/>
+
 ## 2. plugin 폴더 정리
 
 기존에 plugin을 main.js 파일에서 덕지덕지 붙여다 쓰는게 싫어서 따로 plugin.js 파일로 빼서 선언 해두었다.
@@ -217,6 +219,8 @@ new Vue({
 
 <br/>
 
+<br/>
+
 ## 3. 컴포넌트 명 변경
 
 ### 컴포넌트 이름에 합성어 사용
@@ -225,17 +229,25 @@ new Vue({
 
 - ex) Spinner -> LoadingSpinner, Noti -> AlertNotification
 
+<br/>
+
 ### Page 명 수정
 
 또한, views 폴더에는 ...Page.vue 들이 들어가 있는데 즉, 페이지 컴포넌트가 들어가있는데, ...Page라고 명시하지 않은 부분을 수정했고, NotFoundPage는 common 폴더에 있던 것을 views  폴더로 이동시켜주었다.
+
+<br/>
 
 ### 컴포넌트 명에 detail 전부 삭제
 
 그리고, ...detail 처럼 명시적이지 않은 부분을, 최대한 명시적으로 이름을 모두 변경하였다. 이 작업이 굉장히 시간이 오래 걸렸음. 내가 작명할 때 얼마나 대충 했는지, 협업을 위한 준비가 되어있지 않았다는 사실을 알게 되었음.
 
+<br/>
+
 ### import 구문에 .vue 붙이기
 
 import 구문에 .vue가 붙어있지 않다면 vscode에서 ctrl + 클릭으로 이동이 불가능하기 때문에 .vue를 붙여줌. js나 기타 파일은 vscode가 인식하지만, .vue 같은 경우는 vscode 입장에서 외계어이기 때문에 이동이 불가능했다.
+
+<br/>
 
 ### 폴더에 (...).js로 붙이지말고 대표되는 파일에 index.js 바꾸기
 
@@ -243,7 +255,9 @@ import 구문에 .vue가 붙어있지 않다면 vscode에서 ctrl + 클릭으로
 
 <br/>
 
-## 4. router
+<br/>
+
+## 4. 라우터 가드 설정
 
 ### 와일드 카드 맨 아래로 두기
 
@@ -268,9 +282,7 @@ routes: [
 ],
 ```
 
-이렇게 해주어야 함. 왜냐하면 와일드카드가 다른 주소에 걸릴 수 있기 때문에.
-
-### 가드 처리가 있어야 함.
+이렇게 해주어야 함. 왜냐하면 와일드카드가 다른 주소에 걸릴 수 있기 때문에. 가드 처리가 있어야 함.
 
 프론트에서 route 처리중 가장 중요한 것은 권한에 따라 페이지를 막는 것이 제일 중요하다. 예를들면 로그인 되지 않은 상태로 url을 쳐서 화면을 넘길 때, 현재는 이 처리가 되어있지 않을때,
 
@@ -301,7 +313,9 @@ const requireAuth = (to, from, next) => {
 
 <br/>
 
-## props 타입 정의
+<br/>
+
+## 5. props valid
 
 기존에 prop 을  `props: ['member'],` 이런식으로 정의했었다면, 
 
@@ -309,16 +323,20 @@ const requireAuth = (to, from, next) => {
 props: {
   member: {
     type: Object,
-    default: null,
+    require: true,
+    default: () => ({...}),
+    validator: () => ({...}),
   },
 },
 ```
 
-이렇게 타입과 디폴트 값을 넣어주자. default도 object 형태로..
+이렇게 타입과 디폴트 값을 넣어주자. default, require, validator도 사용할 수 있다.
 
 <br/>
 
-## eslint
+<br/>
+
+## 6. vue plugin eslint 설정 후 적용
 
 .eslintrc.js 파일에,
 
@@ -368,11 +386,13 @@ extends: ["plugin:vue/essential", "@vue/prettier"],
 }],
 ```
 
-이렇게 공식 문서에서 정한 순서대로 error를 뱉어준다.
+이렇게 공식 문서에서 정한 순서대로 error를 뱉어준다. 이렇게 순서를 정해놓으면 좋은 점이, 만약 created 라이프사이클 함수를 사용했는데, 이미 선언 한 것을 잊고 다른 곳에 새로 작성해줄 경우 기존 created 함수에 적용했던 로직이 무시되는 경우가 발생. 또한 다른 이들과 협업할 시 위치가 일관성있게 짜여지지 않으면 충돌이 날 수 있다.
 
 <br/>
 
-## store에 strict 모드 추가하기
+<br/>
+
+## 7. store에 strict 모드 추가하기
 
 ```js
 import Vue from 'vue';
@@ -397,9 +417,14 @@ export default new Vuex.Store({
 
 <br/>
 
-## webStorage 변경, encoding 작업
+<br/>
+
+## 8. webStorage 변경, userData encoding 작업
+
+기존코드는
 
 ```js
+// webStorage.js
 function saveUserToLocalStorage(user) {
   localStorage.setItem('user_id', user.id);
   localStorage.setItem('user_email', user.email);
@@ -420,6 +445,8 @@ function saveUserToken(token) {
 localStorage와 state에서 이렇게 user 객체를 하나의 단위로 올리는 작업을 하고 있었다. user 객체로 묶어서 작업하는게 좋을 듯 하다고 해서 user객체를 하나의 JSON String으로 만들고 사용할 때는 parse 해서 사용하는 것으로 바꾸었다. 코드량이 많기도 하고, 묶어서 관리하는게 좋다.
 
 ```js
+// webStorage.js
+
 // 인코딩, 디코딩 함수
 const makeIncodeValue = (key, value) => {
   const data = encodeURIComponent(JSON.stringify(value));
@@ -457,11 +484,13 @@ const getTokenFromLocalStorage = () => {
 
 추가로 중요한 정보이니까, Base64로 인코딩 작업을 했다. 근데 network 탭에 찍히기 때문에 이 작업은 서버에서 따로 디코딩해서 작동하도록 만드는게 좋을 듯 한데 우선 그냥 로컬 단에서 디코딩해 사용했다.
 
-Base64 참고 자료 : https://pks2974.medium.com/base-64-%EA%B0%84%EB%8B%A8-%EC%A0%95%EB%A6%AC%ED%95%98%EA%B8%B0-da50fdfc49d2 => 정리하자
+Base64 참고 자료 : https://pks2974.medium.com/base-64-%EA%B0%84%EB%8B%A8-%EC%A0%95%EB%A6%AC%ED%95%98%EA%B8%B0-da50fdfc49d2
 
 <br/>
 
-## 라이프 사이클 함수에서 의미 단위 함수로 묶기
+<br/>
+
+## 9. 라이프 사이클 함수에서 의미 단위 함수로 묶기
 
 예를 들면,
 
@@ -492,11 +521,13 @@ method: {
 }
 ```
 
-이런 식으로 묶기. 이런 식으로 묶어주면, 코드는 최대한 간결하고 명료하게.
+이런 식으로 묶기. 이런 식으로 묶어주면, 의미 단위로 모듈화가 가능하고, 라이프 사이클 함수에서 어떤 작업을 하는지 한눈에 보이기 때문이다. 즉, 기존에 라이프 사이클 함수에 여러 로직이 혼재해 있으면 어떤 작업을 하는지 빠르게 파악하기 어렵다.
 
 <br/>
 
-## dataSet 없애기
+<br/>
+
+## 10. dataSet 없애기
 
 `data-...` 는 태그에 연결은 안해도 된다. dataSet은 프레임워크가 없을 때 예전에 사용하던 방법이다.
 
@@ -526,7 +557,9 @@ method: {
 
 <br/>
 
-## nextTick 없애기 & 사용자 지정 디렉티브 연결
+<br/>
+
+## 11. nextTick 없애기 & 사용자 지정 디렉티브 연결
 
 ### nextTick 없애기
 
@@ -536,6 +569,8 @@ nextTick을 의미 없이 사용한 곳이 많다. 단지, nextTick을 DOM이 �
 2. Modal 같이 DOM에 달라붙는 순간 작업이 필요할 때,
 
 두가지에만 nextTick을 유지했다. 
+
+<br/>
 
 ### 사용자 지정 디렉티브 연결
 
@@ -555,7 +590,6 @@ Vue.directive('focus', {
   ref="title"
   (...)
 />
-
 (...)
 
 mounted() {
@@ -582,13 +616,23 @@ methods: {
 
 <br/>
 
-## mainTapId state에서 제거
+<br/>
+
+## 12. mainTapId state에서 제거
 
 sessionStorage에 mainTapId를 넣어서, state에서 사용하지 않게끔 했다. main페이지에서 tab별로 보여지는 데이터가 다른데, 1 depts만 서로 주고받기 때문에 state보다는 sessionStorage를 사용하는게 맞다고 생각된다. 그리고 데이터를 굳이 보존하는 이유는, 탭에서 board 페이지로 접근 후, 다시 빠져나왔을 때, 해당 tab 화면이 유지가 되어야 하기 때문이다.
 
+하지만, sessionStorage를 사용할 때, 현재 프로젝트에서는 한번 로그인 하면, localStorage에 유저 정보와 토큰을 가지고 있어, login 페이지로 가는 것이 아니라 바로 main 화면으로 가게된다. 그렇게 되면 탭을 닫을 때 사라지는 sessionStorage는 어디에선가 한번 초깃값을 주어야 한다.
+
+처음에는 Tab이 있는 컴포넌트 created 함수에서 했지만, Tab이 있는 화면으로 항상 오기 때문에 무조건 초깃값인 0이 설정되어 버린다. 그러면 sessionStorage를 사용하는 의미가 없어지기 때문에 내가 선택한 곳은 `App.vue` 에 선언하는 것.
+
+`saveSessionStorage('mainTabId', 0);` 이렇게 App.vue에 created 함수에 선언해주었다.
+
 <br/>
 
-## 비동기 메서드 에러 핸들링
+<br/>
+
+## 13. 비동기 메서드 에러 핸들링
 
 에러처리를 어디서 하는지 굉장히 고민을 많이 했다. 선택지는 3가지다.
 
@@ -615,6 +659,8 @@ READ_USER({ commit }, userId) {
 ```
 
 이런식으로 .then만 있었던 곳에 `.catch` 절을 적어주었다. .catch절을 .then 보다 위에 적는 것을 습관화 하게 되면 더 좋다고 했는데, catch절에 걸리고 다시 .then에 걸리는 경우가 생겨서 우선에는 catch절을 밑에 적었다. 컴포넌트 단에서 에러 핸들링 후 컴포넌트 조작 작업이 필요한 녀석들은 모두 컴포넌트 단에서 해결했다.
+
+<br/>
 
 ### axios interceptor 에서 에러 핸들링
 
@@ -654,41 +700,106 @@ else {
 
 <br/>
 
-## Travis 배포 자동화
+<br/>
+
+## 14. API 함수에 JSDoc으로 스펙 명세하기
+
+기존, api 함수를 보자.
+
+```js
+createBoard({ title, publicYn, hashtag, bgColor }) {
+  return board.post('/', { title, publicYn, hashtag, bgColor });
+},
+
+updateCard(id, payload) {
+  return card.put(`/${id}`, payload);
+},
+
+loginUser(userData) {
+  return instance.post('login', userData);
+},
+```
+
+서로 다른 파일에 있는 api 함수인데, 어떤 곳은 객체 자체를 넘겨받아 api 파라미터로 사용했고, 어떤 곳은 payload라는 이름으로 객체를 받아 파라미터로 사용했다. 또 다른 곳은 payload 대신 좀 더 구체적인 이름으로 명시한 객체 묶음을 파라미터로 사용했다.
+
+내가 스스로 생각했을 때는, payload나 userData 처럼 파라미터로 한번에 받아 넘기는 것 보다 가장 위의 `{ title, publicYn, hashtag, bgColor }` 이런 객체 형식으로 파라미터를 받아서 넘겨주는게 좋다고 생각했는데, 이는 어떤 파라미터를 넘기는지 명시적으로 협업하는 사람들에게 보여지기 위해서라고 생각했다.
+
+하지만, 우선 내가 선택한 방법은 코드 중복이 일어난다. 쓸데 없는 코드량이 늘게 되는 것. 따라서 payload 말고 구체적인 객체명을 적어두되, api 명세를 해두자. 누가와서 보더라도, 혹은 내가 다시 나중에 보게될 때 빠르게 파악하기 위해서. 3개 함수 중 createBoard 함수만 어떻게 바꾸었는지 한번 보자.
+
+```js
+/**
+ * @typedef {object} CreateBoardInfo
+ * @property {string} title - 제목
+ * @property {string} publicYn - 공개여부
+ * @property {string[]} hashtag - 해시태그
+ * @property {string} bgColor - 배경색상
+ */
+
+/**
+ * Board 생성
+ * @param {CreateBoardInfo} createBoardInfo - Board 생성 정보
+ * @returns {Promise<Board>}
+ */
+const createBoard = createBoardInfo => board.post('/', createBoardInfo);
+```
+
+이렇게 바꾸어줬다.
+
+<br/>
+
+<br/>
+
+## 15. API 함수 이름 구체화 및 API 접두사로 감싼 속성 제거하기
+
+위 api 함수와 연결된다.
+
+```js
+const boardApi = {
+  // 함수 시작
+  readPersonalBoard({ boardId }) {
+    return board.get(`/${boardId}`);
+  },
+  (...)
+export default boardApi;
+```
+
+이렇게 되었던 것을, 한번 꺼내서 그냥 단순 함수로.
+
+```js
+const readPersonalBoard = lastCreatedAt =>
+  board.get(`/personal/${lastCreatedAt}`);
+(...)
+export { readPersonalBoard, (...) }
+```
+
+그리고 애매 했던, api 함수의 이름을 직관적으로 파악하기 좋게 바꿔줬다.
+
+<br/>
+
+<br/>
+
+## 16. Travis 배포 자동화
 
 [Tripllo(9) Frontend -travis 배포 자동화](https://pozafly.github.io/tripllo/(9)travis-auto-deploy/) 여기 따로 정리해두었다.
 
 <br/>
 
-## Sentry 에러 로깅 시스템 도입
+<br/>
 
+## 17. Sentry 에러 로깅 시스템 도입
 
-
-
+[Tripllo(10) Sentry 에러 로깅 시스템 도입](https://pozafly.github.io/tripllo/(10)Sentry-error-system/) 여기 따로 정리해두었다.
 
 <br/>
 
-## Sub
+<br/>
+
+## 18. Sub
 
 - button type 넣어주기(접근성 차원에서)
 - if문 block 넣어주기(javascript 만든 할아버지께서 말씀하심 - 안정성 때문인듯.)
 - es6 화살표 함수 안되어있었던 것 다 처리.
 
-
-
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-
-# 계속해서 작성중....
-
-
-<br/>
 <br/>
 
 <br/>
@@ -702,6 +813,8 @@ else {
 5. 코드가 중복 되는 것이 있다면 함수화, 모듈화 하자.
 6. 오류 처리를 반드시 하자. 비동기 처리 Promise에서 .catch()를 먼저 사용함으로 반드시 catch를 할 수 있도록 하자.
 7. 라이프 사이클 메서드에서나, sideEffect가 있는 곳에서는 의미 단위로 함수로 뽑아서 사용하자.
+8. Travis 배포 자동화 & Sentry를 도입하면서 개발 완료 후 유지보수 측면에서 가능한 자동화나, 에러추적을 해 생산성을 높이는 작업을 하자.
+9. JSDoc 을 작성하면서 내가 나중에 봤을 때나, 다른 사람이 코드를 봤을 때 직관적으로 접하기 쉽도록 하고, 자동완성으로 작업 생산성을 높이자. (Typescript 배우자...)
 
 <br/>
 
