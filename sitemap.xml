@@ -22,7 +22,6 @@
 <url> <loc>https://pozafly.github.io/tripllo/후기/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/blog/Gatsby-Blog/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tripllo/(8)vue-supplement/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/retrospective/20210404-about-fear/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tripllo/(9)travis-auto-deploy/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tripllo/(10)Sentry-error-system/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tags/tests/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
@@ -31,7 +30,6 @@
 <url> <loc>https://pozafly.github.io/tags/blog/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tags/oracle/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tags/tripllo-제작기/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/tags/주간회고/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/author/pozafly/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/about/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 </urlset>
