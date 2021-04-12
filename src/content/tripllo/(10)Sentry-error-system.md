@@ -5,7 +5,7 @@ author: [Pozafly]
 tags:
   - Tripllo 제작기
 image: ../img/tripllo/sentry.png
-date: '2021-04-08T17:13:47.149Z'
+date: '2021-04-09T17:13:47.149Z'
 draft: false
 excerpt: Sentry를 통해 프론트엔드 에러 로깅 시스템을 도입해보자.
 ---
