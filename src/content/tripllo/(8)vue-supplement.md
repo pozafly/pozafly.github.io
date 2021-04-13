@@ -555,6 +555,74 @@ method: {
 
 이런 형식으로 가져오게 만들었다.
 
+📌 추가
+
+이렇게 v-bind를 사용해서 DOM에 붙이는 방법을 사용하지 않고, data에 초기화 후 이벤트가 일어날 때마다 methods에서 처리하는 방법을 사용했다. 즉, 사실은 DOM에 데이터를 붙이는 방법 자체가 Vue 스럽지 않은 방법이다. 어떻게 수정했는지 예시를 한번 보자.
+
+```html
+<div ref="boardItem">
+  <div
+    v-for="board in personalBoard"
+    :key="board.id"
+    class="board-list"
+    :lastCreatedAt="board.createdAt"
+  >
+  </div>
+</div>
+
+(...)
+
+<script>
+infiniteHandler($state) {
+  this.READ_PERSONAL_BOARD(this.lastCreatedAt)
+  .then(({ data }) => {
+    (...)
+    this.pushPersonalBoard(data.data);
+  });
+  setTimeout(() => {
+    if (this.isInfinity === true && this.$refs.boardItem) {
+      this.lastCreatedAt = this.$refs.boardItem.lastChild.getAttribute(
+        'lastCreatedAt',  // 🌈
+      );
+      $state.loaded(); // 계속 데이터가 남아있다는 것을 infinity에게 알려준다.
+    }
+  }, 1000);
+},
+</script>
+```
+
+- 🌈 : 이 부분에서 getAttribute로 가져옴.
+
+분석해보자면, 마지막 DOM의 createAt 값이 필요했기 때문에  ref가 걸린 상위태그의 .lastChild를 가져와서 child에 v-bind 되어있는 녀석을 `getAttribute` 로 값을 가져오는 형태이다.
+
+하지만 이럴 필요가 전혀 없다. DOM에 데이터를 붙이는게 아니라 그냥 받아온 data에서 마지막 값을 넣어주기만 하면 되는 것이었다.
+
+```html
+<div v-for="board in personalBoard" :key="board.id" class="board-list">
+(...)
+
+<script>
+ infiniteHandler($state) {
+   this.READ_PERSONAL_BOARD(this.lastCreatedAt)
+     .then(({ data }) => {
+        (...)
+        this.pushPersonalBoard(data.data);
+        setTimeout(() => {
+          const boardItem = data.data;
+          const lastCreatedAt = boardItem[boardItem.length - 1].createdAt;
+          this.lastCreatedAt = lastCreatedAt;
+          $state.loaded(); // 계속 데이터가 남아있다는 것을 infinity에게 알려준다.
+        }, 1000);
+      }
+   })
+},
+</script>
+```
+
+이렇게 간단한 일을 그냥 ref고, getAttribute로 DOM에 직접 데이터를 바인딩해서 온갖 짓을 다한 것이다. DOM에 필요없는 데이터를 노출시킴으로써 사용자에게 필요 없는 정보를 보여줄 수도 있는 위험이 있으며, 에러 로그 또한 마찬가지로 data를 불러오지 않았을 때도 getAttribute를 실행해버려서 boardItem이 붙지 않은 상태에서 가져오려하니 찍히기 일수였다.
+
+즉, 이번 코드를 고치면서 깨닳은 것은, Vue 프레임워크를 사용할 때, 직접 UI에 뿌려줘야하는 데이터가 아니면 script 내부적으로 데이터를 사용하게끔 설계하는 것이 정말 중요하다는 것을 배웠다.
+
 <br/>
 
 <br/>
