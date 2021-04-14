@@ -322,7 +322,7 @@ const PostFullCustomExcerpt = styled.p`
   /* font-family: Georgia, serif; */
   font-size: 2.3rem;
   line-height: 1.4em;
-  font-weight: 300;
+  font-weight: 360;
 
   @media (max-width: 500px) {
     font-size: 1.9rem;
@@ -415,15 +415,16 @@ export const PostFullTitle = styled.h1`
 `;
 
 const PostFullImage = styled.figure`
-  margin: 25px 0 50px;
-  height: 800px;
+  margin: 25px auto 50px;
+  /* height: 800px; */
   background: #fff center center;
   background-size: cover;
   border-radius: 5px;
+  width: 80%;
+  border-radius: 15px;
 
   @media (max-width: 1170px) {
-    margin: 25px -6vw 50px;
-    border-radius: 0;
+    /* margin: 25px -6vw 50px; */
     img {
       max-width: 1170px;
     }
