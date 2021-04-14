@@ -421,19 +421,21 @@ const PostFullImage = styled.figure`
   background-size: cover;
   border-radius: 5px;
   width: 80%;
-  border-radius: 15px;
 
   @media (max-width: 1170px) {
     /* margin: 25px -6vw 50px; */
+    width: 80%;
     img {
       max-width: 1170px;
     }
   }
 
   @media (max-width: 800px) {
+    width: 100%;
     height: 400px;
   }
   @media (max-width: 500px) {
+    width: 100%;
     margin-bottom: 4vw;
     height: 350px;
   }
