@@ -64,8 +64,8 @@ const IndexLayout: React.FC<IndexProps> = props => {
           dt,
           dd,
           ol,
-          ul,
-          li,
+          /* ul,
+          li, */
           fieldset,
           form,
           label,
@@ -107,6 +107,9 @@ const IndexLayout: React.FC<IndexProps> = props => {
 
             .copyright {
               font-size: 1.4rem;
+            }
+            .error-front-page {
+              font-size: 1.6rem;
             }
           }
           body {

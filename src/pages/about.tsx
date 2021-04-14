@@ -40,7 +40,7 @@ const MovePicture = styled.img`
   transition: 0.5s;
   border-radius: 15px;
   &:hover {
-    width: 65%;
+    transform: translateY(-15px);
   }
 `;
 
