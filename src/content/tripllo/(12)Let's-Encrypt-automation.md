@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Tripllo(11) Let's Encrypt 갱신 자동화"
+title: "Tripllo(12) Let's Encrypt 갱신 자동화"
 author: [Pozafly]
 tags:
   - Tripllo 제작기
@@ -94,7 +94,7 @@ $ sudo certbot renew --dry-run
 
 만약 인증서 갱신 자동화를 하지 않고 수동으로 갱신하고 싶다면
 
-```sh
+```shell
 $ sudo certbot renew
 ```
 

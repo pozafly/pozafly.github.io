@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Tripllo(10) Sentry 에러 로깅 시스템 도입'
+title: 'Tripllo(11) Sentry 에러 로깅 시스템 도입'
 author: [Pozafly]
 tags:
   - Tripllo 제작기
@@ -32,7 +32,7 @@ Sentry는 Application Error Monitoring 도구다. 에러 로그를 수집하는�
 
 이렇게 플랫폼을 선택할 수 있는 화면이 나온다. vue를 클릭. 간단 시작 가이드가 나온다.
 
-```sh
+```shell
 # Using yarn
 yarn add @sentry/vue @sentry/tracing
 

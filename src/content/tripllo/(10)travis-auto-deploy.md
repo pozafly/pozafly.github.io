@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Tripllo(9) Frontend -travis 배포 자동화'
+title: 'Tripllo(10) Frontend -travis 배포 자동화'
 author: [Pozafly]
 tags:
   - Tripllo 제작기
@@ -86,7 +86,7 @@ VUE_APP_GOOGLE_CLINET_ID 는 .env 파일에 있는데, 이걸 build 하지 못�
 
 [여기](https://sanghye.tistory.com/42) 참고하였다. 먼저 로컬 컴퓨터에서 암호화 해 .enc 파일을 생성할 것이기 때문에 travis CLC가 필요하다.
 
-```sh
+```shell
 $ gem install travis
 ```
 
@@ -114,7 +114,7 @@ $ travis endpoint --pro
 
 이제 암호화를 진행하자.
 
-```sh
+```shell
 $ travis encrypt-file --pro [파일명]
 ```
 
