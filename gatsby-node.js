@@ -66,7 +66,7 @@ exports.createPages = async ({ graphql, actions }) => {
               excerpt
               image {
                 childImageSharp {
-                  fluid(maxWidth: 3720) {
+                  fluid(maxWidth: 2000) {
                     aspectRatio
                     base64
                     sizes
