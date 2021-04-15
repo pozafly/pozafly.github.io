@@ -38,9 +38,9 @@ export const Footer: React.FC = () => {
             Casper
           </a> */}
 
-          <a href="https://hits.seeyoufarm.com">
+          {/* <a href="https://hits.seeyoufarm.com">
             <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fpozafly.github.io&count_bg=%2343CA82&title_bg=%23555555&icon=atom.svg&icon_color=%23E7E7E7&title=hits&edge_flat=false" />
-          </a>
+          </a> */}
 
           {/* <a href="/rss.xml">RSS</a> */}
         </SiteFooterNav>
