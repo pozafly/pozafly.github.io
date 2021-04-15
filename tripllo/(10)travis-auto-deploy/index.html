@@ -76,7 +76,7 @@ Template execution failed: ReferenceError: VUE_APP_GOOGLE_CLIENT_ID is not defin
 <h2>.evn 파일을 AES256 이용하여 .enc 파일 생성하기</h2>
 <h3>CLC 설치 &amp; login</h3>
 <p><a href="https://sanghye.tistory.com/42">여기</a> 참고하였다. 먼저 로컬 컴퓨터에서 암호화 해 .enc 파일을 생성할 것이기 때문에 travis CLC가 필요하다.</p>
-<div class="gatsby-highlight" data-language="sh"><pre class="language-sh"><code class="language-sh">$ gem install travis</code></pre></div>
+<div class="gatsby-highlight" data-language="shell"><pre class="language-shell"><code class="language-shell">$ gem <span class="token function">install</span> travis</code></pre></div>
 <p>만약 권한 오류가 난다면 sudo를 붙여주도록 하자. 이제 travis에 login을 해야 함.</p>
 <div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">$ travis login --pro</code></pre></div>
 <p>—com, —org 옵션을 줄 수 있는데, pro를 붙여주자. 아니면 빌드시 오류 발생. org를 사용하고 있다면 org를 써도 된다. login을 할 때 Not Found 에러가 날 수 있다. <a href="https://github.com/pozafly/TIL/blob/main/%F0%9F%A7%A8%E1%84%8B%E1%85%A9%E1%84%85%E1%85%B2%E1%84%8B%E1%85%AA%E1%84%8B%E1%85%B4%20%E1%84%8C%E1%85%A9%E1%84%8B%E1%85%AE/travis/travis%20login%20Not%20Found.md">travis login Not Found 오류 정리</a> 이곳에 정리해 뒀으니, github token으로 로그인 해주자.</p>
@@ -87,7 +87,7 @@ Template execution failed: ReferenceError: VUE_APP_GOOGLE_CLIENT_ID is not defin
 <br/>
 <h3>.env 파일 암호화</h3>
 <p>이제 암호화를 진행하자.</p>
-<div class="gatsby-highlight" data-language="sh"><pre class="language-sh"><code class="language-sh">$ travis encrypt-file --pro [파일명]</code></pre></div>
+<div class="gatsby-highlight" data-language="shell"><pre class="language-shell"><code class="language-shell">$ travis encrypt-file --pro <span class="token punctuation">[</span>파일명<span class="token punctuation">]</span></code></pre></div>
 <p>—pro를 붙여주자. 붙여주지 않으면,</p>
 <p><img src="https://user-images.githubusercontent.com/59427983/113652592-04ed7680-96cf-11eb-9b43-f67b49341adc.png" alt="스크린샷 2021-04-06 오전 11 55 25"/></p>
 <p>push후 build 때, <code class="language-text">iv undefined</code> 오류가 계속 뜰 것임.</p>

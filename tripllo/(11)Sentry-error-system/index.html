@@ -33,11 +33,11 @@
 <p><a href="https://sentry.io/">sentry.io</a> 에서 회원가입 후 프로젝트를 생성하면, </p>
 <p><img src="https://user-images.githubusercontent.com/59427983/113977290-563b6880-987d-11eb-979f-4414c49b659f.png" alt="sentrymain"/></p>
 <p>이렇게 플랫폼을 선택할 수 있는 화면이 나온다. vue를 클릭. 간단 시작 가이드가 나온다.</p>
-<div class="gatsby-highlight" data-language="sh"><pre class="language-sh"><code class="language-sh"># Using yarn
-yarn add @sentry/vue @sentry/tracing
+<div class="gatsby-highlight" data-language="shell"><pre class="language-shell"><code class="language-shell"><span class="token comment"># Using yarn</span>
+<span class="token function">yarn</span> <span class="token function">add</span> @sentry/vue @sentry/tracing
 
-# Using npm
-npm install --save @sentry/vue @sentry/tracing</code></pre></div>
+<span class="token comment"># Using npm</span>
+<span class="token function">npm</span> <span class="token function">install</span> --save @sentry/vue @sentry/tracing</code></pre></div>
 <p>CDN으로 하거나, SDK를 설치하는 방법이 나오는데, npm 으로 깔아보자.</p>
 <p>그리고,  아래와 같이 코드를 main.js에 값을 넣으라고 자세히 알려준다. utils폴더에 sentry.js 파일을 만들어 따로 빼고 main.js에 붙여주자. dsn 도 페이지에서 바로 알려주는데, env 파일로 빼서 사용하는게 좋겠지?</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// src/utils/sentry.js</span>
