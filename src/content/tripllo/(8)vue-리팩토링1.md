@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Tripllo(8) vue 리팩토링1'
+title: '(8) vue 리팩토링1'
 author: [Pozafly]
 tags:
   - Tripllo 제작기
@@ -21,7 +21,7 @@ excerpt: 멘토링 후 Tripllo에 꽤 많은 것을 손봐야한다는 것을 �
 3. 컴포넌트 명 변경
 4. 라우터 가드 설정
 5. 라이프 사이클 함수에서 의미 단위 함수로 묶기
-6. mainTapId state에서 제거(store에 필요없는 state 제거)
+6. store에 필요없는 state 제거
 7. dataSet 없애기
 8. store에 strict 모드 추가하기
 9. webStorage 변경, userData encoding 작업
@@ -268,7 +268,9 @@ method: {
 
 <br/>
 
-## 6. mainTapId state에서 제거(store에 필요없는 state 제거)
+## 6. store에 필요없는 state 제거
+
+### mainTapId state에서 제거
 
 sessionStorage에 mainTapId를 넣어서, state에서 사용하지 않게끔 했다. main페이지에서 tab별로 보여지는 데이터가 다른데, 1 depts만 서로 주고받기 때문에 state보다는 sessionStorage를 사용하는게 맞다고 생각된다. 그리고 데이터를 굳이 보존하는 이유는, 탭에서 board 페이지로 접근 후, 다시 빠져나왔을 때, 해당 tab 화면이 유지가 되어야 하기 때문이다.
 
@@ -277,6 +279,12 @@ sessionStorage에 mainTapId를 넣어서, state에서 사용하지 않게끔 했
 처음에는 Tab이 있는 컴포넌트 created 함수에서 했지만, Tab이 있는 화면으로 항상 오기 때문에 무조건 초깃값인 0이 설정되어 버린다. 그러면 sessionStorage를 사용하는 의미가 없어지기 때문에 내가 선택한 곳은 `App.vue` 에 선언하는 것.
 
 `saveSessionStorage('mainTabId', 0);` 이렇게 App.vue에 created 함수에 선언해주었다.
+
+📌 추가
+
+checklist, hashtags, comment 등 store에 반드시 있지 않아야 하는 것을 제거 했다. api 함수를 바로 컴포넌트단에서 호출해, 받아온 데이터를 store에 등록하는 것이 아니라 로컬 컴포넌트의 `data` 객체에 넣어주는 것.
+
+[(13)Vuex-store와 EventBus에 대한 고찰(feat. 삽질기)](https://pozafly.github.io/tripllo/(13)Vuex와-eventBus/) 에 삽질기를 정리해두었다.
 
 <br/>
 
@@ -480,7 +488,7 @@ Base64 참고 자료 : https://pks2974.medium.com/base-64-%EA%B0%84%EB%8B%A8-%EC
 
 <br/>
 
-다음 페이지에.. [이동](https://pozafly.github.io/tripllo/(9)vue-supplement2/)
+다음 페이지에.. [이동](https://pozafly.github.io/tripllo/(9)vue-리팩토링2/)
 
 <br/>
 

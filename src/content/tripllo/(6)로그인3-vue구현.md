@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Tripllo(6) 로그인3 -vue 구현'
+title: '(6) 로그인3 -vue 구현'
 author: [Pozafly]
 tags:
   - Tripllo 제작기

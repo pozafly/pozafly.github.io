@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Tripllo(12) Let's Encrypt 갱신 자동화"
+title: "(12) Let's Encrypt 갱신 자동화"
 author: [Pozafly]
 tags:
   - Tripllo 제작기

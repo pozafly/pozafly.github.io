@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Tripllo(4) 로그인1 -SpringSecurity & JWT 개념'
+title: '(4) 로그인1 -SpringSecurity & JWT 개념'
 author: [Pozafly]
 tags:
   - Tripllo 제작기

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Tripllo(9) vue 리팩토링2'
+title: '(9) vue 리팩토링2'
 author: [Pozafly]
 tags:
   - Tripllo 제작기
@@ -461,7 +461,7 @@ export { readPersonalBoard, (...) }
 
 ## 16. Travis 배포 자동화
 
-[Tripllo(10) Frontend -travis 배포 자동화](https://pozafly.github.io/tripllo/(10)travis-auto-deploy/) 여기 따로 정리해두었다.
+[Tripllo(10) Frontend -travis 배포 자동화](https://pozafly.github.io/tripllo/(10)vue-travis-배포자동화/) 여기 따로 정리해두었다.
 
 <br/>
 
@@ -469,7 +469,7 @@ export { readPersonalBoard, (...) }
 
 ## 17. Sentry 에러 로깅 시스템 도입
 
-[Tripllo(11) Sentry 에러 로깅 시스템 도입](https://pozafly.github.io/tripllo/(11)Sentry-error-system/) 여기 따로 정리해두었다.
+[Tripllo(11) Sentry 에러 로깅 시스템 도입](https://pozafly.github.io/tripllo/(11)vue-Sentry-에러로깅/) 여기 따로 정리해두었다.
 
 <br/>
 
@@ -477,7 +477,7 @@ export { readPersonalBoard, (...) }
 
 ## 18. Let's Encrypt 갱신 자동화
 
-[Tripllo(12) Let's Encrypt 갱신 자동화](https://pozafly.github.io/tripllo/(12)Let's-Encrypt-automation/) 여기 따로 정리해두었다.
+[Tripllo(12) Let's Encrypt 갱신 자동화](https://pozafly.github.io/tripllo/(12)AWS-Lets-Encrypt-갱신자동화/) 여기 따로 정리해두었다.
 
 <br/>
 
@@ -497,7 +497,7 @@ export { readPersonalBoard, (...) }
 
 1. 코드를 일관성있게 작성하는게 좋다. JS는 코드 스타일 선택 폭이 넓어서 어디에는 이거 어디에는 저거 방식대로 짤 수 있는데, 이걸 일관되게 해주는 것.
 2. 최대한 안정성 있게 짜자. if 문 같은 것은 블록 처리하는게 안전하게 작성하는 것.
-3. store에서 처리하지 않아도 되는 것은 컴포넌트 단에서 처리하자.
+3. store에서 처리하지 않아도 되는 것은 컴포넌트 단에서 처리하자. store가 반드시 필요한지, store에 넣었다면 그럴만한 타당한 이유가 있는지 생각하고 넣기.
 4. 협업을 위해 변수 명이나 컴포넌트 명, 규칙을 가지고 만들자. 다른 사람이 봤을 때 이해하기 쉽도록.
 5. 코드가 중복 되는 것이 있다면 함수화, 모듈화 하자.
 6. 오류 처리를 반드시 하자. 비동기 처리 Promise에서 .catch()를 먼저 사용함으로 반드시 catch를 할 수 있도록 하자.

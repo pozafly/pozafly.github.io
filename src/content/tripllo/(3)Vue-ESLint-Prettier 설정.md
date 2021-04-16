@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Tripllo(3) Vue init & ESLint, Prettier 설정'
+title: '(3) Vue init & ESLint, Prettier 설정'
 author: [Pozafly]
 tags:
   - Tripllo 제작기

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Tripllo(10) Frontend -travis 배포 자동화'
+title: '(10) Frontend -travis 배포 자동화'
 author: [Pozafly]
 tags:
   - Tripllo 제작기

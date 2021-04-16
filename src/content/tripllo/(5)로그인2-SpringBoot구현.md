@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Tripllo(5) 로그인2 -SpringBoot 구현'
+title: '(5) 로그인2 -SpringBoot 구현'
 author: [Pozafly]
 tags:
   - Tripllo 제작기

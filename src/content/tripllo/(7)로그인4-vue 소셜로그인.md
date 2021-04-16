@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Tripllo(7) 로그인4 -vue 소셜로그인'
+title: '(7) 로그인4 -vue 소셜로그인'
 author: [Pozafly]
 tags:
   - Tripllo 제작기

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Tripllo(11) Sentry 에러 로깅 시스템 도입'
+title: '(11) Sentry 에러 로깅 시스템 도입'
 author: [Pozafly]
 tags:
   - Tripllo 제작기

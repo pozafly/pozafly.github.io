@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Tripllo(2) MySQL 설계 & SpringBoot init'
+title: '(2) MySQL 설계 & SpringBoot init'
 author: [Pozafly]
 tags:
   - Tripllo 제작기
