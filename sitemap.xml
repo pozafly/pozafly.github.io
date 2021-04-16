@@ -4,6 +4,7 @@
 <url> <loc>https://pozafly.github.io/2</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/3</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/4</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://pozafly.github.io/5</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/a-full-style-test/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/java/다형적변수/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/spring/JUnit(1)개념/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
@@ -28,6 +29,7 @@
 <url> <loc>https://pozafly.github.io/tripllo/(11)Sentry-error-system/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tripllo/(12)Let&#039;s-Encrypt-automation/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/vue/Vue2-reactivity/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://pozafly.github.io/tripllo/(13)Vuex-eventBus/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tags/tests/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tags/java/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tags/spring-boot/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
