@@ -212,8 +212,8 @@ method<span class="token operator">:</span> <span class="token punctuation">{</s
 <p>처음에는 Tab이 있는 컴포넌트 created 함수에서 했지만, Tab이 있는 화면으로 항상 오기 때문에 무조건 초깃값인 0이 설정되어 버린다. 그러면 sessionStorage를 사용하는 의미가 없어지기 때문에 내가 선택한 곳은 <code class="language-text">App.vue</code> 에 선언하는 것.</p>
 <p><code class="language-text">saveSessionStorage(&#x27;mainTabId&#x27;, 0);</code> 이렇게 App.vue에 created 함수에 선언해주었다.</p>
 <p>📌 추가</p>
-<p>checklist, hashtags, comment 등 store에 반드시 있지 않아야 하는 것을 제거 했다. api 함수를 바로 컴포넌트단에서 호출해, 받아온 데이터를 store에 등록하는 것이 아니라 <code class="language-text">data</code> 객체에 넣어주는 것.</p>
-<p>비교기 만들자.</p>
+<p>checklist, hashtags, comment 등 store에 반드시 있지 않아야 하는 것을 제거 했다. api 함수를 바로 컴포넌트단에서 호출해, 받아온 데이터를 store에 등록하는 것이 아니라 로컬 컴포넌트의 <code class="language-text">data</code> 객체에 넣어주는 것.</p>
+<p><a href="https://pozafly.github.io/tripllo/(13)Vuex-eventBus/">(13)Vuex-store와 EventBus에 대한 고찰(feat. 삽질기)</a> 에 삽질기를 정리해두었다.</p>
 <br/>
 <br/>
 <h2>7. dataSet 없애기</h2>
