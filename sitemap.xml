@@ -27,7 +27,7 @@
 <url> <loc>https://pozafly.github.io/tripllo/(9)vue-리팩토링2/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tripllo/(10)vue-travis-배포자동화/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tripllo/(11)vue-Sentry-에러로깅/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/tripllo/(12)Lets-Encrypt-갱신자동화/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://pozafly.github.io/tripllo/(12)AWS-Lets-Encrypt-갱신자동화/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/vue/Vue2-반응성에-대해서/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tripllo/(13)Vuex와-eventBus/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tags/tests/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
