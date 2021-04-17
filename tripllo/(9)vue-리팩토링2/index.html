@@ -76,12 +76,12 @@ createdBy<span class="token operator">:</span> <span class="token punctuation">{
     return typeof value === &#x27;string&#x27;;
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">,</span>
-createdByPicture<span class="token operator">:</span> <span class="token punctuation">{</span>
-  type<span class="token operator">:</span> String<span class="token punctuation">,</span>
+someProp<span class="token operator">:</span> <span class="token punctuation">{</span>
+  type<span class="token operator">:</span> Number<span class="token punctuation">,</span>
   require<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
   default<span class="token operator">:</span> &#x27;&#x27;<span class="token punctuation">,</span>
   validator(value) <span class="token punctuation">{</span>
-    return typeof value === &#x27;string&#x27;;
+    return <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span>.indexOf(value) !== <span class="token number">-1</span>;
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre></div>
 <ul>
@@ -126,8 +126,7 @@ createdByPicture<span class="token operator">:</span> <span class="token punctua
 <span class="token keyword">export</span> <span class="token punctuation">{</span> install <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre></div>
 <p>이렇게 $… 으로 사용했다. <a href="https://kr.vuejs.org/v2/style-guide/index.html#Private-%EC%86%8D%EC%84%B1-%EC%9D%B4%EB%A6%84-%ED%95%84%EC%88%98">Private 속성 이름</a> 이곳 스타일 가이드에서는, 플러그인, mixin 등에서 커스텀 사용자 private 프로퍼티에는 항상 접두사 <code class="language-text">$_</code> 를 사용하라고 되어 있다. 왜냐하면 다른 사람의 코드와 충돌할 수 있기 때문임.</p>
 <p>vue 내부적으로 <code class="language-text">_</code> 달러 없이 언더바는 사용하고 있기 때문에, $_ 를 쓰자.</p>
-<p>그리고 filter는 vue3에서는 삭제된 기능이다. 단 2에서 쓸 때는 main.js 에 빼서 따로 적용시켜 주자.</p>
-<p>기존의 main.js에서는, </p>
+<p>그리고 filter는 vue3에서는 삭제된 기능이다. 단 2에서 쓸 때는 main.js 에 빼서 따로 적용시켜 주자. 기존의 main.js에서는, </p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// main.js</span>
 <span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> install <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&#x27;@/plugin/plugin&#x27;</span><span class="token punctuation">;</span>
@@ -163,10 +162,10 @@ Vue<span class="token punctuation">.</span><span class="token function">filter</
 <p>완성.</p>
 <p>📌 추가.</p>
 <p>아래의 사용자 정의 디렉티브를 쓰면서 main.js 가 다시 더렵혀졌다. 따라서 제대로 모듈화를 해보자.</p>
-<p>src 아래에 features(기능)이라는 폴더를 만들었다. 그곳에 directive.js, filter.js, plugin.js 3개의 파일을 만들고 각각 정의 해주었다.</p>
+<p>src 아래에 <code class="language-text">features(기능)</code>이라는 폴더를 만들었다. 그곳에 directive.js, filter.js, plugin.js 3개의 파일을 만들고 각각 정의 해주었다.</p>
 <ul>
 <li>
-<p>directive.js : 사용자 지정 디렉티브</p>
+<p><code class="language-text">directive.js</code> : 사용자 지정 디렉티브</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token function-variable function">useDirective</span> <span class="token operator">=</span> <span class="token parameter">Vue</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
 <span class="token comment">// v-focus</span>
 <span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span>
@@ -174,7 +173,7 @@ Vue<span class="token punctuation">.</span><span class="token function">filter</
 <span class="token keyword">export</span> <span class="token punctuation">{</span> useDirective <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre></div>
 </li>
 <li>
-<p>filter.js : 시간 관련 필터</p>
+<p><code class="language-text">filter.js</code> : 시간 관련 필터</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span>
 <span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">useFilter</span> <span class="token operator">=</span> <span class="token parameter">Vue</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
 Vue<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token string">&#x27;normalFormatDate&#x27;</span><span class="token punctuation">,</span> normalFormatDate<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -182,7 +181,7 @@ Vue<span class="token punctuation">.</span><span class="token function">filter</
 <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre></div>
 </li>
 <li>
-<p>plugin.js : 외부 플러그인, 내가 정의한 플러그인</p>
+<p><code class="language-text">plugin.js</code> : 외부 플러그인, 내가 정의한 플러그인</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">import</span> $_Google <span class="token keyword">from</span> <span class="token string">&#x27;@/utils/social/Google&#x27;</span><span class="token punctuation">;</span>
 <span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span>
 <span class="token keyword">const</span> <span class="token function-variable function">usePlugin</span> <span class="token operator">=</span> <span class="token parameter">Vue</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
@@ -219,19 +218,13 @@ Vue<span class="token punctuation">.</span><span class="token function">use</spa
 <h3>nextTick 없애기</h3>
 <p>nextTick을 의미 없이 사용한 곳이 많다. 단지, nextTick을 DOM이 페이지에 마운트 되었을 때 실행되게 하는 것인데, 남용한 것. 따라서 mounted 라이프사이클 메서드 후에 nextTick을 사용한 것은 모두 정리하고, </p>
 <ol>
-<li>created로직에서 비동기 api 호출 후 DOM을 업데이트 해야할 시,</li>
+<li>created 로직에서 비동기 api 호출 시 DOM에서 정보를 가져와야할 때,</li>
 <li>Modal 같이 DOM에 달라붙는 순간 작업이 필요할 때,</li>
 </ol>
 <p>두가지에만 nextTick을 유지했다. </p>
 <br/>
 <h3>사용자 지정 디렉티브 연결</h3>
 <p>그리고, 주로 nextTick을 사용할 때는 mounted 메서드에서 input 태그에 focus를 줄 때가 많았으므로 사용지 지정 디렉티브를 만들어 연결시켜 주었다.</p>
-<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// main.js</span>
-Vue<span class="token punctuation">.</span><span class="token function">directive</span><span class="token punctuation">(</span><span class="token string">&#x27;focus&#x27;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
-  <span class="token function-variable function">inserted</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">el</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    el<span class="token punctuation">.</span><span class="token function">focus</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span><span class="token punctuation">,</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
 <div class="gatsby-highlight" data-language="html"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span>
   <span class="token attr-name">ref</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>title<span class="token punctuation">&quot;</span></span>
   <span class="token attr-name">(...)</span>
@@ -239,15 +232,15 @@ Vue<span class="token punctuation">.</span><span class="token function">directiv
 (...)
 
 mounted() {
-  this.titleFocus();
-},
-
-methods: {
-  titleFocus() {
-    this.$refs.title.focus();
-  },
-}</code></pre></div>
+  this.$refs.title.focus();
+},</code></pre></div>
 <p>이렇게 되어 있는 녀석을</p>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// directive.js에 v-focus 정의</span>
+Vue<span class="token punctuation">.</span><span class="token function">directive</span><span class="token punctuation">(</span><span class="token string">&#x27;focus&#x27;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  <span class="token function-variable function">inserted</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">el</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    el<span class="token punctuation">.</span><span class="token function">focus</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
 <div class="gatsby-highlight" data-language="html"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span>
   <span class="token attr-name">v-focus</span>
   <span class="token attr-name">(...)</span>
@@ -262,7 +255,8 @@ methods: {
 <li>Vuex의 actions.js</li>
 <li>컴포넌트단</li>
 </ul>
-<p>우선 api 호출 파일은 제외. 그리고 actions와 컴포넌트 단 둘 중 어디서 해야할까 고민했을 때, 이미 login signup 관련 api 에러처리는 컴포넌트단에서 하고 있었다. 후에 <a href="https://medium.com/js-dojo/vuex-tip-error-handling-on-actions-ee286ed28df4">Vuex Tip 작업 오류 처리</a>라는 글을 읽게 되었고, 여기서 하는 말이, **각 구성 요소의 오류를 처리해야하는 경우 로드를 유지 하고 때로는 오류 상태 구성 요소를 전역 / vuex 상태에서 벗어나는 것이 훨씬 더 모범 사례 입니다. ** 라고 했다. 따라서 일반적인 경우 actions.js 에서 에러 핸들링을 하고, 특별히 컴포넌트 단에서 필요한 에러처리는 컴포넌트에서 하는 것으로 정했다.</p>
+<p>우선 api 호출 파일은 제외. 그리고 actions와 컴포넌트 단 둘 중 어디서 해야할까 고민했을 때, 이미 login signup 관련 api 에러처리는 컴포넌트단에서 하고 있었다. 후에 <a href="https://medium.com/js-dojo/vuex-tip-error-handling-on-actions-ee286ed28df4">Vuex Tip 작업 오류 처리</a>라는 글을 읽게 되었고, 여기서 하는 말이, <code class="language-text">각 구성 요소의 오류를 처리해야하는 경우 로드를 유지 하고 때로는 오류 상태 구성 요소를 전역 / vuex 상태에서 벗어나는 것이 훨씬 더 모범 사례 입니다.</code>  라고 했다. </p>
+<p>내 소스는 일반적인 경우 actions.js 에서 에러 핸들링을 하고, 특별히 컴포넌트 단에서 필요한 에러처리는 컴포넌트에서 했는데, 컴포넌트 단에서 핸들링 해주는 것이 더 좋은 방법인 듯 하다.</p>
 <h3>actions.js 에서 에러 핸들링</h3>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token constant">READ_USER</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> commit <span class="token punctuation">}</span><span class="token punctuation">,</span> userId</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">return</span> userApi
@@ -304,15 +298,15 @@ instance<span class="token punctuation">.</span>interceptors<span class="token p
 <br/>
 <h2>14. API 함수에 JSDoc으로 스펙 명세하기</h2>
 <p>기존, api 함수를 보자.</p>
-<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token function">createBoard</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> title<span class="token punctuation">,</span> publicYn<span class="token punctuation">,</span> hashtag<span class="token punctuation">,</span> bgColor <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token function">createBoardAPI</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> title<span class="token punctuation">,</span> publicYn<span class="token punctuation">,</span> hashtag<span class="token punctuation">,</span> bgColor <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">return</span> board<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">&#x27;/&#x27;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> title<span class="token punctuation">,</span> publicYn<span class="token punctuation">,</span> hashtag<span class="token punctuation">,</span> bgColor <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">,</span>
 
-<span class="token function">updateCard</span><span class="token punctuation">(</span><span class="token parameter">id<span class="token punctuation">,</span> payload</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token function">updateCardAPI</span><span class="token punctuation">(</span><span class="token parameter">id<span class="token punctuation">,</span> payload</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">return</span> card<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span> payload<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">,</span>
 
-<span class="token function">loginUser</span><span class="token punctuation">(</span><span class="token parameter">userData</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token function">loginUserAPI</span><span class="token punctuation">(</span><span class="token parameter">userData</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">return</span> instance<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">&#x27;login&#x27;</span><span class="token punctuation">,</span> userData<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre></div>
 <p>서로 다른 파일에 있는 api 함수인데, 어떤 곳은 객체 자체를 넘겨받아 api 파라미터로 사용했고, 어떤 곳은 payload라는 이름으로 객체를 받아 파라미터로 사용했다. 또 다른 곳은 payload 대신 좀 더 구체적인 이름으로 명시한 객체 묶음을 파라미터로 사용했다.</p>
@@ -331,7 +325,7 @@ instance<span class="token punctuation">.</span>interceptors<span class="token p
  * @param {CreateBoardInfo} createBoardInfo - Board 생성 정보
  * @returns {Promise&lt;Board&gt;}
  */</span>
-<span class="token keyword">const</span> <span class="token function-variable function">createBoard</span> <span class="token operator">=</span> <span class="token parameter">createBoardInfo</span> <span class="token operator">=&gt;</span> board<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">&#x27;/&#x27;</span><span class="token punctuation">,</span> createBoardInfo<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
+<span class="token keyword">const</span> <span class="token function-variable function">createBoardAPI</span> <span class="token operator">=</span> <span class="token parameter">createBoardInfo</span> <span class="token operator">=&gt;</span> board<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">&#x27;/&#x27;</span><span class="token punctuation">,</span> createBoardInfo<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
 <p>이렇게 바꾸어줬다.</p>
 <br/>
 <br/>
@@ -383,6 +377,7 @@ instance<span class="token punctuation">.</span>interceptors<span class="token p
 <li>라이프 사이클 메서드에서나, sideEffect가 있는 곳에서는 의미 단위로 함수로 뽑아서 사용하자.</li>
 <li>Travis 배포 자동화 &amp; Sentry를 도입하면서 개발 완료 후 유지보수 측면에서 가능한 자동화나, 에러추적을 해 생산성을 높이는 작업을 하자.</li>
 <li>JSDoc 을 작성하면서 내가 나중에 봤을 때나, 다른 사람이 코드를 봤을 때 직관적으로 접하기 쉽도록 하고, 자동완성으로 작업 생산성을 높이자. (Typescript 배우자…)</li>
+<li>멘토님 감사합니다.</li>
 </ol>
 <br/>
 <blockquote>

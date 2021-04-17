@@ -77,7 +77,7 @@
 <br/>
 <br/>
 <h2>2. vue plugin eslint 설정 후 적용</h2>
-<p>.eslintrc.js 파일에,</p>
+<p><code class="language-text">.eslintrc.js</code> 파일에,</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">extends</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">&quot;plugin:vue/essential&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;@vue/prettier&quot;</span><span class="token punctuation">]</span><span class="token punctuation">,</span></code></pre></div>
 <p>이렇게 essential 이 되어있었다. 제일 약한 버전. 이걸 recommended 로 해주자. 쎈걸로. 이건 따로 공식 문서를 보고 정리해야한다. <a href="https://eslint.vuejs.org/">https://eslint.vuejs.org/</a> 여기</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token string">&#x27;vue/order-in-components&#x27;</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">&#x27;error&#x27;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
@@ -124,7 +124,7 @@
 <h3>컴포넌트 이름에 합성어 사용</h3>
 <p><a href="https://kr.vuejs.org/v2/style-guide/index.html#%EC%9A%B0%EC%84%A0%EC%88%9C%EC%9C%84-A-%EA%B7%9C%EC%B9%99-%ED%95%84%EC%88%98-%EC%97%90%EB%9F%AC-%EB%B0%A9%EC%A7%80">컴포넌트 명 스타일 가이드</a>에 나와있는대로 컴포넌트 명을 바꾸었다. 모든 HTML 엘리먼트의 이름은 한 단어이기 때문에 합성어를 사용하는 것은 기존 그리고 향후 HTML 엘리먼트와의 <strong>충돌을 방지해준다</strong>고 한다.</p>
 <ul>
-<li>ex) Spinner -&gt; LoadingSpinner, Noti -&gt; AlertNotification</li>
+<li>ex) Spinner -&gt; LoadingSpinner, Noti -&gt; AlertNotification 등등</li>
 </ul>
 <br/>
 <h3>Page 명 수정</h3>
@@ -145,7 +145,7 @@
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">const</span> router <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">VueRouter</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   mode<span class="token operator">:</span> <span class="token string">&#x27;history&#x27;</span><span class="token punctuation">,</span>
   routes<span class="token operator">:</span> <span class="token punctuation">[</span>
-    <span class="token punctuation">{</span> path<span class="token operator">:</span> <span class="token string">&#x27;*&#x27;</span><span class="token punctuation">,</span> <span class="token function-variable function">component</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">&#x27;@/views/NotFoundPage.vue&#x27;</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> path<span class="token operator">:</span> <span class="token string">&#x27;*&#x27;</span><span class="token punctuation">,</span> <span class="token function-variable function">component</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">&#x27;@/views/NotFoundPage.vue&#x27;</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token comment">// 요녀석</span>
     <span class="token punctuation">{</span> path<span class="token operator">:</span> <span class="token string">&#x27;/&#x27;</span><span class="token punctuation">,</span> beforeEnter<span class="token operator">:</span> firstAccess <span class="token punctuation">}</span><span class="token punctuation">,</span>
     <span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span>
   <span class="token punctuation">]</span><span class="token punctuation">,</span>
@@ -154,7 +154,7 @@
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js">routes<span class="token operator">:</span> <span class="token punctuation">[</span>
   <span class="token punctuation">{</span> path<span class="token operator">:</span> <span class="token string">&#x27;/&#x27;</span><span class="token punctuation">,</span> beforeEnter<span class="token operator">:</span> firstAccess <span class="token punctuation">}</span><span class="token punctuation">,</span>
   <span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span>
-  <span class="token punctuation">{</span> path<span class="token operator">:</span> <span class="token string">&#x27;*&#x27;</span><span class="token punctuation">,</span> <span class="token function-variable function">component</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">&#x27;@/views/NotFoundPage.vue&#x27;</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> path<span class="token operator">:</span> <span class="token string">&#x27;*&#x27;</span><span class="token punctuation">,</span> <span class="token function-variable function">component</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">&#x27;@/views/NotFoundPage.vue&#x27;</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>  <span class="token comment">// 제일 아래로</span>
 <span class="token punctuation">]</span><span class="token punctuation">,</span></code></pre></div>
 <p>이렇게 해주어야 함. 왜냐하면 와일드카드가 다른 주소에 걸릴 수 있기 때문에. 가드 처리가 있어야 함.</p>
 <p>프론트에서 route 처리중 가장 중요한 것은 권한에 따라 페이지를 막는 것이 제일 중요하다. 예를들면 로그인 되지 않은 상태로 url을 쳐서 화면을 넘길 때, 현재는 이 처리가 되어있지 않을때,</p>
@@ -176,12 +176,12 @@
 <span class="token punctuation">{</span>
   path<span class="token operator">:</span> <span class="token string">&#x27;/profile&#x27;</span><span class="token punctuation">,</span>
   <span class="token function-variable function">component</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">&#x27;@/views/ProfilePage.vue&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-  beforeEnter<span class="token operator">:</span> requireAuth<span class="token punctuation">,</span>
+  beforeEnter<span class="token operator">:</span> requireAuth<span class="token punctuation">,</span>  <span class="token comment">// 가드 설정</span>
 <span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre></div>
 <br/>
 <br/>
 <h2>5. 라이프 사이클 함수에서 의미 단위 함수로 묶기</h2>
-<p>예를 들면,</p>
+<p>예를 들면, 현재 created 함수에 소켓 연결 로직과, 이벤트 버스 로직 2개가 있다.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token function">created</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>socket <span class="token operator">===</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token function">socketConnect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -191,7 +191,7 @@
     <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">receive</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre></div>
-<p>이걸</p>
+<p>이걸 </p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token function">created</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token function">socketConnect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">receive</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -199,14 +199,18 @@
  
 method<span class="token operator">:</span> <span class="token punctuation">{</span>
   <span class="token function">receive</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span>
+    bus<span class="token punctuation">.</span><span class="token function">$on</span><span class="token punctuation">(</span><span class="token string">&#x27;receive-message&#x27;</span><span class="token punctuation">,</span> <span class="token parameter">data</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">receive</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre></div>
-<p>이런 식으로 묶기. 이런 식으로 묶어주면, 의미 단위로 모듈화가 가능하고, 라이프 사이클 함수에서 어떤 작업을 하는지 한눈에 보이기 때문이다. 즉, 기존에 라이프 사이클 함수에 여러 로직이 혼재해 있으면 어떤 작업을 하는지 빠르게 파악하기 어렵다.</p>
+<p>이런 식으로 메서드 화 해서 묶어주고, created 함수에서 어떤 일을 하는지 의미를 파악하기 쉬워진다. 이런 식으로 묶어주면, 의미 단위로 모듈화가 가능하고, 라이프 사이클 함수에서 어떤 작업을 하는지 한눈에 보이게 된다. 즉, 기존에 라이프 사이클 함수에 여러 로직이 혼재해 있으면 어떤 작업을 하는지 빠르게 파악하기 어렵다.</p>
 <br/>
 <br/>
 <h2>6. store에 필요없는 state 제거</h2>
-<h3>mainTapId state에서 제거</h3>
+<ul>
+<li>mainTapId state에서 제거</li>
+</ul>
 <p>sessionStorage에 mainTapId를 넣어서, state에서 사용하지 않게끔 했다. main페이지에서 tab별로 보여지는 데이터가 다른데, 1 depts만 서로 주고받기 때문에 state보다는 sessionStorage를 사용하는게 맞다고 생각된다. 그리고 데이터를 굳이 보존하는 이유는, 탭에서 board 페이지로 접근 후, 다시 빠져나왔을 때, 해당 tab 화면이 유지가 되어야 하기 때문이다.</p>
 <p>하지만, sessionStorage를 사용할 때, 현재 프로젝트에서는 한번 로그인 하면, localStorage에 유저 정보와 토큰을 가지고 있어, login 페이지로 가는 것이 아니라 바로 main 화면으로 가게된다. 그렇게 되면 탭을 닫을 때 사라지는 sessionStorage는 어디에선가 한번 초깃값을 주어야 한다.</p>
 <p>처음에는 Tab이 있는 컴포넌트 created 함수에서 했지만, Tab이 있는 화면으로 항상 오기 때문에 무조건 초깃값인 0이 설정되어 버린다. 그러면 sessionStorage를 사용하는 의미가 없어지기 때문에 내가 선택한 곳은 <code class="language-text">App.vue</code> 에 선언하는 것.</p>
@@ -235,14 +239,14 @@ method<span class="token operator">:</span> <span class="token punctuation">{</s
 </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></code></pre></div>
 <p>이런 형식으로 가져오게 만들었다.</p>
 <p>📌 추가</p>
-<p>이렇게 v-bind를 사용해서 DOM에 붙이는 방법을 사용하지 않고, data에 초기화 후 이벤트가 일어날 때마다 methods에서 처리하는 방법을 사용했다. 즉, 사실은 DOM에 데이터를 붙이는 방법 자체가 Vue 스럽지 않은 방법이다. 어떻게 수정했는지 예시를 한번 보자.</p>
+<p>이렇게 v-bind를 사용해서 DOM에 붙이는 방법을 사용하지 않고, data에 초기화 후 이벤트가 일어날 때마다 methods에서 처리하는 방법을 사용했다. 즉, 사실은 DOM에 데이터를 붙이는 방법 자체가 Vue 스럽지 않은 방법이다. 어떻게 수정했는지 한번 보면,</p>
 <div class="gatsby-highlight" data-language="html"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">ref</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>boardItem<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span>
-    <span class="token attr-name">v-for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>board in personalBoard<span class="token punctuation">&quot;</span></span>
-    <span class="token attr-name">:key</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>board.id<span class="token punctuation">&quot;</span></span>
-    <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>board-list<span class="token punctuation">&quot;</span></span>
-    <span class="token attr-name">:lastCreatedAt</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>board.createdAt<span class="token punctuation">&quot;</span></span>
-  <span class="token punctuation">&gt;</span></span>
+  &lt;div
+    v-for=&quot;board in personalBoard&quot;
+    :key=&quot;board.id&quot;
+    class=&quot;board-list&quot;
+    :lastCreatedAt=&quot;board.createdAt&quot;  // 🌈
+  &gt;
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
 
@@ -268,7 +272,7 @@ method<span class="token operator">:</span> <span class="token punctuation">{</s
 <ul>
 <li>🌈 : 이 부분에서 getAttribute로 가져옴.</li>
 </ul>
-<p>분석해보자면, 마지막 DOM의 createAt 값이 필요했기 때문에  ref가 걸린 상위태그의 .lastChild를 가져와서 child에 v-bind 되어있는 녀석을 <code class="language-text">getAttribute</code> 로 값을 가져오는 형태이다.</p>
+<p>마지막 DOM의 createAt 값이 필요했기 때문에  ref가 걸린 상위태그의 .lastChild를 가져와서 child에 v-bind 되어있는 녀석을 <code class="language-text">getAttribute</code> 로 값을 가져오는 형태이다.</p>
 <p>하지만 이럴 필요가 전혀 없다. DOM에 데이터를 붙이는게 아니라 그냥 받아온 data에서 마지막 값을 넣어주기만 하면 되는 것이었다.</p>
 <div class="gatsby-highlight" data-language="html"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">v-for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>board in personalBoard<span class="token punctuation">&quot;</span></span> <span class="token attr-name">:key</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>board.id<span class="token punctuation">&quot;</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>board-list<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
 (...)
@@ -281,9 +285,9 @@ method<span class="token operator">:</span> <span class="token punctuation">{</s
         <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">pushPersonalBoard</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
           <span class="token keyword">const</span> boardItem <span class="token operator">=</span> data<span class="token punctuation">.</span>data<span class="token punctuation">;</span>
+          <span class="token comment">// data에 선언된 정보를 가져옴.</span>
           <span class="token keyword">const</span> lastCreatedAt <span class="token operator">=</span> boardItem<span class="token punctuation">[</span>boardItem<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">.</span>createdAt<span class="token punctuation">;</span>
-          <span class="token keyword">this</span><span class="token punctuation">.</span>lastCreatedAt <span class="token operator">=</span> lastCreatedAt<span class="token punctuation">;</span>
-          $state<span class="token punctuation">.</span><span class="token function">loaded</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 계속 데이터가 남아있다는 것을 infinity에게 알려준다.</span>
+          <span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span>
         <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
       <span class="token punctuation">}</span>
    <span class="token punctuation">}</span><span class="token punctuation">)</span>
