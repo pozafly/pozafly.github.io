@@ -12,14 +12,14 @@ export interface PaginationProps {
 const Pagination: React.FunctionComponent<PaginationProps> = ({ currentPage, numPages }) => {
   const isFirst = currentPage === 1;
   const isLast = currentPage === numPages;
-  const prevPage = currentPage - 1 === 1 ? '/' : (currentPage - 1).toString();
-  const nextPage = (currentPage + 1).toString();
+  const prevPage = currentPage - 1 === 1 ? '/' : `/${(currentPage - 1).toString()}`;
+  const nextPage = `/${(currentPage + 1).toString()}`;
 
   return (
     <nav css={navCss}>
       <div>
         {!isFirst && (
-          <Link to={`/${prevPage}`} rel="prev">
+          <Link to={prevPage} rel="prev">
             {/* << symbol */}
             {String.fromCharCode(171)}
           </Link>
@@ -32,7 +32,7 @@ const Pagination: React.FunctionComponent<PaginationProps> = ({ currentPage, num
         ))}
 
         {!isLast && (
-          <Link to={`/${nextPage}`} rel="next">
+          <Link to={nextPage} rel="next">
             {/* >> symbol */}
             {String.fromCharCode(187)}
           </Link>
