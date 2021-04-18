@@ -308,7 +308,7 @@ method<span class="token operator">:</span> <span class="token punctuation">{</s
 Vue<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>Vuex<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">new</span> <span class="token class-name">Vuex<span class="token punctuation">.</span>Store</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  strict<span class="token operator">:</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span>development<span class="token punctuation">,</span>  <span class="token comment">// 이부분</span>
+  strict<span class="token operator">:</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">NODE_ENV</span> <span class="token operator">!==</span> <span class="token string">&#x27;production&#x27;</span><span class="token punctuation">,</span>  <span class="token comment">// 이부분</span>
   state<span class="token punctuation">,</span>
   getters<span class="token punctuation">,</span>
   mutations<span class="token punctuation">,</span>
@@ -373,7 +373,7 @@ Vue<span class="token punctuation">.</span><span class="token function">use</spa
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre></div>
 <p>추가로 중요한 정보이니까, Base64로 인코딩 작업을 했다. 근데 network 탭에 찍히기 때문에 이 작업은 서버에서 따로 디코딩해서 작동하도록 만드는게 좋을 듯 한데 우선 그냥 로컬 단에서 디코딩해 사용했다.</p>
-<p>Base64 참고 자료 : <a href="https://pks2974.medium.com/base-64-%EA%B0%84%EB%8B%A8-%EC%A0%95%EB%A6%AC%ED%95%98%EA%B8%B0-da50fdfc49d2">https://pks2974.medium.com/base-64-%EA%B0%84%EB%8B%A8-%EC%A0%95%EB%A6%AC%ED%95%98%EA%B8%B0-da50fdfc49d2</a></p>
+<p>참고 자료 : <a href="https://pks2974.medium.com/base-64-%EA%B0%84%EB%8B%A8-%EC%A0%95%EB%A6%AC%ED%95%98%EA%B8%B0-da50fdfc49d2">Base 64 간단 정리하기</a></p>
 <br/>
 <br/>
 <p>다음 페이지에.. <a href="https://pozafly.github.io/tripllo/(9)vue-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%812/">이동</a></p>
