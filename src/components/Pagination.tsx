@@ -2,7 +2,6 @@ import { Link } from 'gatsby';
 import React from 'react';
 import { darken } from 'polished';
 import { css } from '@emotion/react';
-
 import { colors } from '../styles/colors';
 
 export interface PaginationProps {
