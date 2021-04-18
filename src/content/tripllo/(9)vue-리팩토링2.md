@@ -80,12 +80,12 @@ createdBy: {
     return typeof value === 'string';
   },
 },
-createdByPicture: {
-  type: String,
+someProp: {
+  type: Number,
   require: false,
   default: '',
   validator(value) {
-    return typeof value === 'string';
+    return [1, 2, 3].indexOf(value) !== -1;
   },
 },
 ```
@@ -141,9 +141,7 @@ export { install };
 
 vue 내부적으로 `_` 달러 없이 언더바는 사용하고 있기 때문에, $_ 를 쓰자.
 
-그리고 filter는 vue3에서는 삭제된 기능이다. 단 2에서 쓸 때는 main.js 에 빼서 따로 적용시켜 주자.
-
-기존의 main.js에서는, 
+그리고 filter는 vue3에서는 삭제된 기능이다. 단 2에서 쓸 때는 main.js 에 빼서 따로 적용시켜 주자. 기존의 main.js에서는, 
 
 ```js
 // main.js
@@ -190,9 +188,9 @@ new Vue({
 
 아래의 사용자 정의 디렉티브를 쓰면서 main.js 가 다시 더렵혀졌다. 따라서 제대로 모듈화를 해보자.
 
-src 아래에 features(기능)이라는 폴더를 만들었다. 그곳에 directive.js, filter.js, plugin.js 3개의 파일을 만들고 각각 정의 해주었다.
+src 아래에 `features(기능)`이라는 폴더를 만들었다. 그곳에 directive.js, filter.js, plugin.js 3개의 파일을 만들고 각각 정의 해주었다.
 
-- directive.js : 사용자 지정 디렉티브
+- `directive.js` : 사용자 지정 디렉티브
 
   ```js
   const useDirective = Vue => {
@@ -202,7 +200,7 @@ src 아래에 features(기능)이라는 폴더를 만들었다. 그곳에 direct
   export { useDirective };
   ```
 
-- filter.js : 시간 관련 필터
+- `filter.js` : 시간 관련 필터
 
   ```js
   (...)
@@ -212,7 +210,7 @@ src 아래에 features(기능)이라는 폴더를 만들었다. 그곳에 direct
   };
   ```
 
-- plugin.js : 외부 플러그인, 내가 정의한 플러그인
+- `plugin.js` : 외부 플러그인, 내가 정의한 플러그인
 
   ```js
   import $_Google from '@/utils/social/Google';
@@ -260,7 +258,7 @@ new Vue({
 
 nextTick을 의미 없이 사용한 곳이 많다. 단지, nextTick을 DOM이 페이지에 마운트 되었을 때 실행되게 하는 것인데, 남용한 것. 따라서 mounted 라이프사이클 메서드 후에 nextTick을 사용한 것은 모두 정리하고, 
 
-1. created로직에서 비동기 api 호출 후 DOM을 업데이트 해야할 시,
+1. created 로직에서 비동기 api 호출 시 DOM에서 정보를 가져와야할 때,
 2. Modal 같이 DOM에 달라붙는 순간 작업이 필요할 때,
 
 두가지에만 nextTick을 유지했다. 
@@ -271,15 +269,6 @@ nextTick을 의미 없이 사용한 곳이 많다. 단지, nextTick을 DOM이 �
 
 그리고, 주로 nextTick을 사용할 때는 mounted 메서드에서 input 태그에 focus를 줄 때가 많았으므로 사용지 지정 디렉티브를 만들어 연결시켜 주었다.
 
-```js
-// main.js
-Vue.directive('focus', {
-  inserted: function(el) {
-    el.focus();
-  },
-});
-```
-
 ```html
 <input
   ref="title"
@@ -288,17 +277,20 @@ Vue.directive('focus', {
 (...)
 
 mounted() {
-  this.titleFocus();
+  this.$refs.title.focus();
 },
-
-methods: {
-  titleFocus() {
-    this.$refs.title.focus();
-  },
-}
 ```
 
 이렇게 되어 있는 녀석을
+
+```js
+// directive.js에 v-focus 정의
+Vue.directive('focus', {
+  inserted: function(el) {
+    el.focus();
+  },
+});
+```
 
 ```html
 <input
@@ -321,7 +313,9 @@ methods: {
 - Vuex의 actions.js
 - 컴포넌트단
 
-우선 api 호출 파일은 제외. 그리고 actions와 컴포넌트 단 둘 중 어디서 해야할까 고민했을 때, 이미 login signup 관련 api 에러처리는 컴포넌트단에서 하고 있었다. 후에 [Vuex Tip 작업 오류 처리](https://medium.com/js-dojo/vuex-tip-error-handling-on-actions-ee286ed28df4)라는 글을 읽게 되었고, 여기서 하는 말이, **각 구성 요소의 오류를 처리해야하는 경우 로드를 유지 하고 때로는 오류 상태 구성 요소를 전역 / vuex 상태에서 벗어나는 것이 훨씬 더 모범 사례 입니다. ** 라고 했다. 따라서 일반적인 경우 actions.js 에서 에러 핸들링을 하고, 특별히 컴포넌트 단에서 필요한 에러처리는 컴포넌트에서 하는 것으로 정했다.
+우선 api 호출 파일은 제외. 그리고 actions와 컴포넌트 단 둘 중 어디서 해야할까 고민했을 때, 이미 login signup 관련 api 에러처리는 컴포넌트단에서 하고 있었다. 후에 [Vuex Tip 작업 오류 처리](https://medium.com/js-dojo/vuex-tip-error-handling-on-actions-ee286ed28df4)라는 글을 읽게 되었고, 여기서 하는 말이, `각 구성 요소의 오류를 처리해야하는 경우 로드를 유지 하고 때로는 오류 상태 구성 요소를 전역 / vuex 상태에서 벗어나는 것이 훨씬 더 모범 사례 입니다.`  라고 했다. 
+
+내 소스는 일반적인 경우 actions.js 에서 에러 핸들링을 하고, 특별히 컴포넌트 단에서 필요한 에러처리는 컴포넌트에서 했는데, 컴포넌트 단에서 핸들링 해주는 것이 더 좋은 방법인 듯 하다.
 
 ### actions.js 에서 에러 핸들링
 
@@ -388,15 +382,15 @@ else {
 기존, api 함수를 보자.
 
 ```js
-createBoard({ title, publicYn, hashtag, bgColor }) {
+createBoardAPI({ title, publicYn, hashtag, bgColor }) {
   return board.post('/', { title, publicYn, hashtag, bgColor });
 },
 
-updateCard(id, payload) {
+updateCardAPI(id, payload) {
   return card.put(`/${id}`, payload);
 },
 
-loginUser(userData) {
+loginUserAPI(userData) {
   return instance.post('login', userData);
 },
 ```
@@ -421,7 +415,7 @@ loginUser(userData) {
  * @param {CreateBoardInfo} createBoardInfo - Board 생성 정보
  * @returns {Promise<Board>}
  */
-const createBoard = createBoardInfo => board.post('/', createBoardInfo);
+const createBoardAPI = createBoardInfo => board.post('/', createBoardInfo);
 ```
 
 이렇게 바꾸어줬다.
@@ -504,6 +498,7 @@ export { readPersonalBoard, (...) }
 7. 라이프 사이클 메서드에서나, sideEffect가 있는 곳에서는 의미 단위로 함수로 뽑아서 사용하자.
 8. Travis 배포 자동화 & Sentry를 도입하면서 개발 완료 후 유지보수 측면에서 가능한 자동화나, 에러추적을 해 생산성을 높이는 작업을 하자.
 9. JSDoc 을 작성하면서 내가 나중에 봤을 때나, 다른 사람이 코드를 봤을 때 직관적으로 접하기 쉽도록 하고, 자동완성으로 작업 생산성을 높이자. (Typescript 배우자...)
+10. 멘토님 감사합니다.
 
 <br/>
 

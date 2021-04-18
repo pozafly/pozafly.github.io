@@ -83,7 +83,7 @@ excerpt: 멘토링 후 Tripllo에 꽤 많은 것을 손봐야한다는 것을 �
 
 ## 2. vue plugin eslint 설정 후 적용
 
-.eslintrc.js 파일에,
+`.eslintrc.js` 파일에,
 
 ```js
 extends: ["plugin:vue/essential", "@vue/prettier"],
@@ -143,7 +143,7 @@ extends: ["plugin:vue/essential", "@vue/prettier"],
 
 [컴포넌트 명 스타일 가이드](https://kr.vuejs.org/v2/style-guide/index.html#%EC%9A%B0%EC%84%A0%EC%88%9C%EC%9C%84-A-%EA%B7%9C%EC%B9%99-%ED%95%84%EC%88%98-%EC%97%90%EB%9F%AC-%EB%B0%A9%EC%A7%80)에 나와있는대로 컴포넌트 명을 바꾸었다. 모든 HTML 엘리먼트의 이름은 한 단어이기 때문에 합성어를 사용하는 것은 기존 그리고 향후 HTML 엘리먼트와의 **충돌을 방지해준다**고 한다.
 
-- ex) Spinner -> LoadingSpinner, Noti -> AlertNotification
+- ex) Spinner -> LoadingSpinner, Noti -> AlertNotification 등등
 
 <br/>
 
@@ -181,7 +181,7 @@ import 구문에 .vue가 붙어있지 않다면 vscode에서 ctrl + 클릭으로
 const router = new VueRouter({
   mode: 'history',
   routes: [
-    { path: '*', component: () => import('@/views/NotFoundPage.vue') },
+    { path: '*', component: () => import('@/views/NotFoundPage.vue') }, // 요녀석
     { path: '/', beforeEnter: firstAccess },
     (...)
   ],
@@ -194,7 +194,7 @@ const router = new VueRouter({
 routes: [
   { path: '/', beforeEnter: firstAccess },
   (...)
-  { path: '*', component: () => import('@/views/NotFoundPage.vue') },
+  { path: '*', component: () => import('@/views/NotFoundPage.vue') },  // 제일 아래로
 ],
 ```
 
@@ -223,7 +223,7 @@ const requireAuth = (to, from, next) => {
 {
   path: '/profile',
   component: () => import('@/views/ProfilePage.vue'),
-  beforeEnter: requireAuth,
+  beforeEnter: requireAuth,  // 가드 설정
 },
 ```
 
@@ -233,7 +233,7 @@ const requireAuth = (to, from, next) => {
 
 ## 5. 라이프 사이클 함수에서 의미 단위 함수로 묶기
 
-예를 들면,
+예를 들면, 현재 created 함수에 소켓 연결 로직과, 이벤트 버스 로직 2개가 있다.
 
 ```js
 created() {
@@ -247,7 +247,7 @@ created() {
 },
 ```
 
-이걸
+이걸 
 
 ```js
 created() {
@@ -257,12 +257,14 @@ created() {
  
 method: {
   receive() {
-    (...)
+    bus.$on('receive-message', data => {
+      this.receive(data);
+    });
   }
 }
 ```
 
-이런 식으로 묶기. 이런 식으로 묶어주면, 의미 단위로 모듈화가 가능하고, 라이프 사이클 함수에서 어떤 작업을 하는지 한눈에 보이기 때문이다. 즉, 기존에 라이프 사이클 함수에 여러 로직이 혼재해 있으면 어떤 작업을 하는지 빠르게 파악하기 어렵다.
+이런 식으로 메서드 화 해서 묶어주고, created 함수에서 어떤 일을 하는지 의미를 파악하기 쉬워진다. 이런 식으로 묶어주면, 의미 단위로 모듈화가 가능하고, 라이프 사이클 함수에서 어떤 작업을 하는지 한눈에 보이게 된다. 즉, 기존에 라이프 사이클 함수에 여러 로직이 혼재해 있으면 어떤 작업을 하는지 빠르게 파악하기 어렵다.
 
 <br/>
 
@@ -270,7 +272,7 @@ method: {
 
 ## 6. store에 필요없는 state 제거
 
-### mainTapId state에서 제거
+- mainTapId state에서 제거
 
 sessionStorage에 mainTapId를 넣어서, state에서 사용하지 않게끔 했다. main페이지에서 tab별로 보여지는 데이터가 다른데, 1 depts만 서로 주고받기 때문에 state보다는 sessionStorage를 사용하는게 맞다고 생각된다. 그리고 데이터를 굳이 보존하는 이유는, 탭에서 board 페이지로 접근 후, 다시 빠져나왔을 때, 해당 tab 화면이 유지가 되어야 하기 때문이다.
 
@@ -320,7 +322,7 @@ checklist, hashtags, comment 등 store에 반드시 있지 않아야 하는 것�
 
 📌 추가
 
-이렇게 v-bind를 사용해서 DOM에 붙이는 방법을 사용하지 않고, data에 초기화 후 이벤트가 일어날 때마다 methods에서 처리하는 방법을 사용했다. 즉, 사실은 DOM에 데이터를 붙이는 방법 자체가 Vue 스럽지 않은 방법이다. 어떻게 수정했는지 예시를 한번 보자.
+이렇게 v-bind를 사용해서 DOM에 붙이는 방법을 사용하지 않고, data에 초기화 후 이벤트가 일어날 때마다 methods에서 처리하는 방법을 사용했다. 즉, 사실은 DOM에 데이터를 붙이는 방법 자체가 Vue 스럽지 않은 방법이다. 어떻게 수정했는지 한번 보면,
 
 ```html
 <div ref="boardItem">
@@ -328,7 +330,7 @@ checklist, hashtags, comment 등 store에 반드시 있지 않아야 하는 것�
     v-for="board in personalBoard"
     :key="board.id"
     class="board-list"
-    :lastCreatedAt="board.createdAt"
+    :lastCreatedAt="board.createdAt"  // 🌈
   >
   </div>
 </div>
@@ -356,7 +358,7 @@ infiniteHandler($state) {
 
 - 🌈 : 이 부분에서 getAttribute로 가져옴.
 
-분석해보자면, 마지막 DOM의 createAt 값이 필요했기 때문에  ref가 걸린 상위태그의 .lastChild를 가져와서 child에 v-bind 되어있는 녀석을 `getAttribute` 로 값을 가져오는 형태이다.
+마지막 DOM의 createAt 값이 필요했기 때문에  ref가 걸린 상위태그의 .lastChild를 가져와서 child에 v-bind 되어있는 녀석을 `getAttribute` 로 값을 가져오는 형태이다.
 
 하지만 이럴 필요가 전혀 없다. DOM에 데이터를 붙이는게 아니라 그냥 받아온 data에서 마지막 값을 넣어주기만 하면 되는 것이었다.
 
@@ -372,9 +374,9 @@ infiniteHandler($state) {
         this.pushPersonalBoard(data.data);
         setTimeout(() => {
           const boardItem = data.data;
+          // data에 선언된 정보를 가져옴.
           const lastCreatedAt = boardItem[boardItem.length - 1].createdAt;
-          this.lastCreatedAt = lastCreatedAt;
-          $state.loaded(); // 계속 데이터가 남아있다는 것을 infinity에게 알려준다.
+          (...)
         }, 1000);
       }
    })
@@ -384,7 +386,7 @@ infiniteHandler($state) {
 
 이렇게 간단한 일을 그냥 ref고, getAttribute로 DOM에 직접 데이터를 바인딩해서 온갖 짓을 다한 것이다. DOM에 필요없는 데이터를 노출시킴으로써 사용자에게 필요 없는 정보를 보여줄 수도 있는 위험이 있으며, 에러 로그 또한 마찬가지로 data를 불러오지 않았을 때도 getAttribute를 실행해버려서 boardItem이 붙지 않은 상태에서 가져오려하니 찍히기 일수였다.
 
-즉, 이번 코드를 고치면서 깨닳은 것은, Vue 프레임워크를 사용할 때, 직접 UI에 뿌려줘야하는 데이터가 아니면 script 내부적으로 데이터를 사용하게끔 설계하는 것이 정말 중요하다는 것을 배웠다.
+즉, 이번 코드를 고치면서 깨달은 것은, Vue 프레임워크를 사용할 때, 직접 UI에 뿌려줘야하는 데이터가 아니면 script 내부적으로 데이터를 사용하게끔 설계하는 것이 정말 중요하다는 것을 배웠다.
 
 <br/>
 
@@ -443,7 +445,8 @@ function saveUserToken(token) {
 localStorage와 state에서 이렇게 user 객체를 하나의 단위로 올리는 작업을 하고 있었다. user 객체로 묶어서 작업하는게 좋을 듯 하다고 해서 user객체를 하나의 JSON String으로 만들고 사용할 때는 parse 해서 사용하는 것으로 바꾸었다. 코드량이 많기도 하고, 묶어서 관리하는게 좋다.
 
 ```js
-// webStorage.js
+const USER_INFO = 'TRIPLLO-V1-U';
+const TOKEN = 'TRIPLLO-V1-T';
 
 // 인코딩, 디코딩 함수
 const makeIncodeValue = (key, value) => {
@@ -459,23 +462,23 @@ const returnDecodeValue = value => {
 
 // 로컬스토리지 관련 함수(user)
 const saveUserToLocalStorage = user => {
-  makeIncodeValue('TRIPLLO-V1-U', user);
+  makeIncodeValue(USER_INFO, user);
 };
 
 const getUserFromLocalStorage = () => {
-  if (localStorage.getItem('TRIPLLO-V1-U')) {
-    return returnDecodeValue(localStorage.getItem('TRIPLLO-V1-U'));
+  if (localStorage.getItem(USER_INFO)) {
+    return returnDecodeValue(localStorage.getItem(USER_INFO));
   }
 };
 
 // 로컬스토리지 관련 함수(token)
 const saveTokenToLocalStorage = token => {
-  makeIncodeValue('TRIPLLO-V1-T', token);
+  makeIncodeValue(TOKEN, token);
 };
 
 const getTokenFromLocalStorage = () => {
-  if (localStorage.getItem('TRIPLLO-V1-T')) {
-    return returnDecodeValue(localStorage.getItem('TRIPLLO-V1-T'));
+  if (localStorage.getItem(TOKEN)) {
+    return returnDecodeValue(localStorage.getItem(TOKEN));
   }
 };
 ```
