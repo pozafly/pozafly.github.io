@@ -17,12 +17,13 @@ Travis CI에 대해서 알아보자. 우선 [Travis 공식](https://docs.travis-
 우선 travis endpoint에 대해 알아야 한다.
 
 - travis 엔드 포인트 --pro
-  API 엔드 포인트 : https://api.travis-ci.com/
-
+  - API 엔드 포인트 : https://api.travis-ci.com/
 - travis 엔드 포인트
-  API 엔드 포인트 : https://api.travis-ci.org/
+  - API 엔드 포인트 : https://api.travis-ci.org/
 
-endpoint를 잘 설정해주어야지 오류가 나지 않는다. springboot를 travis로 빌드 자동화를 했을 때도 겪었었지만, .org 엔드포인트는 오류가 많고 잘 되지 않는 경우가 많다. 버전 차이인듯 싶다. 어쨌든 우리는 .com인 --pro를 붙여 엔드포인트를 설정해줄 것이다.
+차이점은, `--pro` 가 붙은 녀석은 `.com` 으로 연결되고, --pro 옵셩이 없는 엔드포인트는 `.org` 로 연결된다는 것임.
+
+endpoint를 잘 설정해주어야지 오류가 나지 않는다. springboot를 travis로 빌드 자동화를 했을 때도 겪었었지만, .org 엔드포인트는 오류가 많고 잘 되지 않는 경우가 많다. 버전 차이인듯 싶다. 어쨌든 우리는 앞으로 `.com` 인 `--pro` 를 붙여 엔드포인트를 설정해줄 것이다.
 
 <br/>
 <br/>
@@ -66,7 +67,7 @@ notifications:
 - script : 빌드 명령어
 - notifications : CI가 완료되었을 때 결과를 noti 해준다. 내 메일 주소를 적었다.
 
-우선 기본 틀이다. 이제 이 파일을 작성했다면, master 브랜치에 push or merge 할 때마다 travis가 알아서 프로젝트를 빌드해줄 것이다. push후 travis 페이지에 가보면 build log가 실시간으로 찍힌다.
+우선 기본 틀이다. 이제 이 파일을 작성했다면, master 브랜치에 push or merge후 push 할 때마다 travis가 알아서 프로젝트를 빌드해줄 것이다. push후 travis 페이지에 가보면 build log가 실시간으로 찍힌다.
 
 첫번째 에러가 났다.
 
@@ -75,12 +76,26 @@ error
 Template execution failed: ReferenceError: VUE_APP_GOOGLE_CLIENT_ID is not defined
 ```
 
-VUE_APP_GOOGLE_CLINET_ID 는 .env 파일에 있는데, 이걸 build 하지 못하는 이유는 .env 파일이 github에 올라가지 않아서다. 따라서 .env 파일을 travis 서버에서 인식하도록 할 필요가 있다. 방법은 3가지가 있다. [공식 페이지 환경변수](https://docs.travis-ci.com/user/environment-variables/) 이곳에 잘 설명되어 있는데, 나는 두번째 방법인 .travis.yml에서 secret 파일 암호화하는 방법을 사용하겠다.
+`VUE_APP_GOOGLE_CLINET_ID`  는 .env 파일에 있는데, 이걸 build 하지 못하는 이유는 .env 파일이 github에 올라가지 않아서다. 따라서 .env 파일을 travis 서버에서 인식하도록 할 필요가 있다. 방법은 3가지가 있다. [공식 페이지 환경변수](https://docs.travis-ci.com/user/environment-variables/) 이곳에 잘 설명되어 있다, 
+
+|              사용방법               | Github 오픈 여부 | 암호화 |
+| :---------------------------------: | :--------------: | :----: |
+|   .travis.yml에서 공용 변수 정의    |        O         |   X    |
+| .travis.yml에서 암호화 된 변수 정의 |        O         |   O    |
+|    리포지토리 설정에서 변수 정의    |        X         |   O    |
+
+이렇게 3가지 방법인데, 조금 더 자세히 알아보면,
+
+1. `.travis.yml에서 공용 변수 정의` : 단순히 yml 파일에 공통 변수로 지정후 사용한다. 따라서 암호가 Github에도 노출되고, 암호화 되어있지 않다.
+2. `.travis.yml에서 암호화 된 변수 정의` : 암호화 해서 .enc 파일을 프로젝트에 생성한다. 그리고, 이 암호화 된 파일이 travis 서버 상에 올라갈 때 복호화 되어 컴파일 된다. 따라서 .enc 파일은 github에도 올라가게 된다.
+3. `리포지토리 설정에서 변수 정의` : 아예 traivs 홈페이지에서 환경변수를 만들고 값을 넣어주고, yml 파일에 해당 변수를 선언하면 값이 들어가는 형태이다. .enc 파일이 존재하지 않기 때문에 찌꺼기가 남지 않는다.
+
+나는 두번째 방법인 .travis.yml에서 secret 파일 암호화하는 방법을 사용하겠다. .enc 파일이라는 찌꺼기가 생기겠지만 괜찮다. 그리고 세번째 방법은 AWS 변수를 나중에 넣을 때 사용할 것이다.
 
 <br/>
 <br/>
 
-## .evn 파일을 AES256 이용하여 .enc 파일 생성하기
+## .evn 파일을 AES256 이용하여 .env.enc 파일 생성하기
 
 ### CLC 설치 & login
 
@@ -162,7 +177,7 @@ traivs 상에서 내 파일이 build 까지 완료되었다면, 이제 호스팅
 
 ### Travis CI에 키 등록
 
-aws s3에 접근할 수 있는 엑세스키와 비밀키는 절대절대절대절대 github 에 올라가서는 안된다. 따라서 travis 상에 키를 등록해놓고 .traivs.yml에서 불러다 쓰는 형태로 진행해야한다. travis.com에 가서, Settings 화면에 가자. 해당 프로젝트 우측에 Settings 를 눌러서 key를 등록할 수 있다.
+aws s3에 접근할 수 있는 엑세스키와 비밀키는 절대절대절대절대 github 에 올라가서는 안된다. 따라서 travis 상에 키를 등록해놓고 .traivs.yml에서 불러다 쓰는 형태로 진행해야한다. 이 방법이 아까 환경변수 설정 방법 3가지 중 3번째 방법을 사용하는 것이라 볼 수 있다. travis.com에 가서, Settings 화면에 가자. 해당 프로젝트 우측에 Settings 를 눌러서 key를 등록할 수 있다.
 
 ![스크린샷 2021-04-06 오후 2 29 49](https://user-images.githubusercontent.com/59427983/113663278-b6e36d80-96e4-11eb-9379-723b135ce55a.png)
 
