@@ -1,0 +1,562 @@
+<!DOCTYPE html><html lang="ko"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 3.0.0"/><link rel="sitemap" type="application/xml" href="/sitemap.xml"/><link rel="canonical" href="https://pozafly.github.io/tripllo/(5)login2-SpringBoot/" data-baseprotocol="https:" data-basehost="pozafly.github.io"/><title data-react-helmet="true">(5) 로그인2 -SpringBoot 구현</title><link data-react-helmet="true" rel="icon" href="/static/alien-652bde6f766dc3e52bdf32391ba54a09.png" type="image/x-icon"/><meta data-react-helmet="true" name="description" content="Spring Security와 JWT를 사용해서 로그인 기능을 구현했다. Spring Security의 구현된 소스와 login의 Service 단 내부 로직을 개념에 맞춰서 알아보자."/><meta data-react-helmet="true" property="og:site_name" content="Pozafly&#x27;s 블로그"/><meta data-react-helmet="true" property="og:type" content="article"/><meta data-react-helmet="true" property="og:title" content="(5) 로그인2 -SpringBoot 구현"/><meta data-react-helmet="true" property="og:description" content="Spring Security와 JWT를 사용해서 로그인 기능을 구현했다. Spring Security의 구현된 소스와 login의 Service 단 내부 로직을 개념에 맞춰서 알아보자."/><meta data-react-helmet="true" property="og:url" content="https://pozafly.github.io/tripllo/(5)login2-SpringBoot/"/><meta data-react-helmet="true" property="og:image" content="https://pozafly.github.io/static/cf052c2134f0abd114c107d149d0dd49/1eab0/tripllo5.png"/><meta data-react-helmet="true" property="article:published_time" content="2021-02-04T15:03:47.149Z"/><meta data-react-helmet="true" property="article:tag" content="Tripllo 제작기"/><meta data-react-helmet="true" property="article:publisher" content="https://www.instagram.com/pozafly_/"/><meta data-react-helmet="true" property="article:author" content="https://www.instagram.com/pozafly_/"/><meta data-react-helmet="true" name="github:card" content="summary_large_image"/><meta data-react-helmet="true" name="github:title" content="(5) 로그인2 -SpringBoot 구현"/><meta data-react-helmet="true" name="github:description" content="Spring Security와 JWT를 사용해서 로그인 기능을 구현했다. Spring Security의 구현된 소스와 login의 Service 단 내부 로직을 개념에 맞춰서 알아보자."/><meta data-react-helmet="true" name="github:url" content="https://pozafly.github.io/tripllo/(5)login2-SpringBoot/"/><meta data-react-helmet="true" name="github:image" content="https://pozafly.github.io/static/cf052c2134f0abd114c107d149d0dd49/1eab0/tripllo5.png"/><meta data-react-helmet="true" name="github:label1" content="Written by"/><meta data-react-helmet="true" name="github:data1" content="Pozafly"/><meta data-react-helmet="true" name="github:label2" content="Filed under"/><meta data-react-helmet="true" name="github:data2" content="Tripllo 제작기"/><meta data-react-helmet="true" name="github:site" content="@pozafly"/><meta data-react-helmet="true" name="github:creator" content="@pozafly"/><meta data-react-helmet="true" property="og:image:width" content="820"/><meta data-react-helmet="true" property="og:image:height" content="615"/><link rel="alternate" type="application/rss+xml" href="/rss.xml"/><link as="script" rel="preload" href="/webpack-runtime-e42c7807625ae04a6cfb.js"/><link as="script" rel="preload" href="/framework-b3456eeb6f92d1e414f3.js"/><link as="script" rel="preload" href="/app-feb78949e223b7b8b6de.js"/><link as="script" rel="preload" href="/b4ffff85-cd5ca9894989f8845e5a.js"/><link as="script" rel="preload" href="/14cad5d5-017760fea8637ef84ba1.js"/><link as="script" rel="preload" href="/e0525e89-43843712c7165c27f5aa.js"/><link as="script" rel="preload" href="/commons-3d917752ca374e80bb36.js"/><link as="script" rel="preload" href="/095633e7efaeed46f7332ab6a7b1538271a9f8c4-ae13ca55745fc05a06b4.js"/><link as="script" rel="preload" href="/78950b8f3c1803aeb506a1bd6e41cee67211f531-94ea375e9fe54e3ff85f.js"/><link as="fetch" rel="preload" href="/page-data/tripllo/(5)login2-SpringBoot/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/sq/d/1917168614.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/sq/d/4083712403.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="post-template"><style data-emotion="css-global 1ek27t5">html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,fieldset,form,label,legend,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font:inherit;font-size:93%;vertical-align:baseline;}html .copyright,body .copyright,div .copyright,span .copyright,applet .copyright,object .copyright,iframe .copyright,h1 .copyright,h2 .copyright,h3 .copyright,h4 .copyright,h5 .copyright,h6 .copyright,p .copyright,blockquote .copyright,pre .copyright,a .copyright,abbr .copyright,acronym .copyright,address .copyright,big .copyright,cite .copyright,code .copyright,del .copyright,dfn .copyright,em .copyright,img .copyright,ins .copyright,kbd .copyright,q .copyright,s .copyright,samp .copyright,small .copyright,strike .copyright,strong .copyright,sub .copyright,sup .copyright,tt .copyright,var .copyright,dl .copyright,dt .copyright,dd .copyright,ol .copyright,fieldset .copyright,form .copyright,label .copyright,legend .copyright,article .copyright,aside .copyright,canvas .copyright,details .copyright,embed .copyright,figure .copyright,figcaption .copyright,footer .copyright,header .copyright,hgroup .copyright,menu .copyright,nav .copyright,output .copyright,ruby .copyright,section .copyright,summary .copyright,time .copyright,mark .copyright,audio .copyright,video .copyright{font-size:1.4rem;}html .error-front-page,body .error-front-page,div .error-front-page,span .error-front-page,applet .error-front-page,object .error-front-page,iframe .error-front-page,h1 .error-front-page,h2 .error-front-page,h3 .error-front-page,h4 .error-front-page,h5 .error-front-page,h6 .error-front-page,p .error-front-page,blockquote .error-front-page,pre .error-front-page,a .error-front-page,abbr .error-front-page,acronym .error-front-page,address .error-front-page,big .error-front-page,cite .error-front-page,code .error-front-page,del .error-front-page,dfn .error-front-page,em .error-front-page,img .error-front-page,ins .error-front-page,kbd .error-front-page,q .error-front-page,s .error-front-page,samp .error-front-page,small .error-front-page,strike .error-front-page,strong .error-front-page,sub .error-front-page,sup .error-front-page,tt .error-front-page,var .error-front-page,dl .error-front-page,dt .error-front-page,dd .error-front-page,ol .error-front-page,fieldset .error-front-page,form .error-front-page,label .error-front-page,legend .error-front-page,article .error-front-page,aside .error-front-page,canvas .error-front-page,details .error-front-page,embed .error-front-page,figure .error-front-page,figcaption .error-front-page,footer .error-front-page,header .error-front-page,hgroup .error-front-page,menu .error-front-page,nav .error-front-page,output .error-front-page,ruby .error-front-page,section .error-front-page,summary .error-front-page,time .error-front-page,mark .error-front-page,audio .error-front-page,video .error-front-page{font-size:1.6rem;}body{line-height:1;word-break:keep-all;}ol,ul{list-style:none;}blockquote,q{quotes:none;}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}table{border-spacing:0;border-collapse:collapse;}img{max-width:100%;}html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;}*,*:before,*:after{box-sizing:inherit;}a{background-color:transparent;}a:active,a:hover{outline:0;}b,strong{font-weight:bold;}i,em,dfn{font-style:italic;}h1{margin:0.67em 0;font-size:2em;}small{font-size:80%;}sub,sup{position:relative;font-size:75%;line-height:0;vertical-align:baseline;}sup{top:-0.5em;}sub{bottom:-0.25em;}img{border:0;}svg:not(:root){overflow:hidden;}mark{background-color:#fdffb6;}code,kbd,pre,samp{font-family:monospace,monospace;font-size:1em;}button,input,optgroup,select,textarea{margin:0;color:inherit;font:inherit;}button{overflow:visible;border:none;}button,select{text-transform:none;}button,html input[type='button'],input[type='reset'],input[type='submit']{cursor:pointer;-webkit-appearance:button;}button[disabled],html input[disabled]{cursor:default;}button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0;}input{line-height:normal;}input:focus{outline:none;}input[type='checkbox'],input[type='radio']{box-sizing:border-box;padding:0;}input[type='number']::-webkit-inner-spin-button,input[type='number']::-webkit-outer-spin-button{height:auto;}input[type='search']{box-sizing:content-box;-webkit-appearance:textfield;}input[type='search']::-webkit-search-cancel-button,input[type='search']::-webkit-search-decoration{-webkit-appearance:none;}legend{padding:0;border:0;}textarea{overflow:auto;}table{border-spacing:0;border-collapse:collapse;}td,th{padding:0;}html{overflow-x:hidden;overflow-y:scroll;font-size:62.5%;-webkit-tap-highlight-color:rgba(0, 0, 0, 0);}body{overflow-x:hidden;color:#303a3e;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans','Ubuntu','Droid Sans','Helvetica Neue',sans-serif;font-size:1.6rem;line-height:1.6em;font-weight:400;font-style:normal;letter-spacing:0;text-rendering:optimizeLegibility;background:#fff;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-moz-font-feature-settings:'liga' on;}::selection{text-shadow:none;background:#3498db;}hr{position:relative;display:block;width:100%;margin:2.5em 0 3.5em;padding:0;height:1px;border:0;border-top:1px solid #e4eaed;}audio,canvas,iframe,img,svg,video{vertical-align:middle;}fieldset{margin:0;padding:0;border:0;}textarea{resize:vertical;}p,ul,ol,dl,blockquote{margin:0 0 1.5em 0;}ol,ul{padding-left:1.3em;padding-right:1.5em;}ol ol,ul ul,ul ol,ol ul{margin:0.5em 0 1em;}ul{list-style:disc;}ol{list-style:decimal;}ul,ol{max-width:100%;}li{margin:0.5em 0;padding-left:0.3em;line-height:1.6em;}dt{float:left;margin:0 20px 0 0;width:120px;color:#15171A;font-weight:500;text-align:right;}dd{margin:0 0 5px 0;text-align:left;}blockquote{margin:1.5em 0;padding:0 1.6em 0 1.6em;border-left:#e5eff5 0.5em solid;}blockquote p{margin:0.8em 0;font-size:1.2em;font-weight:300;}blockquote small{display:inline-block;margin:0.8em 0 0.8em 1.5em;font-size:0.9em;opacity:0.8;}blockquote cite{font-weight:bold;}blockquote cite a{font-weight:normal;}a{color:#26a6ed;-webkit-text-decoration:none;text-decoration:none;}a:hover{-webkit-text-decoration:underline;text-decoration:underline;}h1,h2,h3,h4,h5,h6{margin-top:0;line-height:1.15;font-weight:600;text-rendering:optimizeLegibility;}h1{margin:0 0 0.5em 0;font-size:5.5rem;font-weight:600;}@media (max-width: 500px){h1{font-size:2.2rem;}}h2{margin:1.5em 0 0.5em 0;font-size:2.2rem;}@media (max-width: 500px){h2{font-size:1.8rem;}}h3{margin:1.5em 0 0.5em 0;font-size:1.8rem;font-weight:500;}@media (max-width: 500px){h3{font-size:1.7rem;}}h4{margin:1.5em 0 0.5em 0;font-size:1.6rem;font-weight:500;}h5{margin:1.5em 0 0.5em 0;font-size:1.4rem;font-weight:500;}h6{margin:1.5em 0 0.5em 0;font-size:1.4rem;font-weight:500;}body{background:#fff;}@media (prefers-color-scheme: dark){body{color:rgba(255, 255, 255, 0.75);background:#191b1f;}img{opacity:0.9;}}:root{--deckgo-highlight-code-font-size:90%;--deckgo-highlight-code-font-family:font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans','Ubuntu','Droid Sans','Helvetica Neue',sans-serif;--deckgo-highlight-code-line-height:1.5;--deckgo-highlight-code-white-space:pre-wrap;--deckgo-highlight-code-carbon-border-radius:15px;--deckgo-highlight-code-carbon-margin:2em 0;}</style><style data-emotion="css wv5on3">.css-wv5on3 .site-main{margin-top:64px;background:#fff;padding-bottom:4vw;}@media (prefers-color-scheme: dark){.css-wv5on3 .site-main{background:#191b1f;}}</style><style data-emotion="css 1qvd43r">.css-1qvd43r{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;min-height:100vh;}.css-1qvd43r .site-main{margin-top:64px;background:#fff;padding-bottom:4vw;}@media (prefers-color-scheme: dark){.css-1qvd43r .site-main{background:#191b1f;}}</style><div class="css-1qvd43r esvym2d0"><header class="site-header"><style data-emotion="css 1qxgdzi">.css-1qxgdzi{position:relative;padding:0 5vw;position:fixed;top:0;right:0;left:0;z-index:1000;background:#0a0b0c;}@media (max-width: 700px){.css-1qxgdzi{padding-right:0;padding-left:0;}}</style><div class="css-1qxgdzi"><style data-emotion="css y521qa">.css-y521qa{margin:0 auto;max-width:1040px;width:100%;}</style><div class="css-y521qa"><style data-emotion="css lcmrfl">.css-lcmrfl{position:relative;z-index:100;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:flex-start;-webkit-box-align:flex-start;-ms-flex-align:flex-start;align-items:flex-start;overflow-y:hidden;height:64px;font-size:1.3rem;}</style><nav class="css-lcmrfl"><style data-emotion="css crtwut">.css-crtwut{-webkit-flex:1 0 auto;-ms-flex:1 0 auto;flex:1 0 auto;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;margin-right:10px;padding:10px 0 80px;font-weight:500;letter-spacing:0.2px;text-transform:uppercase;white-space:nowrap;-ms-overflow-scrolling:touch;}@media (max-width: 700px){.css-crtwut{margin-right:0;padding-left:5vw;}}</style><div class="site-nav-left css-crtwut e1sju8vj5"><style data-emotion="css 3oagtl">.css-3oagtl{position:relative;z-index:100;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0;display:inline-block;margin-right:32px;padding:12px 0;color:#fff;font-size:1.7rem;line-height:1.8rem;font-weight:bold;letter-spacing:-0.5px;text-transform:none;}.css-3oagtl:hover{-webkit-text-decoration:none;text-decoration:none;}.css-3oagtl img{display:block;width:auto;height:21px;}</style><a class="site-nav-logo css-3oagtl" href="/"><img src="/static/a62d45ddbe29cf42da820a576d9375e1/53f65/alien.png" alt="Pozafly&#x27;s 블로그"/></a><style data-emotion="css 1xdepn">.css-1xdepn{position:relative;-webkit-align-self:flex-start;-ms-flex-item-align:flex-start;align-self:flex-start;}</style><div class="css-1xdepn e1sju8vj4"><style data-emotion="css 111108j">.css-111108j{position:absolute;z-index:1000;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;margin:0 0 0 -12px;padding:0;list-style:none;-webkit-transition:all 1s cubic-bezier(0.19, 1, 0.22, 1);transition:all 1s cubic-bezier(0.19, 1, 0.22, 1);}.css-111108j li{display:block;margin:0;padding:0;}.css-111108j li a{font-size:1.2rem;position:relative;display:block;padding:14px 12px;color:#fff;opacity:0.8;-webkit-transition:opacity 0.35s ease-in-out;transition:opacity 0.35s ease-in-out;}.css-111108j li a:hover{-webkit-text-decoration:none;text-decoration:none;opacity:1;}.css-111108j li a:before{content:'';position:absolute;right:100%;bottom:8px;left:12px;height:1px;background:#fff;opacity:0.25;-webkit-transition:all 0.35s ease-in-out;transition:all 0.35s ease-in-out;}.css-111108j li a:hover:before{right:12px;opacity:0.5;}</style><ul role="menu" class="css-111108j"><li role="menuitem"><a href="/">Home</a></li><li role="menuitem"><a href="/about">About</a></li></ul><style data-emotion="css 1wu52sc">.css-1wu52sc{visibility:hidden;position:absolute;top:9px;color:#fff;font-size:1.7rem;font-weight:400;text-transform:none;opacity:0;-webkit-transition:all 1s cubic-bezier(0.19, 1, 0.22, 1);transition:all 1s cubic-bezier(0.19, 1, 0.22, 1);-webkit-transform:translateY(175%);-moz-transform:translateY(175%);-ms-transform:translateY(175%);transform:translateY(175%);}.css-1wu52sc .dash{left:-25px;}.css-1wu52sc .dash:before{content:'– ';opacity:0.5;}</style><span class="nav-post-title css-1wu52sc e1sju8vj0">(5) 로그인2 -SpringBoot 구현</span></div></div><style data-emotion="css 3i3mo1">.css-3i3mo1{-webkit-flex:0 1 auto;-ms-flex:0 1 auto;flex:0 1 auto;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:end;-ms-flex-pack:end;-webkit-justify-content:flex-end;justify-content:flex-end;padding:10px 0;height:64px;}</style><div class="css-3i3mo1 e1sju8vj3"><style data-emotion="css 1z0rm8f">.css-1z0rm8f{-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}</style><div class="css-1z0rm8f e1sju8vj2"><style data-emotion="css uoy7tg">.css-uoy7tg{display:inline-block;margin:0;padding:10px;opacity:0.8;}.css-uoy7tg:hover{opacity:1;}.css-uoy7tg svg{height:1.8rem;fill:#fff;}.css-uoy7tg svg{height:1.6rem;}</style><a class="social-link-fb css-uoy7tg" href="https://www.instagram.com/pozafly_/" target="_blank" title="Instagram" rel="noopener noreferrer"><svg height="511pt" viewBox="0 0 511 511.9" width="13pt" xmlns="http://www.w3.org/2000/svg"><path d="m510.949219 150.5c-1.199219-27.199219-5.597657-45.898438-11.898438-62.101562-6.5-17.199219-16.5-32.597657-29.601562-45.398438-12.800781-13-28.300781-23.101562-45.300781-29.5-16.296876-6.300781-34.898438-10.699219-62.097657-11.898438-27.402343-1.300781-36.101562-1.601562-105.601562-1.601562s-78.199219.300781-105.5 1.5c-27.199219 1.199219-45.898438 5.601562-62.097657 11.898438-17.203124 6.5-32.601562 16.5-45.402343 29.601562-13 12.800781-23.097657 28.300781-29.5 45.300781-6.300781 16.300781-10.699219 34.898438-11.898438 62.097657-1.300781 27.402343-1.601562 36.101562-1.601562 105.601562s.300781 78.199219 1.5 105.5c1.199219 27.199219 5.601562 45.898438 11.902343 62.101562 6.5 17.199219 16.597657 32.597657 29.597657 45.398438 12.800781 13 28.300781 23.101562 45.300781 29.5 16.300781 6.300781 34.898438 10.699219 62.101562 11.898438 27.296876 1.203124 36 1.5 105.5 1.5s78.199219-.296876 105.5-1.5c27.199219-1.199219 45.898438-5.597657 62.097657-11.898438 34.402343-13.300781 61.601562-40.5 74.902343-74.898438 6.296876-16.300781 10.699219-34.902343 11.898438-62.101562 1.199219-27.300781 1.5-36 1.5-105.5s-.101562-78.199219-1.300781-105.5zm-46.097657 209c-1.101562 25-5.300781 38.5-8.800781 47.5-8.601562 22.300781-26.300781 40-48.601562 48.601562-9 3.5-22.597657 7.699219-47.5 8.796876-27 1.203124-35.097657 1.5-103.398438 1.5s-76.5-.296876-103.402343-1.5c-25-1.097657-38.5-5.296876-47.5-8.796876-11.097657-4.101562-21.199219-10.601562-29.398438-19.101562-8.5-8.300781-15-18.300781-19.101562-29.398438-3.5-9-7.699219-22.601562-8.796876-47.5-1.203124-27-1.5-35.101562-1.5-103.402343s.296876-76.5 1.5-103.398438c1.097657-25 5.296876-38.5 8.796876-47.5 4.101562-11.101562 10.601562-21.199219 19.203124-29.402343 8.296876-8.5 18.296876-15 29.398438-19.097657 9-3.5 22.601562-7.699219 47.5-8.800781 27-1.199219 35.101562-1.5 103.398438-1.5 68.402343 0 76.5.300781 103.402343 1.5 25 1.101562 38.5 5.300781 47.5 8.800781 11.097657 4.097657 21.199219 10.597657 29.398438 19.097657 8.5 8.300781 15 18.300781 19.101562 29.402343 3.5 9 7.699219 22.597657 8.800781 47.5 1.199219 27 1.5 35.097657 1.5 103.398438s-.300781 76.300781-1.5 103.300781zm0 0"></path><path d="m256.449219 124.5c-72.597657 0-131.5 58.898438-131.5 131.5s58.902343 131.5 131.5 131.5c72.601562 0 131.5-58.898438 131.5-131.5s-58.898438-131.5-131.5-131.5zm0 216.800781c-47.097657 0-85.300781-38.199219-85.300781-85.300781s38.203124-85.300781 85.300781-85.300781c47.101562 0 85.300781 38.199219 85.300781 85.300781s-38.199219 85.300781-85.300781 85.300781zm0 0"></path><path d="m423.851562 119.300781c0 16.953125-13.746093 30.699219-30.703124 30.699219-16.953126 0-30.699219-13.746094-30.699219-30.699219 0-16.957031 13.746093-30.699219 30.699219-30.699219 16.957031 0 30.703124 13.742188 30.703124 30.699219zm0 0"></path></svg></a><style data-emotion="css 1mnl8gk">.css-1mnl8gk{display:inline-block;margin:0;padding:10px;opacity:0.8;}.css-1mnl8gk:hover{opacity:1;}.css-1mnl8gk svg{height:1.8rem;fill:#fff;}</style><a href="https://github.com/pozafly" title="Github" target="_blank" rel="noopener noreferrer" class="css-1mnl8gk"><svg width="21px" height="21px" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 0C3.58 0 0 3.58 0 8C0 11.54 2.29 14.53 5.47 15.59C5.87 15.66 6.02 15.42 6.02 15.21C6.02 15.02 6.01 14.39 6.01 13.72C4 14.09 3.48 13.23 3.32 12.78C3.23 12.55 2.84 11.84 2.5 11.65C2.22 11.5 1.82 11.13 2.49 11.12C3.12 11.11 3.57 11.7 3.72 11.94C4.44 13.15 5.59 12.81 6.05 12.6C6.12 12.08 6.33 11.73 6.56 11.53C4.78 11.33 2.92 10.64 2.92 7.58C2.92 6.71 3.23 5.99 3.74 5.43C3.66 5.23 3.38 4.41 3.82 3.31C3.82 3.31 4.49 3.1 6.02 4.13C6.66 3.95 7.34 3.86 8.02 3.86C8.7 3.86 9.38 3.95 10.02 4.13C11.55 3.09 12.22 3.31 12.22 3.31C12.66 4.41 12.38 5.23 12.3 5.43C12.81 5.99 13.12 6.7 13.12 7.58C13.12 10.65 11.25 11.33 9.47 11.53C9.76 11.78 10.01 12.26 10.01 13.01C10.01 14.08 10 14.94 10 15.21C10 15.42 10.15 15.67 10.55 15.59C13.71 14.53 16 11.53 16 8C16 3.58 12.42 0 8 0Z" transform="scale(64)" fill="#fff"></path></svg></a></div></div></nav></div></div></header><style data-emotion="css 12lzzeq">.css-12lzzeq{-webkit-box-flex:1;-webkit-flex-grow:1;-ms-flex-positive:1;flex-grow:1;position:relative;padding:0 5vw;}@media (prefers-color-scheme: dark){.css-12lzzeq{background:#191b1f;}}</style><main id="site-main" class="site-main css-12lzzeq"><div class="css-y521qa"><style data-emotion="css 1wcdnkk">.css-1wcdnkk{position:relative;z-index:50;}</style><article class="css-1wcdnkk"><style data-emotion="css 7tju5o">.css-7tju5o{position:relative;margin:0 auto;padding:70px 100px 50px;border-top-left-radius:3px;border-top-right-radius:3px;}@media (max-width: 1170px){.css-7tju5o{padding:60px 11vw 50px;}}@media (max-width: 800px){.css-7tju5o{padding-right:5vw;padding-left:5vw;}}@media (max-width: 500px){.css-7tju5o{padding:20px 0 35px;}}</style><header class="post-full-header css-7tju5o ewnyor55"><style data-emotion="css a12yu7">.css-a12yu7{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;-webkit-justify-content:flex-start;justify-content:flex-start;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;color:#738a94;font-size:1.3rem;line-height:1.4em;font-weight:600;text-transform:uppercase;}</style><section class="post-full-tags css-a12yu7 ewnyor54"><a href="/tags/tripllo-제작기/">Tripllo 제작기</a></section><style data-emotion="css qia1z6">.css-qia1z6{margin:0 0 0.2em;color:#0b0c0e;}@media (max-width: 500px){.css-qia1z6{margin-top:0.2em;font-size:3.3rem;}}@media (prefers-color-scheme: dark){.css-qia1z6{color:rgba(255, 255, 255, 0.9);}}</style><h1 class="post-full-title css-qia1z6 ewnyor51">(5) 로그인2 -SpringBoot 구현</h1><style data-emotion="css cak2h8">.css-cak2h8{margin:20px 0 0;color:var(--midgrey);font-size:2rem;line-height:1.4em;font-weight:360;}@media (max-width: 500px){.css-cak2h8{font-size:1.9rem;line-height:1.5em;}}@media (prefers-color-scheme: dark){.css-cak2h8{color:#90a2aa;}}</style><p class="post-full-custom-excerpt css-cak2h8 ewnyor53">Spring Security와 JWT를 사용해서 로그인 기능을 구현했다. Spring Security의 구현된 소스와 login의 Service 단 내부 로직을 개념에 맞춰서 알아보자.</p><style data-emotion="css 1pygz0x">.css-1pygz0x{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between;margin:35px 0 0;padding-top:15px;border-top:1px solid #e4eaed;}.css-1pygz0x .post-full-byline-content{-webkit-box-flex:1;-webkit-flex-grow:1;-ms-flex-positive:1;flex-grow:1;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:flex-start;-webkit-box-align:flex-start;-ms-flex-align:flex-start;align-items:flex-start;}.css-1pygz0x .post-full-byline-content .author-list{-webkit-box-pack:start;-ms-flex-pack:start;-webkit-justify-content:flex-start;justify-content:flex-start;padding:0 12px 0 0;}.css-1pygz0x .post-full-byline-meta{margin:2px 0 0;color:#90a2aa;font-size:1.2rem;line-height:1.2em;letter-spacing:0.2px;text-transform:uppercase;}.css-1pygz0x .post-full-byline-meta h4{margin:0 0 3px;font-size:1.3rem;line-height:1.4em;font-weight:500;}.css-1pygz0x .post-full-byline-meta h4 a{color:#2c3036;}.css-1pygz0x .post-full-byline-meta h4 a:hover{color:#15171A;}.css-1pygz0x .post-full-byline-meta .bull{display:inline-block;margin:0 4px;opacity:0.6;}@media (prefers-color-scheme: dark){.css-1pygz0x{border-top-color:#3b4049;}.css-1pygz0x .post-full-byline-meta h4 a{color:rgba(255, 255, 255, 0.75);}.css-1pygz0x .post-full-byline-meta h4 a:hover{color:#fff;}}</style><div class="post-full-byline css-1pygz0x ewnyor52"><section class="post-full-byline-content"><style data-emotion="css 12fmpzj">.css-12fmpzj{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-flex-wrap:wrap;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;margin:0 0 0 4px;padding:0;list-style:none;}</style><ul class="author-list css-12fmpzj e1vx1kx20"><style data-emotion="css rzestn">.css-rzestn{position:relative;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0;margin:0;padding:0;}.css-rzestn:hover .author-name-tooltip{opacity:1;-webkit-transform:translateY(0px);-moz-transform:translateY(0px);-ms-transform:translateY(0px);transform:translateY(0px);}</style><li class="author-list-item css-rzestn e1jay2161"><style data-emotion="css nqg22v">.css-nqg22v{position:absolute;bottom:130%;left:50%;z-index:600;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between;margin-left:-200px;width:400px;font-size:1.4rem;line-height:1.5em;background:white;border-radius:3px;box-shadow:rgba(39, 44, 49, 0.08) 0 12px 26px,rgba(39, 44, 49, 0.06) 1px 3px 8px;opacity:0;-webkit-transition:all 0.35s cubic-bezier(0.4, 0.01, 0.165, 0.99);transition:all 0.35s cubic-bezier(0.4, 0.01, 0.165, 0.99);-webkit-transform:scale(0.98) translateY(15px);-moz-transform:scale(0.98) translateY(15px);-ms-transform:scale(0.98) translateY(15px);transform:scale(0.98) translateY(15px);pointer-events:none;padding:20px 20px 22px;}.css-nqg22v:before{content:'';position:absolute;top:100%;left:50%;display:block;margin-left:-8px;width:0;height:0;border-top:8px solid #fff;border-right:8px solid transparent;border-left:8px solid transparent;}.css-nqg22v .author-info{-webkit-flex:1 1 auto;-ms-flex:1 1 auto;flex:1 1 auto;padding:0 0 0 20px;}.css-nqg22v .author-info h2{margin:8px 0 0;font-size:1.6rem;}.css-nqg22v .author-info p{margin:4px 0 0;color:color(var(--midgrey) l(-10%));}.css-nqg22v .author-info .bio h2{margin-top:0;}.css-nqg22v .author-info .bio p{margin-top:0.8em;}.css-nqg22v .author-profile-image{-webkit-flex:0 0 60px;-ms-flex:0 0 60px;flex:0 0 60px;margin:0;width:60px;height:60px;border:none;}@media (max-width: 1170px){.css-nqg22v{margin-left:-50px;width:430px;}.css-nqg22v:before{left:50px;}}@media (max-width: 650px){.css-nqg22v{display:none;}}@media (prefers-color-scheme: dark){.css-nqg22v{background:#22252a;box-shadow:0 12px 26px rgba(0, 0, 0, 0.4);}.css-nqg22v:before{border-top-color:#22252a;}}</style><div class="author-card css-nqg22v"><style data-emotion="css 1kq7wgl">.css-1kq7wgl{display:block;width:100%;height:100%;background:#e4eaed;border-radius:100%;object-fit:cover;}@media (prefers-color-scheme: dark){.css-1kq7wgl{background:#191b1f;}}</style><div class="author-profile-image css-1kq7wgl gatsby-image-wrapper" style="position:relative;overflow:hidden"><div aria-hidden="true" style="width:100%;padding-bottom:100%"></div><img aria-hidden="true" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAIAAAAC64paAAAACXBIWXMAAAsTAAALEwEAmpwYAAACY0lEQVQ4y42UTUhUURTHz7kzFiN9aLsSK5JIGV2URREGBX2ppKGUptVMZYJ9OPPemzfjyloXSDsXtRD6oFVUIFGtTHARFoEgSiFkJRFWGBPavHfvP+6rbLIZ9XIWh8P98T/vvP+5FCVkjAgpi5TpJdnuUMZqO7kJQq3v/lHRH9e8XDysDEKEZ1bw+gKuiP0WV4uC28lJCOyky7nlwUDJxv10PcG6uDAcIWkRzvJ4gPKDTweKeu7kUeFFkTS8jhaE3YQPpXQst66qfgbVX7CkonwHxTtEBnGaQ9qMBnq2dOWqksHRAYmHwLpHfbki/7R4bf03uXRYTyXmRyFty0vYpgJcZ9pxww6WhZo2UW2HLzusGxbYTV3+DWu2v50akgAUlOxTKH017s9bfojuxVlfy6xsCOyjrqLu3isAXCk1DTjSBoo6b1bTDetf8TRlHyzCmUocTKqPjvJ0oeWBEUfu+aTatsAkREXGthkxQpWVuj2Z0sIKv470kmvvUzWhlE2IZIQNgXOEq2XKnfZk/8DKU09OqEur1QWCwVng84T+bpX8hs9j+Dr+NybH8D2J3k7VRjB8Wf6zIRALuIZfmjnSyHFNHdLQ4Rh+GQvIKMv5HBYjmHoxlKlXUk/I9IpRkiapWDaHGXolflSKW838IszDzTxYz49DPBzi0Spxt5XfHeeXTTxoppmcZh0SJxzm3rVib1CEN4v2oAiXiZYCsatYNBaLxgPcs1XYR7jPTjPprLJ+NFroQ4Smmvl5Aw/U8IOTPHyCh07xm1aeqOMnYR6x5lkMryVpkbIJcdKemf1s28vnbOVPfGtgRKO972EAAAAASUVORK5CYII=" alt="" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:1"/><noscript><picture><source srcset="/static/8c061761f263c344f2c0416607c8adf1/22f7f/pozafly.png 40w,
+/static/8c061761f263c344f2c0416607c8adf1/587c9/pozafly.png 80w,
+/static/8c061761f263c344f2c0416607c8adf1/d966b/pozafly.png 120w,
+/static/8c061761f263c344f2c0416607c8adf1/bc8e0/pozafly.png 800w,
+/static/8c061761f263c344f2c0416607c8adf1/d4b30/pozafly.png 1242w" sizes="(max-width: 800px) 100vw, 800px" /><img loading="lazy" sizes="(max-width: 800px) 100vw, 800px" srcset="/static/8c061761f263c344f2c0416607c8adf1/22f7f/pozafly.png 40w,
+/static/8c061761f263c344f2c0416607c8adf1/587c9/pozafly.png 80w,
+/static/8c061761f263c344f2c0416607c8adf1/d966b/pozafly.png 120w,
+/static/8c061761f263c344f2c0416607c8adf1/bc8e0/pozafly.png 800w,
+/static/8c061761f263c344f2c0416607c8adf1/d4b30/pozafly.png 1242w" src="/static/8c061761f263c344f2c0416607c8adf1/bc8e0/pozafly.png" alt="" style="position:absolute;top:0;left:0;opacity:1;width:100%;height:100%;object-fit:cover;object-position:center"/></picture></noscript></div><div class="author-info"><div class="bio"><h2>Pozafly</h2><p>Frontend Developer</p><p><a href="/author/pozafly/">More posts</a> by<!-- --> <!-- -->Pozafly<!-- -->.</p></div></div></div><style data-emotion="css 1smzq71">.css-1smzq71{display:block;overflow:hidden;margin:0 -4px;width:40px;height:40px;border:#fff 2px solid;border-radius:100%;-webkit-transition:all 0.5s cubic-bezier(0.4, 0.01, 0.165, 0.99) 700ms;transition:all 0.5s cubic-bezier(0.4, 0.01, 0.165, 0.99) 700ms;}@media (max-width: 500px){.css-1smzq71{width:36px;height:36px;}}@media (prefers-color-scheme: dark){.css-1smzq71{border-color:#1a1c20;}}</style><a class="author-avatar css-1smzq71" href="/author/pozafly/"><div class="author-profile-image css-1kq7wgl gatsby-image-wrapper" style="position:relative;overflow:hidden"><div aria-hidden="true" style="width:100%;padding-bottom:100%"></div><img aria-hidden="true" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAIAAAAC64paAAAACXBIWXMAAAsTAAALEwEAmpwYAAACY0lEQVQ4y42UTUhUURTHz7kzFiN9aLsSK5JIGV2URREGBX2ppKGUptVMZYJ9OPPemzfjyloXSDsXtRD6oFVUIFGtTHARFoEgSiFkJRFWGBPavHfvP+6rbLIZ9XIWh8P98T/vvP+5FCVkjAgpi5TpJdnuUMZqO7kJQq3v/lHRH9e8XDysDEKEZ1bw+gKuiP0WV4uC28lJCOyky7nlwUDJxv10PcG6uDAcIWkRzvJ4gPKDTweKeu7kUeFFkTS8jhaE3YQPpXQst66qfgbVX7CkonwHxTtEBnGaQ9qMBnq2dOWqksHRAYmHwLpHfbki/7R4bf03uXRYTyXmRyFty0vYpgJcZ9pxww6WhZo2UW2HLzusGxbYTV3+DWu2v50akgAUlOxTKH017s9bfojuxVlfy6xsCOyjrqLu3isAXCk1DTjSBoo6b1bTDetf8TRlHyzCmUocTKqPjvJ0oeWBEUfu+aTatsAkREXGthkxQpWVuj2Z0sIKv470kmvvUzWhlE2IZIQNgXOEq2XKnfZk/8DKU09OqEur1QWCwVng84T+bpX8hs9j+Dr+NybH8D2J3k7VRjB8Wf6zIRALuIZfmjnSyHFNHdLQ4Rh+GQvIKMv5HBYjmHoxlKlXUk/I9IpRkiapWDaHGXolflSKW838IszDzTxYz49DPBzi0Spxt5XfHeeXTTxoppmcZh0SJxzm3rVib1CEN4v2oAiXiZYCsatYNBaLxgPcs1XYR7jPTjPprLJ+NFroQ4Smmvl5Aw/U8IOTPHyCh07xm1aeqOMnYR6x5lkMryVpkbIJcdKemf1s28vnbOVPfGtgRKO972EAAAAASUVORK5CYII=" alt="Pozafly" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:1"/><noscript><picture><source srcset="/static/8c061761f263c344f2c0416607c8adf1/22f7f/pozafly.png 40w,
+/static/8c061761f263c344f2c0416607c8adf1/587c9/pozafly.png 80w,
+/static/8c061761f263c344f2c0416607c8adf1/d966b/pozafly.png 120w,
+/static/8c061761f263c344f2c0416607c8adf1/bc8e0/pozafly.png 800w,
+/static/8c061761f263c344f2c0416607c8adf1/d4b30/pozafly.png 1242w" sizes="(max-width: 800px) 100vw, 800px" /><img loading="lazy" sizes="(max-width: 800px) 100vw, 800px" srcset="/static/8c061761f263c344f2c0416607c8adf1/22f7f/pozafly.png 40w,
+/static/8c061761f263c344f2c0416607c8adf1/587c9/pozafly.png 80w,
+/static/8c061761f263c344f2c0416607c8adf1/d966b/pozafly.png 120w,
+/static/8c061761f263c344f2c0416607c8adf1/bc8e0/pozafly.png 800w,
+/static/8c061761f263c344f2c0416607c8adf1/d4b30/pozafly.png 1242w" src="/static/8c061761f263c344f2c0416607c8adf1/bc8e0/pozafly.png" alt="Pozafly" style="position:absolute;top:0;left:0;opacity:1;width:100%;height:100%;object-fit:cover;object-position:center"/></picture></noscript></div></a></li></ul><section class="post-full-byline-meta"><h4 class="author-name"><a href="/author/pozafly/">Pozafly</a></h4><div class="byline-meta-content"><time class="byline-meta-date" dateTime="2021-02-05">05 Feb 2021</time><span class="byline-reading-time"><span class="bull">•</span> <!-- -->13<!-- --> min read</span></div></section></section></div></header><style data-emotion="css 1nn2b1b">.css-1nn2b1b{margin:25px auto 50px;background:#fff center center;-webkit-background-size:cover;background-size:cover;border-radius:5px;width:80%;}@media (max-width: 1170px){.css-1nn2b1b{width:80%;}.css-1nn2b1b img{max-width:1170px;}}@media (max-width: 800px){.css-1nn2b1b{width:100%;height:400px;}}@media (max-width: 500px){.css-1nn2b1b{width:100%;margin-bottom:4vw;height:350px;}}</style><figure class="css-1nn2b1b ewnyor50"><div class=" gatsby-image-wrapper" style="position:relative;overflow:hidden;height:100%"><div aria-hidden="true" style="width:100%;padding-bottom:75%"></div><img aria-hidden="true" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAAsTAAALEwEAmpwYAAAD2ElEQVQ4y31TS2wbVRS9YyeoTZxQyY1jYZIGBZFilQYhVBbZIKRAsyBCCmLPColFF0VILLqqIFkgFNEsQCJJUyBJa1LHsT0z/s3Yjj0z9ng8H3vs8Sf2NBWx01TBhdKiNqUPjasgJChHejpP912dd8+79wH8A4F0EcMZBQguf4ySanO0rC/RUn2BkuqLlFRfoGX9e0qsfeVP5i1+Jg9BvgT/grWvv82z86sQFirmEK8CzuasbirzrTehLPkSucveTeXKRlxe8jP5ZT+Tn3XTgiUk1IDkVHMoo5mCfNFkMMmpGFiP29qC8y4CSK4IzUcIEEIg6C34KZyC9WgWrlM8XI/w4KYFILgCnPvsIsxf80KILwIlViCSLUMkW4FAugBgsz/XCQCd05e+6w8L5bfddOasm+YnV/D4AACYl/2x11fJxPurZOLdZTw+5U3IbxrxrxdX7AQrT5CcMk5wyjjJKWf9SXkArH02w/PQzNziJCXVt0OZSj0i1lrehDJlVBoWqrNkSttf9sdrvmTuVrLY8AIANu/yTRCsivxM7gHOqn8QbAERrPoNfPjx+baVIF9uWzWSdx6iw735LkJApp6cHcaGhkdMp0Zf7aDlG4OX3ZGTnpg8vLROOQlO6wdXKN1JS/orOKOe9jPq6NyVtTcIrjDKlHad9xDCSK54JMiXvyS4woovobg9MfEtN51pi/O1VruAw4sajxDAWoR3sKXd+75EDnli4uONuHQQy22jVGVvdz2a7ceZvJlgC9M4oy4E0tpSWNgaY7QGkKkSBNLa+SBfbhFccYuW9GY8f/Md+GGDcqS3bv/OaM3H4Wz1gJb1h4J+B3HlWzvehGIPpEvgiYngCnHtDoeFCtxFyGRUNe8inDirToaF6jgt6xMRccsGq0TiebbUNARQVNZRVNFRurqHGK15D2eLDk9cgrVIemwFj3/qZ/KfuGn+BUNseMTZbTDOqhBTtmFT/RliuW2AawHWypaaPkbbCbGlZoDRGiSjNSKM1ry6HhOPezdl8CVzH10lk5J3U5Y8sexY4wAdNgkjU5qZlnRTPH/TFFV0gEz9DqjNB5DVW1DZ/xPUxn0gOQ248m1Yo0T40RfHcLYI730w1QUAxohZLsxcwoyf8p/o6j7S0W05etrS23XS0nPU2Wez2l8ccfYOv/Ryj2NwCPsNISxV3TPGapOW9BnjLQNpzeQK8fAUHOsEsJwB6D0D2LOvYVjPKQwzDWAYZscwrMPI2EcIImLtRDBTsW39iiCUqcL/4AszwEUHwOcnAKYHAS7Yn8Sf+Tuj8gsCSqy3l9GAqHzjqXJ/AaR/W/9Pzcd6AAAAAElFTkSuQmCC" alt="(5) 로그인2 -SpringBoot 구현" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:1;transition-delay:500ms"/><noscript><picture><source srcset="/static/cf052c2134f0abd114c107d149d0dd49/1eab0/tripllo5.png 820w" sizes="(max-width: 820px) 100vw, 820px" /><img loading="lazy" sizes="(max-width: 820px) 100vw, 820px" srcset="/static/cf052c2134f0abd114c107d149d0dd49/1eab0/tripllo5.png 820w" src="/static/cf052c2134f0abd114c107d149d0dd49/1eab0/tripllo5.png" alt="(5) 로그인2 -SpringBoot 구현" style="position:absolute;top:0;left:0;opacity:1;width:100%;height:100%;object-fit:cover;object-position:center"/></picture></noscript></div></figure><style data-emotion="css zz9y8m">.css-zz9y8m{position:relative;margin:0 auto;padding:0 100px 6vw;min-height:230px;font-size:2rem;line-height:1.6em;background:#fff;}@media (max-width: 1170px){.css-zz9y8m{padding:0 11vw;}}@media (max-width: 800px){.css-zz9y8m{padding:0 5vw;font-size:1.8rem;}}@media (max-width: 500px){.css-zz9y8m{padding:0;}}@media (max-width: 500px){.css-zz9y8m .post-full-custom-excerpt{font-size:1.9rem;line-height:1.5em;}}.css-zz9y8m .no-image{padding-top:0;}.css-zz9y8m h1,.css-zz9y8m h2,.css-zz9y8m h3,.css-zz9y8m h4,.css-zz9y8m h5,.css-zz9y8m h6,.css-zz9y8m p,.css-zz9y8m ul,.css-zz9y8m ol,.css-zz9y8m dl,.css-zz9y8m pre,.css-zz9y8m blockquote,.css-zz9y8m .post-full-comments,.css-zz9y8m .footnotes{margin:0 0 1.5em 0;min-width:100%;}@media (max-width: 500px){.css-zz9y8m p,.css-zz9y8m ul,.css-zz9y8m ol,.css-zz9y8m dl,.css-zz9y8m pre,.css-zz9y8m .post-full-comments,.css-zz9y8m .footnotes{margin-bottom:1.28em;}}.css-zz9y8m li{word-break:break-word;}.css-zz9y8m li p{margin:0;}.css-zz9y8m a{color:#3eb0ef;word-break:break-word;box-shadow:#3eb0ef 0 -1px 0 inset;-webkit-transition:all 0.2s ease-in-out;transition:all 0.2s ease-in-out;}.css-zz9y8m a:hover{color:#15171A;-webkit-text-decoration:none;text-decoration:none;box-shadow:#15171A 0 -1px 0 inset;}.css-zz9y8m strong,.css-zz9y8m em{color:#0a0b0c;}.css-zz9y8m small{display:inline-block;line-height:1.6em;}.css-zz9y8m img,.css-zz9y8m video{display:block;margin:3em auto;max-width:840px;height:auto;border-radius:15px;box-shadow:rgba(0, 0, 0, 0.3) 0 0 23px;}@media (max-width: 1040px){.css-zz9y8m img,.css-zz9y8m video{width:100%;}}.css-zz9y8m img[src$='#full']{max-width:none;width:100vw;}.css-zz9y8m img+br+small{display:block;margin-top:-3em;margin-bottom:1.5em;text-align:center;}.css-zz9y8m iframe{margin:0 auto!important;}.css-zz9y8m blockquote{margin:0 0 1.5em;padding:0 1.5em;border-left:#3eb0ef 3px solid;}@media (max-width: 500px){.css-zz9y8m blockquote{padding:0 1.3em;}}.css-zz9y8m blockquote p{margin:0 0 1em 0;color:inherit;font-size:inherit;line-height:inherit;font-style:italic;}.css-zz9y8m blockquote p:last-child{margin-bottom:0;}.css-zz9y8m code{padding:0 5px 2px;font-size:0.8em;line-height:1em;font-weight:400!important;background:#e5eff5;border-radius:13px;}.css-zz9y8m p code{border-radius:0.3em;background:rgb(60, 65, 72);color:white;padding:0.15em 0.5em;margin:0 0.25em;white-space:normal;font-weight:500!important;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans','Ubuntu','Droid Sans','Helvetica Neue',sans-serif;}.css-zz9y8m pre{overflow-x:auto;padding:20px;max-width:100%;color:#e5eff5;font-size:1.4rem;line-height:1.5em;border-radius:5px;}.css-zz9y8m pre ::selection{color:#3b474d;}.css-zz9y8m pre code{padding:0;font-size:inherit;line-height:inherit;background:transparent;}.css-zz9y8m pre code :not(span){color:inherit;}.css-zz9y8m .fluid-width-video-wrapper{margin:1.5em 0 3em;}.css-zz9y8m hr{margin:2em 0;}.css-zz9y8m hr:after{content:'';position:absolute;top:-15px;left:50%;display:block;margin-left:-10px;width:1px;height:30px;background:#e4eaed;box-shadow:#fff 0 0 0 5px;-webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);-ms-transform:rotate(45deg);transform:rotate(45deg);}.css-zz9y8m hr+p{margin-top:1.2em;}.css-zz9y8m h1,.css-zz9y8m h2,.css-zz9y8m h3,.css-zz9y8m h4,.css-zz9y8m h5,.css-zz9y8m h6{color:#0a0b0c;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans','Ubuntu','Droid Sans','Helvetica Neue',sans-serif;}.css-zz9y8m h1{margin:0.5em 0 0.4em;font-size:4.2rem;line-height:1.25em;font-weight:600;}.css-zz9y8m p+h1{margin-top:0.8em;}@media (max-width: 800px){.css-zz9y8m h1{font-size:3.2rem;line-height:1.25em;}}.css-zz9y8m h2{margin:0.5em 0 0.4em;font-size:3.2rem;line-height:1.25em;font-weight:600;}.css-zz9y8m p+h2{margin-top:0.8em;}@media (max-width: 800px){.css-zz9y8m h2{margin-bottom:0.3em;font-size:2.8rem;line-height:1.25em;}}.css-zz9y8m h3{margin:0.5em 0 0.2em;font-size:2.5rem;line-height:1.3em;font-weight:600;}.css-zz9y8m h2+h3{margin-top:0.7em;}@media (max-width: 800px){.css-zz9y8m h3{margin-bottom:0.3em;font-size:2.4rem;line-height:1.3em;}}.css-zz9y8m h4{margin:0.5em 0 0.2em;font-size:2.5rem;font-weight:600;}.css-zz9y8m h2+h4{margin-top:0.7em;}.css-zz9y8m h3+h4{margin-top:0;}@media (max-width: 800px){.css-zz9y8m h4{margin-bottom:0.3em;font-size:2.4rem;line-height:1.3em;}}.css-zz9y8m h5{display:block;margin:0.5em 0;padding:0.4em 1em 0.9em;border:0;color:#3eb0ef;font-size:3.2rem;line-height:1.35em;text-align:center;}@media (min-width: 1180px){.css-zz9y8m h5{max-width:1060px;}}@media (max-width: 800px){.css-zz9y8m h5{margin-bottom:1em;margin-left:1.3em;padding:0 0 0.5em;font-size:2.4rem;text-align:initial;}}.css-zz9y8m h6{margin:0.5em 0 0.2em 0;font-size:2rem;font-weight:700;}@media (max-width: 800px){.css-zz9y8m h6{font-size:1.8rem;line-height:1.4em;}}.css-zz9y8m table{display:inline-block;overflow-x:auto;margin:0.5em 0 2.5em;max-width:100%;width:auto;border-spacing:0;border-collapse:collapse;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans','Ubuntu','Droid Sans','Helvetica Neue',sans-serif;font-size:1.6rem;white-space:nowrap;vertical-align:top;}.css-zz9y8m table{-webkit-overflow-scrolling:touch;background:radial-gradient(ellipse at left, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 75%) 0 center,radial-gradient(ellipse at right, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 75%) 100% center;background-attachment:scroll,scroll;-webkit-background-size:10px 100%,10px 100%;background-size:10px 100%,10px 100%;background-repeat:no-repeat;}.css-zz9y8m table td:first-of-type{background-image:linear-gradient(
+      to right,
+      rgba(255, 255, 255, 1) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );-webkit-background-size:20px 100%;background-size:20px 100%;background-repeat:no-repeat;}.css-zz9y8m table td:last-child{background-image:linear-gradient(
+      to left,
+      rgba(255, 255, 255, 1) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );-webkit-background-position:100% 0;background-position:100% 0;-webkit-background-size:20px 100%;background-size:20px 100%;background-repeat:no-repeat;}.css-zz9y8m table th{color:#15171A;font-size:1.2rem;font-weight:700;letter-spacing:0.2px;text-align:left;text-transform:uppercase;background-color:#f4f8fb;}.css-zz9y8m table th,.css-zz9y8m table td{padding:6px 12px;border:#e1edf4 1px solid;}@media (prefers-color-scheme: dark){.css-zz9y8m{background:#191b1f;}.css-zz9y8m h1,.css-zz9y8m h2,.css-zz9y8m h3,.css-zz9y8m h4,.css-zz9y8m h6{color:rgba(255, 255, 255, 0.9);}.css-zz9y8m a{color:#26a6ed;box-shadow:inset 0 -1px 0 #26a6ed;}.css-zz9y8m a:hover{color:#fff;box-shadow:inset 0 -1px 0 #fff;}.css-zz9y8m strong{color:#fff;}.css-zz9y8m em{color:#fff;}.css-zz9y8m code{border-radius:0.3em;background:rgb(60, 65, 72);color:white;padding:0.15em 0.5em;margin:0 0.25em;white-space:normal;font-weight:500!important;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans','Ubuntu','Droid Sans','Helvetica Neue',sans-serif;}.css-zz9y8m hr{border-top-color:#17191c;}.css-zz9y8m hr:after{background:#17191c;box-shadow:#191b1f 0 0 0 5px;}.css-zz9y8m figcaption{color:rgba(255, 255, 255, 0.6);}.css-zz9y8m table td:first-of-type{background-image:linear-gradient(to right, #191b1f 50%, #191b1f 100%);}.css-zz9y8m table td:last-child{background-image:linear-gradient(270deg, #191b1f 50%, rgba(25, 27, 31, 0));}.css-zz9y8m table th{color:rgba(255, 255, 255, 0.85);background-color:#2b2f36;}.css-zz9y8m table th,.css-zz9y8m table td{border:#2b2f36 1px solid;}.css-zz9y8m .kg-bookmark-container,.css-zz9y8m .kg-bookmark-container:hover{color:rgba(255, 255, 255, 0.75);box-shadow:0 0 1px rgba(255, 255, 255, 0.9);}}.css-zz9y8m code[class*='language-'],.css-zz9y8m pre[class*='language-']{color:white;background:none;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans','Ubuntu','Droid Sans','Helvetica Neue',sans-serif;font-feature-settings:normal;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;margin-bottom:0;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;}.css-zz9y8m pre[class*='language-']{overflow:auto;}.css-zz9y8m pre[class*='language-']::-moz-selection{background:hsl(207, 4%, 16%);}.css-zz9y8m pre[class*='language-']::selection{background:hsl(207, 4%, 16%);}.css-zz9y8m pre[class*='language-']::-moz-selection,.css-zz9y8m pre[class*='language-'] ::-moz-selection{text-shadow:none;background:hsla(0, 0%, 100%, 0.15);}.css-zz9y8m pre[class*='language-']::selection,.css-zz9y8m pre[class*='language-'] ::selection{text-shadow:none;background:hsla(0, 0%, 100%, 0.15);}.css-zz9y8m *:not(pre)>code[class*='language-']{border-radius:0.3em;background:#3C4148;color:white;padding:0.15em 0.5em;white-space:normal;}.css-zz9y8m .token{font-size:1.4rem;}.css-zz9y8m .token.attr-name{color:rgb(173, 219, 103);font-style:italic;}.css-zz9y8m .token.comment{color:rgb(128, 147, 147);}.css-zz9y8m .token.string,.css-zz9y8m .token.url{color:rgb(173, 219, 103);}.css-zz9y8m .token.variable{color:rgb(214, 222, 235);}.css-zz9y8m .token.number{color:rgb(247, 140, 108);}.css-zz9y8m .token.builtin,.css-zz9y8m .token.char,.css-zz9y8m .token.constant,.css-zz9y8m .token.function{color:rgb(130, 170, 255);}.css-zz9y8m .token.punctuation{color:rgb(199, 146, 234);}.css-zz9y8m .token.selector,.css-zz9y8m .token.doctype{color:rgb(199, 146, 234);font-style:'italic';}.css-zz9y8m .token.class-name{color:rgb(255, 203, 139);}.css-zz9y8m .token.tag,.css-zz9y8m .token.operator,.css-zz9y8m .token.keyword{color:#ffa7c4;}.css-zz9y8m .token.boolean{color:rgb(255, 88, 116);}.css-zz9y8m .token.property{color:rgb(128, 203, 196);}.css-zz9y8m .token.namespace{color:rgb(178, 204, 214);}.css-zz9y8m pre[data-line]{padding:1em 0 1em 3em;position:relative;}.css-zz9y8m .gatsby-highlight-code-line{background-color:hsla(207, 95%, 15%, 1);display:block;margin-right:-1.3125rem;margin-left:-1.3125rem;padding-right:1em;padding-left:1.25em;border-left:0.25em solid #ffa7c4;}.css-zz9y8m .gatsby-highlight{margin-bottom:1.75rem;margin-left:-1.3125rem;margin-right:-1.3125rem;border-radius:10px;background:#011627;-webkit-overflow-scrolling:touch;overflow:auto;}.css-zz9y8m .gatsby-highlight pre[class*='language-']{float:left;min-width:100%;font-size:1.5rem;}</style><section class="post-full-content css-zz9y8m e14ijd7g0"><div><blockquote>
+<p>Spring Security와 JWT를 사용해서 로그인 기능을 구현했다. Spring Security의 구현된 소스와 login의 Service 단 내부 로직을 개념에 맞춰서 알아보자.</p>
+</blockquote>
+<br/>
+<p>이제 실제적으로 SpringBoot부터 구현하자.</p>
+<h2>Dependency 등록</h2>
+<p>첫번째로, build.gradle에 dependencies를 추가해주자.</p>
+<deckgo-highlight-code terminal="carbon" theme="material" highlight-lines="undefined">
+          <code slot="code">implementation &#x27;org.springframework.boot:spring-boot-starter-security&#x27;
+implementation &#x27;io.jsonwebtoken:jjwt:0.9.1&#x27;</code>
+        </deckgo-highlight-code>
+<br/>
+<h2>Common 세팅</h2>
+<p>common이란 패키지 밑에 security 패키지를 만들었다. 이곳에 이제 Security 관련 class들이 들어갈 예정이다. 그 밑에 UserService 관련 객체가 들어갈 securityUser 패키지를 만들고 Spring Security의 전체 구조 사진의 5,6,7 번에 해당하는 UserDetailsService, UserDetail을 구현한 클래스를 만들었다.</p>
+<h3>SecurityUser</h3>
+<deckgo-highlight-code java="" terminal="carbon" theme="material" highlight-lines="">
+          <code slot="code">package com.pozafly.tripllo.common.security.securityUser;
+
+import com.pozafly.tripllo.user.model.User;   // security 외에 Tripllo에서 직접 사용하는 User class
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+
+public class SecurityUser implements UserDetails {
+
+    private Collection&lt;? extends GrantedAuthority&gt; authorities;
+    private User user;   // 이곳에 Tripllo의 User 객체를 넣어준다.
+
+    @Override
+    public Collection&lt;? extends GrantedAuthority&gt; getAuthorities() { return authorities; }
+    @Override
+    public String getPassword() { return user.getPassword(); }     // 패스워드를 들고오는 부분
+    @Override
+    public String getUsername() { return user.getId(); }   // id를 들고오는 부분
+    @Override
+    public boolean isAccountNonExpired() { return true; }
+    @Override
+    public boolean isAccountNonLocked() { return true; }
+    @Override
+    public boolean isCredentialsNonExpired() { return true; }
+    @Override
+    public boolean isEnabled() { return true; }
+}</code>
+        </deckgo-highlight-code>
+<p>UserDetails를 구현한 class이다. UserDetails는 SpringSecurity의 인터페이스이고, 우리 프로젝트에서 만든 인터페이스가 아니다. Tripllo에서 사용하는 객체는 User 하나다. 제일 위 사진을 보면 6번에 해당하는 UserDetails 를 구현체로 한 구현 class가 해당 class이며 이는 Tripllo에서 실제로 사용하는 User 객체의 id, pw를 사용하는 모습을 볼 수 있다.</p>
+<br/>
+<h3>UserDetailsService</h3>
+<deckgo-highlight-code java="" terminal="carbon" theme="material" highlight-lines="">
+          <code slot="code">package com.pozafly.tripllo.common.security.securityUser;
+
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+public interface UserDetailsService {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+}</code>
+        </deckgo-highlight-code>
+<p>다음으로 볼 것은 위 그림에 5,6,7 번이 모두 물려있는 UserDetailService다. 이 인터페이스는 구현체인 UserDetailServiceImpl에서 이어지는데 하나의 메서드만 가지고 있다. <code>loadUserByUsername()</code>. 이 메서드 또한 SpringSecurity에서 자체적으로 제공하는 메서드인데 매개변수로 String username이 들어간다. 이름에서 알 수 있듯, username이라는 구분 값으로 DB에 접속해서 user의 정보를 가져오는 메서드.</p>
+<br/>
+<h3>UserDetailServiceImpl</h3>
+<deckgo-highlight-code java="" terminal="carbon" theme="material" highlight-lines="">
+          <code slot="code">package com.pozafly.tripllo.common.security.securityUser;
+
+import com.pozafly.tripllo.user.dao.UserDao;
+import com.pozafly.tripllo.user.model.User;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+@Log4j2
+@Service
+public class UserDetailsServiceImpl implements UserDetailsService {
+
+    @Autowired
+    private UserDao userDao;   // Tripllo 유저 조회하기 위해 DI
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        // 로그인 시도하려는 유저정보 조회
+        log.info(&quot;security loadUserByUsername에서 유저 조회&quot;);
+        User user = userDao.readUser(username);   // tripllo에서 사용하는 User 조회 메서드
+
+        // 조회가 되지않는 User는 에러발생.
+        if(user == null){ throw new UsernameNotFoundException(username); }
+
+        // 조회한 정보를 userCustom에 담는다.
+        // 만약 파라미터를 추가해야한다면 UserCustom 을 먼저 수정한다.
+        return new SecurityUser() {
+            @Override
+            public Collection&lt;? extends GrantedAuthority&gt; getAuthorities() {
+                List&lt;GrantedAuthority&gt; authorities = new ArrayList&lt;GrantedAuthority&gt;();
+                authorities.add(new SimpleGrantedAuthority(user.getRole()));  // Role을 위해
+                return authorities;
+            }
+            @Override
+            public String getPassword() { return user.getPassword(); }
+            @Override
+            public String getUsername() { return user.getId(); }
+            @Override
+            public boolean isAccountNonExpired() { return true; }
+            @Override
+            public boolean isAccountNonLocked() { return true; }
+            @Override
+            public boolean isCredentialsNonExpired() { return true; }
+            @Override
+            public boolean isEnabled() { return true; }
+        };
+    }
+}</code>
+        </deckgo-highlight-code>
+<p>구현체인 UserServiceImpl 에서는 <code>loadUserByUsername()</code>를 정의해준다. Tripllo에서 사용하는 user를 조회하는 Dao를 DI해서 MyBatis로 연결되어 유저 정보를 조회해서 가져오고, username에는 user.getId(), password에는 user.getId()를 사용해서 넣어주었다. Role에 대해서는 밑에서 설명 예정.</p>
+<br/>
+<h3>JwtTokenProvider</h3>
+<deckgo-highlight-code java="" terminal="carbon" theme="material" highlight-lines="">
+          <code slot="code">package com.pozafly.tripllo.common.security;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Base64;
+import java.util.Date;
+import java.util.List;
+
+@RequiredArgsConstructor
+@Component
+public class JwtTokenProvider {
+
+    private static String secretKey = &quot;triplloApplication&quot;;
+
+    // 토큰 유효시간 60분 * 24 = 24시간
+    private long tokenValidTime = 60 * 60 * 24 * 1000L;
+
+    private final UserDetailsService userDetailsService;
+
+    // 객체 초기화, secretKey를 Base64로 인코딩한다.
+    @PostConstruct
+    protected void init() {
+        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+    }
+
+    // JWT 토큰 생성
+    public String createToken(String userPk, List&lt;String&gt; roles) {
+        Claims claims = Jwts.claims().setSubject(userPk); // JWT payload 에 저장되는 정보단위
+        claims.put(&quot;roles&quot;, roles); // 정보는 key / value 쌍으로 저장된다.
+        Date now = new Date();
+        return Jwts.builder()
+                .setClaims(claims) // 정보 저장
+                .setIssuedAt(now) // 토큰 발행 시간 정보
+                .setExpiration(new Date(now.getTime() + tokenValidTime)) // set Expire Time
+                .signWith(SignatureAlgorithm.HS256, secretKey)  // 사용할 암호화 알고리즘, signature 에 들어갈 secret값 세팅
+                .compact();
+    }
+
+    // JWT 토큰에서 인증 정보 조회
+    public Authentication getAuthentication(String token) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
+        return new UsernamePasswordAuthenticationToken(userDetails, &quot;&quot;, userDetails.getAuthorities());
+    }
+
+    // 토큰에서 회원 정보 추출
+    public String getUserPk(String token) {
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+    }
+
+    // Request의 Header에서 token 값을 가져옴. &quot;Authorization&quot; : &quot;TOKEN값&#x27;
+    public String resolveToken(HttpServletRequest request) {
+        return request.getHeader(&quot;Authorization&quot;);
+    }
+
+    // 토큰의 유효성 + 만료일자 확인
+    public boolean validateToken(String jwtToken) {
+        try {
+            Jws&lt;Claims&gt; claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
+            return !claims.getBody().getExpiration().before(new Date());
+        } catch (Exception e) {
+            return false;
+        }
+    }
+}</code>
+        </deckgo-highlight-code>
+<p>위의 사진에 4,5,7,8번이 물려있는 AuthenticationProviders의 하나인 JwtTokenProvider를 만들어주었다.</p>
+<ul>
+<li>init() : 상단의 secretKey 상수에 물려있는 String 값을 기반으로 Base64 로 인코딩해서 토큰을 생성한다. 물론 이 부분은 application.properties나 application.yml로 빼서 @Value 로 받아와 사용하는것이 좋겠다.</li>
+<li>createToken() : userPK(가령 id)와 role list를 매개변수로 받아 Claims를 생성하고, role을 Claims에 집어넣난다. Builder 패턴으로 정보, 토큰 발행시간, 토큰 유효시간, 그리고 사용할 알고리즘을 세팅한다.</li>
+<li>getAuthentication() : 위에서 생성했던 loadUserByUsername() 메서드를 여기서 사용한다. 클라이언트로부터 받은 token을 파싱해서 이름을 추출하고 userDetails를 가져온다. return 객체는 사진 2번에 물려있는 <code>UsernamePasswordAuthenticationToken</code>이다. 이 녀석이 핵심!</li>
+<li>getUserPk() : 토큰에서 회원 정보 추출.</li>
+<li>validateToken() : 토큰의 유효성 검사.</li>
+<li>resolveToken() : 이녀석을 유의해서 봐야하는데 이녀석 때문에 몇시간을 헤멘지 모르겠다. 중요한 것은</li>
+</ul>
+<deckgo-highlight-code java="" terminal="carbon" theme="material" highlight-lines="">
+          <code slot="code">return request.getHeader(&quot;Authorization&quot;);</code>
+        </deckgo-highlight-code>
+<p>이 부분이다. vue에서 axios로 api를 날릴때 token 이름을 “Token …” 이런식으로 주었더니 토큰을 가져오지 못하는 경우가 발생했다.</p>
+<img width="1038" alt="스크린샷 2021-02-04 오후 9 18 58" src="https://user-images.githubusercontent.com/59427983/106891971-c79c5500-672e-11eb-8840-2377296e626c.png"/>
+<p>개발자 도구에 Network 탭에서 확인해보자. 만약 위 코드를</p>
+<deckgo-highlight-code java="" terminal="carbon" theme="material" highlight-lines="">
+          <code slot="code">return request.getHeader(&quot;Token&quot;);</code>
+        </deckgo-highlight-code>
+<p>이라고 했다고 하자. 그럼 클라이언트 단에서 <strong>Authorization</strong> 이라는 header 명으로 axios에서 요청을 보냈다. 그러자 Spring Security에서 인증되지 않아 403 인증 오류를 뱉는다. 즉, resolveToken() 메서드의 getHeader(“Authorization”) 이렇게 이름을 맞춰주거나, axios 로 http call을 날릴 때 헤더명을 “Token” 으로 맞춰주거나 해야 한다.</p>
+<br/>
+<h3>JwtAuthenticationFilter</h3>
+<deckgo-highlight-code java="" terminal="carbon" theme="material" highlight-lines="">
+          <code slot="code">package com.pozafly.tripllo.common.security;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.filter.GenericFilterBean;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+
+@RequiredArgsConstructor
+public class JwtAuthenticationFilter extends GenericFilterBean {
+
+    private final JwtTokenProvider jwtTokenProvider;
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        // 헤더에서 JWT 를 받아옴.
+        String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
+
+        // 유효한 토큰인지 확인함.
+        if (token != null &amp;&amp; jwtTokenProvider.validateToken(token)) {
+            // 토큰이 유효하면 토큰으로부터 유저 정보를 받아옴.
+            Authentication authentication = jwtTokenProvider.getAuthentication(token);
+            // SecurityContext 에 Authentication 객체를 저장함.
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
+        chain.doFilter(request, response);
+    }
+}</code>
+        </deckgo-highlight-code>
+<p>이번엔 클라이언트에서 가장 먼저 접근했을 때 들어오는 Filter인, <code>JwtAuthenticationFilter</code> 를 살펴보자. 모든 filter는 요청이 들어왔을 때 doFilter() 메서드가 실행되며, 마칠 때 다른 filter 가 있다면 chain을 걸어주어야 한다. Provider에서 토큰을 받아오고, 다시 Provider에서 검증하는 과정을 거친다. 이제 마지막 부분인 config 부분을 보자. 이때까지 setting 이었다면, 이번에는 실질적으로 이 config 파일에서 모든 설정을 해줄 수 있다.</p>
+<deckgo-highlight-code java="" terminal="carbon" theme="material" highlight-lines="">
+          <code slot="code">package com.pozafly.tripllo.common.security;
+
+import com.google.common.collect.ImmutableList;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+@Configuration
+@RequiredArgsConstructor
+@EnableWebSecurity
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final JwtTokenProvider jwtTokenProvider;
+
+    // 암호화에 필요한 PasswordEncoder를 Bean으로 등록함.
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    // authenticationManager를 Bean 등록함.
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    // 여기는 CORS 설정임.
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+      final CorsConfiguration configuration = new CorsConfiguration();
+      configuration.setAllowedOrigins(ImmutableList.of(&quot;http://localhost:8080&quot;, &quot;http://tripllo.tech.s3-website.ap-northeast-2.amazonaws.com&quot;, &quot;http://tripllo.tech&quot;, &quot;https://tripllo.tech&quot;));
+      configuration.setAllowedMethods(ImmutableList.of(&quot;HEAD&quot;,&quot;GET&quot;, &quot;POST&quot;, &quot;PUT&quot;, &quot;DELETE&quot;, &quot;PATCH&quot;, &quot;OPTIONS&quot;));
+      configuration.setAllowCredentials(true);
+      // 토큰을 Authorization 이라는 이름으로 받겠다.
+      configuration.setAllowedHeaders(ImmutableList.of(&quot;Authorization&quot;, &quot;Cache-Control&quot;, &quot;Content-Type&quot;));
+      final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+      source.registerCorsConfiguration(&quot;/**&quot;, configuration);
+      return source;
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+          .httpBasic().disable() // rest api 만을 고려하여 기본 설정은 해제.
+          .csrf().disable() // csrf 보안 토큰 disable처리.
+          .formLogin().disable() //기본 로그인 페이지 없애기
+          .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 토큰 기반 인증이므로 세션 역시 사용하지 않음.
+          .and()
+            .authorizeRequests() // 요청에 대한 사용권한 체크
+            //                .antMatchers(&quot;/admin/**&quot;).hasRole(&quot;ADMIN&quot;)
+            .antMatchers(&quot;/profile&quot;).permitAll()
+            .antMatchers(&quot;/websocket/**&quot;).permitAll()
+            // post 방식의 user create(회원가입)은 허용한다.
+            .antMatchers(HttpMethod.POST, &quot;/api/user&quot;).permitAll()
+            // 회원가입 전 사용하고 싶은 회원 id를 validation 해볼 수 있는 api도 open
+            .antMatchers(&quot;/api/user/valid/**&quot;).permitAll()
+            // 로그인 오픈
+            .antMatchers(&quot;/api/login/**&quot;).permitAll()
+            .antMatchers(&quot;/api/logout&quot;).permitAll()
+            .antMatchers(&quot;/api/email/**&quot;).permitAll()
+
+            // 인증된 사용자만 가능하다(즉, 헤더에 토큰을 준 사람만이 가능한 것임.)
+            .antMatchers(&quot;/api/**&quot;).authenticated()
+            // role이 ROLE_USER 인 역할만 통과
+            .antMatchers(&quot;/api/**&quot;).hasRole(&quot;USER&quot;)
+            .anyRequest().authenticated()   // 그외 나머지 요청은 인증 가능 해야한다.
+          .and()
+	          .cors()
+          .and()
+          	.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
+                             	UsernamePasswordAuthenticationFilter.class)
+        // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다
+                ;
+    }
+}</code>
+        </deckgo-highlight-code>
+<p>하나씩 천천히 들여다보자.</p>
+<ul>
+<li>JwtTokenProvider를 마찬가지로 DI 받아서 사용한다.</li>
+<li>Spring Security라이브러리에서 제공하는 BCryptPasswordEncoder를 사용한다.</li>
+<li>사진의 3,4,8,9에 물려있는 AuthenticationManager를 Bean으로 등록해준다.</li>
+<li>
+<p>corsConfigurationSource 는 cors 설정이다. cors는 제작기를 따로 만들어서 다룰 예정이지만 가볍게 짚고 넘어가보자. cors란, 서로 다른 도메인 간 api response를 막는걸 말한다. 쉽게 말해 vue는 <strong>8080</strong> 포트를 사용하고, SpringBoot는 <strong>3000</strong>포트를 사용하는데 포트가 다르기 때문에 리소스를 막아주는 역할을 한다.</p>
+<p>SpringSecurity를 도입하기 전에는 WebMvcConfigurer를 상속받은 CorsConfig class를 따로 만들어서 해결했지만, 여기서 cors 설정을 해주면 CorsConfig 가 무시되므로 여기서 보면된다.</p>
+<ul>
+<li>setAllowedOrigins() : url에 해당하는 출처를 허가하겠다라는 뜻이다. ImmutableList.of() 안에 허용하고 싶은 도메인들을 String 형식으로 적어주면 된다.</li>
+<li>setAllowedMethods() : 허용하고 싶은 http 메서드를 마찬가지로 적어준다. 가령 “GET”, “POST”, “PUT”, “DELETE”, “OPTIONS” 같은 메서드들.</li>
+<li>setAllowCredentials() : true일 때, header가 없는 응답들은 거르겠다는 뜻이다. header가 있어야 함을 의미.</li>
+<li>addAllowedHeaders() : 어떤 이름으로 된 헤더들을 허용하겠느냐? ※addAllowedHeader(”*”) 로 모든 헤더 허용 가능.</li>
+<li>그리고 모든 설정한 configuration을 등록해준다.</li>
+</ul>
+</li>
+<li>
+<p>configure 메서드에서 SpringSecurity 설정을 해줄 수 있다.</p>
+<ul>
+<li>httpBasic().disable() : rest api 이므로 기본설정 사용안함. 기본설정은 비인증시 로그인폼 화면으로 리다이렉트 됨.(vue를 사용할 것이므로.)</li>
+<li>.csrf().disable() : 마찬가지로 rest api이므로 csrf 보안이 필요없으므로 disable처리.</li>
+<li>STATELESS 란 무상태성, 비보존한다는 뜻이다. 마찬가지로, 우리는 토큰 기반으로 인증을 계속 할것이기 때문에 세션이 필요없으므로 STATELESS를 사용한다.</li>
+</ul>
+<blockquote>
+<p>★위 3가지가 중요하다. react 나 vue 같이 서버단에서 화면을 보여주는것이 아니라 따로 존재하는 프론트 단에서는 위 설정이 필요없기 때문이다.</p>
+</blockquote>
+<ul>
+<li>antMatchers() 는 http 메서드와 url을 적어줄 수 있는데 controller에서 접근하는 url을 말한다. 뒤에 따라오는 .permitAll()은 모두 허용하겠다는 뜻이된다.</li>
+<li>.antMatchers(“/api/**“).authenticated() 이 부분은 헤더에 토큰은 준 user만 허락한다는 뜻이 된다.</li>
+<li>.antMatchers(“/api/**“).hasRole(“USER”) : 이부분은 role에 대한 부분이다. role이 밑에서 설명하겠다.</li>
+<li>그리고 마지막으로 우리가 만들어준 JwtAuthenticationFilter 와 사용하는 UsernamePasswordAuthenticationFilter 를 등록하고 마친다.</li>
+</ul>
+</li>
+</ul>
+<p>참고자료 : <a href="https://dongdd.tistory.com/175">https://dongdd.tistory.com/175</a>, <a href="https://postitforhooney.tistory.com/entry/SpringSecurity-%EC%B4%88%EB%B3%B4%EC%9E%90%EA%B0%80-%EC%9D%B4%ED%95%B4%ED%95%98%EB%8A%94-Spring-Security-%ED%8D%BC%EC%98%B4">https://postitforhooney.tistory.com/entry/SpringSecurity-%EC%B4%88%EB%B3%B4%EC%9E%90%EA%B0%80-%EC%9D%B4%ED%95%B4%ED%95%98%EB%8A%94-Spring-Security-%ED%8D%BC%EC%98%B4</a>, <a href="https://velog.io/@tlatldms/Spring-boot-Spring-security-JWT-Redis-mySQL-2%ED%8E%B8">https://velog.io/@tlatldms/Spring-boot-Spring-security-JWT-Redis-mySQL-2%ED%8E%B8</a></p>
+<h4>Role에 대해서</h4>
+<p>role이란, <code>역할</code>을 말한다. Workbench의 user 테이블을 보자.</p>
+<img width="94" alt="스크린샷 2021-02-04 오후 10 22 33" src="https://user-images.githubusercontent.com/59427983/106898417-80669200-6737-11eb-8387-4860cadc36e2.png"/>
+<p>이렇게 role이라는 column이 있고 ROLE<em>USER라는 값이 String으로 들어있다. spring security의 config 파일에 보면 .antMatchers(“/api/\</em>*“).hasRole(“USER”) 이렇게 되어있다. role을 config에 등록해서, 어떤 api 호출이 가능한지 분기를 태울 수 있다는 말이된다. 그리고 hasRole에 USER 라는 값이 있으면 prefix 로 자동으로 앞에 **ROLE<em>\</em>* 이라는 값을 붙여서 검증한다. 즉, 일반 유저라는 뜻이 되는 것이고, 만약 user 테이블에 ROLE_ADMIN 의 값을 주고 .antMatchers(“/api/**“).hasRole(“ADMIN”) 이렇게 하면 api에 해당하는 모든 자원을 허용하겠다는 뜻이 된다.</p>
+<p>이렇게 Spring Security 와 JWT의 설정을 끝냈다. 이제 UserServiceImpl, LoginServiceImpl의 비지니스 로직에서 password를 어떻게 암호화할 수 있는지 알아보자.</p>
+<hr/>
+<h2>서비스 로직</h2>
+<h3>회원가입 프로세스</h3>
+<p><img src="https://user-images.githubusercontent.com/59427983/106987685-5c479700-67b1-11eb-8937-3507056b0b22.jpeg" alt="회원가입 로그인 프로세스 001"/></p>
+<ol>
+<li>front에서 회원가입 시 이미 회원가입이 된 ID인지 검사하는 Http Call을 날린다. MySQL에서 회원 ID를 SELECT, 가입 가능한지 판별하여 return. 보면 Spring Security config 파일에 .antMatchers(“/api/user/valid/**“).permitAll() 로 프론트에서 header를 가지고 들어오지 않아도 리소스를 요청할 수 있도록 풀어주었기 때문에 가능하다.</li>
+<li>가입 가능하다면 나머지 정보를 입력해서 Create Http Call을 날림. 여기도 마찬가지로 permitAll()로 풀어둔 상태다.</li>
+<li>Spring Security에서 제공하는 PasswordEncoder를 통해 <code>.encode()</code>메서드로 BCrypt 방식으로 인코딩 후 INSERT</li>
+</ol>
+<h3>로그인 프로세스</h3>
+<p><img src="https://user-images.githubusercontent.com/59427983/106987714-68cbef80-67b1-11eb-98d2-17faa2b688c3.jpeg" alt="회원가입 로그인 프로세스 002"/></p>
+<ol>
+<li>로그인 시 ID, Password는 GET 방식으로 날릴 시 url 파라미터에 노출되므로 POST 방식으로 접근.</li>
+<li>Payload에 담긴 ID로 유저 정보 조회</li>
+<li>회원가입 시 사용했던 SpringSecurity의 PasswoardEncoder에서 <code>.matches()</code> 메서드로 유저가 보낸 password와 DB에 BCrypt 방식으로 인코딩된 password를 가져와서 비교함.</li>
+<li>통과 된다면, JwtTokenProvider의 createToken으로 token 생성.</li>
+<li>토큰과 유저정보를 가지고 리턴.</li>
+</ol>
+<p>핵심은 PasswordEncoder다.</p>
+<br/>
+<h4>PasswordEncoder(BCrypt)</h4>
+<p>2가지 메서드를 사용했다.</p>
+<ul>
+<li>.encode(String password) : BCrypt 방식으로 String password를 인코딩해준다.</li>
+<li>.matches(String requestPassword, String DBSavedPassword) : 파라미터로 유저가 요청한 password를 첫번째로 넣어주고, DB에서 조회해온 BCrypt 방식으로 가져온 password와 같은지 내부적으로 판단해 boolean 값으로 리턴해준다. <code>순서가 중요</code>하다. 첫번째 파라미터와 두번째 파라미터를 반대로 적으면 체크가 제대로 되지 않는다.</li>
+</ul>
+<img width="408" alt="스크린샷 2021-02-05 오후 12 49 05" src="https://user-images.githubusercontent.com/59427983/106990185-1c83ae00-67b7-11eb-8ce3-6dc6a9df66dd.png"/>
+<p>DB에 접속해서 select 해보면 이런 값이 들어가있는 것을 확인할 수 있다. 지금 위의 값은 내가 임의로 만든 사용자인데 모두 <em>같은 비밀번호</em>를 입력했음에도 불구하고 서로 다른 값이 들어가있는 것을 볼 수 있다. 이는 DBA도 유저가 <strong>어떤 패스워드를 사용했는지 모르게</strong> 한다.</p>
+<p>내부 소스를 보자. Service 단 소스다.</p>
+<h3>회원가입</h3>
+<deckgo-highlight-code java="" terminal="carbon" theme="material" highlight-lines="">
+          <code slot="code">@Transactional
+@Override
+public ResponseEntity&lt;Message&gt; createUser(UserApiRequest request) {
+    if (userIdValid(request.getId())) {
+
+        // 소셜 로그인 패스워드 만들기
+        if (!StringUtils.isEmpty(request.getSocial())) {
+            PasswordUtil pw = new PasswordUtil();
+            String newPw = pw.encryptSHA256(request.getId());
+            request.setPassword(newPw);
+        }
+
+        String encodePassword = passwordEncoder.encode(request.getPassword()); // 이곳
+        request.setPassword(encodePassword);
+
+        userDao.createUser(request);
+
+        headers.setContentType(new MediaType(&quot;application&quot;, &quot;json&quot;, Charset.forName(&quot;UTF-8&quot;)));
+        message.setStatus(StatusEnum.OK);
+        message.setMessage(ResponseMessage.CREATED_USER);
+        message.setData(request);
+
+        return new ResponseEntity &lt;&gt; (message, headers, HttpStatus.OK);
+    } else {
+        message.setStatus(StatusEnum.BAD_REQUEST);
+        message.setMessage(ResponseMessage.ALREADY_USE);
+        return new ResponseEntity &lt;&gt; (message, headers, HttpStatus.NOT_FOUND);
+    }
+}</code>
+        </deckgo-highlight-code>
+<h3>로그인</h3>
+<deckgo-highlight-code java="" terminal="carbon" theme="material" highlight-lines="">
+          <code slot="code">@Override
+public ResponseEntity&lt;Message&gt; login(LoginApiRequest request) {
+    User user = userDao.readUser(request.getId());
+    if (!ObjectUtils.isEmpty(user)) {
+
+        boolean check = passwordEncoder.matches(request.getPassword(), user.getPassword());
+        if (check) { // 유저가 보유한 패스워드와 입력받은 패스워드가 일치하는 지 확인한다.
+            log.info(&quot;로그인 성공&quot;);
+
+            List &lt;String&gt; roles = new ArrayList &lt;&gt; ();
+            roles.add(&quot;ROLE_USER&quot;);
+
+            String token = jwtTokenProvider.createToken(user.getId(), roles); // id, role 정보만 가지고 token을 만든다.
+            LoginApiResponse response = new LoginApiResponse(
+                token, user.getId(), user.getEmail(), user.getName(), user.getPicture(), user.getBio(), user.getRecentBoard(), user.getInvitedBoard(),
+                user.getCreatedAt(), user.getCreatedBy(), user.getUpdatedAt(), user.getUpdatedBy()
+            );
+
+            headers.setContentType(new MediaType(&quot;application&quot;, &quot;json&quot;, Charset.forName(&quot;UTF-8&quot;)));
+            message.setStatus(StatusEnum.OK);
+            message.setMessage(ResponseMessage.LOGIN_SUCCESS);
+            message.setData(response);
+
+            return new ResponseEntity &lt;&gt; (message, headers, HttpStatus.OK);
+        } else {
+            log.info(&quot;비번이 틀립니다&quot;);
+            message.setStatus(StatusEnum.NOT_FOUND);
+            message.setMessage(ResponseMessage.PASSWORD_WRONG);
+            return new ResponseEntity &lt;&gt; (message, headers, HttpStatus.FORBIDDEN); // 403
+        }
+    } else {
+        log.info(&quot;해당 id가 없습니다.&quot;);
+        message.setStatus(StatusEnum.NOT_FOUND);
+        message.setMessage(ResponseMessage.NOT_FOUND_USER);
+        return new ResponseEntity &lt;&gt; (message, headers, HttpStatus.FORBIDDEN); // 403
+    }
+}</code>
+        </deckgo-highlight-code>
+<p>참고자료 : <a href="https://mia-dahae.tistory.com/120">https://mia-dahae.tistory.com/120</a></p>
+<br/>
+<p>여기까지가 SpringBoot의 내부 처리 로직이다. 회원가입과 로그인 로직이 완성되었으므로 vue에서 어떻게 이것을 표현할지 다음 포스팅에서 알아보자. 소셜 로그인까지 같이.</p>
+<hr/>
+<blockquote>
+<p>프로젝트 구경하기 -&gt; <a href="https://tripllo.tech">Tripllo_메인</a>, <a href="https://github.com/pozafly/tripllo_vue">Vue_Github</a>, <a href="https://github.com/pozafly/tripllo_springBoot">SpringBoot_Github</a></p>
+</blockquote></div></section></article><div></div></div></main><style data-emotion="css dcfhc9">.css-dcfhc9{position:relative;padding:0 5vw;}</style><style data-emotion="css 1aa7tg3">.css-1aa7tg3{border-bottom:1px solid rgba(255, 255, 255, 0.1);background:#0a0b0c;position:relative;padding:0 5vw;}.css-1aa7tg3 .post-card{padding-bottom:0;border-bottom:none;}.css-1aa7tg3 .post-card:after{display:none;}.css-1aa7tg3 .post-card-primary-tag{color:#fff;opacity:0.6;}.css-1aa7tg3 .post-card-title{color:#fff;opacity:0.8;-webkit-transition:all 0.2s ease-in-out;transition:all 0.2s ease-in-out;}.css-1aa7tg3 .post-card:hover .post-card-image{opacity:1;}.css-1aa7tg3 .post-card-excerpt{color:rgba(255, 255, 255, 0.6);}.css-1aa7tg3 .static-avatar{border-color:#000;}.css-1aa7tg3 .post-card-byline-content{color:rgba(255, 255, 255, 0.6);}.css-1aa7tg3 .post-card-byline-content a{color:rgba(255, 255, 255, 0.8);}.css-1aa7tg3 .author-avatar{border-color:#0a0b0c;}.css-1aa7tg3 .author-profile-image{background:#0a0b0c;}@media (max-width: 650px){.css-1aa7tg3 .post-card{-webkit-flex:1 1 auto;-ms-flex:1 1 auto;flex:1 1 auto;margin:25px;padding:25px 0 0;border-bottom:1px solid rgba(255, 255, 255, 0.1);}}</style><aside class="read-next css-1aa7tg3 eu5ixib1"><div class="css-y521qa"><style data-emotion="css 1ehfk3g">.css-1ehfk3g{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-flex-wrap:wrap;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;margin:0 -25px;padding:60px 0 0 0;}</style><div class="read-next-feed css-1ehfk3g eu5ixib0"><style data-emotion="css 1gm6nmw">.css-1gm6nmw{position:relative;-webkit-flex:0 1 326px;-ms-flex:0 1 326px;flex:0 1 326px;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;overflow:hidden;margin:0 25px 50px;padding:25px;background:linear-gradient(
+    #1a1c20,
+    #0a0b0c
+  );border-radius:3px;}.css-1gm6nmw a{-webkit-transition:all 0.2s ease-in-out;transition:all 0.2s ease-in-out;}.css-1gm6nmw a:hover{-webkit-text-decoration:none;text-decoration:none;}@media (max-width: 1170px){.css-1gm6nmw{-webkit-flex:1 1 261px;-ms-flex:1 1 261px;flex:1 1 261px;margin-bottom:5vw;}}@media (max-width: 650px){.css-1gm6nmw{-webkit-flex:1 1 auto;-ms-flex:1 1 auto;flex:1 1 auto;margin:0 25px;padding:0;background:none;}}</style><article class="read-next-card css-1gm6nmw em2u7rs4"><header class="read-next-card-header"><style data-emotion="css 1wo4mzo">.css-1wo4mzo{margin:0;color:rgba(255, 255, 255, 0.6);font-size:1.2rem;line-height:1em;font-weight:300;letter-spacing:0.4px;text-transform:uppercase;}.css-1wo4mzo a{color:#fff;font-weight:500;-webkit-text-decoration:none;text-decoration:none;opacity:0.8;}.css-1wo4mzo a:hover{opacity:1;}</style><h3 class="css-1wo4mzo em2u7rs3"><span>More in</span> <a href="/tags/tripllo-제작기/">Tripllo 제작기</a></h3></header><style data-emotion="css ejekmm">.css-ejekmm{font-size:1.7rem;}.css-ejekmm ul{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;margin:0;padding:0;list-style:none;}.css-ejekmm li{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;-webkit-align-items:flex-start;-webkit-box-align:flex-start;-ms-flex-align:flex-start;align-items:flex-start;margin:0;padding:20px 0;border-bottom:rgba(255, 255, 255, 0.1);}.css-ejekmm li:last-of-type{padding-bottom:5px;border:none;}.css-ejekmm h4{margin:0;font-size:1.6rem;line-height:1.35em;font-weight:600;}.css-ejekmm li a{display:block;color:#fff;opacity:0.8;}.css-ejekmm li a:hover{opacity:1;}</style><div class="read-next-card-content css-ejekmm em2u7rs2"><ul><li><h4><a href="/tripllo/(13)Vuex-and-eventBus/">(13) Vuex-store와 EventBus에 대한 고찰</a></h4><style data-emotion="css f7c4dv">.css-f7c4dv{margin-top:2px;font-size:1.2rem;line-height:1.4em;font-weight:400;}.css-f7c4dv p{margin:0;color:rgba(255, 255, 255, 0.6);}</style><div class="read-next-card-meta css-f7c4dv em2u7rs1"><p><time dateTime="2021-04-17">17 Apr 2021</time> - <!-- -->4<!-- --> min read</p></div></li><li><h4><a href="/tripllo/(12)aws-lets-encrypt-renewal-automation/">(12) Let&#x27;s Encrypt 갱신 자동화</a></h4><div class="read-next-card-meta css-f7c4dv em2u7rs1"><p><time dateTime="2021-04-12">12 Apr 2021</time> - <!-- -->4<!-- --> min read</p></div></li><li><h4><a href="/tripllo/(11)vue-sentry-error-monitoring-system/">(11) Sentry 에러 로깅 시스템 도입</a></h4><div class="read-next-card-meta css-f7c4dv em2u7rs1"><p><time dateTime="2021-04-10">10 Apr 2021</time> - <!-- -->7<!-- --> min read</p></div></li></ul></div><style data-emotion="css qqvtec">.css-qqvtec{position:relative;margin:40px 0 5px;}.css-qqvtec a{padding:7px 12px 8px 14px;border:1px solid rgba(255, 255, 255, 0.6);color:rgba(255, 255, 255, 0.6);font-size:1.3rem;border-radius:999px;-webkit-transition:all 0.35s ease-in-out;transition:all 0.35s ease-in-out;}.css-qqvtec a:hover{border-color:#fecd35;color:#fecd35;-webkit-text-decoration:none;text-decoration:none;}</style><footer class="read-next-card-footer css-qqvtec em2u7rs0"><a href="/tags/tripllo-제작기/">See all 14 posts<!-- --> →</a></footer></article><style data-emotion="css 1aiulzc">.css-1aiulzc{position:relative;-webkit-flex:1 1 301px;-ms-flex:1 1 301px;flex:1 1 301px;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;overflow:hidden;margin:0 0 40px;padding:0 20px 40px;min-height:220px;-webkit-background-size:cover;background-size:cover;}</style><article class="post-card   css-1aiulzc"><style data-emotion="css c0hj8a">.css-c0hj8a{position:relative;display:block;overflow:hidden;border-radius:5px 5px 0 0;}</style><a class="post-card-image-link css-c0hj8a" href="/tripllo/(4)spring-security-jwt/"><style data-emotion="css 1syjw1">.css-1syjw1{width:auto;height:200px;background:#fff no-repeat center center;-webkit-background-size:cover;background-size:cover;}@media (prefers-color-scheme: dark){.css-1syjw1{background:#191b1f;}}</style><div class="post-card-image css-1syjw1 e1qfhan17"><div class=" gatsby-image-wrapper" style="position:relative;overflow:hidden;height:100%"><div aria-hidden="true" style="width:100%;padding-bottom:43.6%"></div><img aria-hidden="true" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAAAsTAAALEwEAmpwYAAABeklEQVQoz5WQy07CYBCFeSrXPoQb486NOza6My7UGDcsFKMxAQ0QAaOiKCCEchFRLoJcCxTaQNECUq4Vyq30/40pWogrTyaZyWS+M8mRwFkBCL5L0M882QNxLxxLhNbq0Q32Q3SYFcXgfY6ddhfhbO11y7W06VxMVLzsiLHmVLGyx05oEUIXLT8Y08dP5K0d15owRboa9JJGU0ZRaKYncLTsPgqsKkLr/jdLu1/TJ2QXyT1rVo3XYxvIgpc02nKafZ80Q4d2Pcv+oiVEIe785QSmGEJqnl+5mSMacXb0eZ891UR31JFtJ6E3Y0qKwcMlhymjqLNlM6Y0oAeHgbUwhXzDQh7hkvO5eAchHPPcgOvR3fcM/TIaDwDgxzzH8aMxz0EI+1zXjp+ZMGV3yIiBTUcl2DV6FQMqt+U01qzKU7i+SsrP4zILduLAdbacptIhRRgAHgD+N08IYWfYjpRcaTqYqvrzTRSt+uOVR7TqI5upfBPtDFt/P/9PX4zv38RNe7B1AAAAAElFTkSuQmCC" alt="(4) 로그인1 -SpringSecurity &amp; JWT 개념 cover image" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:1;transition-delay:500ms"/><noscript><picture><source srcset="/static/f0634ae38a1872124e048bd0df954052/53f65/tripllo4.png 500w,
+/static/f0634ae38a1872124e048bd0df954052/e8f31/tripllo4.png 788w" sizes="(max-width: 788px) 100vw, 788px" /><img loading="lazy" sizes="(max-width: 788px) 100vw, 788px" srcset="/static/f0634ae38a1872124e048bd0df954052/53f65/tripllo4.png 500w,
+/static/f0634ae38a1872124e048bd0df954052/e8f31/tripllo4.png 788w" src="/static/f0634ae38a1872124e048bd0df954052/e8f31/tripllo4.png" alt="(4) 로그인1 -SpringSecurity & JWT 개념 cover image" style="position:absolute;top:0;left:0;opacity:1;width:100%;height:100%;object-fit:cover;object-position:center"/></picture></noscript></div></div></a><style data-emotion="css 1lh7kdz">.css-1lh7kdz{-webkit-box-flex:1;-webkit-flex-grow:1;-ms-flex-positive:1;flex-grow:1;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;}</style><div class="post-card-content css-1lh7kdz e1qfhan16"><style data-emotion="css 1fjrpmt">.css-1fjrpmt{position:relative;display:block;color:#15171A;}.css-1fjrpmt:hover{-webkit-text-decoration:none;text-decoration:none;}</style><a class="post-card-content-link css-1fjrpmt" href="/tripllo/(4)spring-security-jwt/"><style data-emotion="css 1w0j2bn">.css-1w0j2bn{margin:15px 0 0;}</style><header class="post-card-header css-1w0j2bn e1qfhan10"><style data-emotion="css oghrx5">.css-oghrx5{margin:0 0 0.2em;color:#3eb0ef;font-size:1.2rem;font-weight:500;letter-spacing:0.2px;text-transform:uppercase;}</style><div class="post-card-primary-tag css-oghrx5 e1qfhan15">Tripllo 제작기</div><style data-emotion="css 3lgx4i">.css-3lgx4i{margin:0 0 0.4em;line-height:1.15em;-webkit-transition:color 0.2s ease-in-out;transition:color 0.2s ease-in-out;}@media (prefers-color-scheme: dark){.css-3lgx4i{color:rgba(255, 255, 255, 0.85);}}</style><h2 class="post-card-title css-3lgx4i e1qfhan14">(4) 로그인1 -SpringSecurity &amp; JWT 개념</h2></header><style data-emotion="css hnrxgs">.css-hnrxgs{font-size:1.7rem;}@media (prefers-color-scheme: dark){.css-hnrxgs{color:#90a2aa!important;}}</style><section class="post-card-excerpt css-hnrxgs e1qfhan13"><p>Spring Security와 JWT를 사용해서 로그인 기능을 구현했다. Spring Security와 JWT의 개념을 알아보자.</p></section></a><style data-emotion="css 143c7df">.css-143c7df{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:flex-start;-webkit-box-align:flex-start;-ms-flex-align:flex-start;align-items:flex-start;padding:0;}</style><footer class="post-card-meta css-143c7df e1qfhan12"><ul class="author-list css-12fmpzj e1vx1kx20"><li class="author-list-item css-rzestn e1jay2161"><style data-emotion="css 1ub0qw9">.css-1ub0qw9{position:absolute;bottom:105%;z-index:999;display:block;padding:2px 8px;color:white;font-size:1.2rem;letter-spacing:0.2px;white-space:nowrap;background:#15171A;border-radius:3px;box-shadow:rgba(39, 44, 49, 0.08) 0 12px 26px,rgba(39, 44, 49, 0.03) 1px 3px 8px;opacity:0;-webkit-transition:all 0.35s cubic-bezier(0.4, 0.01, 0.165, 0.99);transition:all 0.35s cubic-bezier(0.4, 0.01, 0.165, 0.99);-webkit-transform:translateY(6px);-moz-transform:translateY(6px);-ms-transform:translateY(6px);transform:translateY(6px);pointer-events:none;}@media (max-width: 700px){.css-1ub0qw9{display:none;}}</style><div class="author-name-tooltip css-1ub0qw9 e1jay2160">Pozafly</div><a class="author-avatar css-1smzq71" href="/author/pozafly/"><div class="author-profile-image css-1kq7wgl gatsby-image-wrapper" style="position:relative;overflow:hidden"><div aria-hidden="true" style="width:100%;padding-bottom:100%"></div><img aria-hidden="true" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAIAAAAC64paAAAACXBIWXMAAAsTAAALEwEAmpwYAAACY0lEQVQ4y42UTUhUURTHz7kzFiN9aLsSK5JIGV2URREGBX2ppKGUptVMZYJ9OPPemzfjyloXSDsXtRD6oFVUIFGtTHARFoEgSiFkJRFWGBPavHfvP+6rbLIZ9XIWh8P98T/vvP+5FCVkjAgpi5TpJdnuUMZqO7kJQq3v/lHRH9e8XDysDEKEZ1bw+gKuiP0WV4uC28lJCOyky7nlwUDJxv10PcG6uDAcIWkRzvJ4gPKDTweKeu7kUeFFkTS8jhaE3YQPpXQst66qfgbVX7CkonwHxTtEBnGaQ9qMBnq2dOWqksHRAYmHwLpHfbki/7R4bf03uXRYTyXmRyFty0vYpgJcZ9pxww6WhZo2UW2HLzusGxbYTV3+DWu2v50akgAUlOxTKH017s9bfojuxVlfy6xsCOyjrqLu3isAXCk1DTjSBoo6b1bTDetf8TRlHyzCmUocTKqPjvJ0oeWBEUfu+aTatsAkREXGthkxQpWVuj2Z0sIKv470kmvvUzWhlE2IZIQNgXOEq2XKnfZk/8DKU09OqEur1QWCwVng84T+bpX8hs9j+Dr+NybH8D2J3k7VRjB8Wf6zIRALuIZfmjnSyHFNHdLQ4Rh+GQvIKMv5HBYjmHoxlKlXUk/I9IpRkiapWDaHGXolflSKW838IszDzTxYz49DPBzi0Spxt5XfHeeXTTxoppmcZh0SJxzm3rVib1CEN4v2oAiXiZYCsatYNBaLxgPcs1XYR7jPTjPprLJ+NFroQ4Smmvl5Aw/U8IOTPHyCh07xm1aeqOMnYR6x5lkMryVpkbIJcdKemf1s28vnbOVPfGtgRKO972EAAAAASUVORK5CYII=" alt="Pozafly" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:1"/><noscript><picture><source srcset="/static/8c061761f263c344f2c0416607c8adf1/8ac63/pozafly.png 200w,
+/static/8c061761f263c344f2c0416607c8adf1/3891b/pozafly.png 400w,
+/static/8c061761f263c344f2c0416607c8adf1/bc8e0/pozafly.png 800w,
+/static/8c061761f263c344f2c0416607c8adf1/6050d/pozafly.png 1200w,
+/static/8c061761f263c344f2c0416607c8adf1/d4b30/pozafly.png 1242w" sizes="(max-width: 800px) 100vw, 800px" /><img loading="lazy" sizes="(max-width: 800px) 100vw, 800px" srcset="/static/8c061761f263c344f2c0416607c8adf1/8ac63/pozafly.png 200w,
+/static/8c061761f263c344f2c0416607c8adf1/3891b/pozafly.png 400w,
+/static/8c061761f263c344f2c0416607c8adf1/bc8e0/pozafly.png 800w,
+/static/8c061761f263c344f2c0416607c8adf1/6050d/pozafly.png 1200w,
+/static/8c061761f263c344f2c0416607c8adf1/d4b30/pozafly.png 1242w" src="/static/8c061761f263c344f2c0416607c8adf1/bc8e0/pozafly.png" alt="Pozafly" style="position:absolute;top:0;left:0;opacity:1;width:100%;height:100%;object-fit:cover;object-position:center"/></picture></noscript></div></a></li></ul><style data-emotion="css 1k6qi34">.css-1k6qi34{-webkit-flex:1 1 50%;-ms-flex:1 1 50%;flex:1 1 50%;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;margin:4px 0 0 10px;color:#90a2aa;font-size:1.4rem;line-height:1.4em;font-weight:400;letter-spacing:0.2px;text-transform:uppercase;}.css-1k6qi34 span{margin:0;}.css-1k6qi34 a{color:#434952;font-weight:600;}@media (prefers-color-scheme: dark){.css-1k6qi34 a{color:rgba(255, 255, 255, 0.75);}}</style><div class="post-card-byline-content css-1k6qi34 e1qfhan11"><span><a href="/author/pozafly/">Pozafly</a></span><span class="post-card-byline-date"><time dateTime="2021-02-04">04 Feb 2021</time> <span class="bull">•</span> <!-- -->5<!-- --> min read</span></div></footer></div></article><article class="post-card   css-1aiulzc"><a class="post-card-image-link css-c0hj8a" href="/tripllo/(6)login3-vue/"><div class="post-card-image css-1syjw1 e1qfhan17"><div class=" gatsby-image-wrapper" style="position:relative;overflow:hidden;height:100%"><div aria-hidden="true" style="width:100%;padding-bottom:134.6%"></div><img aria-hidden="true" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAbCAYAAAB836/YAAAACXBIWXMAAAsTAAALEwEAmpwYAAADEklEQVRIx5WVy04UQRSGeShXPo1LE4lRdiYYdeFKJCZsVIK8gVtfQBYEwmYgSCIRoWf6Pj19q3v1b051TztAj0gnX6aq5tRf/6muOr0ilYGQ+hZKGXw5irF7FMPLOCguyAUupxzWDM+hmJV5Yw71tTZIK4kH26d4uPMDX49TbHz3sfbtEpt7PhpjW5GFeVK1oiutyO0VudD4lTJcpAxWG4wmFU7DGrNagQ+4I43eIRcSTEgXuIgxxsGorTWMUpAUxyXYDbhQrUNqkF00DazgsJy1CA7DGAznsKyG1Rq2adAMQI+UyomuMCagaOBgD+naI2RvniN7uYrsxWNkr54iW3+CbH0V2etnaJRyk9GJtM0lgvrsGPnWW5Q7H1B8fo/i4zsU25soPm207G45l00nstwhpSwV7vM0vcMhQU57qNo9NKbDAtZiPIkQhimiaIokyeD5McJ42osOO5wLDjyzWYG8KFGUFTgXrl1VbDBW/BWU0Fojqy3OvRRnFwEuwxxxoZBWuicp6dcgLTWiXPYEM4lZbaCUApnrBaPCYPRzjKOTcyeclAZBJhDMbhPOZM9kKhDldLsWBJXSMNYiryUqrpFXAmleoaglSqbuxFrrtq1PmTrWNkjTFGEYwg8CBEEALoS717TgchSMsYsvpXVIq9DGLkJXkqCbRBOGoDjnUA44DKMYEz+AN570RFEMpQ0EiQ5AgnTfBxw2fRD1KVVtzJ0pUzydxUGHUZzA9wOMJz6qmnX1UQ06+w+H7T5QesR8f+QdLN/DpkGcpG4f/SAE4wLa2H6BZVAWg2+ZbJdlhaIsURQlasbAOAdj3LVdn/HrdP+7lBfPIR3qJEmwv7+Pw8NDx8HBgYPaJyfHGI1GOOzGFqE50+nUZUNa3dUzYIzh6srDeDx2eAv4vo+J718b7+M8D5xzl2V39ZZXm/s8g+WLjg4VTa4MzhOOi6nAJRWIQsKbSfzOBCa5dGNS27aG/qsezoulsQ1KYVBLg0oaMGVRS4taWXBt3dhc6FaBnX9Gefd5dAgJJSXkEKL9vRlP0Gf0Dxz6HIqb0rgiAAAAAElFTkSuQmCC" alt="(6) 로그인3 -vue 구현 cover image" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:1;transition-delay:500ms"/><noscript><picture><source srcset="/static/091b93c48a5a6d44022278f6ff3b1035/53f65/tripllo6.png 500w,
+/static/091b93c48a5a6d44022278f6ff3b1035/08a05/tripllo6.png 505w" sizes="(max-width: 505px) 100vw, 505px" /><img loading="lazy" sizes="(max-width: 505px) 100vw, 505px" srcset="/static/091b93c48a5a6d44022278f6ff3b1035/53f65/tripllo6.png 500w,
+/static/091b93c48a5a6d44022278f6ff3b1035/08a05/tripllo6.png 505w" src="/static/091b93c48a5a6d44022278f6ff3b1035/08a05/tripllo6.png" alt="(6) 로그인3 -vue 구현 cover image" style="position:absolute;top:0;left:0;opacity:1;width:100%;height:100%;object-fit:cover;object-position:center"/></picture></noscript></div></div></a><div class="post-card-content css-1lh7kdz e1qfhan16"><a class="post-card-content-link css-1fjrpmt" href="/tripllo/(6)login3-vue/"><header class="post-card-header css-1w0j2bn e1qfhan10"><div class="post-card-primary-tag css-oghrx5 e1qfhan15">Tripllo 제작기</div><h2 class="post-card-title css-3lgx4i e1qfhan14">(6) 로그인3 -vue 구현</h2></header><section class="post-card-excerpt css-hnrxgs e1qfhan13"><p>SpringBoot 쪽 서비스 로직이 만들어졌으므로 이번엔 vue에서 화면을 만들고 회원가입과 로그인을 진행해보자. 우리는 vue의 기능을 최대한 살려서 뼈대가 되는 페이지 하나에 login과 signup 2개의 컴포넌트를 붙이고 watch를 활용해 데이터를 검증할 것이다.</p></section></a><footer class="post-card-meta css-143c7df e1qfhan12"><ul class="author-list css-12fmpzj e1vx1kx20"><li class="author-list-item css-rzestn e1jay2161"><div class="author-name-tooltip css-1ub0qw9 e1jay2160">Pozafly</div><a class="author-avatar css-1smzq71" href="/author/pozafly/"><div class="author-profile-image css-1kq7wgl gatsby-image-wrapper" style="position:relative;overflow:hidden"><div aria-hidden="true" style="width:100%;padding-bottom:100%"></div><img aria-hidden="true" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAIAAAAC64paAAAACXBIWXMAAAsTAAALEwEAmpwYAAACY0lEQVQ4y42UTUhUURTHz7kzFiN9aLsSK5JIGV2URREGBX2ppKGUptVMZYJ9OPPemzfjyloXSDsXtRD6oFVUIFGtTHARFoEgSiFkJRFWGBPavHfvP+6rbLIZ9XIWh8P98T/vvP+5FCVkjAgpi5TpJdnuUMZqO7kJQq3v/lHRH9e8XDysDEKEZ1bw+gKuiP0WV4uC28lJCOyky7nlwUDJxv10PcG6uDAcIWkRzvJ4gPKDTweKeu7kUeFFkTS8jhaE3YQPpXQst66qfgbVX7CkonwHxTtEBnGaQ9qMBnq2dOWqksHRAYmHwLpHfbki/7R4bf03uXRYTyXmRyFty0vYpgJcZ9pxww6WhZo2UW2HLzusGxbYTV3+DWu2v50akgAUlOxTKH017s9bfojuxVlfy6xsCOyjrqLu3isAXCk1DTjSBoo6b1bTDetf8TRlHyzCmUocTKqPjvJ0oeWBEUfu+aTatsAkREXGthkxQpWVuj2Z0sIKv470kmvvUzWhlE2IZIQNgXOEq2XKnfZk/8DKU09OqEur1QWCwVng84T+bpX8hs9j+Dr+NybH8D2J3k7VRjB8Wf6zIRALuIZfmjnSyHFNHdLQ4Rh+GQvIKMv5HBYjmHoxlKlXUk/I9IpRkiapWDaHGXolflSKW838IszDzTxYz49DPBzi0Spxt5XfHeeXTTxoppmcZh0SJxzm3rVib1CEN4v2oAiXiZYCsatYNBaLxgPcs1XYR7jPTjPprLJ+NFroQ4Smmvl5Aw/U8IOTPHyCh07xm1aeqOMnYR6x5lkMryVpkbIJcdKemf1s28vnbOVPfGtgRKO972EAAAAASUVORK5CYII=" alt="Pozafly" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:1"/><noscript><picture><source srcset="/static/8c061761f263c344f2c0416607c8adf1/8ac63/pozafly.png 200w,
+/static/8c061761f263c344f2c0416607c8adf1/3891b/pozafly.png 400w,
+/static/8c061761f263c344f2c0416607c8adf1/bc8e0/pozafly.png 800w,
+/static/8c061761f263c344f2c0416607c8adf1/6050d/pozafly.png 1200w,
+/static/8c061761f263c344f2c0416607c8adf1/d4b30/pozafly.png 1242w" sizes="(max-width: 800px) 100vw, 800px" /><img loading="lazy" sizes="(max-width: 800px) 100vw, 800px" srcset="/static/8c061761f263c344f2c0416607c8adf1/8ac63/pozafly.png 200w,
+/static/8c061761f263c344f2c0416607c8adf1/3891b/pozafly.png 400w,
+/static/8c061761f263c344f2c0416607c8adf1/bc8e0/pozafly.png 800w,
+/static/8c061761f263c344f2c0416607c8adf1/6050d/pozafly.png 1200w,
+/static/8c061761f263c344f2c0416607c8adf1/d4b30/pozafly.png 1242w" src="/static/8c061761f263c344f2c0416607c8adf1/bc8e0/pozafly.png" alt="Pozafly" style="position:absolute;top:0;left:0;opacity:1;width:100%;height:100%;object-fit:cover;object-position:center"/></picture></noscript></div></a></li></ul><div class="post-card-byline-content css-1k6qi34 e1qfhan11"><span><a href="/author/pozafly/">Pozafly</a></span><span class="post-card-byline-date"><time dateTime="2021-02-05">05 Feb 2021</time> <span class="bull">•</span> <!-- -->6<!-- --> min read</span></div></footer></div></article></div></div></aside><style data-emotion="css d4eprp">.css-d4eprp{position:relative;padding:0 5vw;position:relative;padding-top:20px;padding-bottom:22px;color:#fff;background:#000;}</style><footer class="css-d4eprp"><style data-emotion="css 1d3gyi8">.css-1d3gyi8{margin:0 auto;max-width:1040px;width:100%;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-flex-wrap:wrap;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;color:rgba(255, 255, 255, 0.7);font-size:1.3rem;}.css-1d3gyi8 a{color:rgba(255, 255, 255, 0.7);}.css-1d3gyi8 a:hover{color:rgba(255, 255, 255, 1);-webkit-text-decoration:none;text-decoration:none;}@media (max-width: 650px){.css-1d3gyi8{-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;}}</style><div class="css-1d3gyi8"><section class="copyright">© <!-- -->2021<!-- --> <a href="/">| <!-- -->Pozafly&#x27;s 블로그<!-- --> <!-- -->is based on Gatsby Casper</a></section><style data-emotion="css 13qgqyf">.css-13qgqyf{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;}.css-13qgqyf a{position:relative;margin-left:20px;font-size:1.3rem;}.css-13qgqyf a:before{content:'';position:absolute;top:11px;left:-11px;display:block;width:2px;height:2px;background:#fff;border-radius:100%;}.css-13qgqyf a:first-of-type:before{display:none;}@media (max-width: 650px){.css-13qgqyf a:first-of-type{margin-left:0;}}</style><nav class="css-13qgqyf e1me3zb40"><a href="/">Latest Posts</a><a href="https://www.instagram.com/pozafly_/" target="_blank" rel="noopener noreferrer">Instagram</a><a href="https://github.com/pozafly" target="_blank" rel="noopener noreferrer">Github</a></nav></div></footer></div></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-SLQNH3ND3J"></script><script>
+    window.GATSBY_GTAG_PLUGIN_GA_TRACKING_ID = (
+      'G-SLQNH3ND3J'
+    );
+    window.GATSBY_GTAG_PLUGIN_ANONYMIZE = true;
+
+    var options = {
+      send_page_view: false
+    };
+    if (true) {
+      options.anonymize_ip = true;
+    }
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', 'G-SLQNH3ND3J', options);
+  </script><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/tripllo/(5)login2-SpringBoot/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"polyfill":["/polyfill-70fe2f7e856f36853c33.js"],"app":["/app-feb78949e223b7b8b6de.js"],"component---src-pages-404-tsx":["/component---src-pages-404-tsx-a8429955412f4cd393d1.js"],"component---src-pages-about-tsx":["/component---src-pages-about-tsx-72ffbffcf3446b342aec.js"],"component---src-templates-author-tsx":[],"component---src-templates-index-tsx":["/component---src-templates-index-tsx-5e64212686473ae30455.js"],"component---src-templates-post-tsx":[],"component---src-templates-tags-tsx":["/component---src-templates-tags-tsx-964e4af5ab177cb1d2bc.js"]};/*]]>*/</script><script src="/polyfill-70fe2f7e856f36853c33.js" nomodule=""></script><script src="/78950b8f3c1803aeb506a1bd6e41cee67211f531-94ea375e9fe54e3ff85f.js" async=""></script><script src="/095633e7efaeed46f7332ab6a7b1538271a9f8c4-ae13ca55745fc05a06b4.js" async=""></script><script src="/commons-3d917752ca374e80bb36.js" async=""></script><script src="/e0525e89-43843712c7165c27f5aa.js" async=""></script><script src="/14cad5d5-017760fea8637ef84ba1.js" async=""></script><script src="/b4ffff85-cd5ca9894989f8845e5a.js" async=""></script><script src="/app-feb78949e223b7b8b6de.js" async=""></script><script src="/framework-b3456eeb6f92d1e414f3.js" async=""></script><script src="/webpack-runtime-e42c7807625ae04a6cfb.js" async=""></script></body></html>
