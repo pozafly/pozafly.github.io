@@ -514,6 +514,7 @@ const IndexLayout: React.FC<IndexProps> = props => {
             --deckgo-highlight-code-line-height: 1.5;
             --deckgo-highlight-code-white-space: pre-wrap;
             --deckgo-highlight-code-carbon-border-radius: 15px;
+            --deckgo-highlight-code-carbon-margin: 2em 0;
           }
         `}
       />
