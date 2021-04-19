@@ -345,7 +345,7 @@ sessionStorage에 mainTapId를 넣어서, state에서 사용하지 않게끔 했
 
 checklist, hashtags, comment 등 store에 반드시 있지 않아야 하는 것을 제거 했다. api 함수를 바로 컴포넌트단에서 호출해, 받아온 데이터를 store에 등록하는 것이 아니라 로컬 컴포넌트의 `data` 객체에 넣어주는 것.
 
-[(13)Vuex-store와 EventBus에 대한 고찰(feat. 삽질기)](https://pozafly.github.io/tripllo/(13)Vuex와-eventBus/) 에 삽질기를 정리해두었다.
+하지만 컴포넌트 여러개에서 사용하는 state를 컴포넌트단으로 옮기면서 의문이 든 부분이 있다. 이 부분은, [(13)Vuex-store와 EventBus에 대한 고찰(feat. 삽질기)](https://pozafly.github.io/tripllo/(13)Vuex와-eventBus/) 에 정리해두었다.
 
 <br/>
 
@@ -531,19 +531,37 @@ const getTokenFromLocalStorage = () => {
 JSON.stringify, JSON.parse는 null이나 undifined 값이 들어가게 되면 어플리케이션 전체가 뻗는 상황이 생긴다. 따라서 안정성을 위해 null처리를 반드시 해주도록 하자.
 
 ```js
+// utils/libs.js
+const isEmpty = value => {
+  if (value === '' || value === null || value === undefined || value.length === 0) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+export { isEmpty };
+```
+
+```js
+// utils/webStorage.js
+import { isEmpty } from '@/utils/libs';
+
+(...)
+ 
 /**
  * 유저 정보를 인코딩하여 localStorage에 올려줌
  * @param {User} user
  */
 const saveUserToLocalStorage = user => {
-  if (!user) {
+  if (isEmpty(user)) {
     return;
   }
   return makeEncode(USER_INFO, user);
 };
 ```
 
-이런식으로. 더 안전한 함수가 되었다.
+이런식으로 libs 파일을 만들고 프로젝트 전역적으로 쓸 null 체크 함수를 만들고 붙여줌. 그리고 빠른 Exit을 위해 조건을 보고 밑 로직을 수행하지 않도록 바로 빠져나가도록 해주자. 이렇게 되면 더 안전한 함수가 되었다. (**이흰둥님, 이희찬님 조언** 감사합니다.)
 
 
 

@@ -46,7 +46,9 @@ props: {
 
 이렇게 타입과 디폴트 값을 넣어주자. default, require, validator도 사용할 수 있다. 하지만 `type: Object` 는 벨리데이션 체크에는 크게 좋지 않은 형태인 듯 하다. Object 형태로 모두 다 받아오는 것이 아니라 필요한 props 만 받고 String, Number, Array 형태로 받는게 좋을 듯 하다.
 
-아래는 기존에 Object 형태였던 type을 [오브젝트의 속성(Properties) 전달](https://github.com/pozafly/TIL/blob/main/Vue/Vue2/Props.md#%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8%EC%9D%98-%EC%86%8D%EC%84%B1properties-%EC%A0%84%EB%8B%AC)을 이용해서 바꿔보자.
+아래는 기존에 Object 형태였던 type을 [오브젝트의 속성(Properties) 전달](https://github.com/pozafly/TIL/blob/main/Vue/Vue2/Props.md#%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8%EC%9D%98-%EC%86%8D%EC%84%B1properties-%EC%A0%84%EB%8B%AC)을 이용해서 바꿔보자. 
+
+먼저 기존 코드다.
 
 ```js
 // 상위 컴포넌트
@@ -56,7 +58,7 @@ props: {
 props: {
   board: {
     type: Object,
-    require: false,
+    require: true,
     default: () => ({
       createdBy: '',
       createdByPicture: '',
@@ -74,7 +76,7 @@ props: {
 // 하위 컴포넌트
 createdBy: {
   type: String,
-  require: false,
+  require: true,
   default: '',
   validator(value) {
     return typeof value === 'string';
@@ -83,16 +85,17 @@ createdBy: {
 someProp: {
   type: Number,
   require: false,
-  default: '',
+  default: 0,
   validator(value) {
     return [1, 2, 3].indexOf(value) !== -1;
   },
 },
+(...)
 ```
 
-- 이 부분 : v-bind:something="some" 이렇게 되어있던 부분이 v-bind="some" 이렇게 변화되었다.
+- 이 부분 : **v-bind:something**="some" 이렇게 되어있던 부분이 **v-bind**="some" 이렇게 변화되었다. 그렇게 되면 some 객체가 알아서 key 값을 풀어준다. 위의 props는 createBy, someProp, 등등 some 안에 들어있는 key값이 풀어진 형태다.
 
-이렇게 validator를 상세하게 붙여줄 수 있다. 코드량이 많아지긴 하지만 상세한 valid 체크가 가능하다. 또한 모든 객체를 사용하는 것이 아니기 때문에 객체 중 어떤 값을 사용하고 있는지 파악하기 쉬워진다는 장점이 있다.
+이렇게 되면 validator를 상세하게 붙여줄 수 있다. 코드량이 많아지긴 하지만 상세한 valid 체크, 문서화가 가능하다. 또한 모든 객체를 사용하는 것이 아니기 때문에 객체 중 어떤 값을 사용하고 있는지 파악하기 쉬워진다는 장점이 있다.
 
 <br/>
 
@@ -103,43 +106,21 @@ someProp: {
 기존에 plugin을 main.js 파일에서 덕지덕지 붙여다 쓰는게 싫어서 따로 plugin.js 파일로 빼서 선언 해두었다.
 
 ```js
-// plugin.js
+// 기존 plugin/plugin.js
 import $Google from '@/utils/social/Google';
-import $Kakao from '@/utils/social/Kakao';
-import $Github from '@/utils/social/Github';
-import $Facebook from '@/utils/social/Facebook';
-
-import KProgress from 'k-progress';
-import DatePicker from 'v-calendar/lib/components/date-picker.umd';
-import MiniModal from '@/components/common/MiniModal';
-import Notifications from 'vue-notification';
-import vClickOutside from 'v-click-outside';
-import InfiniteLoading from 'vue-infinite-loading';
-import { normalFormatDate, timeForToday } from '@/utils/dateFilter';
-import LoadScript from 'vue-plugin-load-script';
+(...)
 
 const install = Vue => {
-  Vue.prototype.$Kakao = $Kakao;
-  Vue.prototype.$Github = $Github;
   Vue.prototype.$Google = $Google;
-  Vue.prototype.$Facebook = $Facebook;
-  Vue.component('KProgress', KProgress);
-  Vue.component('DatePicker', DatePicker);
-  Vue.component('MiniModal', MiniModal);
-  Vue.use(LoadScript);
-  Vue.use(Notifications);
-  Vue.use(vClickOutside);
-  Vue.use(InfiniteLoading);
-  Vue.filter('normalFormatDate', normalFormatDate);
-  Vue.filter('timeForToday', timeForToday);
+  (...)
 };
 
 export { install };
 ```
 
-이렇게 $... 으로 사용했다. [Private 속성 이름](https://kr.vuejs.org/v2/style-guide/index.html#Private-%EC%86%8D%EC%84%B1-%EC%9D%B4%EB%A6%84-%ED%95%84%EC%88%98) 이곳 스타일 가이드에서는, 플러그인, mixin 등에서 커스텀 사용자 private 프로퍼티에는 항상 접두사 `$_` 를 사용하라고 되어 있다. 왜냐하면 다른 사람의 코드와 충돌할 수 있기 때문임.
+이렇게 $... 으로 사용했다. [Private 속성 이름](https://kr.vuejs.org/v2/style-guide/index.html#Private-%EC%86%8D%EC%84%B1-%EC%9D%B4%EB%A6%84-%ED%95%84%EC%88%98) 이곳 스타일 가이드에서는, 플러그인, mixin 등에서 커스텀 사용자 private 프로퍼티에는 항상 접두사 `$_`(언더바 추가) 를 사용하라고 되어 있다. 왜냐하면 다른 사람의 코드와 충돌할 수 있기 때문임.
 
-vue 내부적으로 `_` 달러 없이 언더바는 사용하고 있기 때문에, $_ 를 쓰자.
+vue 내부적으로 달러 없이 언더바만 사용하고 있기 때문에, `$_` 를 쓰자. `$Google` 을 `$_Google` 이렇게.
 
 그리고 filter는 vue3에서는 삭제된 기능이다. 단 2에서 쓸 때는 main.js 에 빼서 따로 적용시켜 주자. 기존의 main.js에서는, 
 
@@ -166,12 +147,12 @@ import App from './App.vue';
 import router from '@/routes/index';
 import store from '@/store/index';
 import { install } from '@/plugin';
-import '@/utils/fontAwesomeIcon.js';
 import { normalFormatDate, timeForToday } from '@/utils/dateFilter';
 
 Vue.config.productionTip = false;
-Vue.use(install);
+Vue.use(install);  // 플러그인 불러 사용함.
 
+// 필터 관련
 Vue.filter('normalFormatDate', normalFormatDate);
 Vue.filter('timeForToday', timeForToday);
 
@@ -186,15 +167,18 @@ new Vue({
 
 📌 추가.
 
-아래의 사용자 정의 디렉티브를 쓰면서 main.js 가 다시 더렵혀졌다. 따라서 제대로 모듈화를 해보자.
+아래의 리팩토링 12번 `사용자 정의 디렉티브` 를 쓰면서 main.js 가 다시 더렵혀졌다. 따라서 제대로 모듈화를 해보자.
 
 src 아래에 `features(기능)`이라는 폴더를 만들었다. 그곳에 directive.js, filter.js, plugin.js 3개의 파일을 만들고 각각 정의 해주었다.
 
-- `directive.js` : 사용자 지정 디렉티브
+- `directive.js` : 사용자 정의 디렉티브
 
   ```js
   const useDirective = Vue => {
     // v-focus
+    Vue.directive('focus', {
+      (...)
+    },
     (...)
   };
   export { useDirective };
@@ -203,6 +187,7 @@ src 아래에 `features(기능)`이라는 폴더를 만들었다. 그곳에 dire
 - `filter.js` : 시간 관련 필터
 
   ```js
+  // 필터 정의 함수들
   (...)
   export const useFilter = Vue => {
     Vue.filter('normalFormatDate', normalFormatDate);
@@ -216,7 +201,8 @@ src 아래에 `features(기능)`이라는 폴더를 만들었다. 그곳에 dire
   import $_Google from '@/utils/social/Google';
   (...)
   const usePlugin = Vue => {
-    (...)
+     // 플러그인 정의
+     (...)
   };
   export { usePlugin };
   ```
@@ -228,16 +214,15 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from '@/routes';
 import store from '@/store';
-import { usePlugin } from '@/features/plugin';
-import { useDirective } from '@/features/directive';
-import { useFilter } from '@/features/filter';
-import '@/utils/fontAwesomeIcon.js';
+import { usePlugin } from '@/features/plugin';        // 🔥
+import { useDirective } from '@/features/directive';  // 🔥
+import { useFilter } from '@/features/filter';        // 🔥
 
 Vue.config.productionTip = false;
 
-Vue.use(usePlugin);
-Vue.use(useDirective);
-Vue.use(useFilter);
+Vue.use(usePlugin);     // 🔥
+Vue.use(useDirective);  // 🔥
+Vue.use(useFilter);     // 🔥
 
 new Vue({
   render: h => h(App),
@@ -256,12 +241,16 @@ new Vue({
 
 ### nextTick 없애기
 
-nextTick을 의미 없이 사용한 곳이 많다. 단지, nextTick을 DOM이 페이지에 마운트 되었을 때 실행되게 하는 것인데, 남용한 것. 따라서 mounted 라이프사이클 메서드 후에 nextTick을 사용한 것은 모두 정리하고, 
+Vue는 DOM 업데이트를 비동기로 하는데, 특정 DOM이 갱신되기 전에 DOM의 데이터를 가져오려고 할 때 오류가 생긴다. 예를 들어 created 라이프사이클 함수에서 DOM의 정보를 가져올 때. 하지만, nextTick은 이를 방지해준다. DOM이 마운트되고 난 후 nextTick 안의 콜백이 실행되기 때문에 콜백 안에서 데이터 조작 시 에러를 뿜지 않음.
 
-1. created 로직에서 비동기 api 호출 시 DOM에서 정보를 가져와야할 때,
-2. Modal 같이 DOM에 달라붙는 순간 작업이 필요할 때,
+정확한 nextTick의 사용법을 알지못하고 남용했다. 따라서 mounted 라이프사이클 메서드에서 사용했던 nextTick의 콜백만 남기고(DOM의 데이터를 가져오는 로직) nextTick을 제거했다. mounted 라이프사이클 함수는 DOM이 입혀지고 난 후 실행되기 때문이다.
 
-두가지에만 nextTick을 유지했다. 
+나머지는 제거 후 아래의 두가지에만 nextTick을 유지했다. 
+
+1. created 함수 실행 때, DOM에서 정보를 가져와 해당 정보로 비동기 api 호출 시. (특별하지 않은 이상 주로 비동기 api 함수 호출 장소는 created 라이프사이클 함수에서 한다)
+2. Modal 같이 DOM에 달라붙기 전 DOM 정보를 가져오는 작업이 필요할 때.
+
+현재는 nextTick이 **아예 없다**. nextTick을 사용해도 되고 사용하지 않아도 되지만, 캡틴판교님의 [Vue.js 입문자가 실무에서 주의해야 할 5가지 특징](https://www.youtube.com/watch?v=Z9OGUU6G8vM) 강의에 보면, nextTick 사용 시 불필요한 코드 복잡도가 증가하므로 사용을 지양해야한다고 한다.
 
 <br/>
 
