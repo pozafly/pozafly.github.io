@@ -8,6 +8,8 @@ import { lighten } from 'polished';
 // import favicon from '../../src/favicon.ico';
 import favicon from '../content/img/common/alien.png';
 import { colors } from '../styles/colors';
+import { defineCustomElements as deckDeckGoHighlightElement } from '@deckdeckgo/highlight-code/dist/loader';
+deckDeckGoHighlightElement();
 
 interface IndexProps {
   className?: string;
@@ -501,6 +503,17 @@ const IndexLayout: React.FC<IndexProps> = props => {
             img {
               opacity: 0.9;
             }
+          }
+
+          /* gatsby-remark-highlight-code */
+          /* 맥 코드 하이라이팅 추가 css */
+          :root {
+            --deckgo-highlight-code-font-size: 90%;
+            --deckgo-highlight-code-font-family: font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+                        Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            --deckgo-highlight-code-line-height: 1.5;
+            --deckgo-highlight-code-white-space: pre-wrap;
+            --deckgo-highlight-code-carbon-border-radius: 15px;
           }
         `}
       />

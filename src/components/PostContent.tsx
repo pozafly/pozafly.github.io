@@ -191,7 +191,15 @@ export const PostFullContent = styled.section`
   }
 
   p code {
-    word-break: break-all;
+    border-radius: 0.3em;
+    background: rgb(60, 65, 72);
+    color: white;
+    padding: 0.15em 0.5em;
+    margin: 0 0.25em;
+    white-space: normal;
+    font-weight: 500 !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+                        Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   }
 
   pre {
@@ -469,8 +477,17 @@ export const PostFullContent = styled.section`
     }
 
     code {
-      color: #fff;
-      background: #000;
+      /* color: #fff; */
+      /* background: #000; */
+      border-radius: 0.3em;
+      background: rgb(60, 65, 72);
+      color: white;
+      padding: 0.15em 0.5em;
+      margin: 0 0.25em;
+      white-space: normal;
+      font-weight: 500 !important;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+                          Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     }
 
     hr {
