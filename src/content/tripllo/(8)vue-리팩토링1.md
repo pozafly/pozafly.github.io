@@ -165,9 +165,25 @@ import 구문에 .vue가 붙어있지 않다면 vscode에서 ctrl + 클릭으로
 
 <br/>
 
-### 폴더에 (...).js로 붙이지말고 대표되는 파일에 index.js 바꾸기
+### 대표되는 파일이 있다면, (...).js로 붙이지말고  파일명을 index.js 바꾸기
 
 일반적으로 폴더를 하나 만들고 끌어다 쓸 때는 index.js를 붙이지 않아도 되므로 대표 파일을 index.js 라고 바꿔주었다.
+
+<br/>
+
+📌 추가
+
+### 위계 순 정리
+
+기존 .vue 파일은 위계가 없이 단순히 이름만 적혀있었다. 예를 들어 `BoardHeader.vue` 밑에 3개의 파일이 아래와 같이 하위 컴포넌트로 존재함. 
+
+![스크린샷 2021-04-19 오전 11 21 48](https://user-images.githubusercontent.com/59427983/115173109-85659b80-a101-11eb-884b-1da213530ffe.png)
+
+이렇게 되었을 때는 컴포넌트 구조를 볼 때 어느게 상위 컴포넌트고, 어느게 하위 컴포넌트인지 구분하기 쉽지 않다. 폴더 구조를 딱 봤을 때 바로 어떤 컴포넌트가 상위고 하위로 이어지는지 컴포넌트 명만 보고 쉽게 파악하게 하기 위해서는 위계 구조를 잡아주는 것이 좋다.
+
+<img width="294" alt="스크린샷 2021-04-19 오전 11 22 01" src="https://user-images.githubusercontent.com/59427983/115173137-8eef0380-a101-11eb-999f-eb832d7bcc2c.png">
+
+이런 식으로 BoardHeader가 가장 상위 컴포넌트고 그 컴포넌트 안에 3개의 하위 컴포넌트가 있는 것을 알 수 있다.  VsCode 상으로 순서가 잡혀서 보기 좋다.
 
 <br/>
 
@@ -220,11 +236,48 @@ const requireAuth = (to, from, next) => {
 
 (...)
 
-{
-  path: '/profile',
-  component: () => import('@/views/ProfilePage.vue'),
-  beforeEnter: requireAuth,  // 가드 설정
-},
+new VueRouter({
+  routes: [
+    {
+      path: '/profile',
+      component: () => import('@/views/ProfilePage.vue'),
+      beforeEnter: requireAuth,  // 가드 설정
+    },
+    (...)
+  ]
+});
+```
+
+📌 추가
+
+### 라우터 가드 설정시 return문 넣기
+
+위의 소스에서는 if 문 안에 `return` 이 추가되어 있지 않았다.
+
+```js
+if (store.getters.isAuth) {
+  next();
+} else {
+  alert('로그인 되어있지 않습니다.');
+  next(loginPath);
+}
+// 👻
+```
+
+if 문에 `next()` 를 실행하고 함수가 종료되는 것이 아니기 때문이다. 만약 👻 이 부분에 무언가 로직이 있다면 (예를 들면 다시 next 메서드가 있다던지) 마지막에 있는 것 까지 실행되므로 return문을 넣어주어 함수를 종료시켜주자.
+
+```js
+const requireAuth = (to, from, next) => {
+  const loginPath = '/auth';
+  if (store.getters.isAuth) {
+    next();
+    return;
+  } else {
+    alert('로그인 되어있지 않습니다.');
+    next(loginPath);
+    return;
+  }
+};
 ```
 
 <br/>
@@ -233,7 +286,7 @@ const requireAuth = (to, from, next) => {
 
 ## 5. 라이프 사이클 함수에서 의미 단위 함수로 묶기
 
-예를 들면, 현재 created 함수에 소켓 연결 로직과, 이벤트 버스 로직 2개가 있다.
+예를 들면, 현재 created 함수에 소켓 연결 로직과, 이벤트 버스 로직 총 2개가 있다.
 
 ```js
 created() {
@@ -251,20 +304,26 @@ created() {
 
 ```js
 created() {
-  socketConnect();
+  this.socketConnect();
   this.receive();
 },
  
 method: {
+  socketConnect() {
+    if (this.socket === null) {
+      socketConnect();
+      (...)
+    }
+  },
   receive() {
     bus.$on('receive-message', data => {
       this.receive(data);
     });
-  }
+  },
 }
 ```
 
-이런 식으로 메서드 화 해서 묶어주고, created 함수에서 어떤 일을 하는지 의미를 파악하기 쉬워진다. 이런 식으로 묶어주면, 의미 단위로 모듈화가 가능하고, 라이프 사이클 함수에서 어떤 작업을 하는지 한눈에 보이게 된다. 즉, 기존에 라이프 사이클 함수에 여러 로직이 혼재해 있으면 어떤 작업을 하는지 빠르게 파악하기 어렵다.
+이런 식으로 메서드 화 해서 묶어주면, created 함수에서 어떤 일을 하는지 의미를 파악하기 쉬워진다. 의미 단위로 모듈화가 가능하고, 라이프 사이클 함수에서 어떤 작업을 하는지 한눈에 보이게 된다. 즉, 기존에 라이프 사이클 함수에 여러 로직이 혼재해 있으면 어떤 작업을 하는지 빠르게 파악하기 어렵기 때문에 파악하기 쉽도록 해준다.
 
 <br/>
 
@@ -292,7 +351,7 @@ checklist, hashtags, comment 등 store에 반드시 있지 않아야 하는 것�
 
 <br/>
 
-## 7. dataSet 없애기
+## 7. dataset 없애기
 
 `data-...` 는 태그에 연결은 안해도 된다. dataSet은 프레임워크가 없을 때 예전에 사용하던 방법이다.
 
@@ -325,34 +384,21 @@ checklist, hashtags, comment 등 store에 반드시 있지 않아야 하는 것�
 이렇게 v-bind를 사용해서 DOM에 붙이는 방법을 사용하지 않고, data에 초기화 후 이벤트가 일어날 때마다 methods에서 처리하는 방법을 사용했다. 즉, 사실은 DOM에 데이터를 붙이는 방법 자체가 Vue 스럽지 않은 방법이다. 어떻게 수정했는지 한번 보면,
 
 ```html
-<div ref="boardItem">
-  <div
-    v-for="board in personalBoard"
-    :key="board.id"
-    class="board-list"
-    :lastCreatedAt="board.createdAt"  // 🌈
-  >
-  </div>
+<div
+  v-for="board in personalBoard"
+  :key="board.id"
+  :lastCreatedAt="board.createdAt"  // 🌈
+>
 </div>
-
 (...)
 
 <script>
-infiniteHandler($state) {
-  this.READ_PERSONAL_BOARD(this.lastCreatedAt)
-  .then(({ data }) => {
-    (...)
-    this.pushPersonalBoard(data.data);
-  });
-  setTimeout(() => {
-    if (this.isInfinity === true && this.$refs.boardItem) {
-      this.lastCreatedAt = this.$refs.boardItem.lastChild.getAttribute(
-        'lastCreatedAt',  // 🌈
-      );
-      $state.loaded(); // 계속 데이터가 남아있다는 것을 infinity에게 알려준다.
-    }
-  }, 1000);
-},
+  // 비동기 api 함수 호출 후 DOM에 붙여주었음.
+  const lastCreatedAt = this.$refs.boardItem.lastChild.getAttribute(
+    'lastCreatedAt',  // 🌈
+  );
+  (...)
+  // loastCreatedAt가 필요한 로직
 </script>
 ```
 
@@ -363,30 +409,21 @@ infiniteHandler($state) {
 하지만 이럴 필요가 전혀 없다. DOM에 데이터를 붙이는게 아니라 그냥 받아온 data에서 마지막 값을 넣어주기만 하면 되는 것이었다.
 
 ```html
-<div v-for="board in personalBoard" :key="board.id" class="board-list">
+<div v-for="board in personalBoard" :key="board.id">
 (...)
 
 <script>
- infiniteHandler($state) {
-   this.READ_PERSONAL_BOARD(this.lastCreatedAt)
-     .then(({ data }) => {
-        (...)
-        this.pushPersonalBoard(data.data);
-        setTimeout(() => {
-          const boardItem = data.data;
-          // data에 선언된 정보를 가져옴.
-          const lastCreatedAt = boardItem[boardItem.length - 1].createdAt;
-          (...)
-        }, 1000);
-      }
-   })
-},
+  // 비동기 api 함수 호출 후 data에 선언된 정보를 가져옴.
+  const boardItem = data.data;
+  const lastCreatedAt = boardItem[boardItem.length - 1].createdAt;
+  (...)
+  // loastCreatedAt가 필요한 로직
 </script>
 ```
 
-이렇게 간단한 일을 그냥 ref고, getAttribute로 DOM에 직접 데이터를 바인딩해서 온갖 짓을 다한 것이다. DOM에 필요없는 데이터를 노출시킴으로써 사용자에게 필요 없는 정보를 보여줄 수도 있는 위험이 있으며, 에러 로그 또한 마찬가지로 data를 불러오지 않았을 때도 getAttribute를 실행해버려서 boardItem이 붙지 않은 상태에서 가져오려하니 찍히기 일수였다.
+이렇게 간단한 일을 그냥 ref고, getAttribute로 DOM에 직접 데이터를 바인딩해서 온갖 짓을 다한 것이다. DOM에 데이터를 노출시킴으로써 사용자에게 필요 없는 정보를 보여줄 수 있는 위험이 있으며, data를 불러오지 않았을 때도 DOM이 붙지 않은 상태에서 getAttribute를 실행해버려서 데이터를 가져오려하니 에러가 찍히기 일수였다.
 
-즉, 이번 코드를 고치면서 깨달은 것은, Vue 프레임워크를 사용할 때, 직접 UI에 뿌려줘야하는 데이터가 아니면 script 내부적으로 데이터를 사용하게끔 설계하는 것이 정말 중요하다는 것을 배웠다.
+즉, 이번 코드를 고치면서 깨달은 것은, Vue 프레임워크를 사용할 때, 직접 UI에 뿌려줘야 하는 데이터가 아니면 script 내부적으로 데이터를 사용하게끔 설계하는 것이 정말 중요하다는 것을 배웠다.
 
 <br/>
 
@@ -395,6 +432,7 @@ infiniteHandler($state) {
 ## 8. store에 strict 모드 추가하기
 
 ```js
+// store.index.js
 import Vue from 'vue';
 import Vuex from 'vuex';
 import actions from '@/store/actions';
@@ -405,7 +443,7 @@ import mutations from '@/store/mutations';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  strict: process.env.development,  // 이부분
+  strict: process.env.NODE_ENV === 'development',  // 이부분
   state,
   getters,
   mutations,
@@ -449,21 +487,20 @@ const USER_INFO = 'TRIPLLO-V1-U';
 const TOKEN = 'TRIPLLO-V1-T';
 
 // 인코딩, 디코딩 함수
-const makeIncodeValue = (key, value) => {
-  const data = encodeURIComponent(JSON.stringify(value));
-  localStorage.setItem(key, btoa(data));
+const makeEncode = (key, value) => {
+  const data = JSON.stringify(value);
+  const encode = encodeURIComponent(data);
+  localStorage.setItem(key, btoa(encode));
 };
 
-const returnDecodeValue = value => {
+const returnDecode = value => {
   const decode = atob(value);
   const data = JSON.parse(decodeURIComponent(decode));
   return data;
 };
 
 // 로컬스토리지 관련 함수(user)
-const saveUserToLocalStorage = user => {
-  makeIncodeValue(USER_INFO, user);
-};
+const saveUserToLocalStorage = user => makeEncodeValue(USER_INFO, user);
 
 const getUserFromLocalStorage = () => {
   if (localStorage.getItem(USER_INFO)) {
@@ -472,9 +509,7 @@ const getUserFromLocalStorage = () => {
 };
 
 // 로컬스토리지 관련 함수(token)
-const saveTokenToLocalStorage = token => {
-  makeIncodeValue(TOKEN, token);
-};
+const saveTokenToLocalStorage = token => makeEncodeValue(TOKEN, token);
 
 const getTokenFromLocalStorage = () => {
   if (localStorage.getItem(TOKEN)) {
@@ -483,9 +518,36 @@ const getTokenFromLocalStorage = () => {
 };
 ```
 
-추가로 중요한 정보이니까, Base64로 인코딩 작업을 했다. 근데 network 탭에 찍히기 때문에 이 작업은 서버에서 따로 디코딩해서 작동하도록 만드는게 좋을 듯 한데 우선 그냥 로컬 단에서 디코딩해 사용했다.
+추가로 중요한 정보이니까, Base64로 인코딩 작업을 했다. 
 
-Base64 참고 자료 : https://pks2974.medium.com/base-64-%EA%B0%84%EB%8B%A8-%EC%A0%95%EB%A6%AC%ED%95%98%EA%B8%B0-da50fdfc49d2
+<img width="792" alt="스크린샷 2021-04-19 오후 12 44 05" src="https://user-images.githubusercontent.com/59427983/115178818-0a09e700-a10d-11eb-99e0-c28123e65279.png">
+
+기존 user_id는 뭐, user_picture는 뭐, user_token은 뭐... 이렇게 하나 하나 집어넣는게 아니라 한번에 깔끔하게 코드 중복 없이 인코딩 되어 유저 정보가 깔끔하게 잘 들어가게 된다. 
+
+근데 개발자 도구의 network 탭에 token 정보가 찍히기 때문에 인코딩 작업은 서버에서 따로 디코딩해서 작동하도록 만드는게 좋을 듯 한데 우선 그냥 서버 제외, 디코딩해 사용했다.
+
+📌 추가
+
+JSON.stringify, JSON.parse는 null이나 undifined 값이 들어가게 되면 어플리케이션 전체가 뻗는 상황이 생긴다. 따라서 안정성을 위해 null처리를 반드시 해주도록 하자.
+
+```js
+/**
+ * 유저 정보를 인코딩하여 localStorage에 올려줌
+ * @param {User} user
+ */
+const saveUserToLocalStorage = user => {
+  if (!user) {
+    return;
+  }
+  return makeEncode(USER_INFO, user);
+};
+```
+
+이런식으로. 더 안전한 함수가 되었다.
+
+
+
+참고 자료 : [Base 64 간단 정리하기](https://pks2974.medium.com/base-64-%EA%B0%84%EB%8B%A8-%EC%A0%95%EB%A6%AC%ED%95%98%EA%B8%B0-da50fdfc49d2)
 
 <br/>
 

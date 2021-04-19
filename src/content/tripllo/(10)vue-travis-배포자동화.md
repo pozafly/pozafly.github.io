@@ -21,7 +21,7 @@ Travis CI에 대해서 알아보자. 우선 [Travis 공식](https://docs.travis-
 - travis 엔드 포인트
   - API 엔드 포인트 : https://api.travis-ci.org/
 
-차이점은, `--pro` 가 붙은 녀석은 `.com` 으로 연결되고, --pro 옵셩이 없는 엔드포인트는 `.org` 로 연결된다는 것임.
+차이점은, `--pro` 가 붙은 녀석은 `.com` 으로 연결되고, --pro 옵션이 없는 엔드포인트는 `.org` 로 연결된다는 것임.
 
 endpoint를 잘 설정해주어야지 오류가 나지 않는다. springboot를 travis로 빌드 자동화를 했을 때도 겪었었지만, .org 엔드포인트는 오류가 많고 잘 되지 않는 경우가 많다. 버전 차이인듯 싶다. 어쨌든 우리는 앞으로 `.com` 인 `--pro` 를 붙여 엔드포인트를 설정해줄 것이다.
 
