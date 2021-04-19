@@ -72,14 +72,14 @@ const IndexLayout: React.FC<IndexProps> = props => {
           form,
           label,
           legend,
-          table,
-          caption,
-          tbody,
-          tfoot,
-          thead,
-          tr,
-          th,
-          td,
+          /* table, */
+          /* caption, */
+          /* tbody, */
+          /* tfoot, */
+          /* thead, */
+          /* tr, */
+          /* th, */
+          /* td, */
           article,
           aside,
           canvas,
@@ -288,8 +288,7 @@ const IndexLayout: React.FC<IndexProps> = props => {
           body {
             overflow-x: hidden;
             color: ${lighten('-0.3', colors.midgrey)};
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-              Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans','Ubuntu','Droid Sans','Helvetica Neue',sans-serif;
             font-size: 1.6rem;
             line-height: 1.6em;
             font-weight: 400;
@@ -509,8 +508,7 @@ const IndexLayout: React.FC<IndexProps> = props => {
           /* 맥 코드 하이라이팅 추가 css */
           :root {
             --deckgo-highlight-code-font-size: 90%;
-            --deckgo-highlight-code-font-family: font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-                        Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            --deckgo-highlight-code-font-family: font-family: -apple-system, BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans','Ubuntu','Droid Sans','Helvetica Neue',sans-serif;
             --deckgo-highlight-code-line-height: 1.5;
             --deckgo-highlight-code-white-space: pre-wrap;
             --deckgo-highlight-code-carbon-border-radius: 15px;

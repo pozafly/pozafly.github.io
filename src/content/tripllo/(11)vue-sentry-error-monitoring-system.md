@@ -89,7 +89,13 @@ SDK는 동작을 변경할 수있는 몇 가지 다른 구성 옵션을 허용�
 에러 문구를 자세히 보면, localhost:3000 에서 localhost:8080을 막고 있다고 나와있다. 3000은 SpringBoot로 되어있는 백엔드 로컬임. 하지만 Sentry를 입히기 전에는
 
 ```java
-configuration.setAllowedOrigins(ImmutableList.of("http://localhost:8080", "https://tripllo.tech"));
+// security/WebSecurityConfig.java
+@Bean
+public CorsConfigurationSource corsConfigurationSource() {
+  (...)
+  configuration.setAllowedOrigins(ImmutableList.of("http://localhost:8080", "https://tripllo.tech"));
+  (...)
+}
 ```
 
 SpringSecurity config에서 이렇게 8080을 허용하고 있었는데, Sentry를 입히면서 여기에서 문제가 생긴 것이다. 따라서 vue.config.js 파일에 proxy 설정을 해주도록 하자.

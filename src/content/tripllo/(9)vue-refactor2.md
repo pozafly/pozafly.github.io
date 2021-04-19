@@ -16,7 +16,7 @@ excerpt: 멘토링 후 Tripllo에 꽤 많은 것을 손봐야한다는 것을 �
 
 10. props valid
 11. plugin 폴더 정리
-12. nextTick 없애기 & 사용자 지정 디렉티브 연결
+12. nextTick 없애기 & 사용자 정의 디렉티브 연결
 13. 비동기 메서드 에러 핸들링
 14. API 함수에 JSDoc으로 스펙 명세하기
 15. API 함수 이름 구체화 및 API 접두사로 감싼 속성 제거하기
@@ -237,7 +237,7 @@ new Vue({
 
 <br/>
 
-## 12. nextTick 없애기 & 사용자 지정 디렉티브 연결
+## 12. nextTick 없애기 & 사용자 정의 디렉티브 연결
 
 ### nextTick 없애기
 
@@ -250,15 +250,15 @@ Vue는 DOM 업데이트를 비동기로 하는데, 특정 DOM이 갱신되기 �
 1. created 함수 실행 때, DOM에서 정보를 가져와 해당 정보로 비동기 api 호출 시. (특별하지 않은 이상 주로 비동기 api 함수 호출 장소는 created 라이프사이클 함수에서 한다)
 2. Modal 같이 DOM에 달라붙기 전 DOM 정보를 가져오는 작업이 필요할 때.
 
-현재는 nextTick이 **아예 없다**. nextTick을 사용해도 되고 사용하지 않아도 되지만, 캡틴판교님의 [Vue.js 입문자가 실무에서 주의해야 할 5가지 특징](https://www.youtube.com/watch?v=Z9OGUU6G8vM) 강의에 보면, nextTick 사용 시 불필요한 코드 복잡도가 증가하므로 사용을 지양해야한다고 한다.
+현재는 nextTick이 **아예 없다**. nextTick을 사용해도 되고 사용하지 않아도 되지만, 캡틴판교님의 [Vue.js 입문자가 실무에서 주의해야 할 5가지 특징](https://www.youtube.com/watch?v=Z9OGUU6G8vM) 강의에 보면, nextTick 사용 시 불필요한 코드 복잡도가 증가하고, 업데이트 시점 혼란을 야기하므로 사용을 지양해야한다고 한다.
 
 <br/>
 
-### 사용자 지정 디렉티브 연결
+### 사용자 정의 디렉티브 연결
 
 그리고, 주로 nextTick을 사용할 때는 mounted 메서드에서 input 태그에 focus를 줄 때가 많았으므로 사용지 지정 디렉티브를 만들어 연결시켜 주었다.
 
-```html
+```jsx
 <input
   ref="title"
   (...)
@@ -266,7 +266,9 @@ Vue는 DOM 업데이트를 비동기로 하는데, 특정 DOM이 갱신되기 �
 (...)
 
 mounted() {
-  this.$refs.title.focus();
+  // this.$nextTick(() => {
+    this.$refs.title.focus();
+  // })
 },
 ```
 
@@ -288,7 +290,7 @@ Vue.directive('focus', {
 />
 ```
 
-이렇게 해주면 한방에 해결된다. 쓸데없는 mounted와 methods를 하나 줄인 셈. 코드 량이 무척 많이 줄었고, nextTick은 거의 다 없어졌다... 
+이렇게 해주면 한방에 해결된다. 쓸데없는 mounted와 methods를 하나 줄인 셈. 코드 량이 무척 많이 줄었고, focus 관련 nextTick은 전부 없어졌다.
 
 <br/>
 
@@ -444,7 +446,7 @@ export { readPersonalBoard, (...) }
 
 ## 16. Travis 배포 자동화
 
-[Tripllo(10) Frontend -travis 배포 자동화](https://pozafly.github.io/tripllo/(10)vue-travis-배포자동화/) 여기 따로 정리해두었다.
+[Tripllo(10) Frontend -travis 배포 자동화](https://pozafly.github.io/tripllo/(10)vue-travis-automation/) 여기 따로 정리해두었다.
 
 <br/>
 
@@ -452,7 +454,7 @@ export { readPersonalBoard, (...) }
 
 ## 17. Sentry 에러 로깅 시스템 도입
 
-[Tripllo(11) Sentry 에러 로깅 시스템 도입](https://pozafly.github.io/tripllo/(11)vue-Sentry-에러로깅/) 여기 따로 정리해두었다.
+[Tripllo(11) Sentry 에러 로깅 시스템 도입](https://pozafly.github.io/tripllo/(11)vue-sentry-error-monitoring-system/) 여기 따로 정리해두었다.
 
 <br/>
 
@@ -460,7 +462,7 @@ export { readPersonalBoard, (...) }
 
 ## 18. Let's Encrypt 갱신 자동화
 
-[Tripllo(12) Let's Encrypt 갱신 자동화](https://pozafly.github.io/tripllo/(12)AWS-Lets-Encrypt-갱신자동화/) 여기 따로 정리해두었다.
+[Tripllo(12) Let's Encrypt 갱신 자동화](https://pozafly.github.io/tripllo/(13)Vuex-and-eventBus/) 여기 따로 정리해두었다.
 
 <br/>
 
@@ -478,16 +480,16 @@ export { readPersonalBoard, (...) }
 
 ## 배운점
 
-1. 코드를 일관성있게 작성하는게 좋다. JS는 코드 스타일 선택 폭이 넓어서 어디에는 이거 어디에는 저거 방식대로 짤 수 있는데, 이걸 일관되게 해주는 것.
+1. 코드의 역할을 모르고 짜지말자($nextTick). 코드를 사용했다면 왜 사용했는지 타당한 이유가 있어야 한다. 그래야 코드 불필요한 코드 복잡도가 증가하지 않고 완성도가 높은 코드를 만들게 된다. 물론 지식 나눔은 덤.
 2. 최대한 안정성 있게 짜자. if 문 같은 것은 블록 처리하는게 안전하게 작성하는 것.
 3. store에서 처리하지 않아도 되는 것은 컴포넌트 단에서 처리하자. store가 반드시 필요한지, store에 넣었다면 그럴만한 타당한 이유가 있는지 생각하고 넣기.
 4. 협업을 위해 변수 명이나 컴포넌트 명, 규칙을 가지고 만들자. 다른 사람이 봤을 때 이해하기 쉽도록.
-5. 코드가 중복 되는 것이 있다면 함수화, 모듈화 하자.
+5. 무언가 반복되는 것이 있다면 잘못 코딩한 것이다. 함수화, 모듈화 하자.
 6. 오류 처리를 반드시 하자. 비동기 처리 Promise에서 .catch()를 먼저 사용함으로 반드시 catch를 할 수 있도록 하자.
-7. 라이프 사이클 메서드에서나, sideEffect가 있는 곳에서는 의미 단위로 함수로 뽑아서 사용하자.
+7. 라이프사이클 함수에서나, sideEffect가 있는 곳에서는 의미 단위로 함수로 뽑아서 사용하자.
 8. Travis 배포 자동화 & Sentry를 도입하면서 개발 완료 후 유지보수 측면에서 가능한 자동화나, 에러추적을 해 생산성을 높이는 작업을 하자.
 9. JSDoc 을 작성하면서 내가 나중에 봤을 때나, 다른 사람이 코드를 봤을 때 직관적으로 접하기 쉽도록 하고, 자동완성으로 작업 생산성을 높이자. (Typescript 배우자...)
-10. 멘토님 감사합니다.
+10. 멘토님 사랑합니다.
 
 <br/>
 
