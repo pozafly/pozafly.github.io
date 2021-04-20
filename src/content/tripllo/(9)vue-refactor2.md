@@ -307,18 +307,17 @@ Vue.directive('focus', {
 
 프론트엔드 개발자는 api에서 데이터를 받아와 화면에 뿌리는 작업을 가장 많이 하기 때문에, api 함수는 **무조건** 에러처리가 있어야 한다. 가장 기본인데 에러 핸들링이 아예 없었다. 만약 웹서비스를 사용하는 사용자 환경에서 에러가 났을 때 핸들링 해주지 않으면 아무 동작이 없기 때문에 무슨일이 일어났는지 알지 못한다. 따라서 에러 핸들링 처리를 하자.
 
- 에러 처리를 어디서 하는지 굉장히 고민을 많이 했다. 선택지는 4가지다.
+에러 핸들링은 어디서 해야할까? 선택지는 3가지.
 
-- api 함수가 선언된 파일(ex api/board.js)
 - Vuex의 actions
 - api 함수를 호출하는 컴포넌트단
 - axios의 interceptor
 
-우선 api 호출 파일에서 에러처리는 제외. [Vuex Tip 작업 오류 처리](https://medium.com/js-dojo/vuex-tip-error-handling-on-actions-ee286ed28df4)라는 글을 읽게 되었고, 여기서 하는 말이, `각 구성 요소의 오류를 처리해야하는 경우 로드를 유지 하고 때로는 오류 상태 구성 요소를 전역 / vuex 상태에서 벗어나는 것이 훨씬 더 모범 사례 입니다.`  라고 했다. 따라서 컴포넌트 단에서 api 함수를 호출하는 
+[Vuex Tip 작업 오류 처리](https://medium.com/js-dojo/vuex-tip-error-handling-on-actions-ee286ed28df4)라는 글을 읽게 되었고, 여기서 하는 말이, `각 구성 요소의 오류를 처리해야하는 경우 로드를 유지 하고 때로는 오류 상태 구성 요소를 전역 / vuex 상태에서 벗어나는 것이 훨씬 더 모범 사례 입니다.`  라고 했다. 따라서 컴포넌트 단에서 api 함수를 호출하는 부분에서 에러 처리를 하자.
 
-내 소스는 일반적인 경우 actions.js 에서 에러 핸들링을 하고, 특별히 컴포넌트 단에서 필요한 에러처리는 컴포넌트에서 했는데, 컴포넌트 단에서 핸들링 해주는 것이 더 좋은 방법인 듯 하다.
+### 기존소스(actions.js)
 
-### actions.js 에서 에러 핸들링
+기존에 Vuex actions에서 사용했던 에러처리다.
 
 ```js
 // actions.js
@@ -335,7 +334,57 @@ READ_USER({ commit }, userId) {
 },
 ```
 
-이런식으로 .then만 있었던 곳에 `.catch` 절을 적어주었다. .catch절을 .then 보다 위에 적는 것을 습관화 하게 되면 더 좋다고 했는데, catch절에 걸리고 다시 .then에 걸리는 경우가 생겨서 우선에는 catch절을 밑에 적었다. 컴포넌트 단에서 에러 핸들링 후 컴포넌트 조작 작업이 필요한 녀석들은 모두 컴포넌트 단에서 해결했다.
+이곳해서 에러처리를 했을 때 단점을 한번 보자.
+
+1. action에서 다른 action을 호출 할 수도 있다. (이 방법은 좋은 방법은 아님. 밑에서 설명하겠음.) 그럴 때 어느 action의 오류를 핸들링하는지 모호해진다.
+2. action안에서 여러 작업을 할 수도 있겠지만 기본적으로는 상태를 변이(mutation) 시키기 위한 트리거로 존재함. 따라서 에러처리 시 mutation을 발생시키는 commit 로직만 있는게 좋을 것 같은데, try catch절로 로직을 파악하기 어려워짐.
+
+따라서 actions.js 에서 에러 핸들링 했던 것을 `모두 컴포넌트 단` 으로 옮기자. 컴포넌트에서 action을 dispatch 할 때 그곳에 에러 핸들링 로직을 넣어주면 된다.
+
+<br/>
+
+### actions에서 또 다른 actions 부르는 로직 수정
+
+기존 소스를 보자.
+
+```js
+// store/actions.js
+async CREATE_LIST({ dispatch, state }, createListInfo) {
+  try {
+    const {data} = await createListAPI(createListInfo);
+    (...)
+    dispatch('READ_BOARD_DETAIL', state.board.id);  // 이부분 다시 action.
+  } catch (error) {
+    console.log(error);
+    alert('리스트를 생성하지 못했습니다.');
+  }
+},
+```
+
+`CREATE_LIST` 라는 action에서 API 함수를 호출 한 후 다시, `READ_BOARD_DETAIL` action을 호출한다.
+
+actions에서 에러 핸들링을 했을 때 단점 중 하나는 action에서 다른 action을 호출했을 때 어느 action의 오류를 핸들링 해야하는지, 어떤 에러를 내주어야하는지 모르게 된다. 그리고, 액션 동작 안에, 또다른 동작이 있기 때문에 다시 `READ_BOARD_DETAIL` 이라는 동작을 찾아서 내부 로직을 봐야하는 비용이 발생함.
+
+따라서 try catch 문도 마찬가지고, action을 저기 선언하는게 아니라 컴포넌트단으로 옮기는게 에러 핸들링이 쉬워지고 메서드의 더 의미를 파악하기 쉽다.
+
+```js
+// 컴포넌트 methods 단
+try {
+  const {data} = await CREATE_LIST(createListInfo);  // error = 1
+  (...)
+  await this.READ_BOARD_DETAIL(this.board.id);  // error = 2
+} catch (error) {
+  if (error === 1) {
+    alert('리스트를 생성하지 못했습니다.');
+    return;
+  } else if (error === 2) {
+    alert('상세 보드 정보를 가져오지 못했습니다.');
+    return;
+  }
+}
+```
+
+이렇게 세부적으로 에러 핸들링을 했고, actions에서 엄청 많은 로직들이 없어지고 주로 mutations(commit) 로직만 남게 되어 action 에서 어떤 역할을 하는지 더 파악하기 쉬워졌다.
 
 <br/>
 
