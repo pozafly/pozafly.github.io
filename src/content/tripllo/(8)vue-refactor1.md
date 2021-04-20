@@ -561,7 +561,7 @@ const saveUserToLocalStorage = user => {
 };
 ```
 
-이런식으로 libs 파일을 만들고 프로젝트 전역적으로 쓸 null 체크 함수를 만들고 붙여줌. 그리고 빠른 Exit을 위해 조건을 보고 밑 로직을 수행하지 않도록 바로 빠져나가도록 해주자. 이렇게 되면 더 안전한 함수가 되었다. (**이흰둥님, 이희찬님 조언** 감사합니다.)
+이런식으로 libs 파일을 만들고 프로젝트 전역적으로 쓸 null 체크 함수를 만들고 붙여줌. 그리고 빠른 Exit을 위해 조건을 보고 밑 로직을 수행하지 않도록 바로 빠져나가도록 해주자. 이렇게 되면 더 안전한 함수가 되었다. (**이흰둥님, 이희찬님** 조언 감사합니다!)
 
 
 
@@ -571,7 +571,7 @@ const saveUserToLocalStorage = user => {
 
 <br/>
 
-다음 페이지에.. [이동](https://pozafly.github.io/tripllo/(9)vue-리팩토링2/)
+다음 페이지에.. [이동](https://pozafly.github.io/tripllo/(9)vue-refactor2/)
 
 <br/>
 
