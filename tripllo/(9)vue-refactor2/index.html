@@ -274,11 +274,11 @@ Vue.directive(&#x27;focus&#x27;, {
 <li>api 함수를 호출하는 컴포넌트단</li>
 <li>axios의 interceptor</li>
 </ul>
-<p><a href="https://medium.com/js-dojo/vuex-tip-error-handling-on-actions-ee286ed28df4">Vuex Tip 작업 오류 처리</a>라는 글을 읽게 되었고, 여기서 하는 말이, <code>각 구성 요소의 오류를 처리해야하는 경우 로드를 유지 하고 때로는 오류 상태 구성 요소를 전역 / vuex 상태에서 벗어나는 것이 훨씬 더 모범 사례 입니다.</code>  라고 했다. 따라서 컴포넌트 단에서 api 함수를 호출하는 부분에서 에러 처리를 하자.</p>
+<p><a href="https://medium.com/js-dojo/vuex-tip-error-handling-on-actions-ee286ed28df4">Vuex Tip 작업 오류 처리</a>라는 글을 읽게 되었고, 여기서 하는 말이, <code>각 구성 요소의 오류를 처리해야하는 경우 로드를 유지 하고 때로는 오류 상태 구성 요소를 전역 / vuex 상태에서 벗어나는 것이 훨씬 더 모범 사례 입니다.</code>  라고 한다. 따라서 컴포넌트 단에서 api 함수를 호출하는 부분에서 에러 처리를 하자.</p>
 <h3>기존소스(actions.js)</h3>
 <p>기존에 Vuex actions에서 사용했던 에러처리다.</p>
 <deckgo-highlight-code js="" terminal="carbon" theme="material" highlight-lines="">
-          <code slot="code">// actions.js
+          <code slot="code">// store/actions.js
 READ_USER({ commit }, userId) {
   return userApi
     .readUser(userId)
@@ -294,7 +294,7 @@ READ_USER({ commit }, userId) {
 <p>이곳해서 에러처리를 했을 때 단점을 한번 보자.</p>
 <ol>
 <li>action에서 다른 action을 호출 할 수도 있다. (이 방법은 좋은 방법은 아님. 밑에서 설명하겠음.) 그럴 때 어느 action의 오류를 핸들링하는지 모호해진다.</li>
-<li>action안에서 여러 작업을 할 수도 있겠지만 기본적으로는 상태를 변이(mutation) 시키기 위한 트리거로 존재함. 따라서 에러처리 시 mutation을 발생시키는 commit 로직만 있는게 좋을 것 같은데, try catch절로 로직을 파악하기 어려워짐.</li>
+<li>action안에서 여러 작업을 할 수도 있겠지만 기본적으로는 상태를 변이(mutation) 시키기 위한 트리거로 존재함. 따라서 에러처리 시 mutation을 발생시키는 commit 로직만 있는게 좋을 것 같은데, try catch절이 혼재해 있으면  로직을 파악하기 어려워짐.</li>
 </ol>
 <p>따라서 actions.js 에서 에러 핸들링 했던 것을 <code>모두 컴포넌트 단</code> 으로 옮기자. 컴포넌트에서 action을 dispatch 할 때 그곳에 에러 핸들링 로직을 넣어주면 된다.</p>
 <br/>
@@ -315,7 +315,7 @@ async CREATE_LIST({ dispatch, state }, createListInfo) {
         </deckgo-highlight-code>
 <p><code>CREATE_LIST</code> 라는 action에서 API 함수를 호출 한 후 다시, <code>READ_BOARD_DETAIL</code> action을 호출한다.</p>
 <p>actions에서 에러 핸들링을 했을 때 단점 중 하나는 action에서 다른 action을 호출했을 때 어느 action의 오류를 핸들링 해야하는지, 어떤 에러를 내주어야하는지 모르게 된다. 그리고, 액션 동작 안에, 또다른 동작이 있기 때문에 다시 <code>READ_BOARD_DETAIL</code> 이라는 동작을 찾아서 내부 로직을 봐야하는 비용이 발생함.</p>
-<p>따라서 try catch 문도 마찬가지고, action을 저기 선언하는게 아니라 컴포넌트단으로 옮기는게 에러 핸들링이 쉬워지고 메서드의 더 의미를 파악하기 쉽다.</p>
+<p>따라서 try catch 문도 마찬가지고, action 안에 action을 저기 선언하는게 아니라 컴포넌트단으로 옮기는게 에러 핸들링이 쉬워지고 메서드의 더 의미를 파악하기 쉽다.</p>
 <deckgo-highlight-code js="" terminal="carbon" theme="material" highlight-lines="">
           <code slot="code">// 컴포넌트 methods 단
 try {
@@ -332,9 +332,10 @@ try {
   }
 }</code>
         </deckgo-highlight-code>
-<p>이렇게 세부적으로 에러 핸들링을 했고, actions에서 엄청 많은 로직들이 없어지고 주로 mutations(commit) 로직만 남게 되어 action 에서 어떤 역할을 하는지 더 파악하기 쉬워졌다.</p>
+<p>이렇게 세부적으로 에러 핸들링을 했고, actions에서 엄청 많은 로직들이 없어지고 주로 commit(mutations) 로직만 남게 되어 action 에서 어떤 역할을 하는지 더 파악하기 쉬워졌다.</p>
 <br/>
 <h3>axios interceptor 에서 에러 핸들링</h3>
+<p>interceptor에서는 주로 권한처리나 공통적인 에러가 발생했을 때 핸들링을 해준다.</p>
 <deckgo-highlight-code js="" terminal="carbon" theme="material" highlight-lines="">
           <code slot="code">// response
 instance.interceptors.response.use(
@@ -356,16 +357,10 @@ instance.interceptors.response.use(
   return;
 }</code>
         </deckgo-highlight-code>
-<p>이렇게. 그러면 alert 창은 권한이 없을 때 1번만 뜨게 되고, 권한 문제가 아닌 다른 에러는 actions.js에서 잡아준다. 그리고, 인터셉터에서 아예 모든 에러 핸들링을 할까도 고민했었다.</p>
-<deckgo-highlight-code js="" terminal="carbon" theme="material" highlight-lines="">
-          <code slot="code">else {
-  alert(response.data.message);
-}</code>
-        </deckgo-highlight-code>
-<p>이렇게. 사실 백엔드에서 data.message에 api에 알맞은 message가 같이 넘어온다. 여전히 지금도 고민중. actions.js에서 api별로 따로 catch절로 에러핸들링을 하는 것이 맞는지, interceptor에서 한번에 묶어서 해주는 것이 맞는지. 일단, 공통적으로 interceptor 에서 묶어서 처리하지 않은 것은 에러 처리를 일부러 각각 명확하게 하기 위해서다.</p>
+<p>이렇게. 그러면 alert 창은 권한이 없을 때 한번만 뜨게 되고, 권한 문제가 아닌 다른 에러는 actions.js에서 잡아준다.</p>
 <p>📌 추가</p>
 <h3>Promise.catch() 체이닝에 대해서</h3>
-<p>axios로 api 함수를 사용해 백엔드로부터 데이터를 받아오면 Promise가 return 된다. 프로젝트에는 .then.catch 와 async, await 2가지 문법을 모두 사용했다. 그 중 .then.catch 문법이 대다수 이다. 에러 핸들링 시 catch 처리가 없었으므로 catch 체이닝을 잊지 않기 위해 <code>먼저</code> 사용했다.</p>
+<p>axios로 api 함수를 사용해 백엔드로부터 데이터를 받아오면 Promise가 return 된다. 프로젝트에는 .then.catch 와 async, await 2가지 문법을 모두 사용했다. 그 중 .then.catch 문법이 대다수였다. 에러 핸들링 시 catch 처리가 없었으므로 catch 체이닝을 잊지 않기 위해 <code>먼저</code> 사용했다.</p>
 <deckgo-highlight-code js="" terminal="carbon" theme="material" highlight-lines="">
           <code slot="code">updateBoardAPI(some)
   .catch(error =&gt; {  // catch 체이닝 먼저.
@@ -380,13 +375,12 @@ instance.interceptors.response.use(
   });</code>
         </deckgo-highlight-code>
 <p>하지만 이렇게 catch 체이닝을 먼저 사용하면 catch 콜백을 먼저 탄 후, <code>.then</code> 의 콜백까지 <strong>같이 실행</strong> 되었다. 이상했다. 에러가 발생하면 분명 catch 절을 타는 것은 맞는데 멈추지 않고 .then 까지 이어졌기 때문. axios interceptor 문제인가 해서 몇번이고 수정해봤다.</p>
-<p>알고봤더니 .catch절 후에 오는 .then은 .catch절에서 alert 같은 그냥 에러 표시만 하는 것이 아니라 에러를 잡기위한 로직이 들어간다고 한다. 그 후 .then이 실행된다고 함.</p>
 <p><a href="https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Using_promises#common_mistakes">MDN promises common_mistakes</a>에 보면 아래와 같은 말을 하고 있다.</p>
 <blockquote>
 <p>세 번째 실수는 <code>catch</code>로 체인을 종료하는 것을 잊는 것입니다. 약속되지 않은 약속 체인은 대부분의 브라우저에서 예상하지 못한 약속 거부를 초래합니다.</p>
-<p>좋은 경험 법칙은 항상 약속의 사슬을 반환하거나 종결하는 것이며, 새로운 약속을 얻 자마자 즉각적으로 돌려서 물건을 평평하게하는 것입니다.</p>
+<p>좋은 경험 법칙은 항상 약속의 사슬을 반환하거나 종결하는 것이며, 새로운 약속을 얻 자마자 즉각적으로 돌려서 물건을 평평하게하는 것입니다.(?)</p>
 </blockquote>
-<p>즉, .catch로 체이닝을 종료하는 것이 좋다는 말이었다. 또 여러가지 실험을 하다보니,</p>
+<p>즉, .catch로 체이닝을 종료하라는 말이었다. 또 여러가지 실험을 하다보니,</p>
 <deckgo-highlight-code js="" terminal="carbon" theme="material" highlight-lines="">
           <code slot="code">.catch(error =&gt; {
   console.log(error);
@@ -401,9 +395,9 @@ instance.interceptors.response.use(
 });</code>
         </deckgo-highlight-code>
 <ul>
-<li>🚀 : 이 부분에서 throw error를 해주면 .then으로 이어지지 않는다.</li>
+<li>🚀 : 이 부분에서 throw error로 그냥 error를 뱉어주면 .then으로 이어지지 않는다. 하지만 Sentry에 쌓일 것이므로 이 방법은 좋은 방법은 쓰면 안되겠다.</li>
 </ul>
-<p>우선엔 비동기 api 함수에, async / await 와 try / catch 를 붙여주었음.</p>
+<p>비동기 api 함수를 부르는 로직에 Promise 체이닝을 제거하고, async / await 와 try / catch 를 붙여주었음.</p>
 <br/>
 <br/>
 <h2>14. API 함수에 JSDoc으로 스펙 명세하기 &amp; 파라미터 형태 수정</h2>
