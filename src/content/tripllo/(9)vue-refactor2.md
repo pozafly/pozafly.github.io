@@ -12,9 +12,17 @@ excerpt: 멘토링 후 Tripllo에 꽤 많은 것을 손봐야한다는 것을 �
 
 
 
+<br/>
+
+아래 내용은 [인프런 멘토링](https://www.inflearn.com/mentors)에서 대한민국 Vue 권위자 캡틴판교님께 멘토링 받으며 코드리뷰를 해주신 부분에 대한 반영 내용입니다.
+
+<br/>
+
+<br/>
+
 ## 목차
 
-10. props valid
+10. props type
 11. plugin 폴더 정리
 12. nextTick 없애기 & 대신 사용자 정의 디렉티브 연결
 13. API 함수 에러 핸들링
@@ -29,9 +37,9 @@ excerpt: 멘토링 후 Tripllo에 꽤 많은 것을 손봐야한다는 것을 �
 
 <br/>
 
-## 10. props valid
+## 10. props type
 
-기존에 prop 을  `props: ['member'],` 이런식으로 정의했었다면, 
+기존에 prop 을  `props: ['member'],` 이런식으로 정의했었다면,
 
 ```js
 props: {
@@ -44,9 +52,9 @@ props: {
 },
 ```
 
-이렇게 member라는 props에, `type`, `require`, `default`, `validator` 를 사용할 수 있다. type 에는 String, Number, Array, Object, Function, Boolean 이 들어갈 수 있다. [공식 vue props type](https://kr.vuejs.org/v2/guide/components-props.html#Prop-%ED%83%80%EC%9E%85) 이곳에서 확인할 수 있다.
+이렇게 member라는 props에, `type`, `require`, `default`, `validator` 를 사용해 정의할 수 있다. type 에는 String, Number, Array, Object, Function, Boolean 이 들어갈 수 있다. [vue props type](https://kr.vuejs.org/v2/guide/components-props.html#Prop-%ED%83%80%EC%9E%85) 이곳에서 확인할 수 있다.
 
-하지만 위와 같이 `type: Object` 는 벨리데이션 체크에는 크게 좋지 않은 형태인 듯 하다. Object 형태로 모두 다 받아오는 것이 아니라 필요한 props 만 받고 원시 타입 형태로 받는게 좋을 듯 하다. 아래는 기존에 Object 형태였던 type을 [오브젝트의 속성(Properties) 전달](https://github.com/pozafly/TIL/blob/main/Vue/Vue2/Props.md#%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8%EC%9D%98-%EC%86%8D%EC%84%B1properties-%EC%A0%84%EB%8B%AC)을 이용해서 바꿔보자. 
+하지만 위와 같이 `type: Object` 는 벨리데이션 체크에는 크게 좋지 않은 형태인 듯 하다. Object 형태로 모두 다 받아오는 것이 아니라 필요한 props 만 받고 원시 타입 형태로 받는게 좋을 듯 하다. 아래는 기존에 Object 형태였던 type을 [오브젝트의 속성(Properties) 전달](https://github.com/pozafly/TIL/blob/main/Vue/Vue2/Props.md#%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8%EC%9D%98-%EC%86%8D%EC%84%B1properties-%EC%A0%84%EB%8B%AC)을 이용해서 바꿔보자.
 
 먼저 기존 코드다.
 
@@ -57,7 +65,7 @@ props: {
 // 하위 컴포넌트.vue
 props: {
   board: {
-    type: Object,
+    type: Object,  // object 형태
     require: true,
     default: () => ({
       createdBy: '',
@@ -67,14 +75,12 @@ props: {
 }
 ```
 
-이런식으로 prop을 받고 있었다면,
-
-```json
-// 상위 컴포넌트
-<ProfileImage v-bind="board" />  // 이 부분
-```
+이런식으로 prop을 받고 있었다. 아래와 같이 바꿀 수 있다.
 
 ```js
+// 상위 컴포넌트
+<ProfileImage v-bind="board" />  // 이 부분, :borad="board" 가 아님.
+
 // 하위 컴포넌트
 props: {
   createdBy: {
@@ -92,13 +98,13 @@ props: {
       return [1, 2, 3].indexOf(value) !== -1;
     },
   },
-  (...)  // 상위 컴포넌트에서 내려준 prop에 있는 나머지 객체들.
+  (...)  // 상위 컴포넌트에서 내려준 prop에 있는 나머지 속성들.
 }
 ```
 
 - 이 부분 : **v-bind:something**="some" 이렇게 되어있던 부분이 **v-bind**="some" 이렇게 변화되었다. 그렇게 되면 some 객체가 알아서 key 값을 풀어준다. 위의 props는 createdBy, someProp, 등등 some 안에 들어있는 key값이 풀어진 형태다.
 
-이렇게 되면 validator를 상세하게 붙여줄 수 있다. 코드량이 많아지긴 하지만 상세한 valid 체크, 문서화가 가능하다. 또한 모든 객체를 사용하는 것이 아니기 때문에 객체 중 어떤 값을 사용하고 있는지 파악하기 쉬워진다는 장점이 있다.
+이렇게 되면 validator를 상세하게 붙여줄 수 있다. 코드량이 많아지긴 하지만 상세한 valid 체크, 문서화가 가능하다. 또한 모든 객체를 사용하는 것이 아니기 때문에 객체 중 어떤 값을 사용하고 있는지 파악하기 쉬워진다는 장점이 있다. 단점으로는 코드량이 늘어난다..
 
 <br/>
 
@@ -313,15 +319,16 @@ Vue.directive('focus', {
 - api 함수를 호출하는 컴포넌트단
 - axios의 interceptor
 
-[Vuex Tip 작업 오류 처리](https://medium.com/js-dojo/vuex-tip-error-handling-on-actions-ee286ed28df4)라는 글을 읽게 되었고, 여기서 하는 말이, `각 구성 요소의 오류를 처리해야하는 경우 로드를 유지 하고 때로는 오류 상태 구성 요소를 전역 / vuex 상태에서 벗어나는 것이 훨씬 더 모범 사례 입니다.`  라고 했다. 따라서 컴포넌트 단에서 api 함수를 호출하는 부분에서 에러 처리를 하자.
+결론은 컴포넌트 단에서 api 함수를 호출하는 부분에서와 interceptor에서 에러 처리를 하자. 아래에 설명이 되어있다.
 
 ### 기존소스(actions.js)
 
 기존에 Vuex actions에서 사용했던 에러처리다.
 
 ```js
-// actions.js
+// store/actions.js
 READ_USER({ commit }, userId) {
+  (...)
   return userApi
     .readUser(userId)
     .then(({ data }) => {
@@ -337,13 +344,13 @@ READ_USER({ commit }, userId) {
 이곳해서 에러처리를 했을 때 단점을 한번 보자.
 
 1. action에서 다른 action을 호출 할 수도 있다. (이 방법은 좋은 방법은 아님. 밑에서 설명하겠음.) 그럴 때 어느 action의 오류를 핸들링하는지 모호해진다.
-2. action안에서 여러 작업을 할 수도 있겠지만 기본적으로는 상태를 변이(mutation) 시키기 위한 트리거로 존재함. 따라서 에러처리 시 mutation을 발생시키는 commit 로직만 있는게 좋을 것 같은데, try catch절로 로직을 파악하기 어려워짐.
+2. action안에서 여러 작업을 할 수도 있겠지만 action의 역할은, 기본적으로 상태를 변이(mutation) 시키기 위함이다. 따라서 에러처리 시 mutation을 발생시키는 commit 로직만 있는게 좋을 것 같은데, try catch절이 혼재해 있으면  로직을 파악하기 어려워진다.
 
-따라서 actions.js 에서 에러 핸들링 했던 것을 `모두 컴포넌트 단` 으로 옮기자. 컴포넌트에서 action을 dispatch 할 때 그곳에 에러 핸들링 로직을 넣어주면 된다.
+따라서 actions.js 에서 에러 핸들링 했던 것을 `모두 컴포넌트 단` 으로 옮기자. 컴포넌트단에서 action을 호출하거나 api 함수를 사용할 때 에러처리를 하면 action을 한눈에 파악하기 쉽고(commit 만 있음) 컴포넌트에서 각각의 action을 호출할 때 상황에 맞는 에러처리를 할 수 있다.
 
 <br/>
 
-### actions에서 또 다른 actions 부르는 로직 수정
+### action에서 또 다른 action 호출 로직 수정
 
 기존 소스를 보자.
 
@@ -353,7 +360,7 @@ async CREATE_LIST({ dispatch, state }, createListInfo) {
   try {
     const {data} = await createListAPI(createListInfo);
     (...)
-    dispatch('READ_BOARD_DETAIL', state.board.id);  // 이부분 다시 action.
+    dispatch('READ_BOARD_DETAIL', state.board.id);  // 또 다른 action 호출.
   } catch (error) {
     console.log(error);
     alert('리스트를 생성하지 못했습니다.');
@@ -363,16 +370,16 @@ async CREATE_LIST({ dispatch, state }, createListInfo) {
 
 `CREATE_LIST` 라는 action에서 API 함수를 호출 한 후 다시, `READ_BOARD_DETAIL` action을 호출한다.
 
-actions에서 에러 핸들링을 했을 때 단점 중 하나는 action에서 다른 action을 호출했을 때 어느 action의 오류를 핸들링 해야하는지, 어떤 에러를 내주어야하는지 모르게 된다. 그리고, 액션 동작 안에, 또다른 동작이 있기 때문에 다시 `READ_BOARD_DETAIL` 이라는 동작을 찾아서 내부 로직을 봐야하는 비용이 발생함.
+actions에서 에러 핸들링을 했을 때 단점 중 하나는 action에서 다른 action을 호출했을 때 어느 action의 오류를 핸들링 해야하는지, 어떤 에러를 내주어야하는지 모르게 된다. 그리고, 액션 동작 안에, 또다른 동작이 있기 때문에 다시 `READ_BOARD_DETAIL` 이라는 동작을 찾아서 내부 로직을 봐야하는 비용이 발생함. 명확하게 이 action의 의미를 파악하기 어려워진다.
 
-따라서 try catch 문도 마찬가지고, action을 저기 선언하는게 아니라 컴포넌트단으로 옮기는게 에러 핸들링이 쉬워지고 메서드의 더 의미를 파악하기 쉽다.
+action 안에 action을 저기 선언하는게 아니라 컴포넌트단으로 옮기는게 더 의미를 파악하기 쉽다.
 
 ```js
 // 컴포넌트 methods 단
 try {
-  const {data} = await CREATE_LIST(createListInfo);  // error = 1
-  (...)
+  await this.CREATE_LIST(createListInfo);  // error = 1
   await this.READ_BOARD_DETAIL(this.board.id);  // error = 2
+  (...)
 } catch (error) {
   if (error === 1) {
     alert('리스트를 생성하지 못했습니다.');
@@ -384,51 +391,47 @@ try {
 }
 ```
 
-이렇게 세부적으로 에러 핸들링을 했고, actions에서 엄청 많은 로직들이 없어지고 주로 mutations(commit) 로직만 남게 되어 action 에서 어떤 역할을 하는지 더 파악하기 쉬워졌다.
+이렇게 컴포넌트 단에서 세부적으로 에러 핸들링을 했고, action이 반드시 필요하지않은 api 함수는 전부 컴포넌트로 이동하게 되었다. action안의 action을 분리하면서 api 함수 호출과 commit 함수만 남아  의미 파악이 쉬워졌다. 결과로 actions.js 파일이  `415줄` 에서 `73줄` 이 되었다.
 
 <br/>
 
 ### axios interceptor 에서 에러 핸들링
 
+interceptor에서는 주로 권한처리나 공통적인 에러가 발생했을 때 핸들링을 해주는게 좋다.
+
 ```js
-// response
+// api/common/interceptors.js
+
+(...)
+ 
+// api response 시,
 instance.interceptors.response.use(
   response => {
     return response;
   },
   error => {
-    if (error.response.status === 403) {
+    const errorCode = error.response.status;
+    if (errorCode === 401) {
       alert('권한이 없습니다.');
+    } else if (errorCode === 400) {
+      alert('잘못된 요청입니다.');
     }
     return Promise.reject(error);
   },
 );
 ```
 
-기존의 에러 핸들링이다. 하지만, 이렇게되면 403 으로 인해서 권한이 없다는 alert 창이 한번 뜨고, actions.js에서 해당 비동기 처리 메서드가 실패했다는 alert이 또 한번 더 뜨게 된다. 따라서 `return` 문을 넣어주었다.
+401, 403 같은 공통 에러 핸들링이다. 하지만, 이렇게되면 403 으로 인해서 권한이 없다는 alert 창이 한번 뜨고, actions.js에서 해당 비동기 처리 메서드가 실패했다는 alert이 또 한번 더 뜨게 된다. 왜냐하면 `return Promise.reject(error);` 이 구문으로 error가 이어지기 때문.
 
-```js
-if (error.response.status === 403) {
-  alert('권한이 없습니다.');
-  return;
-}
-```
+그렇다고, 그냥 return; 해주면 api를 부른 곳으로 이어져서, catch절에 걸리는게 아니라 then 절에 걸리게 된다. Promise가 reject나 resolve 형태로 return하지 않으면 undifined가 뜨기 때문에 then으로 이어지는 것. alert이 두번 뜨는 문제는 해결하지 못했다. Promise는 도중에 catch절로 이어지지 않게 stop 하는 것이 없다고 한다.
 
-이렇게. 그러면 alert 창은 권한이 없을 때 1번만 뜨게 되고, 권한 문제가 아닌 다른 에러는 actions.js에서 잡아준다. 그리고, 인터셉터에서 아예 모든 에러 핸들링을 할까도 고민했었다.
-
-```js
-else {
-  alert(response.data.message);
-}
-```
-
-이렇게. 사실 백엔드에서 data.message에 api에 알맞은 message가 같이 넘어온다. 여전히 지금도 고민중. actions.js에서 api별로 따로 catch절로 에러핸들링을 하는 것이 맞는지, interceptor에서 한번에 묶어서 해주는 것이 맞는지. 일단, 공통적으로 interceptor 에서 묶어서 처리하지 않은 것은 에러 처리를 일부러 각각 명확하게 하기 위해서다.
+그렇다면,  catch 절에 일일이 에러코드가 400, 401이라면 alert이 뜨지 않게 해주는 작업은 interceptor를 만든 이유가 없어짐...
 
 📌 추가
 
 ### Promise.catch() 체이닝에 대해서
 
-axios로 api 함수를 사용해 백엔드로부터 데이터를 받아오면 Promise가 return 된다. 프로젝트에는 .then.catch 와 async, await 2가지 문법을 모두 사용했다. 그 중 .then.catch 문법이 대다수 이다. 에러 핸들링 시 catch 처리가 없었으므로 catch 체이닝을 잊지 않기 위해 `먼저` 사용했다.
+axios로 api 함수를 사용해 백엔드로부터 데이터를 받아오면 Promise가 return 된다. 프로젝트에는 .then.catch 와 async, await 2가지 문법을 모두 사용했다. 그 중 .then.catch 문법이 대다수였다. 에러 핸들링 시 catch 처리가 없었으므로 catch 체이닝을 잊지 않기 위해 `먼저` 사용했다.
 
 ```js
 updateBoardAPI(some)
@@ -446,15 +449,13 @@ updateBoardAPI(some)
 
 하지만 이렇게 catch 체이닝을 먼저 사용하면 catch 콜백을 먼저 탄 후, `.then` 의 콜백까지 **같이 실행** 되었다. 이상했다. 에러가 발생하면 분명 catch 절을 타는 것은 맞는데 멈추지 않고 .then 까지 이어졌기 때문. axios interceptor 문제인가 해서 몇번이고 수정해봤다.
 
-알고봤더니 .catch절 후에 오는 .then은 .catch절에서 alert 같은 그냥 에러 표시만 하는 것이 아니라 에러를 잡기위한 로직이 들어간다고 한다. 그 후 .then이 실행된다고 함.
-
 [MDN promises common_mistakes](https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Using_promises#common_mistakes)에 보면 아래와 같은 말을 하고 있다.
 
 >세 번째 실수는 `catch`로 체인을 종료하는 것을 잊는 것입니다. 약속되지 않은 약속 체인은 대부분의 브라우저에서 예상하지 못한 약속 거부를 초래합니다.
 >
->좋은 경험 법칙은 항상 약속의 사슬을 반환하거나 종결하는 것이며, 새로운 약속을 얻 자마자 즉각적으로 돌려서 물건을 평평하게하는 것입니다.
+>좋은 경험 법칙은 항상 약속의 사슬을 반환하거나 종결하는 것이며, 새로운 약속을 얻 자마자 즉각적으로 돌려서 물건을 평평하게하는 것입니다.(?)
 
-즉, .catch로 체이닝을 종료하는 것이 좋다는 말이었다. 또 여러가지 실험을 하다보니,
+즉, .catch로 체이닝을 종료하라는 말이었다. 또 여러가지 실험을 하다보니,
 
 ```js
 .catch(error => {
@@ -466,13 +467,13 @@ updateBoardAPI(some)
   if (data.data.invitedUser) {
     return;
   }
-  dispatch('READ_BOARD_DETAIL', state.board.id);
+  (...)
 });
 ```
 
-- 🚀 : 이 부분에서 throw error를 해주면 .then으로 이어지지 않는다.
+- 🚀 : 이 부분에서 throw error로 그냥 error를 뱉어주면 .then으로 이어지지 않는다. 하지만 Sentry에 쌓일 것이므로 이 방법은 좋은 방법은 쓰면 안되겠다.
 
-우선엔 비동기 api 함수에, async / await 와 try / catch 를 붙여주었음.
+비동기 api 함수를 부르는 로직에 체이닝을 제거하고, async / await 와 try / catch 를 붙여주었음.
 
 <br/>
 
@@ -480,7 +481,7 @@ updateBoardAPI(some)
 
 ## 14. API 함수에 JSDoc으로 스펙 명세하기 & 파라미터 형태 수정
 
-### 파라미터 형태 수정
+### api 함수 파라미터 형태 수정
 
 기존, api 함수를 보자. 3가지 형태로 작성할 수 있는데, api 함수의 인자로 어떤 형태를 받을지에 따라 나눠놓은 것이다. 가장 좋은 방법은 3번째 방법이다.
 
@@ -531,11 +532,11 @@ api 명세를 해두자. 누가와서 보더라도, 혹은 내가 다시 나중�
 const createBoardAPI = createBoardInfo => board.post('/', createBoardInfo);
 ```
 
-이렇게 작성해주면 
+이렇게 작성해주면 vscode상에
 
 <img width="901" alt="스크린샷 2021-04-20 오전 11 49 37" src="https://user-images.githubusercontent.com/59427983/115330173-83b5d980-a1ce-11eb-9790-c867f2acc45b.png">
 
-이렇게 api 함수에 `.` 을 찍어주면, @returns가 Promise 이므로, Promise에 체이닝 되는 메서드들이 자동 완성된다. 또한 JSDoc을 적어주는 것은 협업할 때, api가 어떤걸 return 하는지, 파라미터로 무엇을 넘기는지 알 수 있게 도와준다. JSDoc이 언어레벨로 표현된 것이 typescript다.
+이렇게 api 함수에 `.` 을 찍어주면, @returns가 Promise 이므로, Promise에 체이닝 되는 메서드들이 자동 완성된다. 또한 JSDoc을 적어주는 것은 협업할 때, api가 어떤걸 return 하는지, 파라미터로 무엇을 넘기는지 알 수 있게 도와준다. JSDoc이 언어레벨로 표현된 것이 typescript 라고 한다.
 
 <br/>
 
@@ -613,7 +614,7 @@ export { readPersonalBoardAPI, (...) }
 3. store에서 처리하지 않아도 되는 것은 컴포넌트 단에서 처리하자. store가 반드시 필요한지, store에 넣었다면 그럴만한 타당한 이유가 있는지 생각하고 넣기.
 4. 협업을 위해 변수 명이나 컴포넌트 명, 규칙을 가지고 만들자. 다른 사람이 봤을 때 이해하기 쉽도록.
 5. 무언가 반복되는 것이 있다면 잘못 코딩한 것이다. 함수화, 모듈화 하자.
-6. 오류 처리를 반드시 하자. 비동기 처리 Promise에서 .catch()를 먼저 사용함으로 반드시 catch를 할 수 있도록 하자.
+6. 오류 처리를 반드시 하자. 프론트엔드 개발자가 가장 많이 하는 것이 백엔드에서 api를 받아 화면에 표현하는 것인데 이곳에 오류처리가 없다면 사용자 경험이 떨어진다.
 7. 라이프사이클 함수에서나, sideEffect가 있는 곳에서는 의미 단위로 함수로 뽑아서 사용하자.
 8. Travis 배포 자동화 & Sentry를 도입하면서 개발 완료 후 유지보수 측면에서 가능한 자동화나, 에러추적을 해 생산성을 높이는 작업을 하자.
 9. JSDoc 을 작성하면서 내가 나중에 봤을 때나, 다른 사람이 코드를 봤을 때 직관적으로 접하기 쉽도록 하고, 자동완성으로 작업 생산성을 높이자. (Typescript 배우자...)
