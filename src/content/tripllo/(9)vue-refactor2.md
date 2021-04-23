@@ -602,6 +602,8 @@ export { readPersonalBoardAPI, (...) }
 - button type 넣어주기(접근성 차원에서)
 - if문 block 넣어주기(javascript 만든 할아버지께서 말씀하심 - 안정성 때문인듯.)
 - es6 화살표 함수 안되어있었던 것 다 처리.
+- v-show가 붙은 template 태그를 div 태그로 수정
+  - v-if는 렌더링 자체를 막는 것이라 `<template>` 에 사용 가능. 하지만, v-show는 `<template>` 에 사용 불가. div or span 태그로 해줘야 함. 첫 렌더링은 되어야 하는데 template은 vue에서 사용하는 태그라 그런듯?
 
 <br/>
 

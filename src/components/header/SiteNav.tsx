@@ -149,13 +149,18 @@ export const SiteNavMain = css`
   right: 0;
   left: 0;
   z-index: 1000;
-  /* background: color(var(--darkgrey) l(-5%)) */
-  background: ${darken('0.05', colors.darkgrey)};
+  /* background: ${darken('0.05', colors.darkgrey)}; */
+  background: rgba(20,22,26,.78);
+  
 
   @media (max-width: 700px) {
     padding-right: 0;
     padding-left: 0;
   }
+
+  /* @media (prefers-color-scheme: light) {
+    background: hsla(0,0%,100%,.95);
+  } */
 `;
 
 const SiteNavStyles = css`

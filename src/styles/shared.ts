@@ -23,8 +23,8 @@ export const SiteNavMain = css`
   right: 0;
   left: 0;
   z-index: 1000;
-  /* background: color(var(--darkgrey) l(-5%)); */
-  background: ${lighten('-0.05', colors.darkgrey)};
+  /* background: ${lighten('-0.05', colors.darkgrey)}; */
+  background: rgba(20,22,26,.78);
 `;
 
 export const SiteMain = css`
