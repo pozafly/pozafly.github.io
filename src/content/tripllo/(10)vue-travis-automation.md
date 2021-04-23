@@ -12,7 +12,7 @@ excerpt: Vue프로젝트를 aws의 S3와 CloudFront에 Travis CI를 통해 배�
 
 # Travis
 
-Travis CI에 대해서 알아보자. 우선 [Travis 공식](https://docs.travis-ci.com/) Docs를 보고 따라해봤다. 참고 자료는 이동욱님의 스프링 부트와 AWS로 혼자 구현하는 웹 서비스 책을 참고했다.
+Travis CI에 대해서 알아보자. 우선 [Travis 공식](https://docs.travis-ci.com/) Docs를 보고 따라 해봤다. 참고 자료는 이동욱 님의 스프링 부트와 AWS로 혼자 구현하는 웹 서비스 책을 참고했다.
 
 우선 travis endpoint에 대해 알아야 한다.
 
@@ -23,14 +23,14 @@ Travis CI에 대해서 알아보자. 우선 [Travis 공식](https://docs.travis-
 
 차이점은, `--pro` 가 붙은 녀석은 `.com` 으로 연결되고, --pro 옵션이 없는 엔드포인트는 `.org` 로 연결된다는 것임.
 
-endpoint를 잘 설정해주어야지 오류가 나지 않는다. springboot를 travis로 빌드 자동화를 했을 때도 겪었었지만, .org 엔드포인트는 오류가 많고 잘 되지 않는 경우가 많다. 버전 차이인듯 싶다. 어쨌든 우리는 앞으로 `.com` 인 `--pro` 를 붙여 엔드포인트를 설정해줄 것이다.
+endpoint를 잘 설정해 주어야지 오류가 나지 않는다. springboot를 travis로 빌드 자동화를 했을 때도 겪었었지만, .org 엔드 포인트는 오류가 많고 잘되지 않는 경우가 많다. 버전 차이인듯싶다. 어쨌든 우리는 앞으로 `.com` 인 `--pro` 를 붙여 엔드포인트를 설정해줄 것이다.
 
 <br/>
 <br/>
 
 ## Github repository 연동
 
-https://travis-ci.com/ 이곳에 먼저 들어가서 github ID로 로그인을 해주자. 우측 상단에 내 아이콘을 선택하고 Setting -> Repositories에 가면 무슨 프로젝트를 설정할 것인지 페이지가 나온다. 여기서 어떤 프로젝트를 CI 할 것인지 설정해줄 수 있다. Manage repositories on GitHub 을 클릭하고, github 페이지에 들어가면, 
+https://travis-ci.com/ 이곳에 먼저 들어가서 github ID로 로그인을 해주자. 우측 상단에 내 아이콘을 선택하고 Setting -> Repositories에 가면 무슨 프로젝트를 설정할 것인지 페이지가 나온다. 여기서 어떤 프로젝트를 CI 할 것인지 설정해 줄 수 있다. Manage repositories on GitHub 을 클릭하고, github 페이지에 들어가면, 
 
 ![스크린샷 2021-04-06 오전 11 33 19](https://user-images.githubusercontent.com/59427983/113650888-f3ef3600-96cb-11eb-83a3-fe7d8b9849ad.png)
 
@@ -60,16 +60,16 @@ notifications:
     - pozafly@kakao.com
 ```
 
-- language : vue 프로젝트를 설정할 것이므로, language는 node_js 형태로 빌드한다. 
+- language : vue 프로젝트를 설정할 것이므로, language는 node_js 형태로 빌드 한다. 
 - node_js : 버전은 자신이 설정한 것 대로 해주면 됨
 - branches : master 브랜치에 push 되었을 때 자동으로 돌아가게 해줌.
-- cache : 빌드시, node_modules가 계속 install 될 필요는 없으므로 해당 폴더를 캐시화 시켜주겠다는 말이다.
+- cache : 빌드 시, node_modules가 계속 install 될 필요는 없으므로 해당 폴더를 캐시화 시켜주겠다는 말이다.
 - script : 빌드 명령어
 - notifications : CI가 완료되었을 때 결과를 noti 해준다. 내 메일 주소를 적었다.
 
-우선 기본 틀이다. 이제 이 파일을 작성했다면, master 브랜치에 push or merge후 push 할 때마다 travis가 알아서 프로젝트를 빌드해줄 것이다. push후 travis 페이지에 가보면 build log가 실시간으로 찍힌다.
+우선 기본 틀이다. 이제 이 파일을 작성했다면, master 브랜치에 `push` or `merge후 push` 할 때마다 travis가 알아서 프로젝트를 빌드해줄 것이다. push후 travis 페이지에 가보면 build log가 실시간으로 찍힌다.
 
-첫번째 에러가 났다.
+첫 번째 에러가 났다.
 
 ```
 error  
@@ -78,19 +78,19 @@ Template execution failed: ReferenceError: VUE_APP_GOOGLE_CLIENT_ID is not defin
 
 `VUE_APP_GOOGLE_CLINET_ID`  는 .env 파일에 있는데, 이걸 build 하지 못하는 이유는 .env 파일이 github에 올라가지 않아서다. 따라서 .env 파일을 travis 서버에서 인식하도록 할 필요가 있다. 방법은 3가지가 있다. [공식 페이지 환경변수](https://docs.travis-ci.com/user/environment-variables/) 이곳에 잘 설명되어 있다, 
 
-|              사용방법               | Github 오픈 여부 | 암호화 |
-| :---------------------------------: | :--------------: | :----: |
-|   .travis.yml에서 공용 변수 정의    |        O         |   X    |
-| .travis.yml에서 암호화 된 변수 정의 |        O         |   O    |
-|    리포지토리 설정에서 변수 정의    |        X         |   O    |
+|              사용방법              | Github 오픈 여부 | 암호화 |
+| :--------------------------------: | :--------------: | :----: |
+|   .travis.yml에서 공용 변수 정의   |        O         |   X    |
+| .travis.yml에서 암호화된 변수 정의 |        O         |   O    |
+|   리포지토리 설정에서 변수 정의    |        X         |   O    |
 
 이렇게 3가지 방법인데, 조금 더 자세히 알아보면,
 
-1. `.travis.yml에서 공용 변수 정의` : 단순히 yml 파일에 공통 변수로 지정후 사용한다. 따라서 암호가 Github에도 노출되고, 암호화 되어있지 않다.
-2. `.travis.yml에서 암호화 된 변수 정의` : 암호화 해서 .enc 파일을 프로젝트에 생성한다. 그리고, 이 암호화 된 파일이 travis 서버 상에 올라갈 때 복호화 되어 컴파일 된다. 따라서 .enc 파일은 github에도 올라가게 된다.
-3. `리포지토리 설정에서 변수 정의` : 아예 traivs 홈페이지에서 환경변수를 만들고 값을 넣어주고, yml 파일에 해당 변수를 선언하면 값이 들어가는 형태이다. .enc 파일이 존재하지 않기 때문에 찌꺼기가 남지 않는다.
+1. `.travis.yml에서 공용 변수 정의` : 단순히 yml 파일에 공통 변수로 지정 후 사용한다. 따라서 암호가 Github에도 노출되고, 암호화되어있지 않다.
+2. `.travis.yml에서 암호화된 변수 정의` : 암호화해서 .enc 파일을 프로젝트에 생성한다. 그리고, 이 암호화된 파일이 travis 서버 상에 올라갈 때 복호화 되어 컴파일 된다. 따라서 .enc 파일은 github에도 올라가게 된다.
+3. `리포지토리 설정에서 변수 정의` : 아예 traivs 홈페이지에서 환경 변수를 만들고 값을 넣어주고, yml 파일에 해당 변수를 선언하면 값이 들어가는 형태이다. .enc 파일이 존재하지 않기 때문에 찌꺼기가 남지 않는다.
 
-나는 두번째 방법인 .travis.yml에서 secret 파일 암호화하는 방법을 사용하겠다. .enc 파일이라는 찌꺼기가 생기겠지만 괜찮다. 그리고 세번째 방법은 AWS 변수를 나중에 넣을 때 사용할 것이다.
+나는 두 번째 방법인 .travis.yml 에서 secret 파일 암호화하는 방법을 사용하겠다. .enc 파일이라는 찌꺼기가 생기겠지만 괜찮다. 그리고 세 번째 방법은 AWS 변수를 나중에 넣을 때 사용할 것이다.
 
 <br/>
 <br/>
@@ -111,13 +111,13 @@ $ gem install travis
 $ travis login --pro
 ```
 
---com, --org 옵션을 줄 수 있는데, pro를 붙여주자. 아니면 빌드시 오류 발생. org를 사용하고 있다면 org를 써도 된다. login을 할 때 Not Found 에러가 날 수 있다. [travis login Not Found 오류 정리](https://github.com/pozafly/TIL/blob/main/%F0%9F%A7%A8%E1%84%8B%E1%85%A9%E1%84%85%E1%85%B2%E1%84%8B%E1%85%AA%E1%84%8B%E1%85%B4%20%E1%84%8C%E1%85%A9%E1%84%8B%E1%85%AE/travis/travis%20login%20Not%20Found.md) 이곳에 정리해 뒀으니, github token으로 로그인 해주자.
+--com, --org 옵션을 줄 수 있는데, pro를 붙여주자. 아니면 빌드 시 오류 발생. org를 사용하고 있다면 org를 써도 된다. login을 할 때 Not Found 에러가 날 수 있다. [travis login Not Found 오류 정리](https://github.com/pozafly/TIL/blob/main/%F0%9F%A7%A8%E1%84%8B%E1%85%A9%E1%84%85%E1%85%B2%E1%84%8B%E1%85%AA%E1%84%8B%E1%85%B4%20%E1%84%8C%E1%85%A9%E1%84%8B%E1%85%AE/travis/travis%20login%20Not%20Found.md) 이곳에 정리해 뒀으니, github token으로 로그인해 주자.
 
 <br/>
 
 ### endpoint 설정
 
-우리는 pro로 설정했으니 endpoint를 잡아주자. endpoint를 잡아주지 않으면, 암호화를 진행할 때, `not logged in -try running travis login --org` 오류가 뜰 수 있다. [github issues](https://github.com/travis-ci/travis-ci/issues/9668) 이곳을 참고 했다.
+우리는 pro로 설정했으니 endpoint를 잡아주자. endpoint를 잡아주지 않으면, 암호화를 진행할 때, `not logged in -try running travis login --org` 오류가 뜰 수 있다. [github issues](https://github.com/travis-ci/travis-ci/issues/9668) 이곳을 참고했다.
 
 ```shell
 $ travis endpoint --pro
@@ -137,7 +137,7 @@ $ travis encrypt-file --pro [파일명]
 
 ![스크린샷 2021-04-06 오전 11 55 25](https://user-images.githubusercontent.com/59427983/113652592-04ed7680-96cf-11eb-9b43-f67b49341adc.png)
 
-push후 build 때, `iv undefined` 오류가 계속 뜰 것임.
+push 후 build 때, `iv undefined` 오류가 계속 뜰 것임.
 
 그리고 --add 옵션을 붙여주면 .travis.yml 파일에 자동으로 `before_install` 란이 생기도록 할 수 있다. build 때 install 전에 암호화한 파일을 복호화 해서 travis가 알아먹을 수 있도록 해주는 작업이다. 따라서 최종적으로는
 
@@ -145,15 +145,15 @@ push후 build 때, `iv undefined` 오류가 계속 뜰 것임.
 $ travis encrypt-file --pro .env.production --add
 ```
 
-요렇게 해줬다. 그러면 `DANGER ZONE: Override existing .env.production.enc? |no|` 이런 문구가 뜰 것인데, yes 를 입력해주자. 그러면 .env 파일 밑에 .evn.enc 라는 파일이 생겼다. 암호화된 .env 파일이다.
+요렇게 해줬다. 그러면 `DANGER ZONE: Override existing .env.production.enc? |no|` 이런 문구가 뜰 것인데, yes 를 입력해 주자. (yes를 입력해 준다는 의미는 .travis.yml 파일에 인코딩한 것을 설정해 주는 문구를 자동으로 입력해 준다는 의미. no를 하면 수동으로 해줘야 한다. 어떤 것을 하든지 상관없음.) 그러면 .env 파일 밑에 .evn.enc 라는 파일이 생겼다. 암호화된 .env 파일이다.
 
-📌 .env 파일은 반드시 gitignore 처리. .env.enc 파일은 ignore 하면 안된다.
+📌 .env 파일은 반드시 gitignore 처리. .env.enc 파일은 ignore 하면 안 된다.
 
 <br/>
 
 ### 빌드 test
 
-이제 암호화 된 파일이 생겼으니, 얘를 push 해서 build 해주자. 우선 travis 서버 상 build가 성공했으면 반은 성공한거임.
+이제 암호화된 파일이 생겼으니, 얘를 push 해서 build 해주자. 우선 travis 서버 상 build가 성공했으면 반은 성공한 거임.
 
 <br/>
 <br/>
@@ -169,19 +169,19 @@ traivs 상에서 내 파일이 build 까지 완료되었다면, 이제 호스팅
 
 ### AWS IAM key 받기
 
-[IAM](https://console.aws.amazon.com/iam/home?region=ap-northeast-2#/home)에 사용자 탭 -> 사용자 추가 -> 이름 설정 -> AWS 액세스 유형은 *프로그래밍 방식 엑세스* 체크 -> 기존 정책 직접 연결 -> 정책 필터에 *s3full* 검색 후 AmazonS3FullAccess 체크. -> cloudfront 검색 후 CloudFrontFullAccess 체크 -> 태그 등록 -> 권한 최종 확인 후 생성이 완료 되면 엑세스 키와 비밀 엑세스 키가 생성된다.
+[IAM](https://console.aws.amazon.com/iam/home?region=ap-northeast-2#/home)에 사용자 탭 -> 사용자 추가 -> 이름 설정 -> AWS 액세스 유형은 *프로그래밍 방식 엑세스* 체크 -> 기존 정책 직접 연결 -> 정책 필터에 *s3full* 검색 후 AmazonS3FullAccess 체크. -> cloudfront 검색 후 CloudFrontFullAccess 체크 -> 태그 등록 -> 권한 최종 확인 후 생성이 완료되면 엑세스 키와 비밀 엑세스 키가 생성된다.
 
-즉, IAM 에서는 `AmazonS3FullAccess`, `CloudFrontFullAccess` 두가지 권한이 필요한 것이다.
+즉, IAM 에서는 `AmazonS3FullAccess`, `CloudFrontFullAccess` 두 가지 권한이 필요한 것이다.
 
 <br/>
 
 ### Travis CI에 키 등록
 
-aws s3에 접근할 수 있는 엑세스키와 비밀키는 절대절대절대절대 github 에 올라가서는 안된다. 따라서 travis 상에 키를 등록해놓고 .traivs.yml에서 불러다 쓰는 형태로 진행해야한다. 이 방법이 아까 환경변수 설정 방법 3가지 중 3번째 방법을 사용하는 것이라 볼 수 있다. travis.com에 가서, Settings 화면에 가자. 해당 프로젝트 우측에 Settings 를 눌러서 key를 등록할 수 있다.
+aws s3에 접근할 수 있는 엑세스키와 비밀키는 **절대절대절대절대** github 에 올라가서는 안된다. 따라서 travis 상에 키를 등록해놓고 .traivs.yml에서 불러다 쓰는 형태로 진행해야 한다. (만약 github에 올라가면 aws로부터 이메일이 겁나 많이 오고 aws에 설정했던 인스턴스를 모두 삭제해야 하는 상황이 발생할 수도 있다. 한번 더 확인하세요... 아니 다섯 번) 이 방법이 아까 환경 변수 설정 방법 3가지 중 3번째 방법을 사용하는 것이라 볼 수 있다. travis.com에 가서, Settings 화면에 가자. 해당 프로젝트 우측에 Settings 를 눌러서 key를 등록할 수 있다.
 
 ![스크린샷 2021-04-06 오후 2 29 49](https://user-images.githubusercontent.com/59427983/113663278-b6e36d80-96e4-11eb-9379-723b135ce55a.png)
 
-- name  : AWS_ACCESS_KEY, AWS_SECRET_KEY 두개
+- name  : AWS_ACCESS_KEY, AWS_SECRET_KEY 두 개
 - value : IAM에서 받은 엑세스키와 시크릿키
 
 이렇게 각각 등록해두면 된다. 그럼 이걸 .travis.yml 파일에서 변수로 가져올 수 있는 형태가 되는 것임.
@@ -199,24 +199,24 @@ deploy:
   local_dir: [vue라면 dist, react라면 build]
 ```
 
-이런식으로. yml에 적어둔 것을 알아보자.
+이런 식으로. yml에 적어둔 것을 알아보자.
 
 - provider : 배포 대상
 - bucket : 내가 미리 생성해둔 public 접근 가능한 버킷.
 - skip_cleanup : 공식 홈피에 따르면 빌드 중 이루어진 모든 변경 사항을 삭제하지 않게 함.
-- acl : public 버킷이라 하더라도, 버킷에 올릴 때마다 파일을 일일이 public 객체로 바꿔주어야 하는데 이 옵션을 주면 자동으로 해줌. 하지만 aws cloudFront 설정을 따로 해줘야 한다. 자세한건 밑에 있다. 이렇게 적어주자.
+- acl : public 버킷이라 하더라도, 버킷에 올릴 때마다 파일을 일일이 public 객체로 바꿔주어야 하는데 이 옵션을 주면 자동으로 해줌. 하지만 aws cloudFront 설정을 따로 해줘야 한다. 자세한 건 밑에 있다. 이렇게 적어주자.
 - region : 버킷의 region
 - wait-until-deploy : 배포 시, 기다려줌
-- local_dir : build 후 어떤 특정 폴더를 배포할 지 설정. 나는 vue build 시 dist 폴더 안에 파일이 생성되므로 dist를 적어줬다.
+- local_dir : build 후 어떤 특정 폴더를 배포할지 설정. 나는 vue build 시 dist 폴더 안에 파일이 생성되므로 dist를 적어줬다.
 
-여기까지 해보고 git push해서 성공하나 확인해보는게 좋다. 만약 성공하면 S3 버킷에 새 파일이 올라온 것을 확인할 수 있다. 이제 AWS CloudFront 를 통해 CDN 되어있는 페이지를 무효화 시키고 새 캐싱을 진행할 것임.
+여기까지 해보고 git push해서 성공하나 확인해보는 게 좋다. 만약 성공하면 S3 버킷에 새 파일이 올라온 것을 확인할 수 있다. 이제 AWS CloudFront 를 통해 CDN 되어있는 페이지를 무효화 시키고 새 캐싱을 진행할 것임.
 
 <br/>
 <br/>
 
 ## CloudFront 배포 설정
 
-위에서 설정한 S3를 오리진으로 CloudFront 배포를 설정해줄 것이다. [aws 원본 액세스 ID를 배포에 추가](https://docs.aws.amazon.com/ko_kr/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html#private-content-creating-oai) 여길 보고 따라하면 된다. OAI를 설정해주었다.
+위에서 설정한 S3를 오리진으로 CloudFront 배포를 설정해 줄 것이다. [aws 원본 액세스 ID를 배포에 추가](https://docs.aws.amazon.com/ko_kr/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html#private-content-creating-oai) 여길 보고 따라 하면 된다. OAI를 설정해 주었다.
 
 ---
 
@@ -235,7 +235,7 @@ OAI를 생성했다면, Amazon S3 버킷 정책 사용 해주면 되는데 나�
 
 ---
 
-이제, .travis.yml 파일을 수정해주자.
+이제, .travis.yml 파일을 수정해 주자.
 
 ```yaml
 (...)
@@ -247,9 +247,9 @@ after_deploy:
   - travis-ci-cloudfront-invalidation -a $AWS_ACCESS_KEY -s $AWS_SECRET_KEY -c $AWS_CLOUDFRONT_DIST_ID -i '/*' -b $TRAVIS_BRANCH -p $TRAVIS_PULL_REQUEST -o 'master'
 ```
 
-이렇게 설정해주었다. S3에 매번 올린 후 cloudfront에서 매번 다시 캐싱 해줄 필요없이 위 명령어로 travis가 알아서 해준다. 여기서 `travis-ci-cloudfront-invalidation` 라는 패키지를 travis 상에 설치 후, 제일 아래에 있는 명령어로 진행하는 것이다. 
+이렇게 설정해 주었다. S3에 매번 올린 후 cloudfront에서 매번 다시 캐싱 해줄 필요 없이 위 명령어로 travis가 알아서 해준다. 여기서 `travis-ci-cloudfront-invalidation` 라는 패키지를 travis 상에 설치 후, 제일 아래에 있는 명령어로 진행하는 것이다. 
 
-$AWS_ACCESS_KEY, $AWS_SECRET_KEY는 기존 travis에 설정된 대로 들어갈 것이고, `$AWS_CLOUDFRONT_DIST_ID` 는 travis의 환경변수 설정에서 직접 입력해주자. aws의 cloudfront 페이지에 가장 먼저 id가 나와있다. 나머지는 필요없다. 다만 위의 yml에 적여 있어야한다.
+$AWS_ACCESS_KEY, $AWS_SECRET_KEY는 기존 travis에 설정된 대로 들어갈 것이고, `$AWS_CLOUDFRONT_DIST_ID` 는 travis의 환경 변수 설정에서 직접 입력해 주자. aws의 cloudfront 페이지에 가장 먼저 id가 나와있다. 나머지는 필요 없다. 다만 위의 yml에 적여 있어야 한다.
 
 이제 git push 해주면, 
 
@@ -313,7 +313,7 @@ notifications:
     - pozafly@kakao.com
 ```
 
-아쉬운 점은 npm모듈을 사용하지 않고 CloudFront 설정을 할 수 있을텐데 하지 못했다. [여기1](https://medium.com/lunit/travis-ci%EB%A1%9C-aws-s3%EC%97%90-spa-%EB%B0%B0%ED%8F%AC%ED%95%98%EA%B8%B0-c081e25335b5), [여기2](https://renzolucioni.com/s3-deployment-with-travis/), [여기3](https://github.com/CircleCI-Public/aws-cli-orb/issues/24) 를 보면서 연구했는데 잘 안됐다...
+아쉬운 점은 npm 모듈을 사용하지 않고 CloudFront 설정을 할 수 있을텐데 하지 못했다. [여기1](https://medium.com/lunit/travis-ci%EB%A1%9C-aws-s3%EC%97%90-spa-%EB%B0%B0%ED%8F%AC%ED%95%98%EA%B8%B0-c081e25335b5), [여기2](https://renzolucioni.com/s3-deployment-with-travis/), [여기3](https://github.com/CircleCI-Public/aws-cli-orb/issues/24) 를 보면서 연구했는데 잘 안됐다...
 
 <br/>
 

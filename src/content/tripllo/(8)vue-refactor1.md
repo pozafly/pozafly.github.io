@@ -14,7 +14,7 @@ excerpt: 멘토링 후 Tripllo에 꽤 많은 것을 손봐야한다는 것을 �
 
 <br/>
 
-아래 내용은 [인프런 멘토링](https://www.inflearn.com/mentors)에서 대한민국 Vue 권위자 캡틴판교님께 멘토링 받으며 코드리뷰를 해주신 부분에 대한 반영 내용입니다.
+아래 내용은 [인프런 멘토링](https://www.inflearn.com/mentors)에서 대한민국 Vue 권위자 캡틴판교님께 멘토링 받으며 코드 리뷰를 해주신 부분에 대한 반영 내용입니다.
 
 <br/>
 
@@ -22,12 +22,12 @@ excerpt: 멘토링 후 Tripllo에 꽤 많은 것을 손봐야한다는 것을 �
 
 ## 목차
 
-1. package.json 정리(안쓰는 라이브러리 제거, 개발용 배포용 라이브러리 구분)
+1. package.json 정리(안 쓰는 라이브러리 제거, 개발용 배포용 라이브러리 구분)
 2. vue plugin eslint 설정 후 적용
 3. 컴포넌트 명 변경
 4. 라우터 가드 설정
 5. 라이프 사이클 함수에서 의미 단위 함수로 묶기
-6. store에 필요없는 state 제거
+6. store에 필요 없는 state 제거
 7. dataSet 없애기
 8. store에 strict 모드 추가하기
 9. webStorage 변경, userData encoding 작업
@@ -36,7 +36,7 @@ excerpt: 멘토링 후 Tripllo에 꽤 많은 것을 손봐야한다는 것을 �
 
 <br/>
 
-## 1. package.json 정리(안쓰는 라이브러리 제거, 개발용 배포용 라이브러리 구분)
+## 1. package.json 정리(안 쓰는 라이브러리 제거, 개발용 배포용 라이브러리 구분)
 
 기존 package.json 파일을 보자.
 
@@ -54,11 +54,11 @@ excerpt: 멘토링 후 Tripllo에 꽤 많은 것을 손봐야한다는 것을 �
 }
 ```
 
-걸리는 것은 이 5가지다. 먼저 webstomp-client는 사용하지 않았는데, 시도해보기 위해서 깔아뒀던 것. 그리고, 내 소스에는 test 라이브러리와, jest 관련 작업들이 없으므로 지워준다. devDependencies라 안지워도 되나? 싶기도 함.  `npm uninstall` 로 지운다. 
+걸리는 것은 이 5가지다. 먼저 webstomp-client는 사용하지 않았는데, 시도해보기 위해서 깔아뒀던 것. 그리고, 내 소스에는 test 라이브러리와, jest 관련 작업들이 없으므로 지워준다. devDependencies라 안 지워도 되나? 싶기도 함.  `npm uninstall` 로 지운다. 
 
 그리고 `node-sass`, `sass-loader` 두 가지는 [캡틴판교님 웹팩 핸드북 dependencies](https://joshua1988.github.io/webpack-guide/build/npm-module-install.html#%EA%B0%9C%EB%B0%9C%EC%9A%A9-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC%EC%99%80-%EB%B0%B0%ED%8F%AC%EC%9A%A9-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC-%EA%B5%AC%EB%B6%84%ED%95%98%EA%B8%B0)에 보면 잘 나와있듯, webpack에서 build시 필요한 로더 이므로 devDependencies로 옮겨 주어야 한다.
 
-여기서 node-sass, sass-loader를 그냥 scss를 사용하기위해 넣어둔 것인데, 정확한 개념을 다시 한번 보자.
+여기서 node-sass, sass-loader를 그냥 scss를 사용하기 위해 넣어둔 것인데, 정확한 개념을 다시 한번 보자.
 
 ---
 
@@ -95,7 +95,7 @@ excerpt: 멘토링 후 Tripllo에 꽤 많은 것을 손봐야한다는 것을 �
 extends: ["plugin:vue/essential", "@vue/prettier"],
 ```
 
-이렇게 essential 이 되어있었다. 제일 약한 버전. 이걸 recommended 로 해주자. 쎈걸로. 이건 따로 공식 문서를 보고 정리해야한다. https://eslint.vuejs.org/ 여기
+이렇게 essential 이 되어있었다. 제일 약한 버전. 이걸 recommended 로 해주자. 쎈 걸로. 이건 따로 공식 문서를 보고 정리해야한다. https://eslint.vuejs.org/ 여기
 
 ```js
 'vue/order-in-components': ['error', {
@@ -137,7 +137,7 @@ extends: ["plugin:vue/essential", "@vue/prettier"],
 }],
 ```
 
-이렇게 공식 문서에서 정한 순서대로 error를 뱉어준다. 이렇게 순서를 정해놓으면 좋은 점이, 만약 created 라이프사이클 함수를 사용했는데, 이미 선언 한 것을 잊고 다른 곳에 새로 작성해줄 경우 기존 created 함수에 적용했던 로직이 무시되는 경우가 발생. 또한 다른 이들과 협업할 시 위치가 일관성있게 짜여지지 않으면 충돌이 날 수 있다.
+이렇게 공식 문서에서 정한 순서대로 error를 뱉어준다. 이렇게 순서를 정해놓으면 좋은 점이, 만약 created 라이프사이클 함수를 사용했는데, 이미 선언한 것을 잊고 다른 곳에 새로 작성해 줄 경우 기존 created 함수에 적용했던 로직이 무시되는 경우가 발생. 또한 다른 이들과 협업할 시 위치가 일관성 있게 짜이지 않으면 충돌이 날 수 있다.
 
 <br/>
 
@@ -147,7 +147,7 @@ extends: ["plugin:vue/essential", "@vue/prettier"],
 
 ### 컴포넌트 이름에 합성어 사용
 
-[컴포넌트 명 스타일 가이드](https://kr.vuejs.org/v2/style-guide/index.html#%EC%9A%B0%EC%84%A0%EC%88%9C%EC%9C%84-A-%EA%B7%9C%EC%B9%99-%ED%95%84%EC%88%98-%EC%97%90%EB%9F%AC-%EB%B0%A9%EC%A7%80)에 나와있는대로 컴포넌트 명을 바꾸었다. 모든 HTML 엘리먼트의 이름은 한 단어이기 때문에 합성어를 사용하는 것은 기존 그리고 향후 HTML 엘리먼트와의 **충돌을 방지해준다**고 한다.
+[컴포넌트 명 스타일 가이드](https://kr.vuejs.org/v2/style-guide/index.html#%EC%9A%B0%EC%84%A0%EC%88%9C%EC%9C%84-A-%EA%B7%9C%EC%B9%99-%ED%95%84%EC%88%98-%EC%97%90%EB%9F%AC-%EB%B0%A9%EC%A7%80)에 나와있는 대로 컴포넌트 명을 바꾸었다. 모든 HTML 엘리먼트의 이름은 한 단어이기 때문에 합성어를 사용하는 것은 기존 그리고 향후 HTML 엘리먼트와의 **충돌을 방지해 준다**고 한다.
 
 - ex) Spinner -> LoadingSpinner, Noti -> AlertNotification 등등
 
@@ -155,7 +155,7 @@ extends: ["plugin:vue/essential", "@vue/prettier"],
 
 ### Page 명 수정
 
-또한, views 폴더에는 ...Page.vue 들이 들어가 있는데 즉, 페이지 컴포넌트가 들어가있는데, ...Page라고 명시하지 않은 부분을 수정했고, NotFoundPage는 common 폴더에 있던 것을 views  폴더로 이동시켜주었다.
+또한, views 폴더에는 ...Page.vue 들이 들어가 있는데 즉, 페이지 컴포넌트가 들어가 있는데, ...Page라고 명시하지 않은 부분을 수정했고, NotFoundPage는 common 폴더에 있던 것을 views  폴더로 이동시켜주었다.
 
 <br/>
 
@@ -185,7 +185,7 @@ import 구문에 .vue가 붙어있지 않다면 vscode에서 ctrl + 클릭으로
 
 ![스크린샷 2021-04-19 오전 11 21 48](https://user-images.githubusercontent.com/59427983/115173109-85659b80-a101-11eb-884b-1da213530ffe.png)
 
-이렇게 되었을 때는 컴포넌트 구조를 볼 때 어느게 상위 컴포넌트고, 어느게 하위 컴포넌트인지 구분하기 쉽지 않다. 폴더 구조를 딱 봤을 때 바로 어떤 컴포넌트가 상위고 하위로 이어지는지 컴포넌트 명만 보고 쉽게 파악하게 하기 위해서는 위계 구조를 잡아주는 것이 좋다.
+이렇게 되었을 때는 컴포넌트 구조를 볼 때 어느 것이 상위 컴포넌트고, 어느 것이 하위 컴포넌트인지 구분하기 쉽지 않다. 폴더 구조를 딱 봤을 때 바로 어떤 컴포넌트가 상위고 하위로 이어지는지 컴포넌트 명만 보고 쉽게 파악하게 하기 위해서는 위계 구조를 잡아주는 것이 좋다.
 
 <img width="294" alt="스크린샷 2021-04-19 오전 11 22 01" src="https://user-images.githubusercontent.com/59427983/115173137-8eef0380-a101-11eb-999f-eb832d7bcc2c.png">
 
@@ -222,11 +222,11 @@ routes: [
 
 이렇게 해주어야 함. 왜냐하면 와일드카드가 다른 주소에 걸릴 수 있기 때문에. 가드 처리가 있어야 함.
 
-프론트에서 route 처리중 가장 중요한 것은 권한에 따라 페이지를 막는 것이 제일 중요하다. 예를들면 로그인 되지 않은 상태로 url을 쳐서 화면을 넘길 때, 현재는 이 처리가 되어있지 않을때,
+프론트에서 route 처리 중 가장 중요한 것은 권한에 따라 페이지를 막는 것이 제일 중요하다. 예를 들면 로그인 되지 않은 상태로 url을 쳐서 화면을 넘길 때, 현재는 이 처리가 되어있지 않을 때,
 
 ![스크린샷 2021-04-02 오후 9 10 01](https://user-images.githubusercontent.com/59427983/113414586-4a245680-93f8-11eb-8fae-5e7b42b8e094.png)
 
-이런 식으로 권한이 없다고 나오지만, 페이지가 보여진다. 만약, 중요한 페이지인데 권한이 없는 누군가 url을 쳐서 페이지에 접속했을 때 보여지면 안되는 페이지라면 안되기 때문. 페이지 자체가 보이지 않도록 가드를 걸어줘야 함.
+이런 식으로 권한이 없다고 나오지만, 페이지가 보인다(렌더링). 만약, 중요한 페이지인데 권한이 없는 누군가 url을 쳐서 페이지에 접속했을 때 보이면 안 되는 페이지라면 안되기 때문. 페이지 자체가 보이지 않도록 가드를 걸어줘야 함.
 
 ```js
 // routes/index.js
@@ -256,7 +256,7 @@ new VueRouter({
 
 📌 추가
 
-### 라우터 가드 설정시 return문 넣기
+### 라우터 가드 설정 시 return문 넣기
 
 위의 소스에서는 if 문 안에 `return` 이 추가되어 있지 않았다.
 
@@ -270,7 +270,7 @@ if (store.getters.isAuth) {
 // 👻
 ```
 
-if 문에 `next()` 를 실행하고 함수가 종료되는 것이 아니기 때문이다. 만약 👻 이 부분에 무언가 로직이 있다면 (예를 들면 다시 next 메서드가 있다던지) 마지막에 있는 것 까지 실행되므로 return문을 넣어주어 함수를 종료시켜주자.
+if 문에 `next()` 를 실행하고 함수가 종료되는 것이 아니기 때문이다. 만약 👻 이 부분에 무언가 로직이 있다면 (예를 들면 다시 next 메서드가 있다든지) 마지막에 있는것 까지 실행되므로 return 문을 넣어주어 함수를 종료시켜주자.
 
 ```js
 const requireAuth = (to, from, next) => {
@@ -329,29 +329,29 @@ method: {
 }
 ```
 
-이런 식으로 메서드 화 해서 묶어주면, created 함수에서 어떤 일을 하는지 의미를 파악하기 쉬워진다. 의미 단위로 모듈화가 가능하고, 라이프 사이클 함수에서 어떤 작업을 하는지 한눈에 보이게 된다. 즉, 기존에 라이프 사이클 함수에 여러 로직이 혼재해 있으면 어떤 작업을 하는지 빠르게 파악하기 어렵기 때문에 파악하기 쉽도록 해준다.
+이런 식으로 메서드 화해서 묶어주면, created 함수에서 어떤 일을 하는지 의미를 파악하기 쉬워진다. 의미 단위로 모듈화가 가능하고, 라이프 사이클 함수에서 어떤 작업을 하는지 한눈에 보이게 된다. 즉, 기존에 라이프 사이클 함수에 여러 로직이 혼재해 있으면 어떤 작업을 하는지 빠르게 파악하기 어렵기 때문에 파악하기 쉽게 해준다.
 
 <br/>
 
 <br/>
 
-## 6. store에 필요없는 state 제거
+## 6. store에 필요 없는 state 제거
 
 - mainTapId state에서 제거
 
-sessionStorage에 mainTapId를 넣어서, state에서 사용하지 않게끔 했다. main페이지에서 tab별로 보여지는 데이터가 다른데, 1 depts만 서로 주고받기 때문에 state보다는 sessionStorage를 사용하는게 맞다고 생각된다. 그리고 데이터를 굳이 보존하는 이유는, 탭에서 board 페이지로 접근 후, 다시 빠져나왔을 때, 해당 tab 화면이 유지가 되어야 하기 때문이다.
+sessionStorage에 mainTapId를 넣어서, state에서 사용하지 않게끔 했다. main 페이지에서 tab 별로 보이는 데이터가 다른데, 1 depth만 서로 주고받기 때문에 state보다는 sessionStorage를 사용하는게 맞다고 생각된다. 그리고 데이터를 굳이 보존하는 이유는, 탭에서 board 페이지로 접근 후, 다시 빠져나왔을 때, 해당 tab 화면이 유지가 되어야 하기 때문이다.
 
-하지만, sessionStorage를 사용할 때, 현재 프로젝트에서는 한번 로그인 하면, localStorage에 유저 정보와 토큰을 가지고 있어, login 페이지로 가는 것이 아니라 바로 main 화면으로 가게된다. 그렇게 되면 탭을 닫을 때 사라지는 sessionStorage는 어디에선가 한번 초깃값을 주어야 한다.
+하지만, sessionStorage를 사용할 때, 현재 프로젝트에서는 한번 로그인하면, localStorage에 유저 정보와 토큰을 가지고 있어, login 페이지로 가는 것이 아니라 바로 main 화면으로 가게 된다. 그렇게 되면 탭을 닫을 때 사라지는 sessionStorage는 어디에선가 한번 초깃값을 주어야 한다.
 
 처음에는 Tab이 있는 컴포넌트 created 함수에서 했지만, Tab이 있는 화면으로 항상 오기 때문에 무조건 초깃값인 0이 설정되어 버린다. 그러면 sessionStorage를 사용하는 의미가 없어지기 때문에 내가 선택한 곳은 `App.vue` 에 선언하는 것.
 
-`saveSessionStorage('mainTabId', 0);` 이렇게 App.vue에 created 함수에 선언해주었다.
+`sessionStorage.setItem('mainTabId', 0);` 이렇게 App.vue에 created 함수에 선언해주었다.
 
 📌 추가
 
-checklist, hashtags, comment 등 store에 반드시 있지 않아야 하는 것을 제거 했다. api 함수를 바로 컴포넌트단에서 호출해, 받아온 데이터를 store에 등록하는 것이 아니라 로컬 컴포넌트의 `data` 객체에 넣어주는 것.
+checklist, hashtags, comment 등 store에 반드시 있지 않아야 하는 것을 제거했다. api 함수를 바로 컴포넌트 단에서 호출해, 받아온 데이터를 store에 등록하는 것이 아니라 로컬 컴포넌트의 `data` 객체에 넣어주는 것.
 
-하지만 컴포넌트 여러개에서 사용하는 state를 컴포넌트단으로 옮기면서 의문이 든 부분이 있다. 이 부분은, [(13)Vuex-store와 EventBus에 대한 고찰(feat. 삽질기)](https://pozafly.github.io/tripllo/(13)Vuex와-eventBus/) 에 정리해두었다.
+하지만 컴포넌트 여러 개에서 사용하는 state를 컴포넌트 단으로 옮기면서 의문이 든 부분이 있다. 이 부분은, [(13)Vuex-store와 EventBus에 대한 고찰(feat. 삽질기)](https://pozafly.github.io/tripllo/(13)Vuex와-eventBus/) 에 정리해두었다.
 
 <br/>
 
@@ -359,7 +359,7 @@ checklist, hashtags, comment 등 store에 반드시 있지 않아야 하는 것�
 
 ## 7. dataset 없애기
 
-`data-...` 는 태그에 연결은 안해도 된다. dataSet은 프레임워크가 없을 때 예전에 사용하던 방법이다.
+`data-...` 는 태그에 연결은 안 해도 된다. dataSet은 프레임워크가 없을 때 예전에 사용하던 방법이다.
 
 ```html
 <someComponent :data-id="data.id" ref="some"></someComponent>
@@ -383,7 +383,7 @@ checklist, hashtags, comment 등 store에 반드시 있지 않아야 하는 것�
 </script>
 ```
 
-이런 형식으로 가져오게 만들었다.
+이런 형식으로 가져오게 했다.
 
 📌 추가
 
@@ -412,7 +412,7 @@ checklist, hashtags, comment 등 store에 반드시 있지 않아야 하는 것�
 
 마지막 DOM의 createAt 값이 필요했기 때문에  ref가 걸린 상위태그의 .lastChild를 가져와서 child에 v-bind 되어있는 녀석을 `getAttribute` 로 값을 가져오는 형태이다.
 
-하지만 이럴 필요가 전혀 없다. DOM에 데이터를 붙이는게 아니라 그냥 받아온 data에서 마지막 값을 넣어주기만 하면 되는 것이었다.
+하지만 이럴 필요가 전혀 없다. DOM에 데이터를 붙이는 것이 아니라 그냥 받아온 data에서 마지막 값을 넣어주기만 하면 되는 것이었다.
 
 ```html
 <div v-for="board in personalBoard" :key="board.id">
@@ -427,7 +427,7 @@ checklist, hashtags, comment 등 store에 반드시 있지 않아야 하는 것�
 </script>
 ```
 
-이렇게 간단한 일을 그냥 ref고, getAttribute로 DOM에 직접 데이터를 바인딩해서 온갖 짓을 다한 것이다. DOM에 데이터를 노출시킴으로써 사용자에게 필요 없는 정보를 보여줄 수 있는 위험이 있으며, data를 불러오지 않았을 때도 DOM이 붙지 않은 상태에서 getAttribute를 실행해버려서 데이터를 가져오려하니 에러가 찍히기 일수였다.
+이렇게 간단한 일을 그냥 ref고, getAttribute로 DOM에 직접 데이터를 바인딩해서 온갖 짓을 다 한 것이다. DOM에 데이터를 노출시킴으로써 사용자에게 필요 없는 정보를 보여줄 수 있는 위험이 있으며, data를 불러오지 않았을 때도 DOM이 붙지 않은 상태에서 getAttribute를 실행해버려서 데이터를 가져오려 하니 에러가 찍히기 일쑤였다.
 
 즉, 이번 코드를 고치면서 깨달은 것은, Vue 프레임워크를 사용할 때, 직접 UI에 뿌려줘야 하는 데이터가 아니면 script 내부적으로 데이터를 사용하게끔 설계하는 것이 정말 중요하다는 것을 배웠다.
 
@@ -457,7 +457,7 @@ export default new Vuex.Store({
 });
 ```
 
-저부분을 왜 추가하냐? mutation이 store만 변화 시켜야하는데, 다른걸 변화시킬때 오류를 내준다. 따라서 개발 모드에서만 strict 모드를 사용하고 production 모드에서는 끄기.
+저 부분을 왜 추가하냐? mutation이 store만 변화 시켜야 하는데, 다른걸 변화시킬 때 오류를 내준다. 따라서 개발 모드에서만 strict 모드를 사용하고 production 모드에서는 끄기.
 
 <br/>
 
@@ -486,7 +486,7 @@ function saveUserToken(token) {
 }
 ```
 
-localStorage와 state에서 이렇게 user 객체를 하나의 단위로 올리는 작업을 하고 있었다. user 객체로 묶어서 작업하는게 좋을 듯 하다고 해서 user객체를 하나의 JSON String으로 만들고 사용할 때는 parse 해서 사용하는 것으로 바꾸었다. 코드량이 많기도 하고, 묶어서 관리하는게 좋다.
+localStorage와 state에서 이렇게 user 객체를 하나의 단위로 올리는 작업을 하고 있었다. user 객체로 묶어서 작업하는 것이 좋을 듯하다고 해서 user 객체를 하나의 JSON String으로 만들고 사용할 때는 parse 해서 사용하는 것으로 바꾸었다. 코드량이 많기도 하고, 묶어서 관리하는 것이 좋다.
 
 ```js
 const USER_INFO = 'TRIPLLO-V1-U';
@@ -528,13 +528,13 @@ const getTokenFromLocalStorage = () => {
 
 <img width="792" alt="스크린샷 2021-04-19 오후 12 44 05" src="https://user-images.githubusercontent.com/59427983/115178818-0a09e700-a10d-11eb-99e0-c28123e65279.png">
 
-기존 user_id는 뭐, user_picture는 뭐, user_token은 뭐... 이렇게 하나 하나 집어넣는게 아니라 한번에 깔끔하게 코드 중복 없이 인코딩 되어 유저 정보가 깔끔하게 잘 들어가게 된다. 
+기존 `user_id` 는 뭐, `user_picture` 는 뭐, `user_token` 은 뭐... 이렇게 하나하나 집어넣는 것이 아니라 한 번에 깔끔하게 코드 중복 없이 인코딩되어 유저 정보가 깔끔하게 잘 들어가게 된다. 
 
-근데 개발자 도구의 network 탭에 token 정보가 찍히기 때문에 인코딩 작업은 서버에서 따로 디코딩해서 작동하도록 만드는게 좋을 듯 한데 우선 그냥 서버 제외, 디코딩해 사용했다.
+근데 개발자 도구의 network 탭에 token 정보가 찍히기 때문에 인코딩 작업은 서버에서 따로 디코딩해서 작동하도록 만드는 것이 좋을 듯한데 우선 그냥 서버 제외, 디코딩해 사용했다.
 
 📌 추가
 
-JSON.stringify, JSON.parse는 null이나 undifined 값이 들어가게 되면 어플리케이션 전체가 뻗는 상황이 생긴다. 따라서 안정성을 위해 null처리를 반드시 해주도록 하자.
+JSON.stringify, JSON.parse는 null이나 undifined 값이 들어가게 되면 어플리케이션 전체가 뻗는 상황이 생긴다. 따라서 안정성을 위해 null 처리를 반드시 해주도록 하자.
 
 ```js
 // utils/libs.js
@@ -567,7 +567,7 @@ const saveUserToLocalStorage = user => {
 };
 ```
 
-이런식으로 libs 파일을 만들고 프로젝트 전역적으로 쓸 null 체크 함수를 만들고 붙여줌. 그리고 빠른 Exit을 위해 조건을 보고 밑 로직을 수행하지 않도록 바로 빠져나가도록 해주자. 이렇게 되면 더 안전한 함수가 되었다. (**이흰둥님, 이희찬님** 조언 감사합니다!)
+이런 식으로 libs 파일을 만들고 프로젝트 전역적으로 쓸 null 체크 함수를 만들고 붙여줌. 그리고 빠른 Exit을 위해 조건을 보고 밑 로직을 수행하지 않도록 바로 빠져나가도록 해주자. 이렇게 되면 더 안전한 함수가 되었다. (**이흰둥님, 이희찬님** 조언 감사합니다!)
 
 
 
