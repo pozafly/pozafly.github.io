@@ -80,7 +80,7 @@ const About: React.FC = () => (
                   깔끔하고 정갈한 코드를 작성하는 개발자가 되고 싶습니다.
                 </p>
                 <p>
-                  이 블로그는 기술을 사용하고 적용한 내용 위주, 기술에 대한 생각이나 회고로 채우고, static한 공부 내용은 {' '}
+                  이 블로그는 기술을 사용하고 적용한 내용 위주, 기술에 대한 생각이나 회고로 채우고, static 한 공부 내용은 {' '}
                   <a href="https://github.com/pozafly/TIL" target="_blank" rel="noreferrer">TIL</a>에 채워갈 생각입니다.
                   들러주셔서 감사합니다.
                   <br />
