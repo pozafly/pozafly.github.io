@@ -31,8 +31,9 @@ excerpt: 멘토링 후 Tripllo에 꽤 많은 것을 손봐야한다는 것을 �
 16. Travis 배포 자동화
 17. Sentry 에러 로깅 시스템 도입
 18. Let's Encrypt 갱신 자동화
-19. Sub
-20. Process 정리
+19. Closure & Currying 적용기
+20. Sub
+21. Process 정리
 
 <br/>
 
@@ -613,7 +614,17 @@ export { readPersonalBoardAPI, (...) }
 
 <br/>
 
-## 19. Sub
+## 19. Closure & Currying 적용기
+
+[(13) Closure & Currying 적용기](https://pozafly.github.io/tripllo/(14)Closure-Currying/) 여기 따로 정리해두었다.
+
+단, Closure, Currying를 유지보수가 좋게 짠 것이 맞는지에 대한 확신이 없다..
+
+<br/>
+
+<br/>
+
+## 20. Sub
 
 - button type 넣어주기(접근성 차원에서)
 - if문 block 넣어주기(javascript 만든 할아버지께서 말씀하심 - 안정성 때문인 듯.)
@@ -626,7 +637,7 @@ export { readPersonalBoardAPI, (...) }
 
 <br/>
 
-## 20. Process 정리
+## 21. Process 정리
 
 ![Frontend-process](https://user-images.githubusercontent.com/59427983/115864975-a36d2c00-a472-11eb-8891-b7fcfa4fe55f.png)
 
