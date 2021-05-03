@@ -173,8 +173,6 @@ valid 함수에 email, id 함수 말고도 password 함수를 만들어 넣어�
 
 [Tripllo에 사용한 currying 함수 목록](https://github.com/pozafly/tripllo_vue/blob/9eabdcce73fdeee58749523f81337582b481dfa9/src/utils/validation.js)
 
-유지 보수성이 좋게, 구조를 잡 잡았는지에 대한 확신이 없다. 틀린 부분이 있다면 코멘트 부탁드려요 ㅜㅜ.
-
 <br/>
 
 <br/>

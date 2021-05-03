@@ -14,7 +14,7 @@ excerpt: 멘토링 후 Tripllo에 꽤 많은 것을 손봐야한다는 것을 �
 
 <br/>
 
-아래 내용은 [인프런 멘토링](https://www.inflearn.com/mentors)에서 대한민국 Vue 권위자 캡틴판교님께 멘토링 받으며 코드 리뷰를 해주신 부분에 대한 반영 내용입니다.
+아래 내용은 [인프런 멘토링](https://www.inflearn.com/mentors)에서 캡틴판교님께 멘토링 받으며 코드 리뷰를 해주신 부분에 대한 반영 내용입니다.
 
 <br/>
 
@@ -47,7 +47,7 @@ excerpt: 멘토링 후 Tripllo에 꽤 많은 것을 손봐야한다는 것을 �
 props: {
   member: {
     type: Object,
-    require: true,
+    required: true,
     default: () => ({...}),
     validator: () => ({...}),
   },
@@ -68,7 +68,7 @@ props: {
 props: {
   board: {
     type: Object,  // object 형태
-    require: true,
+    required: true,
     default: () => ({
       createdBy: '',
       createdByPicture: '',
@@ -87,14 +87,14 @@ props: {
 props: {
   createdBy: {
   type: String,
-  require: true,
+  required: true,
   default: '',
   validator(value) {
     return typeof value === 'string';
   },
   someProp: {
     type: Number,
-    require: false,
+    required: false,
     default: 0,
     validator(value) {
       return [1, 2, 3].indexOf(value) !== -1;
@@ -204,14 +204,14 @@ src 아래에 `features(기능)`이라는 폴더를 만들었다. 그곳에 dire
 - `directive.js` : 사용자 정의 디렉티브
 
   ```js
-  const useDirective = Vue => {
+  const directives = Vue => {
     // v-focus
     Vue.directive('focus', {
       (...)
     },
     (...)
   };
-  export { useDirective };
+  export { directives };
   ```
 
 - `filter.js` : 시간 관련 필터
@@ -219,7 +219,7 @@ src 아래에 `features(기능)`이라는 폴더를 만들었다. 그곳에 dire
   ```js
   // 필터 정의 함수들
   (...)
-  export const useFilter = Vue => {
+  export const filters = Vue => {
     Vue.filter('normalFormatDate', normalFormatDate);
     Vue.filter('timeForToday', timeForToday);
   };
@@ -230,11 +230,11 @@ src 아래에 `features(기능)`이라는 폴더를 만들었다. 그곳에 dire
   ```js
   import $_Google from '@/utils/social/Google';
   (...)
-  const usePlugin = Vue => {
+  const plugins = Vue => {
      // 플러그인 정의
      (...)
   };
-  export { usePlugin };
+  export { plugins };
   ```
 
 그리고, main.js 에서 깔끔하게 불러들여 보자.
@@ -244,15 +244,15 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from '@/routes';
 import store from '@/store';
-import { usePlugin } from '@/features/plugin';        // 🔥
-import { useDirective } from '@/features/directive';  // 🔥
-import { useFilter } from '@/features/filter';        // 🔥
+import { plugins } from '@/features/plugin';
+import { directives } from '@/features/directive';
+import { filters } from '@/features/filter';
 
 Vue.config.productionTip = false;
 
-Vue.use(usePlugin);     // 🔥
-Vue.use(useDirective);  // 🔥
-Vue.use(useFilter);     // 🔥
+Vue.use(plugins);
+Vue.use(directives);
+Vue.use(filters);
 
 new Vue({
   render: h => h(App),
@@ -438,11 +438,7 @@ instance.interceptors.response.use(
 );
 ```
 
-400, 401, 403 같은 공통 에러 핸들링이다. 하지만, 이렇게 되면 401로 인해서 권한이 없다는 alert 창이 한번 뜨고, actions.js에서 해당 비동기 처리 메서드가 실패했다는 alert이 또 한 번 더 뜨게 된다. 왜냐하면 `return Promise.reject(error);` 이 구문으로 error가 이어지기 때문.
-
-그렇다고, 그냥 return; 해주면 api를 부른 곳으로 이어져서, catch 절에 걸리는 것이 아니라 then 절에 걸리게 된다. Promise가 reject나 resolve 형태로 return하지 않으면 undifined가 뜨기 때문에 then으로 이어지는 것. alert이 두번 뜨는 문제는 해결하지 못했다. Promise는 도중에 catch 절로 이어지지 않게 stop 하는 것이 없다고 한다.
-
-그렇다면,  catch 절에 일일이 에러 코드가 공통으로 걸려있는 상황이라면 alert이 뜨지 않게 해주는 작업은 interceptor를 만든 이유가 없어짐...
+400, 401, 403 같은 공통 에러 핸들링이다. 공통으로 에러핸들링이 필요하다면 이렇게 axios interceptor에서 해주면 된다.
 
 📌 추가
 
@@ -466,13 +462,9 @@ updateBoardAPI(some)
 
 하지만 이렇게 catch 체이닝을 먼저 사용하면 catch 콜백을 먼저 탄 후, `.then` 의 콜백까지 **같이 실행** 되었다. 이상했다. 에러가 발생하면 분명 catch 절을 타는 것은 맞는데 멈추지 않고 .then 까지 이어졌기 때문. axios interceptor 문제인가 해서 몇 번이고 수정해봤다.
 
-[MDN promises common_mistakes](https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Using_promises#common_mistakes)에 보면 아래와 같은 말을 하고 있다.
+[MDN promises common_mistakes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises#common_mistakes)에 보면 항상 catch 체인으로 종료하는 것이 좋다고 이야기하고 있다.
 
->세 번째 실수는 `catch`로 체인을 종료하는 것을 잊는 것입니다. 약속되지 않은 약속 체인은 대부분의 브라우저에서 예상하지 못한 약속 거부를 초래합니다.
->
->좋은 경험 법칙은 항상 약속의 사슬을 반환하거나 종결하는 것이며, 새로운 약속을 얻자마자 즉각적으로 돌려서 물건을 평평하게하는 것입니다.(?)
-
-즉, .catch로 체이닝을 종료하라는 말인 것 같다. 또 여러 가지 실험을 하다 보니,
+또 여러 가지 실험을 하다 보니,
 
 ```js
 .catch(error => {
@@ -529,12 +521,12 @@ api 명세를 해두자. 누가 와서 보더라도, 혹은 내가 다시 나중
 
 ```js
 /**
- * @typedef {object} Board
+ * @typedef {Object} Board
  * ... @property 생략...
  */
 
 /**
- * @typedef {object} CreateBoardInfo
+ * @typedef {Object} CreateBoardInfo
  * @property {string} title - 제목
  * @property {boolean} isPublic - 공개여부
  * @property {string[]} hashtag - 해시태그
@@ -616,9 +608,7 @@ export { readPersonalBoardAPI, (...) }
 
 ## 19. Closure & Currying 적용기
 
-[(13) Closure & Currying 적용기](https://pozafly.github.io/tripllo/(14)Closure-Currying/) 여기 따로 정리해두었다.
-
-단, Closure, Currying를 유지보수가 좋게 짠 것이 맞는지에 대한 확신이 없다..
+[(13) Closure & Currying 적용기](https://pozafly.github.io/tripllo/(14)Closure-Currying/) 여기 따로 정리해두었다. (이 부분은 유지보수가 좋게 짠 것이 맞는지에 대한 확신이 없다..)
 
 <br/>
 
@@ -662,7 +652,6 @@ export { readPersonalBoardAPI, (...) }
 7. 라이프사이클 함수에서나, sideEffect가 있는 곳에서는 의미 단위로 함수로 뽑아서 사용하자.
 8. Travis 배포 자동화 & Sentry를 도입하면서 개발 완료 후 유지보수 측면에서 가능한 자동화나, 에러추적을 해 생산성을 높이는 작업을 하자.
 9. JSDoc 을 작성하면서 내가 나중에 봤을 때나, 다른 사람이 코드를 봤을 때 직관적으로 접하기 쉽도록 하고, 자동완성으로 작업 생산성을 높이자. (Typescript 배우자...)
-10. 멘토님 사랑합니다.
 
 <br/>
 
