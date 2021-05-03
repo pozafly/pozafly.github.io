@@ -160,7 +160,6 @@ const idResult = valid(id, length, 4, 19)(&#x27;pozafly&#x27;);</code>
 <p>이미 valid 함수를 호출하고 종료되었지만, 내부에 있는 상수는 메모리에 살아있다. 이렇게 valid 함수로 만들어진 새로운 함수가 다시 새로운 함수로 호출하면 내부에 살아있던 변수(함수)가 적용되는 이유다.</p>
 <p>valid 함수에 email, id 함수 말고도 password 함수를 만들어 넣어주어도 좋고, 다르게 변형해서 사용해도 좋을 것 같다. length 뒤에 오는 숫자들은 길이 제한 값이라 유지 보수하기에 좋다.</p>
 <p><a href="https://github.com/pozafly/tripllo_vue/blob/9eabdcce73fdeee58749523f81337582b481dfa9/src/utils/validation.js">Tripllo에 사용한 currying 함수 목록</a></p>
-<p>유지 보수성이 좋게, 구조를 잡 잡았는지에 대한 확신이 없다. 틀린 부분이 있다면 코멘트 부탁드려요 ㅜㅜ.</p>
 <br/>
 <br/>
 <blockquote>
