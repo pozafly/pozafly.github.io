@@ -6,7 +6,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { colors } from '../../styles/colors';
-import { SocialLink, SocialLinkFb } from '../../styles/shared';
+import { SocialLink, SocialLinkFb, WhiteSocialLink } from '../../styles/shared';
 import config from '../../website-config';
 import { Instagram } from '../icons/instagram';
 import { Github } from '../icons/github';
@@ -88,7 +88,7 @@ class SiteNav extends React.Component<SiteNavProps, SiteNavState> {
           <SiteNavLeft className="site-nav-left">
             {!isHome && <SiteNavLogo />}
             <SiteNavContent css={[this.state.showTitle ? HideNav : '']}>
-              <ul css={NavStyles} role="menu">
+              <ul css={[!isHome ? NavStyles : WhiteStyle]} role="menu">
                 {/* TODO: mark current nav item - add class nav-current */}
                 <li role="menuitem">
                   <Link to="/">Home</Link>
@@ -112,7 +112,7 @@ class SiteNav extends React.Component<SiteNavProps, SiteNavState> {
               {config.instagram && (
                 <a
                   className="social-link-fb"
-                  css={[SocialLink, SocialLinkFb]}
+                  css={!isHome ? [SocialLink, SocialLinkFb] : [WhiteSocialLink, SocialLinkFb]}
                   href={config.instagram}
                   target="_blank"
                   title="Instagram"
@@ -123,7 +123,7 @@ class SiteNav extends React.Component<SiteNavProps, SiteNavState> {
               )}
               {config.github && (
                 <a
-                  css={SocialLink}
+                  css={!isHome ? SocialLink : WhiteSocialLink}
                   href={config.github}
                   title="Github"
                   target="_blank"
@@ -151,6 +151,11 @@ export const SiteNavMain = css`
   z-index: 1000;
   /* background: ${darken('0.05', colors.darkgrey)}; */
   background: rgba(20,22,26,.78);
+  
+  @media (prefers-color-scheme: light) {
+    background: hsla(0,0%,100%,.8);
+    border-bottom: 1px solid #e9eef1;
+  }
   
 
   @media (max-width: 700px) {
@@ -201,7 +206,7 @@ const SiteNavContent = styled.div`
   align-self: flex-start;
 `;
 
-const NavStyles = css`
+const WhiteStyle = css`
   position: absolute;
   z-index: 1000;
   display: flex;
@@ -217,7 +222,8 @@ const NavStyles = css`
   }
 
   li a {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
+    font-weight: 600;
     position: relative;
     display: block;
     padding: 14px 12px;
@@ -241,6 +247,64 @@ const NavStyles = css`
     background: #fff;
     opacity: 0.25;
     transition: all 0.35s ease-in-out;
+  }
+
+  li a:hover:before {
+    right: 12px;
+    opacity: 0.5;
+  }
+`;
+
+
+const NavStyles = css`
+  position: absolute;
+  z-index: 1000;
+  display: flex;
+  margin: 0 0 0 -12px;
+  padding: 0;
+  list-style: none;
+  transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+
+  li {
+    display: block;
+    margin: 0;
+    padding: 0;
+  }
+
+  li a {
+    font-size: 1.4rem;
+    font-weight: 600;
+    position: relative;
+    display: block;
+    padding: 14px 12px;
+    color: #fff;
+    opacity: 0.8;
+    transition: opacity 0.35s ease-in-out;
+
+    @media (prefers-color-scheme: light) {
+      color: black;
+    }
+  }
+
+  li a:hover {
+    text-decoration: none;
+    opacity: 1;
+  }
+
+  li a:before {
+    content: '';
+    position: absolute;
+    right: 100%;
+    bottom: 8px;
+    left: 12px;
+    height: 1px;
+    background: #fff;
+    opacity: 0.25;
+    transition: all 0.35s ease-in-out;
+
+    @media (prefers-color-scheme: light) {
+      background: black;
+    }
   }
 
   li a:hover:before {
@@ -296,6 +360,10 @@ const NavPostTitle = styled.span`
   opacity: 0;
   transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
   transform: translateY(175%);
+
+  @media (prefers-color-scheme: light) {
+    color: black;
+  }
 
   .dash {
     left: -25px;

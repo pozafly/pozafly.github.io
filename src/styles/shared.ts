@@ -25,6 +25,11 @@ export const SiteNavMain = css`
   z-index: 1000;
   /* background: ${lighten('-0.05', colors.darkgrey)}; */
   background: rgba(20,22,26,.78);
+
+  @media (prefers-color-scheme: light) {
+    background: hsla(0,0%,100%,.8);
+    border-bottom: 1px solid #e9eef1;
+  }
 `;
 
 export const SiteMain = css`
@@ -85,6 +90,26 @@ export const PostFeed = css`
 `;
 
 export const SocialLink = css`
+  display: inline-block;
+  margin: 0;
+  padding: 10px;
+  opacity: 0.8;
+
+  :hover {
+    opacity: 1;
+  }
+
+  svg {
+    height: 1.8rem;
+    fill: #fff;
+
+    @media (prefers-color-scheme: light) {
+      fill: black;
+    }
+  }
+`;
+
+export const WhiteSocialLink = css`
   display: inline-block;
   margin: 0;
   padding: 10px;
