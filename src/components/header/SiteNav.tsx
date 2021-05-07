@@ -222,7 +222,7 @@ const WhiteStyle = css`
   }
 
   li a {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: 600;
     position: relative;
     display: block;
@@ -272,7 +272,7 @@ const NavStyles = css`
   }
 
   li a {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: 600;
     position: relative;
     display: block;
