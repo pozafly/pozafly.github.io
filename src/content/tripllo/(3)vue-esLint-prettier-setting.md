@@ -231,7 +231,7 @@ import CardModalBase from '@/components/card/cardDetail/CardModalBase';
 
 이렇게 @ 를 사용하여 src를 나타내어 표현하게 할 수 있다. 유지 보수 시에도 일일이 경로를 찾아가는 번거로움을 조금이나마 줄여줄 수 있다.
 
-프로젝트 최상단에서 jsonconfig.json 파일을 생성하자.
+프로젝트 최상단에서 `jsconfig.json` 파일을 생성하자.
 
 ```json
 {
