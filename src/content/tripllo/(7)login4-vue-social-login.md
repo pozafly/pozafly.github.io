@@ -27,8 +27,7 @@ excerpt: vue에서 소셜 로그인 기능을 만들어보자. 보통 요즘 서
 ### 소셜 공통 API
 
 ```js
-//utils/social/index.js
-
+// utils/social/index.js
 import store from '@/store';
 import router from '@/routes';
 
@@ -73,7 +72,7 @@ export { socialLogin, socialSignup };
 
 Tripllo는 소셜 로그인을 Google, Facebook, Kakoa 3곳에서 지원하도록 만들었다. 따라서 이 3곳에서 받아온 user 정보는 항상 공통 API를 거친다. 공통 API는 백엔드로 유저정보를 넘겨주는 역할을 한다. 로그인과 회원가입 두가지 메서드로.
 
-- socialLogin() : Vuex의 store에서 action 함수인 'SOCIAL_LOGIN'을 dispatch 해준다. `제작기 5` 부분의 백엔드로 연결되어 소셜로그인을 진행하는 구조이다. 백엔드로부터 return된 token과 userInfo를 Mutation 함수로 보내는 역할이다. Mutation에서는 state와 LocalStorage에 해당 정보를 올린다.(후에 webStorage에 대해 정리하면서 Vuex의 state와 LocalStorage, SessionStorage에 대해서 이야기 할것임.) 통과가 된다면 router로 메인 페이지로 이동하게 된다.
+- `socialLogin()` : Vuex의 store에서 action 함수인 `SOCIAL_LOGIN` 을 dispatch 해준다. `제작기 5` 부분의 백엔드로 연결되어 소셜로그인을 진행하는 구조이다. 백엔드로부터 return된 token과 userInfo를 Mutation 함수로 보내는 역할이다. Mutation에서는 state와 LocalStorage에 해당 정보를 올린다.(후에 webStorage에 대해 정리하면서 Vuex의 state와 LocalStorage, SessionStorage에 대해서 이야기 할것임.) 통과가 된다면 router로 메인 페이지로 이동하게 된다.
 
 ※ isSignup 분기를 태운 이유는 유저가 소셜로 회원가입을 했을 시 회원가입이 되었다는 메세지가 필요할 듯 해서 넣어주었다.
 

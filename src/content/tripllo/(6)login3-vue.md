@@ -115,7 +115,7 @@ SignupForm.vue와 LoginForm.vue는 비슷한 로직으로 되어있어 SignupFor
 
 ![스크린샷 2021-02-05 오후 12 00 49](https://user-images.githubusercontent.com/59427983/107036121-76f32d80-67fc-11eb-84e3-970fddffbc54.png)
 
-사진과 같이 실시간으로 ID가 사용되고 있는지 여부를 체크해주면 좋겠다고 생각했다. 하지만 입력 이벤트가 일어날 때마다 백엔드로 http call을 보내면 쓸대없는 자원낭비라는 생각이 들었다. 여기다가 setTimeout 을 걸어줄까? 도 생각했지만 예전에 지나가다가 봤던 `lodash`의 debounce를 사용해보기로 했다. setTimeout 은 설정한 시간이 흐른 후에 실행 되므로, 클라이언트가 타이핑 하고 나서 시간이 흐른 뒤 모든 http call을 요청했다. 하지만 lodash의 debounce는 시간을 설정하고 시간 내에 새로운 event가 일어나면 이전 것은 무시되고 제일 **마지막 한번이 동작**하게 되어 http call에 적합했다.
+사진과 같이 실시간으로 ID가 사용되고 있는지 여부를 체크해주면 좋겠다고 생각했다. 하지만 입력 이벤트가 일어날 때마다 백엔드로 http call을 보내면 쓸데없는 자원낭비라는 생각이 들었다. 여기다가 setTimeout 을 걸어줄까? 도 생각했지만 예전에 지나가다가 봤던 **lodash**의 `debounce` 를 사용해보기로 했다. setTimeout 은 설정한 시간이 흐른 후에 실행 되므로, 클라이언트가 타이핑 하고 나서 시간이 흐른 뒤 모든 http call을 요청했다. 하지만 lodash의 debounce는 시간을 설정하고 시간 내에 새로운 event가 일어나면 이전 것은 무시되고 제일 **마지막 한번이 동작**하게 되어 http call에 적합했다.
 
 ※ 사실 lodash는 배열과 객체를 다루는데 좋은 라이브러리라고 한다.. npm으로 lodash를 다운받고 import해서 아래와 같이 사용했다.
 
@@ -163,7 +163,7 @@ SignupForm.vue와 LoginForm.vue는 비슷한 로직으로 되어있어 SignupFor
 </script>
 ```
 
-생략되어 있지만 input 태그에 v-model로 userData의 id가 연동되어 있다. vue의 watch로 userData객체 안에 있는 id를 바라보게 하고(watch는 `싱글 커테이션 '`으로 객체 안의 변수 하나를 캐스팅할 수 있다), 이 녀석에게 data 입력 이벤트가 일어나서(정확히는 data에 값이 입력되어서) watch로 감지되면 debounce가 실행되는 구조이다. 0.75초 이내에 다시 이벤트가 일어나면 다시 0.75 초를 기다려준 후 이벤트가 없을 시 이어지는 function이 실행된다.
+생략되어 있지만 input 태그에 v-model로 userData의 id가 연동되어 있다. vue의 watch로 userData객체 안에 있는 id를 바라보게 하고(watch는 싱글 커테이션 `'` 으로 객체 안의 변수 하나를 캐스팅할 수 있다), 이 녀석에게 data 입력 이벤트가 일어나서(정확히는 data에 값이 입력되어서) watch로 감지되면 debounce가 실행되는 구조이다. 0.75초 이내에 다시 이벤트가 일어나면 다시 0.75 초를 기다려준 후 이벤트가 없을 시 이어지는 function이 실행된다.
 
 methods에 있는 validUserId()는 입력된 userData.id 를 가지고 action 함수를 통해 http call을 날리고 MySQL에 접속해 해당 유저의 ID가 사용되고 있는지를 판별하여 다시 값을 돌려준다.
 
@@ -184,6 +184,7 @@ return new ResponseEntity<>(message, headers, HttpStatus.UNAUTHORIZED);
 입력폼에 Validation이 빠지면 잘못된 정보가 입력될 수도 있으므로 utils에 validation.js를 만들어주기로 했다.
 
 ```js
+// utils.validaction.js
 function validateId(id) {
   const re = /^[a-z]+[a-z0-9]{5,19}$/g;
   return re.test(String(id));

@@ -181,13 +181,18 @@ export const PostFullContent = styled.section`
   }
 
   code {
-    padding: 0 5px 2px;
+    padding: 0.15em 0.5em;
+    margin: 0 0.25em;
+    /* padding: 0 5px 2px; */
     font-size: 0.8em;
     line-height: 1em;
-    font-weight: 400 !important;
+    font-weight: 500 !important;
     /* background: var(--whitegrey); */
-    background: ${colors.whitegrey};
-    border-radius: 13px;
+    word-break: keep-all;
+    border-radius: 0.3em;
+    color: white;
+    background: rgb(60, 65, 72);
+    font-family: -apple-system, BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans','Ubuntu','Droid Sans','Helvetica Neue',sans-serif;
   }
 
   p code {
@@ -196,6 +201,7 @@ export const PostFullContent = styled.section`
     color: white;
     padding: 0.15em 0.5em;
     margin: 0 0.25em;
+    word-break: keep-all;
     white-space: normal;
     font-weight: 500 !important;
     font-family: -apple-system, BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans','Ubuntu','Droid Sans','Helvetica Neue',sans-serif;
