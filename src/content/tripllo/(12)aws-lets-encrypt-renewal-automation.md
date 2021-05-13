@@ -22,7 +22,7 @@ excerpt: AWS EC2 환경에서 Nginx와 Let's Encrypt로 HTTPS SSL 인증서 갱�
 
 Let's Encrypt는 사용자에게 무료로 SSL 인증서를 발급해 주는 비영리 기관이다. 쉽게 말해서 http 프로토콜을 https 로 http 통신 규약을 암호화해서 서로 소통하도록 해주는 것이다.
 
-Tripllo에서 frontend는 AWS Certificate Manager를 이용해, https 프로토콜을 입혀줬고, 백엔드는 EC2 자체적으로 Let's Encrypt를 이용해 무료 SSL 인증서로 https를 입혀주었다. 참고로 만약 한쪽만 http이고, 다른 한쪽이 https라면 Mixed Content 에러가 나게 되어있다. Let's Encrypt에서 발급하는 인증서는 90일짜리 단기 인증서인데 3개원에 한 번은 갱신을 해주어야 한다.
+Tripllo에서 frontend는 AWS Certificate Manager를 이용해, https 프로토콜을 입혀줬고, 백엔드는 EC2 자체적으로 Let's Encrypt를 이용해 무료 SSL 인증서로 https를 입혀주었다. 참고로 만약 한쪽만 http이고, 다른 한쪽이 https라면 Mixed Content 에러가 나게 되어있다. Let's Encrypt에서 발급하는 인증서는 90일짜리 단기 인증서인데 3개월에 한 번은 갱신을 해주어야 한다.
 
  어쨌든 EC2 백엔드 서버를 `Let's Encryp`, `Nginx` 설정으로 https를 입혀주었는데 그때 당시에는 갱신 자동화를 해놓지 않았었다. 아래와 같은 메일이 도착했다.
 

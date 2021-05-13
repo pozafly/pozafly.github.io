@@ -7,7 +7,7 @@ tags:
 image: ../img/tripllo/currying2.png
 date: '2021-04-30T15:13:47.149Z'
 draft: false
-excerpt: 함수형 프로그래밍에 대해서 공부하다가 Tripplo에 적용한 클로저와 커링.
+excerpt: 함수형 프로그래밍에 대해서 공부하다가 Tripllo에 적용한 클로저와 커링.
 
 ---
 
