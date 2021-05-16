@@ -3,10 +3,10 @@ layout: post
 title: '회사1 면접 질문정리'
 author: [Pozafly]
 tags:
-  - Tripllo 제작기
+  - 면접후기
 image: ../img/interview/interview.jpeg
 date: '2021-05-14T23:03:47.149Z'
-draft: false
+draft: true
 excerpt: 회사1의 신입 면접 질문 & 후기
 ---
 
