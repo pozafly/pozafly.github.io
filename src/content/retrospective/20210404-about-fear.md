@@ -3,7 +3,7 @@ layout: post
 title: '두려움에 대해서'
 author: [Pozafly]
 tags:
-  - 주간회고
+  - diary
 image: ../img/retrospective/lone.jpg
 date: '2021-04-04T22:03:47.149Z'
 draft: true

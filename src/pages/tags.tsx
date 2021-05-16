@@ -36,7 +36,6 @@ const PageTemplate = css`
 `;
 
 const Tags: React.FC = ({ data }: any) => (
-// export default ({ data }: any) => (
   <IndexLayout>
     <Helmet>
       <title>Tags</title>
@@ -81,11 +80,6 @@ const Tags: React.FC = ({ data }: any) => (
 
 export const query = graphql`
   query {
-    site {
-      siteMetadata {
-        title
-      }
-    }
     allMarkdownRemark(
       filter: { frontmatter: { draft: { ne: true } } }
       sort: { fields: [frontmatter___date], order: DESC }
