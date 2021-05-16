@@ -35,7 +35,8 @@ const PageTemplate = css`
   }
 `;
 
-export default ({ data }: any) => (
+const Tags: React.FC = ({ data }: any) => (
+// export default ({ data }: any) => (
   <IndexLayout>
     <Helmet>
       <title>Tags</title>
@@ -97,3 +98,5 @@ export const query = graphql`
     }
   }
 `
+
+export default Tags;
