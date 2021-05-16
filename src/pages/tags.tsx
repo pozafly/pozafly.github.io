@@ -19,7 +19,6 @@ import {
 } from '../styles/shared';
 import { NoImage, PostFull, PostFullHeader, PostFullTitle } from '../templates/post';
 import { colors } from '../styles/colors';
-import styled from '@emotion/styled';
 
 const PageTemplate = css`
   .site-main {
@@ -60,7 +59,7 @@ export default ({ data }: any) => (
               <div className="post-content">
                 <div>
                   <ul>
-                    {data.allMarkdownRemark.group.map(tag => (
+                    {data.allMarkdownRemark.group.map((tag): any => (
                       <li key={tag.fieldValue}>
                         <Link to={`/tags/${kebabCase(tag.fieldValue)}/`}>
                           {tag.fieldValue} ({tag.totalCount})
@@ -86,7 +85,11 @@ export const query = graphql`
         title
       }
     }
-    allMarkdownRemark(limit: 2000) {
+    allMarkdownRemark(
+      filter: { frontmatter: { draft: { ne: true } } }
+      sort: { fields: [frontmatter___date], order: DESC }
+      limit: 2000
+    ) {
       group(field: frontmatter___tags) {
         fieldValue
         totalCount
