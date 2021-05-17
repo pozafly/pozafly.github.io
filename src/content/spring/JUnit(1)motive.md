@@ -4,6 +4,7 @@ title: 'JUnit(1) - 개념'
 author: [Pozafly]
 tags:
   - SpringBoot
+  - JUnit
 image: ../img/java/springboot.png
 date: '2020-05-21'
 draft: false

@@ -2,8 +2,7 @@
 layout: post
 title: '(8) vue 리팩토링1'
 author: [Pozafly]
-tags:
-  - Tripllo 제작기
+tags: [Tripllo 제작기, 리팩토링, Vue.js]
 image: ../img/tripllo/refactor1.jpg
 date: '2021-04-03T19:13:47.149Z'
 draft: false

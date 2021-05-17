@@ -4,6 +4,7 @@ title: 'JUnit(2) - Mockito'
 author: [Pozafly]
 tags:
   - SpringBoot
+  - JUnit
 image: ../img/java/springboot.png
 date: '2020-05-25'
 draft: false

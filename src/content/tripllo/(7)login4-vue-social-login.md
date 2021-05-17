@@ -2,8 +2,7 @@
 layout: post
 title: '(7) 로그인4 -vue 소셜로그인'
 author: [Pozafly]
-tags:
-  - Tripllo 제작기
+tags: [Tripllo 제작기, Vue.js]
 image: ../img/tripllo/tripllo7.jpeg
 date: '2021-02-05T10:03:47.149Z'
 draft: false

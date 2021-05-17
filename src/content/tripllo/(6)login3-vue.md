@@ -2,8 +2,7 @@
 layout: post
 title: '(6) 로그인3 -vue 구현'
 author: [Pozafly]
-tags:
-  - Tripllo 제작기
+tags: [Tripllo 제작기, Vue.js]
 image: ../img/tripllo/tripllo6.png
 date: '2021-02-05T07:03:47.149Z'
 draft: false

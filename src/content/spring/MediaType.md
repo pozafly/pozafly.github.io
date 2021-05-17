@@ -4,6 +4,7 @@ title: 'Spring에서의 MediaType'
 author: [Pozafly]
 tags:
   - SpringBoot
+  - MediaType
 image: ../img/java/springboot.png
 date: '2020-05-27'
 draft: false

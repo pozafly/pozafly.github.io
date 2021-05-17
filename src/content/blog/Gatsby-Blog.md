@@ -4,6 +4,7 @@ title: 'Gatsby 블로그 이사'
 author: [Pozafly]
 tags:
   - Blog
+  - Gatsby
 image: ../img/blog/gatsby.jpg
 date: '2021-03-31'
 draft: false

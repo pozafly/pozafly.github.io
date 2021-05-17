@@ -2,8 +2,7 @@
 layout: post
 title: "(13) Closure & Currying 적용기"
 author: [Pozafly]
-tags:
-  - Tripllo 제작기
+tags: [Tripllo 제작기, Javascript, Vue.js]
 image: ../img/tripllo/currying2.png
 date: '2021-04-30T15:13:47.149Z'
 draft: false

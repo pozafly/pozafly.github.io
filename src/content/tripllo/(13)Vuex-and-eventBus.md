@@ -2,8 +2,7 @@
 layout: post
 title: "(13) Vuex-store와 EventBus에 대한 고찰"
 author: [Pozafly]
-tags:
-  - Tripllo 제작기
+tags: [Tripllo 제작기, Vue.js]
 image: ../img/tripllo/eventBus.png
 date: '2021-04-16T15:13:47.149Z'
 draft: false

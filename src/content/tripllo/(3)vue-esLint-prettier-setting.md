@@ -2,8 +2,7 @@
 layout: post
 title: '(3) Vue init & ESLint, Prettier 설정'
 author: [Pozafly]
-tags:
-  - Tripllo 제작기
+tags: [Tripllo 제작기, Vue.js]
 image: ../img/tripllo/tripllo3.png
 date: '2021-02-03T19:03:47.149Z'
 draft: false

@@ -3,7 +3,7 @@ layout: post
 title: '오라클 CHR, ASCII 함수 사용법'
 author: [Pozafly]
 tags:
-  - ORACLE
+  - Oracle
 image: ../img/oracle/oracle.jpeg
 date: '2020-06-12'
 draft: false
@@ -12,7 +12,7 @@ excerpt: CHR(), ASCII() 함수 사용법.
 
 ## 정의
 
-​ -`CHR()` : 아스키코드값 얻기(숫자)
+ -`CHR()` : 아스키코드값 얻기(숫자)
 ​ -`ASCII()` : CHR값 얻기(문자)
 
 이렇게만 적어놓으면 뭐가뭔지 잘 모를테니, 문자로 아스키코드값과 아스키코드로 문자열 값을 얻는 쿼리문을 한번 보자.

@@ -3,7 +3,7 @@ layout: post
 title: "Vue2 반응성에 대해 깊이 알아보기"
 author: [Pozafly]
 tags:
-  - Vue
+  - Vue.js
 image: ../img/vue/vue-jet.jpeg
 date: '2021-04-13T20:13:47.149Z'
 draft: false
