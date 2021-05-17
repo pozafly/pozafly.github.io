@@ -233,6 +233,10 @@ const WhiteStyle = css`
     color: #fff;
     opacity: 0.8;
     transition: opacity 0.35s ease-in-out;
+
+    @media (max-width: 700px) {
+      padding: 14px 8px;
+    }
   }
 
   li a:hover {
@@ -286,6 +290,10 @@ const NavStyles = css`
 
     @media (prefers-color-scheme: light) {
       color: black;
+    }
+
+    @media (max-width: 700px) {
+      padding: 14px 8px;
     }
   }
 

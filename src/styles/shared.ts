@@ -30,6 +30,11 @@ export const SiteNavMain = css`
     background: hsla(0,0%,100%,.8);
     border-bottom: 1px solid #e9eef1;
   }
+
+  @media (max-width: 700px) {
+    padding-right: 0;
+    padding-left: 0;
+  }
 `;
 
 export const SiteMain = css`

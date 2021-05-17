@@ -35,48 +35,50 @@ const PageTemplate = css`
   }
 `;
 
-const Tags: React.FC = ({ data }: any) => (
-  <IndexLayout>
-    <Helmet>
-      <title>Tags</title>
-    </Helmet>
-    <Wrapper css={PageTemplate}>
-      <header className="site-archive-header no-image" css={[SiteHeader, SiteArchiveHeader]}>
-        <div css={[outer, SiteNavMain]}>
-          <div css={inner}>
-            <SiteNav isHome={false} />
+const Tags: React.FC = ({ data }: any) => {
+  return (
+    <IndexLayout>
+      <Helmet>
+        <title>Tags</title>
+      </Helmet>
+      <Wrapper css={PageTemplate}>
+        <header className="site-archive-header no-image" css={[SiteHeader, SiteArchiveHeader]}>
+          <div css={[outer, SiteNavMain]}>
+            <div css={inner}>
+              <SiteNav isHome={false} />
+            </div>
           </div>
-        </div>
-      </header>
-      <main id="site-main" className="site-main" css={[SiteMain, outer]}>
-        <div css={inner}>
-          <article className="post page" css={[PostFull, NoImage]}>
-            <PostFullHeader className="post-full-header">
-              <PostFullTitle className="post-full-title">Tags</PostFullTitle>
-            </PostFullHeader>
+        </header>
+        <main id="site-main" className="site-main" css={[SiteMain, outer]}>
+          <div css={inner}>
+            <article className="post page" css={[PostFull, NoImage]}>
+              <PostFullHeader className="post-full-header">
+                <PostFullTitle className="post-full-title">Tags</PostFullTitle>
+              </PostFullHeader>
 
-            <PostFullContent className="post-full-content">
-              <div className="post-content">
-                <div>
-                  <ul>
-                    {data.allMarkdownRemark.group.map((tag): any => (
-                      <li key={tag.fieldValue}>
-                        <Link to={`/tags/${kebabCase(tag.fieldValue)}/`}>
-                          {tag.fieldValue} ({tag.totalCount})
+              <PostFullContent className="post-full-content">
+                <div className="post-content">
+                  <div>
+                    <ul>
+                      {data.allMarkdownRemark.group.map((tag): any => (
+                        <li key={tag.fieldValue}>
+                          <Link to={`/tags/${kebabCase(tag.fieldValue)}/`}>
+                            {tag.fieldValue} ({tag.totalCount})
                         </Link>
-                      </li>
-                    ))}
-                  </ul>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-              </div>
-            </PostFullContent>
-          </article>
-        </div>
-      </main>
-      <Footer />
-    </Wrapper>
-  </IndexLayout>
-);
+              </PostFullContent>
+            </article>
+          </div>
+        </main>
+        <Footer />
+      </Wrapper>
+    </IndexLayout>
+  );
+}
 
 export const query = graphql`
   query {
