@@ -60,7 +60,7 @@ const Tags: React.FC = ({ data }: any) => {
                 <div className="post-content">
                   <div>
                     <ul>
-                      {data.allMarkdownRemark.group.map((tag): any => (
+                      {data.allMarkdownRemark.group.map(tag => (
                         <li key={tag.fieldValue}>
                           <Link to={`/tags/${kebabCase(tag.fieldValue)}/`}>
                             {tag.fieldValue} ({tag.totalCount})
