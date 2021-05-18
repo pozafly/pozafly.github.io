@@ -2,7 +2,7 @@
 layout: post
 title: "(12) Let's Encrypt 갱신 자동화"
 author: [Pozafly]
-tags: [Tripllo 제작기, Let's Encrypt, Vue.js]
+tags: [Tripllo 제작기, Let's Encrypt, 갱신 자동화]
 image: ../img/tripllo/lets-encrypt.png
 date: '2021-04-12T10:13:47.149Z'
 draft: false

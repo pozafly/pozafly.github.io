@@ -2,7 +2,7 @@
 layout: post
 title: '(4) 로그인1 -SpringSecurity & JWT 개념'
 author: [Pozafly]
-tags: [Tripllo 제작기, SpringSecurity, Jwt]
+tags: [Tripllo 제작기, SpringSecurity, JWT]
 image: ../img/tripllo/tripllo4.png
 date: '2021-02-04T10:03:47.149Z'
 draft: false

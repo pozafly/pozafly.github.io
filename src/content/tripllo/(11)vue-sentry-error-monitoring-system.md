@@ -2,7 +2,7 @@
 layout: post
 title: '(11) Sentry 에러 로깅 시스템 도입'
 author: [Pozafly]
-tags: [Tripllo 제작기, Sentry, Vue.js]
+tags: [Tripllo 제작기, Sentry, 에러 모니터링]
 image: ../img/tripllo/sentry.png
 date: '2021-04-09T17:13:47.149Z'
 draft: false

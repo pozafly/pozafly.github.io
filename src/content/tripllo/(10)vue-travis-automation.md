@@ -2,7 +2,7 @@
 layout: post
 title: '(10) Frontend -travis 배포 자동화'
 author: [Pozafly]
-tags: [Tripllo 제작기, Travis, 배포 자동화]
+tags: [Tripllo 제작기, Travis CI, 배포 자동화]
 image: ../img/tripllo/travis.png
 date: '2021-04-06T17:13:47.149Z'
 draft: false

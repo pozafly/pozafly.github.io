@@ -2,7 +2,7 @@
 layout: post
 title: '(5) 로그인2 -SpringBoot 구현'
 author: [Pozafly]
-tags: [Tripllo 제작기, SpringSecurity, Jwt]
+tags: [Tripllo 제작기, SpringSecurity, JWT]
 image: ../img/tripllo/tripllo5.png
 date: '2021-02-04T15:03:47.149Z'
 draft: false
