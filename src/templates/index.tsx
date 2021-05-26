@@ -121,7 +121,8 @@ const IndexPage: React.FC<IndexProps> = props => {
               {props.data.allMarkdownRemark.edges.map((post, index) => {
                 // filter out drafts in production
                 return (
-                  (post.node.frontmatter.draft !== true ||
+                  (post.node.frontmatter.draft !== true &&
+                    post.node.frontmatter.tags[0] !== 'Diary' &&
                     process.env.NODE_ENV !== 'production') && (
                     <PostCard key={post.node.fields.slug} post={post.node} large={index === 0} />
                   )
