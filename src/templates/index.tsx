@@ -121,8 +121,7 @@ const IndexPage: React.FC<IndexProps> = props => {
               {props.data.allMarkdownRemark.edges.map((post, index) => {
                 // filter out drafts in production
                 return (
-                  (post.node.frontmatter.draft !== true &&
-                    post.node.frontmatter.tags[0] !== 'Diary' &&
+                  (post.node.frontmatter.draft !== true ||
                     process.env.NODE_ENV !== 'production') && (
                     <PostCard key={post.node.fields.slug} post={post.node} large={index === 0} />
                   )
@@ -168,7 +167,7 @@ export const pageQuery = graphql`
     }
     allMarkdownRemark(
       sort: { fields: [frontmatter___date], order: DESC }
-      filter: { frontmatter: { draft: { ne: true } } }
+      filter: { frontmatter: { draft: { ne: true }, tags: { ne: "Diary" } } }
       limit: $limit
       skip: $skip
     ) {
