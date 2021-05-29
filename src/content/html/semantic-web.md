@@ -114,6 +114,7 @@ header 태그는 소개 컨텐츠 그룹을 나타낸다, 제목(\<h1>~\<h6>)을
 
 - \<body> 에 포함되지만 섹션 요소가 아니며, 페이지 당 여러 개가 존재할 수 는 있지만 단 1개만 시각적으로 보여야 한다.(나머지 main은 hidden 속성 처리 해주어야 함.)
 - 섹션 요소인 section, article, aside, nav 요소는 main 요소를 자식으로 포함할 수 없다.([링크](https://velog.io/@apricotsoul/HTML-section%EC%9A%94%EC%86%8C-main-%EC%9A%94%EC%86%8C))
+- 타이틀은 \<header> 안 \<h1>~\<h6>로 하며, 본문 내용은 주로 \<p> 를 사용한다.
 
 <br/>
 
@@ -134,7 +135,7 @@ header 태그는 소개 컨텐츠 그룹을 나타낸다, 제목(\<h1>~\<h6>)을
 또한, 
 
 - \<article> 내부에 \<section> 태그를 포함할 수 있고, 반대로 \<section> 내부에 \<article>를 포함할 수 있다.
-- \<article> 은 웹 접근성을 위해 반드시 제목(h1~h6 요소)을 포함시켜 요소를 식별하게 하자. 만약 섹션 제목을 감춰야 하는 상황이라면 hidden 속성을 사용하자.([링크](https://velog.io/@apricotsoul/HTML-section%EC%9A%94%EC%86%8C-main-%EC%9A%94%EC%86%8C))
+- \<article> 은 웹 접근성을 위해 \<header>로 감싼, 제목(h1~h6 요소)을 포함시켜 요소를 식별하게 하자. 마찬가지로 본문 내용은 \<p> 를 사용하자. 만약 섹션 제목을 감춰야 하는 상황이라면 hidden 속성을 사용하면 된다.([링크](https://velog.io/@apricotsoul/HTML-section%EC%9A%94%EC%86%8C-main-%EC%9A%94%EC%86%8C))
 
 <br/>
 
@@ -165,13 +166,11 @@ aside는 문서의 주요 내용과 간접적으로만 연관된 부분을 나�
 
 ## HTML에서 이미지를 표시하는 방법
 
-대표적으로 2가지가 있음.
+대표적으로 2가지가 있다.
 
 1. Semantic Tag인 `<img>` 태그 사용
 
-2. <div> 태그 등에 CSS의 background-image 속성 사용
-     
-   </div>
+2. `<div>` 태그 등에 CSS의 background-image 속성 사용
 
 <br/>
 
@@ -179,11 +178,11 @@ aside는 문서의 주요 내용과 간접적으로만 연관된 부분을 나�
 
 ### Semantic Tag인 `<img>` 태그 사용
 
-img 태그는 해당 페이지의 **메인 컨텐츠인 이미지를 표현**할 때 사용한다. 해당 페이지에서 정보를 표현하는 것에 있어 없어서는 안될 이미지를 출력할 때 사용.
+img 태그는 해당 페이지의 **메인 컨텐츠인 이미지를 표현**할 때 사용한다. 해당 페이지에서 정보를 표현하는 것에 있어 없어서는 안될 이미지를 출력할 때 사용한다.
 
 예를 들면 상품 사진, 썸네일 등. (상품을 판매하는 쇼핑몰인데 상품 사진이 없어서는 안된다. 이렇게 이미지 그 자체가 정보를 표현하는데 중요한 역할을 할 때 img 태그를 사용)
 
-```
+```html
 <img src="apple.png" alt="사과" />
 ```
 
@@ -202,7 +201,7 @@ background-image는 HTML이 아닌, CSS 속성 그 자체이기 때문에 SEO �
 
 예를 들면 배경, 아이콘처럼 해당 컨텐츠가 존재하지 않아도 페이지의 정보를 표현하는 것에 지장을 주지 않는 정보.
 
-```
+```css
 .bg {
   background-image: url("apple.png")
 }
@@ -210,7 +209,7 @@ background-image는 HTML이 아닌, CSS 속성 그 자체이기 때문에 SEO �
 
 CSS로 이미지를 구현할 때는 위의 코드처럼 background-image라는 속성을 사용하는데 CSS이기 때문에 background-image 뿐 아니라 다양한 속성을 추가해 이미지를 더욱 풍부하게 표현할 수 있다.
 
-```
+```css
 .bg {
   background-image: url("apple.png");
   background-repeat: repeat;
@@ -225,3 +224,10 @@ CSS로 이미지를 구현할 때는 위의 코드처럼 background-image라는 
 > 2. 아이콘 배경 등을 표현할 때
 > 3. `transition`, `filter`, `background-repeat` 등 CSS로 이미지를 다양하게 편집할 필요가 있을 때
 
+<br/>
+
+<br/>
+
+## 적용
+
+[Tripllo semantic-apply 브랜치](https://github.com/pozafly/tripllo_vue/commits/semantic-apply) 20201/5/29일자 commit 내역을 보면 Semantic-Web을 적용한 내용을 보실 수 있습니다.
