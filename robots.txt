@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Sitemap: https://pozafly.github.io/sitemap.xml
+Host: https://pozafly.github.io
