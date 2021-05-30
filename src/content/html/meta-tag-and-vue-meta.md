@@ -6,7 +6,7 @@ tags: [Vue.js, HTML, SEO]
 image: ../img/html/meta-tag.png
 date: '2021-05-30T20:13:47.149Z'
 draft: false
-excerpt: 
+excerpt: Semantic-Tag와 함께 SEO 향상을 위해 meta tag를 프로젝트에 적용하면서 meta tag의 역할과 기능, 그리고 Vue.js에서는 meta tag를 동적으로 어떻게 변화시킬 수 있는지 알아보자.
 
 ---
 

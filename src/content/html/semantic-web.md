@@ -2,7 +2,7 @@
 layout: post
 title: 'Semantic Web에 대해 더 깊이 알아보기'
 author: [Pozafly]
-tags: [HTML, Semantic Web, SEO]
+tags: [HTML, SEO, Semantic Web]
 image: ../img/html/html.png
 date: '2021-05-29T12:13:47.149Z'
 draft: false
