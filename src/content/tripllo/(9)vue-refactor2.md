@@ -583,7 +583,7 @@ export { readPersonalBoardAPI, (...) }
 
 ## 16. Travis 배포 자동화
 
-[Tripllo(10) Frontend -travis 배포 자동화](https://pozafly.github.io/tripllo/(10)vue-travis-automation/) 여기 따로 정리해두었다.
+[(10) Frontend -travis 배포 자동화](https://pozafly.github.io/tripllo/(10)vue-travis-automation/) 여기 따로 정리해두었다.
 
 <br/>
 
@@ -591,7 +591,7 @@ export { readPersonalBoardAPI, (...) }
 
 ## 17. Sentry 에러 로깅 시스템 도입
 
-[Tripllo(11) Sentry 에러 로깅 시스템 도입](https://pozafly.github.io/tripllo/(11)vue-sentry-error-monitoring-system/) 여기 따로 정리해두었다.
+[(11) Sentry 에러 로깅 시스템 도입](https://pozafly.github.io/tripllo/(11)vue-sentry-error-monitoring-system/) 여기 따로 정리해두었다.
 
 <br/>
 
@@ -599,7 +599,7 @@ export { readPersonalBoardAPI, (...) }
 
 ## 18. Let's Encrypt 갱신 자동화
 
-[Tripllo(12) Let's Encrypt 갱신 자동화](https://pozafly.github.io/tripllo/(12)aws-lets-encrypt-renewal-automation/) 여기 따로 정리해두었다.
+[(12) Let's Encrypt 갱신 자동화](https://pozafly.github.io/tripllo/(12)aws-lets-encrypt-renewal-automation/) 여기 따로 정리해두었다.
 
 <br/>
 
@@ -607,7 +607,7 @@ export { readPersonalBoardAPI, (...) }
 
 ## 19. Closure & Currying 적용기
 
-[(13) Closure & Currying 적용기](https://pozafly.github.io/tripllo/(14)Closure-Currying/) 여기 따로 정리해두었다. (이 부분은 유지보수가 좋게 짠 것이 맞는지에 대한 확신이 없다..)
+[(14) Closure & Currying 적용기](https://pozafly.github.io/tripllo/(14)Closure-Currying/) 여기 따로 정리해두었다. (이 부분은 유지보수가 좋게 짠 것이 맞는지에 대한 확신이 없다..)
 
 <br/>
 
