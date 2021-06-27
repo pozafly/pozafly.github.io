@@ -74,4 +74,4 @@ What's the matter? Even if I revert to the previous version with git and try to 
 
 <br/>
 
-이제 틀이 완성되었으니 글을 채울 일만 남았다. 회고는 일주일에 한번, 공부한 내용은 TIL에 채우되, 블로그에는 내 스타일 대로 재구성 해서 적기. 꾸준하게.
+이제 틀이 완성되었으니 글을 채울 일만 남았다.
