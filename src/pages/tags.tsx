@@ -64,7 +64,7 @@ const Tags: React.FC = ({ data }: any) => {
                         <li key={tag.fieldValue}>
                           <Link to={`/tags/${kebabCase(tag.fieldValue)}/`}>
                             {tag.fieldValue} ({tag.totalCount})
-                        </Link>
+                          </Link>
                         </li>
                       ))}
                     </ul>
