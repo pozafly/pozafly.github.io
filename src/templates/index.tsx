@@ -88,6 +88,7 @@ const IndexPage: React.FC<IndexProps> = props => {
         )}
         <meta property="og:image:width" content={width.toString()} />
         <meta property="og:image:height" content={height.toString()} />
+        <meta name="google-site-verification" content="X7fnDr_T5GGmrn97A919fAd2I_t2ghdL_ZkDjcR1Y8Q" />
       </Helmet>
       <Wrapper>
         <div
