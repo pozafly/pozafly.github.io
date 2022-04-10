@@ -41,6 +41,7 @@
 <url> <loc>https://pozafly.github.io/diary/20210627/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tripllo/tripllo-delete/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/html/pdf-css/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://pozafly.github.io/npm/setting-npm-differently-for-each-project/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tags/java/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tags/spring-boot/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tags/j-unit/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
@@ -55,11 +56,10 @@
 <url> <loc>https://pozafly.github.io/tags/gatsby/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tags/리팩토링/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tags/travis-ci/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/tags/배포-자동화/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://pozafly.github.io/tags/auto-mation/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tags/sentry/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tags/에러-모니터링/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tags/lets-encrypt/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pozafly.github.io/tags/갱신-자동화/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tags/javascript/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tags/diary/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tags/html/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
@@ -67,6 +67,7 @@
 <url> <loc>https://pozafly.github.io/tags/semantic-web/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tags/css/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tags/pdf/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://pozafly.github.io/tags/npm/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/author/pozafly/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/about/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pozafly.github.io/tags/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
