@@ -11,28 +11,7 @@ module.exports = {
     'MarkdownRemark.frontmatter.author': 'AuthorYaml.name',
   },
   plugins: [
-    {
-      resolve: 'gatsby-plugin-sitemap',
-      options: {
-        output: 'sitemap.xml',
-        query: `
-          {
-            site {
-              siteMetadata {
-                siteUrl
-              }
-            }
-            allSitePage {
-              edges {
-                node {
-                  path
-                }
-              }
-            }
-          }
-        `,
-      },
-    },
+    'gatsby-plugin-sitemap',
     'gatsby-plugin-image',
     {
       resolve: 'gatsby-plugin-sharp',
