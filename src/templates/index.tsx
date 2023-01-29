@@ -120,6 +120,7 @@ function IndexPage(props: IndexProps) {
           </div>
         </main>
         {props.children}
+        {console.log(props.pageContext)}
         {props.pageContext.numPages > 1 && (
           <Pagination
             currentPage={props.pageContext.currentPage}

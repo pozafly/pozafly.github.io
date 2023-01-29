@@ -77,7 +77,7 @@ export const PostFeed = css`
   background: #fff;
 
   /* Special Template Styles */
-  padding: 40px 0 5vw;
+  padding: 40px 0 0;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
 

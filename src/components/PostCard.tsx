@@ -17,9 +17,10 @@ import config from '../website-config';
 export type PostCardProps = {
   post: PageContext;
   isLarge?: boolean;
+  isNext?: boolean;
 };
 
-export function PostCard({ post, isLarge = false }: PostCardProps) {
+export function PostCard({ post, isLarge = false, isNext = false }: PostCardProps) {
   const date = new Date(post.frontmatter.date);
   // 2018-08-20
   const datetime = format(date, 'yyyy-MM-dd');
@@ -33,7 +34,7 @@ export function PostCard({ post, isLarge = false }: PostCardProps) {
     >
       {post.frontmatter.image && (
         <Link className="post-card-image-link" css={PostCardImageLink} to={post.fields.slug}>
-          <PostCardImage className="post-card-image">
+          <PostCardImage className={`post-card-image ${isNext ? 'is-next' : ''}`}>
             {post.frontmatter?.image && (
               <GatsbyImage
                 image={getImage(post.frontmatter.image)!}
@@ -171,12 +172,18 @@ const PostCardImage = styled.div`
   background: #fff no-repeat center center;
   background-size: cover;
   border-radius: 12px;
+  border: 1px solid hsl(230deg 25% 94%);
+
   img {
     border-radius: 12px;
   }
 
   @media (prefers-color-scheme: dark) {
     background: ${colors.darkmode};
+    border: 1px solid hsl(230deg 6% 23%);
+  }
+  &.is-next {
+    border: 1px solid hsl(230deg 6% 23%);
   }
 `;
 

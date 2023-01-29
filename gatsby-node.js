@@ -116,7 +116,7 @@ exports.createPages = async ({ graphql, actions }) => {
 
   // Create paginated index
   // TODO: new pagination
-  const postsPerPage = 9;
+  const postsPerPage = 12;
   const numPages = Math.ceil(posts.length / postsPerPage);
 
   Array.from({ length: numPages }).forEach((_, i) => {
