@@ -28,11 +28,7 @@ export function PostCard({ post, isLarge = false }: PostCardProps) {
 
   return (
     <article
-      // className={`post-card ${post.frontmatter.image ? '' : 'no-image'} ${
-      //   isLarge ? 'post-card-large' : ''
-      //   }`}
-      className={`post-card ${post.frontmatter.image ? '' : 'no-image'} ${isLarge ? 'post-card-large' : ''
-        }`}
+      className={`post-card ${post.frontmatter.image ? '' : 'no-image'} ${isLarge ? 'post-card-large' : ''}`}
       css={[PostCardStyles, isLarge && PostCardLarge]}
     >
       {post.frontmatter.image && (
@@ -166,7 +162,7 @@ const PostCardImageLink = css`
   position: relative;
   display: block;
   overflow: hidden;
-  border-radius: 5px 5px 0 0;
+  border-radius: 12px;
 `;
 
 const PostCardImage = styled.div`
@@ -174,6 +170,10 @@ const PostCardImage = styled.div`
   height: 200px;
   background: #fff no-repeat center center;
   background-size: cover;
+  border-radius: 12px;
+  img {
+    border-radius: 12px;
+  }
 
   @media (prefers-color-scheme: dark) {
     background: ${colors.darkmode};
