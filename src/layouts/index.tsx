@@ -296,6 +296,7 @@ function IndexLayout(props: IndexProps) {
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             -moz-font-feature-settings: 'liga' on;
+
             &::-webkit-scrollbar {
                 background-color: transparent;
                 width: 6px;

@@ -546,6 +546,16 @@ export const PostFullContent = styled.section`
     -moz-hyphens: none;
     -ms-hyphens: none;
     hyphens: none;
+
+    &::-webkit-scrollbar {
+      background-color: transparent;
+      height: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 8px;
+      background-color: hsla(230, 5%, 35%, 1);
+    }
   }
 
   /* Code blocks */
