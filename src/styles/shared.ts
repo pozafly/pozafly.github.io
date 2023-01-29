@@ -167,7 +167,7 @@ export const SiteHeaderStyles = css`
     z-index: 10;
     display: block;
     height: 100%;
-    background: linear-gradient(rgba(0,0,0,.15),#fff);
+    background: linear-gradient(rgba(0,0,0,.15) 50%,#fff);
   }
 
   @media (prefers-color-scheme: dark) {
@@ -175,7 +175,7 @@ export const SiteHeaderStyles = css`
       background: rgba(0, 0, 0, 0.6);
     }
     :after {
-      background: linear-gradient(rgba(0,0,0,0.02),#191b1f);
+      background: linear-gradient(rgba(0,0,0,0.02) 50%,#191b1f);
     }
   }
 `;
