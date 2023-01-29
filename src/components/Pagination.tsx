@@ -2,18 +2,19 @@ import { Link } from 'gatsby';
 import React from 'react';
 import { darken } from 'polished';
 import { css } from '@emotion/react';
+
 import { colors } from '../styles/colors';
 
-export interface PaginationProps {
+export type PaginationProps = {
   currentPage: number;
   numPages: number;
-}
+};
 
-const Pagination: React.FunctionComponent<PaginationProps> = ({ currentPage, numPages }) => {
+function Pagination({ currentPage, numPages }: PaginationProps) {
   const isFirst = currentPage === 1;
   const isLast = currentPage === numPages;
-  const prevPage = currentPage - 1 === 1 ? '/' : `/${(currentPage - 1).toString()}`;
-  const nextPage = `/${(currentPage + 1).toString()}`;
+  const prevPage = currentPage - 1 === 1 ? '/' : `../${(currentPage - 1).toString()}`;
+  const nextPage = `../${(currentPage + 1).toString()}`;
 
   return (
     <nav css={navCss}>
@@ -26,7 +27,11 @@ const Pagination: React.FunctionComponent<PaginationProps> = ({ currentPage, num
         )}
 
         {Array.from({ length: numPages }, (_, i) => (
-          <Link key={`pagination-number${i + 1}`} className={i + 1 === currentPage ? 'active' : ''} to={`/${i === 0 ? '' : i + 1}`}>
+          <Link
+            key={`pagination-number${i + 1}`}
+            className={i + 1 === currentPage ? 'active' : ''}
+            to={`/${i === 0 ? '' : i + 1}`}
+          >
             {i + 1}
           </Link>
         ))}
@@ -40,7 +45,7 @@ const Pagination: React.FunctionComponent<PaginationProps> = ({ currentPage, num
       </div>
     </nav>
   );
-};
+}
 
 const navCss = css`
   text-align: center;
@@ -49,7 +54,6 @@ const navCss = css`
   }
 
   a {
-    /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell; */
     font-family: -apple-system, BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans','Ubuntu','Droid Sans','Helvetica Neue',sans-serif;
     font-size: 1.5rem;
     background: #fff;
@@ -57,8 +61,7 @@ const navCss = css`
     float: left;
     padding: 8px 16px;
     text-decoration: none;
-    transition: background-color .3s;
-    border: 1px solid #ddd;
+    transition: background-color 0.3s;
     margin: 0 4px;
     box-shadow: rgba(39, 44, 49, 0.06) 8px 14px 38px, rgba(39, 44, 49, 0.03) 1px 3px 8px;
     border-radius: 6px;
@@ -66,9 +69,6 @@ const navCss = css`
     min-width: 50px;
 
     &.active {
-      /* -webkit-box-shadow:inset 3px 0px 0px 0px ${darken(0.05, colors.darkgrey)}; */
-      /* -moz-box-shadow:inset 3px 0px 0px 0px ${darken(0.05, colors.darkgrey)}; */
-      /* box-shadow:inset 3px 0px 0px 0px ${darken(0.05, colors.darkgrey)}; */
       background-color: #b3b3b3;
     }
 

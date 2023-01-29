@@ -8,12 +8,11 @@ module.exports = {
     siteUrl: 'https://pozafly.github.io', // full path to blog - no ending slash
   },
   mapping: {
-    'MarkdownRemark.frontmatter.author': 'AuthorYaml',
+    'MarkdownRemark.frontmatter.author': 'AuthorYaml.name',
   },
   plugins: [
-    'gatsby-plugin-sitemap',
     {
-      resolve: 'gatsby-plugin-sharp',
+      resolve: 'gatsby-plugin-sitemap',
       options: {
         output: 'sitemap.xml',
         query: `
@@ -32,6 +31,12 @@ module.exports = {
             }
           }
         `,
+      },
+    },
+    'gatsby-plugin-image',
+    {
+      resolve: 'gatsby-plugin-sharp',
+      options: {
         defaultQuality: 100,
         stripMetadata: true,
       },
@@ -53,17 +58,9 @@ module.exports = {
               wrapperStyle: 'margin-bottom: 1rem',
             },
           },
-          {
-            resolve: 'gatsby-remark-highlight-code',
-            options: {
-              terminal: 'carbon',
-              theme: 'material',
-            },
-          },
-          // 'gatsby-remark-prismjs',
+          'gatsby-remark-prismjs',
           'gatsby-remark-copy-linked-files',
           'gatsby-remark-smartypants',
-          'gatsby-remark-abbr',
           {
             resolve: 'gatsby-remark-images',
             options: {
@@ -78,7 +75,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-canonical-urls',
       options: {
-        siteUrl: 'https://pozafly.github.io',
+        siteUrl: 'pozafly.github.io',
       },
     },
     'gatsby-plugin-typescript',
@@ -86,40 +83,84 @@ module.exports = {
     'gatsby-transformer-sharp',
     'gatsby-plugin-react-helmet',
     'gatsby-transformer-yaml',
-    'gatsby-plugin-feed',
+    {
+      resolve: 'gatsby-plugin-feed',
+      options: {
+        query: `
+          {
+            site {
+              siteMetadata {
+                title
+                description
+                siteUrl
+                site_url: siteUrl
+              }
+            }
+          }
+        `,
+        feeds: [
+          {
+            serialize: ({ query: { site, allMarkdownRemark } }) =>
+              allMarkdownRemark.edges.map((edge) => ({
+                ...edge.node.frontmatter,
+                description: edge.node.excerpt,
+                date: edge.node.frontmatter.date,
+                url: `${site.siteMetadata.siteUrl}${edge.node.fields.slug}`,
+                guid: `${site.siteMetadata.siteUrl}${edge.node.fields.slug}`,
+                custom_elements: [{ 'content:encoded': edge.node.html }],
+              })),
+            query: `
+              {
+                allMarkdownRemark(
+                  filter: { frontmatter: { draft: { ne: true } } }
+                  sort: { frontmatter: { date: DESC } }
+                ) {
+                  edges {
+                    node {
+                      excerpt
+                      html
+                      fields { slug }
+                      frontmatter {
+                        title
+                        date
+                      }
+                    }
+                  }
+                }
+              }
+            `,
+            output: '/rss.xml',
+            title: "Pozafly's 블로그",
+            match: '^/content/',
+          },
+        ],
+      },
+    },
     {
       resolve: 'gatsby-plugin-postcss',
       options: {
-        postCssPlugins: [require('postcss-color-function'), require('cssnano')()],
+        postCssPlugins: [
+          require('postcss-color-function'),
+          require('cssnano')(),
+        ],
       },
     },
-    // {
-    //   resolve: 'gatsby-plugin-google-analytics',
-    //   options: {
-    //     trackingId: 'G-SLQNH3ND3J',
-    //     // Puts tracking script in the head instead of the body
-    //     head: true,
-    //     // IP anonymization for GDPR compliance
-    //     anonymize: true,
-    //     // Disable analytics for users with `Do Not Track` enabled
-    //     respectDNT: true,
-    //     // Avoids sending pageview hits from custom paths
-    //     exclude: ['/preview/**'],
-    //     // Specifies what percentage of users should be tracked
-    //     sampleRate: 100,
-    //     // Determines how often site speed tracking beacons will be sent
-    //     siteSpeedSampleRate: 10,
-    //   },
-    // },
     {
-      resolve: `gatsby-plugin-gtag`,
+      resolve: 'gatsby-plugin-google-analytics',
       options: {
-        // your google analytics tracking id
-        trackingId: `G-SLQNH3ND3J`,
+        trackingId: 'G-SLQNH3ND3J',
         // Puts tracking script in the head instead of the body
         head: true,
-        // enable ip anonymization
+        // IP anonymization for GDPR compliance
         anonymize: true,
+        // Disable analytics for users with `Do Not Track` enabled
+        respectDNT: true,
+        // Avoids sending pageview hits from custom paths
+        exclude: ['/preview/**'],
+        // Specifies what percentage of users should be tracked
+        sampleRate: 100,
+        // Determines how often site speed tracking beacons will be sent
+        siteSpeedSampleRate: 10,
       },
     },
   ],

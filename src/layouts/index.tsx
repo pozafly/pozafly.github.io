@@ -3,19 +3,15 @@ import { Helmet } from 'react-helmet';
 import { Global, css } from '@emotion/react';
 import { lighten } from 'polished';
 
-// eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
-// @ts-ignore
-// import favicon from '../../src/favicon.ico';
 import favicon from '../content/img/common/alien.png';
 import { colors } from '../styles/colors';
-import { defineCustomElements as deckDeckGoHighlightElement } from '@deckdeckgo/highlight-code/dist/loader';
-deckDeckGoHighlightElement();
 
-interface IndexProps {
+type IndexProps = {
   className?: string;
-}
+  children: React.ReactNode;
+};
 
-const IndexLayout: React.FC<IndexProps> = props => {
+function IndexLayout(props: IndexProps) {
   return (
     <div className={props.className}>
       <Helmet>
@@ -72,14 +68,14 @@ const IndexLayout: React.FC<IndexProps> = props => {
           form,
           label,
           legend,
-          /* table, */
-          /* caption, */
-          /* tbody, */
-          /* tfoot, */
-          /* thead, */
-          /* tr, */
-          /* th, */
-          /* td, */
+          /* table,
+          caption,
+          tbody,
+          tfoot,
+          thead,
+          tr,
+          th,
+          td, */
           article,
           aside,
           canvas,
@@ -300,6 +296,15 @@ const IndexLayout: React.FC<IndexProps> = props => {
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             -moz-font-feature-settings: 'liga' on;
+            &::-webkit-scrollbar {
+                background-color: transparent;
+                width: 6px;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                border-radius: 8px;
+                background-color: hsla(230, 5%, 35%, 1);
+            }
           }
 
           ::selection {
@@ -503,22 +508,11 @@ const IndexLayout: React.FC<IndexProps> = props => {
               opacity: 0.9;
             }
           }
-
-          /* gatsby-remark-highlight-code */
-          /* 맥 코드 하이라이팅 추가 css */
-          :root {
-            --deckgo-highlight-code-font-size: 90%;
-            --deckgo-highlight-code-font-family: font-family: -apple-system, BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans','Ubuntu','Droid Sans','Helvetica Neue',sans-serif;
-            --deckgo-highlight-code-line-height: 1.5;
-            --deckgo-highlight-code-white-space: pre-wrap;
-            --deckgo-highlight-code-carbon-border-radius: 15px;
-            --deckgo-highlight-code-carbon-margin: 2em 0;
-          }
         `}
       />
       {props.children}
     </div>
   );
-};
+}
 
 export default IndexLayout;

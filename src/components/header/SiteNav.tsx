@@ -6,22 +6,22 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { colors } from '../../styles/colors';
-import { SocialLink, SocialLinkFb, WhiteSocialLink } from '../../styles/shared';
+import { SocialLink, SocialLinkFb } from '../../styles/shared';
 import config from '../../website-config';
 import { Instagram } from '../icons/instagram';
 import { Github } from '../icons/github';
 import { SubscribeModal } from '../subscribe/SubscribeModal';
 import { SiteNavLogo } from './SiteNavLogo';
 
-interface SiteNavProps {
+type SiteNavProps = {
   isHome?: boolean;
   isPost?: boolean;
   post?: any;
-}
+};
 
-interface SiteNavState {
+type SiteNavState = {
   showTitle: boolean;
-}
+};
 
 class SiteNav extends React.PureComponent<SiteNavProps, SiteNavState> {
   subscribe = React.createRef<SubscribeModal>();
@@ -85,22 +85,29 @@ class SiteNav extends React.PureComponent<SiteNavProps, SiteNavState> {
       <>
         {config.showSubscribe && <SubscribeModal ref={this.subscribe} />}
         <nav css={SiteNavStyles}>
-          <SiteNavLeft className="site-nav-left">
-            {!isHome && <SiteNavLogo />}
+          <SiteNavLeft className={`site-nav-left ${isHome ? 'is-home' : ''}`}>
+            <SiteNavLogo />
             <SiteNavContent css={[this.state.showTitle ? HideNav : '']}>
-              <ul css={[!isHome ? NavStyles : WhiteStyle]} role="menu">
-                {/* TODO: mark current nav item - add class nav-current */}
+              <ul css={NavStyles} role="menu">
                 <li role="menuitem">
-                  <Link to="/">Home</Link>
+                  <Link to="/" activeClassName="nav-current" className={`${isHome ? 'is-home' : ''}`}>
+                    Home
+                  </Link>
                 </li>
                 <li role="menuitem">
-                  <Link to="/about">About</Link>
+                  <Link to="/about" activeClassName="nav-current" className={`${isHome ? 'is-home' : ''}`}>
+                    About
+                  </Link>
                 </li>
                 <li role="menuitem">
-                  <Link to="/tags">Tags</Link>
+                  <Link to="/tags" activeClassName="nav-current" className={`${isHome ? 'is-home' : ''}`}>
+                    Tags
+                  </Link>
                 </li>
                 <li role="menuitem">
-                  <Link to="/tags/diary/">Diary</Link>
+                  <Link to="/tags/diary/" activeClassName="nav-current" className={`${isHome ? 'is-home' : ''}`}>
+                    Diary
+                  </Link>
                 </li>
               </ul>
               {isPost && (
@@ -114,8 +121,8 @@ class SiteNav extends React.PureComponent<SiteNavProps, SiteNavState> {
             <SocialLinks>
               {config.instagram && (
                 <a
-                  className="social-link-fb"
-                  css={!isHome ? [SocialLink, SocialLinkFb] : [WhiteSocialLink, SocialLinkFb]}
+                  className={`${isHome ? 'is-home' : ''}`}
+                  css={[SocialLink, SocialLinkFb]}
                   href={config.instagram}
                   target="_blank"
                   title="Instagram"
@@ -126,7 +133,8 @@ class SiteNav extends React.PureComponent<SiteNavProps, SiteNavState> {
               )}
               {config.github && (
                 <a
-                  css={!isHome ? SocialLink : WhiteSocialLink}
+                  className={`${isHome ? 'is-home' : ''}`}
+                  css={SocialLink}
                   href={config.github}
                   title="Github"
                   target="_blank"
@@ -152,23 +160,8 @@ export const SiteNavMain = css`
   right: 0;
   left: 0;
   z-index: 1000;
-  /* background: ${darken('0.05', colors.darkgrey)}; */
-  background: rgba(20,22,26,.78);
-  
-  @media (prefers-color-scheme: light) {
-    background: hsla(0,0%,100%,.8);
-    border-bottom: 1px solid #e9eef1;
-  }
-  
-
-  @media (max-width: 700px) {
-    padding-right: 0;
-    padding-left: 0;
-  }
-
-  /* @media (prefers-color-scheme: light) {
-    background: hsla(0,0%,100%,.95);
-  } */
+  backdrop-filter: blur(8px);
+  background: transparent;
 `;
 
 const SiteNavStyles = css`
@@ -200,7 +193,6 @@ const SiteNavLeft = styled.div`
 
   @media (max-width: 700px) {
     margin-right: 0;
-    padding-left: 5vw;
   }
 `;
 
@@ -208,60 +200,6 @@ const SiteNavContent = styled.div`
   position: relative;
   align-self: flex-start;
 `;
-
-const WhiteStyle = css`
-  position: absolute;
-  z-index: 1000;
-  display: flex;
-  margin: 0 0 0 -12px;
-  padding: 0;
-  list-style: none;
-  transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
-
-  li {
-    display: block;
-    margin: 0;
-    padding: 0;
-  }
-
-  li a {
-    font-size: 1.2rem;
-    font-weight: 600;
-    position: relative;
-    display: block;
-    padding: 14px 12px;
-    color: #fff;
-    opacity: 0.8;
-    transition: opacity 0.35s ease-in-out;
-
-    @media (max-width: 700px) {
-      padding: 14px 8px;
-    }
-  }
-
-  li a:hover {
-    text-decoration: none;
-    opacity: 1;
-  }
-
-  li a:before {
-    content: '';
-    position: absolute;
-    right: 100%;
-    bottom: 8px;
-    left: 12px;
-    height: 1px;
-    background: #fff;
-    opacity: 0.25;
-    transition: all 0.35s ease-in-out;
-  }
-
-  li a:hover:before {
-    right: 12px;
-    opacity: 0.5;
-  }
-`;
-
 
 const NavStyles = css`
   position: absolute;
@@ -280,18 +218,15 @@ const NavStyles = css`
 
   li a {
     font-size: 1.2rem;
-    font-weight: 600;
     position: relative;
     display: block;
     padding: 14px 12px;
-    color: #fff;
+    color: #000;
     opacity: 0.8;
     transition: opacity 0.35s ease-in-out;
-
-    @media (prefers-color-scheme: light) {
-      color: black;
+    @media (prefers-color-scheme: dark) {
+      color: #fff;
     }
-
     @media (max-width: 700px) {
       padding: 14px 8px;
     }
@@ -309,18 +244,28 @@ const NavStyles = css`
     bottom: 8px;
     left: 12px;
     height: 1px;
-    background: #fff;
+    background: #000;
     opacity: 0.25;
     transition: all 0.35s ease-in-out;
-
-    @media (prefers-color-scheme: light) {
-      background: black;
+    @media (prefers-color-scheme: dark) {
+      background: #fff;
     }
   }
 
   li a:hover:before {
     right: 12px;
     opacity: 0.5;
+  }
+
+  li a.is-home {
+    color: #fff;
+    &:before {
+      background: #fff;
+    }
+  }
+
+  .nav-current {
+    opacity: 1;
   }
 `;
 
@@ -364,16 +309,22 @@ const NavPostTitle = styled.span`
   visibility: hidden;
   position: absolute;
   top: 9px;
-  color: #fff;
+  color: #000;
   font-size: 1.7rem;
   font-weight: 400;
   text-transform: none;
   opacity: 0;
   transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
   transform: translateY(175%);
+  @media (prefers-color-scheme: dark) {
+    color: #fff;
+  }
 
-  @media (prefers-color-scheme: light) {
-    color: black;
+  @media (max-width: 700px) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: calc(100vw - 172px);
   }
 
   .dash {

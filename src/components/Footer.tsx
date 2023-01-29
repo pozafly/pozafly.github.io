@@ -8,13 +8,12 @@ import { colors } from '../styles/colors';
 import { outer, inner } from '../styles/shared';
 import config from '../website-config';
 
-export const Footer: React.FC = () => {
+export function Footer() {
   return (
     <footer css={[outer, SiteFooter]}>
       <div css={[inner, SiteFooterContent]}>
         <section className="copyright">
-          {/* <Link to="/">{config.title}</Link> */}
-          &copy; {new Date().getFullYear()}{' '}
+          <Link to="/">pozafly</Link> &copy; {new Date().getFullYear()}{' '}
           {config.footer && (
             <Link to="/">
               | {config.title} {config.footer}
@@ -34,20 +33,12 @@ export const Footer: React.FC = () => {
             </a>
           )}
 
-          {/* <a href="https://github.com/scttcper/gatsby-casper" target="_blank" rel="noopener noreferrer">
-            Casper
-          </a> */}
-
-          {/* <a href="https://hits.seeyoufarm.com">
-            <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fpozafly.github.io&count_bg=%2343CA82&title_bg=%23555555&icon=atom.svg&icon_color=%23E7E7E7&title=hits&edge_flat=false" />
-          </a> */}
-
-          {/* <a href="/rss.xml">RSS</a> */}
+          <a href="/rss.xml">RSS</a>
         </SiteFooterNav>
       </div>
     </footer>
   );
-};
+}
 
 const SiteFooter = css`
   position: relative;
@@ -106,4 +97,3 @@ const SiteFooterNav = styled.nav`
     }
   }
 `;
-

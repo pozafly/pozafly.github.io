@@ -7,7 +7,6 @@ import { colors } from '../styles/colors';
 
 const renderAst = new RehypeReact({
   createElement: React.createElement,
-  // components: { 'interactive-counter': Counter },
   components: {},
 }).Compiler;
 
@@ -16,18 +15,17 @@ const Ast = ({ ast, ...props }: any) => {
   return renderAst(ast);
 };
 
-export interface PostContentProps {
+export type PostContentProps = {
   htmlAst: any;
-}
+};
 
-const PostContent: React.FC<PostContentProps> = ({ htmlAst }) => {
+function PostContent({ htmlAst }: PostContentProps) {
   return (
     <PostFullContent className="post-full-content">
-      {/* TODO: this will apply the class when rehype-react is published https://github.com/rhysd/rehype-react/pull/11 */}
       <Ast className="post-content" ast={htmlAst} />
     </PostFullContent>
   );
-};
+}
 
 export const PostFullContent = styled.section`
   position: relative;
@@ -128,10 +126,10 @@ export const PostFullContent = styled.section`
   img,
   video {
     display: block;
-    margin: 3em auto;
+    margin: 2em auto;
     max-width: 840px;
     height: auto;
-    border-radius: 15px;
+    border-radius: 6px;
     box-shadow: rgba(0, 0, 0, 0.3) 0 0 23px;
   }
   @media (max-width: 1040px) {
@@ -181,30 +179,18 @@ export const PostFullContent = styled.section`
   }
 
   code {
-    padding: 0.15em 0.5em;
-    margin: 0 0.25em;
-    /* padding: 0 5px 2px; */
+    padding: 0 5px 2px;
     font-size: 0.8em;
     line-height: 1em;
-    font-weight: 500 !important;
+    font-weight: 400 !important;
     /* background: var(--whitegrey); */
-    word-break: keep-all;
-    border-radius: 0.3em;
-    color: white;
-    background: rgb(60, 65, 72);
+    background: ${colors.whitegrey};
+    border-radius: 3px;
     font-family: -apple-system, BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans','Ubuntu','Droid Sans','Helvetica Neue',sans-serif;
   }
 
   p code {
-    border-radius: 0.3em;
-    background: rgb(60, 65, 72);
-    color: white;
-    padding: 0.15em 0.5em;
-    margin: 0 0.25em;
     word-break: keep-all;
-    white-space: normal;
-    font-weight: 500 !important;
-    font-family: -apple-system, BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans','Ubuntu','Droid Sans','Helvetica Neue',sans-serif;
   }
 
   pre {
@@ -480,16 +466,8 @@ export const PostFullContent = styled.section`
     }
 
     code {
-      /* color: #fff; */
-      /* background: #000; */
-      border-radius: 0.3em;
-      background: rgb(60, 65, 72);
-      color: white;
-      padding: 0.15em 0.5em;
-      margin: 0 0.25em;
-      white-space: normal;
-      font-weight: 500 !important;
-      font-family: -apple-system, BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans','Ubuntu','Droid Sans','Helvetica Neue',sans-serif;
+      color: #fff;
+      background: #000;
     }
 
     hr {
@@ -550,7 +528,7 @@ export const PostFullContent = styled.section`
   pre[class*='language-'] {
     color: white;
     background: none;
-    font-family: -apple-system, BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans','Ubuntu','Droid Sans','Helvetica Neue',sans-serif;
+    font-family: Consolas, Menlo, Monaco, source-code-pro, Courier New, monospace;
     font-feature-settings: normal;
     text-align: left;
     white-space: pre;

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands, @typescript-eslint/no-var-requires */
 const path = require('path');
 const _ = require('lodash');
+const readingTime = require('reading-time');
 
 exports.onCreateNode = ({ node, actions, getNode }) => {
   const { createNodeField } = actions;
@@ -40,6 +41,12 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
         name: 'primaryTag',
         value: primaryTag || '',
       });
+
+      createNodeField({
+        node,
+        name: 'readingTime',
+        value: readingTime(node.rawMarkdownBody),
+      });
     }
   }
 };
@@ -51,13 +58,12 @@ exports.createPages = async ({ graphql, actions }) => {
     {
       allMarkdownRemark(
         limit: 2000
-        sort: { fields: [frontmatter___date, frontmatter___title], order: ASC }
+        sort: { frontmatter: { date: DESC } }
         filter: { frontmatter: { draft: { ne: true } } }
       ) {
         edges {
           node {
             excerpt
-            timeToRead
             frontmatter {
               title
               tags
@@ -66,34 +72,23 @@ exports.createPages = async ({ graphql, actions }) => {
               excerpt
               image {
                 childImageSharp {
-                  fluid(maxWidth: 2000) {
-                    aspectRatio
-                    base64
-                    sizes
-                    src
-                    srcSet
-                  }
+                  gatsbyImageData(placeholder: BLURRED, layout: FULL_WIDTH)
                 }
               }
               author {
-                id
+                name
                 bio
                 avatar {
-                  children {
-                    ... on ImageSharp {
-                      fluid(quality: 100) {
-                        aspectRatio
-                        base64
-                        sizes
-                        src
-                        srcSet
-                      }
-                    }
+                  childImageSharp {
+                    gatsbyImageData(placeholder: BLURRED, layout: FULL_WIDTH)
                   }
                 }
               }
             }
             fields {
+              readingTime {
+                text
+              }
               layout
               slug
             }
@@ -104,6 +99,7 @@ exports.createPages = async ({ graphql, actions }) => {
         edges {
           node {
             id
+            name
           }
         }
       }
@@ -167,12 +163,12 @@ exports.createPages = async ({ graphql, actions }) => {
   const tagTemplate = path.resolve('./src/templates/tags.tsx');
   const tags = _.uniq(
     _.flatten(
-      result.data.allMarkdownRemark.edges.map(edge => {
-        return _.castArray(_.get(edge, 'node.frontmatter.tags', []));
-      }),
-    ),
+      result.data.allMarkdownRemark.edges.map((edge) =>
+        _.castArray(_.get(edge, 'node.frontmatter.tags', []))
+      )
+    )
   );
-  tags.forEach(tag => {
+  tags.forEach((tag) => {
     createPage({
       path: `/tags/${_.kebabCase(tag)}/`,
       component: tagTemplate,
@@ -184,12 +180,12 @@ exports.createPages = async ({ graphql, actions }) => {
 
   // Create author pages
   const authorTemplate = path.resolve('./src/templates/author.tsx');
-  result.data.allAuthorYaml.edges.forEach(edge => {
+  result.data.allAuthorYaml.edges.forEach((edge) => {
     createPage({
-      path: `/author/${_.kebabCase(edge.node.id)}/`,
+      path: `/author/${_.kebabCase(edge.node.name)}/`,
       component: authorTemplate,
       context: {
-        author: edge.node.id,
+        author: edge.node.name,
       },
     });
   });

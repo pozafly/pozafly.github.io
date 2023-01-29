@@ -23,18 +23,10 @@ export const SiteNavMain = css`
   right: 0;
   left: 0;
   z-index: 1000;
+  backdrop-filter: blur(8px);
+  background: transparent;
+  /* background: color(var(--darkgrey) l(-5%)); */
   /* background: ${lighten('-0.05', colors.darkgrey)}; */
-  background: rgba(20,22,26,.78);
-
-  @media (prefers-color-scheme: light) {
-    background: hsla(0,0%,100%,.8);
-    border-bottom: 1px solid #e9eef1;
-  }
-
-  @media (max-width: 700px) {
-    padding-right: 0;
-    padding-left: 0;
-  }
 `;
 
 export const SiteMain = css`
@@ -106,27 +98,16 @@ export const SocialLink = css`
 
   svg {
     height: 1.8rem;
-    fill: #fff;
-
-    @media (prefers-color-scheme: light) {
-      fill: black;
+    fill: #000;
+    @media (prefers-color-scheme: dark) {
+      fill: #fff;
     }
   }
-`;
 
-export const WhiteSocialLink = css`
-  display: inline-block;
-  margin: 0;
-  padding: 10px;
-  opacity: 0.8;
-
-  :hover {
-    opacity: 1;
-  }
-
-  svg {
-    height: 1.8rem;
-    fill: #fff;
+  &.is-home {
+    svg {
+      fill: #fff;
+    }
   }
 `;
 
@@ -144,7 +125,7 @@ export const SiteHeaderContent = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 3vw 3vw;
+  /* padding: 3vw; */
   min-height: 200px;
   max-height: 340px;
 `;
@@ -157,18 +138,13 @@ export const SiteHeaderStyles = css`
   /* background: color(var(--darkgrey) l(-5%)) no-repeat center center; */
   background: ${lighten('-0.05', colors.darkgrey)} no-repeat center center;
   background-size: cover;
-  /* height: 378px; */
   height: 35rem;
-
   @media (max-width: 780px) {
-    /* height: 340px; */
     height: 28rem;
   }
   @media (max-width: 500px) {
-    /* height: 300px; */
     height: 25rem;
   }
-  
 
   :before {
     content: '';
@@ -180,7 +156,6 @@ export const SiteHeaderStyles = css`
     z-index: 10;
     display: block;
     background: rgba(0, 0, 0, 0.18);
-    /* background: rgba(0,0,0,.6); */
   }
   :after {
     content: '';
@@ -192,8 +167,6 @@ export const SiteHeaderStyles = css`
     z-index: 10;
     display: block;
     height: 100%;
-    /* background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0)); */
-    /* background: linear-gradient(rgba(0,0,0,.15),#191b1f); */
     background: linear-gradient(rgba(0,0,0,.15),#fff);
   }
 
@@ -202,7 +175,7 @@ export const SiteHeaderStyles = css`
       background: rgba(0, 0, 0, 0.6);
     }
     :after {
-      background: linear-gradient(rgba(0,0,0,.15),#191b1f);
+      background: linear-gradient(rgba(0,0,0,0.02),#191b1f);
     }
   }
 `;
@@ -225,7 +198,7 @@ export const SiteArchiveHeader = css`
   .site-header-content {
     position: relative;
     align-items: stretch;
-    padding: 12vw 0 20px;
+    /* padding: 12vw 0 20px; */
     min-height: 200px;
     max-height: 600px;
   }
@@ -237,8 +210,8 @@ export const SiteHeaderBackground = css`
 
 export const ResponsiveHeaderBackground = styled.div<{ backgroundImage?: string }>`
   ${p =>
-    p.backgroundImage &&
-    `
+    p.backgroundImage
+    && `
     position: relative;
     margin-top: 64px;
     padding-bottom: 12px;
@@ -281,8 +254,8 @@ export const ResponsiveHeaderBackground = styled.div<{ backgroundImage?: string 
   `}
 
   ${p =>
-    !p.backgroundImage &&
-    `
+    !p.backgroundImage
+    && `
 
     padding-top: 0;
     padding-bottom: 0;
@@ -299,7 +272,7 @@ export const ResponsiveHeaderBackground = styled.div<{ backgroundImage?: string 
   }
 
   .site-header-content {
-    padding: 5vw 0 10px;
+    // padding: 0px 5vw;
     /* border-bottom: 1px solid color(var(--lightgrey) l(+12%)); */
     border-bottom: 1px solid ${lighten('0.12', colors.lightgrey)};
   }
@@ -350,7 +323,7 @@ export const ResponsiveHeaderBackground = styled.div<{ backgroundImage?: string 
     }
 
     .site-header-content {
-      padding: 12vw 0 20px;
+      // padding: 12vw 0 20px;
     }
 
     .author-header {
@@ -392,7 +365,7 @@ export const NoImage = css`
   }
 
   .no-image .site-header-content {
-    padding: 5vw 0 10px;
+    /* padding: 5vw 0 10px; */
     /* border-bottom: 1px solid color(var(--lightgrey) l(+12%)); */
     border-bottom: 1px solid ${lighten('0.12', colors.lightgrey)};
   }
@@ -439,7 +412,7 @@ export const NoImage = css`
     }
 
     .no-image .site-header-content {
-      padding: 12vw 0 20px;
+      /* padding: 12vw 0 20px; */
     }
   }
   @media (prefers-color-scheme: dark) {

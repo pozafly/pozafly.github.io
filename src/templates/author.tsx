@@ -2,7 +2,7 @@ import { graphql } from 'gatsby';
 import React from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import { FluidObject } from 'gatsby-image';
+import { getSrc } from 'gatsby-plugin-image';
 
 import { Footer } from '../components/Footer';
 import SiteNav from '../components/header/SiteNav';
@@ -23,11 +23,11 @@ import {
   ResponsiveHeaderBackground,
   SiteHeaderBackground,
 } from '../styles/shared';
-import { PageContext } from './post';
+import type { PageContext } from './post';
 import { Helmet } from 'react-helmet';
 import config from '../website-config';
 
-interface AuthorTemplateProps {
+type AuthorTemplateProps = {
   location: Location;
   data: {
     logo: {
@@ -42,27 +42,19 @@ interface AuthorTemplateProps {
       }>;
     };
     authorYaml: {
-      id: string;
+      name: string;
       website?: string;
       github?: string;
       instagram?: string;
       location?: string;
-      profile_image?: {
-        childImageSharp: {
-          fluid: FluidObject;
-        };
-      };
+      profile_image?: any;
       bio?: string;
-      avatar: {
-        childImageSharp: {
-          fluid: FluidObject;
-        };
-      };
+      avatar: any;
     };
   };
-}
+};
 
-const Author = ({ data, location }: AuthorTemplateProps) => {
+function Author({ data, location }: AuthorTemplateProps) {
   const author = data.authorYaml;
 
   const edges = data.allMarkdownRemark.edges.filter(edge => {
@@ -71,7 +63,7 @@ const Author = ({ data, location }: AuthorTemplateProps) => {
     let authorParticipated = false;
     if (edge.node.frontmatter.author) {
       edge.node.frontmatter.author.forEach(element => {
-        if (element.id === author.id) {
+        if (element.name === author.name) {
           authorParticipated = true;
         }
       });
@@ -86,17 +78,17 @@ const Author = ({ data, location }: AuthorTemplateProps) => {
       <Helmet>
         <html lang={config.lang} />
         <title>
-          {author.id} - {config.title}
+          {author.name} - {config.title}
         </title>
         <meta name="description" content={author.bio} />
         <meta property="og:site_name" content={config.title} />
         <meta property="og:type" content="profile" />
-        <meta property="og:title" content={`${author.id} - ${config.title}`} />
+        <meta property="og:title" content={`${author.name} - ${config.title}`} />
         <meta property="og:url" content={config.siteUrl + location.pathname} />
-        <meta property="article:publisher" content="https://www.facebook.com/ghost" />
-        <meta property="article:author" content="https://www.facebook.com/ghost" />
+        <meta property="article:publisher" content="https://www.instagram.com/pozafly_" />
+        <meta property="article:author" content="https://www.instagram.com/pozafly_" />
         <meta name="github:card" content="summary" />
-        <meta name="github:title" content={`${author.id} - ${config.title}`} />
+        <meta name="github:title" content={`${author.name} - ${config.title}`} />
         <meta name="github:url" content={config.siteUrl + location.pathname} />
         {config.github && (
           <meta
@@ -120,7 +112,7 @@ const Author = ({ data, location }: AuthorTemplateProps) => {
           </div>
 
           <ResponsiveHeaderBackground
-            backgroundImage={author.profile_image?.childImageSharp.fluid.src}
+            backgroundImage={getSrc(author.profile_image)}
             css={[outer, SiteHeaderBackground]}
             className="site-header-background"
           >
@@ -129,11 +121,11 @@ const Author = ({ data, location }: AuthorTemplateProps) => {
                 <img
                   style={{ marginTop: '8px' }}
                   css={[AuthorProfileImage, AuthorProfileBioImage]}
-                  src={data.authorYaml.avatar.childImageSharp.fluid.src}
-                  alt={author.id}
+                  src={getSrc(data.authorYaml.avatar)}
+                  alt={author.name}
                 />
                 <AuthHeaderContent className="author-header-content">
-                  <SiteTitle className="site-title">{author.id}</SiteTitle>
+                  <SiteTitle className="site-title">{author.name}</SiteTitle>
                   {author.bio && <AuthorBio className="author-bio">{author.bio}</AuthorBio>}
                   <div css={AuthorMeta} className="author-meta">
                     {author.location && (
@@ -160,7 +152,7 @@ const Author = ({ data, location }: AuthorTemplateProps) => {
                     {author.github && (
                       <AuthorSocialLink className="author-social-link">
                         <AuthorSocialLinkAnchor
-                          href={`https://github.com/pozafly`}
+                          href={`https://github.com/${author.github}`}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
@@ -171,7 +163,7 @@ const Author = ({ data, location }: AuthorTemplateProps) => {
                     {author.instagram && (
                       <AuthorSocialLink className="author-social-link">
                         <AuthorSocialLinkAnchor
-                          href={`https://www.instagram.com/pozafly_/`}
+                          href={`https://www.instagram.com/${author.instagram}`}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
@@ -188,9 +180,9 @@ const Author = ({ data, location }: AuthorTemplateProps) => {
         <main id="site-main" css={[SiteMain, outer]}>
           <div css={inner}>
             <div css={[PostFeed]}>
-              {edges.map(({ node }) => {
-                return <PostCard key={node.fields.slug} post={node} />;
-              })}
+              {edges.map(({ node }) => (
+                <PostCard key={node.fields.slug} post={node} />
+              ))}
             </div>
           </div>
         </main>
@@ -198,12 +190,12 @@ const Author = ({ data, location }: AuthorTemplateProps) => {
       </Wrapper>
     </IndexLayout>
   );
-};
+}
 
 export const pageQuery = graphql`
-  query($author: String) {
-    authorYaml(id: { eq: $author }) {
-      id
+  query ($author: String) {
+    authorYaml(name: { eq: $author }) {
+      name
       website
       github
       bio
@@ -211,28 +203,23 @@ export const pageQuery = graphql`
       location
       profile_image {
         childImageSharp {
-          fluid(maxWidth: 3720, quality: 60) {
-            ...GatsbyImageSharpFluid
-          }
+          gatsbyImageData(layout: FULL_WIDTH)
         }
       }
       avatar {
         childImageSharp {
-          fluid(quality: 100, srcSetBreakpoints: [40, 80, 120]) {
-            ...GatsbyImageSharpFluid
-          }
+          gatsbyImageData(quality: 100, breakpoints: [40, 80, 120], layout: FULL_WIDTH)
         }
       }
     }
     allMarkdownRemark(
       filter: { frontmatter: { draft: { ne: true } } }
-      sort: { fields: [frontmatter___date], order: DESC }
+      sort: { frontmatter: { date: DESC } }
       limit: 2000
     ) {
       edges {
         node {
           excerpt
-          timeToRead
           frontmatter {
             title
             excerpt
@@ -241,26 +228,23 @@ export const pageQuery = graphql`
             draft
             image {
               childImageSharp {
-                fluid(maxWidth: 3720, quality: 60) {
-                  ...GatsbyImageSharpFluid
-                }
+                gatsbyImageData(layout: FULL_WIDTH)
               }
             }
             author {
-              id
+              name
               bio
               avatar {
-                children {
-                  ... on ImageSharp {
-                    fluid(quality: 100) {
-                      ...GatsbyImageSharpFluid
-                    }
-                  }
+                childImageSharp {
+                  gatsbyImageData(layout: FULL_WIDTH)
                 }
               }
             }
           }
           fields {
+            readingTime {
+              text
+            }
             layout
             slug
           }
