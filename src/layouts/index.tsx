@@ -500,6 +500,30 @@ function IndexLayout(props: IndexProps) {
             background: #fff;
           }
 
+          h1, h2, h3, h4, h5, h6 {
+            a.auto-link svg {
+              opacity: 0;
+              transition: 0.25s ease;      
+            }
+            &:hover {
+              a.auto-link svg {
+                opacity: 1;
+              }   
+            }
+          }
+
+          a.auto-link {
+            box-shadow: none !important;
+            svg {
+              fill: #0a0b0c !important;
+            }
+            
+            &:hover {
+              box-shadow: none !important;
+              
+            }
+          }
+
           @media (prefers-color-scheme: dark) {
             body {
               color: rgba(255, 255, 255, 0.75);
@@ -507,6 +531,11 @@ function IndexLayout(props: IndexProps) {
             }
             img {
               opacity: 0.9;
+            }
+            a.auto-link {
+              svg {
+                fill: rgba(255, 255, 255, 0.9) !important;
+              }
             }
           }
         `}
