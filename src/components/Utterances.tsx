@@ -26,7 +26,7 @@ const Utterances: React.FC<IUtterancesProps> = React.memo(({ repo }) => {
       utterances.setAttribute(key, value);
     });
 
-    containerRef.current.appendChild(utterances);
+    containerRef.current?.appendChild(utterances);
   }, [repo]);
 
   return <div ref={containerRef} />;

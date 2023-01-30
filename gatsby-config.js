@@ -64,7 +64,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-canonical-urls',
       options: {
-        siteUrl: 'pozafly.github.io',
+        siteUrl: 'https://pozafly.github.io',
       },
     },
     'gatsby-plugin-typescript',
