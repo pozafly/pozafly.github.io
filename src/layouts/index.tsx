@@ -139,7 +139,6 @@ function IndexLayout(props: IndexProps) {
           html {
             box-sizing: border-box;
             font-family: sans-serif;
-            scroll-behavior: smooth;
             -ms-text-size-adjust: 100%;
             -webkit-text-size-adjust: 100%;
           }
