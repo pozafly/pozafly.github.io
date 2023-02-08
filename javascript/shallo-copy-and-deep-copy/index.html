@@ -126,7 +126,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>obj의 프로퍼티의 값을 재할당하면, obj이 가지고 있는 메모리 주소는 변경되지 않고 obj.a가 가지고 있는 주소가 변경된다. 즉, ‘새로운 객체’가 만들어진 것이 아니라 기존 객체 내부의 값만 바뀐 것이다.</p>
 <br/>
 <h2 id="깊은-복사란" style="position:relative">깊은 복사란?<a href="#%EA%B9%8A%EC%9D%80-%EB%B3%B5%EC%82%AC%EB%9E%80" aria-label="깊은 복사란 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
-<p>여기서 말하는 **‘복사’**란, 원본을 베낌. 종이를 포개고 그 사이사이에 복사지를 받쳐 한 번에 여러 장을 쓴다는 의미를 가지고 있다. 즉 동일한 내용을 그대로 다른 곳에서 사용하는 것을 말한다.</p>
+<p>여기서 말하는 ’<strong>복사</strong>‘란, 원본을 베낌. 종이를 포개고 그 사이사이에 복사지를 받쳐 한 번에 여러 장을 쓴다는 의미를 가지고 있다. 즉 동일한 내용을 그대로 다른 곳에서 사용하는 것을 말한다.</p>
 <p>그리고, 깊은 복사란, 기존 값의 모든 참조가 끊어지는 것을 말한다. 특히 복사할 때, 참조형 타입 값(객체)에서 내부에 있는 모든 값이 새로운 값이 되는 것을 말한다.</p>
 <h3 id="기본형-타입의-깊은-복사" style="position:relative">기본형 타입의 깊은 복사<a href="#%EA%B8%B0%EB%B3%B8%ED%98%95-%ED%83%80%EC%9E%85%EC%9D%98-%EA%B9%8A%EC%9D%80-%EB%B3%B5%EC%82%AC" aria-label="기본형 타입의 깊은 복사 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
 <p>자바스크립트에서는 할당 연산자(<code class="language-text">=</code>)를 사용해 쉽게 복사를 할 수 있다.</p>
@@ -134,7 +134,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token keyword">var</span> b <span class="token operator">=</span> a<span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 10</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 10</span></code></pre></div>
-<p>b에 10을 직접 할당해주지 않아도 a를 할당 했기 때문에 10이라는 값이 도출된다. 하지만, 정확하게 말하자면 할당 연산자(<code class="language-text">=</code>)는 객체를 복사해서 값에 집어 넣는 것이 아니다. 단지 a 가 가지고 있는 주소를 b에게 주어 b도 그 대상을 바라보게 만든 것이다. 기본형 타입은 ‘불변값’ 이라고 했다. 기본형 타입의 값을 재할당 할 때는 기존 값을 변경하는 것이 아닌 새로 만들어 주소 값을 준다는 의미였다. 따라서, a와 b는 메모리 공간에 생성된 10의 주소값을 가지고 있다.</p>
+<p>b에 10을 직접 할당해주지 않아도 a를 할당 했기 때문에 10이라는 값이 도출된다. 하지만, 정확하게 말하자면 할당 연산자(<code class="language-text">=</code>)는 객체를 복사해서 값에 집어 넣는 것이 아니 다. 단지 a가 가지고 있는 주소를 b에게 주어 b도 그 대상을 바라보게 만든 것이다. 기본형 타입은 ‘불변값’ 이라고 했다. 기본형 타입의 값을 재할당 할 때는 기존 값을 변경하는 것이 아닌 새로 만들어 주소 값을 준다는 의미였다. 따라서, a와 b는 메모리 공간에 생성된 10의 주소값을 가지고 있다.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
 <span class="token keyword">var</span> b <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a <span class="token operator">===</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
@@ -168,7 +168,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <ul>
 <li>obj1과 obj2가 가지고 있는 주소 값이 동일하기 때문에 true가 나왔다.</li>
 <li>obj2의 a프로퍼티의 값을 20으로 재할당했다.</li>
-<li>obj1, obj2의 값의 a 프  로퍼티 모두 20으로 변경되었다.</li>
+<li>obj1, obj2의  값의 a 프로퍼티 모두 20으로 변경되었다.</li>
 <li>여전히 obj1과 obj2가 가지고 있는 주소 값이 동일하다.</li>
 </ul>
 <p>결과가 나온 이유는, obj2의 ’<strong>프로퍼티</strong>‘를 변경시켰기 때문이다. 프로퍼티 a가 바라보고 있는 주소 자체는 변경되었지만 obj1, obj2가 프로퍼티 ‘그룹’을 바라보는 주소자체는 변경되지 않은 것이다. 이렇게 객체 자체의 참조 값을 할당하면, 깊은 복사가 일어나지 않는다.</p>
@@ -200,7 +200,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>깊은 복사를 사용하면 복사했을 때 값은 동일하지만, 객체 내부의 값을 변경해도 서로 영향을 주지 않고 격리된 값을 보장한다. 원시값과 달리 객체는 변경이 가능한 ‘가변값’이며 프로퍼티의 집합이다. 클래스에 정의된 멤버대로 객체를 생성하는 자바같은 경우 객체가 생성된 이후 멤버를 추가할 수 없다. 하지만, 자바스크립트는 객체 생성 이후에도 프로퍼티를 추가하거나 삭제하는 등 변경할 수 있다. 따라서, 깊은 복사를 통해 객체를 복사하지 않으면 객체 사이의 관계가 생성되어 예기치 못한 오류가 발생할 수 있다.</p>
 <br/>
 <h2 id="얕은-복사란" style="position:relative">얕은 복사란?<a href="#%EC%96%95%EC%9D%80-%EB%B3%B5%EC%82%AC%EB%9E%80" aria-label="얕은 복사란 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
-<p>얕은 복사란 참조형 타입의 값의 바로 아래 단계의 값만 복사하는 방 법이다.</p>
+<p>얕은 복사란 참조형 타입의 값의 바로 아래 단계의 값만 복  사하는 방법이다.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">var</span> obj1 <span class="token operator">=</span> <span class="token punctuation">{</span>
    <span class="token literal-property property">a</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
    <span class="token literal-property property">b</span><span class="token operator">:</span> <span class="token punctuation">{</span>
@@ -210,7 +210,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token keyword">var</span> obj2 <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token operator">...</span>obj1 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>obj1 <span class="token operator">===</span> obj2<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>obj1<span class="token punctuation">.</span>b <span class="token operator">===</span> obj2<span class="token punctuation">.</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span></code></pre></div>
-<p>두 개의 객체는 다른 주소를 가지고 있지만, 객체 안 프로퍼티는 동일한 주소를 가지고 있다. 쉽게 말하면 <code class="language-text">{}</code> 이 껍데기는 새로 생성된 객체이며 새로운 주소를 갖게 되었고 spread 연산자로 풀어진 프로퍼티들은 처음 선언된 obj1의 프로퍼티들이 사용되었다.</p>
+<p>두 개의 객체는 다른 주소를 가지고 있지만, 객체 안 프로퍼티는 동일한 주소를 가지고 있다. 쉽게 말하면 <code class="language-text">{}</code> 이 껍데기는 새로 생성된 객체이며 새로운 주 소를 갖게 되었고 spread 연산자로 풀어진 프로퍼티들은 처음 선언된 obj1의 프로퍼티들이 사용되었다.</p>
 <p>얕은 복사는 후술할 React, Vue.js에서 중요한 개념으로 다루어진다. 얕은 복사를 만드는 방법은 위에 사용한 spread 연산자를 통해 만들 수도 있고 다른 방법으로도 만들 수 있다. spread 연산자는 객체 뿐 아니라 배열에서도 동일하게 동작한다.</p>
 <h3 id="Objectassign" style="position:relative">Object.assign()<a href="#Objectassign" aria-label="Objectassign permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
 <p>assign은 ‘할당’이라는 뜻을 가지고 있으며 객체와 객체를 합쳐주는 메서드다.</p>
@@ -336,7 +336,7 @@ Vue도 react와 마찬가지로 props와 상태값(data)을 변경하면 DOM을 
    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre></div>
 <p>Vue 내부에 있는 소스 코드다. Object.defineProperty로 getter/setter를 만들어주고, 중요한 것은 setter의 <code class="language-text">observe()</code> 다. observe를 따라 끝까지 올라가다보면, <code class="language-text">update</code> 라는 function을 만날 수 있다.</p>
-<p>또, Vue 내부적으로 사용하는 <code class="language-text">Vue.$set()</code> 메서드가 있다. 이는 상태값(data)에 선언되지 않았지만, 객체를 새로 생성해 반응  형을 주입할 수 있는 메서드다. <code class="language-text">$set()</code> 메서드를 따라가다 보면 위에서 사용된 <code class="language-text">defineReactive$$1</code> function을 만날 수 있다.</p>
+<p>또, Vue 내부적으로 사용하는 <code class="language-text">Vue.$set()</code> 메서드가 있다. 이는 상태값(data)에 선언되지 않았지만, 객체를 새로 생 성해 반응형을 주입할 수 있는 메서드다. <code class="language-text">$set()</code> 메서드를 따라가다 보면 위에서 사용된 <code class="language-text">defineReactive$$1</code> function을 만날 수 있다.</p>
 <p>Vue에서 ‘깊은 복사’를 사용하는 경우가 있다. 이는 컴포넌트에 주입된 props에 붙어있는 observer를 떼어내고 순수한 객체 그대로를 가공해야할 경우 사용한다. 또한 변경되기 전의 값을 가지고 비교를 해야할 때 깊은 복사를 사용해 변경 전 값을 가지고 있고, 앞으로 변경 가능성이 있는 객체는 그대로 두고 사용한다.</p>
 <blockquote>
 <p>참고</p>
