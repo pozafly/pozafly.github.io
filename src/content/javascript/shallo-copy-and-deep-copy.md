@@ -7,7 +7,7 @@ tags:
 date: '2023-02-08'
 image: ../img/javascript/deep-copy-shallow-copy.png
 draft: false
-excerpt: JavaScript의 얕은 복사와 깊은 복사로 알아보는 객체의 특성.
+excerpt: JavaScript의 얕은 복사와 깊은 복사로 알아보는 객체의 특성. (feat. React, Vue.js)
 ---
 
 <br/>
@@ -18,6 +18,7 @@ JavaScript에서 객체란, 키로 구분된 데이터 집합이나 복잡한 �
 
 
 ## 데이터 타입
+
 JavaScript의 얕은 복사와 깊은 복사를 알아보기전에 데이터 타입에 대해서 알아보자. 크게 2종류로 분류할 수 있다.
 - 기본형(Primitive) 타입
 - 참조형(Reference) 타입
@@ -49,7 +50,7 @@ var obj = {
 
 <img width="1157" alt="스크린샷 2023-02-07 오후 8 04 24" src="https://user-images.githubusercontent.com/59427983/217228274-5af5ff74-f2d6-44f0-a260-e658ebc1c508.png">
 
-(출처 : 코어 자바스크립트)
+(Note : 코어 자바스크립트 책의 그림을 다시 그렸습니다.)
 
 1. obj라는 식별자를 가진 변수를 선언하고 참조형 타입인 객체 하나를 할당했다. 기본형과 동일하게 메모리 공간(@1002)을 하나 확보하고 obj라는 식별자를 주었다. 그리고 값을 저장하려고 다른 메모리 공간(@5001)을 하나 더 확보했더니 기본형으로 저장해야 하는 값이 여러 개가 들어있다.
 2. 이 프로퍼티들을 저장하기 위해 방금 새로 확보한 공간 외 프로퍼티 갯수에 맞게 또 여러 개의 공간(@7103, @7104)을 확보하고 식별자를 지정한다. (위 코드에서는 2개 더 있기 때문에 영역을 2개 더 확보했다.)
@@ -264,6 +265,7 @@ var copyShallo = function(obj) {
 얕은 복사를 하면 한 단계만 복사하기 때문에 중첩된 객체에 대해서는 서로 영향을 주고, 깊은 복사는 중첩된 객체 역시 별개의 값으로서 서로 영향을 주지 않는다.
 
 <br/>
+<br/>
 
 ## react, vue에서 사용하는 복사
 
@@ -362,22 +364,19 @@ function defineReactive$$1 (
       },
       set: function reactiveSetter (newVal) {
          var value = getter ? getter.call(obj) : val;
-         /* eslint-disable no-self-compare */
+         
          if (newVal === value || (newVal !== newVal && value !== value)) {
             return
          }
-         /* eslint-enable no-self-compare */
-         if (customSetter) {
-            customSetter();
-         }
-         // #7981: for accessor properties without setter
-         if (getter && !setter) { return }
+
+         (...)
+
          if (setter) {
             setter.call(obj, newVal);
          } else {
             val = newVal;
          }
-         childOb = !shallow && observe(newVal);
+         childOb = !shallow && observe(newVal); // observe 메서드 사용
          dep.notify();
       }
    });
