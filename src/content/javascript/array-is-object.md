@@ -172,3 +172,9 @@ Array.prototype.forEach.call(obj, v => console.log(v));
 const newObj = Array.from(obj);
   newObj.forEach(v => console.log(v));
 ```
+
+> 참고
+>
+> - https://developer.mozilla.org/ko/docs/Learn/JavaScript/First_steps/Arrays
+> - https://poiemaweb.com/js-array-is-not-arrray
+> - https://www.zerocho.com/category/JavaScript/post/5af6f9e707d77a001bb579d2
