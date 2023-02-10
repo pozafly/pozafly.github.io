@@ -70,29 +70,30 @@
 <p>SpringBoot 쪽 서비스 로직이 만들어졌으므로 이번엔 vue에서 화면을 만들고 회원가입과 로그인을 진행해보자. 우리는 vue의 기능을 최대한 살려서 뼈대가 되는 페이지 하나에 login과 signup 2개의 컴포넌트를 붙이고 watch를 활용해 데이터를 검증할 것이다.</p>
 </blockquote>
 <p><img src="https://user-images.githubusercontent.com/59427983/107032048-83748780-67f6-11eb-82a0-610a4d442113.gif" alt="1113"/></p>
-<h2 id="vue-router" style="position:relative">vue-router<a href="#vue-router" aria-label="vue router permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
-<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// routes/index.js</span>
+<h2>vue-router</h2>
+<pre><code class="language-js">// routes/index.js
 
-<span class="token punctuation">{</span>
-      <span class="token comment">// 중첩된 라우트 : 한 페이지에 url에 따라서 다른 컴포넌트를 보여야 할 때 사용.</span>
-      <span class="token literal-property property">path</span><span class="token operator">:</span> <span class="token string">&#x27;/auth&#x27;</span><span class="token punctuation">,</span>
-      <span class="token literal-property property">redirect</span><span class="token operator">:</span> <span class="token string">&#x27;/auth/login&#x27;</span><span class="token punctuation">,</span>
-      <span class="token function-variable function">component</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">&#x27;@/views/AuthPage&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-      <span class="token literal-property property">children</span><span class="token operator">:</span> <span class="token punctuation">[</span>
-        <span class="token punctuation">{</span>
-          <span class="token literal-property property">path</span><span class="token operator">:</span> <span class="token string">&#x27;login&#x27;</span><span class="token punctuation">,</span>
-          <span class="token function-variable function">component</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">&#x27;@/components/auth/LoginForm&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-        <span class="token punctuation">}</span><span class="token punctuation">,</span>
-        <span class="token punctuation">{</span>
-          <span class="token literal-property property">path</span><span class="token operator">:</span> <span class="token string">&#x27;signup&#x27;</span><span class="token punctuation">,</span>
-          <span class="token function-variable function">component</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">&#x27;@/components/auth/SignupForm&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-        <span class="token punctuation">}</span><span class="token punctuation">,</span>
-        <span class="token punctuation">{</span>
-          <span class="token literal-property property">path</span><span class="token operator">:</span> <span class="token string">&#x27;findPassword&#x27;</span><span class="token punctuation">,</span>
-          <span class="token function-variable function">component</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">&#x27;@/components/auth/FindPassword&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-        <span class="token punctuation">}</span><span class="token punctuation">,</span>
-      <span class="token punctuation">]</span><span class="token punctuation">,</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre></div>
+{
+      // 중첩된 라우트 : 한 페이지에 url에 따라서 다른 컴포넌트를 보여야 할 때 사용.
+      path: &#x27;/auth&#x27;,
+      redirect: &#x27;/auth/login&#x27;,
+      component: () =&gt; import(&#x27;@/views/AuthPage&#x27;),
+      children: [
+        {
+          path: &#x27;login&#x27;,
+          component: () =&gt; import(&#x27;@/components/auth/LoginForm&#x27;),
+        },
+        {
+          path: &#x27;signup&#x27;,
+          component: () =&gt; import(&#x27;@/components/auth/SignupForm&#x27;),
+        },
+        {
+          path: &#x27;findPassword&#x27;,
+          component: () =&gt; import(&#x27;@/components/auth/FindPassword&#x27;),
+        },
+      ],
+    },
+</code></pre>
 <p>먼저 라우터 설계부터 해주자.</p>
 <ul>
 <li>
@@ -102,265 +103,273 @@
 <p>children에 배열로 login과 signup, findPassword 가 있다. 뼈대 Page에 &lt;router-view&gt; 태그로 뿌려질 컴포넌트들이 선언되어 있는 것.</p>
 </li>
 <li>
-<p>그리고 여기서 보면 알겠지만 보통 import 구문을 routes/index.js 파일 맨 윗쪽에 놓고 component에다 쓰지만 여긴 화살표 함수 뒤에 적혀있다. 이는 vue-router의 <code class="language-text">lazy loading</code>이란 기법이다. 해당 url로 라우팅 되었을 때 로드해준다. 프로젝트 규모가 커졌을 때 첫 로딩이 길어지지 않도록 하는 것.</p>
+<p>그리고 여기서 보면 알겠지만 보통 import 구문을 routes/index.js 파일 맨 윗쪽에 놓고 component에다 쓰지만 여긴 화살표 함수 뒤에 적혀있다. 이는 vue-router의 <code>lazy loading</code>이란 기법이다. 해당 url로 라우팅 되었을 때 로드해준다. 프로젝트 규모가 커졌을 때 첫 로딩이 길어지지 않도록 하는 것.</p>
 </li>
 </ul>
 <br/>
-<h2 id="뼈대-Page" style="position:relative">뼈대 Page<a href="#%EB%BC%88%EB%8C%80-Page" aria-label="뼈대 Page permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
-<h3 id="AuthPagevue" style="position:relative">AuthPage.vue<a href="#AuthPagevue" aria-label="AuthPagevue permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
-<div class="gatsby-highlight" data-language="html"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">&gt;</span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>page<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>header</span><span class="token punctuation">&gt;</span></span>
-      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>header-wrap<span class="token punctuation">&quot;</span></span> <span class="token attr-name">@click</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>goMain<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>awesome</span> <span class="token attr-name">icon</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>suitcase<span class="token punctuation">&quot;</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>fas fa-suitcase<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>awesome</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>title<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>Tripllo<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span>
-      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">&gt;</span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span><span class="token punctuation">&gt;</span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>main-wrap<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
-      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>main</span><span class="token punctuation">&gt;</span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>router-view</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>router-view</span><span class="token punctuation">&gt;</span></span>
-      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>main</span><span class="token punctuation">&gt;</span></span>
-      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>aside</span><span class="token punctuation">&gt;</span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span><span class="token punctuation">&quot;</span></span> <span class="token attr-name">@click.prevent</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>$router.push(&#x27;/privacy&#x27;)<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>Privacy Policy<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
-      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>aside</span><span class="token punctuation">&gt;</span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>footer</span> <span class="token punctuation">/&gt;</span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>back<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
-      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>back item1<span class="token punctuation">&quot;</span></span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>@/assets/user/back/1.png<span class="token punctuation">&quot;</span></span> <span class="token punctuation">/&gt;</span></span>
-      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>back item2<span class="token punctuation">&quot;</span></span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>@/assets/user/back/2.png<span class="token punctuation">&quot;</span></span> <span class="token punctuation">/&gt;</span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">&gt;</span></span>
+<h2>뼈대 Page</h2>
+<h3>AuthPage.vue</h3>
+<pre><code class="language-html">&lt;template&gt;
+  &lt;div class=&quot;page&quot;&gt;
+    &lt;header&gt;
+      &lt;ul class=&quot;header-wrap&quot; @click=&quot;goMain&quot;&gt;
+        &lt;li&gt;&lt;awesome icon=&quot;suitcase&quot; class=&quot;fas fa-suitcase&quot;&gt;&lt;/awesome&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;span class=&quot;title&quot;&gt;Tripllo&lt;/span&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/header&gt;
+    &lt;div class=&quot;main-wrap&quot;&gt;
+      &lt;main&gt;
+        &lt;router-view&gt;&lt;/router-view&gt;
+      &lt;/main&gt;
+      &lt;aside&gt;
+        &lt;a href=&quot;&quot; @click.prevent=&quot;$router.push(&#x27;/privacy&#x27;)&quot;&gt;Privacy Policy&lt;/a&gt;
+      &lt;/aside&gt;
+    &lt;/div&gt;
+    &lt;footer /&gt;
+    &lt;div class=&quot;back&quot;&gt;
+      &lt;img class=&quot;back item1&quot; src=&quot;@/assets/user/back/1.png&quot; /&gt;
+      &lt;img class=&quot;back item2&quot; src=&quot;@/assets/user/back/2.png&quot; /&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
 
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
-  <span class="token keyword">import</span> Footer <span class="token keyword">from</span> <span class="token string">&#x27;@/components/common/Footer&#x27;</span><span class="token punctuation">;</span>
+&lt;script&gt;
+  import Footer from &#x27;@/components/common/Footer&#x27;;
 
-  <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
-    <span class="token literal-property property">components</span><span class="token operator">:</span> <span class="token punctuation">{</span> Footer <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token literal-property property">methods</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-      <span class="token function">goMain</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>$router<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token string">&#x27;/main&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token function">created</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">$loadScript</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">https://developers.kakao.com/sdk/js/kakao.js</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>window<span class="token punctuation">.</span>Kakao<span class="token punctuation">.</span><span class="token function">isInitialized</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">this</span><span class="token punctuation">.</span>$Kakao<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token keyword">this</span><span class="token punctuation">.</span>$Facebook<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  <span class="token punctuation">}</span><span class="token punctuation">;</span>
-</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></code></pre></div>
+  export default {
+    components: { Footer },
+    methods: {
+      goMain() {
+        this.$router.push(&#x27;/main&#x27;);
+      },
+    },
+    created() {
+      this.$loadScript(`https://developers.kakao.com/sdk/js/kakao.js`).then(() =&gt; {
+        if (!window.Kakao.isInitialized()) this.$Kakao.init();
+      });
+      this.$Facebook.init();
+    },
+  };
+&lt;/script&gt;
+</code></pre>
 <p>뼈대 Page는 이렇게 생겼다. &lt;router-view&gt;&lt;/router-view&gt; 이 부분이 router에서 설계한 child 컴포넌트들이 뿌려질 곳이다. created() 메서드에는 이 다음에 포스팅 할 소셜 로그인 기능을 위해 둔 것.</p>
 <br/>
-<h2 id="회원가입-컴포넌트" style="position:relative">회원가입 컴포넌트<a href="#%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8" aria-label="회원가입 컴포넌트 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
-<h3 id="SignupFormvue" style="position:relative">SignupForm.vue<a href="#SignupFormvue" aria-label="SignupFormvue permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
+<h2>회원가입 컴포넌트</h2>
+<h3>SignupForm.vue</h3>
 <p>SignupForm.vue와 LoginForm.vue는 비슷한 로직으로 되어있어 SignupForm.vue 만 둘러보면 LoginForm.vue는 보지 않아도 된다.</p>
 <p>살펴보자.</p>
-<h4 id="ID-사용여부-체크" style="position:relative">ID 사용여부 체크<a href="#ID-%EC%82%AC%EC%9A%A9%EC%97%AC%EB%B6%80-%EC%B2%B4%ED%81%AC" aria-label="ID 사용여부 체크 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h4>
+<h4>ID 사용여부 체크</h4>
 <p><img src="https://user-images.githubusercontent.com/59427983/107036121-76f32d80-67fc-11eb-84e3-970fddffbc54.png" alt="스크린샷 2021-02-05 오후 12 00 49"/></p>
-<p>사진과 같이 실시간으로 ID가 사용되고 있는지 여부를 체크해주면 좋겠다고 생각했다. 하지만 입력 이벤트가 일어날 때마다 백엔드로 http call을 보내면 쓸데없는 자원낭비라는 생각이 들었다. 여기다가 setTimeout 을 걸어줄까? 도 생각했지만 예전에 지나가다가 봤던 <strong>lodash</strong>의 <code class="language-text">debounce</code> 를 사용해보기로 했다. setTimeout 은 설정한 시간이 흐른 후에 실행 되므로, 클라이언트가 타이핑 하고 나서 시간이 흐른 뒤 모든 http call을 요청했다. 하지만 lodash의 debounce는 시간을 설정하고 시간 내에 새로운 event가 일어나면 이전 것은 무시되고 제일 <strong>마지막 한번이 동작</strong>하게 되어 http call에 적합했다.</p>
+<p>사진과 같이 실시간으로 ID가 사용되고 있는지 여부를 체크해주면 좋겠다고 생각했다. 하지만 입력 이벤트가 일어날 때마다 백엔드로 http call을 보내면 쓸데없는 자원낭비라는 생각이 들었다. 여기다가 setTimeout 을 걸어줄까? 도 생각했지만 예전에 지나가다가 봤던 <strong>lodash</strong>의 <code>debounce</code> 를 사용해보기로 했다. setTimeout 은 설정한 시간이 흐른 후에 실행 되므로, 클라이언트가 타이핑 하고 나서 시간이 흐른 뒤 모든 http call을 요청했다. 하지만 lodash의 debounce는 시간을 설정하고 시간 내에 새로운 event가 일어나면 이전 것은 무시되고 제일 <strong>마지막 한번이 동작</strong>하게 되어 http call에 적합했다.</p>
 <p>※ 사실 lodash는 배열과 객체를 다루는데 좋은 라이브러리라고 한다.. npm으로 lodash를 다운받고 import해서 아래와 같이 사용했다.</p>
-<div class="gatsby-highlight" data-language="html"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
-  <span class="token keyword">import</span> _ <span class="token keyword">from</span> <span class="token string">&#x27;lodash&#x27;</span><span class="token punctuation">;</span>
-  <span class="token operator">...</span>
+<pre><code class="language-html">&lt;script&gt;
+  import _ from &#x27;lodash&#x27;;
+  ...
 
-  <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
-    <span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">return</span> <span class="token punctuation">{</span>
-        <span class="token literal-property property">userData</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-          <span class="token literal-property property">id</span><span class="token operator">:</span> <span class="token string">&#x27;&#x27;</span><span class="token punctuation">,</span>
-        	<span class="token operator">...</span>
-        <span class="token punctuation">}</span>
-        <span class="token literal-property property">push</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-          <span class="token literal-property property">pushYn</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
-          <span class="token literal-property property">message</span><span class="token operator">:</span> <span class="token string">&#x27;&#x27;</span><span class="token punctuation">,</span>
-        <span class="token punctuation">}</span><span class="token punctuation">,</span>
-        <span class="token operator">...</span>
-      <span class="token punctuation">}</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token literal-property property">watch</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-  		<span class="token operator">...</span>
-      <span class="token string-property property">&#x27;userData.id&#x27;</span><span class="token operator">:</span> _<span class="token punctuation">.</span><span class="token function">debounce</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">e</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">validUserId</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">750</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-      <span class="token operator">...</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token literal-property property">methods</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-      <span class="token operator">...</span><span class="token function">mapActions</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">&#x27;VALID_ID&#x27;</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-      <span class="token operator">...</span>
-      <span class="token keyword">async</span> <span class="token function">validUserId</span><span class="token punctuation">(</span><span class="token parameter">id</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token operator">...</span>
-        <span class="token keyword">try</span> <span class="token punctuation">{</span>
-          <span class="token keyword">await</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token constant">VALID_ID</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
-          <span class="token keyword">this</span><span class="token punctuation">.</span>push<span class="token punctuation">.</span>pushYn <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> response <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-          <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">pushInsert</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>data<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-      <span class="token punctuation">}</span><span class="token punctuation">,</span>
-      <span class="token operator">...</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  <span class="token punctuation">}</span><span class="token punctuation">;</span>
-</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></code></pre></div>
-<p>생략되어 있지만 input 태그에 v-model로 userData의 id가 연동되어 있다. vue의 watch로 userData객체 안에 있는 id를 바라보게 하고(watch는 싱글 커테이션 <code class="language-text">&#x27;</code> 으로 객체 안의 변수 하나를 캐스팅할 수 있다), 이 녀석에게 data 입력 이벤트가 일어나서(정확히는 data에 값이 입력되어서) watch로 감지되면 debounce가 실행되는 구조이다. 0.75초 이내에 다시 이벤트가 일어나면 다시 0.75 초를 기다려준 후 이벤트가 없을 시 이어지는 function이 실행된다.</p>
+  export default {
+    data() {
+      return {
+        userData: {
+          id: &#x27;&#x27;,
+        	...
+        }
+        push: {
+          pushYn: false,
+          message: &#x27;&#x27;,
+        },
+        ...
+      };
+    },
+    watch: {
+  		...
+      &#x27;userData.id&#x27;: _.debounce(function(e) {
+        this.validUserId(e);
+      }, 750),
+      ...
+    },
+    methods: {
+      ...mapActions([&#x27;VALID_ID&#x27;]),
+      ...
+      async validUserId(id) {
+        ...
+        try {
+          await this.VALID_ID(id);
+          this.push.pushYn = false;
+        } catch ({ response }) {
+          this.pushInsert(response.data.message);
+        }
+      },
+      ...
+    },
+  };
+&lt;/script&gt;
+</code></pre>
+<p>생략되어 있지만 input 태그에 v-model로 userData의 id가 연동되어 있다. vue의 watch로 userData객체 안에 있는 id를 바라보게 하고(watch는 싱글 커테이션 <code>&#x27;</code> 으로 객체 안의 변수 하나를 캐스팅할 수 있다), 이 녀석에게 data 입력 이벤트가 일어나서(정확히는 data에 값이 입력되어서) watch로 감지되면 debounce가 실행되는 구조이다. 0.75초 이내에 다시 이벤트가 일어나면 다시 0.75 초를 기다려준 후 이벤트가 없을 시 이어지는 function이 실행된다.</p>
 <p>methods에 있는 validUserId()는 입력된 userData.id 를 가지고 action 함수를 통해 http call을 날리고 MySQL에 접속해 해당 유저의 ID가 사용되고 있는지를 판별하여 다시 값을 돌려준다.</p>
 <p>만약 사용되고 있다면, SpringBoot에서는</p>
-<div class="gatsby-highlight" data-language="java"><pre class="language-java"><code class="language-java">message<span class="token punctuation">.</span><span class="token function">setStatus</span><span class="token punctuation">(</span><span class="token class-name">StatusEnum</span><span class="token punctuation">.</span><span class="token constant">BAD_REQUEST</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-message<span class="token punctuation">.</span><span class="token function">setMessage</span><span class="token punctuation">(</span><span class="token class-name">ResponseMessage</span><span class="token punctuation">.</span><span class="token constant">ALREADY_USE</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-message<span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<pre><code class="language-java">message.setStatus(StatusEnum.BAD_REQUEST);
+message.setMessage(ResponseMessage.ALREADY_USE);
+message.setData(null);
 
-<span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ResponseEntity</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span>message<span class="token punctuation">,</span> headers<span class="token punctuation">,</span> <span class="token class-name">HttpStatus</span><span class="token punctuation">.</span><span class="token constant">UNAUTHORIZED</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
+return new ResponseEntity&lt;&gt;(message, headers, HttpStatus.UNAUTHORIZED);
+</code></pre>
 <p>이렇게 ALREADY_USE(이미 사용되고 있습니다) 라는 메세지를 가져오고, catch 절에 걸려 화면에 뿌려지게 되는 구조다.</p>
-<h4 id="입력-폼-Validation" style="position:relative">입력 폼 Validation<a href="#%EC%9E%85%EB%A0%A5-%ED%8F%BC-Validation" aria-label="입력 폼 Validation permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h4>
+<h4>입력 폼 Validation</h4>
 <p>입력폼에 Validation이 빠지면 잘못된 정보가 입력될 수도 있으므로 utils에 validation.js를 만들어주기로 했다.</p>
-<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// utils.validaction.js</span>
-<span class="token keyword">function</span> <span class="token function">validateId</span><span class="token punctuation">(</span><span class="token parameter">id</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">const</span> re <span class="token operator">=</span> <span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">^[a-z]+[a-z0-9]{5,19}$</span><span class="token regex-delimiter">/</span><span class="token regex-flags">g</span></span><span class="token punctuation">;</span>
-  <span class="token keyword">return</span> re<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token function">String</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
+<pre><code class="language-js">// utils.validaction.js
+function validateId(id) {
+  const re = /^[a-z]+[a-z0-9]{5,19}$/g;
+  return re.test(String(id));
+}
 
-<span class="token keyword">function</span> <span class="token function">validatePw</span><span class="token punctuation">(</span><span class="token parameter">pw</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">const</span> num <span class="token operator">=</span> pw<span class="token punctuation">.</span><span class="token function">search</span><span class="token punctuation">(</span><span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">[0-9]</span><span class="token regex-delimiter">/</span><span class="token regex-flags">g</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">const</span> eng <span class="token operator">=</span> pw<span class="token punctuation">.</span><span class="token function">search</span><span class="token punctuation">(</span><span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">[a-z]</span><span class="token regex-delimiter">/</span><span class="token regex-flags">gi</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">const</span> spe <span class="token operator">=</span> pw<span class="token punctuation">.</span><span class="token function">search</span><span class="token punctuation">(</span><span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">[`~!@@#$%^&amp;*|₩₩₩&#x27;₩&quot;;:₩/?]</span><span class="token regex-delimiter">/</span><span class="token regex-flags">gi</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">let</span> message <span class="token operator">=</span> <span class="token string">&#x27;&#x27;</span><span class="token punctuation">;</span>
+function validatePw(pw) {
+  const num = pw.search(/[0-9]/g);
+  const eng = pw.search(/[a-z]/gi);
+  const spe = pw.search(/[`~!@@#$%^&amp;*|₩₩₩&#x27;₩&quot;;:₩/?]/gi);
+  let message = &#x27;&#x27;;
 
-  <span class="token keyword">if</span> <span class="token punctuation">(</span>pw<span class="token punctuation">.</span>length <span class="token operator">&lt;</span> <span class="token number">5</span> <span class="token operator">||</span> pw<span class="token punctuation">.</span>length <span class="token operator">&gt;</span> <span class="token number">20</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    message <span class="token operator">=</span> <span class="token string">&#x27;비밀번호는 5자리 ~ 20자리 이내로 입력해주세요.&#x27;</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token boolean">false</span><span class="token punctuation">,</span> message<span class="token punctuation">]</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>pw<span class="token punctuation">.</span><span class="token function">search</span><span class="token punctuation">(</span><span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">\s</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    message <span class="token operator">=</span> <span class="token string">&#x27;비밀번호는 공백 없이 입력해주세요.&#x27;</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token boolean">false</span><span class="token punctuation">,</span> message<span class="token punctuation">]</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>num <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token operator">||</span> eng <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token operator">||</span> spe <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    message <span class="token operator">=</span> <span class="token string">&#x27;비밀번호는 영문,숫자, 특수문자를 혼합하여 입력해주세요.&#x27;</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token boolean">false</span><span class="token punctuation">,</span> message<span class="token punctuation">]</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-    <span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token string">&#x27;&#x27;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
+  if (pw.length &lt; 5 || pw.length &gt; 20) {
+    message = &#x27;비밀번호는 5자리 ~ 20자리 이내로 입력해주세요.&#x27;;
+    return [false, message];
+  } else if (pw.search(/\s/) != -1) {
+    message = &#x27;비밀번호는 공백 없이 입력해주세요.&#x27;;
+    return [false, message];
+  } else if (num &lt; 0 || eng &lt; 0 || spe &lt; 0) {
+    message = &#x27;비밀번호는 영문,숫자, 특수문자를 혼합하여 입력해주세요.&#x27;;
+    return [false, message];
+  } else {
+    return [true, &#x27;&#x27;];
+  }
+}
 
-<span class="token keyword">function</span> <span class="token function">validateEmail</span><span class="token punctuation">(</span><span class="token parameter">email</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">const</span> re <span class="token operator">=</span> <span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">^(([^&lt;&gt;()[\]\\.,;:\s@&quot;]+(\.[^&lt;&gt;()[\]\\.,;:\s@&quot;]+)*)|(&quot;.+&quot;))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">;</span>
-  <span class="token keyword">return</span> re<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token function">String</span><span class="token punctuation">(</span>email<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toLowerCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
+function validateEmail(email) {
+  const re = /^(([^&lt;&gt;()[\]\\.,;:\s@&quot;]+(\.[^&lt;&gt;()[\]\\.,;:\s@&quot;]+)*)|(&quot;.+&quot;))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+}
 
-<span class="token keyword">export</span> <span class="token punctuation">{</span> validateId<span class="token punctuation">,</span> validatePw<span class="token punctuation">,</span> validateEmail <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre></div>
-<p>3개의 function으로 이루어져있고 정규 표현식을 사용해 검증해준다. (사실 긁어왔다. 정규표현식이 뭔지는 대충 아는데 사용법은 잘모름…)</p>
+export { validateId, validatePw, validateEmail };
+</code></pre>
+<p>3개의 function으로 이루어져있고 정규 표현식을 사용해 검증해준다. (사실 긁어왔다. 정규표현식이 뭔지는 대충 아는데 사용법은 잘모름....)</p>
 <p>이걸 이제 SignupForm.vue에다가 import 해와서 사용할 것이다.</p>
-<div class="gatsby-highlight" data-language="html"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
-  <span class="token operator">...</span>
-  <span class="token keyword">import</span> <span class="token punctuation">{</span> validateId<span class="token punctuation">,</span> validatePw<span class="token punctuation">,</span> validateEmail <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&#x27;@/utils/validation&#x27;</span><span class="token punctuation">;</span>
+<pre><code class="language-html">&lt;script&gt;
+  ...
+  import { validateId, validatePw, validateEmail } from &#x27;@/utils/validation&#x27;;
 
-  <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
-    <span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">return</span> <span class="token punctuation">{</span>
-        <span class="token literal-property property">userData</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-          <span class="token literal-property property">id</span><span class="token operator">:</span> <span class="token string">&#x27;&#x27;</span><span class="token punctuation">,</span>
-          <span class="token literal-property property">password</span><span class="token operator">:</span> <span class="token string">&#x27;&#x27;</span><span class="token punctuation">,</span>
-          <span class="token literal-property property">email</span><span class="token operator">:</span> <span class="token string">&#x27;&#x27;</span><span class="token punctuation">,</span>
-          <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">&#x27;&#x27;</span><span class="token punctuation">,</span>
-        <span class="token punctuation">}</span><span class="token punctuation">,</span>
-        <span class="token literal-property property">againPassword</span><span class="token operator">:</span> <span class="token string">&#x27;&#x27;</span><span class="token punctuation">,</span>
-  			<span class="token operator">...</span>
-      <span class="token punctuation">}</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token literal-property property">watch</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-      <span class="token operator">...</span>
-      <span class="token string-property property">&#x27;userData.password&#x27;</span><span class="token operator">:</span> _<span class="token punctuation">.</span><span class="token function">debounce</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">e</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">validatePw</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">750</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-      <span class="token literal-property property">againPassword</span><span class="token operator">:</span> _<span class="token punctuation">.</span><span class="token function">debounce</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">e</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">validateAgainPw</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">750</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-      <span class="token string-property property">&#x27;userData.email&#x27;</span><span class="token operator">:</span> _<span class="token punctuation">.</span><span class="token function">debounce</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">e</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">validateEmail</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">750</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token literal-property property">methods</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-      <span class="token operator">...</span><span class="token function">mapActions</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">&#x27;SIGNUP&#x27;</span><span class="token punctuation">,</span> <span class="token string">&#x27;LOGIN&#x27;</span><span class="token punctuation">,</span> <span class="token string">&#x27;VALID_ID&#x27;</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-      <span class="token operator">...</span>
-      <span class="token function">validatePw</span><span class="token punctuation">(</span><span class="token parameter">pw</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">let</span> pwValid <span class="token operator">=</span> <span class="token function">validatePw</span><span class="token punctuation">(</span>pw<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>pwValid<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-          <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">pushInsert</span><span class="token punctuation">(</span>pwValid<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-          <span class="token keyword">this</span><span class="token punctuation">.</span>push<span class="token punctuation">.</span>pushYn <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-      <span class="token punctuation">}</span><span class="token punctuation">,</span>
-      <span class="token function">validateAgainPw</span><span class="token punctuation">(</span><span class="token parameter">pw</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">const</span> realPw <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>userData<span class="token punctuation">.</span>password<span class="token punctuation">;</span>
-        <span class="token keyword">const</span> againPw <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>againPassword<span class="token punctuation">;</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>realPw <span class="token operator">!==</span> againPw<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-          <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">pushInsert</span><span class="token punctuation">(</span><span class="token string">&#x27;다시 입력한 비밀번호가 같지 않습니다.&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-          <span class="token keyword">this</span><span class="token punctuation">.</span>push<span class="token punctuation">.</span>pushYn <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-      <span class="token punctuation">}</span><span class="token punctuation">,</span>
-      <span class="token function">validateEmail</span><span class="token punctuation">(</span><span class="token parameter">email</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">validateEmail</span><span class="token punctuation">(</span>email<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-          <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">pushInsert</span><span class="token punctuation">(</span><span class="token string">&#x27;이메일 유형에 맞지 않습니다.&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-          <span class="token keyword">this</span><span class="token punctuation">.</span>push<span class="token punctuation">.</span>pushYn <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-      <span class="token punctuation">}</span><span class="token punctuation">,</span>
-      <span class="token function">pushInsert</span><span class="token punctuation">(</span><span class="token parameter">message</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>push<span class="token punctuation">.</span>pushYn <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>push<span class="token punctuation">.</span>message <span class="token operator">=</span> message<span class="token punctuation">;</span>
-      <span class="token punctuation">}</span><span class="token punctuation">,</span>
-      <span class="token operator">...</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  <span class="token punctuation">}</span><span class="token punctuation">;</span>
-</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></code></pre></div>
+  export default {
+    data() {
+      return {
+        userData: {
+          id: &#x27;&#x27;,
+          password: &#x27;&#x27;,
+          email: &#x27;&#x27;,
+          name: &#x27;&#x27;,
+        },
+        againPassword: &#x27;&#x27;,
+  			...
+      };
+    },
+    watch: {
+      ...
+      &#x27;userData.password&#x27;: _.debounce(function(e) {
+        this.validatePw(e);
+      }, 750),
+      againPassword: _.debounce(function(e) {
+        this.validateAgainPw(e);
+      }, 750),
+      &#x27;userData.email&#x27;: _.debounce(function(e) {
+        this.validateEmail(e);
+      }, 750),
+    },
+    methods: {
+      ...mapActions([&#x27;SIGNUP&#x27;, &#x27;LOGIN&#x27;, &#x27;VALID_ID&#x27;]),
+      ...
+      validatePw(pw) {
+        let pwValid = validatePw(pw);
+        if (!pwValid[0]) {
+          this.pushInsert(pwValid[1]);
+        } else {
+          this.push.pushYn = false;
+        }
+      },
+      validateAgainPw(pw) {
+        const realPw = this.userData.password;
+        const againPw = this.againPassword;
+        if (realPw !== againPw) {
+          this.pushInsert(&#x27;다시 입력한 비밀번호가 같지 않습니다.&#x27;);
+        } else {
+          this.push.pushYn = false;
+        }
+      },
+      validateEmail(email) {
+        if (!validateEmail(email)) {
+          this.pushInsert(&#x27;이메일 유형에 맞지 않습니다.&#x27;);
+        } else {
+          this.push.pushYn = false;
+        }
+      },
+      pushInsert(message) {
+        this.push.pushYn = true;
+        this.push.message = message;
+      },
+      ...
+    },
+  };
+&lt;/script&gt;
+</code></pre>
 <p>이렇게 아까와 같은 방식으로 debounce를 사용했고, validation.js에서 가져온 정규표현식으로 여기가 검증된다. 만약 검증되지 않았다면 push.message로 메세지가 들어가서 위에 표현되겠다. againPassword는 js에서 가져오지 않고 내부 methods를 사용했다.</p>
 <br/>
-<h4 id="Button-활성화" style="position:relative">Button 활성화<a href="#Button-%ED%99%9C%EC%84%B1%ED%99%94" aria-label="Button 활성화 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h4>
+<h4>Button 활성화</h4>
 <p>모든 Form 값이 입력되었을 때 버튼이 초록색으로 활성화 되도록 하고 싶었다. 또, 하나의 값이라도 들어왔을 때, 소셜 로그인 버튼들을 보이지 않게끔 처리하고 싶었다.</p>
-<div class="gatsby-highlight" data-language="html"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>submit-item btn<span class="token punctuation">&quot;</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>submit<span class="token punctuation">&quot;</span></span> <span class="token attr-name">:disabled</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>btnDisabled<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>b</span><span class="token punctuation">&gt;</span></span>Log in<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>b</span><span class="token punctuation">&gt;</span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span></code></pre></div>
+<pre><code class="language-html">&lt;button class=&quot;submit-item btn&quot; type=&quot;submit&quot; :disabled=&quot;btnDisabled&quot;&gt;
+  &lt;b&gt;Log in&lt;/b&gt;
+&lt;/button&gt;
+</code></pre>
 <p>이렇게 :disable 을 걸어주고 btnDisabled에는 초깃값은 true로 비활성화이며, 모든 값이 찼을 때는 false로 활성화를 시켜줬다. 색 변경은 css로..</p>
-<div class="gatsby-highlight" data-language="html"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
-  <span class="token operator">...</span>
-  <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
-    <span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">return</span> <span class="token punctuation">{</span>
-        <span class="token literal-property property">userData</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-          <span class="token literal-property property">id</span><span class="token operator">:</span> <span class="token string">&#x27;&#x27;</span><span class="token punctuation">,</span>
-          <span class="token literal-property property">password</span><span class="token operator">:</span> <span class="token string">&#x27;&#x27;</span><span class="token punctuation">,</span>
-          <span class="token literal-property property">email</span><span class="token operator">:</span> <span class="token string">&#x27;&#x27;</span><span class="token punctuation">,</span>
-          <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">&#x27;&#x27;</span><span class="token punctuation">,</span>
-        <span class="token punctuation">}</span><span class="token punctuation">,</span>
-        <span class="token operator">...</span>
-        <span class="token literal-property property">btnDisabled</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
-        <span class="token literal-property property">isSocialForm</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
-      <span class="token punctuation">}</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token literal-property property">watch</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-      <span class="token literal-property property">userData</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-        <span class="token function">handler</span><span class="token punctuation">(</span><span class="token parameter">e</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-          e<span class="token punctuation">.</span>id <span class="token operator">===</span> <span class="token string">&#x27;&#x27;</span> <span class="token operator">&amp;&amp;</span> e<span class="token punctuation">.</span>password <span class="token operator">===</span> <span class="token string">&#x27;&#x27;</span> <span class="token operator">&amp;&amp;</span> e<span class="token punctuation">.</span>email <span class="token operator">===</span> <span class="token string">&#x27;&#x27;</span> <span class="token operator">&amp;&amp;</span> e<span class="token punctuation">.</span>name <span class="token operator">===</span> <span class="token string">&#x27;&#x27;</span>
-            <span class="token operator">?</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>isSocialForm <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
-            <span class="token operator">:</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>isSocialForm <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<pre><code class="language-html">&lt;script&gt;
+  ...
+  export default {
+    data() {
+      return {
+        userData: {
+          id: &#x27;&#x27;,
+          password: &#x27;&#x27;,
+          email: &#x27;&#x27;,
+          name: &#x27;&#x27;,
+        },
+        ...
+        btnDisabled: true,
+        isSocialForm: true,
+      };
+    },
+    watch: {
+      userData: {
+        handler(e) {
+          e.id === &#x27;&#x27; &amp;&amp; e.password === &#x27;&#x27; &amp;&amp; e.email === &#x27;&#x27; &amp;&amp; e.name === &#x27;&#x27;
+            ? (this.isSocialForm = true)
+            : (this.isSocialForm = false);
 
-          e<span class="token punctuation">.</span>id <span class="token operator">!==</span> <span class="token string">&#x27;&#x27;</span> <span class="token operator">&amp;&amp;</span> e<span class="token punctuation">.</span>password <span class="token operator">!==</span> <span class="token string">&#x27;&#x27;</span> <span class="token operator">&amp;&amp;</span> e<span class="token punctuation">.</span>email <span class="token operator">!==</span> <span class="token string">&#x27;&#x27;</span> <span class="token operator">&amp;&amp;</span> e<span class="token punctuation">.</span>name <span class="token operator">!==</span> <span class="token string">&#x27;&#x27;</span>
-            <span class="token operator">?</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>btnDisabled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">)</span>
-            <span class="token operator">:</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>btnDisabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span><span class="token punctuation">,</span>
-        <span class="token literal-property property">deep</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
-      <span class="token punctuation">}</span><span class="token punctuation">,</span>
-      <span class="token operator">...</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token literal-property property">methods</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-     <span class="token operator">...</span>
-    <span class="token punctuation">}</span>
-  <span class="token punctuation">}</span><span class="token punctuation">;</span>
-</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></code></pre></div>
+          e.id !== &#x27;&#x27; &amp;&amp; e.password !== &#x27;&#x27; &amp;&amp; e.email !== &#x27;&#x27; &amp;&amp; e.name !== &#x27;&#x27;
+            ? (this.btnDisabled = false)
+            : (this.btnDisabled = true);
+        },
+        deep: true,
+      },
+      ...
+    },
+    methods: {
+     ...
+    }
+  };
+&lt;/script&gt;
+</code></pre>
 <p>isSocialForm은 v-if 처리해주었음. vue의 data에 userData가 객체 형태로 존재하는 것을 볼 수 있다.</p>
-<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token literal-property property">watch</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-    <span class="token function">userData</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-      <span class="token operator">...</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-<span class="token punctuation">}</span></code></pre></div>
-<p>보통 이렇게 watch안에 감시하고 싶은 변수를 적는데 이렇게 적게되면, userData객체 안의 값이 하나라도 변경 되면 내부 로직이 실행되므로 적합하지 않다. 따라서, watch의 객체 <code class="language-text">내부를 감시</code>하도록 하는 로직이 필요했다. 위와 같이 <code class="language-text">deep: true</code>와 <code class="language-text">handler</code>를 통해서 구현해 줄 수 있다.</p>
+<pre><code class="language-js">watch: {
+    userData(): {
+      ...
+    },
+}
+</code></pre>
+<p>보통 이렇게 watch안에 감시하고 싶은 변수를 적는데 이렇게 적게되면, userData객체 안의 값이 하나라도 변경 되면 내부 로직이 실행되므로 적합하지 않다. 따라서, watch의 객체 <code>내부를 감시</code>하도록 하는 로직이 필요했다. 위와 같이 <code>deep: true</code>와 <code>handler</code>를 통해서 구현해 줄 수 있다.</p>
 <hr/>
 <blockquote>
 <p>프로젝트 구경하기 -&gt; <a href="https://tripllo.tech">Tripllo_메인</a>, <a href="https://github.com/pozafly/tripllo_vue">Vue_Github</a>, <a href="https://github.com/pozafly/tripllo_springBoot">SpringBoot_Github</a></p>
