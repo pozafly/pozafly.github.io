@@ -152,7 +152,7 @@ export const PostFullContent = styled.section`
   }
 
   iframe {
-    margin: 0 auto !important;
+    margin: 10px auto 20px;
   }
 
   blockquote {
