@@ -18,7 +18,7 @@ excerpt: z-index가 때로 적용이 되지 않는 문제를 해결하기 위해
 - stacking context가 생성된 요소의 자식부터 영향을 준다.
 - 다른 stacking context에 속한 요소는 서로 z-index의 영향을 받지 않고 stacking context가 생성된 부모의 z-index를 기준으로 평가된다.
 
-마크업 중 다들 이런 경험이 있을 것이다. HTML, CSS로 꽤나 마음에 드는 화면을 그렸다. DOM의 구조도 잘 잡혔고 스타일도 공을 들여 마무리 하고 있다. 이제 한 요소를 위에 띄우는 상황 만이 남았다. 아마 z-index를 이용해서 z-index를 먹이지 않은 요소 위에 띄워주기만 하면 될 것 같다..! 하지만 z-index가 적용이 안되는 것 같다. 아무리 z-index 값을 높게 주거나, 아래로 깔고 싶은 요소에 z-index를 마이너스로 주어도 적용이 되지 않는다. 왜 css는 해도 자꾸만 새로워 보이는게 나오는걸까!
+마크업 작업을 하다 보면 다들 이런 경험이 있을 것이다. HTML, CSS로 꽤나 마음에 드는 화면을 그렸다. DOM의 구조도 잘 잡혔고 스타일도 공을 들여 마무리 하고 있다. 이제 한 요소를 위에 띄우는 상황 만이 남았다. 아마 z-index를 이용해서 z-index를 먹이지 않은 요소 위에 띄워주기만 하면 될 것 같다..! 하지만 z-index가 적용이 안되는 것 같다. 아무리 z-index 값을 높게 주거나, 아래로 깔고 싶은 요소에 z-index를 마이너스로 주어도 적용이 되지 않는다. 왜 css는 해도 자꾸만 새로워 보이는게 나오는걸까!
 
 이유는 바로 stacking context에 있다. 먼저 기본적인 z-index부터 알아보자.
 
@@ -66,9 +66,7 @@ z-index가 없을 경우와 z-index가 존재할 경우의 순서를 다시 정�
 
 stacking context를 번역하면 '쌓임 맥락'이라는 뜻이다. [The stacking context - mdn](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context)에 따르면, stacking context는 뷰포트 또는 웹페이지를 향하고 있다고 가정되는 사용자에 대해 가상의 z축을 따라 HTML 요소를 3차원으로 개념화한 것이다. HTML 요소는 요소 속성에 따라 우선순위에 따라 이 공간을 차지한다라고 되어있다.
 
-쉽게 말해서 z-index가 적용되는 그룹이 생성된다고 생각하자. 이 그룹이 여러 개 생성되면 서로 다른 그룹끼리 z-index가 적용되지 않는다.
-
-또한 stacking context는 다른 stacking context에 포함될 수 있으며, 각 stacking context는 형제 요소와는 완전히 독립적인 요소다. 즉, stacking이 처리될 경우 stacking context가 생성된 요소의 **하위 요소만** stacking context(그룹)으로 취급되는 것이다.
+쉽게 말해서 z-index가 적용되는 그룹이 생성된다고 생각하자. 이 그룹이 여러 개 생성되면 서로 다른 그룹끼리 z-index가 적용되지 않는다. stacking context는 다른 stacking context에 포함될 수 있으며, 각 stacking context는 형제 요소와는 완전히 독립적인 요소다. stacking이 처리될 경우 stacking context가 생성된 요소의 **하위 요소만** stacking context(그룹)으로 취급되는 것이다.
 
 [medium의 예제](https://dongmin-jang.medium.com/css-stacking-context-172f9bd1af8b)
 
@@ -90,7 +88,7 @@ stacking context를 번역하면 '쌓임 맥락'이라는 뜻이다. [The stacki
 
 즉, 다시 말하면 3개의 div 모두 stacking context가 root 요소인 `<html>` 이다. 그렇다면 span도 전부 root 요소의 stacking context 그룹에 속해있을 것이다. 그렇다면, red, green, blue(span 요소들) 모두 여전히 root 요소의 stacking context 안에 속해있다. 그렇기 때문에 계층과 상관 없이 z-index가 적용이 된 것이다.
 
-여기서 red의 div에 opacity: 0.99를 주었을 경우 red의 div에 새로운 stacking context가 생성되었다. 기존 root의 stacking context에 자식 요소 하나가 새로운 stacking context 그룹을 생성했다.
+여기서 red의 div에 `opacity: 0.99`를 주었을 경우 red의 div에 새로운 stacking context가 생성되었다. 기존 root의 stacking context에 자식 요소 하나가 새로운 stacking context 그룹을 생성했다.
 
 red는 이제 root의 stacking context의 영향을 벗어나 red를 감싸는 div의 stacking context에 영향을 받을 것이다. 새롭게 만들어진 stacking context는 그 안에 있는 요소끼리의 z-index가 적용될 것이다.
 
