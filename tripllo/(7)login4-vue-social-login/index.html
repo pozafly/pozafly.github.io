@@ -70,70 +70,69 @@
 <p>vue에서 소셜 로그인 기능을 만들어보자. 보통 요즘 서비스들은 다 소셜 로그인으로 가입, 로그인이 되므로 앞으로 서비스 개발할 때 거의 필수적으로 들어갈 기능이라고 생각했다. 또 backend보다는 frontend 개발자로 지원하고 싶기 때문에 백엔드의 OAuth2.0 을 사용하는 것 보다는 Javascript단에서 로그인 기능을 넣고 싶었다.</p>
 </blockquote>
 <p><img src="https://user-images.githubusercontent.com/59427983/107050303-6c419400-680e-11eb-8d39-f3d69c54e252.png" alt="스크린샷 2021-02-06 오전 12 00 03"/></p>
-<p>이것 봐라. 너무 이쁘게 표현되지 않았나? 아무래도 이런거 보면 난 프론트가 맞는 듯 하다.. CSS는 너무 어렵지만...</p>
-<h2>소셜 로그인</h2>
+<p>이것 봐라. 너무 이쁘게 표현되지 않았나? 아무래도 이런거 보면 난 프론트가 맞는 듯 하다.. CSS는 너무 어렵지만…</p>
+<h2 id="소셜-로그인" style="position:relative">소셜 로그인<a href="#%EC%86%8C%EC%85%9C-%EB%A1%9C%EA%B7%B8%EC%9D%B8" aria-label="소셜 로그인 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
 <ul>
 <li>소셜로그인 프로세스</li>
 </ul>
 <p><img src="https://user-images.githubusercontent.com/59427983/107029684-c5033380-67f2-11eb-90b9-0e89f4d3409e.jpeg" alt="회원가입 로그인 프로세스 003 jpeg 001"/></p>
 <p>각각 js 파일이 있으며 js 파일에 3곳에서 지원하는 로직을 넣어줬다. 서비스 ID 혹은 key가 맞으면 소셜에 등록한 return url 또는 domain을 체크하여 userInfo를 보내주고, 그 userInfo를 이용하여 회원가입 혹은 로그인 할 수 있게 구성했다. 공통적으로 SpringBoot와 통신하는 소셜 공통 API를 마지막에 타고 MySQL 까지 접근하는 큰 구조이다.</p>
-<h3>소셜 공통 API</h3>
-<pre><code class="language-js">// utils/social/index.js
-import store from &#x27;@/store&#x27;;
-import router from &#x27;@/routes&#x27;;
+<h3 id="소셜-공통-API" style="position:relative">소셜 공통 API<a href="#%EC%86%8C%EC%85%9C-%EA%B3%B5%ED%86%B5-API" aria-label="소셜 공통 API permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// utils/social/index.js</span>
+<span class="token keyword">import</span> store <span class="token keyword">from</span> <span class="token string">&#x27;@/store&#x27;</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> router <span class="token keyword">from</span> <span class="token string">&#x27;@/routes&#x27;</span><span class="token punctuation">;</span>
 
-async function socialLogin(req, isSignup) {
-  try {
-    const { data } = await store.dispatch(&#x27;SOCIAL_LOGIN&#x27;, req.id);
-    store.commit(&#x27;setUserToken&#x27;, data.data.token);
-    store.commit(&#x27;setUser&#x27;, data.data);
+<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">socialLogin</span><span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> isSignup</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">try</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token punctuation">{</span> data <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">await</span> store<span class="token punctuation">.</span><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token string">&#x27;SOCIAL_LOGIN&#x27;</span><span class="token punctuation">,</span> req<span class="token punctuation">.</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    store<span class="token punctuation">.</span><span class="token function">commit</span><span class="token punctuation">(</span><span class="token string">&#x27;setUserToken&#x27;</span><span class="token punctuation">,</span> data<span class="token punctuation">.</span>data<span class="token punctuation">.</span>token<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    store<span class="token punctuation">.</span><span class="token function">commit</span><span class="token punctuation">(</span><span class="token string">&#x27;setUser&#x27;</span><span class="token punctuation">,</span> data<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    if (isSignup === &#x27;afterSignup&#x27;) alert(&#x27;회원가입 완료! 메인 페이지로 이동합니다.&#x27;);
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>isSignup <span class="token operator">===</span> <span class="token string">&#x27;afterSignup&#x27;</span><span class="token punctuation">)</span> <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">&#x27;회원가입 완료! 메인 페이지로 이동합니다.&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    router.push(&#x27;/main&#x27;);
-  } catch (error) {
-    console.log(error);
+    router<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token string">&#x27;/main&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    const { data } = await store.dispatch(&#x27;VALID_ID&#x27;, req.id);
-    if (data.status === &#x27;OK&#x27;) {
-      const confirmYn = confirm(
-        &#x27;아직 가입되지 않은 회원입니다. \n회원가입 화면으로 이동하시겠습니까?&#x27;,
-      );
-      if (confirmYn) router.push(&#x27;/auth/signup&#x27;);
-    }
-  }
-}
+    <span class="token keyword">const</span> <span class="token punctuation">{</span> data <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">await</span> store<span class="token punctuation">.</span><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token string">&#x27;VALID_ID&#x27;</span><span class="token punctuation">,</span> req<span class="token punctuation">.</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>data<span class="token punctuation">.</span>status <span class="token operator">===</span> <span class="token string">&#x27;OK&#x27;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> confirmYn <span class="token operator">=</span> <span class="token function">confirm</span><span class="token punctuation">(</span>
+        <span class="token string">&#x27;아직 가입되지 않은 회원입니다. \n회원가입 화면으로 이동하시겠습니까?&#x27;</span><span class="token punctuation">,</span>
+      <span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>confirmYn<span class="token punctuation">)</span> router<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token string">&#x27;/auth/signup&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
-async function socialSignup(req) {
-  try {
-    await store.dispatch(&#x27;VALID_ID&#x27;, req.id);
-    await store.dispatch(&#x27;SIGNUP&#x27;, req);
+<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">socialSignup</span><span class="token punctuation">(</span><span class="token parameter">req</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">try</span> <span class="token punctuation">{</span>
+    <span class="token keyword">await</span> store<span class="token punctuation">.</span><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token string">&#x27;VALID_ID&#x27;</span><span class="token punctuation">,</span> req<span class="token punctuation">.</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">await</span> store<span class="token punctuation">.</span><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token string">&#x27;SIGNUP&#x27;</span><span class="token punctuation">,</span> req<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    socialLogin(req, &#x27;afterSignup&#x27;);
-  } catch (error) {
-    console.log(error);
+    <span class="token function">socialLogin</span><span class="token punctuation">(</span>req<span class="token punctuation">,</span> <span class="token string">&#x27;afterSignup&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    const confirmYn = confirm(&#x27;이미 가입된 소셜 회원입니다. \n로그인 화면으로 이동하시겠습니까?&#x27;);
-    if (confirmYn) router.push(&#x27;/auth/login&#x27;);
-  }
-}
+    <span class="token keyword">const</span> confirmYn <span class="token operator">=</span> <span class="token function">confirm</span><span class="token punctuation">(</span><span class="token string">&#x27;이미 가입된 소셜 회원입니다. \n로그인 화면으로 이동하시겠습니까?&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>confirmYn<span class="token punctuation">)</span> router<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token string">&#x27;/auth/login&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
-export { socialLogin, socialSignup };
-</code></pre>
+<span class="token keyword">export</span> <span class="token punctuation">{</span> socialLogin<span class="token punctuation">,</span> socialSignup <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre></div>
 <p>Tripllo는 소셜 로그인을 Google, Facebook, Kakoa 3곳에서 지원하도록 만들었다. 따라서 이 3곳에서 받아온 user 정보는 항상 공통 API를 거친다. 공통 API는 백엔드로 유저정보를 넘겨주는 역할을 한다. 로그인과 회원가입 두가지 메서드로.</p>
 <ul>
-<li><code>socialLogin()</code> : Vuex의 store에서 action 함수인 <code>SOCIAL_LOGIN</code> 을 dispatch 해준다. <code>제작기 5</code> 부분의 백엔드로 연결되어 소셜로그인을 진행하는 구조이다. 백엔드로부터 return된 token과 userInfo를 Mutation 함수로 보내는 역할이다. Mutation에서는 state와 LocalStorage에 해당 정보를 올린다.(후에 webStorage에 대해 정리하면서 Vuex의 state와 LocalStorage, SessionStorage에 대해서 이야기 할것임.) 통과가 된다면 router로 메인 페이지로 이동하게 된다.</li>
+<li><code class="language-text">socialLogin()</code> : Vuex의 store에서 action 함수인 <code class="language-text">SOCIAL_LOGIN</code> 을 dispatch 해준다. <code class="language-text">제작기 5</code> 부분의 백엔드로 연결되어 소셜로그인을 진행하는 구조이다. 백엔드로부터 return된 token과 userInfo를 Mutation 함수로 보내는 역할이다. Mutation에서는 state와 LocalStorage에 해당 정보를 올린다.(후에 webStorage에 대해 정리하면서 Vuex의 state와 LocalStorage, SessionStorage에 대해서 이야기 할것임.) 통과가 된다면 router로 메인 페이지로 이동하게 된다.</li>
 </ul>
 <p>※ isSignup 분기를 태운 이유는 유저가 소셜로 회원가입을 했을 시 회원가입이 되었다는 메세지가 필요할 듯 해서 넣어주었다.</p>
 <ul>
-<li>socialSignup() : 마찬가지로 백엔드에서 id validation을 거친 후 Signup을 진행한다. 완료 되면 socialLogin을 바로 진행하는 구조이다.</li>
+<li>socialSignup() : 마찬가지로 백엔드에서 id validation 을 거친 후 Signup을 진행한다. 완료 되면 socialLogin을 바로 진행하는 구조이다.</li>
 </ul>
-<h3>페이스북 로그인</h3>
-<h4>페이스북 서비스 등록</h4>
+<h3 id="페이스북-로그인" style="position:relative">페이스북 로그인<a href="#%ED%8E%98%EC%9D%B4%EC%8A%A4%EB%B6%81-%EB%A1%9C%EA%B7%B8%EC%9D%B8" aria-label="페이스북 로그인 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
+<h4 id="페이스북-서비스-등록" style="position:relative">페이스북 서비스 등록<a href="#%ED%8E%98%EC%9D%B4%EC%8A%A4%EB%B6%81-%EC%84%9C%EB%B9%84%EC%8A%A4-%EB%93%B1%EB%A1%9D" aria-label="페이스북 서비스 등록 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h4>
 <p><a href="https://developers.facebook.com/docs/development">페이스북 Development</a></p>
-<p>이곳에 들어가서 로그인 후, 상단 바에 내 앱 클릭, 앱 만들기에서 <code>연결된 환경 구축</code>을 클릭하고 넘어가자.</p>
+<p>이곳에 들어가서 로그인 후, 상단 바에 내 앱 클릭, 앱 만들기에서 <code class="language-text">연결된 환경 구축</code>을 클릭하고 넘어가자.</p>
 <img width="614" alt="스크린샷 2021-02-05 오후 2 43 28" src="https://user-images.githubusercontent.com/59427983/107001176-8d819080-67cc-11eb-9c70-5010f927d1cb.png"/>
-<p>그리고 표시할 앱 이름에 편의에 맞게 이름을 정해준뒤 앱 만들기를 클릭하자.</p>
+<p>그리고 표시할 앱 이름에 편의에 맞게 이름을 정해준뒤 앱 만  들기를 클릭하자.</p>
 <img width="665" alt="스크린샷 2021-02-05 오후 2 44 14" src="https://user-images.githubusercontent.com/59427983/107001201-98d4bc00-67cc-11eb-9d71-e56eb059a826.png"/>
 <p>그러면 아래와 같이 앱에 제품을 추가할 수 있는 곳이 나온다. 여기서 Facebook 로그인 부분에 설정을 눌러주자.</p>
 <img width="1000" alt="스크린샷 2021-02-05 오후 2 45 14" src="https://user-images.githubusercontent.com/59427983/107001270-b0ac4000-67cc-11eb-812d-42d2eabbb760.png"/>
@@ -144,174 +143,170 @@ export { socialLogin, socialSignup };
 <img width="450" alt="스크린샷 2021-02-05 오후 2 57 18" src="https://user-images.githubusercontent.com/59427983/107001424-f23ceb00-67cc-11eb-84b3-e2b285fd8b1d.png"/>
 <p>나는 Vue프로젝트에 utils에 따로 social이라는 이름으로 js 파일들을 모아두고 관리한다. 여기에 Facebook.js 파일을 등록해서, 필요한 곳에서 꺼내쓰는 형식으로 하는 것이 좋겠다.</p>
 <p>여기에 Facebook.js 파일을 만들고 다음 코드를 넣자.</p>
-<h4>init</h4>
-<pre><code class="language-js">init() {
-    window.fbAsyncInit = function() {
-        window.FB.init({
-            appId: process.env.VUE_APP_FACEBOOK_APP_KEY,
-            cookie: true,
-            xfbml: true,
-            version: &#x27;v9.0&#x27;,
-        });
-        window.FB.AppEvents.logPageView();
-    };
-    (function(d, s, id) {
-        var js,
-            fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {
-            return;
-        }
-        js = d.createElement(s);
-        js.id = id;
-        js.src = &#x27;https://connect.facebook.net/en_US/sdk.js&#x27;;
-        fjs.parentNode.insertBefore(js, fjs);
-    })(document, &#x27;script&#x27;, &#x27;facebook-jssdk&#x27;);
-},
-</code></pre>
+<h4 id="init" style="position:relative">init<a href="#init" aria-label="init permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h4>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    window<span class="token punctuation">.</span><span class="token function-variable function">fbAsyncInit</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        window<span class="token punctuation">.</span><span class="token constant">FB</span><span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+            <span class="token literal-property property">appId</span><span class="token operator">:</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">VUE_APP_FACEBOOK_APP_KEY</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">cookie</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">xfbml</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">version</span><span class="token operator">:</span> <span class="token string">&#x27;v9.0&#x27;</span><span class="token punctuation">,</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        window<span class="token punctuation">.</span><span class="token constant">FB</span><span class="token punctuation">.</span>AppEvents<span class="token punctuation">.</span><span class="token function">logPageView</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">d<span class="token punctuation">,</span> s<span class="token punctuation">,</span> id</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">var</span> js<span class="token punctuation">,</span>
+            fjs <span class="token operator">=</span> d<span class="token punctuation">.</span><span class="token function">getElementsByTagName</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>d<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        js <span class="token operator">=</span> d<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        js<span class="token punctuation">.</span>id <span class="token operator">=</span> id<span class="token punctuation">;</span>
+        js<span class="token punctuation">.</span>src <span class="token operator">=</span> <span class="token string">&#x27;https://connect.facebook.net/en_US/sdk.js&#x27;</span><span class="token punctuation">;</span>
+        fjs<span class="token punctuation">.</span>parentNode<span class="token punctuation">.</span><span class="token function">insertBefore</span><span class="token punctuation">(</span>js<span class="token punctuation">,</span> fjs<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span>document<span class="token punctuation">,</span> <span class="token string">&#x27;script&#x27;</span><span class="token punctuation">,</span> <span class="token string">&#x27;facebook-jssdk&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre></div>
 <p>appId에는 아까 복사해둔 앱 ID를 넣는 곳이다. env 파일로 따로 빼서 관리하면 보안성이 좋기 때문에 env 파일에 따로 빼서 관리하자. init() 은 사용하고 싶은 페이지의 created() 라이프사이클 메서드에서 사용할 것이다.</p>
-<p>※ 아참, 그리고 자꾸 까먹는거.. env 파일에 넣으면 서버를 다시 껐다 켜주지 않으면 undifined 가 뜬다는 것. 그리고 init() 메서드를 실행하면 아래와 같이 FB.init() 에 AppId를 먼저 입력해야한다고 나올 것이다. 잘... 하자..</p>
+<p>※ 아참, 그리고 자꾸 까먹는거.. env 파일에 넣으면 서버를 다시 껐다 켜주지 않으면 undifined 가 뜬다는 것. 그리고 init() 메서드를 실행하면 아래와 같이 FB.init() 에 AppId를 먼저 입력해야한다고 나올 것이다. 잘… 하자..</p>
 <img width="923" alt="스크린샷 2021-02-05 오후 4 09 10" src="https://user-images.githubusercontent.com/59427983/107001480-0b459c00-67cd-11eb-8dd9-327dba05aa26.png"/>
 <br/>
-<h4>getInfo()</h4>
-<pre><code class="language-js">getInfo() {
-    return new Promise((resolve, reject) =&gt; {  // promise
-      window.FB.getLoginStatus(() =&gt; {
-        // 첫 시도
-        window.FB.login(
-          response =&gt; {
-            if (response.status === &#x27;connected&#x27;) {
-              // const accessToken = response.authResponse.accessToken;
-              window.FB.api(
-                &#x27;/me&#x27;,
-                { fields: &#x27;id, name, email, picture&#x27; },
-                res =&gt; {
-                  if (!res) LoginFailure();
-                  const req_body = {
-                    id: res.id,
-                    name: res.name,
-                    email: res.email,
-                    picture: res.picture.data.url,
-                    social: &#x27;Facebook&#x27;,
-                  };
-                  resolve(req_body);
-                },
-              );
-            } else {
-              LoginFailure();
-            }
-          },
-          { scope: &#x27;public_profile, email&#x27; },
-        );
-      });
-    });
-  },
-</code></pre>
-<p>getInfo는 이제 화면에서 Facebook으로 로그인 하기 혹은 회원가입하기 버튼을 누르면 가장 먼저 페이스북에서 유저 정보를 가져와서 로그인이든 회원가입이든 진행을 하게 된다. 여기서 <code>회원의 정보를 페이스북으로부터 가저오는 메서드</code>이다.</p>
+<h4 id="getInfo" style="position:relative">getInfo()<a href="#getInfo" aria-label="getInfo permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h4>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token function">getInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>  <span class="token comment">// promise</span>
+      window<span class="token punctuation">.</span><span class="token constant">FB</span><span class="token punctuation">.</span><span class="token function">getLoginStatus</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 첫 시도</span>
+        window<span class="token punctuation">.</span><span class="token constant">FB</span><span class="token punctuation">.</span><span class="token function">login</span><span class="token punctuation">(</span>
+          <span class="token parameter">response</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>response<span class="token punctuation">.</span>status <span class="token operator">===</span> <span class="token string">&#x27;connected&#x27;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+              <span class="token comment">// const accessToken = response.authResponse.accessToken;</span>
+              window<span class="token punctuation">.</span><span class="token constant">FB</span><span class="token punctuation">.</span><span class="token function">api</span><span class="token punctuation">(</span>
+                <span class="token string">&#x27;/me&#x27;</span><span class="token punctuation">,</span>
+                <span class="token punctuation">{</span> <span class="token literal-property property">fields</span><span class="token operator">:</span> <span class="token string">&#x27;id, name, email, picture&#x27;</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                <span class="token parameter">res</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+                  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>res<span class="token punctuation">)</span> <span class="token function">LoginFailure</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                  <span class="token keyword">const</span> req_body <span class="token operator">=</span> <span class="token punctuation">{</span>
+                    <span class="token literal-property property">id</span><span class="token operator">:</span> res<span class="token punctuation">.</span>id<span class="token punctuation">,</span>
+                    <span class="token literal-property property">name</span><span class="token operator">:</span> res<span class="token punctuation">.</span>name<span class="token punctuation">,</span>
+                    <span class="token literal-property property">email</span><span class="token operator">:</span> res<span class="token punctuation">.</span>email<span class="token punctuation">,</span>
+                    <span class="token literal-property property">picture</span><span class="token operator">:</span> res<span class="token punctuation">.</span>picture<span class="token punctuation">.</span>data<span class="token punctuation">.</span>url<span class="token punctuation">,</span>
+                    <span class="token literal-property property">social</span><span class="token operator">:</span> <span class="token string">&#x27;Facebook&#x27;</span><span class="token punctuation">,</span>
+                  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+                  <span class="token function">resolve</span><span class="token punctuation">(</span>req_body<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span><span class="token punctuation">,</span>
+              <span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+              <span class="token function">LoginFailure</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">}</span><span class="token punctuation">,</span>
+          <span class="token punctuation">{</span> <span class="token literal-property property">scope</span><span class="token operator">:</span> <span class="token string">&#x27;public_profile, email&#x27;</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre></div>
+<p>getInfo는 이제 화면에서 Facebook으로 로그인 하기 혹은 회원가입하기 버튼을 누르면 가장 먼저 페이스북에서 유저 정보를 가져와서 로그인이든 회원가입이든 진행을 하게 된다. 여기서 <code class="language-text">회원의 정보를 페이스북으로부터 가저오는 메서드</code>이다.</p>
 <ul>
 <li>
-<p>req_body는 페이스북으로부터 가져온 user 정보를 담는 곳이다. id, name, email, profileImg 는 user의 기본정보이고, <code>social</code>은 MySQL에 user 테이블에 social 칼럼에 들어갈 값이다. 이렇게 social로 구분해놓는 이유는, 소셜 로그인을 통해 회원가입 한 회원의 비밀번호 찾을 때 구분값으로도 사용되고, 회원 가입 시, social회원과 아닌 회원을 분기 처리해서 password를 자동으로 만들어줄 것이기 때문이다.</p>
+<p>req_body는 페이스북으로부터 가져온 user 정보를 담는 곳이다. id, name, email, profileImg 는 user의 기본정보이고, <code class="language-text">social</code>은 MySQL에 user 테이블에 social 칼럼에 들어갈 값이다. 이렇게 social로 구분해놓는 이유는, 소셜 로그인을 통해 회원가입 한 회원의 비밀번호 찾을 때 구분값으로도 사용되고, 회원 가입 시, social회원과 아닌 회원을 분기 처리해서 password를 자동으로 만들어줄 것이기 때문이다.</p>
 </li>
 <li>
 <p>scope 부분이 프로필과 email정보를 요청하겠다라는 뜻이다.</p>
 </li>
 <li>
-<p>여기서 return new Promise((resolve, reject) =&gt; ... Promise가 사용되었다. 사실 Tripllo는 로그인 시, 회원가입 시 두개 다 페이스북으로부터 정보를 가져온 다음 진행이 되는데 2개의 메서드가 이렇게 유저 info를 가져오는 부분이 겹친 소스로 되어있었다. 리팩토링하기 위해서 Promise를 사용했으며, login, signup에서 이어서 promise를 사용한다.</p>
+<p>여기서 return new Promise((resolve, reject) =&gt; … Promise가 사용되었다. 사실 Tripllo는 로그인 시, 회원가입 시 두개 다 페이스북으로부터 정보를 가져온 다음 진행이 되는데 2개의 메서드가 이렇게 유저 info를 가져오는 부분이 겹친 소스로 되어있었다. 리팩토링하기 위해서 Promise를 사용했으며, login, signup에서 이어서 promise를 사용한다.</p>
 </li>
 </ul>
-<h4>login, signup</h4>
-<pre><code class="language-js">async login() {
-  const req = await this.getInfo();
-	await socialLogin(req);
-},
+<h4 id="login-signup" style="position:relative">login, signup<a href="#login-signup" aria-label="login signup permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h4>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">async</span> <span class="token function">login</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> req <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">await</span> <span class="token function">socialLogin</span><span class="token punctuation">(</span>req<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span>
 
-async signup() {
-  const req = await this.getInfo();
-  await socialSignup(req);
-},
-</code></pre>
-<p>이렇게 async await 를 사용해주지 않으면(.then 을 사용해서 처리해도 됨..) socialLogin 메서드로 비동기처리(req가 넘어오지 않았는데 먼저 실행) 되기 때문에 넣어주었다. 이젠 Promise를 쓰지 않으면 불편한 수준....</p>
-<h4>전체소스</h4>
-<pre><code class="language-js">import { socialLogin, socialSignup } from &#x27;@/utils/social&#x27;;
+<span class="token keyword">async</span> <span class="token function">signup</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> req <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">await</span> <span class="token function">socialSignup</span><span class="token punctuation">(</span>req<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre></div>
+<p>이렇게 async await 를 사용해주지 않으면(.then 을 사용해서 처리해도 됨..) socialLogin 메서드로 비동기처리(req가 넘어오지 않았는데 먼저 실행) 되기 때문에 넣어주었다. 이젠 Promise를 쓰지 않으면 불편한 수준…</p>
+<h4 id="전체소스" style="position:relative">전체소스<a href="#%EC%A0%84%EC%B2%B4%EC%86%8C%EC%8A%A4" aria-label="전체소스 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h4>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> socialLogin<span class="token punctuation">,</span> socialSignup <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&#x27;@/utils/social&#x27;</span><span class="token punctuation">;</span>
 
-const Facebook = {
-  init() {
-    window.fbAsyncInit = function () {
-      window.FB.init({
-        appId: process.env.VUE_APP_FACEBOOK_APP_KEY,
-        cookie: true,
-        xfbml: true,
-        version: &#x27;v9.0&#x27;,
-      });
-      window.FB.AppEvents.logPageView();
-    };
-    (function (d, s, id) {
-      var js,
-        fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {
-        return;
-      }
-      js = d.createElement(s);
-      js.id = id;
-      js.src = &#x27;https://connect.facebook.net/en_US/sdk.js&#x27;;
-      fjs.parentNode.insertBefore(js, fjs);
-    })(document, &#x27;script&#x27;, &#x27;facebook-jssdk&#x27;);
-  },
+<span class="token keyword">const</span> Facebook <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    window<span class="token punctuation">.</span><span class="token function-variable function">fbAsyncInit</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      window<span class="token punctuation">.</span><span class="token constant">FB</span><span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        <span class="token literal-property property">appId</span><span class="token operator">:</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">VUE_APP_FACEBOOK_APP_KEY</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">cookie</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">xfbml</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">version</span><span class="token operator">:</span> <span class="token string">&#x27;v9.0&#x27;</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      window<span class="token punctuation">.</span><span class="token constant">FB</span><span class="token punctuation">.</span>AppEvents<span class="token punctuation">.</span><span class="token function">logPageView</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">d<span class="token punctuation">,</span> s<span class="token punctuation">,</span> id</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">var</span> js<span class="token punctuation">,</span>
+        fjs <span class="token operator">=</span> d<span class="token punctuation">.</span><span class="token function">getElementsByTagName</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>d<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      js <span class="token operator">=</span> d<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      js<span class="token punctuation">.</span>id <span class="token operator">=</span> id<span class="token punctuation">;</span>
+      js<span class="token punctuation">.</span>src <span class="token operator">=</span> <span class="token string">&#x27;https://connect.facebook.net/en_US/sdk.js&#x27;</span><span class="token punctuation">;</span>
+      fjs<span class="token punctuation">.</span>parentNode<span class="token punctuation">.</span><span class="token function">insertBefore</span><span class="token punctuation">(</span>js<span class="token punctuation">,</span> fjs<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span>document<span class="token punctuation">,</span> <span class="token string">&#x27;script&#x27;</span><span class="token punctuation">,</span> <span class="token string">&#x27;facebook-jssdk&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
 
-  async login() {
-    const req = await this.getInfo();
-    await socialLogin(req);
-  },
+  <span class="token keyword">async</span> <span class="token function">login</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> req <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">await</span> <span class="token function">socialLogin</span><span class="token punctuation">(</span>req<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
 
-  async signup() {
-    const req = await this.getInfo();
-    await socialSignup(req);
-  },
+  <span class="token keyword">async</span> <span class="token function">signup</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> req <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">await</span> <span class="token function">socialSignup</span><span class="token punctuation">(</span>req<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
 
-  getInfo() {
-    return new Promise((resolve, reject) =&gt; {
-      window.FB.getLoginStatus(() =&gt; {
-        // 첫 시도
-        window.FB.login(
-          response =&gt; {
-            if (response.status === &#x27;connected&#x27;) {
-              // const accessToken = response.authResponse.accessToken;
-              window.FB.api(&#x27;/me&#x27;, { fields: &#x27;id, name, email, picture&#x27; }, res =&gt; {
-                if (!res) LoginFailure();
-                const req_body = {
-                  id: res.id,
-                  name: res.name,
-                  email: res.email,
-                  picture: res.picture.data.url,
-                  social: &#x27;Facebook&#x27;,
-                };
-                resolve(req_body);
-              });
-            } else {
-              LoginFailure();
-            }
-          },
-          { scope: &#x27;public_profile, email&#x27; },
-        );
-      });
-    });
-  },
-};
+  <span class="token function">getInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+      window<span class="token punctuation">.</span><span class="token constant">FB</span><span class="token punctuation">.</span><span class="token function">getLoginStatus</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 첫 시도</span>
+        window<span class="token punctuation">.</span><span class="token constant">FB</span><span class="token punctuation">.</span><span class="token function">login</span><span class="token punctuation">(</span>
+          <span class="token parameter">response</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>response<span class="token punctuation">.</span>status <span class="token operator">===</span> <span class="token string">&#x27;connected&#x27;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+              <span class="token comment">// const accessToken = response.authResponse.accessToken;</span>
+              window<span class="token punctuation">.</span><span class="token constant">FB</span><span class="token punctuation">.</span><span class="token function">api</span><span class="token punctuation">(</span><span class="token string">&#x27;/me&#x27;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token literal-property property">fields</span><span class="token operator">:</span> <span class="token string">&#x27;id, name, email, picture&#x27;</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token parameter">res</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>res<span class="token punctuation">)</span> <span class="token function">LoginFailure</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">const</span> req_body <span class="token operator">=</span> <span class="token punctuation">{</span>
+                  <span class="token literal-property property">id</span><span class="token operator">:</span> res<span class="token punctuation">.</span>id<span class="token punctuation">,</span>
+                  <span class="token literal-property property">name</span><span class="token operator">:</span> res<span class="token punctuation">.</span>name<span class="token punctuation">,</span>
+                  <span class="token literal-property property">email</span><span class="token operator">:</span> res<span class="token punctuation">.</span>email<span class="token punctuation">,</span>
+                  <span class="token literal-property property">picture</span><span class="token operator">:</span> res<span class="token punctuation">.</span>picture<span class="token punctuation">.</span>data<span class="token punctuation">.</span>url<span class="token punctuation">,</span>
+                  <span class="token literal-property property">social</span><span class="token operator">:</span> <span class="token string">&#x27;Facebook&#x27;</span><span class="token punctuation">,</span>
+                <span class="token punctuation">}</span><span class="token punctuation">;</span>
+                <span class="token function">resolve</span><span class="token punctuation">(</span>req_body<span class="token punctuation">)</span><span class="token punctuation">;</span>
+              <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+              <span class="token function">LoginFailure</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">}</span><span class="token punctuation">,</span>
+          <span class="token punctuation">{</span> <span class="token literal-property property">scope</span><span class="token operator">:</span> <span class="token string">&#x27;public_profile, email&#x27;</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-export default Facebook;
-</code></pre>
-<p>여기서 보면 가장 상단에 <code>import { socialLogin, socialSignup } from &#x27;@/utils/social&#x27;;</code> 이 구문이 있다. social 로그인과 social 회원가입은 이 포스팅에서 가장 먼저 설명했던 소셜 공통 API인 utils/social/index.js 파일에서 가져오는 메서드인데, 역시 공통 부분을 거쳐서 기능을 수행하게 되는 구조이다.</p>
+<span class="token keyword">export</span> <span class="token keyword">default</span> Facebook<span class="token punctuation">;</span></code></pre></div>
+<p>여기서 보면 가장 상단에 <code class="language-text">import { socialLogin, socialSignup } from &#x27;@/utils/social&#x27;;</code> 이 구문이 있다. social 로그인과 social 회원가입은 이 포스팅에서 가장 먼저   설명했던 소셜 공통 API인 utils/social/index.js 파일에서 가져오는 메서드인데, 역시 공통 부분을 거쳐서 기능을 수행하게 되는 구조이다.</p>
 <p>또 해당 js 파일은 export default로 Facebook 에 선언된 4개의 메서드를 내보내고 있다. 이 처리는, vue의 plugin 기능으로 어디서든 빼서 쓸 수 있도록 한 것인데, 굳이 plugin 기능으로 만들었어야 했나? 하는 의문이 들지만 일단 plugin을 직접 만들어 사용해봤다는데 의미를 두어야 할듯.</p>
 <p>참고자료 : <a href="https://developers.facebook.com/docs/reference/javascript/FB.getLoginStatus">공식 Document</a>, <a href="https://parkjihwan.tistory.com/9">https://parkjihwan.tistory.com/9</a></p>
-<p>LoginFailure() 은 따로 만들진 않음...</p>
+<p>LoginFailure() 은 따로 만들진 않음…</p>
 <br/>
-<h3>카카오 로그인</h3>
-<h4>카카오 서비스 등록</h4>
+<h3 id="카카오-로그인" style="position:relative">카카오 로그인<a href="#%EC%B9%B4%EC%B9%B4%EC%98%A4-%EB%A1%9C%EA%B7%B8%EC%9D%B8" aria-label="카카오 로그인 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
+<h4 id="카카오-서비스-등록" style="position:relative">카카오 서비스 등록<a href="#%EC%B9%B4%EC%B9%B4%EC%98%A4-%EC%84%9C%EB%B9%84%EC%8A%A4-%EB%93%B1%EB%A1%9D" aria-label="카카오 서비스 등록 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h4>
 <p><a href="https://developers.kakao.com/">카카오 Development</a></p>
 <p>이곳에 들어가보자. 상단에 내 애플리케이션을 클릭, + 버튼으로 애플리케이션 추가하기를 눌러주자.</p>
 <p><img src="https://user-images.githubusercontent.com/59427983/107010446-b0ff0800-67d9-11eb-9531-376d46df5d76.png" alt="스크린샷 2021-02-05 오후 5 21 25"/></p>
-<p>사진과 같이 입력해주고 들어가보자. 가장 먼저 뜨는 것은 앱키에 대한 부분이다. <code>JavaScript 키</code> 만 복사해두자. 이것도 페이스북과 마찬가지로 env 파일에 등록해줄것이다.</p>
+<p>사진과 같이 입력해주고 들어가보자. 가장 먼저 뜨는 것은 앱키에 대한 부분이다. <code class="language-text">JavaScript 키</code> 만 복사해두자. 이것도 페이스북과 마찬가지로 env 파일에 등록해줄것이다.</p>
 <p><img src="https://user-images.githubusercontent.com/59427983/107010496-c1af7e00-67d9-11eb-97db-c48f966c2d4b.png" alt="스크린샷 2021-02-05 오후 5 37 18"/></p>
-<p>왼쪽 탭에 <code>플랫폼</code>이 있다. 클릭 후 우리는 Web 서비스를 할 것이기 때문에 Web 플랫폼을 등록 하자. 사이트 도메인이 나오는데, 로컬 환경의 url을 입력해주자. 이 부분은 나중에 배포 시 다시 수정해주어야 할 부분이다. 도메인이 바뀔 것이기 때문. 이 부분을 제대로 등록하지 않으면 밑에 사진과 같은 오류가 뜬다. 배포 후 도메인을 변경했을 때도 마찬가지다.</p>
+<p>왼쪽 탭에 <code class="language-text">플랫폼</code>이 있다. 클릭 후 우리는 Web 서비스를 할 것이기 때문에 Web 플랫폼을 등록하자. 사이트 도메인이 나오는데, 로컬 환경의 url을 입력해주자. 이 부분은 나중에 배포 시 다시 수정해주어야 할 부분이다. 도메인이 바뀔 것이기 때문. 이 부분을 제대로 등록하지 않으면 밑에 사진과 같은 오류가 뜬다. 배포 후 도메인을 변경했을 때도 마찬가지다.</p>
 <img width="930" alt="스크린샷 2021-02-05 오후 5 38 08" src="https://user-images.githubusercontent.com/59427983/107010554-d429b780-67d9-11eb-80d9-7be367de37e0.png"/>
 <p>이제, 왼쪽 탭에 카카오 로그인이 있다. 클릭해보자. 그리고 활성화 설정의 상태를 ON으로 두자. 왼쪽 탭에 카카오 로그인 밑에 동의항목 탭이 있다. 눌러보자. 우리는 개인정보 보호 부분을 설정해주어야 한다. 나는 밑의 사진과 같이 꼭 필요한 정보만 요청하도록 설정했다.</p>
 <p><img src="https://user-images.githubusercontent.com/59427983/107010576-ddb31f80-67d9-11eb-8c14-ef84c53a9ea2.png" alt="스크린샷 2021-02-05 오후 5 41 33"/></p>
@@ -319,86 +314,84 @@ export default Facebook;
 <p><img src="https://user-images.githubusercontent.com/59427983/107010604-e6a3f100-67d9-11eb-896e-ddfd3c20db30.png" alt="스크린샷 2021-02-05 오후 5 42 05"/></p>
 <p>이제 SDK를 사용해서 페이스북과 마찬가지로 유저 정보를 카카오로부터 가져올 것이다.</p>
 <p><a href="https://developers.kakao.com/docs/latest/ko/getting-started/sdk-js">카카오 로그인 공식문서</a></p>
-<p>이곳에서 따라하면 설정할 수 있다. 내가 처음에 사용했던 방법은 간단하게 생각해서 vue 의 public 디렉토리 밑 index.html에 link 를 담아서 사용하면 어떨까? 생각했다. 실제로 그렇게 개발하기도 했고. 중간에 index.html에 link 태그로 선언해둔다면 모든 페이지에서 카카오 관련 sdk가 불러와지는   것 아닌가? 그러면 리소스 낭비이고 이런 링크가 늘어갈 수록 어플리케이션 <strong>전반에 성능 이슈</strong>가 생길 수 있겠다는 생각이 들었다. 그래서 찾았던 것은 해당 vue 컴포넌트에서만 link를 불러오는 방법을 찾았다. 바로 <code>LoadScript</code> 라는 녀석이다.</p>
-<h4>LoadScript</h4>
+<p>이곳에서 따라하면 설정할 수 있다. 내가 처음에 사용했던 방법은 간단하게 생각해서 vue 의 public 디렉토리 밑 index.html에 link 를 담아서 사용하면 어떨까? 생각했다. 실제로 그렇게 개발하기도 했고. 중간에 index.html에 link 태그로 선언해둔다면 모든 페이지에서 카카오 관련 sdk가 불러와지는 것 아닌가? 그러면 리소스 낭비이고 이런 링크가 늘어갈 수록 어플리케이션 <strong>전반에 성능 이슈</strong>가 생길 수 있겠다는 생각이 들었다. 그래서 찾았던 것은 해당 vue 컴포넌트에서만 link를 불러오는 방법을 찾았다. 바로 <code class="language-text">LoadScript</code> 라는 녀석이다.</p>
+<h4 id="LoadScript" style="position:relative">LoadScript<a href="#LoadScript" aria-label="LoadScript permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h4>
 <p><a href="https://berrrrr.github.io/programming/2020/09/15/vue-script-load/">LoadScript 사용법</a> 이곳에서 간단하게 loadScript를 설치하고 사용했다. npm install 후, main.js에 등록해주고, create() 라이프사이클 메서드에서 사용했다.</p>
-<pre><code class="language-js">this.$loadScript(`https://developers.kakao.com/sdk/js/kakao.js`).then(() =&gt; {
-  if (!window.Kakao.isInitialized()) this.$Kakao.init();
-});
-</code></pre>
-<p>이런 식으로 사용한다. return 타입은 Promise고 then으로 이어서 사용한다. window.Kakao.isInitalized() 함수는 앞으로 js에 설정해줄 kakao의 init() 함수가 실행되어 프로그램이 로드되어 있는가를 판단해주는 메서드다. $Kakao.init 은 페이스북과 마찬가지로 plugin으로 이어준 것인데 Kakao.js 파일을 살펴보도록 하자.</p>
-<h4>Kakao.js</h4>
-<pre><code class="language-js">import { socialLogin, socialSignup } from &#x27;@/utils/social&#x27;;
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">$loadScript</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">https://developers.kakao.com/sdk/js/kakao.js</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>window<span class="token punctuation">.</span>Kakao<span class="token punctuation">.</span><span class="token function">isInitialized</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">this</span><span class="token punctuation">.</span>$Kakao<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
+<p>이런 식으로 사용한다. return 타입은 Promise고 then으로 이어서 사용한다. window.Kakao.isInitalized()   함수는 앞으로 js에 설정해줄 kakao의 init() 함수가 실행되어 프로그램이 로드되어 있는가를 판단해주는 메서드다. $Kakao.init 은 페이스북과 마찬가지로 plugin으로 이어준 것인데 Kakao.js 파일을 살펴보도록 하자.</p>
+<h4 id="Kakaojs" style="position:relative">Kakao.js<a href="#Kakaojs" aria-label="Kakaojs permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h4>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> socialLogin<span class="token punctuation">,</span> socialSignup <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&#x27;@/utils/social&#x27;</span><span class="token punctuation">;</span>
 
-const Kakao = {
-  init() {
-    window.Kakao.init(process.env.VUE_APP_KAKAO_APP_KEY);
-    return true;
-  },
+<span class="token keyword">const</span> Kakao <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    window<span class="token punctuation">.</span>Kakao<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">VUE_APP_KAKAO_APP_KEY</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
 
-  getInfo(authObj, division) {
-    window.Kakao.API.request({
-      url: &#x27;/v2/user/me&#x27;,
-      success: async res =&gt; {
-        console.log(res);
-        const kakao_account = res.kakao_account;
-        const req = {
-          id: res.id,
-          name: kakao_account.profile.nickname,
-          email: kakao_account.email,
-          picture: kakao_account.profile.profile_image_url,
-          social: &#x27;Kakao&#x27;,
-        };
-        if (division === &#x27;login&#x27;) {
-          socialLogin(req);
-        } else {
-          socialSignup(req);
-        }
-      },
-      fail: error =&gt; {
-        console.log(error);
-      },
-    });
-  },
+  <span class="token function">getInfo</span><span class="token punctuation">(</span><span class="token parameter">authObj<span class="token punctuation">,</span> division</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    window<span class="token punctuation">.</span>Kakao<span class="token punctuation">.</span><span class="token constant">API</span><span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      <span class="token literal-property property">url</span><span class="token operator">:</span> <span class="token string">&#x27;/v2/user/me&#x27;</span><span class="token punctuation">,</span>
+      <span class="token function-variable function">success</span><span class="token operator">:</span> <span class="token keyword">async</span> <span class="token parameter">res</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">const</span> kakao_account <span class="token operator">=</span> res<span class="token punctuation">.</span>kakao_account<span class="token punctuation">;</span>
+        <span class="token keyword">const</span> req <span class="token operator">=</span> <span class="token punctuation">{</span>
+          <span class="token literal-property property">id</span><span class="token operator">:</span> res<span class="token punctuation">.</span>id<span class="token punctuation">,</span>
+          <span class="token literal-property property">name</span><span class="token operator">:</span> kakao_account<span class="token punctuation">.</span>profile<span class="token punctuation">.</span>nickname<span class="token punctuation">,</span>
+          <span class="token literal-property property">email</span><span class="token operator">:</span> kakao_account<span class="token punctuation">.</span>email<span class="token punctuation">,</span>
+          <span class="token literal-property property">picture</span><span class="token operator">:</span> kakao_account<span class="token punctuation">.</span>profile<span class="token punctuation">.</span>profile_image_url<span class="token punctuation">,</span>
+          <span class="token literal-property property">social</span><span class="token operator">:</span> <span class="token string">&#x27;Kakao&#x27;</span><span class="token punctuation">,</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>division <span class="token operator">===</span> <span class="token string">&#x27;login&#x27;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token function">socialLogin</span><span class="token punctuation">(</span>req<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+          <span class="token function">socialSignup</span><span class="token punctuation">(</span>req<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token function-variable function">fail</span><span class="token operator">:</span> <span class="token parameter">error</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
 
-  login() {
-    window.Kakao.Auth.login({
-      scope: &#x27;profile, account_email&#x27;,
-      success: authObj =&gt; {
-        this.getInfo(authObj, &#x27;login&#x27;);
-      },
-      fail: error =&gt; console.log(error),
-    });
-  },
+  <span class="token function">login</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    window<span class="token punctuation">.</span>Kakao<span class="token punctuation">.</span>Auth<span class="token punctuation">.</span><span class="token function">login</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      <span class="token literal-property property">scope</span><span class="token operator">:</span> <span class="token string">&#x27;profile, account_email&#x27;</span><span class="token punctuation">,</span>
+      <span class="token function-variable function">success</span><span class="token operator">:</span> <span class="token parameter">authObj</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getInfo</span><span class="token punctuation">(</span>authObj<span class="token punctuation">,</span> <span class="token string">&#x27;login&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token function-variable function">fail</span><span class="token operator">:</span> <span class="token parameter">error</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
 
-  signup() {
-    window.Kakao.Auth.login({
-      scope: &#x27;profile, account_email&#x27;,
-      success: authObj =&gt; {
-        this.getInfo(authObj, &#x27;signup&#x27;);
-      },
-      fail: error =&gt; console.log(error),
-    });
-  },
+  <span class="token function">signup</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    window<span class="token punctuation">.</span>Kakao<span class="token punctuation">.</span>Auth<span class="token punctuation">.</span><span class="token function">login</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      <span class="token literal-property property">scope</span><span class="token operator">:</span> <span class="token string">&#x27;profile, account_email&#x27;</span><span class="token punctuation">,</span>
+      <span class="token function-variable function">success</span><span class="token operator">:</span> <span class="token parameter">authObj</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getInfo</span><span class="token punctuation">(</span>authObj<span class="token punctuation">,</span> <span class="token string">&#x27;signup&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token function-variable function">fail</span><span class="token operator">:</span> <span class="token parameter">error</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
 
-  logout() {
-    window.Kakao.Auth.logout(res =&gt; {
-      if (!res) return console.log(error);
-      social_logout();
-    });
-  },
-};
+  <span class="token function">logout</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    window<span class="token punctuation">.</span>Kakao<span class="token punctuation">.</span>Auth<span class="token punctuation">.</span><span class="token function">logout</span><span class="token punctuation">(</span><span class="token parameter">res</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>res<span class="token punctuation">)</span> <span class="token keyword">return</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token function">social_logout</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-export default Kakao;
-</code></pre>
-<p>Facebook.js와 별반 차이 없다. init() 메서드에서 <code>process.env.VUE_APP_KAKAO_APP_KEY</code> 이 부분은 아까 긁어둔 Javascript 키를 env 파일에 저장해두고 불러온 것이다. getInfo() 메서드에 매개변수로 division을 둔 이유는 역시 getInfo 부분이 로그인과 회원가입에서 카카오로부터 유저 정보를 가져오는 로직이 겹치므로 분기로 구분하기 위한 구분 값으로 넣어주었다.</p>
+<span class="token keyword">export</span> <span class="token keyword">default</span> Kakao<span class="token punctuation">;</span></code></pre></div>
+<p>Facebook.js와 별반 차이 없다. init() 메서드에서 <code class="language-text">process.env.VUE_APP_KAKAO_APP_KEY</code> 이 부분은 아까 긁어둔 Javascript 키를 env 파일에 저장해두고 불러온 것이다. getInfo() 메서드에 매개변수로 division을 둔 이유는 역시 getInfo 부분이 로그인과 회원가입에서 카카오로부터 유저 정보를 가져오는 로직이 겹치므로 분기로 구분하기 위한 구분 값으로 넣어주었다.</p>
 <p>로그인을 시도하면</p>
 <img width="906" alt="스크린샷 2021-02-05 오후 6 10 06" src="https://user-images.githubusercontent.com/59427983/107013323-8adb6700-67dd-11eb-96ac-968696d2846c.png"/>
 <p>이렇게 정보를 잘 불러온다. 이걸 이제 등록해주면 되는 것임. 페이스북에서와 마찬가지로 소셜 공통 API 에서 사용한 것을 소스 상으로 볼 수 있다.</p>
 <br/>
-<h3>구글 로그인</h3>
+<h3 id="구글-로그인" style="position:relative">구글 로그인<a href="#%EA%B5%AC%EA%B8%80-%EB%A1%9C%EA%B7%B8%EC%9D%B8" aria-label="구글 로그인 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
 <p>자, 마지막 구글 로그인이다.</p>
-<h4>구글 서비스 등록</h4>
+<h4 id="구글-서비스-등록" style="position:relative">구글 서비스 등록<a href="#%EA%B5%AC%EA%B8%80-%EC%84%9C%EB%B9%84%EC%8A%A4-%EB%93%B1%EB%A1%9D" aria-label="구글 서비스 등록 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h4>
 <p><a href="https://console.cloud.google.com">Google Console</a> 해당 페이지 이동한다.</p>
 <p><img src="https://user-images.githubusercontent.com/59427983/107017902-1efbfd00-67e3-11eb-878a-07b4a548e92d.png" alt="스크린샷 2021-02-05 오후 6 50 01"/></p>
 <p>프로젝트 선택을 누르고 새 프로젝트를 누른다. 프로젝트 이름을 만들자.</p>
@@ -412,60 +405,55 @@ export default Kakao;
 <p>이런 클라이언트 ID와 보안 비밀번호가 나온다. 잘 기록해두자. 그리고 다시 왼쪽에</p>
 <img width="255" alt="스크린샷 2021-02-05 오후 7 35 17" src="https://user-images.githubusercontent.com/59427983/107022933-4d7cd680-67e9-11eb-9b9f-85a0571342aa.png"/>
 <p>OAuth 동의 화면을 눌러서 승인된 도메인 부분에 <a href="http://localhost:8080">http://localhost:8080</a> 을 적어주자. 이제 연동할 차례다.</p>
-<h4>npm vue-google-login</h4>
-<pre><code class="language-shell">$ npm i vue-google-login
-</code></pre>
+<h4 id="npm-vue-google-login" style="position:relative">npm vue-google-login<a href="#npm-vue-google-login" aria-label="npm vue google login permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h4>
+<div class="gatsby-highlight" data-language="shell"><pre class="language-shell"><code class="language-shell">$ <span class="token function">npm</span> i vue-google-login</code></pre></div>
 <p>간단하게 가기 위해서 이번엔 그냥 모듈을 다운받아서 연동시키겠다.</p>
-<pre><code class="language-html">&lt;GoogleLogin class=&quot;external_item&quot; :params=&quot;googleParams&quot; :onSuccess=&quot;googleSuccess&quot;&gt;
-  &lt;img src=&quot;@/assets/user/logo/google.png&quot; /&gt;
-  &lt;b&gt; Continue with Google&lt;/b&gt;
-&lt;/GoogleLogin&gt;
-</code></pre>
+<div class="gatsby-highlight" data-language="html"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>GoogleLogin</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>external_item<span class="token punctuation">&quot;</span></span> <span class="token attr-name">:params</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>googleParams<span class="token punctuation">&quot;</span></span> <span class="token attr-name">:onSuccess</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>googleSuccess<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>@/assets/user/logo/google.png<span class="token punctuation">&quot;</span></span> <span class="token punctuation">/&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>b</span><span class="token punctuation">&gt;</span></span> Continue with Google<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>b</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>GoogleLogin</span><span class="token punctuation">&gt;</span></span></code></pre></div>
 <p>GoogleLogin 태그를 사용하면 바로 기능이 연동된다. vue 파일의 template 태그 안에 넣어주면 된다. img와 b태그는 내가 임의로 넣은 것이고, :onSuccess와 :params 값을 정의해서 넣어주기만 하면 된다.</p>
-<pre><code class="language-js">googleParams: { client_id: process.env.VUE_APP_GOOGLE_CLIENT_ID },
-</code></pre>
-<pre><code class="language-js">async googleSuccess(googleUser) {
-	if (localStorage.getItem(&#x27;user_token&#x27;)) {
-		alert(&#x27;이미 로그인 되어 있습니다.&#x27;);
-		this.$router.push(&#x27;/main&#x27;);
-	} else {
-		this.$Google.login(googleUser);
-	}
-},
-</code></pre>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token literal-property property">googleParams</span><span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token literal-property property">client_id</span><span class="token operator">:</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">VUE_APP_GOOGLE_CLIENT_ID</span> <span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre></div>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">async</span> <span class="token function">googleSuccess</span><span class="token punctuation">(</span><span class="token parameter">googleUser</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span>localStorage<span class="token punctuation">.</span><span class="token function">getItem</span><span class="token punctuation">(</span><span class="token string">&#x27;user_token&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">&#x27;이미 로그인 되어 있습니다.&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token keyword">this</span><span class="token punctuation">.</span>$router<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token string">&#x27;/main&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+		<span class="token keyword">this</span><span class="token punctuation">.</span>$Google<span class="token punctuation">.</span><span class="token function">login</span><span class="token punctuation">(</span>googleUser<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre></div>
 <p>이렇게 $Google로 되어있다. Google.js 파일을 만들어야겠지?</p>
-<h4>Google.js</h4>
-<pre><code class="language-js">import { socialLogin, socialSignup } from &#x27;@/utils/social&#x27;;
+<h4 id="Googlejs" style="position:relative">Google.js<a href="#Googlejs" aria-label="Googlejs permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h4>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> socialLogin<span class="token punctuation">,</span> socialSignup <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&#x27;@/utils/social&#x27;</span><span class="token punctuation">;</span>
 
-const Google = {
-  makeReq(googleUser) {
-    return new Promise((resolve, reject) =&gt; {
-      const req = {
-        name: googleUser.Fs.sd,
-        id: googleUser.Fs.lt,
-        email: googleUser.Fs.lt,
-        picture: googleUser.Fs.wI,
-        social: &#x27;Google&#x27;,
-      };
-      resolve(req);
-    });
-  },
+<span class="token keyword">const</span> Google <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token function">makeReq</span><span class="token punctuation">(</span><span class="token parameter">googleUser</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> req <span class="token operator">=</span> <span class="token punctuation">{</span>
+        <span class="token literal-property property">name</span><span class="token operator">:</span> googleUser<span class="token punctuation">.</span>Fs<span class="token punctuation">.</span>sd<span class="token punctuation">,</span>
+        <span class="token literal-property property">id</span><span class="token operator">:</span> googleUser<span class="token punctuation">.</span>Fs<span class="token punctuation">.</span>lt<span class="token punctuation">,</span>
+        <span class="token literal-property property">email</span><span class="token operator">:</span> googleUser<span class="token punctuation">.</span>Fs<span class="token punctuation">.</span>lt<span class="token punctuation">,</span>
+        <span class="token literal-property property">picture</span><span class="token operator">:</span> googleUser<span class="token punctuation">.</span>Fs<span class="token punctuation">.</span>wI<span class="token punctuation">,</span>
+        <span class="token literal-property property">social</span><span class="token operator">:</span> <span class="token string">&#x27;Google&#x27;</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">;</span>
+      <span class="token function">resolve</span><span class="token punctuation">(</span>req<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
 
-  login(googleUser) {
-    this.makeReq(googleUser).then(req =&gt; {
-      socialLogin(req);
-    });
-  },
+  <span class="token function">login</span><span class="token punctuation">(</span><span class="token parameter">googleUser</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">makeReq</span><span class="token punctuation">(</span>googleUser<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">req</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+      <span class="token function">socialLogin</span><span class="token punctuation">(</span>req<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
 
-  signup(googleUser) {
-    this.makeReq(googleUser).then(req =&gt; {
-      socialSignup(req);
-    });
-  },
-};
+  <span class="token function">signup</span><span class="token punctuation">(</span><span class="token parameter">googleUser</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">makeReq</span><span class="token punctuation">(</span>googleUser<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">req</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+      <span class="token function">socialSignup</span><span class="token punctuation">(</span>req<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-export default Google;
-</code></pre>
+<span class="token keyword">export</span> <span class="token keyword">default</span> Google<span class="token punctuation">;</span></code></pre></div>
 <p>제일 간단하다. makeReq() 메서드로 받아온 googleUser를 소셜 공통 API로 넣어주면 끝. vue-google-login 모듈 때문이다.</p>
 <p>소셜 로그인 기능은 끝이 났다. 이제 SpringBoot에서 JWT를 vue에게 return 해주었는데 관리하는 방법과 함께 LocalStorage 와 Axios 인터셉터로 api를 주고받는 기능에 대해서 포스팅 할 것이다.</p>
 <hr/>

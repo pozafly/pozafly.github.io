@@ -72,130 +72,123 @@
 </blockquote>
 <br/>
 <br/>
-<h2>개념</h2>
+<h2 id="개념" style="position:relative">개념<a href="#%EA%B0%9C%EB%85%90" aria-label="개념 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
 <p>currying은 여러 개의 인자를 가진 함수를 호출할 경우, 파라미터의 수보다 적은 수의 파라미터를 인자로 받으면 누락된 파라미터를 인자로 받는 기법을 말함.</p>
-<p>예를 들면 <code>f(a, b, c)</code> 처럼 단일 호출로 처리하는 함수를 <code>f(a)(b)(c)</code> 와 같이 각각의 인수가 호출 가능한 프로세스로 호출된 후 병합되도록 변환하는 것이다. 함수를 인자로 주면 새로운 함수를 만들어 반환해 준다.</p>
-<pre><code class="language-js">function curry(f) {  // 커링 변환을 하는 curry(f) 함수
-  return function(a) {
-    return function(b) {
-      return f(a, b);
-    }
-  }
-}
+<p>예를 들면 <code class="language-text">f(a, b, c)</code> 처럼 단일 호출로 처리하는 함수를 <code class="language-text">f(a)(b)(c)</code> 와 같이 각각의 인수가 호출 가능한 프로세스로 호출된 후 병합되도록 변환하는 것이다. 함수를 인자로 주면 새로운 함수를 만들어 반환해 준다.</p>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">curry</span><span class="token punctuation">(</span><span class="token parameter">f</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  <span class="token comment">// 커링 변환을 하는 curry(f) 함수</span>
+  <span class="token keyword">return</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">a</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">b</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token function">f</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
-// usage
-function sum(a, b) {
-  return a + b;
-}
+<span class="token comment">// usage</span>
+<span class="token keyword">function</span> <span class="token function">sum</span><span class="token punctuation">(</span><span class="token parameter">a<span class="token punctuation">,</span> b</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> a <span class="token operator">+</span> b<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-let curriedSum = curry(sum);
-alert(curried(1)(2));  // 3
-</code></pre>
+<span class="token keyword">let</span> curriedSum <span class="token operator">=</span> <span class="token function">curry</span><span class="token punctuation">(</span>sum<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">alert</span><span class="token punctuation">(</span><span class="token function">curried</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 3</span></code></pre></div>
 <br/>
 <br/>
-<h2>Tripllo validation 함수에 적용</h2>
+<h2 id="Tripllo-validation-함수에-적용" style="position:relative">Tripllo validation 함수에 적용<a href="#Tripllo-validation-%ED%95%A8%EC%88%98%EC%97%90-%EC%A0%81%EC%9A%A9" aria-label="Tripllo validation 함수에 적용 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
 <p>기존의 내 valid 코드를 보자. 비슷한 두 개의 함수를 가져왔다.</p>
-<pre><code class="language-js">const validateEmail = email =&gt; {
-  if(email.length &lt; 20) {
-    const re = (...);  // 정규식
-    return re.test(String(email)); 
-  } else {
-    return false;
-  }
-};
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token function-variable function">validateEmail</span> <span class="token operator">=</span> <span class="token parameter">email</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span><span class="token punctuation">(</span>email<span class="token punctuation">.</span>length <span class="token operator">&lt;</span> <span class="token number">20</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> re <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 정규식</span>
+    <span class="token keyword">return</span> re<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token function">String</span><span class="token punctuation">(</span>email<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-const validateId = id =&gt; {
-  if(id.length &gt; 4 &amp;&amp; id.length &lt; 19) {
-    const re = (...);  // 정규식
-    return re.test(String(id));    
-  } else {
-    return false; 
-  }
-};
-</code></pre>
+<span class="token keyword">const</span> <span class="token function-variable function">validateId</span> <span class="token operator">=</span> <span class="token parameter">id</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span><span class="token punctuation">(</span>id<span class="token punctuation">.</span>length <span class="token operator">&gt;</span> <span class="token number">4</span> <span class="token operator">&amp;&amp;</span> id<span class="token punctuation">.</span>length <span class="token operator">&lt;</span> <span class="token number">19</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> re <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 정규식</span>
+    <span class="token keyword">return</span> re<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token function">String</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span> 
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre></div>
 <ul>
 <li>email : 길이 20 이하, 정규식 체크</li>
 <li>id : 길이 4 초과 19 미만, 정규식 체크</li>
 </ul>
-<p>이렇게 매번 정규식으로 체크  를 해줘도 되지만 고차 함수를 통해 바꿔보자.</p>
-<h2>고차 함수로 변환</h2>
+<p>이렇게 매번 정규식으로 체크를 해줘도 되지만 고차 함수를 통해 바꿔보자.</p>
+<h2 id="고차-함수로-변환" style="position:relative">고차 함수로 변환<a href="#%EA%B3%A0%EC%B0%A8-%ED%95%A8%EC%88%98%EB%A1%9C-%EB%B3%80%ED%99%98" aria-label="고차 함수로 변환 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
 <blockquote>
 <p>고차 함수는 함수를 매개변수로 받을 뿐 아니라 함수를 반환하기도 함.</p>
 </blockquote>
-<pre><code class="language-js">const valid = (regFunc, lengthFunc, ...args) =&gt; value =&gt; {
-  if (regFunc(value)) {
-    return lengthFunc(value, ...args);
-  } else {
-    return false;
-  }
-}
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token function-variable function">valid</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">regFunc<span class="token punctuation">,</span> lengthFunc<span class="token punctuation">,</span> <span class="token operator">...</span>args</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token parameter">value</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">regFunc</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token function">lengthFunc</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span> <span class="token operator">...</span>args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
-// 위 함수와 아래 함수는 같다. 편하게 화살표 함수가 좋은 것 같다.
+<span class="token comment">// 위 함수와 아래 함수는 같다. 편하게 화살표 함수가 좋은 것 같다.</span>
 
-function valid(regFunc, lengthFunc, ...args) {
-  return function(value) {
-    if(regFunc(value)) {
-      return lengthFunc(value, ...args);
-    } else {
-      return false;
-    }
-  }
-}
-</code></pre>
-<p>이렇게 valid 함수를 만들었다. valid 함수는 정규식을 체크하는 함수를 매개변수로 받고 이어지는 함수에서 길이 체크를 한다. 고차 함수의 매개변수로 들어갈 regFunc 함수와 그 lengthFunc을 만들어주자. 단 함수는 반드시 sideEffect가 없는 <code>순수 함수</code> 여야 한다.</p>
+<span class="token keyword">function</span> <span class="token function">valid</span><span class="token punctuation">(</span><span class="token parameter">regFunc<span class="token punctuation">,</span> lengthFunc<span class="token punctuation">,</span> <span class="token operator">...</span>args</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">value</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">regFunc</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token function">lengthFunc</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span> <span class="token operator">...</span>args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre></div>
+<p>이렇게 valid 함수를 만들었다. valid 함수는 정규식을 체크하는 함수를 매개변수로 받고 이어지는 함수에서 길이 체크를 한다. 고차 함수의 매개변수로 들어갈 regFunc 함수와 그 lengthFunc을 만들어주자. 단 함수는 반드시 sideEffect가 없는 <code class="language-text">순수 함수</code> 여야 한다.</p>
 <blockquote>
 <p>순수 함수는 외부의 어떤 변수 값을 참조하지 않는 함수를 말한다. 항상 같은 값을 넣었을 때 항상 동일한 결과를 도출해야 함. 함수형 프로그래밍에서는 각각의 함수가 독립적으로 작동하게 해 부수효과를 가지게 해서는 안 되기 때문이다.</p>
 </blockquote>
-<pre><code class="language-js">// regFunc
-const email = value =&gt; {
-  const re = (...);
-  return re.test(String(value).toLowerCase());
-};
-const id = value =&gt; {
-  const re = (...);
-  return re.test(String(value));
-}
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// regFunc</span>
+<span class="token keyword">const</span> <span class="token function-variable function">email</span> <span class="token operator">=</span> <span class="token parameter">value</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> re <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> re<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token function">String</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toLowerCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token function-variable function">id</span> <span class="token operator">=</span> <span class="token parameter">value</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> re <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> re<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token function">String</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-// lengthFunc
-const length = (value, first, last) =&gt; {
-  const length = value.length;
-  if (!last) {
-    if (length &gt; first) {
-      return true;
-    } else {
-      return false;
-    }
-  } else {
-    if (length &gt; first &amp;&amp; length &lt; last) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-};
-</code></pre>
-<p>이렇게 매개변수로 들어갈 함수를 정의해 주었  음. 이제 이 함수를 아래와 같이 사용할 수 있다.</p>
-<pre><code class="language-js">const emailValid = valid(email, length, 20);
-const idValid = valid(id, length, 4, 19);
-</code></pre>
+<span class="token comment">// lengthFunc</span>
+<span class="token keyword">const</span> <span class="token function-variable function">length</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">value<span class="token punctuation">,</span> first<span class="token punctuation">,</span> last</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> length <span class="token operator">=</span> value<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>last<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>length <span class="token operator">&gt;</span> first<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>length <span class="token operator">&gt;</span> first <span class="token operator">&amp;&amp;</span> length <span class="token operator">&lt;</span> last<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre></div>
+<p>이렇게 매개변수로 들어갈 함수를 정의해 주었음. 이제 이 함수를 아래와 같이 사용할 수 있다.</p>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">const</span> emailValid <span class="token operator">=</span> <span class="token function">valid</span><span class="token punctuation">(</span>email<span class="token punctuation">,</span> length<span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> idValid <span class="token operator">=</span> <span class="token function">valid</span><span class="token punctuation">(</span>id<span class="token punctuation">,</span> length<span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">19</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
 <p>valid 함수 하나로 emailValid, idValid 함수를 만들었다.</p>
 <ul>
 <li>첫 번째 매개변수(regFunc)는 email과 id의 정규식을 체크하는 함수</li>
 <li>두 번째 매개변수(lengthFunc)는 길이를 체크하는 함수.</li>
-<li>후에 오는 매개변수(...args)는 1개를 넣어줄 때 이하, 2개를 넣어줄 때 사잇 값 체크를 해준다.</li>
+<li>후에 오는 매개변수(…args)는 1개를 넣어줄 때 이하, 2개를 넣어줄 때 사잇 값 체크를 해준다.</li>
 </ul>
 <p>이렇게 만든 함수를 아래와 같이 활용할 수 있다.</p>
-<pre><code class="language-js">const emailResult = emailValid(&#x27;pozafly@gmail.com23450987&#x27;);
-const idResult = idValid(&#x27;pozafly&#x27;);
-console.log(emailResult, idResult);  // true or false 반환
-</code></pre>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">const</span> emailResult <span class="token operator">=</span> <span class="token function">emailValid</span><span class="token punctuation">(</span><span class="token string">&#x27;pozafly@gmail.com23450987&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> idResult <span class="token operator">=</span> <span class="token function">idValid</span><span class="token punctuation">(</span><span class="token string">&#x27;pozafly&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>emailResult<span class="token punctuation">,</span> idResult<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// true or false 반환</span></code></pre></div>
 <p>물론 valid를 통해 새로운 함수를 만들지 않고 아래와 같이도 만들 수 있음.</p>
-<pre><code class="language-js">const emailResult = valid(email, length, 20)(&#x27;pozafly@gmail.com&#x27;)
-const idResult = valid(id, length, 4, 19)(&#x27;pozafly&#x27;);
-</code></pre>
-<p>여기서 <code>valid</code> 함수를 통해 새로운 함수를 만들고 매개변수를 넣어주었는데, 이 valid 함수의 결과가 반환된 <code>emailValid</code> 함수와 <code>idValid</code> 함수는 3개의 매개변수로 넣어줬던 값을 기억하고 있다는 점을 주목하자. 생성될 때의 스코프에 상수(매개변수 값)가 존재했기 때문이다. 이 개념이 바로 <code>클로저</code> 다.</p>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">const</span> emailResult <span class="token operator">=</span> <span class="token function">valid</span><span class="token punctuation">(</span>email<span class="token punctuation">,</span> length<span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token string">&#x27;pozafly@gmail.com&#x27;</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> idResult <span class="token operator">=</span> <span class="token function">valid</span><span class="token punctuation">(</span>id<span class="token punctuation">,</span> length<span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">19</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token string">&#x27;pozafly&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
+<p>여기서 <code class="language-text">valid</code> 함수를 통해 새로운 함수를 만들고 매개변수를 넣어주었는데, 이 valid 함수의 결과가 반환된 <code class="language-text">emailValid</code> 함수와 <code class="language-text">idValid</code> 함수는 3개의 매개변수로 넣어줬던 값을 기억하고 있다는 점을 주목하자. 생성될 때의 스코프에 상수(매개변수 값)가 존재했기 때문이다. 이 개념이 바로 <code class="language-text">클로저</code> 다.</p>
 <p>이미 valid 함수를 호출하고 종료되었지만, 내부에 있는 상수는 메모리에 살아있다. 이렇게 valid 함수로 만들어진 새로운 함수가 다시 새로운 함수로 호출하면 내부에 살아있던 변수(함수)가 적용되는 이유다.</p>
-<p>valid 함수에 email, id 함수 말고도 password 함수를 만들어 넣어주어도 좋고, 다르게 변형해서 사용해도 좋을  것 같다. length 뒤에 오는 숫자들은 길이 제한 값이라 유지 보수하기에 좋다.</p>
+<p>valid 함수에 email, id 함수 말고도 password 함수를 만들어 넣어주어도 좋고, 다르게 변형해서 사용해도 좋을 것 같다. length 뒤에 오는 숫자들은 길이 제한 값이라 유지 보수하기에 좋다.</p>
 <p><a href="https://github.com/pozafly/tripllo_vue/blob/9eabdcce73fdeee58749523f81337582b481dfa9/src/utils/validation.js">Tripllo에 사용한 currying 함수 목록</a></p>
 <br/>
 <br/>
