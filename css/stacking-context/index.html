@@ -74,7 +74,7 @@
 <li>stacking context가 생성된 요소의 자식부터 영향을 준다.</li>
 <li>다른 stacking context에 속한 요소는 서로 z-index의 영향을 받지 않고 stacking context가 생성된 부모의 z-index를 기준으로 평가된다.</li>
 </ul>
-<p>마크업 중 다들 이런 경험이 있을 것이다. HTML, CSS로 꽤나 마음에 드는 화면을 그렸다. DOM의 구조도 잘 잡혔고 스타일도 공을 들여 마무리 하고 있다. 이제 한 요소를 위에 띄우는 상황 만이 남았다. 아마 z-index를 이용해서 z-index를 먹이지 않은 요소 위에 띄워주기만 하면 될 것 같다..! 하지만 z-index가 적용이 안되는 것 같다. 아무리 z-index 값을 높게 주거나, 아래로 깔고 싶은 요소에 z-index를 마이너스로 주어도 적용이 되지 않는다. 왜 css는 해도 자꾸만 새로워 보이는게 나오는걸까!</p>
+<p>마크업 작업을 하다 보면 다들 이런 경험이 있을 것이다. HTML, CSS로 꽤나 마음에 드는 화면을 그렸다. DOM의 구조도 잘 잡혔고 스타일도 공을 들여 마무리 하고 있다. 이제 한 요소를 위에 띄우는 상황 만이 남았다. 아마 z-index를 이용해서 z-index를 먹이지 않은 요소 위에 띄워주기만 하면 될 것 같다..! 하지만 z-index가 적용이 안되는 것 같다. 아무리 z-index 값을 높게 주거나, 아래로 깔고 싶은 요소에 z-index를 마이너스로 주어도 적용이 되지 않는다. 왜 css는 해도 자꾸만 새로워 보이는게 나오는걸까!</p>
 <p>이유는 바로 stacking context에 있다. 먼저 기본적인 z-index부터 알아보자.</p>
 <h2 id="z-index란" style="position:relative">z-index란?<a href="#z-index%EB%9E%80" aria-label="z index란 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
 <p>z-index는 HTML이 화면에 그려질 때 어떤 요소가 위에 올라가는지를 설정하는 속성이다. z-index의 값이 높을 수록 위에 올라가며 z축 기준으로 순서를 가진다.</p>
@@ -88,7 +88,7 @@
 <p>HTML 상으로 red는 green 보다 먼저 선언 되었고, 원래 대로라면 green의 뒤에 깔려야 하는게 정상이다. 하지만 z-index값을 1로 주었기 때문에 z-index가 적용되지 않은 green의 위로 올라와 있다.</p>
 <blockquote>
 <p>※ z-index는 반드시 같은 html 계층에 있지 않아도 된다.</p>
-<p>소스를 보면, HTML 계층 구조와 상관이 없다. 가장 최상위 div 밑에 형제로 div  태그가 있고, 각기 그 아래 div에 z-index가 있어서 반드시 한 묶음의 계층에서 z-index가 적용되는 것은 아니다.</p>
+<p>소스를 보면, HTML 계층 구조와 상관이 없다. 가장 최상위 div   밑에 형제로 div 태그가 있고, 각기 그 아래 div에 z-index가 있어서 반드시 한 묶음의 계층에서 z-index가 적용되는 것은 아니다.</p>
 </blockquote>
 <p>그러면 z-index가 없을 경우는 요소가 어떤 기준으로 쌓일까? 다음 순서로 아래에서 부터 위로 쌓인다.</p>
 <ol>
@@ -125,7 +125,7 @@
 <li>position 속성을 추가하거나 변경 금지</li>
 </ul>
 <p>답은 red를 감싸는 div에 opacity를 1보다 작은 값(ex. 0.99)로 적용하면 된다.</p>
-<p>이유가 뭘까? 바로 red를 감싸고 있는 div에 stacking context가 생성되었기 때문 이다. span을 감싸고 있는 각 div들은 서로 형제 요소이다. 그리고 position이 설정 되어 있지 않았고, z-index가 적용되어 있지 않았기 때문에 서로는 순서대로 나타나며 HTML상 가장 하단에 있는 blue를 감싸고 있는 div(3번째)가 가장 높이 올라와 보일 것이다.</p>
+<p>이유가 뭘까? 바로 red를 감싸고 있는 div에 stacking context가   생성되었기 때문이다. span을 감싸고 있는 각 div들은 서로 형제 요소이다. 그리고 position이 설정 되어 있지 않았고, z-index가 적용되어 있지 않았기 때문에 서로는 순서대로 나타나며 HTML상 가장 하단에 있는 blue를 감싸고 있는 div(3번째)가 가장 높이 올라와 보일 것이다.</p>
 <p>즉, 다시 말하면 3개의 div 모두 stacking context가 root 요소인 <code class="language-text">&lt;html&gt;</code> 이다. 그렇다면 span도 전부 root 요소의 stacking context 그룹에 속해있을 것이다. 그렇다면, red, green, blue(span 요소들) 모두 여전히 root 요소의 stacking context 안에 속해있다. 그렇기 때문에 계층과 상관 없이 z-index가 적용이 된 것이다.</p>
 <p>여기서 red의 div에 opacity: 0.99를 주었을 경우 red의 div에 새로운 stacking context가 생성되었다. 기존 root의 stacking context에 자식 요소 하나가 새로운 stacking context 그룹을 생성했다.</p>
 <p>red는 이제 root의 stacking context의 영향을 벗어나 red를 감싸는 div의 stacking context에 영향을 받을 것이다. 새롭게 만들어진 stacking context는 그 안에 있는 요소끼리의 z-index가 적용될 것이다.</p>
@@ -153,7 +153,7 @@
 <li>z-index 속성이 auto가 아니면서 grid 박스 하위 요소</li>
 <li>mix-blend-mode 속성이 normal이 아닌 경우</li>
 </ul>
-<p>그리고 <code class="language-text">isolation: isolation;</code> 속성을 사용하면 z-index를 사용하지 않아도 명시적으로 stacking context를 생성할 수 있다.</p>
+<p>그리고 <code class="language-text">isolation: isolation;</code> 속성을 사용하면 z-index를  사용하지 않아도 명시적으로 stacking context를 생성할 수 있다.</p>
 <p>z-index가 잘 먹히지 않을 경우는 비교 대상이 같은 stacking context 안에 있지 않은지 확인하고, stacking context를 재설정 하거나 DOM 구조를 변경해야 할 것이다. 하지만, 가장 좋은 방법은 stacking context 존재를 알고, 미리 DOM 구조 설계부터 탄탄하게 만들고나서 구현하는 것이 가장 좋은 방법이겠다.</p>
 <br/>
 <blockquote>
