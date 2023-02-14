@@ -16,6 +16,7 @@ excerpt: JavaScript의 클로저를 통해 currying 함수를 알아보자.
 - 일급 함수란, 함수를 다른 변수와 동일하게 다루는 것을 말한다.
 - 클로저는 함수와 함수가 선언된 어휘적 환경(Lexical Environment)의 조합이다.
 - Lexical Environment의 Lexical Scope에 의해 내부 함수는 외부 변수를 참조할 수 있다.
+  - Lexical Scope는 함수의 스코프를 결정할 때, 함수가 어디에서 호출되었는가가 아니라 어디에 선언되었는가에 따라 결정되는 스코프를 말한다.
 - 클로저에서 자유 변수가 실행 컨텍스트가 종료 되었어도 여전히 참조할 수 있는 이유는 가비지 컬렉터의 동작 방식 때문이다.
 - 클로저는 private한 변수를 만들 수 있고, currying 함수를 만들어 함수를 지연 실행 시킬 수 있다.
 
@@ -102,6 +103,35 @@ myFunc(); // Mozilla
 그리고 그 외부 함수에 있던 변수를 `자유 변수`라고 부른다. 클로저는, 함수가 자유 변수에 대해 닫혀 있다는 의미로 이러한 이름이 붙었다. 수식으로 표현하면 아래와 같다.
 
 > 클로저 = 함수 + 함수가 참조하는 어휘적(렉시컬) 환경
+
+그렇다면 클로저는 무조건 내부 함수를 반환해야만 가능할까? 아니다.
+
+```js
+(function () {
+  var a = 0;
+  var intervalId = null;
+  var inner = function () {
+    if (++a >= 10) {
+      clearInterval(intervalId);
+    }
+    console.log(a);
+  };
+  intervalId = setInterval(inner, 1000);
+})();
+```
+
+1. setInterval, clearInterval은 전역 객체인 window 객체의 메서드다. 따라서 setInterval, clearInterval은 즉시실행함수(IIFE)인 코드에서 접근할 수 있다.
+2. IIFE 안의 변수는 `a`, `intervalId`, `inner` 로 3가지다. inner 함수 내부에서는 a와 intervalId에 접근하고 있다.
+3. setInterval이 실행될 때, 콜백으로 넘겨준 inner가 실행될 것이다. 렉시컬 스코프에 의해 inner가 선언된 IIFE의 스코프를 inner도 가진다.
+4. inner 함수가 실행되면 실행 컨텍스트가 활성화 되는데, environmentRecord 안에서 먼저 변수 `a`, `intervalId` 을 찾는다. 변수가 없기 때문에 outerEnvinronmentReference에서 변수를 찾는다. 즉 스코프 체인을 따라 IIFE에 선언된 변수를 찾는다.
+5. setInterval 메서드가 실행되면서, 첫번째로 실행된 inner 함수의 호출이 끝났다. 그리고 IIFE 함수도 호출이 끝났다. setInterval(window의 메서드)은 inner를 다시 호출한다. 원래는 IIFE가 종료 되었기 때문에 내부의 변수 a, intervalId 를 참조할 수 없지만 inner는 다시 참조한다.
+6. 즉, IIFE 내부의 변수는 계속 참조가 되고 있다. 따라서 클로저다.
+
+내부 함수를 외부로 전달하는 방법은, 함수를 return 하는 경우 뿐 아니라 콜백으로 전달하는 경우에도 포함이 된다.
+
+---
+
+아래 코드를 보자. 활용 방안이다.
 
 ```js
 function makeCounter() {
