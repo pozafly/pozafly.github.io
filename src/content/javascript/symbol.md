@@ -10,6 +10,17 @@ draft: false
 excerpt: Symbol은 도대체 뭘까? 어디에 사용되고 있을까? 조금 더 깊게 들어가서 알아보자. 나중에 라이브러리를 만들 수도 있으니..
 ---
 
+## 요약
+
+- Symbol은 primitive type으로 ES6에서 추가되었다.
+- Symbol은 변경 불가능한 원시 값이며, 고유한 ID의 역할을 한다.
+- 객체의 속성(프로퍼티)의 key로 사용된다.
+- Symbol은 상수의 개념으로 사용할 수 있다. 따라서, class 믹스인 등 동일한 객체 내부 key를 중복되지 않도록 할 수 있다.
+- 객체의 private한 변수 혹은 메서드로 사용할 수 있다.
+- 라이브러리 등의 meta-level한 property로 사용할 수 있다.
+- Symbol 레지스트리가 있어 영역 간에 고유한 Symbol을 사용할 수 있다.
+- react에서는 Symbol이 JSON에 담기지 않는 특성을 이용해 xss 공격을 방어하고 있다.
+
 ## 1. 새로운 기본형 타입
 
 ECMAScript6에서 새로운 primitive type인 Symbol이 도입되었다. Symbol은 변경 불가능한 원시 값이다. 고유한 ID 역할을 하는 토큰이다. 아래 코드와 같이 Symbol을 생성할 수 있다.
