@@ -406,7 +406,7 @@ function IndexLayout(props: IndexProps) {
           blockquote p {
             margin: 0.8em 0;
             font-size: 1.2em;
-            font-weight: 300;
+            font-weight: 400;
           }
 
           blockquote small {
