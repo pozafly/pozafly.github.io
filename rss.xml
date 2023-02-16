@@ -1,4 +1,444 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[pozafly의 기술 블로그]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 15 Feb 2023 13:29:53 GMT</lastBuildDate><item><title><![CDATA[JavaScript의 Symbol에 대해서.]]></title><description><![CDATA[요약 Symbol은 primitive type으로 ES6에서 추가되었다. Symbol은 변경 불가능한 원시 값이며, 고유한 ID의 역할을 한다. 객체의 속성(프로퍼티)의 key로 사용된다. Symbol…]]></description><link>https://pozafly.github.io/javascript/symbol/</link><guid isPermaLink="false">https://pozafly.github.io/javascript/symbol/</guid><pubDate>Wed, 15 Feb 2023 00:00:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;요약&quot; style=&quot;position:relative;&quot;&gt;요약&lt;a href=&quot;#%EC%9A%94%EC%95%BD&quot; aria-label=&quot;요약 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[pozafly의 기술 블로그]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Thu, 16 Feb 2023 14:44:54 GMT</lastBuildDate><item><title><![CDATA[Event Loop와 비동기]]></title><description><![CDATA[요약 JavaScript는 싱글 스레드 언어이다. 하지만 멀티 스레드 처럼 동작하는데 이는 Event Loop 때문이다. Event Loop는 JavaScript Runtime Environment에 있으며 Web API와 Call Stack…]]></description><link>https://pozafly.github.io/javascript/event-loop-and-async/</link><guid isPermaLink="false">https://pozafly.github.io/javascript/event-loop-and-async/</guid><pubDate>Thu, 16 Feb 2023 00:00:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;요약&quot; style=&quot;position:relative;&quot;&gt;요약&lt;a href=&quot;#%EC%9A%94%EC%95%BD&quot; aria-label=&quot;요약 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;JavaScript는 싱글 스레드 언어이다. 하지만 멀티 스레드 처럼 동작하는데 이는 Event Loop 때문이다.&lt;/li&gt;
+&lt;li&gt;Event Loop는 JavaScript Runtime Environment에 있으며 Web API와 Call Stack, Task Queue, MicroTask Queue 등이 있다. 단, Call Stack은 JavaScript 엔진 내부에 있다.&lt;/li&gt;
+&lt;li&gt;Call Stack은 함수를 실행할 때마다 쌓이는 공간이며 함수의 실행 순서를 제어한다.&lt;/li&gt;
+&lt;li&gt;비동기 코드는 non blocking으로, 코드의 실행이 완료되지 않아도 다음 코드를 실행하는 것을 말한다. 따라서 JavaScript가 여러 일을 처리할 수 있도록 한다.&lt;/li&gt;
+&lt;li&gt;Web API는 Task Queue에 콜백 함수를 쌓는다. 이는 Call Stack이 비어있을 경우 Event Loop가 다시 Call Stack으로 넘겨주어 처리된다.&lt;/li&gt;
+&lt;li&gt;Promise는 콜백 지옥을 피하기위해 만들어져 비동기 코드를 가독성 있게 다룰 수 있도록 한다.&lt;/li&gt;
+&lt;li&gt;Promise는 MicroTask Queue에 담긴다.&lt;/li&gt;
+&lt;li&gt;MicroTask Queue는 Task Queue보다 우선순위가 높아 Event Loop가 Task Queue보다 먼저 접근한다.&lt;/li&gt;
+&lt;li&gt;MicroTask Queue는 Task Queue와 다르게 queue에 쌓인 녀석들이 모두 Call Stack으로 넘어간 뒤 Event Loop가 다시 돌기 시작한다.&lt;/li&gt;
+&lt;li&gt;async / await는 Promise를 더 쉽게 다룰 수 있도록 한다.&lt;/li&gt;
+&lt;li&gt;async / await도 마찬가지로 MicroTask Queue에 담긴다.&lt;/li&gt;
+&lt;li&gt;await 키워드를 만나면 async가 붙은 함수 전체가 MicroTask Queue에 담긴다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;br/&gt;
+&lt;p&gt;JavaScript는 싱글 스레드 언어다. 한 번에 하나의 작업만 실행할 수 있다. JavaScript로 30초가 걸리는 작업을 해야한다고 가정해보자. 이 작업을 시작하면 유저는 30초 동안 ui에서 할 수 있는 일이 없다. 단지 기다려야 할 뿐이다. 이를 블로킹이라고 한다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;※ 스레드란,&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;스레드는 어떠한 프로그램이 실행되는 작업을 말한다.&lt;/li&gt;
+&lt;li&gt;싱글 스레드는 한 번에 하나의 작업만 수행할 수 있으며, 멀티 스레드는 한 번에 여러 개의 작업을 수행할 수 있다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;하지만, 웹 어플리케이션에서는 동시에 다른 무언가를 할 수있다. 예를 들면, 브라우저에서는 파일을 다운로드 받고 있으면서 다른 링크로 이동한다던지, Node.js에서는 HTTP 요청을 처리하기도 한다. V8과 같은 JavaScript 엔진은 단일 호출 스택(Call Stack)을 사용하며, 요청이 들어올 때마다 해당 요청을 순차적으로 Call Stack에 담아 처리할 뿐이다.&lt;/p&gt;
+&lt;p&gt;JavaScript 언어 자체에는 Multi Threading을 할 수 없지만, JavaScript가 동작하고 있는 ’&lt;strong&gt;브라우저&lt;/strong&gt;‘(브라우저라는 프로그램)에서는 여러 스레드를 활용할 수 있다. 브라우저에서 지원하는 Web API를 사용하는 것이다. Web API는 JavaScript엔진 자체가 제공하지 않는, 브라우저에서 제공하는 API다. DOM API, &lt;code class=&quot;language-text&quot;&gt;setTimeout&lt;/code&gt;, HTTP 요청 등이 여기에 포함된다. JavaScript Runtime Environment(브라우저 or Node.js)에는 Event Loop가 있다. 이 Event Loop를 통해 여러 처리를 동시에 할 수 있는 것이다. 브라우저 환경을 그림으로 표현하면 다음과 같다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 545px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/8777e58593e15d2b8520249052ba6463/f2ede/1.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 92.19999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAASCAYAAABb0P4QAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEFElEQVQ4y3WU+09URxTH+Rv6U3/pI6bPGLWiVEGCUEERsGCMghr7SmqbptUmxlrFGsUKoRrUUE0LKqyIK7uLy3OlaBUhrY1iFCoPWwF5LOyuKLB0H/cx99PcYbGxTU8y98ycO+dzv2fm5EaFQiEC0wF8I16eeB7jcXvwjfp4PDYu18FAEHNPMBTGNA0YcI/inZxiyOvDr2hP4+beKE3RGHw8TM0dFzV3XbT33eG3/naqb9fT2NnMk+kJVFXH7/PS77TS57Ty+4Vy7lnL6Dx3ip4qC39YzzDe1YGiC6IQsP/qYV46tpi5J5eTbFlPwpksXv9+Ga8Ux2K7WysVuLs7cSQvwpkeR9PmdOqyEuVoyEmlMmYOnWUn0YEo87m7+RAvFi1i7onlvP1DKrEl6Sz+cRVvFMdztr1KAsf+7MG1OZ3arEQaN66m+eNsmj5cR83aJJxpcdx3VMqyJTD3cgFLStNYfW4Ty0rXkHA6i4zzW1hamobl1iywl/rsVKrXxEvv+mAtdTmruZiViG1lDD3/BprqEsvWEleSQUr5BjKt77O0JI2KdpsEjvZ20bBhFc6MeOmbt+bg2pKJM3M5jpTF9FywRIACdlzaz3OFb/LysRjmFScy/0QSc44v4fnD8yi/aZ1ReL8LZ1os9qQFOFZE40iOxv7OQuwrorEufY3uytORM9TA1lFLdtUnbLJ9xsGfi9jzUz4bqz7lPfvn8sZN8w0O8Gv+XtoO7KQtbxdtB7+m9cBXtObtoiV3OwMtl1FNoK7rGJqBxGtixsv5TExXdYQQBEJh/IrOtCYICPhLNwgKCOjgVwX+UBhN04gyv25gIAwdw5wbIQwjKOdmzDRdCIKBgJyH/RM8cg8x4R1lfHQY/7hXEtBVgqEQUYZhYEQS1ckrTD3YxVTfHvTgAxkz3xlC8GhymvqOYapv9eG40Yv9xn0qW+9R9UsPtpv99I5NoCmKCRQyUShu/P27CYemUMJTaBOXMNQxqdRUcO/hGPP3XGDhXhuphxtIKawjKb+GuLxqXthm4eTlDpPyD1Cd7iAwcpRZC/Z9hPLEFVkJeod9pBTWk1xQy7rjTWQddZF+pJ53ixqJ2WfnbFuPPHxZskwRBlMD3xL0lBHyVjA5UIAQPFVoApMKakk4VEPm0UusKXKR+l09KwvrWJBrw9I6C5TnNJOmaSGmPTX4x6oR+szfRUQq6B7ySqBZas6JZtYXN0l1aUca5DGUXe9+VqGqqoyMuBn1+PE8CvDw4SDhcDhSsiGBsXlOqSZ6n4Pob+y8lWuTsFd3nudUS9ezQNObfaSqZj8pKIoi+8+IIPvcPnZUXOeLsqtst1zjS0sL28qvsr38GltLr9B4+wGI2T40DP7XZFsZCF0HQ5NJ/xlm2+mavIe/AYUpmNQJxA4BAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;01&quot;
+        title=&quot;01&quot;
+        src=&quot;/static/8777e58593e15d2b8520249052ba6463/f2ede/1.png&quot;
+        srcset=&quot;/static/8777e58593e15d2b8520249052ba6463/0eb09/1.png 500w,
+/static/8777e58593e15d2b8520249052ba6463/f2ede/1.png 545w&quot;
+        sizes=&quot;(max-width: 545px) 100vw, 545px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;JavaScript 엔진에는 &lt;strong&gt;Memory Heap&lt;/strong&gt;과 &lt;strong&gt;Call Stack&lt;/strong&gt;이 있다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Memory Heap : 데이터를 만들 때(변수선언 및 할당) 저장이 되는 공간.&lt;/li&gt;
+&lt;li&gt;Call Stack : 함수를 실행할 때마다 쌓이는 공간. 함수 실행 순서를 제어한다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;비동기 호출을 위해 사용하는 &lt;code class=&quot;language-text&quot;&gt;setTimeout&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;fetch&lt;/code&gt; 같은 함수는 자바스크립트 엔진이 아니라 Web APIs 영역에 따로 정의 되어 있다. 또한 Event Loop나 Task Queue 같은 장치도 자바스크립트 엔진 외부에 구현되어 있다. 아래 사진은 Node.js 환경이다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1120px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/a5fc715924d07c4f2abad73500eec05b/1b198/2.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 41.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAIAAAB2/0i6AAAACXBIWXMAAAsTAAALEwEAmpwYAAABhUlEQVQY003QS2+jMAAEYP5ThCE0afOgYGPAYAPG5mUIbQJ50KSK2uP+9FUq7arfYTSHOY3mui78BSEUcZdwJ629pPIjjpjEaePREkEPuu5jACF0f2iU0qZpTqfTNE11XRdFcf243a6f72/7hKU+9p1XaG/cJOLH4UIptW0bQkgIYYxpYRRUbT4M4zCMpeJC8JyLuq7zXAopKIs327UNV6lCtICBH/CMY+y1bZvnuUYIgRA6/xSVRIG9XJuMk/3+XQpZHog82x5bBeKl+8b9V6zG9Prx2fe95vu+ZT0ppXb9zgBGUeXqwLM62J3EYdznWVEdQ5yuaJhhGLLd+mVrecgfhqFpGi0IAozx+Xy+3+8YYyGEUopnuWratmtDP8o6HMqVY3v21paXV5qGEYmTJJFSPg6Lf0RRFEdU9WV7SVKF3iY5Hoe6auoxbr8Ra5ysd8sTnv4Uh1vZqq7rOm02mwEAdF3/nwAAwzAAAJZlLRaL+XxuAHODnp43j6ID3TTN5XJpGMZf5VeZlFC00S4AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;02&quot;
+        title=&quot;02&quot;
+        src=&quot;/static/a5fc715924d07c4f2abad73500eec05b/1b198/2.png&quot;
+        srcset=&quot;/static/a5fc715924d07c4f2abad73500eec05b/0eb09/2.png 500w,
+/static/a5fc715924d07c4f2abad73500eec05b/1263b/2.png 1000w,
+/static/a5fc715924d07c4f2abad73500eec05b/1b198/2.png 1120w&quot;
+        sizes=&quot;(max-width: 1120px) 100vw, 1120px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;이 그림에서도 브라우저 환경과 비슷하다. Node.js는 비동기 IO를 지원하기 위해 &lt;code class=&quot;language-text&quot;&gt;libuv&lt;/code&gt; 라이브러리를 사용하고, libuv에서 Event Loop를 제공한다. 자바스크립트 엔진은 비동기 작업을 위해 Node.js API를 호출하고, 이때 넘겨진 콜백은 libuv의 Event Loop를 통해 스케줄되고 실행된다.&lt;/p&gt;
+&lt;p&gt;확실한 것은, 자바스크립트가 ‘단일 스레드’ 기반의 언어라는 것은, ‘자바스크립트 엔진이 단일 Call Stack을 사용한다’는 관점에서만 사실이다. &lt;strong&gt;실제 자바스크립트가 실행되는 환경(브라우저, Node.js)에서는 주로 여러 개의 스레드가 사용&lt;/strong&gt;되고, 이런 구동 환경이 Call Stack을 사용하는 자바스크립트 엔진과 상호 연동하기 위해 사용하는 장치가 ‘이벤트 루프’인 것이다. 즉, 브라우저, Node.js환경은 자바스크립트 엔진의 Wrapper 역할을 하고 있다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;Run-to-Completion&quot; style=&quot;position:relative;&quot;&gt;Run-to-Completion&lt;a href=&quot;#Run-to-Completion&quot; aria-label=&quot;Run to Completion permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;자바스크립트 함수의 특징이 있다. 하나의 함수가 실행되면 함수의 실행이 끝날 때까지 다른 작업이 중간에 끼어들지 못한다. 자바스크립트는 하나의 Call  Stack을 사용하기 때문이다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1024px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/2869d8553ce937e3cdb8d399895479eb/42a19/3.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 56.199999999999996%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAAsTAAALEwEAmpwYAAABhklEQVQoz32T63KCMBSEeQ8x5EYCKFVARUFop9P3f6Xt7LFYdTr9sYSE8GXPJYlSGq9ar7On9ywziLFEnsen0RiH1Wp9388x4eNR6gG2bHIuxzCMOJ8HzPMHrtcZl8uIpmnhfZADF2iSaQfjIvJYQdscSnv5mP4ckKZK3JxOZxFB1PHYYxwn9P1FgNwnQO89dt0eTdegrreIIcJoA2ctnLECpYtpesfhcMIwXAXCkY7LciNAhi9Aaz3qdg8fI0Lu4a2FNRbeOpFSN+ACatsDxvEG45xOmQKmQmuLxBmPuqixqTuEYiuhrlIlIaQrJUkPoZCfCFjCpOP9vr2Hei8KHRTVFtXmDWVZIXgvoWpjYUMAU1JVG3x+fglsmmZ03RFN04lrgnkY18QhH9p5aGvh3S1Ma4x8ND6Hc07ahK5YDOax788ypwhmFM9tk96ULlraKM1kM6tMF6wynfBnHshivPZw8ldjP4o5KooKu10jDlkMVpTrT/37m8P/gctNoSM2+Gsjv96ub0PzP7ZFVkmUAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;03&quot;
+        title=&quot;03&quot;
+        src=&quot;/static/2869d8553ce937e3cdb8d399895479eb/42a19/3.png&quot;
+        srcset=&quot;/static/2869d8553ce937e3cdb8d399895479eb/0eb09/3.png 500w,
+/static/2869d8553ce937e3cdb8d399895479eb/1263b/3.png 1000w,
+/static/2869d8553ce937e3cdb8d399895479eb/42a19/3.png 1024w&quot;
+        sizes=&quot;(max-width: 1024px) 100vw, 1024px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;위 코드를 실행하면 브라우저 프로세스가 죽어버린다. console 창에 ‘Will it be print?’ 라는 문장은 나타나지 않을 것이다. 다만, ‘Running…1234837’ 이라는 문구만 console에 나타난다. 그리고 브라우저가 동작하지 않는다는 alert이 뜬다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;Call-Stack&quot; style=&quot;position:relative;&quot;&gt;Call Stack&lt;a href=&quot;#Call-Stack&quot; aria-label=&quot;Call Stack permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;함수를 호출하면 Call Stack에 함수가 추가된다. Call Stack은 ‘자바스크립트 엔진’ 안에 있다. Stack 구조로 되어있는데 가장 나중에 들어간 것이 가장 먼저 나오는 자료구조다. 이것을 LIFO(Last In First Out)이라고 한다. FILO라고도 한다. 함수가 값을 return하면 Call Stack에서 제거된다. 아래 그림을 보자.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/050d10baa1b0a5c6421959dbb21aff9e/4.gif&quot; alt=&quot;04&quot;&gt;&lt;/p&gt;
+&lt;p&gt;greet 함수가 먼저 쌓였고 실행되어 Call Stack에서 제거되었다. 그리고 response 함수가 차례로 Call Stack에 쌓인 후 실행이 완료되어 Call Stack에서 제거 되었다. 하지만 respond 함수 내부에 &lt;code class=&quot;language-text&quot;&gt;setTimeout&lt;/code&gt; 이라는 Web API가 있다. 이를 통해 메인 스레드를 차단하지 않고 작업을 지연시킬 수 있다. setTimeout에 전달한 콜백함수가 Web API에 추가된다. 그 동안 setTimeout 함수와 respond 함수는 Stack에서 제거된 것이다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/53e8d25ab9ffbca763742a73d0968885/5.gif&quot; alt=&quot;05&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Web API에서 1000ms 동안 타이머가 돌고, 후에 setTimout에 전달한 콜백 함수는 Call Stack으로 다시 들어가는 것이 아니라 &lt;code class=&quot;language-text&quot;&gt;Task Queue&lt;/code&gt; 라는 곳으로 전달된다. ※사진에서는 Queue라고 표기되어 있다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/bb133167acba9732c254fe1b4e2604a3/6.gif&quot; alt=&quot;06&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Call Stack으로 들어간 것이 아니라 &lt;strong&gt;Task Queue&lt;/strong&gt;로 들어간 것이다! Event Loop가 이제 Task Queue에 있는 함수를 다시 Call Stack으로 옮길 것이다. 단, 이 경우에는 Call Stack이 비어있는 경우만 해당한다. 즉, Call Stack에서 실행중인 코드가 있다면 Event Loop는 Task Queue의 함수를 Call Stack으로 옮기지 않는다.&lt;/p&gt;
+&lt;p&gt;※ Queue란, 자료구조의 한 종류로 FIFO(First In First Out)의 특성을 가지고 있다. 아래와 같이 먼저 들어온 녀석이 먼저 나가는 구조이다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/7e58f74b2b2116d7cb8ae573570df2a5/7.gif&quot; alt=&quot;07&quot;&gt;&lt;/p&gt;
+&lt;p&gt;콜백 함수가 Call Stack에 추가되고, 호출되고, 값을 반환하고 Call Stack에서 제거된다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/55d383fd555ff564285059d89c8f4abd/8.gif&quot; alt=&quot;08&quot;&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token function-variable function&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;First&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token function-variable function&quot;&gt;bar&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;setTimeout&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Second&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token function-variable function&quot;&gt;baz&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Third&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token function&quot;&gt;bar&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;baz&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이 코드의 실행결가는 어떻게 될까? First -&gt; Third -&gt; Second 순서대로 출력된다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/edca0b28d3de98f77da38d0f994beebd/9.gif&quot; alt=&quot;09&quot;&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;bar 함수를 Call Stack에 넣었다.&lt;/li&gt;
+&lt;li&gt;setTimeout이 있으므로 Web API에 집어넣고 bar 함수는 Call Stack에서 제거된다.&lt;/li&gt;
+&lt;li&gt;Web API에서 타이머가 실행되는 동안 foo가 호출되어 Call Stack에 쌓였다. console을 찍는다.&lt;/li&gt;
+&lt;li&gt;baz가 호출되었고 console을 찍고 제거된다.&lt;/li&gt;
+&lt;li&gt;그 동안 Web API에서는 Task Queue에 setTimeout에 있던 콜백을 집어넣는다.&lt;/li&gt;
+&lt;li&gt;Event Loop는 Call Stack에서 아무것도 없음을 확인한 후 Task Queue에 있던 콜백을 Call Stack에 넣는다. 그리고 실행.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;이런 식으로 Event Loop는 실행할 함수를 관리하는 역할로 Call Stack과 Task Queue의 함수를 계속 확인한다. 이렇게 반복되는 매 순회(iteration)를 &lt;code class=&quot;language-text&quot;&gt;tick&lt;/code&gt; 이라고 부른다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;delay&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;var&lt;/span&gt; i &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; i &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;100000&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; i&lt;span class=&quot;token operator&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;delay&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;bar&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;foo!&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// (3)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;bar&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;delay&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;bar!&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// (2)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;baz&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;baz!&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// (4)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token function&quot;&gt;setTimeout&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;baz&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// (1)&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;출력은 어떤 순서로 될까? &lt;code class=&quot;language-text&quot;&gt;delay&lt;/code&gt; 함수는 10만의 연산을 해야하므로, 꽤 올래 걸리기 때문에 baz가 가장 먼저 찍힐까? 아니다. setTimout이 Task Queue에 넣은 후, Call Stack이 비어있을 경우 Event Loop가 Task Queue에 있는 baz를 Call Stack으로 넘겨줄 것이기 때문에 baz가 가장 나중에 찍힌다. setTimeout의 두번째 인자인 &lt;code class=&quot;language-text&quot;&gt;10&lt;/code&gt; 은 10ms 라는 의미를 가진다. 즉, 0.01초다. 그럼에도 불구하고 10ms 보다 더 늦게 실행될 것이다. 즉, 자바스크립트의 타이머는 정확한 타이밍을 보장해주지 않는다.&lt;/p&gt;
+&lt;p&gt;다시 정리하면, Event Loop는 ‘현재 실행중인 태스크가 없는지’와 ‘태스크 큐에 태스크가 있는지’를 반복적으로 확인한다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;모든 비동기 API들은 작업이 완료되면 콜백 함수를 Task Queue에 추가한다.&lt;/li&gt;
+&lt;li&gt;이벤트 루프는 ‘현재 실행중인 태스크가 없을 때(Call Stack이 비워졌을 때)’ Task Queue의 첫 번째 Task를 꺼내와 실행한다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&quot;setTimeout&quot; style=&quot;position:relative;&quot;&gt;setTimeout&lt;a href=&quot;#setTimeout&quot; aria-label=&quot;setTimeout permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;setTimeout(fn, 0)&lt;/code&gt; 과 같은 코드가 있다. 0초 이후에 실행을 한다는 것은 실제로 그냥 실행한다는 것과 다를게 없는데 무슨 뜻일까? 하지만 이 코드는 그냥 fn을 실행한다는 것과는 다른 의미다. &lt;code class=&quot;language-text&quot;&gt;setTimeout&lt;/code&gt; 은 콜백 함수를 바로 실행하는것이 아닌 Task Queue에 추가한다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token function&quot;&gt;setTimeout&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;A&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;B&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;결과는 &lt;code class=&quot;language-text&quot;&gt;B -&gt; A&lt;/code&gt; 순으로 출력된다. Call Stack이 비워진 후 실행되기 때문이다. 이는 렌더링 엔진과 관련해서 유용하다. 브라우저 환경에서는 자바스크립트 엔진 뿐아니라 다른 여러 프로세스가 함께 동작하고 있다. 렌더링 엔진의 Task는 대부분 브라우저에서 자바스크립트 엔진과 동일한 단일 Task Queue를 통해 관리된다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; button &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; document&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;querySelector&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;button&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+button&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;addEventListener&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token function&quot;&gt;showWaitingMessage&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token function&quot;&gt;longTakingProcess&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token function&quot;&gt;hideWaitingMessage&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token function&quot;&gt;showResult&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;addEventListener 함수도 마찬가지로 Web API이며 비동기로 동작한다.&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;longTakingProcess()&lt;/code&gt; 는 오래 걸리는 작업이다 따라서, 그 전에 &lt;code class=&quot;language-text&quot;&gt;showWaitingMessage()&lt;/code&gt; 함수로 로딩 메세지를 보여주고 싶다. 하지만 이 코드를 실행해보면 로딩 메시지는 나타나지 않는다. 이유는 &lt;code class=&quot;language-text&quot;&gt;showWaitingMessage()&lt;/code&gt; 함수의 실행이 끝나고 렌더링 엔진이 렌더링 요청을 보내도 해당 요청은 Task Queue에서 이미 실행중인 태스크가 끝나기를 기다리고 있기 때문이다. 실행중인 태스크가 끝나는 시점은 Call Stack이 비워지는 시점인데, 그 때는 이미 &lt;code class=&quot;language-text&quot;&gt;showResult()&lt;/code&gt; 까지 실행이 끝나 있을 것이기 때문이고, &lt;code class=&quot;language-text&quot;&gt;hideWaitingMessage()&lt;/code&gt; 로 인해 로딩 메시지가 숨겨진 상태이기 때문이다. 그때 setTimeout을 활용할 수 있다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; button &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; document&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;querySelector&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;button&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+button&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;addEventListener&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token function&quot;&gt;showWaitingMessage&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token function&quot;&gt;setTimeout&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;longTakingProcess&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;hideWaitingMessage&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;showResult&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;    
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이 경우에는 &lt;code class=&quot;language-text&quot;&gt;longTakingProcess()&lt;/code&gt; 가 바로 실행되지 않고 Task Queue에 추가될 것이다. 하지만 &lt;code class=&quot;language-text&quot;&gt;showWaitingMessage()&lt;/code&gt;로 인해 Task Queue에는 렌더링 요청이 먼저 추가되기 때문에 &lt;code class=&quot;language-text&quot;&gt;longTakingProcess()&lt;/code&gt;는 그 다음 순서로 Task Queue에 추가될 것이다.&lt;/p&gt;
+&lt;p&gt;또한, 렌더링 관련이 아니더라도, 실행이 오래 걸리는 코드가 있다면 setTimeout을 사용해 적절하게 다른 태스크로 나누어주면 전체 어플리케이션이 멈추거나 스크립트가 너무 느리다고 경고창이 뜨는 상황을 방지할 수도 있다. 혹은, 같은 줄에 작성된 여러 코드중 어디에 선언 되어 있든지 상관없이 가장 마지막에 실행시키고 싶은 코드가 있다면 역시 setTimeout 0을 통해 제어할 수 있다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;Promise&quot; style=&quot;position:relative;&quot;&gt;Promise&lt;a href=&quot;#Promise&quot; aria-label=&quot;Promise permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Promise 객체는 비동기 작업이 맞이할 미래의 완료 또는 실패와 그 결과 값을 나타낸다(&lt;a href=&quot;https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise&quot;&gt;mdn&lt;/a&gt;). 이는 &lt;strong&gt;콜백 지옥&lt;/strong&gt;(Callback Hell)을 피하기 위해 만들어졌다. Promise를 만들어 console에 찍어보자.&lt;/p&gt;
+&lt;p&gt;![스크린샷 2023-02-16 오후 7.39.34](../../images/스크린샷 2023-02-16 오후 7.39.34.gif)&lt;/p&gt;
+&lt;p&gt;내부에는 &lt;code class=&quot;language-text&quot;&gt;[[PromiseState]]&lt;/code&gt;와 &lt;code class=&quot;language-text&quot;&gt;[[PromiseResult]]&lt;/code&gt; 라는것이 있다. PromiseState는 상태값을 나타낸다. 아래의 3가지 상태가 있다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;대기*(pending)*: 이행하지도, 거부하지도 않은 초기 상태.&lt;/li&gt;
+&lt;li&gt;이행*(fulfilled)*: 연산이 성공적으로 완료됨. 오류가 나지 않음.&lt;/li&gt;
+&lt;li&gt;거부*(rejected)*: 연산이 실패함.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Promise는 콜백함수를 받는데, 콜백 함수의 첫번째 인자로 &lt;code class=&quot;language-text&quot;&gt;resolve&lt;/code&gt;, 두번째 인자로 &lt;code class=&quot;language-text&quot;&gt;reject&lt;/code&gt;를 받는다. 그 콜백 안에서 성공적으로 작업이 이행되었다면 &lt;code class=&quot;language-text&quot;&gt;resolve()&lt;/code&gt; 함수를 호출하면 되고, 문제(error)가 생겼다면 &lt;code class=&quot;language-text&quot;&gt;reject()&lt;/code&gt; 를 호출해주면 된다. resolve 인자로 데이터를 넘겨줄 수 있으며, reject에는 주로 error객체를 넘긴다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/19fc712db5173aee0cbafd95af15e61a/0eb09/10.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 34.400000000000006%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAABYklEQVQoz12P2Y6bQBQF/f+flUhxNI7GC7bxEmxo6MUYmsVbwIGKaGtGoxzpXN2nUp1R86fhHtXck5rEaOJYEkuFVNq1ri9YW3C93RCJpCwKhvR9P1z+z6htWi6qolIFRVWitcGYE9qcyHPL5XJ10PvjQWFzIlWii78ONkA/Sv+Cj57PJ4lWRLFg7W/Y7vec0pSyqkikcrahiAmOEelJspTwffey6fqX44fnAB65p+uxuSVVivh4QEYRSghkGKJjQaY1ZXbmsN2y99cEv3eIMOQT1zb0XfcydMpAYzP0YorcrBHeHOWvCBdTkpWH2qwwW59zsMP6S84/vmEnY9rVnMab0ikBReY4n0BuNSZJ0LYiNik6t8hz7mpsiUwz8svVWTyE4CYE9TGk3u9pup7enoepX4B1iZm+Ib0Zh8mYePaL4+Qnh7cxcvGO9mYob8o1CsiCHdFi5syVvySZv9Oq2E3+B4ptDi3Ha3SfAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;10&quot;
+        title=&quot;10&quot;
+        src=&quot;/static/19fc712db5173aee0cbafd95af15e61a/0eb09/10.png&quot;
+        srcset=&quot;/static/19fc712db5173aee0cbafd95af15e61a/0eb09/10.png 500w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;만약, resolve 되었다면, Promise는 &lt;code class=&quot;language-text&quot;&gt;.then()&lt;/code&gt; 구문을 사용해 이어서 다른 작업을 할 수 있다. &lt;code class=&quot;language-text&quot;&gt;.then()&lt;/code&gt; 인자로 다시 콜백 함수를 받고, 콜백 함수의 인자는 resolve에 매개변수로 넘겨주었던 데이터가 넘어온다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getImage&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;resolve&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; reject&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; data &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;readFile&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;file&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;token function&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;data&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token function&quot;&gt;reject&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Error&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;err&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;getImage&lt;/code&gt; 함수는 비동기 코드인 &lt;code class=&quot;language-text&quot;&gt;readFile&lt;/code&gt; 을 실행한 후 data를 넘겼다. 그럼 아래에서 받는 코드를 보자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token function&quot;&gt;getImage&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;file&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+ &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;data&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+ &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;catch&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;error&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+ &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;finally&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;Done!&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이렇게 처리해줄 수 있다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;MicroTask-Queue&quot; style=&quot;position:relative;&quot;&gt;MicroTask Queue&lt;a href=&quot;#MicroTask-Queue&quot; aria-label=&quot;MicroTask Queue permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;아래 코드를 실행해보면 어떤 순서로 찍힐까?&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token function&quot;&gt;setTimeout&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// (A)&lt;/span&gt;
+    console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;A&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+Promise&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// (B)&lt;/span&gt;
+    console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;B&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// (C)&lt;/span&gt;
+    console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;C&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Promise도 비동기로 실행되니까 Task Queue에 추가되어 순서대로 A -&gt; B -&gt; C로 찍힐까? 아니다 답은, B -&gt; C -&gt; A다. 이유는 바로 Promise가 MicroTask Queue를 사용하기 때문이다.&lt;/p&gt;
+&lt;p&gt;MicroTask Queue는 일반 Task Queue보다 더 높은 우선순위를 갖는 태스크다. Task Queue에 대기중인 태스크가 있더라도 MicroTask Queue가 먼저 실행된다. &lt;code class=&quot;language-text&quot;&gt;setTimeout&lt;/code&gt;은 콜백 A를 Task Queue에 추가하고 Promise의 &lt;code class=&quot;language-text&quot;&gt;then()&lt;/code&gt; 메서드는 콜백 B를 Task Queue가 아닌 &lt;strong&gt;MicroTask Queue&lt;/strong&gt;에 추가한다. 콜백 B가 실행되고 나면 두번째 &lt;code class=&quot;language-text&quot;&gt;then()&lt;/code&gt; 메서드가 콜백 C를 MicroTask Queue에 추가한다. Event Loop는 다시 MicroTask Queue를 확인하고, 큐에 있는 콜백 C를 실행한다.&lt;/p&gt;
+&lt;p&gt;이후에 MicroTask Queuerk 비었음을 확인한 다음 Task Queue에서 콜백 A를 꺼내와 실행한다. 즉, MicroTask Queue에는 Promise가 담기며 Event Loop가 Task Queue 보다 먼저 실행한 후, 다시 then 절이 있는지 확인하고 다시 MicroTask Queue에 집어넣었다.&lt;/p&gt;
+&lt;p&gt;MicroTask Queue에는 Promise뿐 아니라, Observer API, Node.js의 process.nextTick 등이 그 대상이 된다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/d310c604dac0d56b5f49f618dc524e77/11.gif&quot; alt=&quot;11&quot;&gt;&lt;/p&gt;
+&lt;p&gt;위 사진과 같이 실행이 되는데 사진의 MacroTask Queue는 Task Queue라고 생각하자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;Start!&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token function&quot;&gt;setTimeout&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;Timeout!&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+Promise&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;Promise!&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+ &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;res&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;res&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;End!&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이 코드를 시각화 하면 아래와 같다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/e4ae492fd8e15f5d18b76880ac656fe3/12.gif&quot; alt=&quot;12&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/6bf5fcfc17d0189ea81d1f979ae3c645/13.gif&quot; alt=&quot;13&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/439c6d4b1f75e30500a3f9ac8cd93ca9/14.gif&quot; alt=&quot;14&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/1f640fed1cbb5c25c3683d9d1e441833/15.gif&quot; alt=&quot;15&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/3dfc6950ef452589b4e65cc0efdd82ad/16.gif&quot; alt=&quot;16&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/120f4490bccb7ced27653a6a36af5609/17.gif&quot; alt=&quot;17&quot;&gt;&lt;/p&gt;
+&lt;p&gt;시각화 자료에서 보듯, MicroTask Queue는 MicroTask Queue를 하나 하나 Call Stack으로 이동하지만, 모든 MicroTask Queue에 있는 작업들이 Call Stack에서 지워져야 Task Queue 차례로 넘어가는 것을 볼 수있다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;AsyncAwait&quot; style=&quot;position:relative;&quot;&gt;Async/Await&lt;a href=&quot;#AsyncAwait&quot; aria-label=&quot;AsyncAwait permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Async/Await 문법은 ES8에서 적용되었다. Promise를 더 쉽게 다룰 수 있다. &lt;code class=&quot;language-text&quot;&gt;async&lt;/code&gt; 키워드로 Promise를 반환하는 비동기 &lt;code class=&quot;language-text&quot;&gt;await&lt;/code&gt; 함수를 만들 수 있다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;Promise&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;Hello!&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;// 위 코드는 아래 코드와 같다.&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;greet&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+ &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;Hello!&apos;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;비동기 함수가 Promise를 반환하는데 &lt;code class=&quot;language-text&quot;&gt;await&lt;/code&gt; 키워드를 비동기 함수 앞에 붙여주면 비동기 함수가 Promise를 반환할 때까지 코드를 일시 중지 할 수 있다. 다음 코드가 어떻게 실행되는지 살펴보자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token function-variable function&quot;&gt;one&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; Promise&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;One!&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;myFunc&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;In function!&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; res &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;one&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;res&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;Before function!&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;myFunc&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;After function!&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;Before function!&lt;/li&gt;
+&lt;li&gt;In function!&lt;/li&gt;
+&lt;li&gt;After function!&lt;/li&gt;
+&lt;li&gt;One!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Before function!이 실행되었고, myFunc 함수 내부의 In function!이 먼저 찍혔다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/352c4ac92cfd6899f17cdfef301892bc/18.gif&quot; alt=&quot;18&quot;&gt;&lt;/p&gt;
+&lt;p&gt;이제 위 사진처럼 &lt;code class=&quot;language-text&quot;&gt;myFunc&lt;/code&gt;가 실행된다. &lt;code class=&quot;language-text&quot;&gt;myFunc&lt;/code&gt; 첫째줄의 console이 찍힌다. &lt;code class=&quot;language-text&quot;&gt;myFunc&lt;/code&gt;가 Call Stack에 들어갔지만 &lt;code class=&quot;language-text&quot;&gt;one&lt;/code&gt; 함수를 만나 &lt;code class=&quot;language-text&quot;&gt;myFunc&lt;/code&gt;을 제거하기 전에  &lt;code class=&quot;language-text&quot;&gt;one&lt;/code&gt;이 Call Stack에 담겼다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/6a715bb28e4ebc1f5e24abdf04c75bd0/19.gif&quot; alt=&quot;19&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;one&lt;/code&gt;은 Promise를 리턴하기 이전에 함수다. Call Stack에 담긴 one을 실행하면서 Call Stack에서 제거되었다. 하지만 &lt;code class=&quot;language-text&quot;&gt;one&lt;/code&gt;함수는 &lt;code class=&quot;language-text&quot;&gt;await&lt;/code&gt; 키워드가 앞에 붙어있다. await 키워드를 만나면, &lt;code class=&quot;language-text&quot;&gt;async&lt;/code&gt; 가 붙어있는 함수 자체가 기능이 일시 중지 된다. 즉, async가 붙어있는 &lt;code class=&quot;language-text&quot;&gt;myFunc&lt;/code&gt; 함수 자체는 Call Stack에서 MicroTask Queue로 이동한다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/6a06e105f5a379d51a6fafcd4ee86190/20.gif&quot; alt=&quot;20&quot;&gt;&lt;/p&gt;
+&lt;p&gt;그리고 async가 붙어있는 함수에서 벗어나 아래의 코드를 실행한다(After function!). 이제 Event Loop가 CallStack MicroTask Queue에 있는 &lt;code class=&quot;language-text&quot;&gt;myFunc&lt;/code&gt;를 다시 Call Stack으로 옮긴다. &lt;code class=&quot;language-text&quot;&gt;console(res)&lt;/code&gt; 를 실행하고 myFunc는 종료된다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/3e9d52bc38fa287a4cf10dcf8139076d/21.gif&quot; alt=&quot;21&quot;&gt;&lt;/p&gt;
+&lt;p&gt;이 과정으로 &lt;code class=&quot;language-text&quot;&gt;Promise.then&lt;/code&gt; 과 &lt;code class=&quot;language-text&quot;&gt;async&lt;/code&gt; 함수의 차이점을 알 수 있다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;async&lt;/code&gt; 함수에서는 &lt;code class=&quot;language-text&quot;&gt;await&lt;/code&gt; 를 만나면 함수가 중단되고 MicroTask Queue로 들어간다.&lt;/li&gt;
+&lt;li&gt;Promise는 곧바로 MicroTask Queue에 들어간다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;마지막으로 아래 코드 실행 결과를 예측해보자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;a1&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;a2&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;b1&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;b2&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  
+&lt;span class=&quot;token keyword&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;c1&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;setTimeout&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;setTimeout&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;c2&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;resolve&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;d1&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;token function&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+      console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;d2&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;then!&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token function&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;a 함수 호출, console.log 실행, 출력 → a1&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;b 함수 호출, console.log 실행, 출력 → b1&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;c 함수 호출, console.log 실행, 출력 → c1&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;setTimeout이 Task Queue에 쌓임.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;d 함수 호출, 첫 번째 console.log 실행, 출력 → d1 (비동기X)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;두 번째 console.log 실행, 출력 → d2 (비동기X)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;.then 콜백은 백그라운드를 거쳐 마이크로 태스크 큐에 쌓임&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;d 함수 호출 완료 후 await를 만나고 async 함수 c는 중단&lt;/p&gt;
+&lt;p&gt;async 함수의 나머지는 마이크로 태스크 큐에 쌓임&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;c 함수를 호출한 실행 컨텍스트(b함수)로 돌아가서 console.log 실행, 출력 → b2&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;b 함수를 호출한 실행 컨텍스트(a함수)로 돌아가서 console.log 실행, 출력 → a2&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Call Stack이 모두 비워지고, Event Loop가 MicroTask Queue를 확인.
+then 콜백, async 함수가 쌓여있음.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;.then 콜백 실행, console.log 출력 → then!&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;async 함수 중단된 곳부터 이후로 실행, console.log 출력 → c2&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;또다시 Event Loop가 Task Queue를 확인, setTimeout의 콜백이 쌓여있음.
+setTimeout의 콜백을 Call Stack으로 옮겨 실행 및 출력 → setTimeout&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;a1
+b1
+c1
+d1
+d2
+b2
+a2
+then&lt;span class=&quot;token operator&quot;&gt;!&lt;/span&gt;
+c2
+setTimeout&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;참고&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://meetup.nhncloud.com/posts/89&quot;&gt;https://meetup.nhncloud.com/posts/89&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://dev.to/lydiahallie/javascript-visualized-promises-async-await-5gke&quot;&gt;https://dev.to/lydiahallie/javascript-visualized-promises-async-await-5gke&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://codingsalon.tistory.com/59&quot;&gt;https://codingsalon.tistory.com/59&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://engineering.linecorp.com/ko/blog/dont-block-the-event-loop/&quot;&gt;https://engineering.linecorp.com/ko/blog/dont-block-the-event-loop/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://junhyunny.github.io/information/javascript/microtask-macrotask-in-javascript/&quot;&gt;https://junhyunny.github.io/information/javascript/microtask-macrotask-in-javascript/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.howdy-mj.me/javascript/asynchronous-programming&quot;&gt;https://www.howdy-mj.me/javascript/asynchronous-programming&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://web.dev/optimize-javascript-execution/&quot;&gt;https://web.dev/optimize-javascript-execution/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;</content:encoded></item><item><title><![CDATA[JavaScript의 Symbol에 대해서.]]></title><description><![CDATA[요약 Symbol은 primitive type으로 ES6에서 추가되었다. Symbol은 변경 불가능한 원시 값이며, 고유한 ID의 역할을 한다. 객체의 속성(프로퍼티)의 key로 사용된다. Symbol…]]></description><link>https://pozafly.github.io/javascript/symbol/</link><guid isPermaLink="false">https://pozafly.github.io/javascript/symbol/</guid><pubDate>Wed, 15 Feb 2023 00:00:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;요약&quot; style=&quot;position:relative;&quot;&gt;요약&lt;a href=&quot;#%EC%9A%94%EC%95%BD&quot; aria-label=&quot;요약 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;Symbol은 primitive type으로 ES6에서 추가되었다.&lt;/li&gt;
 &lt;li&gt;Symbol은 변경 불가능한 원시 값이며, 고유한 ID의 역할을 한다.&lt;/li&gt;
