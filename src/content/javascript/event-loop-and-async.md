@@ -90,9 +90,9 @@ Call Stack으로 들어간 것이 아니라 **Task Queue**로 들어간 것이�
 ![08](../img/javascript/eventLoopAndAsync/8.gif)
 
 ```js
-const foo = () => console.log("First");
-const bar = () => setTimeout(() => console.log("Second"), 500);
-const baz = () => console.log("Third");
+const foo = () => console.log('First');
+const bar = () => setTimeout(() => console.log('Second'), 500);
+const baz = () => console.log('Third');
 
 bar();
 foo();
@@ -191,17 +191,17 @@ button.addEventListener(function() {
 
 Promise 객체는 비동기 작업이 맞이할 미래의 완료 또는 실패와 그 결과 값을 나타낸다([mdn](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise)). 이는 **콜백 지옥**(Callback Hell)을 피하기 위해 만들어졌다. Promise를 만들어 console에 찍어보자.
 
-![스크린샷 2023-02-16 오후 7.39.34](../../images/스크린샷 2023-02-16 오후 7.39.34.gif)
+![10](../img/javascript/eventLoopAndAsync/10.png)
 
 내부에는 `[[PromiseState]]`와 `[[PromiseResult]]` 라는것이 있다. PromiseState는 상태값을 나타낸다. 아래의 3가지 상태가 있다.
 
-- 대기*(pending)*: 이행하지도, 거부하지도 않은 초기 상태.
-- 이행*(fulfilled)*: 연산이 성공적으로 완료됨. 오류가 나지 않음.
-- 거부*(rejected)*: 연산이 실패함.
+- 대기(pending): 이행하지도, 거부하지도 않은 초기 상태.
+- 이행(fulfilled): 연산이 성공적으로 완료됨. 오류가 나지 않음.
+- 거부(rejected): 연산이 실패함.
 
 Promise는 콜백함수를 받는데, 콜백 함수의 첫번째 인자로 `resolve`, 두번째 인자로 `reject`를 받는다. 그 콜백 안에서 성공적으로 작업이 이행되었다면 `resolve()` 함수를 호출하면 되고, 문제(error)가 생겼다면 `reject()` 를 호출해주면 된다. resolve 인자로 데이터를 넘겨줄 수 있으며, reject에는 주로 error객체를 넘긴다.
 
-![10](../img/javascript/eventLoopAndAsync/10.png)
+![10.1](../img/javascript/eventLoopAndAsync/10.1.png)
 
 만약, resolve 되었다면, Promise는 `.then()` 구문을 사용해 이어서 다른 작업을 할 수 있다. `.then()` 인자로 다시 콜백 함수를 받고, 콜백 함수의 인자는 resolve에 매개변수로 넘겨주었던 데이터가 넘어온다.
 
@@ -345,6 +345,8 @@ Before function!이 실행되었고, myFunc 함수 내부의 In function!이 먼
 - `async` 함수에서는 `await` 를 만나면 함수가 중단되고 MicroTask Queue로 들어간다.
 - Promise는 곧바로 MicroTask Queue에 들어간다.
 
+---
+
 마지막으로 아래 코드 실행 결과를 예측해보자.
 
 ```js
@@ -411,7 +413,7 @@ a();
 14. 또다시 Event Loop가 Task Queue를 확인, setTimeout의 콜백이 쌓여있음.
     setTimeout의 콜백을 Call Stack으로 옮겨 실행 및 출력 → setTimeout
 
-```js
+```
 a1
 b1
 c1
@@ -423,6 +425,8 @@ then!
 c2
 setTimeout
 ```
+
+<br/>
 
 > 참고
 >
