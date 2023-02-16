@@ -135,9 +135,9 @@
 <p><img src="/7e58f74b2b2116d7cb8ae573570df2a5/7.gif" alt="07"/></p>
 <p>콜백 함수가 Call Stack에 추가되고, 호출되고, 값을 반환하고 Call Stack에서 제거된다.</p>
 <p><img src="/55d383fd555ff564285059d89c8f4abd/8.gif" alt="08"/></p>
-<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token function-variable function">foo</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;First&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> <span class="token function-variable function">bar</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Second&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> <span class="token function-variable function">baz</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Third&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token function-variable function">foo</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&#x27;First&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token function-variable function">bar</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&#x27;Second&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token function-variable function">baz</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&#x27;Third&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 <span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -208,18 +208,23 @@ button<span class="token punctuation">.</span><span class="token function">addEv
 <br/>
 <h2 id="Promise" style="position:relative">Promise<a href="#Promise" aria-label="Promise permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
 <p>Promise 객체는 비동기 작업이 맞이할 미래의 완료 또는 실패와 그 결과 값을 나타낸다(<a href="https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise">mdn</a>). 이는 <strong>콜백 지옥</strong>(Callback Hell)을 피하기 위해 만들어졌다. Promise를 만들어 console 에 찍어보자.</p>
-<p>![스크린샷 2023-02-16 오후 7.39.34](../../images/스크린샷 2023-02-16 오후 7.39.34.gif)</p>
-<p>내부에는 <code class="language-text">[[PromiseState]]</code>와 <code class="language-text">[[PromiseResult]]</code> 라는것이 있다. PromiseState는 상태값을 나타낸다. 아래의 3가지 상태가 있다.</p>
-<ul>
-<li>대기*(pending)*: 이행하지도, 거부하지도 않은 초기 상태.</li>
-<li>이행*(fulfilled)*: 연산이 성공적으로 완료됨. 오류가 나지 않음.</li>
-<li>거부*(rejected)*: 연산이 실패함.</li>
-</ul>
-<p>Promise는 콜백함수를 받는데, 콜백 함수의 첫번째 인자로 <code class="language-text">resolve</code>, 두번째 인자로 <code class="language-text">reject</code>를 받는다. 그 콜백 안에서 성공적으로 작업이 이행되었다면 <code class="language-text">resolve()</code> 함수를 호출하면 되고, 문제(error)가 생겼다면 <code class="language-text">reject()</code> 를 호출해주면 된다. resolve 인자로 데이터를 넘겨줄 수 있으며, reject에는 주로 error객체를 넘긴다.</p>
 <p><span class="gatsby-resp-image-wrapper" style="position:relative;display:block;margin-left:auto;margin-right:auto;max-width:500px">
       <a class="gatsby-resp-image-link" href="/static/19fc712db5173aee0cbafd95af15e61a/0eb09/10.png" style="display:block" target="_blank" rel="noopener">
     <span class="gatsby-resp-image-background-image" style="padding-bottom:34.400000000000006%;position:relative;bottom:0;left:0;background-image:url(&#x27;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAABYklEQVQoz12P2Y6bQBQF/f+flUhxNI7GC7bxEmxo6MUYmsVbwIGKaGtGoxzpXN2nUp1R86fhHtXck5rEaOJYEkuFVNq1ri9YW3C93RCJpCwKhvR9P1z+z6htWi6qolIFRVWitcGYE9qcyHPL5XJ10PvjQWFzIlWii78ONkA/Sv+Cj57PJ4lWRLFg7W/Y7vec0pSyqkikcrahiAmOEelJspTwffey6fqX44fnAB65p+uxuSVVivh4QEYRSghkGKJjQaY1ZXbmsN2y99cEv3eIMOQT1zb0XfcydMpAYzP0YorcrBHeHOWvCBdTkpWH2qwwW59zsMP6S84/vmEnY9rVnMab0ikBReY4n0BuNSZJ0LYiNik6t8hz7mpsiUwz8svVWTyE4CYE9TGk3u9pup7enoepX4B1iZm+Ib0Zh8mYePaL4+Qnh7cxcvGO9mYob8o1CsiCHdFi5syVvySZv9Oq2E3+B4ptDi3Ha3SfAAAAAElFTkSuQmCC&#x27;);background-size:cover;display:block"></span>
   <img class="gatsby-resp-image-image" alt="10" title="10" src="/static/19fc712db5173aee0cbafd95af15e61a/0eb09/10.png" srcSet="/static/19fc712db5173aee0cbafd95af15e61a/0eb09/10.png 500w" sizes="(max-width: 500px) 100vw, 500px" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0" loading="lazy" decoding="async"/>
+  </a>
+    </span></p>
+<p>내부에는 <code class="language-text">[[PromiseState]]</code>와 <code class="language-text">[[PromiseResult]]</code> 라는것이 있다. PromiseState는 상태값을 나타낸다. 아래의 3가지 상태가 있다.</p>
+<ul>
+<li>대기(pending): 이행하지도, 거부하지도 않은 초기 상태.</li>
+<li>이행(fulfilled): 연산이 성공적으로 완료됨. 오류가 나지 않음.</li>
+<li>거부(rejected): 연산이 실패함.</li>
+</ul>
+<p>Promise는 콜백함수를 받는데, 콜백 함수의 첫번째 인자로 <code class="language-text">resolve</code>, 두번째 인자로 <code class="language-text">reject</code>를 받는다. 그 콜백 안에서 성공적으로 작업이 이행되었다면 <code class="language-text">resolve()</code> 함수를 호출하면 되고, 문제(error)가 생겼다면 <code class="language-text">reject()</code> 를 호출해주면 된다. resolve 인자로 데이터를 넘겨줄 수 있으며, reject에는 주로 error객체를 넘긴다.</p>
+<p><span class="gatsby-resp-image-wrapper" style="position:relative;display:block;margin-left:auto;margin-right:auto;max-width:712px">
+      <a class="gatsby-resp-image-link" href="/static/621d530ab3f941c8e2d34facc52e40e6/c62b2/10.1.png" style="display:block" target="_blank" rel="noopener">
+    <span class="gatsby-resp-image-background-image" style="padding-bottom:49.4%;position:relative;bottom:0;left:0;background-image:url(&#x27;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAABpklEQVQoz32R2a7aMBRF+f+/61PbCxdI4tkOGXAGk2FVCb1IVWktHfnIso/3XvvwSD1DUdGGG9oqhMgJwSFlS160hHCnrjvOWYPzLX3XUNclhcjRRnOzikFcqb2l7yOHaZrxJvD5eeZ8ueKcx4cSrT3aBITUxH5kEJqkJd+uA0VYYJ15TDPLvLBME8uysqwrB4AxjVjrUErjvacoBNoY2rYlz3NOxyNOSdbpwTBOTNPCv9bhq2nvdwohUVqT5QVSqv2DqqoZrKE/HUlSMp4+WB/p+Whd/x64/j6MXYex9qV0qxBKqrrh0XUMpw/mYWC7/786pDHRZQ2Vq1DG7iq9LxEykuUdPvTUTeKSRayLxBi5VTVFITE+0BnD3Tmqpn0qnOeZsizJsgwhJCEEyvKG9wFrPc4HUteTlOCi7nxXT2tbmMuyvJRt/YvhMD5DyfNi3zeVG8OqqvZQLuczXitSmhjGeYP3NpDd8hfDtr0jpEIqTZblFELsHOu6obeW+PMHKc94FNk+7h2/P0OJHcZYrHPPhLXe7W+8phhJ1wvrPL+0ret7lb8ACDT96Kr3kjUAAAAASUVORK5CYII=&#x27;);background-size:cover;display:block"></span>
+  <img class="gatsby-resp-image-image" alt="10.1" title="10.1" src="/static/621d530ab3f941c8e2d34facc52e40e6/c62b2/10.1.png" srcSet="/static/621d530ab3f941c8e2d34facc52e40e6/0eb09/10.1.png 500w /static/621d530ab3f941c8e2d34facc52e40e6/c62b2/10.1.png 712w" sizes="(max-width: 712px) 100vw, 712px" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0" loading="lazy" decoding="async"/>
   </a>
     </span></p>
 <p>만약, resolve 되었다면, Promise는 <code class="language-text">.then()</code> 구문을 사용해 이어서 다른 작업을 할 수 있다. <code class="language-text">.then()</code> 인자로 다시 콜백 함수를 받고, 콜백 함수의 인자는 resolve에 매개변수로 넘겨주었던 데이터가 넘어온다.</p>
@@ -315,6 +320,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <li><code class="language-text">async</code> 함수에서는 <code class="language-text">await</code> 를 만나면 함수가 중단되고 MicroTask Queue로 들어간다.</li>
 <li>Promise는 곧바로 MicroTask Queue에 들어간다.</li>
 </ul>
+<hr/>
 <p>마지막으로 아래 코드 실행 결과를 예측해보자.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">a</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&#x27;a1&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -356,7 +362,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>c 함수 호출, console.log 실행, 출력 → c1</p>
 </li>
 <li>
-<p>setTimeout이 Task Queue에 쌓임.</p>
+<p>setTimeout이 Task Queue에  쌓임.</p>
 </li>
 <li>
 <p>d 함수 호출, 첫 번째 console.log 실행, 출력 → d1 (비동기X)</p>
@@ -392,16 +398,17 @@ then 콜백, async 함수가 쌓여있음.</p>
 setTimeout의 콜백을 Call Stack으로 옮겨 실행 및 출력 → setTimeout</p>
 </li>
 </ol>
-<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js">a1
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">a1
 b1
 c1
 d1
 d2
 b2
 a2
-then<span class="token operator">!</span>
+then!
 c2
 setTimeout</code></pre></div>
+<br/>
 <blockquote>
 <p>참고</p>
 <ul>
