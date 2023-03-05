@@ -354,7 +354,6 @@ function IndexLayout(props: IndexProps) {
           ol,
           ul {
             padding-left: 1.3em;
-            padding-right: 1.5em;
           }
 
           ol ol,
