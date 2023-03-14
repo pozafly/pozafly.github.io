@@ -19,6 +19,7 @@ import {
 import { NoImage, PostFull, PostFullHeader, PostFullTitle } from '../templates/post';
 import { colors } from '../styles/colors';
 import styled from '@emotion/styled';
+import ResumeFrame from '../components/ResumeFrame';
 
 const PageTemplate = css`
   .site-main {
@@ -65,10 +66,7 @@ function About() {
                 <PostFullTitle className="post-full-title">About</PostFullTitle>
               </PostFullHeader>
               <PostFullContent className="post-full-content">
-                <iframe
-                  src="https://my.surfit.io/w/2082055482"
-                  style={{ width: '100%', height: '78vh', borderRadius: '10px' }}
-                />
+                <ResumeFrame />
                 <div className="post-content">
                   {/* <h5>황선태(Pozafly)</h5> */}
                   <br />
