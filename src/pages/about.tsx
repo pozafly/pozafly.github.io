@@ -38,10 +38,13 @@ const PageTemplate = css`
 
 const MovePicture = styled.img`
   width: 60%;
-  transition: 0.5s;
   border-radius: 15px;
+  transform: translateY(0);
+  transition: transform 0.15s ease;
+  display: block;
+
   &:hover {
-    transform: translateY(-15px);
+    transform: translateY(-4px);
   }
 `;
 
@@ -94,7 +97,7 @@ function About() {
                   <h2>Toy Project</h2>
                   <br />
                   <h5>Tripllo</h5>
-                  <a href="https://tripllo.tech/" target="_blank" rel="noreferrer">
+                  <a href="https://github.com/pozafly/tripllo_vue" target="_blank" rel="noreferrer">
                     <MovePicture src='https://user-images.githubusercontent.com/59427983/112918486-f25bc600-913f-11eb-8c9d-ea4221141754.png' alt="Tripllo" />
                   </a>
                   <ul>
