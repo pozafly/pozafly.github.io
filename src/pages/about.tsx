@@ -39,12 +39,14 @@ const PageTemplate = css`
 const MovePicture = styled.img`
   width: 60%;
   border-radius: 15px;
-  transform: translateY(0);
-  transition: transform 0.15s ease;
-  display: block;
+  transition: 0.2s ease-in-out;
 
   &:hover {
-    transform: translateY(-4px);
+    box-shadow: rgba(0, 0, 33, 0.07) 0px 16px 22.4px 4.8px, rgba(0, 0, 33, 0.05) 0px 3.2px 16px 0px, rgba(0, 0, 33, 0.07) 0px 0px 1px 0px;
+    -webkit-transform: translate3D(0, -3%, 0);
+    -moz-transform: translate3D(0, -3%, 0);
+    -ms-transform: translate3D(0, -3%, 0);
+    transform: translate3D(0, -3%, 0);
   }
 `;
 
