@@ -112,6 +112,13 @@ export const PostFullContent = styled.section`
     box-shadow: ${colors.darkgrey} 0 -1px 0 inset;
   }
 
+  a[class*=image], a[class*=image]:hover {
+    box-shadow: none;
+    span[class*=image] {
+      border-radius: 6px;
+    }
+  }
+
   strong,
   em {
     /* color: color(var(--darkgrey) l(-5%)); */
@@ -130,7 +137,10 @@ export const PostFullContent = styled.section`
     max-width: 840px;
     height: auto;
     border-radius: 6px;
-    box-shadow: rgba(0, 0, 0, 0.3) 0 0 23px;
+    border: 1px solid hsl(230deg 25% 94%);
+    @media (prefers-color-scheme: dark) {
+      border: 1px solid hsl(230,6%,23%);
+    }
   }
   @media (max-width: 1040px) {
     img,
@@ -455,6 +465,10 @@ export const PostFullContent = styled.section`
         color: #fff;
         box-shadow: inset 0 -1px 0 #fff;
       }
+    }
+    
+    a[class*=image], a[class*=image]:hover {
+      box-shadow: none;
     }
 
     strong {
