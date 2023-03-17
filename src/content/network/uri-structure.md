@@ -45,11 +45,11 @@ HTTP, HTTPS, FTP와 같은 리소스를 얻기 위해 사용하는 프로토콜�
 
 ### Query String
 
-쿼리 파라미터라고도 한다. 웹 요청 시 URL 뒤에 ? 문자를 붙이고, 이어서 `key=value` 형태의 요청 매개변수를 전달하는 것을 말한다. 예를 들어, `https://example.com/search?q=javascript&page=2`와 같은 URL에서 q=javascript와 page=2는 쿼리 파라미터다. 쿼리 파라미터를 사용하면 클라이언트 측에서 서버로 전달하는 데이터를 쉽게 구성하고, 서버는 이를 통해 동적인 결과를 반환할 수 있다. 주로 웹 검색, 페이징, 필터링 등에서 사용된다.
+쿼리 파라미터라고도 한다. 웹 요청 시 URI 뒤에 ? 문자를 붙이고, 이어서 `key=value` 형태의 요청 매개변수를 전달하는 것을 말한다. 예를 들어, `https://example.com/search?q=javascript&page=2`와 같은 URI에서 q=javascript와 page=2는 쿼리 파라미터다. 쿼리 파라미터를 사용하면 클라이언트 측에서 서버로 전달하는 데이터를 쉽게 구성하고, 서버는 이를 통해 동적인 결과를 반환할 수 있다. 주로 웹 검색, 페이징, 필터링 등에서 사용된다.
 
 ### Fragment
 
-Hash라고도 한다. 리소스 자체의 다른 부분을 가리키는 앵커다. HTML 문서 상에서 제목에 Fragment를 붙여 해당 지점으로 스크롤을 이동시킬 수 있다. 네트워크 요청을 보내지 않는 특징이 있고, Fragment가 붙은 url로 바로 들어왔을 때 페이지의 스크롤이 해당 부분으로 이동한다. pozalfy.github.io에도 제목 부분에 적용되어 있다. SPA가 url을 변경했을 때, 서버로 요청을 보내지 않는 것은 Fragment의 특성을 살린 것이라고 볼 수 있다.
+Hash라고도 한다. 리소스 자체의 다른 부분을 가리키는 앵커다. HTML 문서 상에서 제목에 Fragment를 붙여 해당 지점으로 스크롤을 이동시킬 수 있다. 네트워크 요청을 보내지 않는 특징이 있고, Fragment가 붙은 uri로 바로 들어왔을 때 페이지의 스크롤이 해당 부분으로 이동한다. pozalfy.github.io에도 제목 부분에 적용되어 있다. SPA가 uri을 변경했을 때, 서버로 요청을 보내지 않는 것은 Fragment의 특성을 살린 것이라고 볼 수 있다.
 
 <br/>
 
@@ -59,7 +59,7 @@ Host와 Domain에 대해서 알아보자. 위에서 설명했지만, Host는 네
 
 ### Domain & DNS(Domain Name System)
 
-웹사이트에 접속할 때, 우리는 외우기 어려운 IP 주소 대신 도메인 이름을 사용한다. 컴퓨터와 컴퓨터는 1:1로 묶여있어야 통신이 가능하다. 영어로 URL 주소를 입력하면 주소에 해당하는 서비스를 알기 쉽고 직관적이다. 하지만 컴퓨터와의 연결이 하고 싶어 `220.190.031...` 의 IP 주소를 입력해 컴퓨터로 접속하는 것이 어렵기 때문에 이 시스템이 등장했다.
+웹사이트에 접속할 때, 우리는 외우기 어려운 IP 주소 대신 도메인 이름을 사용한다. 컴퓨터와 컴퓨터는 1:1로 묶여있어야 통신이 가능하다. 영어로 URI 주소를 입력하면 주소에 해당하는 서비스를 알기 쉽고 직관적이다. 하지만 컴퓨터와의 연결이 하고 싶어 `220.190.031...` 의 IP 주소를 입력해 컴퓨터로 접속하는 것이 어렵기 때문에 이 시스템이 등장했다.
 
 브라우저의 주소창에 주소를 입력하면 브라우저는 가장 먼저 브라우저 DNS 캐시에서 도메인 이름에 해당하는 IP 주소를 찾는다. 이미 브라우저가 한번 해당 IP에 방문한 적이 있다면 브라우저 캐시에서 이를 꺼내 사용한다. (브라우저 DNS 캐시는 브라우저를 닫았을 때 초기화된다.) 만약 없다면, 이번엔 OS 자체 DNS 캐시에서 이를 찾는다. 또 없다면 이번엔 OS에 저장된 `Hosts 파일` 에서 찾는다.
 
@@ -75,7 +75,7 @@ $ vim /etc/hosts
 
 Hosts 파일에도 존재하지 않는다면 이제 Local DNS Server에 요청을 보낸다. 이는 ISP(Internet Service Provider) DNS Server라고도 하는데, ISP는 인터넷에 접속하는 수단을 제공하는 주체를 가리키는 말이다. 그 주체는 영리를 목적으로 하는 사기업인 경우가 대다수이나 비영리 공동체가 주체인 경우도 있다. 우리나라로 따지면 KT, U+, SK브로드밴드 등이다.
 
-만약 이곳에서도 없다면, ICANN이 관리하는 Root DNS Server에 알려달라고 한다. 이는 전세계적으로 DNS 전체를 관리하는 단체다. Root DNS Server에서는 아래에서 살펴볼 TLD(Top Level Domain)의 주소를 가지고 있으며 우리가 입력한 URL의 뒷 부분인 `.com` 등을 관리하고 있는 TLD의 주소를 가르쳐준다. 그리고 TLD는 SLD(Second Level Domain)의 주소를 가지고 있으며 이곳으로 연결해준다. SLD는 호스팅 서비스를 하고 있는 가비아나, 후이즈, AWS Route 53 등에 해당된다. SLD에 물어보고, 최종적으로 브라우저로 return 하게 된다.
+만약 이곳에서도 없다면, ICANN이 관리하는 Root DNS Server에 알려달라고 한다. 이는 전세계적으로 DNS 전체를 관리하는 단체다. Root DNS Server에서는 아래에서 살펴볼 TLD(Top Level Domain)의 주소를 가지고 있으며 우리가 입력한 URI의 뒷 부분인 `.com` 등을 관리하고 있는 TLD의 주소를 가르쳐준다. 그리고 TLD는 SLD(Second Level Domain)의 주소를 가지고 있으며 이곳으로 연결해준다. SLD는 호스팅 서비스를 하고 있는 가비아나, 후이즈, AWS Route 53 등에 해당된다. SLD에 물어보고, 최종적으로 브라우저로 return 하게 된다.
 
 각 계층을 지나오면서 찾은 IP를 캐시한다. 따라서 첫 요청때 시간이 오래걸릴 수 있지만, 한번 캐시된 곳에서 여러번 요청시 위 과정을 처음부터 다시 하는 것이 아니라 캐시된 곳에서 바로 꺼내오게 된다.
 
@@ -93,7 +93,7 @@ Hosts 파일에도 존재하지 않는다면 이제 Local DNS Server에 요청�
 
 ![04](../img/network/uri-structure/4.png)
 
-사진을 보자. D(Domain)NS는 URL로 결국 IP를 찾아오는 녀석인데, 이때 사용되는 것이 Domain이다. 즉 `pozafly.com` 까지 해당된다.
+사진을 보자. D(Domain)NS는 URI로 결국 IP를 찾아오는 녀석인데, 이때 사용되는 것이 Domain이다. 즉 `pozafly.com` 까지 해당된다.
 
 ### TLD(Top Level Domain)
 
@@ -123,7 +123,7 @@ Top Level Domain은, `.com`과 같이 일반적으로 주소의 맨 뒤쪽에 �
 
 Orgin은 CORS(Cross-Origin Resource Sharing) 개념 중 등장하는 단어이다. CORS는 한국어로 풀어서 이야기하면 **교차 출처 리소스 공유**다. 이는 Origin이 다른 사이트끼리 리소스를 공유할 수 있도록 권한을 부여하는 것이다.
 
-예를 들면, iframe 태그를 사용해 웹사이트 내부에 다른 웹사이트를 띄운다던지, google font를 사용하기 위해 link 태그의 href에 google url을 적는다. 또, 유튜브를 내 페이지에 임베드 시킬 수도 있다. `https://www.pozafly.com`에서 해당 작업을 했다면 'Origin'이 다르기 때문에 CORS 에러가 발생한다.
+예를 들면, iframe 태그를 사용해 웹사이트 내부에 다른 웹사이트를 띄운다던지, google font를 사용하기 위해 link 태그의 href에 google uri을 적는다. 또, 유튜브를 내 페이지에 임베드 시킬 수도 있다. `https://www.pozafly.com`에서 해당 작업을 했다면 'Origin'이 다르기 때문에 CORS 에러가 발생한다.
 
 동일한 출처에서 리소스를 가져오는 정책을 (SOP - Same-Origin Policy)라고 한다. 이에 위배되는 것이다. CORS에 대해 더 자세하게 알고 싶다면 [이곳](https://evan-moon.github.io/2020/05/21/about-cors/)을 방문해보자.
 
@@ -152,13 +152,16 @@ Origin은 `Scheme`, `Host`, `Port`를 모두 합친 것을 이야기한다. 사�
 
 ### Site(사이트)
 
-Site는 SameSite 쿠키에서 등장한다. SameSite는 쿠키의 보안과 관련한 옵션이다. 쿠키는 브라우저에 저장할 수 있는 작은 텍스트 파일로, 로그인 인증 및 클라이언트의 환경 설정에 관여한다. 웹서버에 HTTP Request를 보내면, Response 헤더에 Set-Cookie라는 헤더로 쿠키를 보내오고, 브라우저에 자동으로 저장되며 이후, Request를 보낼 때마다 Cookie 헤더에 이를 함께 보내준다. 
+Site는 SameSite 쿠키에서 등장한다. SameSite는 쿠키의 보안과 관련한 옵션이다. 쿠키는 브라우저에 저장할 수 있는 작은 텍스트 파일로, 로그인 인증 및 클라이언트의 환경 설정에 관여한다. 웹서버에 HTTP Request를 보내면, Response 헤더에 Set-Cookie라는 헤더로 쿠키를 보내오고, 브라우저에 자동으로 저장되며 이후, Request를 보낼 때마다 Cookie 헤더에 이를 함께 보내준다.
 
-만약 `https://www.pozafly.com`에서 `https://google.com`으로 어떤 요청을 했다면 google에서 response에 쿠키를 가져왔을 수 있다. 다른 브라우저 저장소인 LocalStorage, SessionStorage 같은 경우는 사이트 별로 다른 스코프를 가진다. 즉, 저장소는 사이트마다 별도의 공간에 저장된다. 하지만 쿠키는 이를 구분하지 않는다. 아래의 시진은 현재 블로그에서, 크롬 개발자 도구를 키고 Application 탭의 Cookie를 확인해본 것이다. `https://pozafly.github.io` 의 쿠키 외 다른 사이트의 쿠키들이 있는 것을 확인할 수 있다.
+만약 `https://www.pozafly.com`에서 `https://google.com`으로 어떤 요청을 했다면 google에서 response에 쿠키를 가져왔을 수 있다. 다른 브라우저 저장소인 LocalStorage, SessionStorage 같은 경우는 사이트 별로 다른 스코프를 가진다. 즉, 저장소는 사이트마다 별도의 공간에 저장된다. 하지만 쿠키는 이를 구분하지 않는다. 
 
 ![06](../img/network/uri-structure/6.png)
 
-이를 `서드파티 쿠키` 라고 한다. (자신 사이트의 쿠키는 `퍼스트 파티 쿠키`라고 함) SameSite는 이런 서드파티 쿠키를 허용하지 않는다고 브라우저에게 알려주는 옵션이다. 그렇다면 Site는 URL의 어디까지인지 살펴보자.
+위 시진은 쿠팡의 페이지에서, 크롬 개발자 도구를 키고 Application 탭의 Cookie를 확인해본 것이다. 쿠팡 도메인의 쿠키 외 다른 사이트의 쿠키가 있는 것을 확인할 수 있다.
+
+이를 `서드파티 쿠키` 라고 한다. 반대로 자신 사이트의 쿠키는 `퍼스트파티 쿠키`라고 한다. Domain 탭에 표기된 내용은, 네트워크 요청시 서버의 HTTP Response Header에 Set-Cookie의 값으로 Domain 옵션이 붙어서 온 결과이다. 위 사진 기준으로 쿠팡의 페이지에서 보고 있는 쿠키이기 때문에, Domain의 `.coupang.com`은 쿠팡의 퍼스트파티 쿠키다. 그리고 `.criteo.com`은 서드파티 쿠키다.
+SameSite는 이런 서드파티 쿠키를 허용하지 않는다고 브라우저에게 알려주는 옵션이다. 그렇다면 Site는 URI의 어디까지인지 살펴보자.
 
 ![07](../img/network/uri-structure/7.png)
 
