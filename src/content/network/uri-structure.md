@@ -160,7 +160,14 @@ Site는 SameSite 쿠키에서 등장한다. SameSite는 쿠키의 보안과 관�
 
 위 시진은 쿠팡의 페이지에서, 크롬 개발자 도구를 키고 Application 탭의 Cookie를 확인해본 것이다. 쿠팡 도메인의 쿠키 외 다른 사이트의 쿠키가 있는 것을 확인할 수 있다.
 
-이를 `서드파티 쿠키` 라고 한다. 반대로 자신 사이트의 쿠키는 `퍼스트파티 쿠키`라고 한다. Domain 탭에 표기된 내용은, 네트워크 요청시 서버의 HTTP Response Header에 Set-Cookie의 값으로 Domain 옵션이 붙어서 온 결과이다. 위 사진 기준으로 쿠팡의 페이지에서 보고 있는 쿠키이기 때문에, Domain의 `.coupang.com`은 쿠팡의 퍼스트파티 쿠키다. 그리고 `.criteo.com`은 서드파티 쿠키다.
+이를 `서드파티 쿠키` 라고 한다. 반대로 자신 사이트의 쿠키는 `퍼스트파티 쿠키`라고 한다. Domain 탭에 표기된 내용은, 네트워크 요청시 서버의 HTTP Response Header에 Set-Cookie의 값으로 Domain 옵션이 붙어서 온 결과이다. 위 사진 기준으로 쿠팡의 페이지에서 보고 있는 쿠키이기 때문에, Domain의 `.coupang.com`은 쿠팡의 퍼스트파티 쿠키다. 그리고 `.criteo.com`은 서드파티 쿠키다. 서드파티 쿠키를 구분하는 것은 기본적으로, Domain 옵션으로 판단한다.
+
+> ※서드파티 쿠키 허용 범위
+>
+> 서드파티 쿠키는 Domain 옵션을 통해 허용 범위를 지정하는데, Domain 옵션을 주지 않았다면 기본적으로 해당 도메인만 쿠키를 허용한다. 서브 도메인은 허용되지 않는다. 즉, `pozafly.github.io`의 쿠키는 `dev.pozafly.github.io`에서 사용할 수 없다. 하지만 Domain을 루트 도메인 (`pozafly.github.io`)으로 명시적으로 지정해준 경우는 서브 도메인에서 사용할 수 있다.
+>
+> 아래에서 살펴볼 SameSite 또한 서드파티 쿠키를 허용하지 않도록 해주는 옵션이다. 단, 차이점은 Domain 옵션은 도메인 단위에 해당되며, SameSite는 Site 단위이다.
+
 SameSite는 이런 서드파티 쿠키를 허용하지 않는다고 브라우저에게 알려주는 옵션이다. 그렇다면 Site는 URI의 어디까지인지 살펴보자.
 
 ![07](../img/network/uri-structure/7.png)
