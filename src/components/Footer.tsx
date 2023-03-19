@@ -13,11 +13,14 @@ export function Footer() {
     <footer css={[outer, SiteFooter]}>
       <div css={[inner, SiteFooterContent]}>
         <section className="copyright">
-          <Link to="/">pozafly</Link> &copy; {new Date().getFullYear()}{' '}
+          &copy; {new Date().getFullYear()}{' '}
           {config.footer && (
-            <Link to="/">
-              | {config.title} {config.footer}
-            </Link>
+            <>
+              <span>| &nbsp;</span>
+              <a href="https://www.gatsbyjs.com/" target="_blank" rel="nofollow">
+                {config.title} {config.footer}
+              </a>
+            </>
           )}
         </section>
         <SiteFooterNav>
