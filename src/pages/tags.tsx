@@ -35,6 +35,51 @@ const PageTemplate = css`
   }
 `;
 
+const TagArea = css`
+  ul {
+    padding-left: initial;
+    li {
+      display: inline-block;
+      list-style: none;
+      background: #f5f5f5;
+      border: 1px solid hsl(230deg 25% 94%);
+      border-radius: 6px;
+      margin-right: 12px;
+      color: #000;
+      padding: 2px 4px;
+      transform: translateY(0);
+      transition: all 0.4s ease;
+
+      &:hover {
+        box-shadow: 0px 8px 20px hsla(218,53%,10%,12%);
+        transform: translateY(-3px);
+      }
+      
+      @media (prefers-color-scheme: dark) {
+        background: #282b31;
+        border: 1px solid hsl(230deg 6% 23%);
+        &:hover {
+          /* box-shadow: 0px 8px 20px hsla(218,53%,10%,12%); */
+          box-shadow: 0px 8px 20px 	#090f1a;
+        }
+      }
+
+      a {
+        padding: 6px;
+        text-decoration: none;
+        color: #000;
+        box-shadow: none;
+        &:hover {
+          box-shadow: none;
+        }
+        @media (prefers-color-scheme: dark) {
+          color: #fff;
+        }
+      }
+    }
+  }
+`;
+
 const Tags: React.FC = ({ data }: any) => {
   return (
     <IndexLayout>
@@ -58,7 +103,7 @@ const Tags: React.FC = ({ data }: any) => {
 
               <PostFullContent className="post-full-content">
                 <div className="post-content">
-                  <div>
+                  <div css={TagArea}>
                     <ul>
                       {data.allMarkdownRemark.group.map(tag => (
                         <li key={tag.fieldValue}>
