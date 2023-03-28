@@ -2,7 +2,7 @@
 layout: post
 title: 'nvm을 사용해 프로젝트별로 Node.js 버전 다르게 사용하기'
 author: [Pozafly]
-tags: [NPM, AutoMation]
+tags: [Tool, Node.js]
 image: ../img/node/setting-npm-differently-for-each-project.webp
 date: '2022-04-10T12:13:47.149Z'
 draft: false

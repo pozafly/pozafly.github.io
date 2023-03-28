@@ -2,7 +2,7 @@
 layout: post
 title: '노드 버전 매니저 툴 비교기(nvm & fnm & Volta)'
 author: [Pozafly]
-tags: [Tool, NVM]
+tags: [Tool, Node.js]
 image: ../img/node/node-version-manager/node-version-manager.jpg
 date: '2023-03-28'
 draft: false
