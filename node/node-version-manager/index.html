@@ -190,8 +190,7 @@ $ fnm <span class="token function">ls</span> <span class="token comment"># 로�
     <span class="gatsby-resp-image-background-image" style="padding-bottom:12.8%;position:relative;bottom:0;left:0;background-image:url(&#x27;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAk0lEQVQI1z3IWw6DIBCFYTfVFGQYosAAXuK17n8npwnaPnz5T05jSBBkQddPlciK3s/wYUaUFVGW+pVhh6QVPi6QvEHyjs7PeOsA1ca/xsgJmz4gOUHxAOcLVg5Q2Gs5fcDphM0XOGxgV8BugOvGijhXxt5tXlSg3AjNI7R78E3ZAvWrm6AoQ5sIbaS2JUFL6XHvLygxaylKita8AAAAAElFTkSuQmCC&#x27;);background-size:cover;display:block"></span>
   <img class="gatsby-resp-image-image" alt="nvm-time-result" title="nvm-time-result" src="/static/4377183bc35ccfae23880f80792ca591/8cdd0/nvm-time-result.png" srcSet="/static/4377183bc35ccfae23880f80792ca591/0eb09/nvm-time-result.png 500w /static/4377183bc35ccfae23880f80792ca591/1263b/nvm-time-result.png 1000w /static/4377183bc35ccfae23880f80792ca591/8cdd0/nvm-time-result.png 1304w" sizes="(max-width: 1304px) 100vw, 1304px" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0" loading="lazy" decoding="async"/>
   </a>
-    </span>
-[]</p>
+    </span></p>
 <p>하단에는 최종적으로 1.64s가 걸렸다고 표현되고 있다.</p>
 <p>이제 fnm을 보자.</p>
 <p><span class="gatsby-resp-image-wrapper" style="position:relative;display:block;margin-left:auto;margin-right:auto;max-width:1702px">
@@ -267,8 +266,9 @@ $ fnm <span class="token function">ls</span> <span class="token comment"># 로�
 <table><thead><tr><th></th><th>nvm</th><th>fnm</th><th>Volta</th></tr></thead><tbody><tr><td>크로스 플랫폼</td><td>O</td><td>O</td><td>O</td></tr><tr><td>env file(.nvmrc)</td><td>O</td><td>O</td><td>X</td></tr><tr><td>언어</td><td>Shell</td><td>Rust</td><td>Rust</td></tr><tr><td>버전 자동 설정</td><td>.nvmrc</td><td>.nvmrc, .node-version</td><td>package.json &gt; volta</td></tr><tr><td>속도</td><td>가장 느림</td><td>빠름</td><td>가장 빠름</td></tr><tr><td>패키지 매니저</td><td>npm</td><td>npm</td><td>npm, yarn, pnpm</td></tr><tr><td>터미널 멈춤 여부</td><td>O</td><td>O</td><td>X</td></tr></tbody></table>
 <br/>
 <p>사실 노드 패키지 매니저 관리 툴은 위 3가지 뿐 아니라 더 많다. fnm과 Volta가 Rust로 만들어져 있고, 빠른 장점을 갖고 있기 때문에 굳이 찾아서 비교해본 것인데 사실 어떤걸 쓰던 상관없다.</p>
-<p>비교를 해보면서 알게 된 것은 같은 목적을 가지고 만들어진 툴이지만, 서로 구현 방향이 달랐다. 또한 가지고 있던 철학도 달랐다. node에 설치되는 라이브러리 하나를 고르더라도 서로 비교하고, 어떤 라이브러리가 퍼포먼스 혹은 사용성이 좋은지 판단하라는 가르침이 생각난다.</p>
+<p>비교를 해보면서 알게 된 것은 같은 목적을 가지고 만들어진 툴이지만, 서로 구현 방향이 달랐다. 또한 가지고 있던 철학도 달랐다. node에 설치되는 라이브러리 하나를 고르더라도 서로 비교하고, 어떤 라이브러리가 퍼포먼스 혹은 사용성이 좋은지 판단하라는 가르침이 생각난다. (<a href="https://npmtrends.com/" target="_blank" rel="nofollow">npm transds</a>에서 비교해봤지만, fnm과 volta는 다른 패키지가 나와서 비교가 불가능했다)</p>
 <p><a href="https://github.com/Schniz/fnm/issues/270" target="_blank" rel="nofollow">이곳</a>은 fnm의 이슈에 volta 관리자가 와서 서로의 툴을 비교하는 장을 열었다. 그 중 <a href="https://github.com/ljharb" target="_blank" rel="nofollow">ljharb</a>의 댓글이 인상깊다. 보통은 툴 제작자가 장단점과 함정에 대해 배우기 위해 기존 툴 관리자와 먼저 대화를 하는 경우는 드물다. 다른 사람이 불필요한 노력과 버그를 만나지 않게 하기 위해 서로 다른 툴 제작자가 대화를 하는 것은 좋아보인다는 말이다.</p>
+<p>결국 나는 fnm을 쓸꺼다. 빠르고 안정적이어서다.</p>
 <blockquote>
 <p>참고</p>
 <p><a href="https://duncanlew.medium.com/a-better-node-version-manager-volta-vs-nvm-5917c1edd0a1" target="_blank" rel="nofollow">https://duncanlew.medium.com/a-better-node-version-manager-volta-vs-nvm-5917c1edd0a1</a></p>
