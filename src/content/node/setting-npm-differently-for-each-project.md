@@ -3,13 +3,11 @@ layout: post
 title: 'nvm을 사용해 프로젝트별로 Node.js 버전 다르게 사용하기'
 author: [Pozafly]
 tags: [NPM, AutoMation]
-image: ../img/npm/node-version-manager.webp
+image: ../img/node/setting-npm-differently-for-each-project.webp
 date: '2022-04-10T12:13:47.149Z'
 draft: false
 excerpt: NVM을 사용해 프로젝트 별로 Node.js 버전 지정을 자동화 해보자.
 ---
-
-
 
 nvm이란, **N**ode **V**ersion **M**anager로, Node.js의 버전을 관리하는 도구다. 시스템에 여러 개의 Node.js를 설치하고 사용할 버전을 쉽게 전환할 수 있도록 도와주는 유틸이다. 이는 쉘(sh, dash, ksh, zsh, bash) 별로 호출되도록 설계되었다.
 
@@ -27,7 +25,7 @@ nvm이란, **N**ode **V**ersion **M**anager로, Node.js의 버전을 관리하�
 $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 ```
 
-[NVM](https://github.com/nvm-sh/nvm) 문서에 나와있는대로 터미널에 입력해주자. 
+[NVM](https://github.com/nvm-sh/nvm) 문서에 나와있는대로 터미널에 입력해주자.
 
 그리고 노드 최신 버전도 설치해주자.
 
