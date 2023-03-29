@@ -19,7 +19,7 @@ excerpt: nvm을 시작으로 Node.js 버전을 관리하다 fnm을 알게되었�
 
 설치할 수 있는 방법은 Shell Script를 통해 설치 후 `.bashrc` 혹은 `.zshrc` 에 nvm 관련 설정을 해주어야 한다. (앞으로 터미널 설정 파일은 .zshrc 파일로 이야기할 것이다) 또한 터미널을 통해 프로젝트의 디렉토리로 들어갔을 경우 자동으로 `.nvmrc` 파일을 찾고, 파일에 명시된 Node.js 버전으로 자동으로 변경시켜준다. nvm은 macOS 뿐 아니라 Windows, Linux도 지원하고 있다. 다른 OS에서 동일한 Node.js 버전을 맞추고 비교적 동일한 환경에서 Node.js를 실행시킬 수 있는 것은 마치 가상환경을 떠올리게 만든다.
 
-간단하게는 아래의 명령어를 통해 Node.js 버전을 변경 및 관리할 수 있다. 자세한 사용 방법은 [이전 게시물](https://pozafly.github.io/npm/setting-npm-differently-for-each-project/)을 통해 볼 수 있다.
+간단하게는 아래의 명령어를 통해 Node.js 버전을 변경 및 관리할 수 있다. 자세한 사용 방법은 [이전 게시물](https://pozafly.github.io/node/setting-npm-differently-for-each-project/)을 통해 볼 수 있다.
 
 ```shell
 $ nvm install 18.15.0 # Node.js 18.15.0 버전 설치
@@ -141,10 +141,10 @@ volta와는 확실히 차이점이 있다. 전역 설치 패키지를 build 해�
 nvm이 속도가 느리다고 하는데, 얼마나 느린지 실제로 측정해보자. 환경은 아래와 같다.
 
 - MacBook Pro 2019 - 16-inch
-- 32GB 메모리
-- Ventura 13.2.1
-- zsh & oh-my-zsh
+- rem 32GB 메모리
+- macOS Ventura 13.2.1
 - iterm2
+- zsh & oh-my-zsh
 
 먼저 측정 방법이다.
 
@@ -162,7 +162,7 @@ zsh는 측정용 프로파일링 모듈을 가지고 있다. [zprof](https://zsh
 
 ![nvm-time-result](../img/node/node-version-manager/nvm-time-result.png)
 
-하단에는 최종적으로 1.64s가 걸렸다고 표현되고 있다.
+하단에는 최종적으로 2.956s가 걸렸다고 표현되고 있다.
 
 이제 fnm을 보자.
 
@@ -172,7 +172,7 @@ zsh는 측정용 프로파일링 모듈을 가지고 있다. [zprof](https://zsh
 
 ![fnm-time-result](../img/node/node-version-manager/fnm-time-result.png)
 
-총 걸린 시간은 0.34s다. 40배라는 것은 과장이었다. ㅋㅋㅋ 어쨌든 확실히 fnm이 nvm에 비해 빠르다. 이로서 fnm이 빠르다는 것이 증명되었다.
+총 걸린 시간은 0.462s다. total 기준으로는 약 6배 차이다. 확실히 fnm이 nvm에 비해 빠르다. 이로서 fnm이 빠르다는 것이 증명되었다.
 
 volta 같은 경우 쉘 스크립트를 사용하지 않기 때문에 터미널에서 사용 속도는 확인이 불가능하다. 즉, 터미널 로드 속도는 fnm, nvm을 사용하지 않은, 기본 환경과 동일하다고 여겨도 좋다.
 
