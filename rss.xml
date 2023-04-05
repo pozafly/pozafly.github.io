@@ -1,4 +1,1150 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[pozafly의 기술 블로그]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 29 Mar 2023 07:31:26 GMT</lastBuildDate><item><title><![CDATA[노드 버전 매니저 툴 비교기(nvm & fnm & Volta)]]></title><description><![CDATA[nvm & fnm & Volta 모두 Node.js의 버전을 관리하는 툴이다. 가장 먼저 nvm을 시작으로 Node.js 버전을 관리하다 fnm을 알게되었고, 추가로 Volta…]]></description><link>https://pozafly.github.io/node/node-version-manager/</link><guid isPermaLink="false">https://pozafly.github.io/node/node-version-manager/</guid><pubDate>Tue, 28 Mar 2023 00:00:00 GMT</pubDate><content:encoded>&lt;h1 id=&quot;nvm--fnm--Volta&quot; style=&quot;position:relative;&quot;&gt;nvm &amp;#x26; fnm &amp;#x26; Volta&lt;a href=&quot;#nvm--fnm--Volta&quot; aria-label=&quot;nvm  fnm  Volta permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h1&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[pozafly의 기술 블로그]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 05 Apr 2023 02:06:33 GMT</lastBuildDate><item><title><![CDATA[Webpack5 JavaScript 보일러플레이트 만들기]]></title><description><![CDATA[예전에 간단한 JavaScript를 사용해 페이지를 만들어볼 목적으로 webpack 기반 보일러플레이트를 만든 적이 있다. 유용하게 잘 써먹었지만, webpack을 처음부터 하나 하나 뜯어보며 설정했던 것은 아니다. 아래는 Webpack…]]></description><link>https://pozafly.github.io/environment/webpack-boilerplate/</link><guid isPermaLink="false">https://pozafly.github.io/environment/webpack-boilerplate/</guid><pubDate>Wed, 05 Apr 2023 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;예전에 간단한 JavaScript를 사용해 페이지를 만들어볼 목적으로 webpack 기반 보일러플레이트를 만든 적이 있다. 유용하게 잘 써먹었지만, webpack을 처음부터 하나 하나 뜯어보며 설정했던 것은 아니다. 아래는 Webpack5 버전을 기반으로 하고 있다.&lt;/p&gt;
+&lt;p&gt;사실 요즘은 webpack 보다는 vite를 많이 사용하는 추세라고 한다. 하지만 vite를 사용하기 전 모듈 번들러가 어떤 역할을 해주고 있으며 어떤 기능이 있는지 알게 된다면 vite를 사용할 때, 혹은 다른 번들러를 사용하게 될 때 도움이 될 것이라고 생각한다.&lt;/p&gt;
+&lt;p&gt;추가적으로, webpack 설정 뿐 아니라 lint 설정과 babel 설정에 대해 이야기할 것이다. 모던 프론트엔드 웹 개발에 필요한 세팅을 직접 해보면서 어떤 옵션과 기능이 있는지 알아보자.&lt;/p&gt;
+&lt;p&gt;모든 결과물은 &lt;a href=&quot;https://github.com/pozafly/2023-webpack-javascript-bolierplate&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;Repository&lt;/a&gt;에 있다.&lt;/p&gt;
+&lt;h2 id=&quot;목차&quot; style=&quot;position:relative;&quot;&gt;목차&lt;a href=&quot;#%EB%AA%A9%EC%B0%A8&quot; aria-label=&quot;목차 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;ESLint / Prettier&lt;/li&gt;
+&lt;li&gt;Husky(precommit)&lt;/li&gt;
+&lt;li&gt;Github Template&lt;/li&gt;
+&lt;li&gt;Entry, Output&lt;/li&gt;
+&lt;li&gt;Loader&lt;/li&gt;
+&lt;li&gt;Plugin&lt;/li&gt;
+&lt;li&gt;Mode(environment)
+&lt;ul&gt;
+&lt;li&gt;webpack-merge&lt;/li&gt;
+&lt;li&gt;dotenv&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Babel&lt;/li&gt;
+&lt;li&gt;Postcss(autofreefixer)&lt;/li&gt;
+&lt;li&gt;Browserlist&lt;/li&gt;
+&lt;/ol&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;환경&quot; style=&quot;position:relative;&quot;&gt;환경&lt;a href=&quot;#%ED%99%98%EA%B2%BD&quot; aria-label=&quot;환경 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS (intel)&lt;/li&gt;
+&lt;li&gt;Node.js ^15&lt;/li&gt;
+&lt;li&gt;VSCode&lt;/li&gt;
+&lt;/ul&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;모듈-번들러&quot; style=&quot;position:relative;&quot;&gt;모듈 번들러&lt;a href=&quot;#%EB%AA%A8%EB%93%88-%EB%B2%88%EB%93%A4%EB%9F%AC&quot; aria-label=&quot;모듈 번들러 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;‘모듈’ 이라는 것은 JavaScript에서 코드의 scope를 가지는 단위다. ES5 이하는 코드의 변수 유효 범위는 함수 스코프였다. 하지만 ES6로 넘어오면서 블록 스코프로 변했다. 하지만 여전히 전역 단위의 스코를 사용할 수 있다. 코드가 거대해질 수록 전역에 선언된 변수가 겹치는 문제가 있었고, 이를 해결하기 위해 &lt;a href=&quot;https://developer.mozilla.org/ko/docs/Glossary/IIFE&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;IIFE&lt;/a&gt;(즉시실행함수)를 이용해 코드의 유효 범위를 좁혔다.&lt;/p&gt;
+&lt;p&gt;ESM(ECMAScript Module)이 나오기 전에는 CJS(CommonJS), AMD(Asynchronous Module Definition)등의 모듈로 개발을 했었다고 한다. &lt;a href=&quot;https://beomy.github.io/tech/javascript/cjs-amd-umd-esm/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;이곳&lt;/a&gt;에서 CJS, AMD, ESM등의 모듈 관련 정보를 얻을 수 있다.&lt;/p&gt;
+&lt;p&gt;Webpack에서는 JavaScript를 한 파일로 모아주어 모듈 별로 코드를 작성해도 전역 scope를 오염시키지 않는다. 따라서 CJS, AMD 같은 라이브러리를 사용하지 않고 전역 scope를 더럽히지 않을 수 있다. 나중에 작성된 .js 코드를 webpack이 하나의 .js 파일로 모아줄 것이기 때문이다.&lt;/p&gt;
+&lt;p&gt;그렇다면 Webpack에서의 모듈이란 무엇일까? Webpack에서는 웹 프로그래밍에 필요한 모든 단위를 모듈로 본다. JavaScript 파일 뿐 아니라 html 파일, css 파일, 이미지 파일, 폰트 파일 등 네트워크로 자원을 요청할 수 있는 모든 것을 모듈로 본다.&lt;/p&gt;
+&lt;p&gt;‘번들’ 이란, 영어로 묶음이라는 뜻이다. Webpack을 설명하는 수많은 블로그에서 볼 수 있는 아래 사진에 보면 &lt;code class=&quot;language-text&quot;&gt;.js&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;.sass&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;.jpg&lt;/code&gt; 등의 확장자를 하나로 묶어주는 것을 볼 수 있다. 따라서 정리를 해보자면 Webpack은 웹 어플리케이션에 필요한 모든 자원을 묶어주는 도구라고 볼 수 있다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 2000px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/1e5e131ee24caf85f346a7a3c459b01f/a1aba/webpack-main.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 43%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAABf0lEQVQoz3VSy1LCQBDM14hAIEASQggB8tgkBJKA6MVSLpbFyYOKpXD15Ed4sDx4xir8DB8XfqetHYHCoIep2drd6emZbqHc7iCv2z9RsyiLdWeTRcNFTrdRMNzf96tzOgSp6aPU9KG6EcrtkArXRVmtjX2lAclwkJGN3WZbkV9lQXUiqCyG4kaod4aosphYFRsMshXiZPaA66c3DC9mKGwDcFDDRcUKUWoFUJwenQXVjaE4EWS7i1owgOr06OOebGAwvsLdYonR8wemr59gRyMC4o0k09sB5OsTODvNS+iCA3Oma8Dk/BLTxRJnL1+4nb+DHZ5uAEumR+vhRMpWCNnu0coE2eqiyhJCV2nsAxqJj1xpBTi+ucfkcY7+eAJRt+hte8+63yeWGotpXYLUDKAHAwLi1Dk7kStWd5CrWcjIDRR1ixinRcmT+gyKGxPDvO5A0LwYRdOj4qzW+tM2/OPaNmJaGJrGoyCVlZUoKktQ9fqQTP9fe6Q9mPYiB/wGFqE9MzIz/fsAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;webpack-main&quot;
+        title=&quot;webpack-main&quot;
+        src=&quot;/static/1e5e131ee24caf85f346a7a3c459b01f/f97d7/webpack-main.png&quot;
+        srcset=&quot;/static/1e5e131ee24caf85f346a7a3c459b01f/0eb09/webpack-main.png 500w,
+/static/1e5e131ee24caf85f346a7a3c459b01f/1263b/webpack-main.png 1000w,
+/static/1e5e131ee24caf85f346a7a3c459b01f/f97d7/webpack-main.png 2000w,
+/static/1e5e131ee24caf85f346a7a3c459b01f/a1aba/webpack-main.png 2092w&quot;
+        sizes=&quot;(max-width: 2000px) 100vw, 2000px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;그렇다면, 단순히 전역 scope를 module로 바라보고 개발하기 위해 모듈 번들링을 해야할까? 그렇지 않다. 더 중요한 이유가 있다. 바로 HTTP 1.1의 스펙 때문에 그렇다.&lt;/p&gt;
+&lt;p&gt;HTTP 요청을 하기 위해서는 TCP/IP 스펙에 따라 3way-handshake 과정을 통과하고, network 전송을 받고 다시 커넥션을 닫기 위해 4way-handshake 과정을 거친다. 또한, HTTPS 프로토콜은 기본이기 때문에 HTTPS Handshake 과정은 당연하게 거쳐야 한다. 서버와 브라우저가 처음 연결되어 HTTP GET 요청으로 html 파일을 받아보기까지 꽤나 많은 처리들이 이루어지고 있다.&lt;/p&gt;
+&lt;p&gt;그렇다면 html 파일을 브라우저가 받았다고 하면, html 파일을 브라우저는 파싱하면서 JavaScript를 만나면 다시 network 요청을 보낼 것이다. 물론 JavaScript를 모두 로드하고 실행하기 전까지 브라우저는 멈춘다. 후에 또다시 여러 개의 JavaScript 파일을 만나거나 CSS를 요청하는 태그, Image 혹은 Font를 요청하는 태그를 만나면 그 때마다 브라우저는 서버에 resource를 요청해야할 것이다. 혹은, script에서 서버에 다시 API를 통해 JSON을 요청할지도 모른다.&lt;/p&gt;
+&lt;p&gt;하지만, 브라우저는 HTTP 1.1에서 network 요청 숫자가 정해져있다. 크롬 같은 경우 최대 6개이다. 여러 개의 JavaScript 파일을 하나로 묶는다면 네트워크 요청이 다수에서 하나로 변할 것이고, 이는 당연히 사용자가 웹 어플리케이션을 사용할 때 더 빠른 속도로 화면과 상호작용할 수 있다는 것을 뜻한다.&lt;/p&gt;
+&lt;p&gt;물론 개발에 필요한 유용한 도구도 Webpack이 지원한다. devServer가 그 중 한가지다. 내가 만든 코드를 브라우저에서 바로 동작 할 수 있도록 컴퓨터에서 개발 서버를 띄워줘서 서빙해주는 역할도 하며, 코드를 변경하고 저장하면 브라우저를 새로고침하지 않아도 변경된 화면만 다시 보여주는 것(HMR)도 지원한다.&lt;/p&gt;
+&lt;p&gt;Vue2(Vue3는 Vite)도, React도 이런 모듈 번들러 위에서 동작하며, 아래에서 다루어볼 Webpack 필수 설정들은 프레임워크에서 자신의 입맛대로 커스텀해 숨겨두었다. (react 같은 경우 eject 명령어로 이를 해체해 재설정할 수 있다. Vue는 vue.config.js 파일에서)&lt;/p&gt;
+&lt;p&gt;생각해보면 react의 JSX나 Vue의 SFC(단일 파일 구성 요소)를 어떤 pure한 JavaScript 파일이 알아들을 수 없는 구문으로 되어있다. 단순 마법이 아니라, 내부적으로 브라우저에서 동작하는 코드로 개발자가 만든 코드를 변경시키는 것이다.&lt;/p&gt;
+&lt;p&gt;Webpack에서는 JSX compiler를 통해 바벨과 함께 트랜스파일링하여 pure한 JavaScript파일로 만든다. 또한, Vue에서는 Template 코드 및 단일 파일 구성요소를 vue-loader를 통해 파싱하여 pure한 JavaScript파일로 만들어 브라우저에 제공한다.&lt;/p&gt;
+&lt;p&gt;한가지 짚고 넘어갈 것은, Webpack은 Node.js 환경에서 동작한다는 것이다. JavaScript는 브라우저에서 동작하기도 하지만 Node.js 런타임 환경에서도 동작한다. 우리의 컴퓨터에서 JavaScript를 실행해서 모듈 번들링을 해야한다고 생각하면 쉽다. 자원(모듈)을 프로그래밍으로 조작할 것이다.&lt;/p&gt;
+&lt;p&gt;따라서 개발할 수 있는 환경을 만들고, 배포에 필요한 여러 도구를 직접 만져보는 것이 중요하다. 적어도 내가 만든 코드가 어디서 어떻게 변환되어 돌아가는지 알아야 문제가 생겼을 때 대처할 수 있기 때문이다. 물론, 권장되고 기본 세팅이 된 Webpack을 사용하면서 필요할 때 공식 홈페이지에 들러 필요한 옵션을 사용하면 된다.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;init&quot; style=&quot;position:relative;&quot;&gt;init&lt;a href=&quot;#init&quot; aria-label=&quot;init permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;폴더를 하나 만들고 terminal에서 아래 명령어를 실행한다. (Node.js가 설치되어 있다는 것을 가정한다)&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; init &lt;span class=&quot;token parameter variable&quot;&gt;-y&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;package.json 파일이 생성 되었다. &lt;code class=&quot;language-text&quot;&gt;-y&lt;/code&gt; 옵션은 따로 meta 데이터를 설정하지 않는 다는 것을 말한다. &lt;code class=&quot;language-text&quot;&gt;scripts&lt;/code&gt; 부분을 보자. &lt;code class=&quot;language-text&quot;&gt;npm run [명령어]&lt;/code&gt; 를 사용하면 자동으로 적힌 코드를 터미널에서 실행시켜주는 옵션이다.&lt;/p&gt;
+&lt;p&gt;이제 코드 환경설정 부터 해보자. 이는 개발자와 회사의 선호에 따라 달라질 수 있다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;ESLint--Prettier&quot; style=&quot;position:relative;&quot;&gt;ESLint / Prettier&lt;a href=&quot;#ESLint--Prettier&quot; aria-label=&quot;ESLint  Prettier permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;eslint와 prettier는 코드의 품질을 높여주는 도구다. IDE에서 자동으로 코드 포매팅을 도와주고, cli 명령어로 코드의 스타일을 잡아주는 도구다. 이것이 필요한 이유는 개발자 개인의 코드 스타일에도 영향을 미치지만, 협업시 개발자마다 코드를 작성하는 방식이 다르기 때문에 통일시켜주기 위해 사용한다.&lt;/p&gt;
+&lt;p&gt;이를 사용하면, 개발자는 포매팅 등 중요하지 않은 것에 에너지를 낭비하지 않고 핵심적인 로직에 집중할 수 있게 된다.&lt;/p&gt;
+&lt;h3 id=&quot;차이점&quot; style=&quot;position:relative;&quot;&gt;차이점&lt;a href=&quot;#%EC%B0%A8%EC%9D%B4%EC%A0%90&quot; aria-label=&quot;차이점 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;eslint는 코드의 들여쓰기 부분이나 개행 스타일의 포매팅을 잡아주기도 하지만, 문법이 틀렸다면 이를 표시해주는 역할이다. 즉 &lt;code class=&quot;language-text&quot;&gt;코드 문법 검사 + 포매팅&lt;/code&gt; 의 역할을 한다. prettier는 &lt;code class=&quot;language-text&quot;&gt;포매팅&lt;/code&gt; 만 한다. 예전에는 prettier의 포매팅이 eslint의 포매팅보다 나아서, eslint의 포매팅을 끄고 문법검사만 하며, prettier만으로 포매팅을 했지만 요즘은 eslint로 문법 검사와 포매팅을 하는 경우가 많아진다고 한다. 우리는 둘 다 사용할 것이다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/e7872bb9c087528467a4889984bb56fc/formatting.gif&quot; alt=&quot;formatting&quot;&gt;&lt;/p&gt;
+&lt;p&gt;위의 사진은 저장을 했을 때 자동으로 IDE 차원에서 포매팅을 해준 모습이다.&lt;/p&gt;
+&lt;h3 id=&quot;ESLint&quot; style=&quot;position:relative;&quot;&gt;ESLint&lt;a href=&quot;#ESLint&quot; aria-label=&quot;ESLint permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; i &lt;span class=&quot;token parameter variable&quot;&gt;-D&lt;/span&gt; eslint prettier&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;먼저 설치를 했다면 설정 파일이 필요하다. &lt;code class=&quot;language-text&quot;&gt;eslintrc.js&lt;/code&gt; 파일을 만들자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// eslintrc.js&lt;/span&gt;
+module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;browser&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;es2022&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;extends&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;token string&quot;&gt;&apos;eslint:recommended&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token string&quot;&gt;&apos;eslint-config-airbnb-base&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token string&quot;&gt;&apos;eslint-config-prettier&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;parserOptions&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;ecmaVersion&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;latest&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;sourceType&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;module&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;rules&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;// 화살표 함수 매개변수 1개일 때 괄호 빼줌.&lt;/span&gt;
+    &lt;span class=&quot;token string-property property&quot;&gt;&apos;arrow-parens&apos;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;error&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;as-needed&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;env&lt;/code&gt; : eslint의 문법 검사의 환경을 지정한다. 나는 broswer에서 사용할 코드, 그리고 node.js 환경에서 사용할 코드, ECMAScript 2022 기준으로 코드를 작성할 것을 명시했다.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;rules&lt;/code&gt; : eslint의 핵심이다. 어떤 규칙을 적용할지 설정해줄 수 있다. 공식 홈페이지에서 다양한 규칙을 지원하니 보고 적용시켜주면 된다. 각 스타일에 맞게 어떤 규칙은 error를 띄워줄 수도 있고, warning만 띄워줄 수도 있다. &lt;code class=&quot;language-text&quot;&gt;extends&lt;/code&gt;의 규칙을 무시하고 rules가 우선순위를 가진다.&lt;/li&gt;
+&lt;li&gt;extends : rules의 묶음 세트다. rules를 권장하는 대로 실행시킬 수 있다. 권장되는 rules를 가진 라이브러리라고 생각하자. 이녀석들을 사용하기 위해서는 npm 에서 패키지를 다운받아야 한다. &lt;code class=&quot;language-text&quot;&gt;$ npm i -D eslint-config-airbnb-base eslint-config-prettier&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;📌 extends 유의사항&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;eslint-config-&lt;/code&gt; 는 prefix로 생략해도 무방하다.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;eslint-config-airbnb-base&lt;/code&gt; 는 airbnb에서 사용하는 eslint 패키지다. &lt;code class=&quot;language-text&quot;&gt;eslint-config-airbnb&lt;/code&gt;와 헷갈리지 말자. base가 붙지 않은 패키지는 react lint까지 함께 딸려온다. warning을 뿜어낼꺼다. base는 JavaScript lint 패키지만 가져온다.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;eslint-config-prettier&lt;/code&gt; : prettier도 eslint도 포매팅을 함께 사용한다고 했다. 그러면 prettier와의 충돌이 나지 않게 해주는 패키지다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;parserOptions : 구문 분석 옵션이다. eslint는 우리가 작성한 코드를 파싱해서 이게 맞는지 틀린지 판단한다. &lt;a href=&quot;https://eslint.org/docs/latest/use/configure/language-options#specifying-parser-options&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;링크&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;이제 package.json 파일에 아래와 같이 적어주자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token property&quot;&gt;&quot;scripts&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;lint&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;eslint&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;JS 파일 하나를 만들어두고 약간 엉망인 코드를 작성하자. 그리고 &lt;code class=&quot;language-text&quot;&gt;npm run lint&lt;/code&gt; 명령어를 사용해보자. 기본적인 것은 이 구조다. IDE에서만 eslint를 사용해 바로 포매팅 혹은 문법 검사를 해주는게 아니다.&lt;/p&gt;
+&lt;p&gt;하나 팁은, 코드 크기가 커지고 파일이 많아질 수록 lint 체크 하는 것은 시간이 걸릴 것이다. 이때 캐시를 사용할 수 있다. &lt;code class=&quot;language-text&quot;&gt;eslint --cache .&lt;/code&gt; 를 위 scripts 에 붙여주자. &lt;code class=&quot;language-text&quot;&gt;&quot;lint&quot;: &quot;eslint --cache .&quot;&lt;/code&gt; 그리고 명령어를 실행하면 &lt;code class=&quot;language-text&quot;&gt;.eslintcache&lt;/code&gt; 파일이 생성된 것을 볼 수 있다. 이제, lint를 돌릴 때마다 파일이 변경되지 않았다면 이 캐시에 있는 lint 결과를 꺼내 쓸 것이고, 새로 생성되거나 수정되었다면 새롭게 체크를 해줄 것이다. (캐시 파일은 gitignore에 등록해주자.)&lt;/p&gt;
+&lt;p&gt;또 한가지는, lint 체크를 하고 싶지 않은 파일이 있다면 &lt;code class=&quot;language-text&quot;&gt;.eslintignore&lt;/code&gt; 파일에 적어주도록 하자. dist와 node_nodules는 반드시 포함해주자. 안해주면 디렉토리 내부에 있기 때문에 안에 있는 종속성 파일 모두 체크를 해버린다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 436px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/a09a76d7311d989714bc6fadea231d80/94556/eslint-files.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 36.23853211009174%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAAA7klEQVQoz41RQU7DMBDMY0hSNxRcmzg2TuLUTVu7CEQ58A8OSBx4BR8e5K3CAQnSw2g8lnY0O5uxegtzeEMpHRZ3BsumQ6Udlk0PVrdgqkWle+JCaOTrhvgvZEzt4B4/UcoB1/cOt92Im3aLlfUE0tbT30WGOT0GEldcnQek+Rn+jTnTrGqOCK9fKKWH9AfocII5vkCHZ5h4gto/EZJOdeRc/Z+wEBZMRRTCoJRnTClSj4vaUmJiYS7osB7RPXzQUSrTg/c7SB8hhoCV3aAyjrrMpzrmVk6GNr6TIe9HiE3Eegjgbk+HSJwwl2wy/Abv5OJAePmhEgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;eslint-files&quot;
+        title=&quot;eslint-files&quot;
+        src=&quot;/static/a09a76d7311d989714bc6fadea231d80/94556/eslint-files.png&quot;
+        srcset=&quot;/static/a09a76d7311d989714bc6fadea231d80/94556/eslint-files.png 436w&quot;
+        sizes=&quot;(max-width: 436px) 100vw, 436px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;이제 IDE에서도 문법이 틀린 것을 바로바로 표시해줄 수 있도록 마켓플레이스에서 ESLint 플로그인을 깔면된다. VSCode 기준으로 아래의 것이다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1482px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/bfd6d07370cdd3aea3f94d8ae0e4b449/4585a/marketplace-eslint-plugin.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 27.999999999999996%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAABYlAAAWJQFJUiTwAAABYUlEQVQY002RS04UYRSFayNKAjRNaLre/6teXdXV1WVVgyHYiYRgjInRiXFkGOFM2IBh6MA1uAmnjmADLIA55jP8rcLgyz25g5Nzz3VUFPCp2OQoHfPUlXhJSdbuEeY1Y5XjmQk7ImXTl2yFmkGgrL7H6kA/4Euc69MGLt/w+0vH587DLTuWJ6/pl0eY+QLT9ARFzSDU1nA7TtiRGSOZMYw0u7FkLARjoezO4esJtz8uufv2kav3PiLJUXWHnLaI/jleNSduFwTVHNcUmLqjWhxgZj0jaUjTkEnmUxYCXXc4nCXcXizhvOPn2xBX51T7h6T36eqOpOnR0xY9fYYo57aKeDJbnR0o1n3Num/s3PAEzveXETcfBL/eCV7kEQNdsnf8imL/ENn0TA6WuGlpjXZ1wTAyDP+ev0I9QuOseQodh4yCmCfuqgdZtYiyQU1bomL2P13a9Daxn1X2If9MH+s/hQnV61rV5BUAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;marketplace-eslint-plugin&quot;
+        title=&quot;marketplace-eslint-plugin&quot;
+        src=&quot;/static/bfd6d07370cdd3aea3f94d8ae0e4b449/4585a/marketplace-eslint-plugin.png&quot;
+        srcset=&quot;/static/bfd6d07370cdd3aea3f94d8ae0e4b449/0eb09/marketplace-eslint-plugin.png 500w,
+/static/bfd6d07370cdd3aea3f94d8ae0e4b449/1263b/marketplace-eslint-plugin.png 1000w,
+/static/bfd6d07370cdd3aea3f94d8ae0e4b449/4585a/marketplace-eslint-plugin.png 1482w&quot;
+        sizes=&quot;(max-width: 1482px) 100vw, 1482px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h2 id=&quot;Prettier&quot; style=&quot;position:relative;&quot;&gt;Prettier&lt;a href=&quot;#Prettier&quot; aria-label=&quot;Prettier permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; i &lt;span class=&quot;token parameter variable&quot;&gt;-D&lt;/span&gt; prettier&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;prettier는 포매팅만 해준다. 따라서 설정 파일이 간단하다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;printWidth&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;tabWidth&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;useTabs&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;semi&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;singleQuote&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;trailingComma&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;all&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;bracketSpacing&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// 화살표 함수 매개변수 1개일 때 괄호 빼줌.&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;arrowParens&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;avoid&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;단순 코드 포매팅 옵션만 잘 설정해주면 된다. 또, 포매팅을 적용하고 싶지 않다면 &lt;code class=&quot;language-text&quot;&gt;.prettierignore&lt;/code&gt; 파일을 통해 제외시키자. 마찬가지로 node_modules, dist 폴더는 포함시켜주자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token property&quot;&gt;&quot;scripts&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;lint&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;eslint --cache .&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;format&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;prettier&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;package.json 파일에 위와 같이 적어주고 돌려보자. 그러면 어떤 코드 포맷이 틀렸는지 표시해준다. 단, 수정해주지는 않는다. 여기에 필요한 것은 &lt;code class=&quot;language-text&quot;&gt;--write&lt;/code&gt; 옵션이다. &lt;code class=&quot;language-text&quot;&gt;prettier --write&lt;/code&gt; 으로 변경 후 돌려보면 코드 포맷이 수정까지 된 것을 볼 수 있다.&lt;/p&gt;
+&lt;p&gt;또한 cache를 사용할 수 있다. 최종은 &lt;code class=&quot;language-text&quot;&gt;prettier --write --cache .&lt;/code&gt; 이 되겠다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// 최종&lt;/span&gt;
+&lt;span class=&quot;token property&quot;&gt;&quot;scripts&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;lint&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;eslint --cache .&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;format&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;prettier --write --cache .&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;여기서 주의할 점은, eslint의 캐시 파일은 디렉토리 최 상단에 생성되었지만 prettier 캐시는 node_modules에 생성된다는 점이다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 410px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/af86593ef3dfb82574e920d60b1f819c/cb1d0/prettier-cache.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 63.90243902439025%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB70lEQVQ4y32Sy27aQBSGeYgu2w0XxwZsPJ7xZczYxhgIhCgtkCYlEEVKW6lSdpG66rpdV32BLvsmfa2/msOlXJIsfs34zPE3/5lzSidcwmASbkciGMUweAjDi0gnIt7uDZ2nY1yutD6rsf/5WiWmcnjxAOncx5+/37H48hk1ruDlQ3j5CI7qoiEzuNkAbjoAo7UP3j1DM86PgXSLG6LGfbRHA1giQtkR5EIn69UU7X135HalI2DVDWDLFHVfIR2/x/3jN7TaXZi+gh3nsHxFPz2nw7IJ6MgMzTBBf3aDrz9+QuRDWIGCowrUw/TIxa6eLFlDK60AFRbgtdFAxeaUqOOHLl6Cbx26SYEgzvBqsoD16zfYeALTk3CSHlppH62kv9eAl6AlfWiKGJYX4Y3qofHxAVZSwGARlVsPEph+m/Tcux13eQ01XR9hUiAbT9edXHWWgCI+mr1d6Ga/fUOeFtTt8fITNYZRqT2wzinNpJ4/LQ0/HPZd6NZhbXOLTuJrJ56kBpUbHqliC5SbnGIVR6ziTb6Oif2SN+VU3RCdwkenCMCiAPx8AnU9R3pzi/zuHsl8ifBiCnF2gfjyGtnyDunilr6rLf8JIIug8hBZN4AdRpCXHxC9m0FOrxC+nRLEOx2T2ldzxDMdn4EPzwn4D/M7qR9UlvQ4AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;prettier-cache&quot;
+        title=&quot;prettier-cache&quot;
+        src=&quot;/static/af86593ef3dfb82574e920d60b1f819c/cb1d0/prettier-cache.png&quot;
+        srcset=&quot;/static/af86593ef3dfb82574e920d60b1f819c/cb1d0/prettier-cache.png 410w&quot;
+        sizes=&quot;(max-width: 410px) 100vw, 410px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;위와 같다. 여기서 꺼내 쓸 것이다. 이제, cli는 모두 구성했으니 마찬가지로 마켓 플레이스에서 prettier를 검색해 설치하자.&lt;/p&gt;
+&lt;p&gt;처음 gif 사진과 같이 IDE 차원에서 코드 포매팅이 자동으로 되고 싶다면, VSCode의 설정 -&gt; Format On Save 검색 -&gt; 체크를 해주면 된다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1730px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/a230f0556d6b5ac08ea5c15141838c6a/f537a/format-on-save.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 14.799999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAeklEQVQI143N0QqDMAyF4T7M5sZUsK3U2NSOWpmy+f6vc0Yz2bUXPx8JgaiGImxcUIeE9vnz0jlc9YDK0N8zlVvVcMKQN/h1B70+4HWHX97Q0yyPSjrMMotHNmaYY2emLLYUoap+RO0COk7QnMRy8HCMmx1x7714LsIXJwFhrE91PNoAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;format-on-save&quot;
+        title=&quot;format-on-save&quot;
+        src=&quot;/static/a230f0556d6b5ac08ea5c15141838c6a/f537a/format-on-save.png&quot;
+        srcset=&quot;/static/a230f0556d6b5ac08ea5c15141838c6a/0eb09/format-on-save.png 500w,
+/static/a230f0556d6b5ac08ea5c15141838c6a/1263b/format-on-save.png 1000w,
+/static/a230f0556d6b5ac08ea5c15141838c6a/f537a/format-on-save.png 1730w&quot;
+        sizes=&quot;(max-width: 1730px) 100vw, 1730px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;만약 되지 않는다면 VSCode의 &lt;code class=&quot;language-text&quot;&gt;default formatter&lt;/code&gt;가 어떻게 되어있는지 봐야 한다. prettier로 되어 있는지 확인.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1726px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/e5fef970e164c5267be414e5632a22ca/dd200/default-formatter.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 14.399999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAk0lEQVQI122O2QqDMBRE/Zgutn0wjSbuS6xJlOL/f84pCRSk9OFw5w4DM4kcForRImZPNlky4xD9jBotsn+hjeOmWi6yIi1q0rzm+ofgh0wijaNfdyr3pl13mnVHGYeaLNp46mVDTQ7RGvJhiX4o+iWMuuuO5FGPKOMR3YyePeVri4tOQnN+lpG0aGJ70Mf75fh/ADsCYwtqNieMAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;default-formatter&quot;
+        title=&quot;default-formatter&quot;
+        src=&quot;/static/e5fef970e164c5267be414e5632a22ca/dd200/default-formatter.png&quot;
+        srcset=&quot;/static/e5fef970e164c5267be414e5632a22ca/0eb09/default-formatter.png 500w,
+/static/e5fef970e164c5267be414e5632a22ca/1263b/default-formatter.png 1000w,
+/static/e5fef970e164c5267be414e5632a22ca/dd200/default-formatter.png 1726w&quot;
+        sizes=&quot;(max-width: 1726px) 100vw, 1726px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;만약 그래도 되지 않는다면 setting.json 파일에 format-on-save, default-formatter가 다른 것으로 지정되어 있는지 살펴보자.&lt;/p&gt;
+&lt;br/&gt;
+&lt;p&gt;이제, eslint와 prettier를 husky를 통해 자동화를 해볼 것이다. 뭐든 cli를 통해 명령을 내릴 수 있는 것들은 자동화가 가능하다. &lt;a href=&quot;https://typicode.github.io/husky/#/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;husky&lt;/a&gt;는 git hook을 쉽게 만들어주는 패키지다. 우리는 commit을 하기 전에 eslint와 prettier를 실행시켜 문제가 생기면 commit을 하지 못하게 만들 것이다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; i &lt;span class=&quot;token parameter variable&quot;&gt;-D&lt;/span&gt; husky&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;패키지를 깔면 아래 명령어로 Git Hook을 활성화 해야 한다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ npx husky &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;실행하면 &lt;code class=&quot;language-text&quot;&gt;.husky&lt;/code&gt; 폴더가 생성된 것을 볼 수 있다. 이제, 훅 명령어를 만들어보자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ npx husky &lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt; .husky/pre-commit &lt;span class=&quot;token string&quot;&gt;&quot;npm run lint&quot;&lt;/span&gt;
+$ npx husky &lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt; .husky/pre-commit &lt;span class=&quot;token string&quot;&gt;&quot;npm run format&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;두 명령어를 실행하면 아래 사진과 같이 .husky/pre-commit에 생성되었다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 594px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/59e11df65b238848a5d5183e77d174ac/d32a3/husky.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 36%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAABQklEQVQoz42PyU7jQBgG/SAISAKEeImNHXfH3W27u73EKEggzbBIXOb9X6JGMcs5hzp80v+XVEGsHbFyhKJmIy1h5WfW0hHrjo1oiCrLnTBcpyU3JzLJaitYfvOzb1JBsC4qIuV4GF+opwOyqVHeYkdHbhriyhAah1YdpvIkbiSSisK15K6l7OzX9pa0HQjud4ZQ1uTHd57+HBlGw/HJ8vneo50hUZpbqZmqjrHq2HYTavKYY8fwNtG/TlSTx76MpK0nWGWSq7hkmRRchjuuE8FlVHKx2XEVlSySktsHyTITLDIxJ5/2b3Lylbz8SS60Zji0bCuNGBypMYjesh8d6rEjt838sM733J1BoKzh47UjU5rmeZgF+4OnfR7o/06UvWWVirNks7D2Nf8+Bwqj8d8COTqGt0eyumYRl/PhKfMc4X8TkeVpkLzyOQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;husky&quot;
+        title=&quot;husky&quot;
+        src=&quot;/static/59e11df65b238848a5d5183e77d174ac/d32a3/husky.png&quot;
+        srcset=&quot;/static/59e11df65b238848a5d5183e77d174ac/0eb09/husky.png 500w,
+/static/59e11df65b238848a5d5183e77d174ac/d32a3/husky.png 594w&quot;
+        sizes=&quot;(max-width: 594px) 100vw, 594px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;이제 git commit을 실행할 때마다 eslint와 prettier가 자동으로 실행되고, error가 발생하면 commit을 멈춘다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1172px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/a97924b03176b359a2615498a16967fb/95fbb/husky-precommit.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 76.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAABYlAAAWJQFJUiTwAAACGklEQVQ4y4VUWZabMBD0VRKP48zYPLODEUISAsTmbZyP3P8ilae2nZgJk3z0a6GlVKquZuGLDmE1IjM/EOszAjmA1R14MyBvBqj+iEC02LAer4nGJjN4Syts9jUcZuDkLbY2Zwo+U1jYw6FUSEuDpGzgMoFUSiRCYK8khZ8LmrexTXLsMgEn5XhxI6y8GCs3pvzixlhEsoEaLpD9CVnVo2iPSHWH3BxRdGe4uYbPNWLVIJI1dkwiKCq4TGHlJfjmp5NYbNMCTibhpAU2CaeNXl7iNWJ0wN663EX4uosoL+/fy11MAHbPM/AikA1Ye0KiOwp9eEd1vKIcLwhFNcviEbMM/aJGqAwssMc1srpHbkaI/oREGayDPyweAB9ZTQCTqkfenYhl0Z8peHeCHC7wiopALVNW94iV+SdjAtyxEqE0iFRLLC3DUNRUJL/Q+OIE/33mBJD3Z4jxHWk9oBguSKv+t44eL6lAnz1zVsNY98jMARHpaJA1I/JmBGsGAvZ5OdFwTs8JoBguiMoWLtdUFMvKavY9zLAO9mSbz545y5CbA9RwJlZFeyANk9Iglg1lG6luweoBWdXRZbYZ3u4+/QvQGpo6IJPUEXZsTW0X10/aWbZ27sH4mfnE2OzuO1vV+nQle3AzgrcH0nBfddgkOW2mrtoL6io7ntXQMrNg9s9izdxdf96KUg80L7rjbf1+qR5vfR8UevbJvwBlYvKogBS+NAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;husky-precommit&quot;
+        title=&quot;husky-precommit&quot;
+        src=&quot;/static/a97924b03176b359a2615498a16967fb/95fbb/husky-precommit.png&quot;
+        srcset=&quot;/static/a97924b03176b359a2615498a16967fb/0eb09/husky-precommit.png 500w,
+/static/a97924b03176b359a2615498a16967fb/1263b/husky-precommit.png 1000w,
+/static/a97924b03176b359a2615498a16967fb/95fbb/husky-precommit.png 1172w&quot;
+        sizes=&quot;(max-width: 1172px) 100vw, 1172px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;다른 개발자가 repository를 clone 받는다면 &lt;code class=&quot;language-text&quot;&gt;.husky&lt;/code&gt; 파일도 함께 clone 받아도 husky install이 안되어 있을 수 있다. 따라서 package.json 파일에 install할 수 있는 명령어를 넣어주자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token property&quot;&gt;&quot;scripts&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  (...)
+  &lt;span class=&quot;token property&quot;&gt;&quot;prepare&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;husky install&quot;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;prepare는 &lt;code class=&quot;language-text&quot;&gt;npm install&lt;/code&gt; 명령어 이후에 실행되는 스크립트다. ※ yarn은 preinstall을 사용해야 한다.&lt;/p&gt;
+&lt;p&gt;husky는 사실 개인 프로젝트에서 설정해줄 필요는 없다. 단, 개발자들 간에 협업을 할 경우 husky를 통해 컨벤션을 강제할 수 있어 좋다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;Github-Template&quot; style=&quot;position:relative;&quot;&gt;Github Template&lt;a href=&quot;#Github-Template&quot; aria-label=&quot;Github Template permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Github Template은 issue나, PR을 할 때 템플릿을 설정해준다. 소스 저장소를 Github을 사용한다면 설정해볼만 하다. 이를 통해 이슈를 생성할 때마다 어떤 틀을 가지고 설정해야 하는지, PR을 올릴 때 어떤 주제로 글을 작성해야하는지 틀을 지정할 수 있다. &lt;code class=&quot;language-text&quot;&gt;.github&lt;/code&gt; 디렉토리를 생성하고 아래 두 파일 정도를 템플릿으로 지정해두면 좋다.&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;ISSUE_TEMPLATE.md&lt;/code&gt; 을 만들자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;## 이슈 목적
+
+- 이슈를 생성한 목적을 적는다.
+
+## (optional) 발생한 문제
+
+- 발생한 문제점에 대해 적는다.
+
+## (optional) 이슈에 대한 상세 내용
+
+- 어떤 작업을 할 것인지 세분화 해서 적는다.
+
+## 예상되는 결과
+
+- 이슈를 해결했을 때 얻는 결과를 적는다.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이 파일이 repository에 올라갔다면 아래 사진과 같이 이슈를 등록하려고 들어가면 템플릿이 만들어져 있다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1924px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/9c64f2564d6016e9d59f8cad5872b4f3/2f33f/ISSUE_TEMPLATE.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 57.599999999999994%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAABYlAAAWJQFJUiTwAAABY0lEQVQoz52Ry26DMBBFnTYvCGAM+B2IIaTddBOpUv+gm/b/f+dWnqQokRIp7eJoPNb19TzYfvuJwnTgekChArju71KonjSneJmH6cysfkfdjijtCGFHcDOQ+S1Ks4dwh0lLuAMq/0J38VOWlhW0Dygbg1worDOBJK9usuENaWLMSknEvKg0IW0HtikVlO1QK48kE1gmHOw5AZvf4Hl9m9kSy6RAN7ycDKVpod0ObTigEJJEs3nyMOxphVVaYHdpaLcBdtsjzSsSzM4VPWx4WWFst5KOYqO31Hps41HTX8OpQl4bGL8jQ+MDxcU6/3+FcX6uHajdONxVyvG0SGk5f58hlxCNpQpjLGuDjDckmri33WnLKyzXOdowguWVRWMDpA1QfoDyPZTrIYlAuZAevLbgjQOvrymlA4/zty1MtwfjjYdu92ezE/EDenymqC3yylxTW2RCw328Yvw6Yvw+Qr0N+AHYERuytE/ZOQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;ISSUE_TEMPLATE&quot;
+        title=&quot;ISSUE_TEMPLATE&quot;
+        src=&quot;/static/9c64f2564d6016e9d59f8cad5872b4f3/2f33f/ISSUE_TEMPLATE.png&quot;
+        srcset=&quot;/static/9c64f2564d6016e9d59f8cad5872b4f3/0eb09/ISSUE_TEMPLATE.png 500w,
+/static/9c64f2564d6016e9d59f8cad5872b4f3/1263b/ISSUE_TEMPLATE.png 1000w,
+/static/9c64f2564d6016e9d59f8cad5872b4f3/2f33f/ISSUE_TEMPLATE.png 1924w&quot;
+        sizes=&quot;(max-width: 1924px) 100vw, 1924px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;PULL_REQUEST_TEMPLATE.md&lt;/code&gt;은 아래와 같다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;## 주제
+
+- PR 주제에 대한 간략한 설명을 적는다.
+
+## 작업 내용
+
+- 어떤 작업을 했는지 작성한다.
+
+## (optional) 예상되는 결과
+
+- 이슈를 해결했을 때 얻는 결과를 적는다.
+
+## (optional) 스크린샷
+
+- 필요하다면 스크린 샷을 이미지로 보여준다.
+- PR이 적용되기 전과 후의 화면 스크린샷이면 좋다.
+
+## ⭐️ 검토 필요
+
+- 검토가 필요한 내용을 적는다.
+
+## (optional) 관련 자료
+
+- 작업하는데 도움이 되었던 링크 혹은 자료를 남긴다.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이정도 틀이라면 개발자들끼리 소통하는데 좋은 템플릿이 될 수 있다.&lt;/p&gt;
+&lt;p&gt;여기까지 코드와 관련된 유용한 설정이었다. 아래부터는 Webpack 설정이다.&lt;/p&gt;
+&lt;hr&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;Webpack&quot; style=&quot;position:relative;&quot;&gt;Webpack&lt;a href=&quot;#Webpack&quot; aria-label=&quot;Webpack permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Webpack을 설치한다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; i &lt;span class=&quot;token parameter variable&quot;&gt;-D&lt;/span&gt; webpack webpack-cli&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;가장 먼저 해야할 일은 &lt;code class=&quot;language-text&quot;&gt;webpack.config.js&lt;/code&gt; 파일을 만드는 것이다. 위에서 Webpack은 Node.js라는 JavaScript 런타임 환경에서 동작한다고 했다. 이 파일의 설정 옵션을 보고 Webpack이 내부적으로 번들링을 처리할 것이다. (Webpack5 버전 기반)&lt;/p&gt;
+&lt;h3 id=&quot;Entry--Output&quot; style=&quot;position:relative;&quot;&gt;Entry / Output&lt;a href=&quot;#Entry--Output&quot; aria-label=&quot;Entry  Output permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Entry : 진입점&lt;/li&gt;
+&lt;li&gt;Output : 결과물&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;웹팩은 모듈 번들러라고 했다. 코드를 묶기 위해서는 진입점이 필요하다. 어떤 파일을 기준으로 연관 있는 코드를 묶을 것인지, 또 번들링이 완료된 묶인 파일은 어떻게 나올 것인지부터 정의해주자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;entry&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;./src/index.js&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;기본적으로 Entry를 설정해주면, Webpack은 &lt;code class=&quot;language-text&quot;&gt;import&lt;/code&gt; 키워드를 통해 묶여있는 파일을 찾는다. 파일을 찾아 연관성을 파악해 번들링 해준다. index.js 파일에 import 문구를 적어주어 파일을 묶어주자.&lt;/p&gt;
+&lt;p&gt;이제 output을 정의할 것이다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; path &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;path&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;entry&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;./src/index.js&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; path&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;__dirname&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;dist&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;[name]_[chunkhash:8].js&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;path : 번들링 결과물이 나올 경로
+&lt;ul&gt;
+&lt;li&gt;Node.js의 path 라이브러리를 가져와 컴퓨터에 있는 경로를 지정해준다. 여기서 &lt;code class=&quot;language-text&quot;&gt;dist&lt;/code&gt;란, 번들링 후 결과물이 들어갈 폴더다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;filename : 번들링 된 파일의 이름
+&lt;ul&gt;
+&lt;li&gt;[name] : entry의 &lt;code class=&quot;language-text&quot;&gt;main&lt;/code&gt;이 여기 들어간다.&lt;/li&gt;
+&lt;li&gt;[chunkhash:8] : chunkhash 전략을 사용한다. 8자만 해시 이름을 붙여준다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;⭐️ Webpack의 hash&lt;/p&gt;
+&lt;p&gt;Webpack으로 번들링 된 파일은 결국 브라우저에서 HTTP 요청을 보내면 파일을 내려줄 것이다. 이때, &lt;strong&gt;브라우저 캐시&lt;/strong&gt;와 (CDN을 사용한다면) &lt;strong&gt;CDN 캐시&lt;/strong&gt;가 문제 될 수 있다. 배포후, 다음 릴리즈 때 다시 웹팩으로 번들링 할 것이고 filename이 동일한 파일로 되어 있다면 브라우저는 동일한 파일을 요청하는지 알고 브라우저 혹은 CDN 캐시에서 JavaScript 파일을 꺼내 쓸 것이다.&lt;/p&gt;
+&lt;p&gt;즉, 캐시로 인해 열심히 만든 새로운 기능이 캐시 때문에 제대로 다운로드 되지 않을 것이다. 이때 hash가 필요하다. 빌드 할 때마다 파일 이름에 붙은 hash 값이 변경된다면 브라우저, CDN은 다른 파일의 요청이기 때문에 수정된 번들 파일을 새로 요청할 것이다. Webpack의 해시는 3가지로 설정할 수 있다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;[hash] : 빌드할 때마다 모든 파일에 똑같은 hash가 붙는다. (webpack5에서 deprecated)&lt;/li&gt;
+&lt;li&gt;[chunkhash] : 변경된 &lt;code class=&quot;language-text&quot;&gt;entry 기준&lt;/code&gt;으로 묶여있는 chunk만 hash가 변경된다. (주로 JS 파일에 설정)&lt;/li&gt;
+&lt;li&gt;[contenthash] : 변경된 &lt;code class=&quot;language-text&quot;&gt;파일만&lt;/code&gt; hash가 변경된다. (주로 CSS, Image 파일에 설정)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;위와 같은 캐시 버스팅을 해주었다 하더라도 결국 JS 파일을 요청하는 index.html 파일은 절대 캐시 되면 안된다. html의 meta 태그에 아래와 같이 설정해주자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;html&quot;&gt;&lt;pre class=&quot;language-html&quot;&gt;&lt;code class=&quot;language-html&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;meta&lt;/span&gt;
+  &lt;span class=&quot;token attr-name&quot;&gt;http-equiv&lt;/span&gt;&lt;span class=&quot;token attr-value&quot;&gt;&lt;span class=&quot;token punctuation attr-equals&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;cache-control&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;&lt;/span&gt;
+  &lt;span class=&quot;token attr-name&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;token attr-value&quot;&gt;&lt;span class=&quot;token punctuation attr-equals&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;no-cache, no-store, must-revalidate&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;/&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;http-equive=&quot;cache-control&quot;&lt;/code&gt; 같은 경우는 표준이 아니라고는 하지만, 붙여주는것이 좋아보인다. 위 content에 들어가는 내용은 서버에서 index.html 파일을 보내줄 때, response header, cache-control에 들어갈 수 있는 내용이다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;no-cache : 캐시는 하되, 원서버(CDN을 지나)에 검증을 받아라.&lt;/li&gt;
+&lt;li&gt;no-store : 캐시를 하지말라.&lt;/li&gt;
+&lt;li&gt;must-revalidate : 원서버에서 응답이 없으면 error를 발생시켜라.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;캐시 header에 대해서 더 많은 이야기가 있지만 나중에 쓰도록 하자… &lt;a href=&quot;https://toss.tech/article/smart-web-service-cache&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;토스-웹 서비스 캐시 똑똑하게 다루기&lt;/a&gt; 이곳에서 더 많은 정보를 얻을 수 있다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;여기까지 설정이 되었다면 이제 빌드를 해볼 수 있다. package.json에 아래와 같이 build script를 만들자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token property&quot;&gt;&quot;scripts&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  (...)
+  &lt;span class=&quot;token property&quot;&gt;&quot;build&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;webpack&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이제 &lt;code class=&quot;language-text&quot;&gt;npm run build&lt;/code&gt; 명령어로 번들링 명령을 내릴 수 있다. 실행하면 &lt;code class=&quot;language-text&quot;&gt;dist&lt;/code&gt; 폴더에 번들링된 파일이 생성된 것을 볼 수 있다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;chunk란?&lt;/p&gt;
+&lt;p&gt;chunk는 번들링된 코드를 분할하면 나오는 덩어리로 이해하면 쉽다. 프로젝트가 거대해질 수록 번들링 된 JS 파일의 크기가 매우 커진다. 그러면 현재 보여질 페이지에서 사용하지 않는 파일도 모두 한 덩어리로 나오게 되는데, 이때 지금 필요없는 JS 파일은 따로 나중에 불러오기 위해 이를 나누는 작업이다. 이를 lazy loading 이라고 한다. 또, 변경될 일이 없는 node_modules에 있는 라이브러리 파일을 vendor라는 이름으로 chunk를 나누기도 한다. 이는 캐싱 전략에도 좋다.&lt;/p&gt;
+&lt;p&gt;우리가 설정한 entry는 지금 &lt;code class=&quot;language-text&quot;&gt;main&lt;/code&gt;으로 하나밖에 없지만 여러개가 될 수 있는데, 이는 각각 하나의 chunk를 생산한다.&lt;/p&gt;
+&lt;p&gt;Webpack에서는 CommonsChunkPlugin을 사용해 chunk를 나눌 수 있는데, webpack4에서 deprecated 되었고, &lt;a href=&quot;https://webpack.kr/plugins/split-chunks-plugin/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;SplitChunksPlugin&lt;/a&gt;을 사용한다고 한다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;br/&gt;
+&lt;h3 id=&quot;Loader--Plugin&quot; style=&quot;position:relative;&quot;&gt;Loader / Plugin&lt;a href=&quot;#Loader--Plugin&quot; aria-label=&quot;Loader  Plugin permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Loader는 JavaScript가 아닌 자원을 JavaScript가 해석할 수 있게 도와주는 옵션이다. 무슨 말이냐면, Webpack은 기본적으로 CSS, Images, Fonts등의 파일을 알지 못한다. 왜냐면 Node.js 위에서 돌아가는 프로그램이기 때문이다. 따라서 파일을 해석할 수 있게 Loader를 사용해 Webpack이 알 수 있도록 변환하는 작업을 한다.&lt;/p&gt;
+&lt;h4 id=&quot;CSS-설정&quot; style=&quot;position:relative;&quot;&gt;CSS 설정&lt;a href=&quot;#CSS-%EC%84%A4%EC%A0%95&quot; aria-label=&quot;CSS 설정 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;css 관련 loader를 설치해보자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; i &lt;span class=&quot;token parameter variable&quot;&gt;-D&lt;/span&gt; css-loader sass sass-loader style-loader&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;style-loader : html의 head 태그 내부에 &lt;code class=&quot;language-text&quot;&gt;\&amp;lt;style&gt;&lt;/code&gt; 태그로 css 파일을 주입한다. (빠르게 로드하므로 개발모드에서만 사용)&lt;/li&gt;
+&lt;li&gt;css-loader : JavaScript 파일 내부의 import문으로 css 파일을 불러온다.&lt;/li&gt;
+&lt;li&gt;sass : sass를 전처리 하기 위한 패키지.&lt;/li&gt;
+&lt;li&gt;sass-loader : sass 또는 scss 파일을 JavaScript 파일로 불러오며, css 파일로 전처리 한다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;module&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;rules&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token literal-property property&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token regex&quot;&gt;&lt;span class=&quot;token regex-delimiter&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;token regex-source language-regex&quot;&gt;\.(sa|sc|c)ss$&lt;/span&gt;&lt;span class=&quot;token regex-delimiter&quot;&gt;/&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token literal-property property&quot;&gt;use&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+          &lt;span class=&quot;token string&quot;&gt;&apos;style-loader&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;token string&quot;&gt;&apos;css-loader&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;token string&quot;&gt;&apos;sass-loader&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;webpack.config.js 파일에 &lt;code class=&quot;language-text&quot;&gt;module&lt;/code&gt; 이란 이름 하위에 들어가는 녀석들이 loader들이다. use에 적힌 loader들은 가장 끝에서 부터 시작한다. 위의 순서를 보면 &lt;code class=&quot;language-text&quot;&gt;sass-loader&lt;/code&gt; -&gt; &lt;code class=&quot;language-text&quot;&gt;css-loader&lt;/code&gt; -&gt; &lt;code class=&quot;language-text&quot;&gt;style-loader&lt;/code&gt; 순으로 로더들이 처리되는 구조다.&lt;/p&gt;
+&lt;p&gt;순서를 생각해보면, sass-loader가 sass(scss) 파일을 css 파일로 변환하고, css-loader가 css파일을 JavaScript에서 인식할 수 있게 바꾸어 준다. 즉, 순서가 맞다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// index.js&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;./reset.css&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;css loaded&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;css 파일을 JavaScript 파일에서 &lt;code class=&quot;language-text&quot;&gt;import&lt;/code&gt; 문으로 가져올 수 있다. 만약 loader 없이 css를 import 하려하면 에러가 발생했겠지만 이제는 아니다. 나중에 세팅할 devServer를 실행시키면 &lt;code class=&quot;language-text&quot;&gt;style-loader&lt;/code&gt;는 html 파일에 style 태그로 css 내용을 넣어주는 역할을 하고 있다.&lt;/p&gt;
+&lt;h4 id=&quot;HtmlWebpackPlugin&quot; style=&quot;position:relative;&quot;&gt;HtmlWebpackPlugin&lt;a href=&quot;#HtmlWebpackPlugin&quot; aria-label=&quot;HtmlWebpackPlugin permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;Plugin은, 번들링된 결과물을 바꾸는 역할을 하고 있다. Loader와의 차이점은, Loader는 파일을 해석하고 변환하지만 Plugin은 결과물을 변경한다. devServer를 실행시키기 위해 HtmlWebpackPlugin을 설치해보자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; i &lt;span class=&quot;token parameter variable&quot;&gt;-D&lt;/span&gt; html-webpack-plugin&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;const HtmlWebpackPlugin = require(&apos;html-webpack-plugin&apos;);
+
+module.exports = &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  (...)
+  plugins&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;new HtmlWebpackPlugin()&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;build를 해보면, 이번에는 dist 폴더에 없던 index.html 파일이 생성된 것을 볼 수 있다. &lt;code class=&quot;language-text&quot;&gt;script&lt;/code&gt; 태그로 우리가 번들링한 index.js 파일이 담겨있는 것을 볼 수 있다. 기초가 되는 html 파일을 내가 만든 파일로 설정해야 한다.&lt;/p&gt;
+&lt;p&gt;프로젝트 루트에 index.html 파일을 생성하고, plugin 설정을 바꾸어주자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;module.exports = &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  (...)
+  plugins&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;new HtmlWebpackPlugin(
+    template&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &apos;index.html&apos;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  )&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;HtmlWebpackPlugin안에는 여러 설정이 있다. 브라우저 타이틀을 넣어줄 수 있고, favicon을 설정할 수도 있다. &lt;a href=&quot;https://github.com/jantimon/html-webpack-plugin&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;여기&lt;/a&gt;서 확인해볼 수 있다.&lt;/p&gt;
+&lt;p&gt;이제 index.html 파일 기준으로 build가 되도록 세팅되었다. index.html 파일이 생성되었기 때문에 devServer를 띄워볼 수 있다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; i &lt;span class=&quot;token parameter variable&quot;&gt;-D&lt;/span&gt; webpack-dev-server&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;package.json 파일에 아래와 같이 설정해주자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token property&quot;&gt;&quot;scripts&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  (...)
+  &lt;span class=&quot;token property&quot;&gt;&quot;dev&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;webpack serve --open&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;그리고 &lt;code class=&quot;language-text&quot;&gt;npm run dev&lt;/code&gt; 명령어를 터미널에서 실행하면 브라우저에서 우리가 생성한 파일의 결과물을 볼 수 있다. &lt;code class=&quot;language-text&quot;&gt;--open&lt;/code&gt; 명령어는 브라우저를 자동으로 띄워주는 역할을 한다.&lt;/p&gt;
+&lt;p&gt;Webpack5에서는 devServer에서 Hot Module Replacement가 기본 설정 값이기 때문에 코드 변경이 일어나면 새로고침 없이 변경된 모듈만 브라우저에서 바로 변경된다. 이를 줄여서 HMR이라고 한다.&lt;/p&gt;
+&lt;p&gt;개발자 도구를 띄워 확인해보면 &lt;code class=&quot;language-text&quot;&gt;style-loader&lt;/code&gt; 때문에 html에 style태그에 박힌 css를 확인할 수 있을 것이다. 이번엔 style태그로 변환하는 것이 아니라, css 파일 자체로 불러와보자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; i &lt;span class=&quot;token parameter variable&quot;&gt;-D&lt;/span&gt; mini-css-extract-plugin&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이 플러그인은 번들링된 css 파일을 외부 파일로 만들어준다. 주로 배포 모드에서 사용하는데, 이유는 각각 나누어진 파일을 lazy-loading 할 수 있기 때문이다. style-loader 같은 경우는 한번에 모두 불러오기 때문에 비효율적일 수 있다. 따라서 모드 별로 다르게 설정해주도록 하자.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;처음에는 MiniCssExtractPlugin을 도대체 왜 사용할까 고민했다. 왜냐하면 css 파일을 js로 들고와 다시 한번 css 외부 파일로 만드는 행위가 비효율적이라고 생각했다. css 파일이 여러 개라면, 페이지별로 css를 http로 요청할 경우 각기 다른 파일을 가져오도록 하고, 이를 웹서버에서 적절히 내려주면 되는 문제 아닌가?&lt;/p&gt;
+&lt;p&gt;하지만 css를 js로 들고오는 이유는 다양하다. 특히 sass 같은 경우 독단으로 브라우저에서 사용할 수 없다. sass를 css로 변환하는 과정이 따로 필요하며, js에서 이를 css로 트랜스파일링 해준다. 이를 Webpack에 위임함으로 자동화가 이루어졌다. 또한 postcss를 통해 css에 후처리도 해줄 수 있다.&lt;/p&gt;
+&lt;p&gt;이렇게 css, image, fonts를 js로 가져오는 행위는 resource를 가공하기 위해서이다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; MiniCssExtractPlugin &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;mini-css-extract-plugin&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; devMode &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; process&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;env&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;NODE_ENV&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;!==&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;production&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;module&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;rules&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token literal-property property&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token regex&quot;&gt;&lt;span class=&quot;token regex-delimiter&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;token regex-source language-regex&quot;&gt;\.(sa|sc|c)ss$&lt;/span&gt;&lt;span class=&quot;token regex-delimiter&quot;&gt;/&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token literal-property property&quot;&gt;use&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+          devMode &lt;span class=&quot;token operator&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;style-loader&apos;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; MiniCssExtractPlugin&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;loader&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;token string&quot;&gt;&apos;css-loader&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;token string&quot;&gt;&apos;sass-loader&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이렇게. &lt;code class=&quot;language-text&quot;&gt;process.env.NODE_ENV&lt;/code&gt; 는 Webpack 즉, Node.js가 빌드할 때 모드 별로 들어가는 text다.&lt;/p&gt;
+&lt;p&gt;최종적으로 package.json은 아래와 같다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token property&quot;&gt;&quot;scripts&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;build&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;webpack --progress --mode production&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;dev&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;webpack serve --open --progress --mode development&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;--progress&lt;/code&gt; 옵션을 넣어주었는데, 이는 터미널에서 빌드 진행 상황을 나타내 준다.&lt;/p&gt;
+&lt;h4 id=&quot;이미지-처리&quot; style=&quot;position:relative;&quot;&gt;이미지 처리&lt;a href=&quot;#%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%B2%98%EB%A6%AC&quot; aria-label=&quot;이미지 처리 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;Webpack4 버전 까지는 이미지를 처리하기 위해 url-loader와 file-loader 외부 패키지를 다운 받아 사용해야 했었다. webpack5에서는 url-loader, file-loader의 역할을 기본으로 지원한다.&lt;/p&gt;
+&lt;p&gt;먼저 file-loader의 역할은, 단순히 image 외 다른 파일을 js 파일로 가져올 수 있다. 그리고 url-loader는 이미지를 Data Uri Scheme 형태로 만들준다. base64로 인코딩 된 형식이다. 이를 html img 태그에 src 속성으로 넣어줄 수도 있고, css에서 사용하면 &lt;code class=&quot;language-text&quot;&gt;url(...)&lt;/code&gt; 에 넣어주어 활용할 수 있다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 796px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/db79a7753403e81768643334eb4a2d09/c0214/url-loader.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 15.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAnElEQVQI11WM2w6CMBQE+f8vNFEjLVKk4Y5YbM9hDOiLm0x292WyPDdURUGYZ3ivyDsgKaIpwib/8OPYisQVm98onWP3eO/JUowEa3hZiztZSlNzLgdu1Ujz3GhmxU9K+1RMI5S98BgVNyimTTz6lWVZiDEeZCEE9iTdsL1SjRumFYpOuHeCbeX4bhAuPnH1ibz59v7rSQ/RHlXlA0vt5gjDsrWLAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;url-loader&quot;
+        title=&quot;url-loader&quot;
+        src=&quot;/static/db79a7753403e81768643334eb4a2d09/c0214/url-loader.png&quot;
+        srcset=&quot;/static/db79a7753403e81768643334eb4a2d09/0eb09/url-loader.png 500w,
+/static/db79a7753403e81768643334eb4a2d09/c0214/url-loader.png 796w&quot;
+        sizes=&quot;(max-width: 796px) 100vw, 796px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;url-loader 같은 경우 주로 크기가 작은 svg 파일을 사용한다.&lt;/p&gt;
+&lt;p&gt;기존에 Webpack4에서 이미지의 크기 설정에 따라 크기가 작다면 url-loader로 처리하고, 이미지가 크다면 file-loader로 외부에서 받아올 수 있도록 설정이 권장 되었는데, 이는 url-loader가 크기가 커질 수록 변환 시간이 오래 걸리기도 하고 html 파일을 불러오는데 기하급수적으로 이미지 크기가 커지기 때문이다.&lt;/p&gt;
+&lt;p&gt;이번엔 Webpack5에서의 처리를 보자. 빌트인 로더를 사용한다. 종류는 4가지다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;asset/resource : &lt;code class=&quot;language-text&quot;&gt;file-loader&lt;/code&gt;와 동일하다. 파일을 output(dist)로 내보내고 경로를 번들에 추가해준다.&lt;/li&gt;
+&lt;li&gt;asset/inline : &lt;code class=&quot;language-text&quot;&gt;url-loader&lt;/code&gt;와 동일하다. Data Uri Scheme을 생성한다.&lt;/li&gt;
+&lt;li&gt;asset/source : &lt;code class=&quot;language-text&quot;&gt;raw-loader&lt;/code&gt;와 동일하다. 파일의 소스 코드를 그대로 내보낸다. 주로 txt 파일 등을 사용한다.&lt;/li&gt;
+&lt;li&gt;asset : 조건에 따라 asset/resource, asset/inline 모듈 중 자동으로 선택해 내보낸다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;asset 로더 같은 경우는 기본으로 &lt;code class=&quot;language-text&quot;&gt;8kb&lt;/code&gt;이하는 inline(Data Uri Scheme)으로, 이상은 resource(외부 파일)로 처리한다. webpack4 사용 당시 file-loader, url-loader를 섞어 사용할 때와 같은 모습이다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;module.exports = &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+	module&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    rules&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        test&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; /\.(png|svg|jpe?g|gif|webp)$/i&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        type&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &apos;asset&apos;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 기본적으로 8kb 이하라면 url-loader로, 이상이면 file-loader로 동작&lt;/span&gt;
+        parser&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+          dataUrlCondition&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            maxSize&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt; * &lt;span class=&quot;token number&quot;&gt;1024&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 기준으로 4kb 로 변경&lt;/span&gt;
+          &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        generator&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+          filename&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &apos;assets/images/&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;name&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;_&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;contenthash&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;ext&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&apos;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;parser.dataUrlCondition.maxSize를 사용하면 용량 기준을 정해줄 수 있다. 그렇다면, 하위의 generator.filename은 무엇일까? build 했을 경우 dist 폴더 하위의 경로를 정해주고, 파일 명을 정해줄 수 있다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;[name] : output과 동일하게 entry 파일 기준이다.&lt;/li&gt;
+&lt;li&gt;[contenthash:8] : 파일이 변경되면 hash가 변경된다. (위에서 살펴봤던 hash 정책을 보면 된다)&lt;/li&gt;
+&lt;li&gt;[ext] : 확장자명&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&quot;build시-새로운-파일로&quot; style=&quot;position:relative;&quot;&gt;build시 새로운 파일로&lt;a href=&quot;#build%EC%8B%9C-%EC%83%88%EB%A1%9C%EC%9A%B4-%ED%8C%8C%EC%9D%BC%EB%A1%9C&quot; aria-label=&quot;build시 새로운 파일로 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;build를 하면 dist 폴더에 번들링된 파일들이 차곡차곡 쌓이고 있다. hash값이 다르기 때문에 파일을 덮어쓰는 것이 아니라 계속 쌓이고 있는 것이다. build 하면 변경된 파일이 있을 경우 dist 폴더에 남아있는 찌꺼기를 알아서 삭제해주는 &lt;code class=&quot;language-text&quot;&gt;clean-webpack-plugin&lt;/code&gt; 을 설치해보자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; i &lt;span class=&quot;token parameter variable&quot;&gt;-D&lt;/span&gt; clean-webpack-plugin&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이 녀석은 webpack.config.js 파일의 &lt;code class=&quot;language-text&quot;&gt;plugin&lt;/code&gt; 목록에 포함시킬 필요는 없다. 대신, output에 아래와 같이 명시해주면 된다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;clean&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이제 build를 하면 dist 폴더는 최신 파일만 깔끔하게 남게 된다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h3 id=&quot;Mode환경-분리&quot; style=&quot;position:relative;&quot;&gt;Mode(환경 분리)&lt;a href=&quot;#Mode%ED%99%98%EA%B2%BD-%EB%B6%84%EB%A6%AC&quot; aria-label=&quot;Mode환경 분리 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;이때까지는 build와 devServer가 거의 동일한 결과물로 나타났다. 하지만, 여러 옵션과 최적화를 사용하려면 Webpack 번들링에 필요한 loader 혹은 plugin이 달라진다. 따라서 환경 분리가 필수적이며, Webpack이 Mode에 따라 내부적으로 번들링하는 옵션 또한 달라지기 때문에 해주어야 한다.&lt;/p&gt;
+&lt;h4 id=&quot;webpack-merge&quot; style=&quot;position:relative;&quot;&gt;webpack-merge&lt;a href=&quot;#webpack-merge&quot; aria-label=&quot;webpack merge permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;위에서 NODE_ENV를 이용해 &lt;code class=&quot;language-text&quot;&gt;const devMode = process.env.NODE_ENV !== &apos;production&apos;;&lt;/code&gt; 이렇게 분리해도 되지만, 아예 파일을 나누는 것을 권장한다. 왜냐하면 webpack.config.js 파일이 나중에는 비대해져 가독성이 매우 떨어지기 때문이다. 어쩔 수 없이 중복코드가 생기더라도 가독성이 우선이기 때문에 나눠 주도록 하자. 총 4개의 파일로 나눌 것이다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;webpack.dev.js : devServer 환경. 즉 개발 환경.&lt;/li&gt;
+&lt;li&gt;webpack.prod.js : build 환경. 즉 배포 환경.&lt;/li&gt;
+&lt;li&gt;webpack.common.js : dev, prod에 공통으로 적용될 환경.&lt;/li&gt;
+&lt;li&gt;webpack.config.js : &lt;code class=&quot;language-text&quot;&gt;dev + common&lt;/code&gt; 혹은 &lt;code class=&quot;language-text&quot;&gt;prod + common&lt;/code&gt; 이 최종적으로 나타날 환경.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;결과적으로 Webpack은 config.js 파일을 바라보지만, &lt;code class=&quot;language-text&quot;&gt;webpack-merge&lt;/code&gt; 패키지를 통해 이를 나눌 것이다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; i &lt;span class=&quot;token parameter variable&quot;&gt;-D&lt;/span&gt; webpack-merge&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;먼저 dev 환경이다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// webpack.dev.js&lt;/span&gt;
+module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;mode&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;development&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// mode&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;devtool&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;inline-source-map&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 다름 🔥&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;module&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;rules&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token literal-property property&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token regex&quot;&gt;&lt;span class=&quot;token regex-delimiter&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;token regex-source language-regex&quot;&gt;\.(sa|sc|c)ss$&lt;/span&gt;&lt;span class=&quot;token regex-delimiter&quot;&gt;/&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token literal-property property&quot;&gt;use&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+          &lt;span class=&quot;token string&quot;&gt;&apos;style-loader&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 다름 🔥&lt;/span&gt;
+          &lt;span class=&quot;token string&quot;&gt;&apos;css-loader&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;prod 환경이다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// webpack.prod.js&lt;/span&gt;
+module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;mode&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;development&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// mode&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;devtool&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;source-map&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 다름 🔥&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;module&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;rules&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token literal-property property&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token regex&quot;&gt;&lt;span class=&quot;token regex-delimiter&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;token regex-source language-regex&quot;&gt;\.(sa|sc|c)ss$&lt;/span&gt;&lt;span class=&quot;token regex-delimiter&quot;&gt;/&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token literal-property property&quot;&gt;use&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+          MiniCssExtractPlugin&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;loader&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 다름 🔥&lt;/span&gt;
+          &lt;span class=&quot;token string&quot;&gt;&apos;css-loader&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;common 공통 환경이다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// webpack.prod.js&lt;/span&gt;
+module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;entry&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;./src/index.js&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; path&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;__dirname&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;dist&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;[name]_[chunkhash:8].js&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;clean&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이제 webpack-merge를 통해 묶어주도록 하자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// webpack.config.js&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; merge &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;webpack-merge&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; commonConfig &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;./webpack.common.js&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; productionConfig &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;./webpack.prod.js&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; developmentConfig &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;./webpack.dev.js&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function-variable function&quot;&gt;exports&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;env&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; args&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;switch&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;args&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;mode&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;development&apos;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;merge&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;commonConfig&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; developmentConfig&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;production&apos;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;merge&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;commonConfig&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; productionConfig&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token keyword&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Error&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;No matching configuration was found!&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;merge를 통해 &lt;code class=&quot;language-text&quot;&gt;dev + common&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;prod + common&lt;/code&gt; 환경을 구축했다. &lt;code class=&quot;language-text&quot;&gt;args.mode&lt;/code&gt; 에는 각 환경에 맞는 텍스트가 포함되게 되는데, 이는 package.json의 script를 수정해 주어야 한다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token property&quot;&gt;&quot;scripts&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;build&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;webpack --mode production&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;dev&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;webpack serve --open --mode development&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;--mode&lt;/code&gt; 를 통해서 주입해줄 수 있다. 아주 깔끔하게 잘 나누어졌다.&lt;/p&gt;
+&lt;p&gt;webpack.dev.js, webpack.prod.js 파일에 &lt;code class=&quot;language-text&quot;&gt;mode&lt;/code&gt; 옵션은 반드시 환경에 따라 ‘development’, ‘production’ 텍스트를 넣어주자. Webpack이 명령어를 실행할 때 내부적으로 최적화 하는 정도가 달라진다.&lt;/p&gt;
+&lt;h4 id=&quot;dotEnv&quot; style=&quot;position:relative;&quot;&gt;dotEnv&lt;a href=&quot;#dotEnv&quot; aria-label=&quot;dotEnv permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;dotEnv는 &lt;code class=&quot;language-text&quot;&gt;.env&lt;/code&gt; 파일에 있는 텍스트를 Node.js가 빌드 시 &lt;code class=&quot;language-text&quot;&gt;process.env....&lt;/code&gt; 를 이용해 환경 별로 다른 값을 넣어줄 수 있도록 도와주는 패키지다. 예를 들면, base-url 같은 것을 예로 들 수 있다. 개발 환경에서는 api 서버를 localhost로 지정하지만, 프로덕션 환경에서는 실제 주소를 적어주어야 하는 경우다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; i &lt;span class=&quot;token parameter variable&quot;&gt;-D&lt;/span&gt; dotenv-webpack&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;그리고 env 폴더를 만들고, &lt;code class=&quot;language-text&quot;&gt;.env.development&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;.env.production&lt;/code&gt; 파일을 각각 만들자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;// .env.development
+ENV_TEST=localhost
+
+// .env.production
+ENV_TEST=https://production.com&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;여기의 값을 환경에 따라 집어넣을 것이다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; Dotenv &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;dotenv-webpack&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;plugins&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Dotenv&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token literal-property property&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;./env/.env.development&apos;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 또는 .env.production&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이제 JavaScript 파일에서 &lt;code class=&quot;language-text&quot;&gt;process.env.ENV_TEST&lt;/code&gt; 로 접근하면 환경에 따라 다른 값이 나타나는 것을 볼 수 있다. process.evn는 Node.js가 빌드할 때 넣어주는 값인데, vite에 와서는 &lt;code class=&quot;language-text&quot;&gt;import.meta&lt;/code&gt; 를 사용한다고 한다.&lt;/p&gt;
+&lt;h4 id=&quot;최적화&quot; style=&quot;position:relative;&quot;&gt;최적화&lt;a href=&quot;#%EC%B5%9C%EC%A0%81%ED%99%94&quot; aria-label=&quot;최적화 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;production 모드에서 추가적으로 최적화 해주면 좋은 것들이 있다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;CssMinimizerPlugin : CSS 파일을 공백을 제거 등의 압축을 해준다.&lt;/li&gt;
+&lt;li&gt;TerserPlugin : JS 파일의 코드를 난독화 및 압축&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// webpack.prod.js&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; CssMinimizerPlugin &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;css-minimizer-webpack-plugin&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; TerserPlugin &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;terser-webpack-plugin&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;optimization&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;minimizer&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;CssMinimizerPlugin&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;TerserPlugin&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;웹 브라우저는 보안에 아주 취약하다. 개발자 도구를 열어보면 어떻게 비즈니스 로직을 작성했고, 스타일은 어떤 것을 사용했는지, html 구성을 어떻게 되어있는지 전부 볼 수 있다. JS 같은 경우 변수명까지 전부 노출되기 때문에 TerserPlugin으로 변수 명을 전부 의미 없는 것으로 변경 시키는 난독화를 해줄 수 있다.&lt;/p&gt;
+&lt;p&gt;압축에서 공백을 제거해주는 것만 해도 사용자에게 전달될 파일 크기가 작아진다. 네트워크 상황이 좋지 않은 환경에서는 필수라고 생각한다. 이렇게 구성하고 파일을 build 해보면 파일이 한줄로, 또 난독화가 되어있는 것을 볼 수 있다. 난독화 과정을 mangling(맹글링) 이라고 한다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1228px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/4e4a6ed7a5e8f6b60b50542b058c8159/912c7/mangling.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 35.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAABMElEQVQozz2Q63KCMBCFeZq2f8UbVZAAIYSrgChYrdOZvv8znM5Ziz92snuy59tNnMVBww1TrJMcW1288rlexxZLZSTc0LzuGKIpg4+Nj/fVHm/LTzjFeIcdrsgvN2TDVaKc7rDnr1cdNyek/YioOT3r4wBV9zCnCYeyhZdycAY/b+A0tx8wwqpDUBwF1D1+xUCNZpp4EkpIdX2gnL6l5kLsp8bcYbPuLhIEqqoXaNKeBaLbi2xAODUCuQnv5gXo4famH+GwkQLpM5jTaCRAt2cxso/PpcZ8/oK4GUSL6ue3OBQZu6ySqWHZYW9rzIP4Aga3EsD//zEP8qPUBDIX4C4t4CUWyzCBbyu4QYyFr7BNLHyTIqlKrJTBOkqxMwW2cQZPW6yUxiYyCPJacmr0/wHeQQN1TLaPEQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;mangling&quot;
+        title=&quot;mangling&quot;
+        src=&quot;/static/4e4a6ed7a5e8f6b60b50542b058c8159/912c7/mangling.png&quot;
+        srcset=&quot;/static/4e4a6ed7a5e8f6b60b50542b058c8159/0eb09/mangling.png 500w,
+/static/4e4a6ed7a5e8f6b60b50542b058c8159/1263b/mangling.png 1000w,
+/static/4e4a6ed7a5e8f6b60b50542b058c8159/912c7/mangling.png 1228w&quot;
+        sizes=&quot;(max-width: 1228px) 100vw, 1228px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h4 id=&quot;소스맵&quot; style=&quot;position:relative;&quot;&gt;소스맵&lt;a href=&quot;#%EC%86%8C%EC%8A%A4%EB%A7%B5&quot; aria-label=&quot;소스맵 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;소스맵이란, 코드를 디버깅 할 수 있도록 도와주는 자료다. 여기서 자료라고 한 이유는, 소스맵 설정을 어떻게 하는지에 따라 번들링 된 파일 내부에 소스맵이 있을 수도 있고, &lt;code class=&quot;language-text&quot;&gt;.map&lt;/code&gt; 파일로 생성될 수도 있기 때문이다. Webpack에서는 소스맵을 생성하는 다양한 방식을 지원한다.&lt;/p&gt;
+&lt;p&gt;소스맵에 대해서 더 이야기해보자. 소스맵은, 브라우저에서 개발자도구를 켜면 &lt;code class=&quot;language-text&quot;&gt;source&lt;/code&gt; 탭에서 보이도록 해주는 녀석이다. 즉, JS, CSS 등의 어떤 언어 차원이 아닌 브라우저 스펙이다. 브라우저에서 소스맵을 읽어들이면 console log가 어느 소스코드에서 찍혔는지, 런타임 에러가 어디에서 발생했는지 개발자 도구를 통해 알려줄 수 있다.&lt;/p&gt;
+&lt;p&gt;또한, 에러 로깅을 위해 Sentry를 사용한다면 이곳에도 소스맵을 올려주어 디버깅을 용이하게 해줄 수 있다. 이전에 작성한, &lt;a href=&quot;https://pozafly.github.io/tripllo/(11)vue-sentry-error-monitoring-system/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;Sentry 에러 로깅 시스템 도입&lt;/a&gt; 글을 보면 소스맵도 함께 올려주는 것을 볼 수 있다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;dev : &lt;code class=&quot;language-text&quot;&gt;devtool: &apos;inline-source-map&apos;,&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;prod : &lt;code class=&quot;language-text&quot;&gt;devtool: &apos;source-map&apos;,&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Webpack에서 권장하는 대로 위와 같이 설정해주었다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;style-loader를 설정할 때, singletonStyleTag를 사용했었다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;loader&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;style-loader&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token literal-property property&quot;&gt;injectType&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;singletonStyleTag&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이 옵션은 css 파일 별로 &lt;code class=&quot;language-text&quot;&gt;&amp;lt;style&gt;&lt;/code&gt; 태그가 여러개 생기지 않고 하나로 묶이는 옵션이다. 하지만 singletonStyleTag 옵션을 사용할 경우, css 관련 소스맵이 작동하지 않는다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 818px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/e61cbdab4784b77a38e6919fea404929/35f7f/css-sourcemap.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 99.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAABYlAAAWJQFJUiTwAAADC0lEQVQ4y42U6XLkNgyE9f4Plj+bxHZ2N3N7RufopC5KGh2jLwXYs64tJ6llFQQJJBuNJiFnsz/z9HVLlOScXi/sDif1eWHYHY4EYUQYXTmezhrfH0+EUazzhamom5amteqrpsU5egmXyND2I13X09oO23X0w6CLJCYmsSwvuHg+SZpzjRMFFX92PYIoIk4SnCRJSNOE2+2mG4dhYJom5mVhWe7q53nhfr/T9gNBnFI0LXFhMI0lynKCJCMxJW4Q4DRNi+16+r5H3ru+Z5pn1nX9ZAwdDBa69sP3FvoWbh2pe8Ypq4qyqpmWBRmyj1VfWZTlm93XlWHzQvjtL/Ljnsvzn4Tfv+K+PJEfd+SnA/GX33BsXVMc9vSey+10ZKgbXv0QPwh5DGUHzKctuXehigL1heeSXs7U15AmiUmff8e5TxO33Zb++ze6lyfa85kijvH8QAUfx/ENVB5SoknBZFDmUL57iZUZmZQ8324Mhx395m863yM9n8k8n7PrU5hSD+lDix9q/DQeMZHN6buedZ6Z+15PclpXbtP0AQQaFw1Vz3lW09swjmqPmFTjyKWV+5UVhuga4/sBxpTESaoMg/BtXg9lGDgcj4RRxH6/53R6ZbPZEkVX3de2Fkd0StJMQeSiPjpDAQtDXhTUTUOa5Vi59LbTdU3bUtU1pqzouk4Pbp5nHNkoV0cAhZGwKYwhzwtM+RYTn+l3pd8yJyaJWmuVgCQWSRxhJNllgZzsA1TKN1pypFdIKlFpslwrEquqGtfzieJYW1UZClj2nk0ySf9KNmEuXRNeY60gzTJNIoykZJmXvVXdaDKpQgFdL8APIl0gTAT0oaH/zl60FFARvSwrbdEsz7XDRFMB1G6bJhzpYZvn1MbQiFamJIpTxnHSjI8u+ZWhDO/Lwm2/pQ98Mtcl2O5IfV9LExnkNJcffb7+rynDeRwZjge1Koqog4DVWhprtcy6bn4C/NQljz/Rg+Eyjtg/vtA9P3ENQ7xr/K/l/FfpnwCHrmcxBVOaMFurf+z1fv/8L/xFhv8A0wf4vAksINoAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;css-sourcemap&quot;
+        title=&quot;css-sourcemap&quot;
+        src=&quot;/static/e61cbdab4784b77a38e6919fea404929/35f7f/css-sourcemap.png&quot;
+        srcset=&quot;/static/e61cbdab4784b77a38e6919fea404929/0eb09/css-sourcemap.png 500w,
+/static/e61cbdab4784b77a38e6919fea404929/35f7f/css-sourcemap.png 818w&quot;
+        sizes=&quot;(max-width: 818px) 100vw, 818px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;위 사진은 css 소스맵이 적용되었지만, singletonStyleTag는 빨간색 부분이 존재하지 않는다. 소스맵이 없어도 css는 적용한 스타일이 개발자도구에서 보이긴 하지만, 나중에 사용할 소스맵을 위해 옵션을 제거해주었다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;자세한 자료는 &lt;a href=&quot;https://webpack.kr/configuration/devtool/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;Webpack공문&lt;/a&gt;, 또는 &lt;a href=&quot;https://medium.com/%EC%98%A4%EB%8A%98%EC%9D%98-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D/source-map-%EC%97%90-%EB%8C%80%ED%95%9C-%EA%B3%A0%EC%B0%B0-part-1-5a3f6d5ab48a&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;Source Map 에 대한 고찰&lt;/a&gt;을 참고하자.&lt;/p&gt;
+&lt;h4 id=&quot;stats&quot; style=&quot;position:relative;&quot;&gt;stats&lt;a href=&quot;#stats&quot; aria-label=&quot;stats permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;stats는 번들링을 진행하면 터미널에 어떤 번들된 정보를 표시할지 지정하는 옵션이다. 이 옵션을 설정하지 않으면 번들 정보가 꽤 많이 나타나는데, 옵션을 통해 번들 정보를 아예 보이지 않게 만들어줄 수도 있고, 가볍게 나타내보일 수도 있다. &lt;a href=&quot;https://webpack.kr/configuration/stats/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;공식 홈피&lt;/a&gt;에 나와 있는대로 preset을 설정해보면서 맞는 옵션을 찾아보면 좋다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// webpack.common.js&lt;/span&gt;
+module.exports = &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  (...)
+  stats&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    preset&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &apos;minimal&apos;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    moduleTrace&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 종속성 경고/에러 표시&lt;/span&gt;
+    errorDetails&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 에러 세부 정보&lt;/span&gt;
+    chunks&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;나는 위와 같이 설정해주었다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 2000px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/8ea2f555123f4980b72a4b756d29cd5c/218ba/stats.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 19.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAYAAACOXx+WAAAACXBIWXMAABYlAAAWJQFJUiTwAAAA4klEQVQY003My26CUACEYR7GJq1CC1bAA57D/S6ICtqwMOm277//GzBpuvgyk1mMJpuC03dLOhZkY0ky5ERDQ3zr8U89VjlghBW6zDBUzovlsvqwWZn2M/8zbbSwbxl+RurHmebRU9wbqqklGWvyqUfdvpDXEdHfcboJIygWusr/uhGUTypHU92F8HpBHFv8Y42sC5w0ZhsqPiOFHUl0V/C62/PmHNiIgPV+ppauC4UhFLo/bxItbc94SYWtMpw4RXYJoopxwpztIWHjSAwR8L5QC92Vi/nIFD5bz8MKJGtX8At8boo+UPlp3AAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;stats&quot;
+        title=&quot;stats&quot;
+        src=&quot;/static/8ea2f555123f4980b72a4b756d29cd5c/f97d7/stats.png&quot;
+        srcset=&quot;/static/8ea2f555123f4980b72a4b756d29cd5c/0eb09/stats.png 500w,
+/static/8ea2f555123f4980b72a4b756d29cd5c/1263b/stats.png 1000w,
+/static/8ea2f555123f4980b72a4b756d29cd5c/f97d7/stats.png 2000w,
+/static/8ea2f555123f4980b72a4b756d29cd5c/218ba/stats.png 2144w&quot;
+        sizes=&quot;(max-width: 2000px) 100vw, 2000px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;Babel-설정&quot; style=&quot;position:relative;&quot;&gt;Babel 설정&lt;a href=&quot;#Babel-%EC%84%A4%EC%A0%95&quot; aria-label=&quot;Babel 설정 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Babel은 브라우저 하위 호환성을 위해서 만들어졌다. 최신 브라우저에서는 ECMAScript에 명세된 스펙을 준수하지만, 오래된 브라우저에서는 ECMAScript 버전이 낮게 개발되어 있어 최신 문법은 적용이 되지 않는다. Babel은 이를 해결하기 위해서 나타났다. 재미있는 것은 Babel 어원이다. 성경에 바벨탑이 나오는데, 사람들이 탑을 높게 쌓아서 하나님이 되려하자 하나님이 사람들의 언어를 다 다르게 만들어버렸다. 이를 다시 하나로 만들기 위해 Babel 이라는 이름을 사용한 것 같다.&lt;/p&gt;
+&lt;p&gt;어쨌든, Babel은 브라우저 하위 호환성을 위해 크게 2가지 역할을 하고 있다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;트랜스파일링&lt;/li&gt;
+&lt;li&gt;폴리필 제공&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;트랜스파일링은 말 그대로 JavaScript 문법을 이전 문법으로 변환시켜준다. JavaScript는 ES6에서 문법이 크게 변했다. ES6 이상 문법을 사용하면서 구 브라우저를 지원하기 위해 Babel을 사용할 수 있다. react에서는 심지어 ECMAScript tc39에 제안사항으로 올라온 문법을 Babel을 사용해 변환하기도 한다.&lt;/p&gt;
+&lt;p&gt;폴리필은, 트랜스파일링과 다르게 문법을 변환하는 것이 아니라 구현체를 제공한다. 예를 들면 &lt;code class=&quot;language-text&quot;&gt;Promise&lt;/code&gt; 객체가 있을 수 있다. 구 브라우저에서 Promise 객체가 구현이 되지 않았지만 폴리필에서 Promise를 옛 문법을 이용해 구현한 코드를 제공한다. 폴리필은 &lt;code class=&quot;language-text&quot;&gt;core-js&lt;/code&gt; 라이브러리에 기반하고 있다. 따라서 Babel에서 폴리필을 사용하기 위해 core-js 라이브러리가 필요하다. 설정해보자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; i &lt;span class=&quot;token parameter variable&quot;&gt;-D&lt;/span&gt; @babel/core @babel/preset-env babel-loader core-js&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;@babel/core : 바벨이 동작할 수 있게 하는 core&lt;/li&gt;
+&lt;li&gt;@babel/preset-env : 쉽게 바벨을 설정할 수 있도록 패키지를 모아둔 라이브러리&lt;/li&gt;
+&lt;li&gt;babel-loader : Webpack에서 Babel을 사용할 수 있게 도와줌&lt;/li&gt;
+&lt;li&gt;core-js : 폴리필을 제공할 라이브러리&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;이제 &lt;code class=&quot;language-text&quot;&gt;.babelrc&lt;/code&gt; 파일을 만들자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token string-property property&quot;&gt;&quot;presets&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+      &lt;span class=&quot;token string&quot;&gt;&quot;@babel/preset-env&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token string-property property&quot;&gt;&quot;targets&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;ie 11&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token string-property property&quot;&gt;&quot;useBuiltIns&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;usage&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 폴리필 사용 방식 지정&lt;/span&gt;
+        &lt;span class=&quot;token string-property property&quot;&gt;&quot;corejs&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;token string-property property&quot;&gt;&quot;version&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 폴리필 버전 지정&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;presets은 babel 설정이 들어있는 패키지다. 예전에는 &lt;code class=&quot;language-text&quot;&gt;@babel/preset-env&lt;/code&gt; 대신 사용하던 라이브러리는 &lt;code class=&quot;language-text&quot;&gt;@babel/polyfill&lt;/code&gt; 이다.&lt;/p&gt;
+&lt;p&gt;이제는 core-js와 regenerator-runtime이 더 이상 필요하지 않게 되었다. 이전에는 @babel/polyfill이 필요한 기능을 대체하기 위해 core-js와 regenerator-runtime을 내부적으로 사용했지만, 최신 버전의 Babel에서는 이러한 기능이 기본적으로 포함되어 있기 때문에 @babel/polyfill은 더 이상 필요하지 않다. 따라서, @babel/preset-env를 사용한다.&lt;/p&gt;
+&lt;p&gt;target은 지원하고자 하는 브라우저가 들어간다. ie 뿐 아니라 firefox, chrome 버전을 명시해줄 수 있다. 아래에서 살펴볼 browserlist의 내용이 들어갈 수 있다.&lt;/p&gt;
+&lt;p&gt;여기서 중요한 옵션은 &lt;code class=&quot;language-text&quot;&gt;useBuiltIns&lt;/code&gt; 옵션이다. useBuiltIns에는 아래 3가지 옵션이 들어갈 수 있다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;entry : 전역 네임 스페이스에 필요 폴리필을 import 한다.&lt;/li&gt;
+&lt;li&gt;usage : 필요한 모듈 혹은 scope에 필요 폴리필을 import 한다.&lt;/li&gt;
+&lt;li&gt;false : 폴리필을 사용하지 않는다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;예전에 babel을 사용할 때는 무조건 폴리필이 전역에 import 되어 전역 네임스페이스를 더렵혔다.&lt;/p&gt;
+&lt;p&gt;만약, 프로덕트가 SDK로 다른 업체에 제공되는 프로덕트라고 가정해보자. SDK에서 폴리필이 전역 네임스페이스를 더럽히면, 다른 업체에서 사용하는 전역 변수와 겹칠 가능성이 생긴다. 아주 우연찮게 겹치게 되면 폴리필이 새로운 변수 혹은 함수로 대체되어 사용할 수 없게 되어버린다.&lt;/p&gt;
+&lt;p&gt;하지만, 필요한 곳에서 import해 사용하는 것이 아니라 전역에 폴리필을 깔면 필요한 부분을 찾을 비용이 들지 않기 때문에 퍼포먼스적으로 좋을 수 있다. usage를 사용하면, 필요한 모듈에 폴리필을 깔아준다.&lt;/p&gt;
+&lt;p&gt;참고 : &lt;a href=&quot;https://tech.kakao.com/2020/12/01/frontend-growth-02/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;Babel7과 corejs3 설정으로 전역 오염 없는 폴리필 사용하기&lt;/a&gt;, &lt;a href=&quot;https://so-so.dev/web/you-dont-know-polyfill/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;you don’t know polyfill&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;이제, webpack.common.js 파일에 babel-loader를 설정해주자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;module&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;rules&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token literal-property property&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token regex&quot;&gt;&lt;span class=&quot;token regex-delimiter&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;token regex-source language-regex&quot;&gt;\.js$&lt;/span&gt;&lt;span class=&quot;token regex-delimiter&quot;&gt;/&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token literal-property property&quot;&gt;exclude&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token regex&quot;&gt;&lt;span class=&quot;token regex-delimiter&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;token regex-source language-regex&quot;&gt;node_modules&lt;/span&gt;&lt;span class=&quot;token regex-delimiter&quot;&gt;/&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token literal-property property&quot;&gt;use&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;token literal-property property&quot;&gt;loader&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;babel-loader&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;token literal-property property&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;token literal-property property&quot;&gt;cacheDirectory&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;exclude : 제외할 폴더&lt;/li&gt;
+&lt;li&gt;options.cacheDirectory : 바벨 캐시 설정&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;이제 build를 해보면 .babelrc 파일에 설정된 target 브라우저에 맞게 트랜스파일링과 polyfilling이 된 것을 확인해볼 수 있다. 캐시 설정을 해주었는데, prettier와 마찬가지로 node_modules에 캐시가 생성된다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 596px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/cc478fc5e8ba6376d52451a262ca15c9/fe133/babel-cache.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 29.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAABYlAAAWJQFJUiTwAAAA7klEQVQY04WRy26DMBBF/SNpEMXg2iQ2YGwgMQ8pTVRllV26bD+g6/79reIAilCkLo7OlWY8I40JyytQ6xD2JyRFjTivkBTNnB+hmf0XIq0D7U+Ifn7B6w5p3SNtBu9l83LBM0ggJNZCQg9H6P6AcJOBKoNI6hmqSrxuc9x6A6FGllkiUgYk4BLrVKI7X7D/+MSKKTBdjUMKxJlBklu/aJUIvCTiuVmKSJYgNDOgyiLcFrh+bbA7loh1C2EduHHg9o6oWryZvbeoOnD76Ha+MZk+4ebrt0bzbsHMMD5s/S35ZNt6pnwf6Hyd6Z2/4R/+sLzzvDQNegAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;babel-cache&quot;
+        title=&quot;babel-cache&quot;
+        src=&quot;/static/cc478fc5e8ba6376d52451a262ca15c9/fe133/babel-cache.png&quot;
+        srcset=&quot;/static/cc478fc5e8ba6376d52451a262ca15c9/0eb09/babel-cache.png 500w,
+/static/cc478fc5e8ba6376d52451a262ca15c9/fe133/babel-cache.png 596w&quot;
+        sizes=&quot;(max-width: 596px) 100vw, 596px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;browserlist&quot; style=&quot;position:relative;&quot;&gt;browserlist&lt;a href=&quot;#browserlist&quot; aria-label=&quot;browserlist permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;브라우저 리스트는, 웹 개발에 필요한 라이브러리가 하위호환성을 참고할 때, 어떤 브라우저 기준으로 설정해야할지 지정할 수 있는 옵션이다. 우리는 babel의 target 브라우저는 .babelrc 파일에 설정했다. 하지만, &lt;code class=&quot;language-text&quot;&gt;.browserslistrc&lt;/code&gt; 파일을 만들어 제공해도 되고, package.json의 &lt;code class=&quot;language-text&quot;&gt;browserslist&lt;/code&gt; 를 통해 명시해줄 수 있다.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/browserslist/browserslist&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;browswerlist&lt;/a&gt;는 &lt;a href=&quot;https://caniuse.com/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;caniuse&lt;/a&gt;의 데이터를 참고한다. 웹 개발에 호환성 확인으로 빠질 수 없는 페이지다. 아래에서 postcss 설정을 할 것이기 때문에 .babelrc 파일의 target을 제거하고 package.json 파일에 담아보자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  (...)
+  &lt;span class=&quot;token property&quot;&gt;&quot;browserslist&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;token string&quot;&gt;&quot;ie 11&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token string&quot;&gt;&quot;chrome 111&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token string&quot;&gt;&quot;firefox 111&quot;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;last 2 versions 같은 값을 사용해 브라우저 별로 최근 2개의 버전까지 지원 가능하도록 만들 수도 있다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;postcss&quot; style=&quot;position:relative;&quot;&gt;postcss&lt;a href=&quot;#postcss&quot; aria-label=&quot;postcss permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;postcss는 css를 후처리 할 수 있도록 도와주는 패키지다. sass는 전처리이다. 빌드 시점에 sass를 css로 변환한다고 해서 ‘전처리’라는 이름이 붙었다. postcss의 경우는 완성된 css 파일에 추가적인 처리를 한다고 해서 ‘후처리’ 라는 이름이 붙었다. 마치 Webpack의 loader와 plugin같다. postcss는 여러 유용한 것을 제공하지만, Autoprefixer를 지원한다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 536px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/9da294abebc22c88c9847851079ef33a/e52bb/autoprefixer.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 81.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAACXBIWXMAABYlAAAWJQFJUiTwAAAC0ElEQVQ4y1WU63baOBSF8ySz0lUgQ4q5+irZsuUbYBsMAdJMZ6bT93+Jb5ZEIM2Pbcn+8ekc7e3zUEjNm16zjytW0iVMZzw6AcOFz3ARMJj7VmZv9NVofl3N+8isy/C6X4Y8zDyJHyQoVTGLYjytcYTmOUgYexJHZEyl5k8vZrwKmfuCZSBZ+IJnT1jIDWaBg2VoT1OHV+LmhaDake7PZP2FpH2h+esXun/FUTVhKDhVBess41Rqpqpm5MrPQPN4WkXIbY9XbAmrjrDeEZQtXr5FbHqCskE0RwYrgZQxuUrJlUKpjG9RZq/kA7iK7AlxcySsO+ZJYYFye8DNN0T1jnR3Rh/feHIlpVK2QrMmKsNR1WeggZl7SvcXVHeiPP9gKjT54Tvr13/Rl588LgQ6inipchqdoVPNWK15dFyG77C7KTeggZm21e6MXzQssjWTUFEWFasops4yVKwo02u7gSoYrYwpH/f3Gbg7v0MP6P7CsmgZLwMOhSaWCbGQFnqsCo5FxnrdMPIVo8VHu8Mb0MQi6V6I2+O1yu7ETG+YuqFtsUpTpnHBH1Pvri8zn4HJ6W8ymbRAkzljipFx1cRlVbRMgpgkzdG6wCsbm8tJmPDsm0xGTNyIb26EY1ZPMFz85rLJno1L1VmwgRp4/vKDYNOT7S/E2wP19/+Y1z3TMKHTGV2u+bUt6bqer668Vjj2Y7LeBPvAPCntPRpotN6RtEeiukO2J5682BqjVUqrNbXWTERmWzWF3YNt5OoN0XqPXzY2e8ZpE/JlWhNULeGmt65KIREyodUZeaYZi5zBzLtH52EwD21g8+ObNcS0nnQnCzOV1pd/7Ht9/ptF0eCEysIOZcEmVRTVlpEX391+WEqXSRAyV9V9EEyi1GbQ7I3M91mcMw4SOxDcQN4HxFSktvJ7sIVe4gQeXxzvPqo+6/37zLN/xfA2vt5H2G203Vr+HzBCGu4gYSTiAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;autoprefixer&quot;
+        title=&quot;autoprefixer&quot;
+        src=&quot;/static/9da294abebc22c88c9847851079ef33a/e52bb/autoprefixer.png&quot;
+        srcset=&quot;/static/9da294abebc22c88c9847851079ef33a/0eb09/autoprefixer.png 500w,
+/static/9da294abebc22c88c9847851079ef33a/e52bb/autoprefixer.png 536w&quot;
+        sizes=&quot;(max-width: 536px) 100vw, 536px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;-ms-flex&lt;/code&gt; 라는 prefix가 붙었다. 이는 브라우저마다 지원하는 vendor prefixer가 다르기 때문이다. css 코드 중 구 브라우저를 지원하기 위해 이런 prefix를 붙여주는 것이다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; i &lt;span class=&quot;token parameter variable&quot;&gt;-D&lt;/span&gt; postcss postcss-preset-env&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;postcss와 postcss-preset-env를 설치했다.&lt;/p&gt;
+&lt;p&gt;webpack.common.js 파일에 아래와 같이 작성하자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;const postcssPresetEnv = require(&apos;postcss-preset-env&apos;);
+
+(...)
+&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  test&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; /\.(sa|sc|c)ss$/&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  use&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+    &apos;style-loader&apos;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &apos;css-loader&apos;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      loader&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &apos;postcss-loader&apos;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      options&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        postcssOptions&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;token comment&quot;&gt;// autoprefix를 사용하기 위한 플러그인&lt;/span&gt;
+          plugins&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;postcssPresetEnv()&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &apos;sass-loader&apos;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;로더에 위와 같이 postcssPresetEnv 설정을 해주었다. postcss 설정을 생각보다 간단하다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;dependencies-vs-devDependencies&quot; style=&quot;position:relative;&quot;&gt;dependencies vs devDependencies&lt;a href=&quot;#dependencies-vs-devDependencies&quot; aria-label=&quot;dependencies vs devDependencies permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;npm으로 설치한 패키지들은 모두 &lt;code class=&quot;language-text&quot;&gt;-D&lt;/code&gt; 옵션을 붙여 package.json의 dependencies에 설치한 것이 아니라, devDependencies에 설치했다. &lt;code class=&quot;language-text&quot;&gt;-D&lt;/code&gt;옵션은 &lt;code class=&quot;language-text&quot;&gt;--save-dev&lt;/code&gt; 옵션을 주어 설치한 것과 동일하다. 만약, &lt;code class=&quot;language-text&quot;&gt;-D&lt;/code&gt; 옵션을 주지 않으면 dependencies에 설치된다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;dependencies : 프로덕션 환경에 필요한 어플리케이션에 필요한 패키지&lt;/li&gt;
+&lt;li&gt;devDependencies : 로컬 개발 환경에 필요한 패키지&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Webpack, ESLint, Babel 등 이번에 설치한 패키지들은 모두 로컬 개발환경에 필요한 패키지다. 만약 배포될 어플리케이션에 필요한 &lt;code class=&quot;language-text&quot;&gt;axios&lt;/code&gt; 같은 http 통신 라이브러리 같은 경우는 &lt;code class=&quot;language-text&quot;&gt;-D&lt;/code&gt; 옵션이 붙지 않은 dependencies에 설치되어야 할 것이다. dependencies에 설치된 패키지는 빌드할 때 코드가 함께 번들링 된다. 즉, dist 폴더에 소스코드가 함께 포함된다.&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;$ npm ci&lt;/code&gt; 를 실행하면, lock 파일에 설정된 패키지 버전을 명확하게 설치해준다. ci/cd 환경에서는 &lt;code class=&quot;language-text&quot;&gt;$ npm i&lt;/code&gt; 보다는 clean install을 사용해주도록 하자.&lt;/p&gt;
+&lt;br/&gt;
+&lt;hr&gt;
+&lt;p&gt;배포 환경을 고려해 Webpack으로 개발환경을 구성해보았다. Vite 같은 경우 사전 번들링을 esbuild로 사용하고, Native ESM을 이용해 브라우저에 제공한다고 한다. Webpack의 import 구문은 기본적으로 Native ESM이 아니다(Chunk가 나누어지면 ESM으로 사용할 수 있다). import 구문을 통해 Webpack은 하나의 결과물로 나타내기 때문이다.&lt;/p&gt;
+&lt;p&gt;당연히 Vite가 더 빠를 수 밖에 없을 것 같다. 다음 번엔 Vite에 대해서 알아보려고 한다. 모던 모듈 번들러가 생각보다 많은 처리를 하고 있고, 자동화를 하고 있다. 앞으로도 모듈 번들러가 해주는 역할은 크게 변할 것 같지는 않다.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[노드 버전 매니저 툴 비교기(nvm & fnm & Volta)]]></title><description><![CDATA[nvm & fnm & Volta 모두 Node.js의 버전을 관리하는 툴이다. 가장 먼저 nvm을 시작으로 Node.js 버전을 관리하다 fnm을 알게되었고, 추가로 Volta…]]></description><link>https://pozafly.github.io/node/node-version-manager/</link><guid isPermaLink="false">https://pozafly.github.io/node/node-version-manager/</guid><pubDate>Tue, 28 Mar 2023 00:00:00 GMT</pubDate><content:encoded>&lt;h1 id=&quot;nvm--fnm--Volta&quot; style=&quot;position:relative;&quot;&gt;nvm &amp;#x26; fnm &amp;#x26; Volta&lt;a href=&quot;#nvm--fnm--Volta&quot; aria-label=&quot;nvm  fnm  Volta permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;모두 Node.js의 버전을 관리하는 툴이다. 가장 먼저 nvm을 시작으로 Node.js 버전을 관리하다 fnm을 알게되었고, 추가로 Volta를 알게되어 세가지 툴의 속도 및 방식에 대해서 간략하게 알아본 정보를 정리해본다.&lt;/p&gt;
 &lt;h2 id=&quot;nvm&quot; style=&quot;position:relative;&quot;&gt;nvm&lt;a href=&quot;#nvm&quot; aria-label=&quot;nvm permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;먼저 nvm은 사용자별로 설치되고 shell 별로 호출되도록 설계된 node.js용 버전 관리자라고 한다. 즉 프로젝트 별로 생성 되었을 당시 기준으로 Node.js 버전을 관리하기 위해 탄생했다. Node.js를 업그레이드 하고 관리하는 가장 일반적인 방법이다.&lt;/p&gt;
