@@ -44,7 +44,7 @@ excerpt: 모던 프론트엔드 웹 개발에 필요한 세팅을 직접 해보�
 
 ## 모듈 번들러
 
-JavaScript에서의 **모듈(Module)**은, 코드의 scope를 가지는 단위다. ES5 이하는 코드의 변수 유효 범위는 함수 스코프였다. 하지만 ES6로 넘어오면서 블록 스코프로 변했다. 하지만 여전히 전역 단위의 스코를 사용할 수 있다. 코드가 거대해질 수록 전역에 선언된 변수가 겹치는 문제가 있었고, 이를 해결하기 위해 [IIFE](https://developer.mozilla.org/ko/docs/Glossary/IIFE)(즉시실행함수)를 이용해 코드의 유효 범위를 좁혔다.
+JavaScript에서의 **모듈(Module)** 은, 코드의 scope를 가지는 단위다. ES5 이하는 코드의 변수 유효 범위는 함수 스코프였다. 하지만 ES6로 넘어오면서 블록 스코프로 변했다. 하지만 여전히 전역 단위의 스코를 사용할 수 있다. 코드가 거대해질 수록 전역에 선언된 변수가 겹치는 문제가 있었고, 이를 해결하기 위해 [IIFE](https://developer.mozilla.org/ko/docs/Glossary/IIFE)(즉시실행함수)를 이용해 코드의 유효 범위를 좁혔다.
 
 ESM(ECMAScript Module)이 나오기 전에는 CJS(CommonJS), AMD(Asynchronous Module Definition)등의 모듈로 개발을 했었다고 한다. [이곳](https://beomy.github.io/tech/javascript/cjs-amd-umd-esm/)에서 CJS, AMD, ESM등의 모듈 관련 정보를 얻을 수 있다.
 
