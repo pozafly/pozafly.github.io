@@ -161,7 +161,7 @@ export default css`
     margin-left: -1.3125rem;
     margin-right: -1.3125rem;
     border-radius: 10px;
-    background: #011627;
+    background: rgb(32 36 39);
     -webkit-overflow-scrolling: touch;
     overflow: auto;
   }
