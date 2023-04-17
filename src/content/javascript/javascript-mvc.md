@@ -2,15 +2,14 @@
 layout: post
 title: 'JavaScript MVC 패턴으로 만드는 SPA'
 author: [Pozafly]
-tags:
-	- JavaScript
+tags: [JavaScript, Design Pattern]
 date: '2023-04-17'
 image: ../img/javascript/javascriptMvc/javascriptMvc.jpg
 draft: false
 excerpt: 모던 JavaScript 프레임워크 없이 MVC 패턴으로 SPA을 만들어보자
 ---
 
-모던 JavaScript 프레임워크는 거대한 패턴을 따른다. 예전부터 사용되어온 MVC 패턴을 JavaScript에서 구현해보면서 모던 프레임워크를 사용할 때 MVC의 어떤 어려운 점을 해결했는지 간접적으로 알아보자.
+모던 JavaScript 프레임워크는 여러 패턴을 따른다. MVVM 패턴, Flux 패턴, Component 패턴 등. 다양한 문제를 해결하기 위해 다양한 패턴이 생겨났다. 이번에는 예전부터 사용되어온 MVC 패턴을 JavaScript에서 구현해보면서 모던 JavaScript 프레임워크를 사용할 때 MVC의 어떤 어려운 점을 해결했는지 간접적으로 알아보자.
 
 아래의 글은, 기본적인 JavaScript 지식이 있는 사람, react or Vue.js를 사용해본 사람이 읽기 편하다.
 
@@ -355,7 +354,7 @@ export const getHasPrefixList = (prefix, names = []) =>
 
 prefix와 이름이 담긴 배열을 넘겨주면 prefix가 존재하는 배열만 골라 return 해주는 util 함수다.
 
-```js
+```js{6}
 // eventUtils.js
 import { getHasPrefixList } from './stringUtils.js';
 
@@ -371,9 +370,9 @@ export const bindingMethods = (instance, prefix) => {
 };
 ```
 
-Controller에서 사용할 bindingMethods다. 이곳에 class instance를 넘겨주고, prefix를 넘겨주면, class에 선언된 프로토타입 메서드 중 prefix가 있는 메서드를 골라내어 `.bind(this)` 를 해주는 유틸 함수다. 이걸 이제 Controller에서 사용해보자.
+Controller에서 사용할 bindingMethods다. 위에서 선언한 `getHasPrefixList` 메서드가 6번째 줄에서 사용되었다. 이제 이 함수에 class instance를 넘겨주고, prefix를 넘겨주면, class에 선언된 프로토타입 메서드 중 prefix가 있는 메서드를 골라내어 `.bind(this)` 를 해주는 유틸 함수다. 이걸 이제 Controller에서 사용해보자.
 
-```js
+```js{13}
 import { bindingMethods } from './utils/eventUtils.js';
 
 export default class Controller {
