@@ -100,7 +100,7 @@ const AuthorListItemLi = styled.li`
 
   :hover .author-name-tooltip {
     opacity: 1;
-    transform: translateY(0px);
+    transform: translate(-10px, -2px);
   }
 `;
 
@@ -120,7 +120,7 @@ const AuthorNameTooltip = styled.div`
   box-shadow: rgba(39, 44, 49, 0.08) 0 12px 26px, rgba(39, 44, 49, 0.03) 1px 3px 8px;
   opacity: 0;
   transition: all 0.35s cubic-bezier(0.4, 0.01, 0.165, 0.99);
-  transform: translateY(6px);
+  transform: translate(-10px, 6px);
   pointer-events: none;
 
   @media (max-width: 700px) {
