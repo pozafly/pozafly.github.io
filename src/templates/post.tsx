@@ -432,11 +432,13 @@ const PostFullImage = styled.figure`
 
   @media (max-width: 800px) {
     width: 100%;
-    height: 400px;
   }
   @media (max-width: 500px) {
     margin-bottom: 4vw;
-    height: 350px;
+  }
+  border: 1px solid hsl(230deg 25% 94%);
+  @media (prefers-color-scheme: dark) {
+    border: 1px solid hsl(230deg 6% 23%);
   }
 `;
 
