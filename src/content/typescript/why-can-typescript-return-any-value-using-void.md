@@ -7,7 +7,7 @@ tags:
 date: '2023-05-09'
 image: ../img/typescript/why-can-typescript-return-any-value-using-void/main.jpg
 draft: false
-excerpt: TypeScrip void 타입을 조금 더 알아보기.
+excerpt: TypeScript void 타입을 조금 더 알아보기.
 
 ---
 
@@ -275,7 +275,7 @@ myString = 'something'; // 성공
 
 void와 같이 어떨 때는 값을 반환해도 오류가 발생하지 않고, 어떨 때는 발생하는 지점이 있다. 이는 JavaScript의 기존 동작을 헤치지 않고 타입을 보장해주어야 하기 때문인데, TypeScript에서 이런 부분이 꽤나 많다. 예를 들면, 잉여 타입 체크라는 개념도 이와 비슷하다.
 
-void 반환 타입을 사용했는데 값을 반환 했음에도 타입 오류가 나지 않는다면, 당황하지 않고 고쳐주도록 하자.
+void 반환 타입을 사용했는데 값을 반환 했음에도 타입 오류가 나지 않는다면 void 선언 위치를 잘 살펴보자.
 
 > 참고
 >
