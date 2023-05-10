@@ -2,13 +2,11 @@
 layout: post
 title: '왜 TypeScript는 void 타입을 사용해도 값을 return 할 수 있을까?'
 author: [Pozafly]
-tags:
-	- TypeScript
+tags: [TypeScript]
 date: '2023-05-09'
 image: ../img/typescript/why-can-typescript-return-any-value-using-void/main.jpg
 draft: false
 excerpt: TypeScript void 타입을 조금 더 알아보기.
-
 ---
 
 ## void의 기본 선언 방식

@@ -2,7 +2,7 @@
 layout: post
 title: 'Webpack5 JavaScript 보일러플레이트 만들기'
 author: [Pozafly]
-tags: [Webpack, Bundler, Tool]
+tags: [Webpack, Bundler, Environment]
 image: ../img/environment/webpack-boilerplate/main.png
 date: '2023-04-05'
 draft: false

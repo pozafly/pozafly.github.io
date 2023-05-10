@@ -2,13 +2,11 @@
 layout: post
 title: 'TypeScript의 기본개념과 환경설정'
 author: [Pozafly]
-tags:
-	- TypeScript
+tags: [TypeScript, Environment]
 date: '2023-05-05'
 image: ../img/typescript/typescript-env/main.png
 draft: false
 excerpt: TypeScript 환경설정을 통해 웹 환경 추세를 알아보자. (feat. allowImportingTsExtensions)
-
 ---
 
 TypeScript를 사용해 개발 하는 단계는 크게 3가지로 나눌 수 있다.
