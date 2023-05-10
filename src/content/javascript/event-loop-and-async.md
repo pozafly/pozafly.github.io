@@ -5,7 +5,7 @@ author: [Pozafly]
 tags:
 	- JavaScript
 date: '2023-02-16'
-image: ../img/javascript/eventLoopAndAsync/blocking.jpeg
+image: ../img/javascript/eventLoopAndAsync/main.jpg
 draft: false
 excerpt: 
 ---
@@ -57,7 +57,7 @@ JavaScript 엔진에는 **Memory Heap**과 **Call Stack**이 있다.
 
 ## Run-to-Completion
 
-자바스크립트 함수의 특징이 있다. 하나의 함수가 실행되면 함수의 실행이 끝날 때까지 다른 작업이 중간에 끼어들지 못한다. 자바스크립트는 하나의 Call  Stack을 사용하기 때문이다.
+자바스크립트 함수의 특징이 있다. 하나의 함수가 실행되면 함수의 실행이 끝날 때까지 다른 작업이 중간에 끼어들지 못한다. 자바스크립트는 하나의 Call Stack을 사용하기 때문이다.
 
 ![03](../img/javascript/eventLoopAndAsync/3.png)
 
@@ -114,19 +114,19 @@ baz();
 
 ```js
 function delay() {
-    for (var i = 0; i < 100000; i++);
+  for (var i = 0; i < 100000; i++);
 }
 function foo() {
-    delay();
-    bar();
-    console.log('foo!'); // (3)
+  delay();
+  bar();
+  console.log('foo!'); // (3)
 }
 function bar() {
-    delay();
-    console.log('bar!'); // (2)
+  delay();
+  console.log('bar!'); // (2)
 }
 function baz() {
-    console.log('baz!'); // (4)
+  console.log('baz!'); // (4)
 }
 
 setTimeout(baz, 10); // (1)
@@ -157,7 +157,7 @@ console.log('B');
 
 ```js
 const button = document.querySelector('button');
-button.addEventListener(function() {
+button.addEventListener(function () {
   showWaitingMessage();
   longTakingProcess();
   hideWaitingMessage();
@@ -171,12 +171,12 @@ addEventListener 함수도 마찬가지로 Web API이며 비동기로 동작한�
 
 ```js
 const button = document.querySelector('button');
-button.addEventListener(function() {
+button.addEventListener(function () {
   showWaitingMessage();
   setTimeout(() => {
     longTakingProcess();
     hideWaitingMessage();
-    showResult();    
+    showResult();
   }, 0);
 });
 ```
@@ -208,7 +208,7 @@ Promise는 콜백함수를 받는데, 콜백 함수의 첫번째 인자로 `reso
 ```js
 function getImage(file) {
   return new Promise((resolve, reject) => {
-  try {
+    try {
       const data = readFile(file);
       resolve(data);
     } catch {
@@ -222,9 +222,9 @@ function getImage(file) {
 
 ```js
 getImage(file)
- .then(data => console.log(data))
- .catch(error => console.log(error))
- .finally(() => console.log('Done!'));
+  .then(data => console.log(data))
+  .catch(error => console.log(error))
+  .finally(() => console.log('Done!'));
 ```
 
 이렇게 처리해줄 수 있다.
@@ -236,14 +236,19 @@ getImage(file)
 아래 코드를 실행해보면 어떤 순서로 찍힐까?
 
 ```js
-setTimeout(function() { // (A)
-    console.log('A');
+setTimeout(function () {
+  // (A)
+  console.log('A');
 }, 0);
-Promise.resolve().then(function() { // (B)
+Promise.resolve()
+  .then(function () {
+    // (B)
     console.log('B');
-}).then(function() { // (C)
+  })
+  .then(function () {
+    // (C)
     console.log('C');
-});
+  });
 ```
 
 Promise도 비동기로 실행되니까 Task Queue에 추가되어 순서대로 A -> B -> C로 찍힐까? 아니다 답은, B -> C -> A다. 이유는 바로 Promise가 MicroTask Queue를 사용하기 때문이다.
@@ -265,8 +270,7 @@ setTimeout(() => {
   console.log('Timeout!');
 }, 0);
 
-Promise.resolve('Promise!')
- .then(res => console.log(res));
+Promise.resolve('Promise!').then(res => console.log(res));
 
 console.log('End!');
 ```
@@ -299,7 +303,7 @@ Promise.resolve('Hello!');
 // 위 코드는 아래 코드와 같다.
 
 async function greet() {
- return 'Hello!'
+  return 'Hello!';
 }
 ```
 
@@ -326,9 +330,9 @@ console.log('After function!');
 
 Before function!이 실행되었고, myFunc 함수 내부의 In function!이 먼저 찍혔다.
 
- ![18](../img/javascript/eventLoopAndAsync/18.gif)
+![18](../img/javascript/eventLoopAndAsync/18.gif)
 
-이제 위 사진처럼 `myFunc`가 실행된다. `myFunc` 첫째줄의 console이 찍힌다. `myFunc`가 Call Stack에 들어갔지만 `one` 함수를 만나 `myFunc`을 제거하기 전에  `one`이 Call Stack에 담겼다.
+이제 위 사진처럼 `myFunc`가 실행된다. `myFunc` 첫째줄의 console이 찍힌다. `myFunc`가 Call Stack에 들어갔지만 `one` 함수를 만나 `myFunc`을 제거하기 전에 `one`이 Call Stack에 담겼다.
 
 ![19](../img/javascript/eventLoopAndAsync/19.gif)
 
@@ -351,31 +355,30 @@ Before function!이 실행되었고, myFunc 함수 내부의 In function!이 먼
 
 ```js
 function a() {
-    console.log('a1');
-    b();
-    console.log('a2');
+  console.log('a1');
+  b();
+  console.log('a2');
 }
 
 function b() {
-    console.log('b1');
-    c();
-    console.log('b2');
+  console.log('b1');
+  c();
+  console.log('b2');
 }
-  
+
 async function c() {
-    console.log('c1');
-    setTimeout(() => console.log('setTimeout'), 0);
-    await d();
-    console.log('c2');
+  console.log('c1');
+  setTimeout(() => console.log('setTimeout'), 0);
+  await d();
+  console.log('c2');
 }
 
 function d() {
-    return new Promise(resolve => {
-      console.log('d1');
-      resolve();
-      console.log('d2');
-    })
-    .then(() => console.log('then!'));
+  return new Promise(resolve => {
+    console.log('d1');
+    resolve();
+    console.log('d2');
+  }).then(() => console.log('then!'));
 }
 
 a();
