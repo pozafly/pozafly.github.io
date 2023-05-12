@@ -145,7 +145,7 @@ target.forEach(el => result.push(el));
 push(...items: T[]): number;
 ```
 
-그렇다면, 살펴 보았던 `target.forEach(el => result.push(el));` 이 코드의 forEach 메서드는 콜백 함수의 타입은 `number` 로 고정되어야 하는 것이 맞다. 그러면, `lib.es5.d.ts` 파일에 forEach는 어떻게 정의되어 있는지 확인해보자.
+그렇다면, 살펴 보았던 `target.forEach(el => result.push(el));` 이 코드의 forEach 메서드는 콜백 함수의 타입은 `number` 가 되어야 하는 것이 맞다. `lib.es5.d.ts` 파일에 forEach는 어떻게 정의되어 있는지 확인해보자.
 
 ```ts
 /**
@@ -218,9 +218,9 @@ console.log(Array.from(newArr));
 - forEach 함수 내부의 콜백 함수의 반환 타입 void : 값을 반환할 수 있다.
 - forEach 함수 자체의 반환 타입 void : 값을 반환할 수 없다.(undefined만 가능)
 
-왜 TypeScript에서 void 반환 타입을 사용해도, 값을 반환할 수 있도록 해두었을까? 생각해보면, TypeScript는 JavaScript를 문제 없이 구현하기 위해 void 반환 타입에 예외를 둔 것이다. JavaScript에서 forEach 메서드는 아주 흔하게 사용되는 메서드이고, 인자로 받는 콜백 함수는 어떤 값도 반환하면 안된다.
+왜 TypeScript에서 void 반환 타입을 사용해도, 값을 반환할 수 있도록 해두었을까? TypeScript의 타입 시스템은 **JavaScript의 런타임 동작을 모델링**하는 타입 시스템을 갖고 있다. 따라서, TypeScript는 JavaScript를 문제 없이 구현하기 위해 void 반환 타입에 예외를 둔 것이다. JavaScript에서 forEach 메서드는 아주 흔하게 사용되는 메서드이고, 인자로 받는 콜백 함수는 어떤 값도 반환하면 안된다.
 
-하지만, 콜백함수가 어떤 값을 반환한다면 그 함수는 사용할 수 없는 함수인가? JavaScript에서는 아니다. 따라서 JavaScript와의 호환성 때문에 TypeScript는 이런 결정을 한 것으로 추측해볼 수 있다.
+하지만, 콜백함수가 어떤 값을 반환한다면 그 함수는 사용할 수 없는 함수인가? 반드시 반환 값이 없는 함수만 콜백함수로 이용되어야 하는가? JavaScript에서는 아니다. 따라서 JavaScript와의 호환성 때문에 TypeScript는 이런 결정을 한 것으로 추측해볼 수 있다.
 
 콜백 함수를 단순화 해서 살펴보면 아래와 같다.
 
@@ -236,7 +236,18 @@ callbackWrapper(() => {
 1. 타입으로 분리되지 않은 함수 자체에 붙어 있는 void 값은 return 값이 존재하면 안된다.
 2. 타입으로 분리되거나 타입이 선언과 할당이 따로 나뉘어 있는 void 값은 값이 존재해도 된다.
 
-이는, class에서 경우가 조금 다르다.
+쉽게 코드 형태로 보면 아래와 같다.
+
+```ts{2}
+function fn(): void {
+  return 'a'; // 👾error! : 'string' 형식은 'void' 형식에 할당할 수 없습니다.
+}
+const fn2: () => void = () => {
+  return 'a'; // 성공
+};
+```
+
+즉, `: void` 구문은 반드시 return 값이 존재하면 안되고, `() => void` 구문은 return이 존재해도 된다. class 에서도 마찬가지 규칙이 적용된다.
 
 ### class에서의 void
 
@@ -265,8 +276,8 @@ class MyClass {
 
 인스턴스 메서드만 값을 반환해도 사용할 수 있다. 인스턴스 메서드를 선언하고, 할당하는 형태가 마치 '**함수 표현식**'과 비슷하게 생겼다. 타이핑 형태의 차이점은 아래와 같다.
 
-- 인스턴스 메서드는 필드에서 타입이 선언 되었고, 할당 될 때 그 타입을 **따른다**.
-- 프로토타입, 스태틱 메서드는 선언과 동시에 그 자리에 반환 타입이 **선언 되었다**.
+- 인스턴스 메서드는 필드에서 타입이 선언 되었고, `() => void` 구문이 사용되었기 때문에 값을 반환할 수 **있다**.
+- 프로토타입, 스태틱 메서드는 `: void` 구문이 사용되었기 때문에 값을 반환할 수 **없다**.
 
 
 
