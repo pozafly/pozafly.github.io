@@ -1,21 +1,21 @@
 ---
 layout: post
-title: 'React는 Hook을 배열로 관리하고 있다'
+title: 'React는 Hooks를 배열로 관리하고 있다'
 author: [Pozafly]
 tags: [React]
 date: '2023-05-27'
-image: ../img/react/react-is-managing-hook-as-an-array/main.jpg
+image: ../img/react/react-is-managing-hooks-as-an-array/main.jpg
 draft: false
-excerpt: 왜 Hook에 이런 제약 조건을 걸었을까? React 내부에서 Hook을 어떻게 처리하고 있는지, 이렇게 디자인 된 이유는 무엇인지 알아보자.
+excerpt: 왜 Hooks에 이런 제약 조건을 걸었을까? React 내부에서 Hooks를 어떻게 처리하고 있는지, 이렇게 디자인 된 이유는 무엇인지 알아보자.
 ---
 
-React는 Hook을 배열(`Linked List`)로 관리하고 있다. 이는 Hook를 관리하고 있는 배열에 index로 접근할 수 있다는 뜻이며, 이는 호출 순서에 의존하고 있다는 뜻이다. (아래에서 예시로 든 코드는 보기 쉽게 Linked List가 아닌 배열 형태로 표현했다)
+React는 Hooks을 배열(`Linked List`)로 관리하고 있다. 이는 Hooks를 관리하고 있는 배열에 index로 접근할 수 있다는 뜻이며, 이는 호출 순서에 의존하고 있다는 뜻이다. (아래에서 예시로 든 코드는 보기 쉽게 Linked List가 아닌 배열 형태로 표현했다)
 
-[공식문서 - 첫 번째 훅 만나기](https://react-ko.dev/learn/state-a-components-memory#meet-your-first-hook)에 따르면, Hook은 '컴포넌트의 최상위 레벨' 또는 커스텀 훅에서만 호출할 수 있다고 한다. 조건문, 반복문 또는 기타 중첩된 함수 내부에서는 훅을 호출할 수 없다고 한다. React는 JavaScript라는 말을 들었다. 매직이 없다는 뜻이다.
+[공식문서 - 첫 번째 훅 만나기](https://react-ko.dev/learn/state-a-components-memory#meet-your-first-hook)에 따르면, Hooks는 '컴포넌트의 최상위 레벨' 또는 커스텀 훅에서만 호출할 수 있다고 한다. 조건문, 반복문 또는 기타 중첩된 함수 내부에서는 훅을 호출할 수 없다고 한다. React는 JavaScript라는 말을 들었다. 매직이 없다는 뜻이다.
 
-하지만, 왜 Hook에 이런 제약 조건을 걸었을까? 상태 값을 조건을 통해 생성하고 싶을 때도 있고, 반복문으로 필요한 데이터를 그때 그때 선언해 사용하면 편리하지 않을까? 그렇다면 매직이 있다는 뜻인가?
+하지만, 왜 Hooks에 이런 제약 조건을 걸었을까? 상태 값을 조건을 통해 생성하고 싶을 때도 있고, 반복문으로 필요한 데이터를 그때 그때 선언해 사용하면 편리하지 않을까? 그렇다면 매직이 있다는 뜻인가?
 
-먼저 Hook이 어떤 방식으로 동작하는지 알아보자.
+먼저 Hooks가 어떤 방식으로 동작하는지 알아보자.
 
 ```jsx
 function App() {
@@ -59,7 +59,7 @@ function App() {
 }
 ```
 
-React에서 Hook을 조건문에 넣지 말라고 했지만, 조건에 따라 넣었다. 상태 값 관리 배열을 만들어보면,
+React에서 Hooks를 조건문에 넣지 말라고 했지만, 조건에 따라 넣었다. 상태 값 관리 배열을 만들어보면,
 
 ```js{3}
 // 임의 상태 값 관리 배열
@@ -85,7 +85,7 @@ React에서 state는 컴포넌트가 리렌더링 한 후에도 변수를 '기�
 
 물론 `App()` 컴포넌트에서 사용자 이벤트가 일어났을 경우에 런타임 에러가 발생하며 실행은 되지 않는다.
 
-이렇게 임의 상태 값 관리 배열을 만들어보면서 React가 Hook을 어떤 방식으로 배열로 다루고 있는지를 봤을 뿐이다. 그렇다면 왜 React는 Hook을 배열로 다루고 있을까?
+이렇게 임의 상태 값 관리 배열을 만들어보면서 React가 Hooks를 어떤 방식으로 배열로 다루고 있는지를 봤을 뿐이다. 그렇다면 왜 React는 Hooks를 배열로 다루고 있을까?
 
 <br/>
 
@@ -109,7 +109,7 @@ useState의 첫번째 인자로 상태 값을 가리키는 고유 식별자 이�
 
 <br/>
 
-## 동일한 Hook을 두 번 호출할 수 없다.
+## 동일한 Hooks를 두 번 호출할 수 없다
 
 만약 위에서 발생한 식별자 자체를 `Symbol`로 만들면 어떨까? 그렇다면 첫 번째 인자로 이름을 계속 줄 필요는 없으며, 각 useState마다 충돌할 수 없을 것이다.
 
@@ -176,7 +176,7 @@ export default function Component() {
 
 그리고 매번 이름을 정확하게 만들어야 한다. useNameFormInput, useSurnameFormInput로 말이다.
 
-근데 위 코드를 다시 한번 보자. Component 내부에서 사용한 사용자 정의 Hook은, `useSurnameFormInput` 이 녀석이 빠져있다. 실수로 `useNameFormInput` 를 두번 선언한 것이다. 즉, 개발자가 커스텀 Hook을 호출하기 위해 이름을 잘못 부른 것이다.
+근데 위 코드를 다시 한번 보자. Component 내부에서 사용한 커스텀 Hook, `useSurnameFormInput` 이 녀석이 빠져있다. `const surname = useNameFormInput();` 코드를 보라. 실수로 `useNameFormInput` 를 두번 선언한 것이다. 즉, 개발자가 커스텀 Hook을 호출하기 위해 이름을 잘못 부른 것이다.
 
 이렇게 Wrapper 함수를 두어 이름 변수를 격리시킨다면 이름 자체가 생겨 구분하기는 쉬워지지만, 연속해서 편리하게 호출할 수 없는 불편함이 생긴다.
 
@@ -194,7 +194,7 @@ class C extends A, B {}; // Error! 클래스는 단일 클래스만 확장할 �
 
 다중 상속이 가능한 언어가 있는데, 다중 상속에는 다이아몬드 문제가 존재한다.
 
-![diamond-problem](../img/react/react-is-managing-hook-as-an-array/diamond-problem.png)
+![diamond-problem](../img/react/react-is-managing-hooks-as-an-array/diamond-problem.png)
 
 사진과 같이 B, C가 A로부터 상속되고, D가 B, C로 부터 상속받을 경우 어떤 속성이 상속되었는지, 어떤 필드가 존재하는지 모호해지는 경우다.
 
@@ -243,7 +243,7 @@ React에서는 커스텀 Hook과, HoC로, Vue에서는 Composition API를 통해
 
 커스텀 Hook에서 상태 값은 React 내부의 배열로 다루어지며 호출 순서에 의존하고 있다. 따라서, 어디에서 어떻게 호출하든지 간에 다이아몬드 문제(이름 충돌)를 신경쓸 필요가 없다. 커스텀 Hook 내부에서 선언한 값은 그 자체로 context를 가지기 때문(렉시컬 스코프를 가짐)에 다른 이름과 상관 없이 커스텀 훅 안에서 편안하게 사용할 수 있다.
 
-상태 값(Hook)이 배열로 다루어지지 않았다면, 커스텀 Hook에서 사용한 상태 값 이름이 컴포넌트에 있는 hook과 겹치지 않을지, 다이아몬드 문제가 있지 않을지 조심해서 작성해야 했을 것이다. 과거 Mixin이 그랬듯.
+상태 값(Hooks)이 배열로 다루어지지 않았다면, 커스텀 Hook에서 사용한 상태 값 이름이 컴포넌트에 있는 hook과 겹치지 않을지, 다이아몬드 문제가 있지 않을지 조심해서 작성해야 했을 것이다. 과거 Mixin이 그랬듯.
 
 <br/>
 
@@ -301,14 +301,14 @@ function Counter(props) {
 
 <br/>
 
-## Hook 간에 값을 전달할 수 없음
+## Hooks 간에 값을 전달할 수 없음
 
 ```js
 const [value, setValue] = useState(1);
 const state = useCustomHook(value); // state값 전달
 ```
 
-Hook을 호출 순서에 따라 동작하도록 만들면 연쇄적인 반응이 가능해진다. 예를 들어, [React Spring을](https://medium.com/@drcmda/hooks-in-react-spring-a-tutorial-c6c436ad7ee4) 사용하면 서로 연쇄되는 여러 값의 애니메이션을 만들 수 있다.
+Hooks 호출 순서에 따라 동작하도록 만들면 연쇄적인 반응이 가능해진다. 예를 들어, [React Spring을](https://medium.com/@drcmda/hooks-in-react-spring-a-tutorial-c6c436ad7ee4) 사용하면 서로 연쇄되는 여러 값의 애니메이션을 만들 수 있다.
 
 ```jsx
 const [{ pos1 }, set] = useSpring({ pos1: [0, 0], config: fast });
@@ -316,15 +316,15 @@ const [{ pos2 }] = useSpring({ pos2: pos1, config: slow });
 const [{ pos3 }] = useSpring({ pos3: pos2, config: slow });
 ```
 
-Hook 초기화(구분할 수 있는 key)를 인자로 넣게 되면 이렇게 서로 연쇄되는 동작을 할 수 없다.
+Hooks 초기화(구분할 수 있는 key)를 인자로 넣게 되면 이렇게 서로 연쇄되는 동작을 할 수 없다.
 
 ---
 
-이렇게 React Hook이 왜 배열로 만들어져 있는지를 알아봤다. 또한, 왜 호출 순서에 의존적이도록 구현되어있는지도 알 수 있었다.
+이렇게 React Hooks가 왜 배열로 만들어져 있는지를 알아봤다. 또한, 왜 호출 순서에 의존적이도록 구현되어있는지도 알 수 있었다.
 
-이 글은 5년전 작성된 Dan Abramov의 글을 일부 재편집 해서 작성했다. 꽤 오래전 작성된 글이지만, 궁금증을 해소하기에는 충분했다. 그러면서 어떻게 React가 문제를 해결해왔는지 방향성을 살짝 알아볼 수 있었다. 웃긴 것은 Hook의 매커니즘을 옹호하면서 Hook에 제약조건을 걸 수밖에 없는 것을 짜증 섞인 말투로 이야기하고 있다. 아마 많은 사람이 Hook의 제약조건에 대해 의구심을 품고, 질문과 함께 추가적인 해결책을 제시했나보다.
+이 글은 5년전 작성된 Dan Abramov의 글을 일부 재편집 해서 작성했다. 꽤 오래전 작성된 글이지만, 궁금증을 해소하기에는 충분했다. 그러면서 어떻게 React가 문제를 해결해왔는지 방향성을 살짝 알아볼 수 있었다. 웃긴 것은 Hooks의 매커니즘을 옹호하면서 Hooks에 제약조건을 걸 수밖에 없는 것을 짜증 섞인 말투로 이야기하고 있다. 아마 많은 사람들이 Hooks의 제약조건에 대해 의구심을 품고, 질문과 함께 추가적인 해결책을 제시했나보다.
 
-React가 인기를 끈 것은 최대한 '매직'이 없기 때문이었다. [이글](https://medium.com/@dan_abramov/making-sense-of-react-hooks-fdbde8803889)에 보면 Hook이 아래와 같은 코드(실제 코드는 아님)로 Hook의 구조를 설명하고 있다. Hook은 매직이 아니라는 것도 강조하면서.
+React가 인기를 끈 것은 최대한 '매직'이 없기 때문이었다. [이글](https://medium.com/@dan_abramov/making-sense-of-react-hooks-fdbde8803889)에 보면 Hooks에 아래와 같은 코드(실제 코드는 아님)로 Hooks의 구조를 설명하고 있다. Hooks가 매직이 아니라는 것도 강조하면서.
 
 ```js
 let hooks = null;
@@ -351,9 +351,9 @@ function reactsInternalRenderAComponentMethod(component) {
 - [`forwordRef`](https://react-ko.dev/reference/react/forwardRef)를 감싸주어 사용자가 만든 컴포넌트에 ref를 달 때 명시적으로 달 수 있도록 처리했다.
   - JSX에서 컴포넌트 자체에 ref가 달리면 React가 알아서 처리하게 할 수도 있었다.
 
-위 내용은 내가 느낀 것이지, 주장하고 싶은 것은 아니다. React가 인기를 얻을 수 있었던 철학에 반해 보이는 제약 조건이 궁금했다. 단순하게 생각했을 때, 생성 된 Hook을 객체로 다루면 key로 쉽게 구분할 수 있으며 필요할 때 뽑아오기 좋을 것 같다고 생각했는데, 꽤 많은 이유가 있었다.
+위 내용은 내가 느낀 것이지, 주장하고 싶은 것은 아니다. React가 인기를 얻을 수 있었던 철학에 반해 보이는 제약 조건이 궁금했다. 단순하게 생각했을 때, 생성 된 Hooks를 객체로 다루면 key로 쉽게 구분할 수 있으며 필요할 때 뽑아오기 좋을 것 같다고 생각했는데, 꽤 많은 이유가 있었다.
 
-그리고 문서에서는 커스텀 Hook을 매우 강조하고 있는데, 많은 제안들이 커스텀 Hook에 대해 간과한 제안을 했고 React에서 정말 중요하게 생각하는 것이 커스텀 Hook을 통한 코드 재사용성을 강조하고 있다.
+그리고 문서에서는 커스텀 Hooks를 매우 강조하고 있는데, 많은 제안들이 커스텀 Hook에 대해 간과한 제안을 했고 React에서 정말 중요하게 생각하는 것이 커스텀 Hook을 통한 코드 재사용성을 강조하고 있다.
 
 > 참고
 >
