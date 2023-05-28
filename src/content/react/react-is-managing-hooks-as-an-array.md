@@ -239,8 +239,6 @@ new C('st').sayHello(); // hello
 
 React Mixin은 위와 [동일한 문제](https://legacy.reactjs.org/blog/2016/07/13/mixins-considered-harmful.html#mixins-cause-name-clashes)를 겪었다. React의 Mixin은 라이프 사이클 메서드나, 메서드를 상속한 것처럼 재사용할 수 있다. 또한, Vue에서도 마찬가지다. [Vue Mixin](https://vuejs.org/api/options-composition.html#mixins) 공식 문서에서도 권장되지 않는다고 나와 있다. 이름 겹침 문제 뿐아니라 실제로 사용했을 경우, 한 파일 내부에서 어떤 메서드가 어떤 방식으로 호출되고 있는지, 어떤 상태 값을 변경했는지 잊어버리거나 디버깅 하기가 무척 어려웠다.
 
-React에서는 커스텀 Hook과, HoC로, Vue에서는 Composition API를 통해 이 문제를 해결했다. -> 정확하지 않음. HoC 검증 필요.
-
 커스텀 Hook에서 상태 값은 React 내부의 배열로 다루어지며 호출 순서에 의존하고 있다. 따라서, 어디에서 어떻게 호출하든지 간에 다이아몬드 문제(이름 충돌)를 신경쓸 필요가 없다. 커스텀 Hook 내부에서 선언한 값은 그 자체로 context를 가지기 때문(렉시컬 스코프를 가짐)에 다른 이름과 상관 없이 커스텀 훅 안에서 편안하게 사용할 수 있다.
 
 상태 값(Hooks)이 배열로 다루어지지 않았다면, 커스텀 Hook에서 사용한 상태 값 이름이 컴포넌트에 있는 hook과 겹치지 않을지, 다이아몬드 문제가 있지 않을지 조심해서 작성해야 했을 것이다. 과거 Mixin이 그랬듯.
@@ -267,7 +265,7 @@ function Counter(props) {
 
 useEffect를 넣어보자.
 
-```jsx{4-6}
+```jsx{4-7}
 function Counter(props) {
   if (props.isActive) {
     const [count, setCount] = useState('count');
@@ -290,7 +288,6 @@ function Counter(props) {
 ```jsx
 function Counter(props) {
   if (props.isActive) {
-    // Clearly has its own state
     return <TickingCounter />;
   }
   return null;
@@ -347,8 +344,8 @@ function reactsInternalRenderAComponentMethod(component) {
 
 - `useEffect` 의 의존성 배열에 어떤 값이 들어가야 하는지 이미 알고 있지만, 개발자가 직접 넣도록 해줘야 한다는 점이다. useEffect 함수의 콜백에서 사용되는 상태 값 혹은 prop 값이 의존성 배열에 들어있지 않으면 lint로 알려준다.
   - lint로 알려줄 수 있다면 이는 자동화 할 수 있다는 의미이며 React에서 굳이 개발자로 하여금 의존성 배열을 넣도록 했다.
-  - 물론, 개발자가 의도적으로 리렌더링 되지 않도록 의존성 배열에서 값을 배재시킬 수는 있지만, 실험적 API인, [`useEffectEvent`](https://react-ko.dev/learn/separating-events-from-effects#declaring-an-effect-event)를 사용하면 곧 해결 된다.
-- [`forwordRef`](https://react-ko.dev/reference/react/forwardRef)를 감싸주어 사용자가 만든 컴포넌트에 ref를 달 때 명시적으로 달 수 있도록 처리했다.
+  - 물론, 개발자가 의도적으로 리렌더링 되지 않도록 의존성 배열에서 값을 배재시킬 수는 있지만, 실험적 API인, [useEffectEvent](https://react-ko.dev/learn/separating-events-from-effects#declaring-an-effect-event)를 사용하면 곧 해결 된다.
+- [forwordRef](https://react-ko.dev/reference/react/forwardRef)를 감싸주어 사용자가 만든 컴포넌트에 ref를 달 때 명시적으로 달 수 있도록 처리했다.
   - JSX에서 컴포넌트 자체에 ref가 달리면 React가 알아서 처리하게 할 수도 있었다.
 
 위 내용은 내가 느낀 것이지, 주장하고 싶은 것은 아니다. React가 인기를 얻을 수 있었던 철학에 반해 보이는 제약 조건이 궁금했다. 단순하게 생각했을 때, 생성 된 Hooks를 객체로 다루면 key로 쉽게 구분할 수 있으며 필요할 때 뽑아오기 좋을 것 같다고 생각했는데, 꽤 많은 이유가 있었다.
