@@ -11,17 +11,17 @@ excerpt: React는 개발자에게 코드를 선언적으로 작성하도록 한�
 
 ## 라이브러리와 프레임워크
 
-> "The library for web and native user interfaces" (웹 및 네이티브 사용자 인터페이스용 라이브러리)
+> **"The library for web and native user interfaces"** (웹 및 네이티브 사용자 인터페이스용 라이브러리)
 
-새로 개편된 React [공식 홈페이지](https://react.dev/)에 있는 문구이다. 개편 되기 전 React 공식 홈페이지에서는 'A JavaScript library for building user interfaces'라고 되어있다. 기존 공식 홈페이지 문구와 비교해 `JavaScript` 단어가 빠졌고, `web and native` 라는 구절이 추가되었다.
+새로 개편된 React [공식 홈페이지](https://react.dev/)에 있는 문구이다. 개편 되기 전 React 공식 홈페이지에서는 **"A JavaScript library for building user interfaces"** 라고 되어있다. 기존 공식 홈페이지 문구와 비교해 `JavaScript` 단어가 빠졌고, `web and native` 라는 구절이 추가되었다.
 
-라이브러리의 정체성은 그대로 가져간다. React를 접했을 때 라이브러리이기보다는 프레임워크 같다고 생각했다. 왜냐하면 React를 사용하기 위해서는 규칙이 있고, 제약사항이 있으며, 알아야 할 개념이 많다고 느꼈기 때문이다.
+`library` 문구는 그대로 사용되었다. 즉, 라이브러리의 정체성은 그대로 가져간다. React를 접했을 때 라이브러리이기보다는 프레임워크 같다고 생각했다. 왜냐하면 React를 사용하기 위해서는 규칙이 있고 제약사항이 있으며, 알아야 할 개념이 많다고 느꼈기 때문이다.
 
 Vue.js는 **"The Progressive JavaScript Framework"** 라고 공식 홈페이지에서 소개하고 있다. 나는 React를 접하기 전 Vue.js를 통해 웹 어플리케이션을 만들었었기 때문에 Vue.js의 소개와 같이 React 또한 프레임워크의 성격이 강하다는 생각이었다.
 
-라이브러리는 코드를 개발자가 제어한다. 라이브러리에서 개발자는 원하는 기능을 가져다 쓸 수 있으며, 작은 기능을 위한 작은 조각이기 때문에 코드를 개발자가 충분히 제어할 수 있다. 반면, 프레임워크는 코드를 개발자가 아닌 프레임워크가 제어한다. 프레임워크 위에서 개발자는 정해진 규칙에 맞게 코드를 작성하며, 작성된 코드는 프레임워크에서 관리하고, 어플리케이션 혹은 객체의 생명주기를 프레임워크에서 제어한다.
+라이브러리는 코드를 개발자가 제어한다. 라이브러리에서 개발자는 원하는 기능을 가져다 쓸 수 있으며, 작은 기능을 위한 작은 코드 조각이기 때문에 코드를 개발자가 충분히 제어할 수 있다. 반면, 프레임워크는 코드를 개발자가 아닌 프레임워크가 제어한다. 프레임워크 위에서 개발자는 정해진 규칙에 맞게 코드를 작성하며 작성된 코드는 프레임워크에서 관리하고, 어플리케이션 혹은 객체의 생명주기를 프레임워크에서 제어한다.
 
-React는 코드를 선언적으로 작성하도록 강제하고 있고, 많은 제약 사항과 규칙이 존재한다(그중 한 규칙 - [이전 게시물](https://pozafly.github.io/react/react-is-managing-hooks-as-an-array/)). 코드의 생명 주기 또한 React가 관리하고 있다. 따라서, React는 프레임워크라고 규정지었지만, 또 다른 이유로 프레임워크라고 규정짓기 어렵다는 생각이 들었다.
+React는 코드를 선언적으로 작성하도록 강제하고 있고, 많은 제약 사항과 규칙이 존재한다(그중 한 규칙 - [이전 게시물](https://pozafly.github.io/react/react-is-managing-hooks-as-an-array/)). 코드의 생명 주기 또한 React가 관리하고 있다. 따라서, React는 프레임워크라고 규정지었지만 또 다른 이유로 프레임워크라고 규정짓기 어렵다는 생각이 들었다.
 
 ```jsx{1,2}
 import React from 'react';
@@ -35,13 +35,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 );
 ```
 
-React를 설치하면 어플리케이션의 엔트리 파일에는 위와 같은 코드가 생성된다. `react` 와, `react-dom` 패키지를 가져오고 있다. 왜 react 패키지와 react-dom 패키지를 나누었을까? 어짜피 React를 사용하려면 react-dom의 내부 기능이 필요할 것이고 이는 react 패키지에 하나로 묶어두면 안되나?
+React를 설치하면 어플리케이션의 엔트리 파일에는 위와 같은 코드가 생성된다. `react` 와, `react-dom` 패키지를 가져오고 있다. 왜 react 패키지와 react-dom 패키지를 나누었을까? 어차피 React를 사용하려면 react-dom의 내부 기능이 필요할 것이고 이는 react 패키지에 하나로 묶어두면 안 되나?
 
-결론은, React는 라이브러리이기 때문에 나누어 둔 것이다. 무슨말인지 조금 더 알아보자.
+결론은, React는 라이브러리이기 때문에 나누어 둔 것이다. 무슨 말인지 조금 더 알아보자.
 
 ### 호스트 객체
 
-React는 공식 홈페이지에 명시되어 있는 것처럼 UI(user interfaces) 라이브러리다. UI는, 다양한 환경에서 표현될 수 있다. Web 환경에서의 UI는 DOM으로 표현될 수 있다. 따라서 Web 환경에서 DOM을 조작하고 배치하며 이벤트를 관리한다. Mobile 환경에서의 UI는 IOS와 Android의 UI 요소를 계층 구조로 가지고 있다. 즉, 브라우저와 IOS, Android 모두 화면을 트리 구조로 가지고 있으며 계층 관계를 통해 표현이 가능하다. 이것을 호스트 트리라고 하며, 호스트 트리는 호스트 객체로 표현할 수 있다.
+React는 공식 홈페이지에 명시되어 있는 것처럼 UI(user interfaces) 라이브러리다. UI는, 다양한 환경에서 표현될 수 있다. Web 환경에서의 UI는 DOM으로 표현될 수 있다. 따라서 web 환경에서 DOM을 조작하고 배치하며 이벤트를 관리한다. mobile 환경에서의 UI는 IOS와 Android의 UI 요소를 계층 구조로 가지고 있다. 즉, 브라우저와 IOS, Android 모두 화면을 트리 구조로 가지고 있으며 계층 관계를 통해 표현이 가능하다. 이것을 호스트 트리라고 하며, 호스트 트리는 호스트 객체로 표현할 수 있다.
 
 react-dom은 web 즉, 브라우저에서 사용하기 위해 사용하기 위해 사용하는 패키지다. react native는 IOS, Android를 동시에 개발할 수 있는 라이브러리이다. react-dom 패키지를 사용하지 않으며 `react-native` 패키지를 사용한다.
 
@@ -146,7 +146,7 @@ React에는 함수 컴포넌트가 있고, 지금은 잘 쓰이지는 않는 클
 
 [출처](https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/)
 
-클래스 컴포넌트으 라이프사이클 메서드를 phase에 맞게 순서대로 그려놓았다.
+클래스 컴포넌트의 라이프사이클 메서드를 phase에 맞게 순서대로 그려놓았다.
 
 <br/>
 
@@ -270,7 +270,7 @@ export default class ErrorBoundary extends React.Component {
 }
 ```
 
-특이한 부분은 클래스 컴포넌트로 작성 되었다는 점이다. ErrorBoundary 컴포넌트는 클래스 컴포넌트로 밖에 작성할 수 없다. 이유는, 에러를 감지하기 위해 라이프사이클 메서드를 활용해야 하기 때문이다. 앞으로 React에서 함수 컴포넌트에서 ErrorBoundary에 활용할 수 있는 메커니즘을 도입할 예정인지는 잘 모르겠다.
+특이한 부분은 클래스 컴포넌트로 작성 되었다는 점이다. ErrorBoundary 컴포넌트는 클래스 컴포넌트로 밖에 작성할 수 없다. 이유는, 에러를 감지하기 위해 라이프사이클 메서드를 활용해야 하기 때문이다. 앞으로 React에서 함수 컴포넌트에서 ErrorBoundary에 활용할 수 있는 메커니즘을 도입할 예정인지는 잘 모르겠다. 참고로 React 공식 페이지에서는 [react-error-boundary](https://github.com/bvaughn/react-error-boundary) 패키지를 사용하라고 소개하고 있다. HoC로도 사용할 수 있으며 Server Component도 대응이 되어있는 패키지다.
 
 사용된 라이프 사이클 메서드는 `static getDerivedStateFromError()`, `componentDidCatch()` 라이프 사이클 메서드다.
 
@@ -285,12 +285,12 @@ getDerivedStateFromError, componentDidCatch 둘 다, 렌더링 도중 자식 컴
   - **Render phase**에서 호출한다.
   - render 함수를 호출하기 전에 호출한다. 따라서 error와 관련된 state를 업데이트 해주어야 한다. 자식이 먼저 렌더링 되면 안되며, fallback UI가 보여야 하기 때문이다.
   - 추가로 다른 상태 값을 업데이트 할 수도 있다. 위와 동일 이유.
-  - 부수효과가 포함되면 안된다.
+  - **부수효과가 포함되면 안된다.**
 - componentDidCatch
   - **Commit phase**에서 호출한다.
   - error와 info(어떤 컴포넌트가 오류를 발생시켰는지) 알 수 있다.
   - 에러 리포팅 서비스에 에러를 기록할 수 있다.
-  - 부수효과가 포함될 수 있다.
+  - **부수효과가 포함될 수 있다.**
 
 어느 phase에서 실행되는지는 위에 사진으로 살펴봤던 '라이프 사이클 실행 과정'을 보면 이해가 쉽다.
 
@@ -305,6 +305,8 @@ getDerivedStateFromError 라이프 사이클 메서드는 위에서 살펴봤던
 컴포넌트를 선언할 때도 순수 컴포넌트(순수 함수)로 만들어야 함을 강조한다. 순수 함수가 되어야 하는 이유는, 외부 결과를 변경시킨다면 함수를 실행(렌더링)할 때마다 다른 값이 나오며 이를 제어하기 어려워지기 때문이다.
 
 순수성을 지키기 위해 React는 개발 단계에서 strict mode를 도입해 초기 렌더링 시 컴포넌트가 두 번 호출되도록 했다. side effect가 없다면 동일한 UI 모습이 나타날 것이기 때문이다. 또한 side effect를 처리하기 위해 side Effect와 관련된 `useEffect` Hooks를 제공한다. 따라서 외부 요인과 연동이 필요할 때는 useEffect에서만 처리할 것을 React는 강조하고 있다.
+
+따라서, Render phase에서 side effect 없이 UI가 순수하게(안전하게) 그려지기 위한 용도가 아닐까 추측해볼 수 있다.
 
 ErrorBoundary외에 Suspense 개념이 있다. Suspense는 React 18의 동시성 모델과도 연관이 있다. 비동기로 처리되는 네트워크 요청과 청크로 분리되어 컴포넌트를 지연로딩할 때, 보여줄 fallback UI를 선언적으로 다룰 수 있는 개념이다.
 
