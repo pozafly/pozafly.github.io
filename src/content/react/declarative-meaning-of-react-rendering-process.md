@@ -308,6 +308,16 @@ getDerivedStateFromError 라이프 사이클 메서드는 위에서 살펴봤던
 
 ErrorBoundary외에 Suspense 개념이 있다. Suspense는 React 18의 동시성 모델과도 연관이 있다. 비동기로 처리되는 네트워크 요청과 청크로 분리되어 컴포넌트를 지연로딩할 때, 보여줄 fallback UI를 선언적으로 다룰 수 있는 개념이다.
 
+---
+
+## 마치며
+
+처음 React가 라이브러리인지, 프레임워크인지에 대한 이야기를 했었다. React를 사용하는데 라이브러리인지, 프레임워크인지는 크게 중요하지 않다. 도구를 어떻게 활용할 수 있고 어떻게 가치를 창출할 수 있을지가 중요하기 때문이다.
+
+어쨌든 React는 선언적으로 코드를 작성하게 하며, 선언적으로 작성하지 못했던 부분을 계속해서 업데이트하고 있다. 함수 컴포넌트가 나온 것도, Hook를 활용하는 것도, 그리고 ErrorBoundary 및 Suspense가 나온 것도 계속해서 React가 선언적으로 코드를 작성하게끔 의도하고 있는 것이다.
+
+뭐든 그렇지만 어떤 개념이나 실제적으로 작성하는 것들은 처음 배울 때는 익숙하지 않아 어렵다. 하지만, 익숙해지면 따라오는 효과는 꽤 커 보인다. 일반 JavaScript 코드로 UI를 만드는 일은 이제 JSX가 없어 어색하다는 글을 본 적이 있다. 나도 Vue.js를 사용하면서 바닐라 JavaScript로 UI를 만들 때, template 코드를 작성하지 않아 매우 어색했다. 맨 처음 프로그래밍을 접했을 때 사용하던 `for` 문을 이제는 forEach, map, filter, reduce 등의 Array 메서드를 손쉽게 사용한다. 패러다임에 갖히면 안되겠지만 이를 적절히 활용할 줄 알아야겠다.
+
 > 참고
 >
 > - https://velog.io/@superlipbalm/blogged-answers-a-mostly-complete-guide-to-react-rendering-behavior
