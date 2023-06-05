@@ -3,9 +3,9 @@ layout: post
 title: 'React 렌더링과정으로 알아보는 선언적이라는 의미'
 author: [Pozafly]
 tags: [React]
-date: '2023-06-04'
+date: '2023-06-05'
 image: ../img/react/declarative-meaning-of-react-rendering-process/main.jpg
-draft: true
+draft: false
 excerpt: React는 개발자에게 코드를 선언적으로 작성하도록 한다. 이것을 렌더링 과정과 ErrorBoundary를 통해 알아보자.
 ---
 
@@ -15,7 +15,7 @@ excerpt: React는 개발자에게 코드를 선언적으로 작성하도록 한�
 
 새로 개편된 React [공식 홈페이지](https://react.dev/)에 있는 문구이다. 개편 되기 전 React 공식 홈페이지에서는 'A JavaScript library for building user interfaces'라고 되어있다. 기존 공식 홈페이지 문구와 비교해 `JavaScript` 단어가 빠졌고, `web and native` 라는 구절이 추가되었다.
 
-라이브러리의 정체성은 그대로 가져간다. 처음에 React를 접했을 때 라이브러리이기보다는 프레임워크 같다고 생각했다. 왜냐하면 React를 사용하기 위해서는 규칙이 있고, 제약사항이 있으며, 알아야 할 개념이 많다고 느꼈기 때문이다.
+라이브러리의 정체성은 그대로 가져간다. React를 접했을 때 라이브러리이기보다는 프레임워크 같다고 생각했다. 왜냐하면 React를 사용하기 위해서는 규칙이 있고, 제약사항이 있으며, 알아야 할 개념이 많다고 느꼈기 때문이다.
 
 Vue.js는 **"The Progressive JavaScript Framework"** 라고 공식 홈페이지에서 소개하고 있다. 나는 React를 접하기 전 Vue.js를 통해 웹 어플리케이션을 만들었었기 때문에 Vue.js의 소개와 같이 React 또한 프레임워크의 성격이 강하다는 생각이었다.
 
