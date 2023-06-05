@@ -35,7 +35,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 );
 ```
 
-코드는 React를 설치하면 어플리케이션의 엔트리 파일에는 위와 같은 코드가 생성된다. `react` 와, `react-dom` 패키지를 가져오고 있다. 왜 react 패키지와 react-dom 패키지를 나누었을까? 어짜피 React를 사용하려면 react-dom의 내부 기능이 필요할 것이고 이는 react 패키지에 하나로 묶어두면 안되나?
+React를 설치하면 어플리케이션의 엔트리 파일에는 위와 같은 코드가 생성된다. `react` 와, `react-dom` 패키지를 가져오고 있다. 왜 react 패키지와 react-dom 패키지를 나누었을까? 어짜피 React를 사용하려면 react-dom의 내부 기능이 필요할 것이고 이는 react 패키지에 하나로 묶어두면 안되나?
 
 결론은, React는 라이브러리이기 때문에 나누어 둔 것이다. 무슨말인지 조금 더 알아보자.
 
@@ -47,7 +47,7 @@ react-dom은 web 즉, 브라우저에서 사용하기 위해 사용하기 위해
 
 그러면 개편된 React 공식 홈페이지의 문구의 'web and native' 가 추가된 이유가 더 확실해졌다. React가 라이브러리를 명시하고 있는 이유도 확실해졌다. 관심사를 분리한 것이다.
 
-web 환경에서의 DOM을 조작하기 위해 react-dom 패키지를 사용하며, native(mobile) 환경에서의 view tree를 조작하기 위해 react-native 패키지를 사용한다. 추상화 된 view tree들을 조작할 수 있다. 그리고, 이를 다루는 핵심 기능은 react 패키지에 묶어두어 두 곳에서 사용할 수 있도록 했다. 따라서 아래의 문장을 이제 어느정도 이해할 수 있다.
+Web 환경에서의 DOM을 조작하기 위해 react-dom 패키지를 사용하며, native(mobile) 환경에서의 view tree를 조작하기 위해 react-native 패키지를 사용한다. 추상화 된 view tree들을 조작할 수 있다. 그리고, 이를 다루는 핵심 기능은 react 패키지에 묶어두어 두 곳에서 사용할 수 있도록 했다. 따라서 위의 문장을 이제 어느정도 이해할 수 있다.
 
 하지만, 여전히 UI 라이브러리 역할을 하고 있지만 React에서 개발자의 코드를 제어하고 있기 때문에 라이브러리와 프레임워크 그 어디 중간이라고 할 수도 있겠다.
 
@@ -158,7 +158,7 @@ React에는 함수 컴포넌트가 있고, 지금은 잘 쓰이지는 않는 클
 
 이것을 IoC(Inversion of Control) -**제어의 역전**이라고 한다. React에서는 개발자가 작성한 코드가 React에 의해 관리되고 평가된다. 즉, 제어권은 React에 있으며 프레임워크의 성격을 가지고 있다고 볼 수 있다. 이는 선언형 프로그래밍과 연관이 있다고 할 수 있는데, React가 동작하기 위해서는 선언형으로 작성된 코드를 사용하도록 제어하고 있기 때문이다.
 
-### 선언형 프로그래밍
+#### 선언형 프로그래밍
 
 일반적으로 명령형 프로그래밍에서는 개발자가 제어 흐름을 직접 제어하고 구현 세부 사항에 초점을 맞추는 방식이다. 반면에 선언형 프로그래밍은 "무엇(What)"을 표현하는 것에 중점을 둔다. 개발자는 원하는 결과를 선언하고, 시스템이 그 결과를 달성하기 위해 필요한 모든 세부 사항을 처리한다.
 
@@ -178,7 +178,7 @@ JavaScript에서는 배열과 관련된 메서드로 forEach, filter, map 등이
 
 ErrorBoundary 개념은, 사용자가 원하는 fallback UI만 던져주면 에러가 발생했을 때 이를 명령형이 아닌, 선언적으로 UI를 표현할 수 있다. 먼저 ErrorBoundary를 사용하지 않고 에러를 표현하는 방법으로 구현해보자.
 
-```jsx
+```jsx{3,6,14}
 function Child({ errorValue, isError, setIsError }) {
   try {
     if (!isError) {
@@ -213,7 +213,7 @@ try catch 문으로, Error가 발생하면 `setIsError()`로 상태 값을 업�
 
 ErrorBoundary를 사용해보자.
 
-```jsx
+```jsx{13,16}
 import ErrorBoundary from './ErrorBoundary.jsx';
 
 // ErrorBoundary에서 fallback이 발생하게 하려면 반드시 하위 컴포넌트에서 error가 발생해야 함.
@@ -241,7 +241,7 @@ export default function ErrorComponent() {
 
 이제, ErrorBoundary 컴포넌트를 구현해보자.
 
-```jsx
+```jsx{11,16}
 import React from 'react';
 
 export default class ErrorBoundary extends React.Component {
@@ -274,19 +274,19 @@ export default class ErrorBoundary extends React.Component {
 
 사용된 라이프 사이클 메서드는 `static getDerivedStateFromError()`, `componentDidCatch()` 라이프 사이클 메서드다.
 
-- getDerivedStateFromError : error의 상태 값을 변경하는 용도
-- componentDidCatch : 에러를 추적하고, sentry 등의 에러를 포착해 에러 리포트 서비스로 전송하는 용도
+- `getDerivedStateFromError` : error의 상태 값을 변경하는 용도
+- `componentDidCatch` : 에러를 추적하고, sentry 등의 에러를 포착해 에러 리포트 서비스로 전송하는 용도
 
 하지만 왜 이렇게 두개로 나눠놨을까?
 
 getDerivedStateFromError, componentDidCatch 둘 다, 렌더링 도중 자식 컴포넌트에서 Error가 발생하면 호출된다. 하지만 차이점은 아래와 같다.
 
-- `getDerivedStateFromError`
+- getDerivedStateFromError
   - **Render phase**에서 호출한다.
   - render 함수를 호출하기 전에 호출한다. 따라서 error와 관련된 state를 업데이트 해주어야 한다. 자식이 먼저 렌더링 되면 안되며, fallback UI가 보여야 하기 때문이다.
   - 추가로 다른 상태 값을 업데이트 할 수도 있다. 위와 동일 이유.
   - 부수효과가 포함되면 안된다.
-- `componentDidCatch`
+- componentDidCatch
   - **Commit phase**에서 호출한다.
   - error와 info(어떤 컴포넌트가 오류를 발생시켰는지) 알 수 있다.
   - 에러 리포팅 서비스에 에러를 기록할 수 있다.
@@ -307,6 +307,8 @@ getDerivedStateFromError 라이프 사이클 메서드는 위에서 살펴봤던
 순수성을 지키기 위해 React는 개발 단계에서 strict mode를 도입해 초기 렌더링 시 컴포넌트가 두 번 호출되도록 했다. side effect가 없다면 동일한 UI 모습이 나타날 것이기 때문이다. 또한 side effect를 처리하기 위해 side Effect와 관련된 `useEffect` Hooks를 제공한다. 따라서 외부 요인과 연동이 필요할 때는 useEffect에서만 처리할 것을 React는 강조하고 있다.
 
 ErrorBoundary외에 Suspense 개념이 있다. Suspense는 React 18의 동시성 모델과도 연관이 있다. 비동기로 처리되는 네트워크 요청과 청크로 분리되어 컴포넌트를 지연로딩할 때, 보여줄 fallback UI를 선언적으로 다룰 수 있는 개념이다.
+
+Suspense, ErrorBoundary 코드를 직접 테스트한 [repository](https://github.com/pozafly/react-suspense-errorboundary-test)다.
 
 ---
 
