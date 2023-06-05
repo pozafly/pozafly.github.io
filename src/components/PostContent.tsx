@@ -113,9 +113,10 @@ export const PostFullContent = styled.section`
     box-shadow: ${colors.darkgrey} 0 -1px 0 inset;
   }
 
-  a[class*=image], a[class*=image]:hover {
+  a[class*='image'],
+  a[class*='image']:hover {
     box-shadow: none;
-    span[class*=image] {
+    span[class*='image'] {
       border-radius: 6px;
     }
   }
@@ -140,7 +141,7 @@ export const PostFullContent = styled.section`
     border-radius: 6px;
     border: 1px solid hsl(230deg 25% 94%);
     @media (prefers-color-scheme: dark) {
-      border: 1px solid hsl(230,6%,23%);
+      border: 1px solid hsl(230, 6%, 23%);
     }
   }
   @media (max-width: 1040px) {
@@ -197,7 +198,8 @@ export const PostFullContent = styled.section`
     /* background: var(--whitegrey); */
     background: ${colors.whitegrey};
     border-radius: 3px;
-    font-family: -apple-system, BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans','Ubuntu','Droid Sans','Helvetica Neue',sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+      'Noto Sans', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', sans-serif;
   }
 
   p code {
@@ -271,7 +273,8 @@ export const PostFullContent = styled.section`
   h6 {
     /* color: color(var(--darkgrey) l(-5%)); */
     color: ${lighten('-0.05', colors.darkgrey)};
-    font-family: -apple-system, BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans','Ubuntu','Droid Sans','Helvetica Neue',sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+      'Noto Sans', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', sans-serif;
   }
 
   h1 {
@@ -326,7 +329,7 @@ export const PostFullContent = styled.section`
 
   h4 {
     margin: 0.5em 0 0.2em;
-    font-size: 2.5rem;
+    font-size: 1.8rem;
     font-weight: 600;
   }
   h2 + h4 {
@@ -338,7 +341,7 @@ export const PostFullContent = styled.section`
   @media (max-width: 800px) {
     h4 {
       margin-bottom: 0.3em;
-      font-size: 2.4rem;
+      font-size: 1.8rem;
       line-height: 1.3em;
     }
   }
@@ -391,7 +394,8 @@ export const PostFullContent = styled.section`
     width: auto;
     border-spacing: 0;
     border-collapse: collapse;
-    font-family: -apple-system, BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans','Ubuntu','Droid Sans','Helvetica Neue',sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+      'Noto Sans', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', sans-serif;
     font-size: 1.6rem;
     white-space: nowrap;
     vertical-align: top;
@@ -399,9 +403,18 @@ export const PostFullContent = styled.section`
 
   table {
     -webkit-overflow-scrolling: touch;
-    background: radial-gradient(ellipse at left, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 75%) 0
-        center,
-      radial-gradient(ellipse at right, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 75%) 100% center;
+    background: radial-gradient(
+          ellipse at left,
+          rgba(0, 0, 0, 0.2) 0%,
+          rgba(0, 0, 0, 0) 75%
+        )
+        0 center,
+      radial-gradient(
+          ellipse at right,
+          rgba(0, 0, 0, 0.2) 0%,
+          rgba(0, 0, 0, 0) 75%
+        )
+        100% center;
     background-attachment: scroll, scroll;
     background-size: 10px 100%, 10px 100%;
     background-repeat: no-repeat;
@@ -467,8 +480,9 @@ export const PostFullContent = styled.section`
         box-shadow: inset 0 -1px 0 #fff;
       }
     }
-    
-    a[class*=image], a[class*=image]:hover {
+
+    a[class*='image'],
+    a[class*='image']:hover {
       box-shadow: none;
     }
 
@@ -505,7 +519,11 @@ export const PostFullContent = styled.section`
         var(--darkmode) 50%,
         color(var(--darkmode) a(0%)) 100%
       ); */
-      background-image: linear-gradient(to right, ${colors.darkmode} 50%, ${colors.darkmode} 100%);
+      background-image: linear-gradient(
+        to right,
+        ${colors.darkmode} 50%,
+        ${colors.darkmode} 100%
+      );
     }
 
     table td:last-child {
@@ -514,7 +532,11 @@ export const PostFullContent = styled.section`
         var(--darkmode) 50%,
         color(var(--darkmode) a(0%)) 100%
       ); */
-      background-image: linear-gradient(270deg, #191b1f 50%, rgba(25, 27, 31, 0));
+      background-image: linear-gradient(
+        270deg,
+        #191b1f 50%,
+        rgba(25, 27, 31, 0)
+      );
     }
 
     table th {
