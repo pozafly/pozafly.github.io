@@ -92,7 +92,7 @@
 <p>우선 용어부터 알아보자. mutation이란, ‘돌연변이’ 혹은 ‘변형’이라는 뜻을 가지고 있다. ‘가변’이라고 불리기도 한다. 프로그래밍 세계에서 mutation은 사이드 이펙트를 일으키는 방법이다. (<a href="https://en.wikibooks.org/wiki/Scheme_Programming/Mutability" target="_blank" rel="nofollow">링크</a>) 데이터를 변경시키는 것은 사이드 이펙트를 일으키며 데이터의 추적을 어렵게 만든다. 하지만 사이드 이펙트가 일어난다고 해서 데이터를 변경시켜서는 안된다는 말은 아니다. 클라이언트 및 서버에서 다루는 데이터는 변경이 일어나야하고, 변경이 일어나야 의미있는 데이터가 완성된다.</p>
 <p>반면, 데이터를 조회하는 것은 사이드 이펙트를 발생시키지 않는다. React Query는 이 둘의 개념을 나누고, 사용하는 방법도 다르게 구성해두었다. query는 선언적으로 사용할 수 있으며, mutation은 명령형으로 밖에 사용하지 않도록 말이다.</p>
 <div class="gatsby-highlight" data-language="tsx"><pre class="language-tsx"><code class="language-tsx"><span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">App</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token comment">// 즉시 서버와 통신 후 데이터를 받아옴. 선언적.</span>
+  <span class="token comment">// 마운트 즉시 서버와 통신 후 데이터를 받아옴. 선언적.</span>
   <span class="token keyword">const</span> <span class="token punctuation">{</span> data <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">useQuery</span><span class="token punctuation">(</span><span class="token punctuation">{</span> queryKey<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">&#x27;todos&#x27;</span><span class="token punctuation">]</span><span class="token punctuation">,</span> queryFn<span class="token operator">:</span> getTodos <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
   <span class="token comment">// 뮤테이션 객체를 먼저 생성 후 이벤트가 일어났을 때 사용함. 명령적.</span>
@@ -101,18 +101,19 @@
   <span class="token keyword">return</span> <span class="token punctuation">(</span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span></span><span class="token punctuation">&gt;</span></span><span class="token plain-text">
       </span><span class="token punctuation">{</span>data<span class="token punctuation">.</span>something<span class="token punctuation">}</span><span class="token plain-text">
+      </span><span class="token punctuation">{</span><span class="token comment">/* 이벤트 발생 시 사용 */</span><span class="token punctuation">}</span><span class="token plain-text">
       </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> mutation<span class="token punctuation">.</span><span class="token function">mutate</span><span class="token punctuation">(</span><span class="token punctuation">{</span> something<span class="token operator">:</span> <span class="token string">&#x27;some&#x27;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span><span class="token plain-text">
     </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span></span><span class="token punctuation">&gt;</span></span>
   <span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre></div>
-<p>query는 컴포넌트가 마운트 될 때 즉시 실행되어 서버에서 데이터를 가져온다. 훅으로 선언만 해두면 알아서 데이터를 조회한다.</p>
-<p>하지만 mutation은 서버 데이터를 변형시키는 것이기 때문에, 일반적으  로 컴포넌트가 마운트 될 때 실행되면 안된다. 컴포넌트가 마운트 되자마자 물건이 결제가 되면 이상하듯이 말이다. 대신, useMutation 훅을 사용해 mutation 객체를 가져오고, 명령적으로 필요할 때 호출하도록 하고 있다.</p>
+<p>query는 컴포넌트가 마운트 될 때 즉시 실행되어 서 버에서 데이터를 가져온다. 훅으로 선언만 해두면 알아서 데이터를 조회한다.</p>
+<p>하지만 mutation은 서버 데이터를 변형시키는 것이기 때문에, 일반적으로 컴포넌트가 마운트 될 때 실행되면 안된다. 컴포넌트가 마운트 되자마자 물건이 결제가 되면 이상하듯이 말이다. 대신, useMutation 훅을 사용해 mutation 객체를 가져오고, 명령적으로 필요할 때 호출하도록 하고 있다.</p>
 <p>따라서 query는 사이드 이펙트를 발생시키지 않으며, 선언적으로 사용할 수 있고, mutation은 사이드 이펙트를 발생시킬 수 있으며, 명령형으로 사용할 수 있다. React Query는 이런 차이점 때문에 둘을 나누어 사용하도록 했다.</p>
 <br/>
 <h2 id="mutation-이후-동작" style="position:relative">mutation 이후 동작<a href="#mutation-%EC%9D%B4%ED%9B%84-%EB%8F%99%EC%9E%91" aria-label="mutation 이후 동작 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
 <p>mutation이 실행된 이후 서버의 데이터는 변경되었지만(예. 서버의 DB 데이터 변경), React Query의 mutation 실행 이후 클라이언트의 서버 데이터는 변경 되지 않은 상태이다. 화면을 업데이트 하는 여러 가지 방법을 알아보면서, 어떤 상황에서 어떤 방법을 사용해야 하는지 알아보자. 클라이언트의 서버 데이터라함은, query로 조회해온 서버 데이터가 클라이언트의 상태로 넘어온 것을 말한다. 클라이언트로 넘어온 서버 데이터 기준으로 화면을 그려줄 수 있다.</p>
 <blockquote>
-<p>📌 클라이언트의 서버 데이터는 처음 말했던 클라이언트 데이터(ui 혹은 theme와 같은)와는 다르다. 이제 아래에서 말하는 클라  이언트 데이터란, 서버에서 클라이언트로 받아온 서버 데이터를 말한다.</p>
+<p>📌 클라이언트의 서버 데이터는 처음 말했던 클라이언트 데이터(ui 혹은 theme와 같은)와는 다르다. 이제 아래에서 말하는 클라이언트 데이터란, 서버에서 클라이언트로 받아온 서버 데이터를 말한다.</p>
 </blockquote>
 <p>아래의 예시들은 delete 기준으로 mutation 이후 어떻게 화면에 데이터가 업데이트 되는지를 설명한다. React Query가 제공하는 useMutation 훅을 통해 mutation을 할 수 있다.</p>
 <div class="gatsby-highlight" data-language="ts"><pre class="language-ts"><code class="language-ts"><span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">useDeleteDoc</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
@@ -125,7 +126,7 @@
 <li><code class="language-text">mutationKey</code> : mutation을 식별할 수 있고, 후에 <code class="language-text">useIsMutating</code> 훅을 통해 mutation 중인 작업을 로딩 스피너로 사용자에게 데이터를 처리하고 있다는 표시를 줄 수있다.</li>
 <li><code class="language-text">mutationFn</code> : axios나 fetch 함수를 사용해 서버에 API 요청을 보내는 함수가 실행된다.</li>
 </ul>
-<p>※ useMutation hooks의 type은 <a href="https://gusrb3164.github.io/web/2022/01/23/react-query-typescript/" target="_blank" rel="nofollow">react-query에 typescript 적용하기</a>를 참고했다.</p>
+<p>※ useMutation 훅의 type은 <a href="https://gusrb3164.github.io/web/2022/01/23/react-query-typescript/" target="_blank" rel="nofollow">react-query에 typescript 적용하기</a>를 참고했다.</p>
 <p>하지만, 위 작업은 단지 서버에 API를 보내고 서버에 존재하는 데이터를 변경할 뿐, 클라이언트의 데이터를 변경시켜주지 않는다. 물론 클라이언트의 데이터가 변하지 않았기 때문에 화면이 변경되지도 않는다. 변경된 데이터를 다시 화면에 표시하려면 추가적인 작업이 필요하다.</p>
 <ol>
 <li><strong>서버에서</strong> 조회한 데이터로 클라이언트 데이터 업데이트</li>
@@ -139,7 +140,7 @@
 <li>요청 성공 후 재조회를 통해 데이터를 받는 방법 (invalidateQueries)</li>
 </ul>
 <h3 id="11-response에-변경된-데이터-받기-setQueryData" style="position:relative">1.1 response에 변경된 데이터 받기 (setQueryData)<a href="#11-response%EC%97%90-%EB%B3%80%EA%B2%BD%EB%90%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%B0%9B%EA%B8%B0-setQueryData" aria-label="11 response에 변경된 데이터 받기 setQueryData permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
-<p><code class="language-text">setQueryData</code> 는 useQuery로 조회된 데이터가 캐시에 들어있을 경우, 캐시의 조회 데이터를 업데이트 해줄 수 있는 메서드다. redux로 생각해봤을 때, store에 있는 상태 값을 변경시켜줄 수 있는 함수다. mutation에서는 아래와 같이 사용할 수 있다.</p>
+<p><code class="language-text">setQueryData</code> 는 useQuery로 조회된 데이터가 캐시에 들어있을 경우, 캐시의 조회 데이터를 업데이트 해줄 수 있는 메서드다. redux로 생각해봤을 때, store에 있는 상태 값을 변경시켜줄 수 있는 함 수다. mutation에서는 아래와 같이 사용할 수 있다.</p>
 <div class="gatsby-highlight has-highlighted-lines" data-language="ts"><pre class="language-ts"><code class="language-ts"><span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">useDeleteDoc</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
   <span class="token keyword">return</span> <span class="token generic-function"><span class="token function">useMutation</span><span class="token generic class-name"><span class="token operator">&lt;</span>DriveFile <span class="token operator">|</span> <span class="token builtin">string</span><span class="token punctuation">,</span> AxiosError<span class="token punctuation">,</span> <span class="token builtin">string</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span><span class="token punctuation">{</span>
     mutationKey<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token constant">DIARY_KEY</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
@@ -151,7 +152,7 @@
 <p>데이터 흐름은 아래와 같다.</p>
 <ul>
 <li><code class="language-text">클라이언트 -&gt; 서버</code> : 데이터 변경 요청</li>
-<li><code class="language-text">서버</code> : DB 인스턴스에 데이터 변경</li>
+<li><code class="language-text">서버</code> : DB 인스턴스에 데이 터 변경</li>
 <li><code class="language-text">서버 -&gt; 클라이언트</code> : 변경된 데이터 반환</li>
 </ul>
 <h3 id="12-재조회-invalidateQueries" style="position:relative">1.2 재조회 (invalidateQueries)<a href="#12-%EC%9E%AC%EC%A1%B0%ED%9A%8C-invalidateQueries" aria-label="12 재조회 invalidateQueries permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
@@ -212,9 +213,9 @@
 <p>📌 주의점은 반드시 불변성을 지켜서 넣어주어야 한다. 불변성을 지켜주지 않으면 화면이 변경되지 않는다.</p>
 <p>데이터 흐름은 아래와 같다.</p>
 <ul>
-<li><code class="language-text">클라이언트 -&gt; 서버</code> : 데이터 변경 요청</li>
+<li><code class="language-text"> 클라이언트 -&gt; 서버</code> : 데이터 변경 요청</li>
 <li><code class="language-text">서버 -&gt; 클라이언트</code> : 성공 message 반환</li>
-<li>클라이언트 데이터 스스 로 가공 후 변경</li>
+<li>클라이언트 데이터 스스로 가공 후 변경</li>
 </ul>
 <h4 id="setQueryData--Updater" style="position:relative">setQueryData &amp; Updater<a href="#setQueryData--Updater" aria-label="setQueryData  Updater permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h4>
 <p>getQueryData를 사용하지 않고 <code class="language-text">setQueryData</code> 만 사용하는 방법이다. 이 방법은 캐시에서 다시 조회하는 로직이 없어도 useMutation 자체에서 제공하는 방법이다. 업데이터 함수를 선언하면 알아서 클라이언트 데이터를 변경시켜준다.</p>
@@ -223,7 +224,7 @@
 <span class="gatsby-highlight-code-line">    <span class="token punctuation">(</span>oldData<span class="token punctuation">)</span><span class="token operator">:</span> DriveFile <span class="token operator">=&gt;</span> <span class="token punctuation">(</span><span class="token punctuation">{</span></span><span class="gatsby-highlight-code-line">      <span class="token operator">...</span>oldData<span class="token punctuation">,</span></span><span class="gatsby-highlight-code-line">      files<span class="token operator">:</span> oldData<span class="token operator">?.</span>files<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>file <span class="token operator">=&gt;</span> file<span class="token punctuation">.</span>id <span class="token operator">!==</span> variables<span class="token punctuation">)</span> <span class="token keyword">as</span> File<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span></span><span class="gatsby-highlight-code-line">    <span class="token punctuation">}</span><span class="token punctuation">)</span></span>  <span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre></div>
 <p><code class="language-text">setQueryData</code>의 두번째 인자로 함수를 넣어줄 수 있는데, 이것이 업데이터 함수이다. 업데이터 함수는 react의 setState 함수와 사용법이 동일하다. 인자로 기존 쿼리한 데이터를 가지고 오며, 쿼리한 데이터를 기반으로 가공한 값을 불변성을 지켜 반환하면, 캐시된 데이터가 업데이트 되고 화면이 리렌더링 된다.</p>
-<p>첫번째 방법처럼, 조회 한 후 업데이트 하기보다는 업데이터 함수를 사용하는 방법이 좀 더 간편하다고 느껴진다. 데이터의 흐름은 위와 같다.</p>
+<p>첫번째 방법처럼, 조회 한 후 업데이트 하기보다는 업데이터 함수를 사용하는 방법이 좀 더 간편하다고   느껴진다. 데이터의 흐름은 위와 같다.</p>
 <h3 id="22-낙관적-업데이트onMutate" style="position:relative">2.2 낙관적 업데이트(onMutate)<a href="#22-%EB%82%99%EA%B4%80%EC%A0%81-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8onMutate" aria-label="22 낙관적 업데이트onMutate permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
 <p>낙관적 업데이트란 단어가 어색하게 느껴질 수 있지만, 낙관적이라는 말은 서버로 보낸 요청이 정상적일 것을 예상하고, 클라이언트의 데이터를 변경시켜 요청 response가 오기 전에 클라이언트의 데이터를 미리 변경시키는 작업을 말한다. 이는 useMutateion 훅에서 <code class="language-text">onSuccess</code> 대신 <code class="language-text">onMutate</code> 메서드와 <code class="language-text">onError</code> 메서드를 조합하여 구현할 수 있다.</p>
 <div class="gatsby-highlight" data-language="ts"><pre class="language-ts"><code class="language-ts"><span class="token function-variable function">onMutate</span><span class="token operator">:</span> <span class="token keyword">async</span> variables <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
@@ -242,7 +243,7 @@
   <span class="token comment">// 에러가 발생하면, 기존 데이터 폴백</span>
   queryClient<span class="token punctuation">.</span><span class="token function">setQueryData</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token constant">DIARY_KEY</span><span class="token punctuation">,</span> <span class="token string">&#x27;docList&#x27;</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token operator">...</span>context<span class="token punctuation">.</span>oldData <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre></div>
-<p>onMutate 메서드 안에는 API 요청이 성공했을 경우를 가정하고, 데이터를 가공해 화면을 업데이트 한다. 특이한 부분은 <code class="language-text">cancelQueries</code> 를 사용한다는 점인데, cancelQueries는 API 요청 이후에 발생하는 요청을 취소하는   메서드이므로 요청이 Error가 발생했다면 refetch가 일어나지 않도록 방지하는 역할을 해준다.</p>
+<p>onMutate 메서드 안에는 API 요청이 성공했을 경우를 가정하고, 데이터를 가공해 화  면을 업데이트 한다. 특이한 부분은 <code class="language-text">cancelQueries</code> 를 사용한다는 점인데, cancelQueries는 API 요청 이후에 발생하는 요청을 취소하는 메서드이므로 요청이 Error가 발생했다면 refetch가 일어나지 않도록 방지하는 역할을 해준다.</p>
 <p>onMutate 메서드의 아래 부분은 <strong>캐시 데이터를 직접 가공</strong>하는 부분과 동일하다.</p>
 <p>onError 메서드는 API 요청을 보내 성공을 가정하고 화면은 업데이트 했지만, 실패한 사례에 대한 처리 로직이 들어간다. 만약 서버에서 에러를 반환했다면 기존 데이터로 폴백한다. <code class="language-text">context</code> 에는 요청을 보냈을 당시의 데이터가 담겨있다.</p>
 <p><img src="/c05676c16b087e534d2580f23fbd2990/optimistic-updates.gif" alt="optimistic-updates"/></p>
@@ -252,6 +253,7 @@
 <li>성공 response가 돌아오지 않아도, 클라이언트 데이터 스스로 가공 후 변경</li>
 <li>만약 실패 시 기존 데이터로 폴백</li>
 </ul>
+<hr/>
 <br/>
 <h2 id="정리" style="position:relative">정리<a href="#%EC%A0%95%EB%A6%AC" aria-label="정리 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
 <p>React Query에서 mutation 이후 데이터를 통해 화면을 업데이트 하는 방법은 아래와 같다.</p>
@@ -273,17 +275,16 @@
 <ul>
 <li>response에 변경된 데이터 받기 : 가장 정확하고 신뢰할만한 업데이트. 따라서 중요한 데이터를 표시해주어야 한다면 이 방법을 선택할 것이다. 예를 들어 로그인 처리 혹은 결제 처리.</li>
 <li>재조회, 직접 가공 : 서버의 상황이 좋지 않거나, response가 확실하다고 보장하지 못할 때.</li>
-<li>낙관적 업데이트 : 데이터가 크게 중요하지 않지만, 사용자에게 빠른 피드백을 보여주고 싶을 때. 예를 들어 좋아요 기능.</li>
+<li>낙관적 업데이트 : 데이터가 크게 중요하지 않지만, 사용자에게 빠른 피드백을 보여주고 싶을 때. 예를 들어 SNS의 좋아요 기능.</li>
 </ul>
 <br/>
 <h2 id="마치며" style="position:relative">마치며<a href="#%EB%A7%88%EC%B9%98%EB%A9%B0" aria-label="마치며 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
 <p>React Query의 mutation 이후 데이터 처리 방법에 대해서 알아봤다.</p>
 <p>React Query를 사용하지 않고 이전에 개발할 때는, 데이터를 페칭할 때 무조건 로딩 표시를 통해 사용자에게 기다리게 했다. 하지만 중요도에 따라, 또 서버의 상태에 따라 여러 UX를 구현할 수 있다는 점을 알게 되었다.</p>
-<p>서버 데이터와 클라이언트 데이터를 서로 격리 시켜 다룬다는 개념도 신선했지만 데이터 페칭과 관련된 라이브러리로 특화되어 있기 때문에 UX와 관련된 다 양한 기능이 개발되지 않았나 생각한다. 특히 사용자의 디바이스 성능이 올라감에 따라 여러 UX를 표현할 수 있게 되었고, 데이터를 캐싱하거나 서버와의 데이터를 ‘연동’ 한다는 개념이 생긴 것 같다. (엄밀히 연동은 아님)</p>
+<p>서버 데이터와 클라이언트 데이터를 서로 격리 시켜 다룬다는 개념도 신선했지만 데이터 페칭과 관련된 라이브러리로 특화되어 있기 때문에 UX와 관련된 다양한 기능이 개발되지 않았나 생각한다. 특히 사용자의 디바이스 성능이 올라감에 따라 여러 UX를 표현할 수 있게 되었고, 데이터를 캐싱하거나 서버와의 데이터를 ‘연동’ 한다는 개념이 생긴 것 같다. (엄밀히 말하면 연동은 아님. React Query에서는 request와 response가 지속적으로 일어나는 매커니즘을 갖고 있기 때문이며 커넥션을 계속 가지고 있지 않기 때문이다.)</p>
 <blockquote>
 <p>참고</p>
 <ul>
-<li><a href="https://tkdodo.eu/blog/mastering-mutations-in-react-query#differences-to-usequery" target="_blank" rel="nofollow">https://tkdodo.eu/blog/mastering-mutations-in-react-query#differences-to-usequery</a></li>
 <li><a href="https://tkdodo.eu/blog/mastering-mutations-in-react-query" target="_blank" rel="nofollow">https://tkdodo.eu/blog/mastering-mutations-in-react-query</a></li>
 <li><a href="https://tanstack.com/query/latest/docs/react/guides/optimistic-updates" target="_blank" rel="nofollow">https://tanstack.com/query/latest/docs/react/guides/optimistic-updates</a></li>
 </ul>
