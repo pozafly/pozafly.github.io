@@ -1,8 +1,8 @@
 ---
 layout: post
-title: 'react query에서 mutation 이후 데이터 업데이트'
+title: 'react query에서 mutation 이후 데이터를 업데이트하는 4가지 방법'
 author: [Pozafly]
-tags: [react-query]
+tags: [React-Query, React]
 date: '2023-07-02'
 image: ../img/react-query/mutation-after-data-update/main.webp
 draft: false
@@ -37,8 +37,8 @@ export function App() {
 
   return (
     <>
-    	{data.something}
-    	<button onClick(() => mutation.mutate(...))>update</button>
+      {data.something}
+      <button onClick={() => mutation.mutate({ something: 'some' })}></button>
     </>
   );
 }
@@ -77,7 +77,7 @@ export const useDeleteDoc = () => {
 하지만, 위 작업은 단지 서버에 API를 보내고 서버에 존재하는 데이터를 변경할 뿐, 클라이언트의 데이터를 변경시켜주지 않는다. 물론 클라이언트의 데이터가 변하지 않았기 때문에 화면이 변경되지도 않는다. 변경된 데이터를 다시 화면에 표시하려면 추가적인 작업이 필요하다.
 
 1. **서버에서** 조회한 데이터로 클라이언트 데이터 업데이트
-2. **클라이언트**에서 요청 데이터로 적용
+2. **클라이언트에서** 요청 데이터로 적용
 
 <br />
 
@@ -270,7 +270,7 @@ React Query에서 mutation 이후 데이터를 통해 화면을 업데이트 하
 - **서버에서** 조회한 데이터로 클라이언트 데이터 업데이트
   - response에 변경된 데이터 받기
   - 재조회
-- **클라이언트**에서 요청 데이터로 적용
+- **클라이언트에서** 요청 데이터로 적용
   - 직접 가공
   - 낙관적 업데이트
 
