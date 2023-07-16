@@ -90,22 +90,38 @@ class SiteNav extends React.PureComponent<SiteNavProps, SiteNavState> {
             <SiteNavContent css={[this.state.showTitle ? HideNav : '']}>
               <ul css={NavStyles} role="menu">
                 <li role="menuitem">
-                  <Link to="/" activeClassName="nav-current" className={`${isHome ? 'is-home' : ''}`}>
+                  <Link
+                    to="/"
+                    activeClassName="nav-current"
+                    className={`${isHome ? 'is-home' : ''}`}
+                  >
                     Home
                   </Link>
                 </li>
                 <li role="menuitem">
-                  <Link to="/about" activeClassName="nav-current" className={`${isHome ? 'is-home' : ''}`}>
+                  <Link
+                    to="/about"
+                    activeClassName="nav-current"
+                    className={`${isHome ? 'is-home' : ''}`}
+                  >
                     About
                   </Link>
                 </li>
                 <li role="menuitem">
-                  <Link to="/tags" activeClassName="nav-current" className={`${isHome ? 'is-home' : ''}`}>
+                  <Link
+                    to="/tags"
+                    activeClassName="nav-current"
+                    className={`${isHome ? 'is-home' : ''}`}
+                  >
                     Tags
                   </Link>
                 </li>
                 <li role="menuitem">
-                  <Link to="/tags/diary/" activeClassName="nav-current" className={`${isHome ? 'is-home' : ''}`}>
+                  <Link
+                    to="/tags/diary/"
+                    activeClassName="nav-current"
+                    className={`${isHome ? 'is-home' : ''}`}
+                  >
                     Diary
                   </Link>
                 </li>
@@ -145,7 +161,9 @@ class SiteNav extends React.PureComponent<SiteNavProps, SiteNavState> {
               )}
             </SocialLinks>
             {config.showSubscribe && (
-              <SubscribeButton onClick={this.openModal}>Subscribe</SubscribeButton>
+              <SubscribeButton onClick={this.openModal}>
+                Subscribe
+              </SubscribeButton>
             )}
           </SiteNavRight>
         </nav>

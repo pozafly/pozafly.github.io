@@ -58,16 +58,27 @@ function IndexPage(props: IndexProps) {
         <meta property="og:title" content={config.title} />
         <meta property="og:description" content={config.description} />
         <meta property="og:url" content={config.siteUrl} />
-        <meta property="og:image" content={`${config.siteUrl}${getSrc(props.data.header)}`} />
-        {config.instagram && <meta property="article:publisher" content={config.instagram} />}
+        <meta
+          property="og:image"
+          content={`${config.siteUrl}${getSrc(props.data.header)}`}
+        />
+        {config.instagram && (
+          <meta property="article:publisher" content={config.instagram} />
+        )}
         {config.googleSiteVerification && (
-          <meta name="google-site-verification" content={config.googleSiteVerification} />
+          <meta
+            name="google-site-verification"
+            content={config.googleSiteVerification}
+          />
         )}
         <meta name="github:card" content="summary_large_image" />
         <meta name="github:title" content={config.title} />
         <meta name="github:description" content={config.description} />
         <meta name="github:url" content={config.siteUrl} />
-        <meta name="github:image" content={`${config.siteUrl}${getSrc(props.data.header)}`} />
+        <meta
+          name="github:image"
+          content={`${config.siteUrl}${getSrc(props.data.header)}`}
+        />
         {config.github && (
           <meta
             name="github:site"
@@ -76,7 +87,10 @@ function IndexPage(props: IndexProps) {
         )}
         <meta property="og:image:width" content={width?.toString()} />
         <meta property="og:image:height" content={height?.toString()} />
-        <meta name="google-site-verification" content="X7fnDr_T5GGmrn97A919fAd2I_t2ghdL_ZkDjcR1Y8Q" />
+        <meta
+          name="google-site-verification"
+          content="X7fnDr_T5GGmrn97A919fAd2I_t2ghdL_ZkDjcR1Y8Q"
+        />
       </Helmet>
       <Wrapper>
         <div
@@ -111,10 +125,14 @@ function IndexPage(props: IndexProps) {
                 (post, index) =>
                   // filter out drafts in production
                   (post.node.frontmatter.draft !== true ||
-                    post.node.frontmatter.tags[0] !== 'Diary' &&
-                    process.env.NODE_ENV !== 'production') && (
-                    <PostCard key={post.node.fields.slug} post={post.node} isLarge={index === 0} />
-                  ),
+                    (post.node.frontmatter.tags[0] !== 'Diary' &&
+                      process.env.NODE_ENV !== 'production')) && (
+                    <PostCard
+                      key={post.node.fields.slug}
+                      post={post.node}
+                      isLarge={index === 0}
+                    />
+                  )
               )}
             </div>
           </div>
@@ -142,12 +160,17 @@ export const pageQuery = graphql`
   query blogPageQuery($skip: Int!, $limit: Int!) {
     header: file(relativePath: { eq: "img/common/back.png" }) {
       childImageSharp {
-        gatsbyImageData(width: 2000, quality: 100, layout: FIXED, formats: [AUTO, WEBP, AVIF])
+        gatsbyImageData(
+          width: 2000
+          quality: 100
+          layout: FIXED
+          formats: [AUTO, WEBP, AVIF]
+        )
       }
     }
     allMarkdownRemark(
       sort: { frontmatter: { date: DESC } }
-      filter: { frontmatter: { draft: { ne: true }, tags: { ne: "Diary" } } }
+      filter: { frontmatter: { draft: { ne: true }, tags: { ne: "" } } }
       limit: $limit
       skip: $skip
     ) {
@@ -169,7 +192,10 @@ export const pageQuery = graphql`
               bio
               avatar {
                 childImageSharp {
-                  gatsbyImageData(layout: FULL_WIDTH, breakpoints: [40, 80, 120])
+                  gatsbyImageData(
+                    layout: FULL_WIDTH
+                    breakpoints: [40, 80, 120]
+                  )
                 }
               }
             }
