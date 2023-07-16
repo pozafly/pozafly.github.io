@@ -2,7 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { graphql, Link } from 'gatsby';
 import { css } from '@emotion/react';
-import kebabCase from "lodash/kebabCase"
+import kebabCase from 'lodash/kebabCase';
 
 import { Footer } from '../components/Footer';
 import SiteNav from '../components/header/SiteNav';
@@ -17,7 +17,12 @@ import {
   SiteMain,
   SiteNavMain,
 } from '../styles/shared';
-import { NoImage, PostFull, PostFullHeader, PostFullTitle } from '../templates/post';
+import {
+  NoImage,
+  PostFull,
+  PostFullHeader,
+  PostFullTitle,
+} from '../templates/post';
 import { colors } from '../styles/colors';
 
 const PageTemplate = css`
@@ -51,16 +56,16 @@ const TagArea = css`
       transition: all 0.4s ease;
 
       &:hover {
-        box-shadow: 0px 8px 20px hsla(218,53%,10%,12%);
+        box-shadow: 0px 8px 20px hsla(218, 53%, 10%, 12%);
         transform: translateY(-3px);
       }
-      
+
       @media (prefers-color-scheme: dark) {
         background: #282b31;
         border: 1px solid hsl(230deg 6% 23%);
         &:hover {
           /* box-shadow: 0px 8px 20px hsla(218,53%,10%,12%); */
-          box-shadow: 0px 8px 20px 	#090f1a;
+          box-shadow: 0px 8px 20px #090f1a;
         }
       }
 
@@ -87,7 +92,10 @@ const Tags: React.FC = ({ data }: any) => {
         <title>Tags</title>
       </Helmet>
       <Wrapper css={PageTemplate}>
-        <header className="site-archive-header no-image" css={[SiteHeader, SiteArchiveHeader]}>
+        <header
+          className="site-archive-header no-image"
+          css={[SiteHeader, SiteArchiveHeader]}
+        >
           <div css={[outer, SiteNavMain]}>
             <div css={inner}>
               <SiteNav isHome={false} />
@@ -105,7 +113,7 @@ const Tags: React.FC = ({ data }: any) => {
                 <div className="post-content">
                   <div css={TagArea}>
                     <ul>
-                      {data.allMarkdownRemark.group.map(tag => (
+                      {data.allMarkdownRemark.group.map((tag: any) => (
                         <li key={tag.fieldValue}>
                           <Link to={`/tags/${kebabCase(tag.fieldValue)}/`}>
                             {tag.fieldValue} ({tag.totalCount})
@@ -123,21 +131,21 @@ const Tags: React.FC = ({ data }: any) => {
       </Wrapper>
     </IndexLayout>
   );
-}
+};
 
 export const query = graphql`
   query {
     allMarkdownRemark(
       filter: { frontmatter: { draft: { ne: true } } }
-      sort: { fields: [frontmatter___date], order: DESC }
+      sort: { frontmatter: { date: DESC } }
       limit: 2000
     ) {
-      group(field: frontmatter___tags) {
+      group(field: { frontmatter: { tags: SELECT } }) {
         fieldValue
         totalCount
       }
     }
   }
-`
+`;
 
 export default Tags;
