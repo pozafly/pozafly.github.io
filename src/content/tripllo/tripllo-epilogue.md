@@ -2,8 +2,7 @@
 layout: post
 title: 'Tripllo 후기'
 author: [Pozafly]
-tags:
-  - Tripllo 제작기
+tags: [Tripllo 제작기, Retrospect]
 image: ../img/tripllo/후기.png
 date: '2021-02-19'
 draft: false
