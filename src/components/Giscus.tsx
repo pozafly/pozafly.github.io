@@ -24,8 +24,6 @@ const Giscus: React.FC<IGiscusProps> = React.memo(({ repo }) => {
       'data-emit-metadata': '0',
       'data-input-position': 'top',
       'data-theme': 'preferred_color_scheme',
-      'data-lang': 'ko',
-      'data-loading': 'lazy',
       crossorigin: 'anonymous',
     };
 
