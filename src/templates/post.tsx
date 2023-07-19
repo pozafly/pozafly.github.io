@@ -20,7 +20,7 @@ import { colors } from '../styles/colors';
 import { inner, outer, SiteMain } from '../styles/shared';
 import config from '../website-config';
 import { AuthorList } from '../components/AuthorList';
-import Utterances from '../components/Utterances';
+import Giscus from '../components/Giscus';
 
 export type Author = {
   name: string;
@@ -112,11 +112,17 @@ function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
         <html lang={config.lang} />
         <title>{post.frontmatter.title}</title>
 
-        <meta name="description" content={post.frontmatter.excerpt || post.excerpt} />
+        <meta
+          name="description"
+          content={post.frontmatter.excerpt || post.excerpt}
+        />
         <meta property="og:site_name" content={config.title} />
         <meta property="og:type" content="article" />
         <meta property="og:title" content={post.frontmatter.title} />
-        <meta property="og:description" content={post.frontmatter.excerpt || post.excerpt} />
+        <meta
+          property="og:description"
+          content={post.frontmatter.excerpt || post.excerpt}
+        />
         <meta property="og:url" content={config.siteUrl + location.pathname} />
         {post.frontmatter.image && (
           <meta
@@ -124,18 +130,28 @@ function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
             content={`${config.siteUrl}${getSrc(post.frontmatter.image)}`}
           />
         )}
-        <meta property="article:published_time" content={post.frontmatter.date} />
+        <meta
+          property="article:published_time"
+          content={post.frontmatter.date}
+        />
         {/* not sure if modified time possible */}
         {/* <meta property="article:modified_time" content="2018-08-20T15:12:00.000Z" /> */}
         {post.frontmatter.tags && (
           <meta property="article:tag" content={post.frontmatter.tags[0]} />
         )}
 
-        {config.instagram && <meta property="article:publisher" content={config.instagram} />}
-        {config.instagram && <meta property="article:author" content={config.instagram} />}
+        {config.instagram && (
+          <meta property="article:publisher" content={config.instagram} />
+        )}
+        {config.instagram && (
+          <meta property="article:author" content={config.instagram} />
+        )}
         <meta name="github:card" content="summary_large_image" />
         <meta name="github:title" content={post.frontmatter.title} />
-        <meta name="github:description" content={post.frontmatter.excerpt || post.excerpt} />
+        <meta
+          name="github:description"
+          content={post.frontmatter.excerpt || post.excerpt}
+        />
         <meta name="github:url" content={config.siteUrl + location.pathname} />
         {post.frontmatter.image && (
           <meta
@@ -146,7 +162,9 @@ function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
         <meta name="github:label1" content="Written by" />
         <meta name="github:data1" content={post.frontmatter.author[0].name} />
         <meta name="github:label2" content="Filed under" />
-        {post.frontmatter.tags && <meta name="github:data2" content={post.frontmatter.tags[0]} />}
+        {post.frontmatter.tags && (
+          <meta name="github:data2" content={post.frontmatter.tags[0]} />
+        )}
         {config.github && (
           <meta
             name="github:site"
@@ -159,8 +177,12 @@ function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
             content={`@${config.github.split('https://github.com/')[1]}`}
           />
         )}
-        {width && <meta property="og:image:width" content={width?.toString()} />}
-        {height && <meta property="og:image:height" content={height?.toString()} />}
+        {width && (
+          <meta property="og:image:width" content={width?.toString()} />
+        )}
+        {height && (
+          <meta property="og:image:height" content={height?.toString()} />
+        )}
       </Helmet>
       <Wrapper css={PostTemplate}>
         <header className="site-header">
@@ -188,22 +210,32 @@ function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
                   {post.frontmatter.tags &&
                     post.frontmatter.tags.length > 0 &&
                     !config.showAllTags && (
-                      <Link to={`/tags/${kebabCase(post.frontmatter.tags[0])}/`}>
+                      <Link
+                        to={`/tags/${kebabCase(post.frontmatter.tags[0])}/`}
+                      >
                         {post.frontmatter.tags[0]}
                       </Link>
                     )}
                 </PostFullTags>
-                <PostFullTitle className="post-full-title">{post.frontmatter.title}</PostFullTitle>
+                <PostFullTitle className="post-full-title">
+                  {post.frontmatter.title}
+                </PostFullTitle>
                 <PostFullCustomExcerpt className="post-full-custom-excerpt">
                   {post.frontmatter.excerpt}
                 </PostFullCustomExcerpt>
                 <PostFullByline className="post-full-byline">
                   <section className="post-full-byline-content">
-                    <AuthorList authors={post.frontmatter.author} tooltip="large" />
+                    <AuthorList
+                      authors={post.frontmatter.author}
+                      tooltip="large"
+                    />
                     <section className="post-full-byline-meta">
                       <h4 className="author-name">
                         {post.frontmatter.author.map(author => (
-                          <Link key={author.name} to={`/author/${kebabCase(author.name)}/`}>
+                          <Link
+                            key={author.name}
+                            to={`/author/${kebabCase(author.name)}/`}
+                          >
                             {author.name}
                           </Link>
                         ))}
@@ -236,7 +268,9 @@ function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
               {/* The big email subscribe modal content */}
               {config.showSubscribe && <Subscribe title={config.title} />}
             </article>
-            <Utterances repo="pozafly/blog-comments" />
+            <div css={GiscusStyle}>
+              <Giscus repo="pozafly/blog-comments" />
+            </div>
           </div>
         </main>
 
@@ -252,6 +286,15 @@ function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
     </IndexLayout>
   );
 }
+
+const GiscusStyle = css`
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+`;
 
 const PostTemplate = css`
   .site-main {
@@ -421,7 +464,7 @@ const PostFullImage = styled.figure`
   width: 80%;
   border-radius: 8px;
   img {
-    border-radius: 8px;  
+    border-radius: 8px;
   }
 
   @media (max-width: 1170px) {
@@ -461,7 +504,11 @@ export const query = graphql`
         excerpt
         image {
           childImageSharp {
-            gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+            gatsbyImageData(
+              layout: FULL_WIDTH
+              placeholder: BLURRED
+              formats: [AUTO, WEBP, AVIF]
+            )
           }
         }
         author {
@@ -476,7 +523,9 @@ export const query = graphql`
       }
     }
     relatedPosts: allMarkdownRemark(
-      filter: { frontmatter: { tags: { in: [$primaryTag] }, draft: { ne: true } } }
+      filter: {
+        frontmatter: { tags: { in: [$primaryTag] }, draft: { ne: true } }
+      }
       limit: 5
       sort: { frontmatter: { date: DESC } }
     ) {
