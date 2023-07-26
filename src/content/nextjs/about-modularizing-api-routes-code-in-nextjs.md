@@ -3,7 +3,7 @@ layout: post
 title: 'Next.js의 API Routes 코드 모듈화에 대해서'
 author: [Pozafly]
 tags: [Next.js]
-date: '2023-07-25'
+date: '2023-07-26'
 image: ../img/nextjs/about-modularizing-api-routes-code-in-nextjs/main.webp
 draft: false
 excerpt: API Routes를 사용하면 코드가 매우 지저분해진다. API Routes를 사용하면서 어떻게 하면 코드를 보기 좋은 형태로 남길 수 있을지 고민한 흔적.
