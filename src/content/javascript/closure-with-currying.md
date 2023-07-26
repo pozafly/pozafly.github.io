@@ -24,8 +24,6 @@ excerpt: JavaScript의 클로저를 통해 currying 함수를 알아보자.
 
 [mdn](https://developer.mozilla.org/ko/docs/Web/JavaScript/Closures)에서 말하기를 클로저란, '**함수와 함수가 선언된 어휘적 환경의 조합**'이라고 한다. 처음 이 말을 접했을 때는 도대체 이 말이 뭘 말하는 것인가 잘 모르겠더라. 이 말의 의미를 파악하면서 자바스크립트의 추가적인 개념과 함께 알아보자.
 
-
-
 ## 일급 함수(first-class function)
 
 먼저, 일급 함수에 대해서 알아보자. [mdn JavaScript](https://developer.mozilla.org/ko/docs/Web/JavaScript)에서 JavaScript를 설명하기로 JavaScript는 가벼운, 인터프리터 혹은 just-in-time 컴파일 프로그래밍 언어로, '**일급 함수**'를 지원한다고 한다. 일급 함수란, 함수를 다른 변수와 동일하게 다루는 언어다. 일급 함수의 조건은 아래와 같다.
@@ -36,9 +34,9 @@ excerpt: JavaScript의 클로저를 통해 currying 함수를 알아보자.
 
 ```js
 // 함수를 변수에 할당
-const foo = function() {
+const foo = function () {
   console.log('foobar');
-}
+};
 
 // 함수를 인자로 받는다.
 function bar(func) {
@@ -55,22 +53,22 @@ function bar(func) {
 
 ## 클로저
 
-클로저는 함수와 함수가 선언된 어휘적 환경(Lexical Environment)의 조합이라고 했다. Lexical Environment는 실행 컨텍스트 안에 있는 객체다. 실행 컨텍스트란, 코드가 실행될 때 필요한 환경 정보를 모아둔 객체인데, 이는 함수가 실행될 때 활성화 된다. 
+클로저는 함수와 함수가 선언된 어휘적 환경(Lexical Environment)의 조합이라고 했다. Lexical Environment는 실행 컨텍스트 안에 있는 객체다. 실행 컨텍스트란, 코드가 실행될 때 필요한 환경 정보를 모아둔 객체인데, 이는 함수가 실행될 때 활성화 된다.
 
 실행 컨텍스트 안에는 여러가지가 있지만, 대표적으로 'VariableEnvironment', 'LexicalEnvironment', 'ThisBinding' 있다. 여기서 말하는 LexicalEnvironment는 변수에 접근하기 위해 필요한 식별자(변수명)를 모으고, 외부 환경에서 가지고 있는 식별자 정보를 수집한다. 식별자를 모으는 곳은 EnvironmentRecord이고, 외부 환경의 식별자 정보를 수집하는 곳은 OuterEvironmentReferece 다.
 
 ```js
 function init() {
-    var name = "Mozilla";
-    function displayName() {
-        alert (name);
-    }
-    displayName();    
+  var name = 'Mozilla';
+  function displayName() {
+    alert(name);
+  }
+  displayName();
 }
 init();
 ```
 
-즉, 위의 코드에서 init이라는 함수가 실행되었을 때 실행 컨텍스트가 활성화 되었다. 함수 내부에는 `name` 라는 식별자가 있다. 이는  LexicalEnvironment에 수집이 되었을 것이다. 그리고, displayName 함수에서는 내부 변수가 없지만, init 함수의 변수인 `name`이 사용되었다. 외부의 식별자에 접근했으므로 OuterEnvironmentReference에 접근을 했을 것이다.
+즉, 위의 코드에서 init이라는 함수가 실행되었을 때 실행 컨텍스트가 활성화 되었다. 함수 내부에는 `name` 라는 식별자가 있다. 이는 LexicalEnvironment에 수집이 되었을 것이다. 그리고, displayName 함수에서는 내부 변수가 없지만, init 함수의 변수인 `name`이 사용되었다. 외부의 식별자에 접근했으므로 OuterEnvironmentReference에 접근을 했을 것이다.
 
 이것이 우리가 흔히 말하는 '스코프 체이닝'이다. OuterEnvironmentReference는 현재 호출된 함수가 선언될 당시의 외부 LexicalEnvironment를 참조하는 것. 식별자의 유효범위를 **안에서부터 바깥으로 차례로 LexicalEnvironment를 검색해 나가는 것을 스코프 체인**이라고 한다.
 
@@ -83,7 +81,7 @@ function makeFunc() {
   // 자유 변수
   var name = 'Mozilla';
   function displayName() {
-		console.log(name);
+    console.log(name);
   }
   return displayName;
 }
@@ -94,7 +92,7 @@ var myFunc = makeFunc();
 myFunc(); // Mozilla
 ```
 
-일급 함수라는 특성을 이용해 함수를 리턴했다. makeFunc()이 실행되면서 myFunc 변수에 displayName 함수가 반환되었다. 그리고 displayName이 실행되었다. 일반적으로 함수가 실행이 되면 실행 컨텍스트가 활성화 되고, 실행이 종료가 되면 실행 컨텍스트가 함께 종료된다. 그러면 실행 컨텍스트에 담겨있는 LexicalEnvironment 또한 사라질 것이다. 
+일급 함수라는 특성을 이용해 함수를 리턴했다. makeFunc()이 실행되면서 myFunc 변수에 displayName 함수가 반환되었다. 그리고 displayName이 실행되었다. 일반적으로 함수가 실행이 되면 실행 컨텍스트가 활성화 되고, 실행이 종료가 되면 실행 컨텍스트가 함께 종료된다. 그러면 실행 컨텍스트에 담겨있는 LexicalEnvironment 또한 사라질 것이다.
 
 즉, `var myFunc = makeFunc();` 요 구문에서 이미 `name` 식별자가 사라졌다는 뜻이다. 하지만 `myFunc()` 코드는 정상적으로 실행된다. 이상하지 않나? 이미 name 식별자는 함수 종료와 함께 사라졌을텐데 말이다.
 
@@ -206,9 +204,10 @@ console.log(counter); // 1
 커링은 `f(a, b, c)`처럼 단일 호출로 처리하는 함수를 `f(a)(b)(c)`와 같이 각각의 인수가 호출 가능한 프로세스로 호출된 후 병합되도록 변환하는 것이다.
 
 ```js
-function curry(f) { // 커링 변환을 하는 curry(f) 함수
-  return function(a) {
-    return function(b) {
+function curry(f) {
+  // 커링 변환을 하는 curry(f) 함수
+  return function (a) {
+    return function (b) {
       return f(a, b);
     };
   };
@@ -234,8 +233,6 @@ curry 함수를 가독성이 좋게 화살표 함수로 만들 수 있다.
 ```js
 const curry = f => a => b => f(a, b);
 ```
-
-
 
 > 참고
 >

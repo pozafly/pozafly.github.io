@@ -95,7 +95,7 @@ const user = {
   set setName(value) {
     this._name = value;
   },
-}
+};
 
 delete user.getName;
 delete user.setName;
@@ -231,6 +231,7 @@ console.log(user.count); // 4
 <br/>
 
 > 참고
+>
 > - https://ko.javascript.info/property-accessors
 > - https://stackoverflow.com/questions/34805099/are-getter-and-setter-necessary-in-javascript
 > - https://madplay.github.io/post/coupling-and-cohesion-in-software-engineering

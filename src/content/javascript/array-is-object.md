@@ -170,7 +170,7 @@ Array.prototype.forEach.call(obj, v => console.log(v));
 
 ```js
 const newObj = Array.from(obj);
-  newObj.forEach(v => console.log(v));
+newObj.forEach(v => console.log(v));
 ```
 
 > 참고

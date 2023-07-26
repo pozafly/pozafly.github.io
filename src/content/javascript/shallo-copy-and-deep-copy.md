@@ -23,10 +23,10 @@ JavaScript에서 객체란, 키로 구분된 데이터 집합이나 복잡한 �
 
 객체는 단순히 key, value로 되어있는 자료형일 뿐 아니라, 내부 메커니즘을 알고 있어야 모던 자바스크립트 프레임워크를 잘 다룰 수 있다.
 
-
 ## 데이터 타입
 
 JavaScript의 얕은 복사와 깊은 복사를 알아보기전에 데이터 타입에 대해서 알아보자. 크게 2종류로 분류할 수 있다.
+
 - 기본형(Primitive) 타입
 - 참조형(Reference) 타입
 
@@ -50,9 +50,9 @@ number 타입은 기본형 타입으로 주소가 한번 연결되었다. 그러
 
 ```js
 var obj = {
-   a: 10,
-   b: 'abc',
-}
+  a: 10,
+  b: 'abc',
+};
 ```
 
 <img width="1157" alt="스크린샷 2023-02-07 오후 8 04 24" src="https://user-images.githubusercontent.com/59427983/217228274-5af5ff74-f2d6-44f0-a260-e658ebc1c508.png">
@@ -70,6 +70,7 @@ var obj = {
 <br/>
 
 ## 불변 값이란?
+
 불변 값은, 변하지 않는 값이라는 뜻이다. 위에서 살펴본 기본형 타입은 불변 값이다. 그리고 참조형 타입은 대체적으로 가변값이다.
 
 ```js
@@ -79,8 +80,9 @@ console.log(a); // 20
 ```
 
 처음에는 a에 10 값을 주었다. 그리고 20 값을 다시 할당하고 출력하니 20이 나왔다. 자바스크립트 입장에서 설명해보자.
+
 - 메모리 공간을 확보 후 다른 메모리 공간에 10을 할당했다.
-- 그리고 10이 저장된 주소를 a에 넣는다. 
+- 그리고 10이 저장된 주소를 a에 넣는다.
 - 이후, 20을 재할당할 때, 10이 저장되어 있는 메모리 공간을 그대로 두고, 20을 저장하는 메모리 공간을 추가로 확보 후 저장한다.
 - 그리고 그 공간의 주소를 a가 저장한다.
 
@@ -95,6 +97,7 @@ var obj = {
 }
 var obj.a = 20;
 ```
+
 obj의 프로퍼티의 값을 재할당하면, obj이 가지고 있는 메모리 주소는 변경되지 않고 obj.a가 가지고 있는 주소가 변경된다. 즉, '새로운 객체'가 만들어진 것이 아니라 기존 객체 내부의 값만 바뀐 것이다.
 
 <br/>
@@ -127,9 +130,9 @@ var d = c;
 console.log(c === d); // true
 
 d = 30;
-console.log(c) // 20
-console.log(d) // 30
-console.log(c === d) // false
+console.log(c); // 20
+console.log(d); // 30
+console.log(c === d); // false
 ```
 
 - 기본형 타입의 값을 바라보는 주소값이 동일하기 때문에 a와 b는 각각 값을 할당 받았지만 동일하다고 판단한다.
@@ -143,8 +146,8 @@ console.log(c === d) // false
 
 ```js
 var obj1 = {
-   a: 10,
-   b: 'abc',
+  a: 10,
+  b: 'abc',
 };
 var obj2 = obj1;
 console.log(obj1 === obj2); // true
@@ -165,27 +168,30 @@ console.log(obj1 === obj2); // true
 그렇다면 객체의 깊은 복사를 하려면, 즉 내부의 프로퍼티 값의 주소를 전부 다르게 하려면 어떻게 해야할까?
 
 #### 재귀 함수를 이용
+
 ```js
-var deepCopy = function(obj) {
-   var result = {};
-   if (typeof obj === 'object'  && obj !== null) {
-      for (var prop in obj) {
-         result[obj] = deepCopy(obj[prop]);
-      }
-   } else {
-      result = obj;
-   }
-   return result;
-}
+var deepCopy = function (obj) {
+  var result = {};
+  if (typeof obj === 'object' && obj !== null) {
+    for (var prop in obj) {
+      result[obj] = deepCopy(obj[prop]);
+    }
+  } else {
+    result = obj;
+  }
+  return result;
+};
 ```
+
 deepCopy 함수는 함수 내부에서 자기 자신을 호출하는 재귀 함수다. 중첩된 객체라고 하더라도 프로퍼티 갯수만큼 돌면서 result 객체에 새롭게 할당해준다.
 
 #### JSON.parse(JSON.stringify(obj))를 사용
+
 ```js
 var obj1 = {
-   a: 10,
-   b: 'abc',
-}
+  a: 10,
+  b: 'abc',
+};
 var obj2 = JSON.parse(JSON.stringify(obj1));
 obj2.b = 3;
 console.log(obj1); // {a: 10, b: 'abc'}
@@ -206,11 +212,11 @@ JSON.stringify()는 JavaScript 값이나 객체를 JSON 문자열로 변환한�
 
 ```js
 var obj1 = {
-   a: 1,
-   b: {
-      c: 2,
-   },
-}
+  a: 1,
+  b: {
+    c: 2,
+  },
+};
 var obj2 = { ...obj1 };
 console.log(obj1 === obj2); // false
 console.log(obj1.b === obj2.b); // true
@@ -226,10 +232,10 @@ assign은 '할당'이라는 뜻을 가지고 있으며 객체와 객체를 합�
 
 ```js
 var obj1 = {
-   a: 10,
-   b: {
-      c: 'abc',
-   },
+  a: 10,
+  b: {
+    c: 'abc',
+  },
 };
 var obj2 = Object.assign({}, obj1);
 obj2.a = 20;
@@ -251,13 +257,13 @@ console.log(obj2); // { a: 20, b: { c: "def" } }
 ### for ... in
 
 ```js
-var copyShallo = function(obj) {
-   var result = {};
-   for (var prop in obj) {
-      result[prop] = obj[prop];
-   }
-   return result;
-}
+var copyShallo = function (obj) {
+  var result = {};
+  for (var prop in obj) {
+    result[prop] = obj[prop];
+  }
+  return result;
+};
 ```
 
 깊은 복사에서 사용했던 함수와 달리 재귀를 사용하지 않았다. 단순히 첫번째 프로퍼티만 새로 만든 result 객체에 담는 형태이다.
@@ -265,7 +271,6 @@ var copyShallo = function(obj) {
 ---
 
 정리하자면 이렇다.
-
 
 얕은 복사는 한 단계까지만 복사하고, 깊은 복사는 객체에 중첩된 객체까지 모두 복사한다.
 얕은 복사와 깊은 복사 모두 복사한 대상에 대해서 새로운 객체를 생성하여 기존 객체에는 영향을 주지 않는다. 하지만 얕은 복사와 깊은 복사는 어느 수준까지 복사하느냐의 차이를 가진다.
@@ -286,29 +291,30 @@ const [count, setCount] = useState(0);
 
 setCount(5);
 ```
+
 원시 값은 불변값이므로 count가 0에서 5로 변경되었고(0 값은 메모리에 존재하는데 5가 메모리에 새로 생성되어 count 변수의 주소가 변경되었다), 리랜더링이 일어나 화면의 데이터가 변경된 데이터로 나타났다.
 그렇다면 객체는 어떨까?
 
-```js
+```jsx
 const [obj, setObj] = useState({
-   a: 10,
-   b: {
-      c: 'abc',
-   },
+  a: 10,
+  b: {
+    c: 'abc',
+  },
 });
 
 return (
-   <div>
-   <p>{obj.b.c}</p>
-   <button
+  <div>
+    <p>{obj.b.c}</p>
+    <button
       onClick={() => {
-         obj.b.c = 'def';
-         setObj(obj);
+        obj.b.c = 'def';
+        setObj(obj);
       }}
-   >
+    >
       Click
-   </button>
-   </div>
+    </button>
+  </div>
 );
 ```
 
@@ -318,30 +324,35 @@ react는 상태를 비교할 때 `Object.is()` 를 사용한다. Object.is 메�
 
 그렇다면 주소를 변경한 Object를 넣어주자.
 
-```js
-onClick={() =>
-   setObj({
+```jsx
+<button
+  onClick={() =>
+    setObj({
       ...obj,
-      b: {
-         c: 'def',
-      },
-   })
-}
+      b: { c: 'def' },
+    })
+  }
+>
+  Click
+</button>
 ```
 
 setState에 새로운 객채(`{}`)를 만들었고, 얕은 복사로 spread 문법을 활용해 객체를 풀어주었다.(앞서 살펴본 Object.assing() 메서드도 동일하게 동작한다) 그리고 b.c의 값을 변경했다. 잘 동작한다. 그렇다면 깊은 복사도 가능할까?
 
-```js
-onClick={() => {
-   const obj2 = JSON.parse(JSON.stringify(obj));
-   obj2.b.c = 'def';
-   setObj(obj2);
-}}
+```jsx
+<button
+  onClick={() => {
+    const obj2 = JSON.parse(JSON.stringify(obj));
+    obj2.b.c = 'def';
+    setObj(obj2);
+  }}
+>
+  Click
+</button>
 ```
 
 역시 마찬가지로 obj가 바라보고 있는 주소 자체가 변경되었기 때문에 깊은 복사도 동작한다. react 공식 Doc에서 지속적으로 등장하는 단어가 있다. 그것은 'shallow' 인데, DOM을 비교할 때에도 react는 얕은 비교를 한다. 왜 깊은 복사도 가능하지만 얕은 복사를 권장할까?
 이유는 성능에 있다. [react - reconciliation](https://ko.reactjs.org/docs/reconciliation.html)
-
 
 만약 Object의 깊이가 1000개라고 가정하자. 그리고 999번째의 깊이의 5번째 값이 변경되었다. 그렇다면 Object의 1000개의 깊이를 모두 돌면서 값을 비교해야한다. 비교를 해야하는 연산이 매우 많기 때문에 연산하는 도중에 성능이 낮은 기기에서는 어플리케이션이 죽을 것이다.
 
@@ -371,7 +382,7 @@ function defineReactive$$1 (
       },
       set: function reactiveSetter (newVal) {
          var value = getter ? getter.call(obj) : val;
-         
+
          if (newVal === value || (newVal !== newVal && value !== value)) {
             return
          }
@@ -401,7 +412,7 @@ Vue에서 '깊은 복사'를 사용하는 경우가 있다. 이는 컴포넌트�
 > 참고
 >
 > - https://www.valentinog.com/blog/react-object-is/
-> 
+>
 > - https://beta.reactjs.org/learn/updating-objects-in-state
 >
 > - https://blog.bitsrc.io/understanding-referential-equality-in-react-a8fb3769be0

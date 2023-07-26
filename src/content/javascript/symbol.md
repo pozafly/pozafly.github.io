@@ -66,9 +66,9 @@ console.log(obj[MY_KEY]); // 123
 ```js
 const FOO = Symbol();
 let obj = {
-    [FOO]() {
-        return 'bar';
-    }
+  [FOO]() {
+    return 'bar';
+  },
 };
 console.log(obj[FOO]()); // bar
 ```
@@ -86,9 +86,9 @@ console.log(obj[FOO]()); // bar
 
 ```js
 let obj = {
-    [Symbol('my_key')]: 1,
-    enum: 2,
-    nonEnum: 3,
+  [Symbol('my_key')]: 1,
+  enum: 2,
+  nonEnum: 3,
 };
 Object.defineProperty(obj, 'nonEnum', { enumerable: false });
 ```
@@ -100,8 +100,8 @@ nonEnum이란 값에 Object.defineProperty() 메서드를 사용해, enumerable�
 어쨌든 nonEnum 프로퍼티를 열거 불가능하게 만들었으니 반복했을 때 어떤 결과가 나타나는지 보자.
 
 ```js
-for(key in obj) {
-    console.log(key);
+for (key in obj) {
+  console.log(key);
 }
 // enum
 ```
@@ -125,11 +125,11 @@ getOwnPropertyNames() 메서드에서도 Symbol은 나타나지 않지만, getOw
 ES5 이전까지 상수(enum, constant)를 사용할 때는 String을 사용해 아래와 같이 사용했다.
 
 ```js
-var COLOR_RED    = 'red';
+var COLOR_RED = 'red';
 var COLOR_ORANGE = 'orange';
 var COLOR_YELLOW = 'yellow';
-var COLOR_GREEN  = 'green';
-var COLOR_BLUE   = 'blue';
+var COLOR_GREEN = 'green';
+var COLOR_BLUE = 'blue';
 var COLOR_VIOLET = 'violet';
 ```
 
@@ -137,22 +137,22 @@ var COLOR_VIOLET = 'violet';
 
 ```js
 function getComplement(color) {
-    switch (color) {
-        case COLOR_RED:
-            return COLOR_GREEN;
-        case COLOR_ORANGE:
-            return COLOR_BLUE;
-        case COLOR_YELLOW:
-            return COLOR_VIOLET;
-        case COLOR_GREEN:
-            return COLOR_RED;
-        case COLOR_BLUE:
-            return COLOR_ORANGE;
-        case COLOR_VIOLET:
-            return COLOR_YELLOW;
-        default:
-            throw new Error('Unknown color: ' + color);
-    }
+  switch (color) {
+    case COLOR_RED:
+      return COLOR_GREEN;
+    case COLOR_ORANGE:
+      return COLOR_BLUE;
+    case COLOR_YELLOW:
+      return COLOR_VIOLET;
+    case COLOR_GREEN:
+      return COLOR_RED;
+    case COLOR_BLUE:
+      return COLOR_ORANGE;
+    case COLOR_VIOLET:
+      return COLOR_YELLOW;
+    default:
+      throw new Error('Unknown color: ' + color);
+  }
 }
 ```
 
@@ -167,11 +167,11 @@ var MOOD_BLUE = 'blue';
 이러한 문제점을 개선하고자 나온 것이 Symbol이다. 이제 실제 상수를 선언해보자. ES6에서 나온 `const`를 사용해 상수를 선언할 수 있다.
 
 ```js
-const COLOR_RED    = Symbol();
+const COLOR_RED = Symbol();
 const COLOR_ORANGE = Symbol();
 const COLOR_YELLOW = Symbol();
-const COLOR_GREEN  = Symbol();
-const COLOR_BLUE   = Symbol();
+const COLOR_GREEN = Symbol();
+const COLOR_BLUE = Symbol();
 const COLOR_VIOLET = Symbol();
 ```
 
@@ -209,13 +209,13 @@ Symbol은 객체의 Symbol 값 프로퍼티 키를 쉽게 찾을 수 있기 때�
 // private property를 사용하기 위해 WeakMap을 사용했다.
 const PASSWORD = new WeakMap();
 class Login {
-    constructor(name, password) {
-        this.name = name;
-        PASSWORD.set(this, password);
-    }
-    hasPassword(pw) {
-        return PASSWORD.get(this) === pw;
-    }
+  constructor(name, password) {
+    this.name = name;
+    PASSWORD.set(this, password);
+  }
+  hasPassword(pw) {
+    return PASSWORD.get(this) === pw;
+  }
 }
 const user = new Login('a', 'b');
 ```
@@ -233,13 +233,13 @@ WeakMap 대신 Symbol 키를 사용하면 다음과 같은 코드가 된다.
 ```js
 const PASSWORD = Symbol();
 class Login {
-    constructor(name, password) {
-        this.name = name;
-        this[PASSWORD] = password;
-    }
-    hasPassword(pw) {
-        return this[PASSWORD] === pw;
-    }
+  constructor(name, password) {
+    this.name = name;
+    this[PASSWORD] = password;
+  }
+  hasPassword(pw) {
+    return this[PASSWORD] === pw;
+  }
 }
 const user = new Login('a', 'b');
 ```
@@ -311,23 +311,22 @@ obj는 객체다. 따라서 원래는 iterable이 없기 때문에 `for ... of` 
 
 ```html
 <head>
-    <script>
-        function test(arr) {
-            var iframe = frames[0];
-           // 아래 코드는 iframe의 코드와 다른 영역에 있다.
-           // 따라서 Array와 같은 전역 변수 코드는 서로 다른 코드이다.
-            console.log(Array === iframe.Array); // false
-            console.log(arr instanceof Array); // false
-            console.log(arr instanceof iframe.Array); // true
+  <script>
+    function test(arr) {
+      var iframe = frames[0];
+      // 아래 코드는 iframe의 코드와 다른 영역에 있다.
+      // 따라서 Array와 같은 전역 변수 코드는 서로 다른 코드이다.
+      console.log(Array === iframe.Array); // false
+      console.log(arr instanceof Array); // false
+      console.log(arr instanceof iframe.Array); // true
 
-            // 하지만 심볼은 동일하다
-            console.log(Symbol.iterator === iframe.Symbol.iterator); // true
-        }
-    </script>
+      // 하지만 심볼은 동일하다
+      console.log(Symbol.iterator === iframe.Symbol.iterator); // true
+    }
+  </script>
 </head>
 <body>
-    <iframe srcdoc="<script>window.parent.test([])</script>">
-</iframe>
+  <iframe srcdoc="<script>window.parent.test([])</script>"> </iframe>
 </body>
 ```
 
@@ -339,7 +338,7 @@ HTML 상의 영역과, iframe 내부 영역은 다른 영역이다. 하지만, S
 
 Symbol은 개별 ID를 가지므로 다른 primitive type의 값만큼 원활하게 영역을 가로질러 이동하지 **않는다**. 이는 영역 간에 작동해야 하는 `Symbol.iterator`와 같은 심볼의 문제다. 객체가 한 영역에서 반복 가능하면 다른 영역에서도 반복 가능해야 한다. 서로 다른 영역 Symbol이 JavaScript 엔진에서 제공되는 경우(Symbol.iterator와 같이 빌트인인 경우) 엔진은 각 영역에서 동일한 값이 사용되는지 확인할 수 있다.
 
-그러나, 라이브러리의 경우는 다르다. 이때 `심볼 레지스트리`를 활용할 수 있다.  심볼 레지스트리는 쉽게 말해서 다른 영역간의 전역 객체라고 생각하면 쉽다. 심볼 레지스트리에 심볼을 저장하고, 꺼내와서 쓸 수 있다.
+그러나, 라이브러리의 경우는 다르다. 이때 `심볼 레지스트리`를 활용할 수 있다. 심볼 레지스트리는 쉽게 말해서 다른 영역간의 전역 객체라고 생각하면 쉽다. 심볼 레지스트리에 심볼을 저장하고, 꺼내와서 쓸 수 있다.
 
 ``` js
 const s1 = Symbol.for('foo');
@@ -447,22 +446,20 @@ react에서 위 코드를 실행해보자.
 
 서버로부터 내려온 JSON 정보가 있다고 가정하자. 만약 이 JSON은, 해커가 악의적으로 심은 JSON이다. 그럼 이 JSON이 `React.createElement()` 메서드에 담겼다.
 
-```js
+```jsx
 // 서버에 구멍이 생겨 JSON이 저장되었다고 가정하자.
 let expectedTextButGotJSON = {
   type: 'div',
   props: {
     dangerouslySetInnerHTML: {
-      __html: '/* put your exploit here */'
+      __html: '/* put your exploit here */',
     },
   },
   // ...
 };
 let message = { text: expectedTextButGotJSON };
 
-<p>
-  {message.text}
-</p>;
+<p>{message.text}</p>;
 ```
 
 서버로 부터 가져온 JSON이 p 태그에 담겼다. `message.text` 내부에는 `<script>` 태그가 존재했고, 악의적인 코드가 태그 내부에 존재한다. 그러면, 유저의 렌더링 된 페이지에서 스크립트가 실행되고 유저의 정보가 탈취될 것이다.
