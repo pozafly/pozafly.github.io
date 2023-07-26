@@ -35,7 +35,7 @@ Next.js는 SSR 뿐 아니라 다양한 기능을 제공하고 있다. 번들링�
 
 API Routes는 API를 호출할 수 있는 Endpoint를 생성해준다. Next.js의 파일 기반 routing과 마찬가지로 파일 기반으로 API Endpoint가 생성된다. `pages/api` 폴더 내부에 파일을 생성하고, 함수를 작성하면 함수를 기반으로 API를 내려줄 수 있다.
 
-API Routes에는 주의점이 있다. API Routes의 **포지션**에 대해 생각해보자. Node.js로 백엔드를 구성한다면 Express를 사용할 수도 있고, NestJS도 사용할 수 있다. 반드시 서버 프레임워크 구성 환경이 1Node.js가 아니라면 Spring과 같은 엔터프라이즈 급 프레임워크로 서버를 구성할 수도 있다. 하지만, API Routes는 서버 프레임워크로 구성 된 서버 코드보다 훨씬 가벼운 개념으로 탄생했다.
+API Routes에는 주의점이 있다. API Routes의 **포지션**에 대해 생각해보자. Node.js로 백엔드를 구성한다면 Express를 사용할 수도 있고, NestJS도 사용할 수 있다. 반드시 서버 프레임워크 구성 환경이 반드시 Node.js가 아니라면 Spring과 같은 엔터프라이즈 급 프레임워크로 서버를 구성할 수도 있다. 하지만, API Routes는 서버 프레임워크로 구성 된 서버 코드보다 훨씬 가벼운 개념으로 탄생했다.
 
 API Routes는 **Serverless Function**으로 구성되어 있다. Serverless Function의 컨셉은 요청(이벤트)이 들어올 때마다 지정된 함수를 실행시켜 원하는 API를 클라이언트에게 전달하는 것이다. 그렇기 때문에 web socket과 같은 연결은 가질 수 없다. 애초에 지속적인 커넥션을 잡고 있을 수 있게 설게된 모델이 아니기 때문이다.
 
