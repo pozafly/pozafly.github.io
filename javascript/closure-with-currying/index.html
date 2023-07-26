@@ -104,9 +104,9 @@
 <li>함수를 변수에 할당할 수 있다.</li>
 </ul>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// 함수를 변수에 할당</span>
-<span class="token keyword">const</span> <span class="token function-variable function">foo</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token keyword">const</span> <span class="token function-variable function">foo</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&#x27;foobar&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 
 <span class="token comment">// 함수를 인자로 받는다.</span>
 <span class="token keyword">function</span> <span class="token function">bar</span><span class="token punctuation">(</span><span class="token parameter">func</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -117,17 +117,17 @@
 <p>자바스크립트의 이러한 특성을 활용하면 클로저를 만들 수 있다.</p>
 <br/>
 <h2 id="클로저" style="position:relative">클로저<a href="#%ED%81%B4%EB%A1%9C%EC%A0%80" aria-label="클로저 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
-<p>클로저는 함수와 함수가 선언된 어휘적 환경(Lexical Environment)의 조합이라고 했다. Lexical Environment는 실행 컨텍스트 안에 있는 객체다. 실행 컨텍스트란, 코드가 실행될 때 필요한 환경 정보를 모아둔 객체인데, 이는 함수가 실행될 때 활성화 된다.</p>
+<p>클로저는 함수와 함수가 선언된 어휘적 환경(Lexical Environment)의 조합이라고 했다. Lexical Environment는 실행 컨텍스트 안에 있는 객체다. 실행 컨텍스트란, 코드가 실행될 때 필요한 환경 정보를 모아둔 객체인데, 이는 함수가 실행될 때 활성 화 된다.</p>
 <p>실행 컨텍스트 안에는 여러가지가 있지만, 대표적으로 ‘VariableEnvironment’, ‘LexicalEnvironment’, ‘ThisBinding’ 있다. 여기서 말하는 LexicalEnvironment는 변수에 접근하기 위해 필요한 식별자(변수명)를 모으고, 외부 환경에서 가지고 있는 식별자 정보를 수집한다. 식별자를 모으는 곳은 EnvironmentRecord이고, 외부 환경의 식별자 정보를 수집하는 곳은 OuterEvironmentReferece 다.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">var</span> name <span class="token operator">=</span> <span class="token string">&quot;Mozilla&quot;</span><span class="token punctuation">;</span>
-    <span class="token keyword">function</span> <span class="token function">displayName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token function">alert</span> <span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token function">displayName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    
+  <span class="token keyword">var</span> name <span class="token operator">=</span> <span class="token string">&#x27;Mozilla&#x27;</span><span class="token punctuation">;</span>
+  <span class="token keyword">function</span> <span class="token function">displayName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">alert</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token function">displayName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 <span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
-<p>즉, 위의 코드에서 init이라는 함수가 실행되었을 때 실행 컨텍스트가 활성화 되었다. 함수 내부에는 <code class="language-text">name</code> 라는 식별자가 있다. 이는  LexicalEnvironment에 수집이 되었을 것이다.  그리고, displayName 함수에서는 내부 변수가 없지만, init 함수의 변수인 <code class="language-text">name</code>이 사용되었다. 외부의 식별자에 접근했으므로 OuterEnvironmentReference에 접근을 했을 것이다.</p>
+<p>즉, 위의 코드에서 init이라는 함수가 실행되었을 때 실행 컨텍스트가 활성화 되었다. 함수 내부에는 <code class="language-text">name</code> 라는 식별자가 있다. 이는 LexicalEnvironment에 수집  이 되었을 것이다. 그리고, displayName 함수에서는 내부 변수가 없지만, init 함수의 변수인 <code class="language-text">name</code>이 사용되었다. 외부의 식별자에 접근했으므로 OuterEnvironmentReference에 접근을 했을 것이다.</p>
 <p>이것이 우리가 흔히 말하는 ‘스코프 체이닝’이다. OuterEnvironmentReference는 현재 호출된 함수가 선언될 당시의 외부 LexicalEnvironment를 참조하는 것. 식별자의 유효범위를 <strong>안에서부터 바깥으로 차례로 LexicalEnvironment를 검색해 나가는 것을 스코프 체인</strong>이라고 한다.</p>
 <p>그렇다면, Lexical Scoping은 무엇일까? 함수의 스코프를 결정할 때, 함수가 어디서 호출되었는가가 아니라, 어디에 선언 되었는가에 따라 결정되는 스코프를 말한다. <code class="language-text">displayName()</code> 함수는 init() 함수 안에 선언되었다. 외부에서 이 init 함수를 불러도 마찬가지로, init안의 LexicalEnvironment를 참조하겠다.</p>
 <p>이제 클로저를 보자. 위 소스는 클로저가 아니다.</p>
@@ -135,7 +135,7 @@
   <span class="token comment">// 자유 변수</span>
   <span class="token keyword">var</span> name <span class="token operator">=</span> <span class="token string">&#x27;Mozilla&#x27;</span><span class="token punctuation">;</span>
   <span class="token keyword">function</span> <span class="token function">displayName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-		console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
   <span class="token keyword">return</span> displayName<span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
@@ -168,7 +168,7 @@
 <li>IIFE 안의 변수는 <code class="language-text">a</code>, <code class="language-text">intervalId</code>, <code class="language-text">inner</code> 로 3가지다. inner 함수 내부에서는 a와 intervalId에 접근하고 있다.</li>
 <li>setInterval이 실행될 때, 콜백으로 넘겨준 inner가 실행될 것이다. 렉시컬 스코프에 의해 inner가 선언된 IIFE의 스코프를 inner도 가진다.</li>
 <li>inner 함수가 실행되면 실행 컨텍스트가 활성화 되는데, environmentRecord 안에서 먼저 변수 <code class="language-text">a</code>, <code class="language-text">intervalId</code> 을 찾는다. 변수가 없기 때문에 outerEnvinronmentReference에서 변수를 찾는다. 즉 스코프 체인을 따라 IIFE에 선언된 변수를 찾는다.</li>
-<li>setInterval 메서드가 실행되면서, 첫번째로 실행된 inner 함수의 호출이 끝났다. 그리고 IIFE 함수도 호출이 끝났다. setInterval(window의 메서드)은 inner를 다시 호출한다. 원래는 IIFE가 종료 되었기 때문에 내부의 변수 a, intervalId 를 참조할 수 없지만 inner는 다시 참조한다.</li>
+<li>setInterval 메서드가 실행되면서, 첫번째로 실행된 inner 함수의 호출이 끝났다. 그리고 IIFE 함수도 호출이 끝났다. setInterval(window의 메서드)은 inner를 다시 호  출한다. 원래는 IIFE가 종료 되었기 때문에 내부의 변수 a, intervalId 를 참조할 수 없지만 inner는 다시 참조한다.</li>
 <li>즉, IIFE 내부의 변수는 계속 참조가 되고 있다. 따라서 클로저다.</li>
 </ol>
 <p>내부 함수를 외부로 전달하는 방법은, 함수를 return 하는 경우 뿐 아니라 콜백으로 전달하는 경우에도 포함이 된다.</p>
@@ -231,11 +231,12 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>이렇게 메서드 체이닝도 가능하다. 왜냐하면 increase, decrease에서 <code class="language-text">return this</code> 를 사용했기 때문. 함수는 기본적으로 this가 전역 객체이지만, 여기서는 함수가 아니라 <strong>메서드</strong>로 사용이 되었다. <code class="language-text">makeCounter().increase()</code> 이렇게 점(.) 표기법으로 객체 안의 함수를 불렀기 때문이다. 따라서 이 경우의 this는 makeCounter 자체가 되었고 이는 메서드 체이닝으로 이어진다.</p>
 <br/>
 <h2 id="커링-함수" style="position:relative">커링 함수<a href="#%EC%BB%A4%EB%A7%81-%ED%95%A8%EC%88%98" aria-label="커링 함수 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
-<p>커링 함수는 여러 개의 인자를 받는 함수를 하나의 인자만 받는 함수로 나눠서 순차적으 로 호출될 수 있게 체인 형태로 구성한 것을 말한다.</p>
+<p>커링 함수는 여러 개의 인자를 받는 함수를 하나의 인자만 받는 함 수로 나눠서 순차적으로 호출될 수 있게 체인 형태로 구성한 것을 말한다.</p>
 <p>커링은 <code class="language-text">f(a, b, c)</code>처럼 단일 호출로 처리하는 함수를 <code class="language-text">f(a)(b)(c)</code>와 같이 각각의 인수가 호출 가능한 프로세스로 호출된 후 병합되도록 변환하는 것이다.</p>
-<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">curry</span><span class="token punctuation">(</span><span class="token parameter">f</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">// 커링 변환을 하는 curry(f) 함수</span>
-  <span class="token keyword">return</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">a</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">return</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">b</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">curry</span><span class="token punctuation">(</span><span class="token parameter">f</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 커링 변환을 하는 curry(f) 함수</span>
+  <span class="token keyword">return</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">a</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">b</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
       <span class="token keyword">return</span> <span class="token function">f</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span><span class="token punctuation">;</span>

@@ -107,9 +107,9 @@
 <p>값을 가져오는 과정은 위 과정과 반대다. <code class="language-text">console.log</code>로 a에 접근했을 때 먼저 메모리 공간에서 식별자가 a인 메모리 공간을 찾고, 메모리 공간에 저장된 실제 값이 들어있는 공간의 주소로 값을 가져오는 것이다.</p>
 <p>number 타입은 기본형 타입으로 주소가 한번 연결되었다. 그러면 참조형 타입을 알아보자.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span>
-   <span class="token literal-property property">a</span><span class="token operator">:</span> <span class="token number">10</span><span class="token punctuation">,</span>
-   <span class="token literal-property property">b</span><span class="token operator">:</span> <span class="token string">&#x27;abc&#x27;</span><span class="token punctuation">,</span>
-<span class="token punctuation">}</span></code></pre></div>
+  <span class="token literal-property property">a</span><span class="token operator">:</span> <span class="token number">10</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">b</span><span class="token operator">:</span> <span class="token string">&#x27;abc&#x27;</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre></div>
 <img width="1157" alt="스크린샷 2023-02-07 오후 8 04 24" src="https://user-images.githubusercontent.com/59427983/217228274-5af5ff74-f2d6-44f0-a260-e658ebc1c508.png"/>
 <p>(Note : 코어 자바스크립트 책의 그림을 다시 그렸습니다.)</p>
 <ol>
@@ -160,9 +160,9 @@ console<span class="token punctuation">.</span><span class="token function">log<
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>c <span class="token operator">===</span> d<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
 
 d <span class="token operator">=</span> <span class="token number">30</span><span class="token punctuation">;</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token comment">// 20</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>d<span class="token punctuation">)</span> <span class="token comment">// 30</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>c <span class="token operator">===</span> d<span class="token punctuation">)</span> <span class="token comment">// false</span></code></pre></div>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 20</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>d<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 30</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>c <span class="token operator">===</span> d<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false</span></code></pre></div>
 <ul>
 <li>기본형 타입의 값을 바라보는 주소값이 동일하기 때문에 a와 b는 각각 값을 할당 받았지만 동일하다고 판단한다.</li>
 <li>d도 마찬가지로 c의 주소를 넘겨받았기 때문에 동일하다고 판단한다.</li>
@@ -172,8 +172,8 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>내부의 값은 없지만 복사했을 때, 서로의 주소가 달라졌다. 기본형 타입의 깊은 복사다. <strong>서로에게 영향을 주지 않는다.</strong> 그럼, 참조형 타입을 보자.</p>
 <h3 id="참조형-타입의-깊은-복사" style="position:relative">참조형 타입의 깊은 복사<a href="#%EC%B0%B8%EC%A1%B0%ED%98%95-%ED%83%80%EC%9E%85%EC%9D%98-%EA%B9%8A%EC%9D%80-%EB%B3%B5%EC%82%AC" aria-label="참조형 타입의 깊은 복사 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">var</span> obj1 <span class="token operator">=</span> <span class="token punctuation">{</span>
-   <span class="token literal-property property">a</span><span class="token operator">:</span> <span class="token number">10</span><span class="token punctuation">,</span>
-   <span class="token literal-property property">b</span><span class="token operator">:</span> <span class="token string">&#x27;abc&#x27;</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">a</span><span class="token operator">:</span> <span class="token number">10</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">b</span><span class="token operator">:</span> <span class="token string">&#x27;abc&#x27;</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token keyword">var</span> obj2 <span class="token operator">=</span> obj1<span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>obj1 <span class="token operator">===</span> obj2<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
@@ -191,39 +191,39 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>결과가 나온 이유는, obj2의 ’<strong>프로퍼티</strong>‘를 변경시켰기 때문이다. 프로퍼티 a가 바라보고 있는 주소 자체는 변경되었지만 obj1, obj2가 프로퍼티 ‘그룹’을 바라보는 주소자체는 변경되지 않은 것이다. 이렇게 객체 자체의 참조 값을 할당하면, 깊은 복사가 일어나지 않는다.</p>
 <p>그렇다면 객체의 깊은 복사를 하려면, 즉 내부의 프로퍼티 값의 주소를 전부 다르게 하려면 어떻게 해야할까?</p>
 <h4 id="재귀-함수를-이용" style="position:relative">재귀 함수를 이용<a href="#%EC%9E%AC%EA%B7%80-%ED%95%A8%EC%88%98%EB%A5%BC-%EC%9D%B4%EC%9A%A9" aria-label="재귀 함수를 이용 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h4>
-<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">var</span> <span class="token function-variable function">deepCopy</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">obj</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-   <span class="token keyword">var</span> result <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
-   <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> obj <span class="token operator">===</span> <span class="token string">&#x27;object&#x27;</span>  <span class="token operator">&amp;&amp;</span> obj <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> prop <span class="token keyword">in</span> obj<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-         result<span class="token punctuation">[</span>obj<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">deepCopy</span><span class="token punctuation">(</span>obj<span class="token punctuation">[</span>prop<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token punctuation">}</span>
-   <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-      result <span class="token operator">=</span> obj<span class="token punctuation">;</span>
-   <span class="token punctuation">}</span>
-   <span class="token keyword">return</span> result<span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre></div>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">var</span> <span class="token function-variable function">deepCopy</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">obj</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> result <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> obj <span class="token operator">===</span> <span class="token string">&#x27;object&#x27;</span> <span class="token operator">&amp;&amp;</span> obj <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> prop <span class="token keyword">in</span> obj<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      result<span class="token punctuation">[</span>obj<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">deepCopy</span><span class="token punctuation">(</span>obj<span class="token punctuation">[</span>prop<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    result <span class="token operator">=</span> obj<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre></div>
 <p>deepCopy 함수는 함수 내부에서 자기 자신을 호출하는 재귀 함수다. 중첩된 객체라고 하더라도 프로퍼티 갯수만큼 돌면서 result 객체에 새롭게 할당해준다.</p>
 <h4 id="JSONparseJSONstringifyobj를-사용" style="position:relative">JSON.parse(JSON.stringify(obj))를 사용<a href="#JSONparseJSONstringifyobj%EB%A5%BC-%EC%82%AC%EC%9A%A9" aria-label="JSONparseJSONstringifyobj를 사용 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h4>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">var</span> obj1 <span class="token operator">=</span> <span class="token punctuation">{</span>
-   <span class="token literal-property property">a</span><span class="token operator">:</span> <span class="token number">10</span><span class="token punctuation">,</span>
-   <span class="token literal-property property">b</span><span class="token operator">:</span> <span class="token string">&#x27;abc&#x27;</span><span class="token punctuation">,</span>
-<span class="token punctuation">}</span>
+  <span class="token literal-property property">a</span><span class="token operator">:</span> <span class="token number">10</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">b</span><span class="token operator">:</span> <span class="token string">&#x27;abc&#x27;</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token keyword">var</span> obj2 <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span><span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>obj1<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 obj2<span class="token punctuation">.</span>b <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>obj1<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// {a: 10, b: &#x27;abc&#x27;}</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>obj2<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// {a: 10, b: 3}</span></code></pre></div>
 <p>JSON.stringify()는 JavaScript 값이나 객체를 JSON 문자열로 변환한다. 그리고 JSON.parse()는 JSON 문자열의 구문을 분석하고, 그 결과에서 JavaScript 값이나 객체를 생성한다. 즉, 객체를 문자열로 변환 후 다시 객체 형태로 만든다. 문자열로 변환후 다시 객체로 만들면 원본 객체와의 참조가 모두 끊어진다.</p>
 <hr/>
-<p>깊은 복사를 사용하면 복사했을 때 값은 동일하지만, 객체 내부의 값을 변경해도 서로 영향을 주지 않고 격리된 값을 보장한다. 원시값과 달리 객체는 변경이 가능한 ‘가변값’이며 프로퍼티의 집합이다. 클래스에 정의된 멤버대로 객체를 생성하는 자바같은 경우 객체가 생성된 이후 멤버를 추가할 수 없다. 하지만, 자바스크립트는 객체 생성 이후에도 프로퍼티를 추가하거나 삭제하는 등 변경할 수 있다. 따라서, 깊은 복사를 통해 객체를 복사하지 않으면 객체 사이의 관계가 생성되어 예기치 못한 오류가 발생할 수 있다.</p>
+<p>깊은 복사를 사용하면 복사했을 때 값은 동일하지만, 객체 내부의 값을 변경해도 서로 영  향을 주지 않고 격리된 값을 보장한다. 원시값과 달리 객체는 변경이 가능한 ‘가변값’이며 프로퍼티의 집합이다. 클래스에 정의된 멤버대로 객체를 생성하는 자바같은 경우 객체가 생성된 이후 멤버를 추가할 수 없다. 하지만, 자바스크립트는 객체 생성 이후에도 프로퍼티를 추가하거나 삭제하는 등 변경할 수 있다. 따라서, 깊은 복사를 통해 객체를 복사하지 않으면 객체 사이의 관계가 생성되어 예기치 못한 오류가 발생할 수 있다.</p>
 <br/>
 <h2 id="얕은-복사란" style="position:relative">얕은 복사란?<a href="#%EC%96%95%EC%9D%80-%EB%B3%B5%EC%82%AC%EB%9E%80" aria-label="얕은 복사란 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
 <p>얕은 복사란 참조형 타입의 값의 바로 아래 단계의 값만 복사하는 방법이다.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">var</span> obj1 <span class="token operator">=</span> <span class="token punctuation">{</span>
-   <span class="token literal-property property">a</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
-   <span class="token literal-property property">b</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-      <span class="token literal-property property">c</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
-   <span class="token punctuation">}</span><span class="token punctuation">,</span>
-<span class="token punctuation">}</span>
+  <span class="token literal-property property">a</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">b</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">c</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token keyword">var</span> obj2 <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token operator">...</span>obj1 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>obj1 <span class="token operator">===</span> obj2<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>obj1<span class="token punctuation">.</span>b <span class="token operator">===</span> obj2<span class="token punctuation">.</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span></code></pre></div>
@@ -232,10 +232,10 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <h3 id="Objectassign" style="position:relative">Object.assign()<a href="#Objectassign" aria-label="Objectassign permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
 <p>assign은 ‘할당’이라는 뜻을 가지고 있으며 객체와 객체를 합쳐주는 메서드다.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">var</span> obj1 <span class="token operator">=</span> <span class="token punctuation">{</span>
-   <span class="token literal-property property">a</span><span class="token operator">:</span> <span class="token number">10</span><span class="token punctuation">,</span>
-   <span class="token literal-property property">b</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-      <span class="token literal-property property">c</span><span class="token operator">:</span> <span class="token string">&#x27;abc&#x27;</span><span class="token punctuation">,</span>
-   <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">a</span><span class="token operator">:</span> <span class="token number">10</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">b</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">c</span><span class="token operator">:</span> <span class="token string">&#x27;abc&#x27;</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token keyword">var</span> obj2 <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">assign</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> obj1<span class="token punctuation">)</span><span class="token punctuation">;</span>
 obj2<span class="token punctuation">.</span>a <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span>
@@ -252,13 +252,13 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p><a href="https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#%EA%B9%8A%EC%9D%80_%EB%B3%B5%EC%82%AC_%EC%A3%BC%EC%9D%98%EC%A0%90" target="_blank" rel="nofollow">mdn</a>에 따르면 Object.assign은 깊은 복사를 해주지 않는다고 나와있다.</p>
 <br/>
 <h3 id="for--in" style="position:relative">for … in<a href="#for--in" aria-label="for  in permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
-<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">var</span> <span class="token function-variable function">copyShallo</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">obj</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-   <span class="token keyword">var</span> result <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
-   <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> prop <span class="token keyword">in</span> obj<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      result<span class="token punctuation">[</span>prop<span class="token punctuation">]</span> <span class="token operator">=</span> obj<span class="token punctuation">[</span>prop<span class="token punctuation">]</span><span class="token punctuation">;</span>
-   <span class="token punctuation">}</span>
-   <span class="token keyword">return</span> result<span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre></div>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">var</span> <span class="token function-variable function">copyShallo</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">obj</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> result <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> prop <span class="token keyword">in</span> obj<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    result<span class="token punctuation">[</span>prop<span class="token punctuation">]</span> <span class="token operator">=</span> obj<span class="token punctuation">[</span>prop<span class="token punctuation">]</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre></div>
 <p>깊은 복사에서 사용했던 함수와 달리 재귀를 사용하지 않았다. 단순히 첫번째 프로퍼티만 새로 만든 result 객체에 담는 형태이다.</p>
 <hr/>
 <p>정리하자면 이렇다.</p>
@@ -276,43 +276,49 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token function">setCount</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
 <p>원시 값은 불변값이므로 count가 0에서 5로 변경되었고(0 값은 메모리에 존재하는데 5가 메모리에 새로 생성되어 count 변수의 주소가 변경되었다), 리랜더링이 일어나 화면의 데이터가 변경된 데이터로 나타났다.
 그렇다면 객체는 어떨까?</p>
-<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token punctuation">[</span>obj<span class="token punctuation">,</span> setObj<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-   <span class="token literal-property property">a</span><span class="token operator">:</span> <span class="token number">10</span><span class="token punctuation">,</span>
-   <span class="token literal-property property">b</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-      <span class="token literal-property property">c</span><span class="token operator">:</span> <span class="token string">&#x27;abc&#x27;</span><span class="token punctuation">,</span>
-   <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<div class="gatsby-highlight" data-language="jsx"><pre class="language-jsx"><code class="language-jsx"><span class="token keyword">const</span> <span class="token punctuation">[</span>obj<span class="token punctuation">,</span> setObj<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token literal-property property">a</span><span class="token operator">:</span> <span class="token number">10</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">b</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">c</span><span class="token operator">:</span> <span class="token string">&#x27;abc&#x27;</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 <span class="token keyword">return</span> <span class="token punctuation">(</span>
-   <span class="token operator">&lt;</span>div<span class="token operator">&gt;</span>
-   <span class="token operator">&lt;</span>p<span class="token operator">&gt;</span><span class="token punctuation">{</span>obj<span class="token punctuation">.</span>b<span class="token punctuation">.</span>c<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>p<span class="token operator">&gt;</span>
-   <span class="token operator">&lt;</span>button
-      onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
-         obj<span class="token punctuation">.</span>b<span class="token punctuation">.</span>c <span class="token operator">=</span> <span class="token string">&#x27;def&#x27;</span><span class="token punctuation">;</span>
-         <span class="token function">setObj</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token punctuation">}</span><span class="token punctuation">}</span>
-   <span class="token operator">&gt;</span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">&gt;</span></span><span class="token plain-text">
+    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">{</span>obj<span class="token punctuation">.</span>b<span class="token punctuation">.</span>c<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span><span class="token plain-text">
+    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span>
+      <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        obj<span class="token punctuation">.</span>b<span class="token punctuation">.</span>c <span class="token operator">=</span> <span class="token string">&#x27;def&#x27;</span><span class="token punctuation">;</span>
+        <span class="token function">setObj</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">}</span></span>
+    <span class="token punctuation">&gt;</span></span><span class="token plain-text">
       Click
-   <span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">&gt;</span>
-   <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span><span class="token plain-text">
+  </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
 <span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
 <p>b.c 프로퍼티에 ‘def’를 재할당했다. 하지만 setState를 사용했음에도 화면은 변하지 않는다. 이유는 react에서 상태값을 비교할 때 ‘얕은 비교’ 를 사용하기 때문이다. obj는 새로 만들어진 객체가 아니라, 상태값을 선언할 때 이미 만들어져있었던 obj를 다시 setState 함수에 넣어주었고, obj와 b.c프로퍼티가 변경된 obj는 서로 같은 주소를 가지고 있기 때문에 react 입장에서 동일한 객체라 인식하고 업데이트 하지 않은 것이다.</p>
 <p>react는 상태를 비교할 때 <code class="language-text">Object.is()</code> 를 사용한다. Object.is 메서드는 동등 비교(<code class="language-text">===</code>) 연산자와 비슷한 역할을 하는데, 0의 부호가 다른 것을 구분하며, Number.NaN과 NaN을 같지 않은 것으로 판단하는 것 외에는 동일하다. <a href="https://blog.logrocket.com/a-guide-to-usestate-in-react-ecb9952e406c/" target="_blank" rel="nofollow">useState in React: A complete guide</a></p>
 <p>그렇다면 주소를 변경한 Object를 넣어주자.</p>
-<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js">onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span>
-   <span class="token function">setObj</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+<div class="gatsby-highlight" data-language="jsx"><pre class="language-jsx"><code class="language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span>
+  <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span>
+    <span class="token function">setObj</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
       <span class="token operator">...</span>obj<span class="token punctuation">,</span>
-      <span class="token literal-property property">b</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-         <span class="token literal-property property">c</span><span class="token operator">:</span> <span class="token string">&#x27;def&#x27;</span><span class="token punctuation">,</span>
-      <span class="token punctuation">}</span><span class="token punctuation">,</span>
-   <span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span></code></pre></div>
-<p>setState에 새로운 객채(<code class="language-text">{}</code>)를 만들었고, 얕은 복사로 spread 문법을 활용해 객체를 풀어주었다.(앞서 살펴본 Object.assing() 메서드도 동일하게 동작한다) 그리고 b.c의 값을 변경했다. 잘 동작한다. 그렇다면 깊은   복사도 가능할까?</p>
-<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js">onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
-   <span class="token keyword">const</span> obj2 <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span><span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-   obj2<span class="token punctuation">.</span>b<span class="token punctuation">.</span>c <span class="token operator">=</span> <span class="token string">&#x27;def&#x27;</span><span class="token punctuation">;</span>
-   <span class="token function">setObj</span><span class="token punctuation">(</span>obj2<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">}</span></code></pre></div>
+      <span class="token literal-property property">b</span><span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token literal-property property">c</span><span class="token operator">:</span> <span class="token string">&#x27;def&#x27;</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span></span>
+<span class="token punctuation">&gt;</span></span><span class="token plain-text">
+  Click
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span></code></pre></div>
+<p>setState에 새로운 객채(<code class="language-text">{}</code>)를 만들었고, 얕은 복사로 spread 문법을 활용해 객체를 풀어주었다.(앞서 살펴본 Object.assing() 메서드도 동일하게 동작한다) 그리고 b.c의 값을 변경했다. 잘 동작한다. 그렇다면 깊은 복사도 가능할까?</p>
+<div class="gatsby-highlight" data-language="jsx"><pre class="language-jsx"><code class="language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span>
+  <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> obj2 <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span><span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    obj2<span class="token punctuation">.</span>b<span class="token punctuation">.</span>c <span class="token operator">=</span> <span class="token string">&#x27;def&#x27;</span><span class="token punctuation">;</span>
+    <span class="token function">setObj</span><span class="token punctuation">(</span>obj2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">}</span></span>
+<span class="token punctuation">&gt;</span></span><span class="token plain-text">
+  Click
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span></code></pre></div>
 <p>역시 마찬가지로 obj가 바라보고 있는 주소 자체가 변경되었기 때문에 깊은 복사도 동작한다. react 공식 Doc에서 지속적으로 등장하는 단어가 있다. 그것은 ‘shallow’ 인데, DOM을 비교할 때에도 react는 얕은 비교를 한다. 왜 깊은 복사도 가능하지만 얕은 복사를 권장할까?
 이유는 성능에 있다. <a href="https://ko.reactjs.org/docs/reconciliation.html" target="_blank" rel="nofollow">react - reconciliation</a></p>
 <p>만약 Object의 깊이가 1000개라고 가정하자. 그리고 999번째의 깊이의 5번째 값이 변경되었다. 그렇다면 Object의 1000개의 깊이를 모두 돌면서 값을 비교해야한다. 비교를 해야하는 연산이 매우 많기 때문에 연산하는 도중에 성능이 낮은 기기에서는 어플리케이션이 죽을 것이다.</p>
@@ -335,7 +341,7 @@ Vue도 react와 마찬가지로 props와 상태값(data)을 변경하면 DOM을 
       <span class="token punctuation">}</span><span class="token punctuation">,</span>
       <span class="token function-variable function">set</span><span class="token operator">:</span> <span class="token keyword">function</span> <span class="token function">reactiveSetter</span> <span class="token punctuation">(</span><span class="token parameter">newVal</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
          <span class="token keyword">var</span> value <span class="token operator">=</span> getter <span class="token operator">?</span> <span class="token function">getter</span><span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span> <span class="token operator">:</span> val<span class="token punctuation">;</span>
-         
+
          <span class="token keyword">if</span> <span class="token punctuation">(</span>newVal <span class="token operator">===</span> value <span class="token operator">||</span> <span class="token punctuation">(</span>newVal <span class="token operator">!==</span> newVal <span class="token operator">&amp;&amp;</span> value <span class="token operator">!==</span> value<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
             <span class="token keyword">return</span>
          <span class="token punctuation">}</span>

@@ -116,9 +116,9 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>또, 아래와 같이 Computed Property를 사용해 메서드를 정의할 수 있다.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token constant">FOO</span> <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">let</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span>
-    <span class="token punctuation">[</span><span class="token constant">FOO</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">return</span> <span class="token string">&#x27;bar&#x27;</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
+  <span class="token punctuation">[</span><span class="token constant">FOO</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token string">&#x27;bar&#x27;</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>obj<span class="token punctuation">[</span><span class="token constant">FOO</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// bar</span></code></pre></div>
 <hr/>
@@ -126,20 +126,20 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>이제 프로퍼티의 key가 될 수 있는 새로운 값이 String외에 Symbol이 생겼다. 따라서 ES6에서는 다음과 같은 용어가 사용된다.</p>
 <ul>
 <li>프로퍼티 키는 String 또는 Symbol 타입이 될 수 있다.</li>
-<li>프로퍼티 이름은 String이  다.</li>
+<li>  프로퍼티 이름은 String이다.</li>
 </ul>
 <p>하지만 Symbol은 열거(enumerating) 가능할까?</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">let</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span>
-    <span class="token punctuation">[</span><span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token string">&#x27;my_key&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
-    <span class="token keyword">enum</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
-    <span class="token literal-property property">nonEnum</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+  <span class="token punctuation">[</span><span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token string">&#x27;my_key&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+  <span class="token keyword">enum</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">nonEnum</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span> <span class="token string">&#x27;nonEnum&#x27;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token literal-property property">enumerable</span><span class="token operator">:</span> <span class="token boolean">false</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
 <p>nonEnum이란 값에 Object.defineProperty() 메서드를 사용해, enumerable을 false값을 주었다. 그러면 nonEnum은 열거 불가능하다. <a href="https://pozafly.github.io/javascript/array-is-object/#%EC%9C%A0%EC%82%AC-%EB%B0%B0%EC%97%B4-%EA%B0%9D%EC%B2%B4%EC%99%80-%EB%B0%B0%EC%97%B4%EC%9D%98-%EC%B0%A8%EC%9D%B4%EC%A0%90" target="_blank" rel="nofollow">유사 배열 객체와 배열의 차이점</a>에서 Object.getOwnPropertyDescriptors() 메서드를 사용해 프로퍼티의 설명자(descriptor 또는 flag라 불리움)를 알아본 적이 있다. 이때 return 되는 프로퍼티의 설명자 중 enumerable이 있었다. 열거 가능한지의 여부를 나타낸다.</p>
 <p>※ <code class="language-text">enumerable</code>은, 후술할 <code class="language-text">iterator</code>와는 다르다. enumerable은 <code class="language-text">for ... in</code> 문법으로 객체를 순회할 경우와 관계가 있다. <a href="https://stackoverflow.com/questions/68647965/what-is-the-difference-between-iterable-and-enumerable-in-js-i-am-going-through" target="_blank" rel="nofollow">참고</a></p>
 <p>어쨌든 nonEnum 프로퍼티를 열거 불가능하게 만들었으니 반복했을 때 어떤 결과가 나타나는지 보자.</p>
-<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">for</span><span class="token punctuation">(</span>key <span class="token keyword">in</span> obj<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">for</span> <span class="token punctuation">(</span>key <span class="token keyword">in</span> obj<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 <span class="token comment">// enum</span></code></pre></div>
 <p>Symbol은 나타나지 않고 enum만 찍혔다. Symbol은 기본적으로 열거 불가능한 속성을 가지고 있다.</p>
@@ -151,40 +151,40 @@ Object<span class="token punctuation">.</span><span class="token function">keys<
 <br/>
 <h2 id="2-Symbol-사용-개념" style="position:relative">2. Symbol 사용 개념<a href="#2-Symbol-%EC%82%AC%EC%9A%A9-%EA%B0%9C%EB%85%90" aria-label="2 Symbol 사용 개념 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
 <p>ES5 이전까지 상수(enum, constant)를 사용할 때는 String을 사용해 아래와 같이 사용했다.</p>
-<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">var</span> <span class="token constant">COLOR_RED</span>    <span class="token operator">=</span> <span class="token string">&#x27;red&#x27;</span><span class="token punctuation">;</span>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">var</span> <span class="token constant">COLOR_RED</span> <span class="token operator">=</span> <span class="token string">&#x27;red&#x27;</span><span class="token punctuation">;</span>
 <span class="token keyword">var</span> <span class="token constant">COLOR_ORANGE</span> <span class="token operator">=</span> <span class="token string">&#x27;orange&#x27;</span><span class="token punctuation">;</span>
 <span class="token keyword">var</span> <span class="token constant">COLOR_YELLOW</span> <span class="token operator">=</span> <span class="token string">&#x27;yellow&#x27;</span><span class="token punctuation">;</span>
-<span class="token keyword">var</span> <span class="token constant">COLOR_GREEN</span>  <span class="token operator">=</span> <span class="token string">&#x27;green&#x27;</span><span class="token punctuation">;</span>
-<span class="token keyword">var</span> <span class="token constant">COLOR_BLUE</span>   <span class="token operator">=</span> <span class="token string">&#x27;blue&#x27;</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> <span class="token constant">COLOR_GREEN</span> <span class="token operator">=</span> <span class="token string">&#x27;green&#x27;</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> <span class="token constant">COLOR_BLUE</span> <span class="token operator">=</span> <span class="token string">&#x27;blue&#x27;</span><span class="token punctuation">;</span>
 <span class="token keyword">var</span> <span class="token constant">COLOR_VIOLET</span> <span class="token operator">=</span> <span class="token string">&#x27;violet&#x27;</span><span class="token punctuation">;</span></code></pre></div>
 <p>상수라는 의미로, 변수명을 전부 대문자로, 그리고 스네이크 케이스를 사용한다. 하지만 String은 그 자체로 고유하지 않다. 이유를 알아보자. 아래는 색상을 주면 다른 색상으로 return하는 함수다. 그리고 color 상수로 정의되지 않은 값을 주면 Error가 발생한다.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">getComplement</span><span class="token punctuation">(</span><span class="token parameter">color</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">switch</span> <span class="token punctuation">(</span>color<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">case</span> <span class="token constant">COLOR_RED</span><span class="token operator">:</span>
-            <span class="token keyword">return</span> <span class="token constant">COLOR_GREEN</span><span class="token punctuation">;</span>
-        <span class="token keyword">case</span> <span class="token constant">COLOR_ORANGE</span><span class="token operator">:</span>
-            <span class="token keyword">return</span> <span class="token constant">COLOR_BLUE</span><span class="token punctuation">;</span>
-        <span class="token keyword">case</span> <span class="token constant">COLOR_YELLOW</span><span class="token operator">:</span>
-            <span class="token keyword">return</span> <span class="token constant">COLOR_VIOLET</span><span class="token punctuation">;</span>
-        <span class="token keyword">case</span> <span class="token constant">COLOR_GREEN</span><span class="token operator">:</span>
-            <span class="token keyword">return</span> <span class="token constant">COLOR_RED</span><span class="token punctuation">;</span>
-        <span class="token keyword">case</span> <span class="token constant">COLOR_BLUE</span><span class="token operator">:</span>
-            <span class="token keyword">return</span> <span class="token constant">COLOR_ORANGE</span><span class="token punctuation">;</span>
-        <span class="token keyword">case</span> <span class="token constant">COLOR_VIOLET</span><span class="token operator">:</span>
-            <span class="token keyword">return</span> <span class="token constant">COLOR_YELLOW</span><span class="token punctuation">;</span>
-        <span class="token keyword">default</span><span class="token operator">:</span>
-            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span><span class="token string">&#x27;Unknown color: &#x27;</span> <span class="token operator">+</span> color<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
+  <span class="token keyword">switch</span> <span class="token punctuation">(</span>color<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> <span class="token constant">COLOR_RED</span><span class="token operator">:</span>
+      <span class="token keyword">return</span> <span class="token constant">COLOR_GREEN</span><span class="token punctuation">;</span>
+    <span class="token keyword">case</span> <span class="token constant">COLOR_ORANGE</span><span class="token operator">:</span>
+      <span class="token keyword">return</span> <span class="token constant">COLOR_BLUE</span><span class="token punctuation">;</span>
+    <span class="token keyword">case</span> <span class="token constant">COLOR_YELLOW</span><span class="token operator">:</span>
+      <span class="token keyword">return</span> <span class="token constant">COLOR_VIOLET</span><span class="token punctuation">;</span>
+    <span class="token keyword">case</span> <span class="token constant">COLOR_GREEN</span><span class="token operator">:</span>
+      <span class="token keyword">return</span> <span class="token constant">COLOR_RED</span><span class="token punctuation">;</span>
+    <span class="token keyword">case</span> <span class="token constant">COLOR_BLUE</span><span class="token operator">:</span>
+      <span class="token keyword">return</span> <span class="token constant">COLOR_ORANGE</span><span class="token punctuation">;</span>
+    <span class="token keyword">case</span> <span class="token constant">COLOR_VIOLET</span><span class="token operator">:</span>
+      <span class="token keyword">return</span> <span class="token constant">COLOR_YELLOW</span><span class="token punctuation">;</span>
+    <span class="token keyword">default</span><span class="token operator">:</span>
+      <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span><span class="token string">&#x27;Unknown color: &#x27;</span> <span class="token operator">+</span> color<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre></div>
 <p><code class="language-text">getComplement()</code> 함수는 color를 받아서 상수 값를 return한다. 하지만 이렇게 하더라도 여전히 상수로서의 역할을 하지 못하고 혼란을 줄 수 있다. 예를 들어, 코드에서 아래와 같이 선언했다고 하자.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">var</span> <span class="token constant">MOOD_BLUE</span> <span class="token operator">=</span> <span class="token string">&#x27;blue&#x27;</span><span class="token punctuation">;</span></code></pre></div>
 <p>기분에 대한 상수를 정의한 것이다. 그렇다면, <code class="language-text">COLOR_BLUE</code> 와 <code class="language-text">MOOD_BLUE</code> 는 동일한 String인 <code class="language-text">blue</code>를 가지고 있기 때문에 상수가 아니게 되어버린다. <code class="language-text">getComplement()</code> 함수에 값을 집어넣으면 Error가 발생하는 것이 아니라, <code class="language-text">orange</code>라는 엉뚱한 값이 나온다. 즉, color 상수와 mood 상수가 동일하게 취급이 되어버렸다.</p>
 <p>이러한 문제점을 개선하고자 나온 것이 Symbol이다. 이제 실제 상수를 선언해보자. ES6에서 나온 <code class="language-text">const</code>를 사용해 상수를 선언할 수 있다.</p>
-<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token constant">COLOR_RED</span>    <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token constant">COLOR_RED</span> <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> <span class="token constant">COLOR_ORANGE</span> <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> <span class="token constant">COLOR_YELLOW</span> <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> <span class="token constant">COLOR_GREEN</span>  <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> <span class="token constant">COLOR_BLUE</span>   <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token constant">COLOR_GREEN</span> <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token constant">COLOR_BLUE</span> <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> <span class="token constant">COLOR_VIOLET</span> <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
 <p>Symbol이 반환하는 값은 고유하므로, 이제 다른 값을 ‘blue’로 착각할 수 없다. 추가로 <code class="language-text">MOOD_BLUE</code> 값도 Symbol로 상수로 만들어주고, <code class="language-text">getComplement()</code> 메서드에 넣어보자.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token constant">MOOD_BLUE</span> <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -206,13 +206,13 @@ Object<span class="token punctuation">.</span><span class="token function">keys<
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// private property를 사용하기 위해 WeakMap을 사용했다.</span>
 <span class="token keyword">const</span> <span class="token constant">PASSWORD</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">WeakMap</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">class</span> <span class="token class-name">Login</span> <span class="token punctuation">{</span>
-    <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token parameter">name<span class="token punctuation">,</span> password</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span>
-        <span class="token constant">PASSWORD</span><span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> password<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token function">hasPassword</span><span class="token punctuation">(</span><span class="token parameter">pw</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">return</span> <span class="token constant">PASSWORD</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span> <span class="token operator">===</span> pw<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
+  <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token parameter">name<span class="token punctuation">,</span> password</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span>
+    <span class="token constant">PASSWORD</span><span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> password<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token function">hasPassword</span><span class="token punctuation">(</span><span class="token parameter">pw</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token constant">PASSWORD</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span> <span class="token operator">===</span> pw<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 <span class="token keyword">const</span> user <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Login</span><span class="token punctuation">(</span><span class="token string">&#x27;a&#x27;</span><span class="token punctuation">,</span> <span class="token string">&#x27;b&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
 <p>이때, user를 찍어보면 다음과 같이 나온다.</p>
@@ -222,24 +222,24 @@ Object<span class="token punctuation">.</span><span class="token function">keys<
 <p>WeakMap 대신 Symbol 키를 사용하면 다음과 같은 코드가 된다.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token constant">PASSWORD</span> <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">class</span> <span class="token class-name">Login</span> <span class="token punctuation">{</span>
-    <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token parameter">name<span class="token punctuation">,</span> password</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span>
-        <span class="token keyword">this</span><span class="token punctuation">[</span><span class="token constant">PASSWORD</span><span class="token punctuation">]</span> <span class="token operator">=</span> password<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token function">hasPassword</span><span class="token punctuation">(</span><span class="token parameter">pw</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">[</span><span class="token constant">PASSWORD</span><span class="token punctuation">]</span> <span class="token operator">===</span> pw<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
+  <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token parameter">name<span class="token punctuation">,</span> password</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">[</span><span class="token constant">PASSWORD</span><span class="token punctuation">]</span> <span class="token operator">=</span> password<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token function">hasPassword</span><span class="token punctuation">(</span><span class="token parameter">pw</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">[</span><span class="token constant">PASSWORD</span><span class="token punctuation">]</span> <span class="token operator">===</span> pw<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 <span class="token keyword">const</span> user <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Login</span><span class="token punctuation">(</span><span class="token string">&#x27;a&#x27;</span><span class="token punctuation">,</span> <span class="token string">&#x27;b&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
 <p>다시 user를 찍어보자.</p>
 <p><img src="https://raw.githubusercontent.com/pozafly/blog-images/master/images/image-20230215182812318.png" alt="image-20230215182812318"/></p>
 <p>이번엔 Symbol이 나타났다. 외부에 노출이 되었다는 뜻이다. 즉, WeakMap은 내부 구현을 다른 개발자에게 숨길 때 유용하다. 절대적인 private이 되었다. Symbol 같은 경우 형태는 존재하나, 어떤 것으로 Symbol이 되었는지 알기 어렵다. 그리고 ‘password’ 라는 key 이름은 이제 충돌하지 않을(덮어써지지 않을) 것이다.</p>
-<p>또한, Symbol을 이렇게 사용하면 모듈 스코프 안에서 symbol을 사용할 수 있어 필드나 메서드에 접근할 수 있지만, symbol을 export 하지 않는다면 외부에서는 접근할 방법이 없다. 접근할 필드의 이름이 무엇인  지 모르니까 말이다.</p>
+<p>또한, Symbol을 이렇게 사용하면 모듈 스코프 안에서 symbol을 사용할 수 있어 필드나 메서드에 접근할 수 있지만, symbol을 export 하지 않는다면 외부에서는 접근할 방법이 없다. 접근할 필드의 이름이 무엇인지 모르니까 말이다.</p>
 <hr/>
 <h3 id="32-meta-level-프로퍼티의-Symbol" style="position:relative">3.2 meta-level 프로퍼티의 Symbol<a href="#32-meta-level-%ED%94%84%EB%A1%9C%ED%8D%BC%ED%8B%B0%EC%9D%98-Symbol" aria-label="32 meta level 프로퍼티의 Symbol permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
 <p>Symbol은 고유한 키이기 때문에 메타 수준(meta-level)의 키와 일반 키가 충돌되지 않는다. 따라서 ‘일반’ 프로퍼티 키와 다른 수준의 공용 속성의 키로 적합하다. 메타 수준 프로퍼티의 한 가지 예시는, 객체가 라이브러리에서 처리하는 방식을 사용자가 커스텀 할 수 있도록 구현할 수 있는 메서드다. Symbol 키를 사용하면 라이브러리의 normal(일반) 메서드를 custom 메서드로 착각하지 않도록 방지할 수 있다.</p>
 <blockquote>
-<p>쉽게 말하면, 라이브러리에서 일반적으로 사용하는 method(일반 메서드)가 있고, 사용자가 새롭게 커스텀해서 구현할 수 있는 메서드 인터페이스가 있다고 하자. 그럴 경우에 사용자(개발자)는 문제를 해결하기위해 보통 일반 메서드를 사용하면 웬만한 문제는 다 해결된다. 하지만, 특수한 경우에 메서드 자체를 새롭게 구현하거나 property를 변경해야할 경우가 생긴다. 이때 커스텀 메서드를 활용해서 라이브러리 내부를 조작할 수 있는 통로를 열어두었다. 근데, 일반 메서드와 커스텀 메서드가 동일하게 표시된다면, 개발자는 커스텀 메서드와 일반   메서드를 혼동해서 사용하지 않아도 될 커스텀 메서드를 override해서 사용한다. 둘을 구분지어줄 필요가 있으며, 구분으로는 Symbol을 사용해 커스텀 메서드와 일반 메서드를 구분짓고, 사용자가 커스텀하게끔 하면 된다.</p>
+<p>쉽게 말하면, 라이브러리에서 일반적으로 사용하는 method(일반 메서드)가 있고, 사용자가 새롭게 커스텀해서 구현할 수 있는 메서드 인터페이스가 있다고 하자. 그럴 경우에 사용자(개발자)는 문제를 해결하기위해 보통 일반 메서드를 사용하면 웬만한 문제는 다 해결된다. 하지만, 특수한 경우에 메서드 자체를 새롭게 구현하거나 property를 변경해야할 경우가 생긴다. 이때 커스텀 메서드를 활용해서 라이브러리 내부를 조작할 수 있는 통로를 열어두었다. 근데, 일반 메서드와 커스텀 메서드가 동일하게 표시된다면, 개발자는 커스텀 메서드와 일반 메서드를 혼동해서 사용하지 않아도 될 커스텀 메서드를 override해서 사용한다. 둘을 구분지어줄 필요가 있으며, 구분으로는 Symbol을 사용해 커스텀 메서드와 일반 메서드를 구분짓고, 사용자가 커스텀하게끔 하면 된다.</p>
 </blockquote>
 <p>ECMAScript 6의 이터러블은 그러한 커스텀 메서드 중 하나다. <code class="language-text">Symbol.iterator</code>에 저장된 심볼을 키로 하는 메서드가 있는 객체는 반복 가능하다. 다음 코드에서 obj는 반복 가능하다.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">let</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span>
@@ -272,7 +272,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token punctuation">}</span>
 <span class="token comment">// hello</span>
 <span class="token comment">// world</span></code></pre></div>
-<p>obj는 객체다. 따라서 원래  는 iterable이 없기 때문에 <code class="language-text">for ... of</code> 문법을 사용하지 못한다. 배열은 iterable이 존재한다. 따라서 <code class="language-text">for ... of</code> 문법을 사용해 반복 가능하다. 위 코드는 obj 객체에 iterator를 강제로 주입한 사례다. 우리는 iterable과 <code class="language-text">for ... of</code> 가 내부적으로 어떻게 구현되어있는지 알지 못한다. 하지만 obj 객체에서도 <code class="language-text">for ... of</code> 를 통해 반복하고 싶다. iterable을 사용하고 싶다. 즉, 개발자(사용자)가 커스텀하게 iterator를 구현하도록 JavaScript에서 열어둔 것이다. <code class="language-text">for ... of</code> 의 내부 구현을 몰라도 말이다.</p>
+<p>obj는 객체다. 따라서 원래는 iterable이 없기 때문에 <code class="language-text">for ... of</code> 문법을 사용하지 못  한다. 배열은 iterable이 존재한다. 따라서 <code class="language-text">for ... of</code> 문법을 사용해 반복 가능하다. 위 코드는 obj 객체에 iterator를 강제로 주입한 사례다. 우리는 iterable과 <code class="language-text">for ... of</code> 가 내부적으로 어떻게 구현되어있는지 알지 못한다. 하지만 obj 객체에서도 <code class="language-text">for ... of</code> 를 통해 반복하고 싶다. iterable을 사용하고 싶다. 즉, 개발자(사용자)가 커스텀하게 iterator를 구현하도록 JavaScript에서 열어둔 것이다. <code class="language-text">for ... of</code> 의 내부 구현을 몰라도 말이다.</p>
 <p>여기서 사용된 <code class="language-text">iterable, iterator, .next()</code> 는 다음 포스팅에서 더 상세하게 알아보자.</p>
 <br/>
 <br/>
@@ -280,29 +280,28 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>코드 영역은 코드가 영향을 줄 수 있는 범위 안에 있어야 한다. 즉, 해당 스코프에 있어야 영향을 줄 수 있다. 예를 들면, 전역 변수는 전역에 영향을 주고, 어떤 모듈은 어떤 모듈 내부에만 영향을 줄 수 있다. 반드시 해당 코드는 해당 스코프 ’<strong>내부</strong>‘에 있어야 한다.</p>
 <p>예를 들면 브라우저의 각 프레임(iframe)에는 자체 영역이 있다. 하지만, 아래 코드에서는 HTML상으로 한 프레임에서 다른 프레임으로 건너뛸 수 있다.</p>
 <div class="gatsby-highlight" data-language="html"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">&gt;</span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
-        <span class="token keyword">function</span> <span class="token function">test</span><span class="token punctuation">(</span><span class="token parameter">arr</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token keyword">var</span> iframe <span class="token operator">=</span> frames<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-           <span class="token comment">// 아래 코드는 iframe의 코드와 다른 영역에 있다.</span>
-           <span class="token comment">// 따라서 Array와 같은 전역 변수 코드는 서로 다른 코드이다.</span>
-            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Array <span class="token operator">===</span> iframe<span class="token punctuation">.</span>Array<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false</span>
-            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>arr <span class="token keyword">instanceof</span> <span class="token class-name">Array</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false</span>
-            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>arr <span class="token keyword">instanceof</span> <span class="token class-name">iframe<span class="token punctuation">.</span>Array</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
+    <span class="token keyword">function</span> <span class="token function">test</span><span class="token punctuation">(</span><span class="token parameter">arr</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">var</span> iframe <span class="token operator">=</span> frames<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+      <span class="token comment">// 아래 코드는 iframe의 코드와 다른 영역에 있다.</span>
+      <span class="token comment">// 따라서 Array와 같은 전역 변수 코드는 서로 다른 코드이다.</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Array <span class="token operator">===</span> iframe<span class="token punctuation">.</span>Array<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>arr <span class="token keyword">instanceof</span> <span class="token class-name">Array</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>arr <span class="token keyword">instanceof</span> <span class="token class-name">iframe<span class="token punctuation">.</span>Array</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
 
-            <span class="token comment">// 하지만 심볼은 동일하다</span>
-            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Symbol<span class="token punctuation">.</span>iterator <span class="token operator">===</span> iframe<span class="token punctuation">.</span>Symbol<span class="token punctuation">.</span>iterator<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
-        <span class="token punctuation">}</span>
-    </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+      <span class="token comment">// 하지만 심볼은 동일하다</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Symbol<span class="token punctuation">.</span>iterator <span class="token operator">===</span> iframe<span class="token punctuation">.</span>Symbol<span class="token punctuation">.</span>iterator<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+    <span class="token punctuation">}</span>
+  </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">&gt;</span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>iframe</span> <span class="token attr-name">srcdoc</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>&lt;script&gt;window.parent.test([])&lt;/script&gt;<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>iframe</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>iframe</span> <span class="token attr-name">srcdoc</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>&lt;script&gt;window.parent.test([])&lt;/script&gt;<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>iframe</span><span class="token punctuation">&gt;</span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span></span></code></pre></div>
 <p>HTML 상의 영역과, iframe 내부 영역은 다른 영역이다. 하지만, Symbol은 동일한 녀석이다. iframe 내부에서 지금 선언된 상위 <code class="language-text">test()</code> 메서드의 인자로 <code class="language-text">[]</code> 배열 리터럴을 넘겼다.</p>
 <p>문제는 각 영역에 고유한 Array 복사본이 있고, 객체가 개별 ID를 가지고 있기 때문에 본질적으로 동일한 객체임에도 불구하고 이러한 로컬 복사본이 서로 다른 것으로 간주된다는 것이다. 마찬가지로 라이브러리 및 사용자 코드는 영역당 한 번 로드되며, 각 영역에는 동일한 개체의 다른 버전이 있다.</p>
 <p>대조적으로 primitive type인 Boolean, Number 및 String의 값은 개별 ID를 갖지 않으며 동일한 값의 여러 복사본은 문제가 되지 않는다.</p>
 <p>Symbol은 개별 ID를 가지므로 다른 primitive type의 값만큼 원활하게 영역을 가로질러 이동하지 <strong>않는다</strong>. 이는 영역 간에 작동해야 하는 <code class="language-text">Symbol.iterator</code>와 같은 심볼의 문제다. 객체가 한 영역에서 반복 가능하면 다른 영역에서도 반복 가능해야 한다. 서로 다른 영역 Symbol이 JavaScript 엔진에서 제공되는 경우(Symbol.iterator와 같이 빌트인인 경우) 엔진은 각 영역에서 동일한 값이 사용되는지 확인할 수 있다.</p>
-<p>그러나, 라이브러리의 경우는 다르다. 이때 <code class="language-text">심볼 레지스트리</code>를 활용할 수 있다.  심볼 레지스트리는 쉽게 말해서 다른 영역간의 전역 객체라고 생각하면 쉽다. 심볼 레지스트리에 심볼을 저장하고, 꺼내와서 쓸 수 있다.</p>
+<p>그러나, 라이브러리의 경우는 다르다. 이때 <code class="language-text">심볼 레지스트리</code>를 활용할 수 있다. 심볼 레지스트리는 쉽게 말해서 다른 영역간의 전역 객체라고 생각하면 쉽다. 심볼 레지스트리에 심볼을 저장하고, 꺼내와서 쓸 수 있다.</p>
 <div class="gatsby-highlight" data-language=" js"><pre class="language- js"><code class="language- js">const s1 = Symbol.for(&#x27;foo&#x27;);</code></pre></div>
 <p>위 코드를 실행하면, 심볼 레지스트리에서 <code class="language-text">foo</code> 라는 문자열을 가진 Symbol을 찾는다. 만약에 ‘foo’ Symbol이 있다면 s1에 담고, 없으면 심볼 레지스트리에 새롭게 Symbol을 생성해 넣고 s1에 할당한다. 따라서, 각 Symbol에 대해 라이브러리는 가능한 한 고유한 문자열을 제공해야 한다.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// foo이름을 가진 Symbol이 없으므로 생성</span>
@@ -355,22 +354,20 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>이 객체를 React Element라고 부른다. 이 객체는 react에게 무엇을 렌더링 할지 알려준다. 여기에는 <code class="language-text">$$typeof</code> 라는 값이 있다. 그리고 <code class="language-text">Symbol(react.element)</code> 라는 Symbol 값이 사용되었다.</p>
 <p>결론은 xss 공격에 대비하기 위해서 Symbol을 사용한 것이다. 위에서 말했듯, <code class="language-text">JSON.stringify()</code> 메서드는 Symbol을 문자열로 변환하지 않는다. xss 공격은 해커가 의도적으로 html의 <code class="language-text">&lt;script&gt;</code> 태그를 이용해 자신이 작성한 스크립트를 브라우저에서 실행시켜 정보를 탈취한다.</p>
 <p>서버로부터 내려온 JSON 정보가 있다고 가정하자. 만약 이 JSON은, 해커가 악의적으로 심은 JSON이다. 그럼 이 JSON이 <code class="language-text">React.createElement()</code> 메서드에 담겼다.</p>
-<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// 서버에 구멍이 생겨 JSON이 저장되었다고 가정하자.</span>
+<div class="gatsby-highlight" data-language="jsx"><pre class="language-jsx"><code class="language-jsx"><span class="token comment">// 서버에 구멍이 생겨 JSON이 저장되었다고 가정하자.</span>
 <span class="token keyword">let</span> expectedTextButGotJSON <span class="token operator">=</span> <span class="token punctuation">{</span>
   <span class="token literal-property property">type</span><span class="token operator">:</span> <span class="token string">&#x27;div&#x27;</span><span class="token punctuation">,</span>
   <span class="token literal-property property">props</span><span class="token operator">:</span> <span class="token punctuation">{</span>
     <span class="token literal-property property">dangerouslySetInnerHTML</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-      <span class="token literal-property property">__html</span><span class="token operator">:</span> <span class="token string">&#x27;/* put your exploit here */&#x27;</span>
+      <span class="token literal-property property">__html</span><span class="token operator">:</span> <span class="token string">&#x27;/* put your exploit here */&#x27;</span><span class="token punctuation">,</span>
     <span class="token punctuation">}</span><span class="token punctuation">,</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
   <span class="token comment">// ...</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token keyword">let</span> message <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token literal-property property">text</span><span class="token operator">:</span> expectedTextButGotJSON <span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-<span class="token operator">&lt;</span>p<span class="token operator">&gt;</span>
-  <span class="token punctuation">{</span>message<span class="token punctuation">.</span>text<span class="token punctuation">}</span>
-<span class="token operator">&lt;</span><span class="token operator">/</span>p<span class="token operator">&gt;</span><span class="token punctuation">;</span></code></pre></div>
-<p>서버로 부터 가져온 JSON이 p 태그에 담겼다. <code class="language-text">message.text</code> 내부에는 <code class="language-text">&lt;script&gt;</code> 태그가 존재했고, 악의적인 코드가 태 그 내부에 존재한다. 그러면, 유저의 렌더링 된 페이지에서 스크립트가 실행되고 유저의 정보가 탈취될 것이다.</p>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">{</span>message<span class="token punctuation">.</span>text<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">;</span></code></pre></div>
+<p>서버로 부터 가져온 JSON이 p 태그에 담겼다. <code class="language-text">message.text</code> 내부에는 <code class="language-text">&lt;script&gt;</code> 태그가 존재했고, 악의적인 코드가 태그 내부에 존재한다. 그러면, 유저의 렌더링 된 페이지에서 스크립트가 실행되고 유저의 정보가 탈취될 것이다.</p>
 <p>이를 방지하기 위해 react에서는 <code class="language-text">$$typeof</code> 를 검사한다.</p>
 <p>JSON에는 <code class="language-text">Symbol</code>를 넣을 수 없다. <strong>즉, 서버에 보안 구멍이 생겨 텍스트 대신 JSON을 반환한다 하더라도, 그 JSON에는 <code class="language-text">Symbol.for(&#x27;react.element&#x27;)</code> 코드를 포함시킬 수 없다.</strong> React는 <code class="language-text">element.$$typeof</code> 를 체크하여, 해당 키가 없거나 무효하면 React element 생성을 거부한다.</p>
 <br/>
