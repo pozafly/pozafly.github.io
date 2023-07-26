@@ -21,9 +21,9 @@ Next.js는 SSR 뿐 아니라 다양한 기능을 제공하고 있다. 번들링�
 
 > Used by some of the world's largest companies, Next.js enables you to create full-stack Web applications by extending the latest React features, and integrating powerful Rust-based JavaScript tooling for the fastest builds.
 
-위 문장 중 **full-stack Web application**이라는 문구를 사용했다. full-stack은, 프론트엔드 뿐 아니라 백엔드 코드도 작성할 수 있다는 의미이다. 수 많은 웹 어플리케이션이 Node.js 환경에서 빌드되어 브라우저로 서빙되고 있다. Next.js는 Node.js로 react 기반 프론트엔드 코드를 번들링과 컴파일을 해주고 있으며, 또한 Node.js 런타임 환경에서 백엔드 코드를 실행시킬 수 있다. ( 조금 더 엄밀하게 말하면 백엔드를 실행시킨다기 보다는 Node.js 런타임 환경에서 API response를 내려주는 함수를 실행시킬 수 있다. 이는 Next.js의 API Routes로 쉽게 구현이 가능하다. 따라서 Next.js는 API Routes 기능과, SSR이 결합되었기 때문에 full-stack Web application이라는 네이밍이 붙었다고 예상할 수 있다.)
+위 문장 중 **full-stack Web application**이라는 문구를 사용했다. full-stack은, 프론트엔드 뿐 아니라 백엔드 코드도 작성할 수 있다는 의미이다. 수 많은 웹 어플리케이션이 Node.js 환경에서 빌드되어 브라우저로 서빙되고 있다. Next.js는 Node.js로 react 기반 프론트엔드 코드를 번들링과 컴파일을 해주고 있으며, 또한 Node.js 런타임 환경에서 백엔드 코드를 실행시킬 수 있다. (조금 더 엄밀하게 말하면 백엔드를 실행시킨다기 보다는 Node.js 런타임 환경에서 API response를 내려주는 함수를 실행시킬 수 있다. 이는 Next.js의 API Routes로 쉽게 구현이 가능하다. 따라서 Next.js는 API Routes 기능과, SSR 기능을 사용할 수 있기 때문에 full-stack Web application이라는 네이밍이 붙었다고 예상할 수 있다.)
 
-이번에 Next.js로 프로젝트를 진행하면서 백엔드 코드를 작성할 일이 생겼다. Google OAuth를 통해 사용자 인증을 하고 싶었다. Google OAuth를 통해 인증을 하려면 2가지 방법이 있는데 첫 번째는 **프론트엔드 단에서 연결**하는 방법과, **프론트엔드에서 백엔드 단을 통해 OAuth를 연결**하는 방법이다. 프론트엔드 단에서만 인증을 요청하면 Google 인증 서버에서 Refresh Token을 넘겨주지 않았다. 하지만, 검증된 백엔드를 통해 Google 인증 서버에 인증을 요청하게 되면 Refresh Token도 함께 받을 수 있다. Refresh Token을 받지 못한다면 사용자가 1시간에 한 번씩 로그인을 해주어야 하기 때문에 Next.js의 API Routes를 통해 인증을 받기로 했다.
+이번에 Next.js로 프로젝트를 진행하면서 백엔드 코드를 작성할 일이 생겼다. Google OAuth를 통해 사용자 인증을 하고 싶었다. Google OAuth를 통해 인증을 하려면 2가지 방법이 있는데 첫 번째는 **프론트엔드 단에서 연결**하는 방법과, **프론트엔드에서 백엔드 단을 통해 OAuth를 연결**하는 방법이다. 프론트엔드 단에서만 인증을 요청하면 Google 인증 서버에서 Refresh Token을 넘겨주지 않았다. 하지만, 검증된 백엔드를 통해 Google 인증 서버에 인증을 요청하게 되면 Refresh Token도 함께 받을 수 있다. Refresh Token을 받지 못한다면 Google의 인가된 서비스를 사용하기 위해, 사용자가 1시간에 한 번씩 로그인을 해주어야 하기 때문에 Next.js의 API Routes를 통해 인증을 받기로 했다.
 
 하지만, API Routes를 사용하면 코드가 매우 지저분해진다. 그 이유는 아래의 API Routes에서 조금 더 알아볼 것이다. 아래 글은, API Routes를 사용하면서 어떻게 하면 코드를 보기 좋은 형태로 남길 수 있을지 고민한 흔적이 되겠다.
 
@@ -37,15 +37,19 @@ API Routes는 API를 호출할 수 있는 Endpoint를 생성해준다. Next.js�
 
 API Routes에는 주의점이 있다. API Routes의 **포지션**에 대해 생각해보자. Node.js로 백엔드를 구성한다면 Express를 사용할 수도 있고, NestJS도 사용할 수 있다. 반드시 서버 프레임워크 구성 환경이 반드시 Node.js가 아니라면 Spring과 같은 엔터프라이즈 급 프레임워크로 서버를 구성할 수도 있다. 하지만, API Routes는 서버 프레임워크로 구성 된 서버 코드보다 훨씬 가벼운 개념으로 탄생했다.
 
+### Serverless Function
+
 API Routes는 **Serverless Function**으로 구성되어 있다. Serverless Function의 컨셉은 요청(이벤트)이 들어올 때마다 지정된 함수를 실행시켜 원하는 API를 클라이언트에게 전달하는 것이다. 그렇기 때문에 web socket과 같은 연결은 가질 수 없다. 애초에 지속적인 커넥션을 잡고 있을 수 있게 설게된 모델이 아니기 때문이다.
 
 Serverless Function은 인프라를 관리하지 않아도 되며, 요청이 들어올 때마다 함수를 실행시키기 때문에 적은 비용으로도 운영 가능하며, 동일한 값을 반환한다면 캐싱에도 유용하다. 여전히 물리적인 서버로 운영되고 있지만, 직접 서버의 인프라를 운영하지 않아도 되는 컨셉과 동시에, 함수 하나만 실행하기 때문에 Serverless Function이라는 이름이 붙었다. 이벤트 기반이기 때문에 Serverless에서 동작하는 코드는 상태를 가지고 있지 않다. 즉, 데이터를 유지하지 않는다. 이를 FaaS 라고도 한다.
 
 [링크](https://github.com/vercel/next.js/discussions/17679)를 살펴보면, Next.js의 메인테이너가 API Routes에 대해 설명하고 있는데, API Routes는 Serverless Function 컨셉을 가지고 있지만 아주 큰 커넥션을 가지지 않는다면 DB 와의 통신은 가능하다. 왜냐하면 web socket과 같은 지속적인 커넥션을 맺는 것이 아니라, DB 인스턴스와 단기적인 통신을 통해 데이터를 저장하거나 가공하기 때문이다. 이는 vercel의 공식문서에서 배포된 Serverless Function의 제약조건으로 커넥션 타임이 지정되어 있는 이유이기도 하다.
 
-또한, SSR을 위해 사용하는 `getStaticProps`, `getServerSideProps` 등의 코드도 Serverless Function 형태로 배포된다. 당연히 client-side 번들에는 추가되지 않는다.
+또한, SSR을 위해 사용하는 `getStaticProps`, `getServerSideProps` 등의 함수 코드도 Serverless Function 형태로 배포된다. 당연히 client-side 번들에는 추가되지 않는다.
 
 _📌 참고로 Edge API Routes와 API Routes는 다르다. Edge API Routes는 Edge Runtime을 사용하고, API Routes는 Node.js Runtime을 사용한다. 따라서, Edge Runtime에는 Node.js의 `fs`와 같은 Node API 사용이 불가능하다. Edge API Routes는 AWS 람다와 비슷한 환경이다. 또한, Serverless Function으로 사용하고 싶지 않다면 [custom server](https://nextjs.org/docs/pages/building-your-application/configuring/custom-server)로 변경해 사용할 수 있다._
+
+### API Routes 코드 예시
 
 따라서, Serverless Function은, 이벤트가 일어나면 함수 하나를 호출해주는 역할이다. 이런 컨셉에 맞게 API Routes도 마찬가지로 Endpoint당 함수 하나만 사용할 수 있도록 만들어졌다. [공식문서 api-routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes)의 예제를 보면, 아래 코드와 같이 `handler` 함수 하나만 달랑 존재한다.
 
