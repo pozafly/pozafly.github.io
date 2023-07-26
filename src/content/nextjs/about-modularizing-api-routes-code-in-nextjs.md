@@ -21,7 +21,7 @@ Next.js는 SSR 뿐 아니라 다양한 기능을 제공하고 있다. 번들링�
 
 > Used by some of the world's largest companies, Next.js enables you to create full-stack Web applications by extending the latest React features, and integrating powerful Rust-based JavaScript tooling for the fastest builds.
 
-위 문장 중 **full-stack Web application**이라는 문구를 사용했다. full-stack은, 프론트엔드 뿐 아니라 백엔드 코드도 작성할 수 있다는 의미이다. 수 많은 웹 어플리케이션이 Node.js 환경에서 빌드되어 브라우저로 서빙되고 있다. Next.js는 Node.js로 react 기반 프론트엔드 코드를 번들링과 컴파일을 해주고 있으며, 또한 Node.js로 백엔드 코드를 실행시킬 수 있다.
+위 문장 중 **full-stack Web application**이라는 문구를 사용했다. full-stack은, 프론트엔드 뿐 아니라 백엔드 코드도 작성할 수 있다는 의미이다. 수 많은 웹 어플리케이션이 Node.js 환경에서 빌드되어 브라우저로 서빙되고 있다. Next.js는 Node.js로 react 기반 프론트엔드 코드를 번들링과 컴파일을 해주고 있으며, 또한 Node.js 런타임 환경에서 백엔드 코드를 실행시킬 수 있다. ( 조금 더 엄밀하게 말하면 백엔드를 실행시킨다기 보다는 Node.js 런타임 환경에서 API response를 내려주는 함수를 실행시킬 수 있다. 이는 Next.js의 API Routes로 쉽게 구현이 가능하다. 따라서 Next.js는 API Routes 기능과, SSR이 결합되었기 때문에 full-stack Web application이라는 네이밍이 붙었다고 예상할 수 있다.)
 
 이번에 Next.js로 프로젝트를 진행하면서 백엔드 코드를 작성할 일이 생겼다. Google OAuth를 통해 사용자 인증을 하고 싶었다. Google OAuth를 통해 인증을 하려면 2가지 방법이 있는데 첫 번째는 **프론트엔드 단에서 연결**하는 방법과, **프론트엔드에서 백엔드 단을 통해 OAuth를 연결**하는 방법이다. 프론트엔드 단에서만 인증을 요청하면 Google 인증 서버에서 Refresh Token을 넘겨주지 않았다. 하지만, 검증된 백엔드를 통해 Google 인증 서버에 인증을 요청하게 되면 Refresh Token도 함께 받을 수 있다. Refresh Token을 받지 못한다면 사용자가 1시간에 한 번씩 로그인을 해주어야 하기 때문에 Next.js의 API Routes를 통해 인증을 받기로 했다.
 
@@ -43,7 +43,9 @@ Serverless Function은 인프라를 관리하지 않아도 되며, 요청이 들
 
 [링크](https://github.com/vercel/next.js/discussions/17679)를 살펴보면, Next.js의 메인테이너가 API Routes에 대해 설명하고 있는데, API Routes는 Serverless Function 컨셉을 가지고 있지만 아주 큰 커넥션을 가지지 않는다면 DB 와의 통신은 가능하다. 왜냐하면 web socket과 같은 지속적인 커넥션을 맺는 것이 아니라, DB 인스턴스와 단기적인 통신을 통해 데이터를 저장하거나 가공하기 때문이다. 이는 vercel의 공식문서에서 배포된 Serverless Function의 제약조건으로 커넥션 타임이 지정되어 있는 이유이기도 하다.
 
-_📌 참고로 Edge API Routes와 API Routes는 다르다. Edge API Routes는 Edge Runtime을 사용하고, API Routes는 Node.js Runtime을 사용한다. 따라서, Edge Runtime에는 Node.js의 `fs`와 같은 Node API 사용이 불가능하다. Edge API Routes는 AWS 람다와 비슷한 환경이다._
+또한, SSR을 위해 사용하는 `getStaticProps`, `getServerSideProps` 등의 코드도 Serverless Function 형태로 배포된다. 당연히 client-side 번들에는 추가되지 않는다.
+
+_📌 참고로 Edge API Routes와 API Routes는 다르다. Edge API Routes는 Edge Runtime을 사용하고, API Routes는 Node.js Runtime을 사용한다. 따라서, Edge Runtime에는 Node.js의 `fs`와 같은 Node API 사용이 불가능하다. Edge API Routes는 AWS 람다와 비슷한 환경이다. 또한, Serverless Function으로 사용하고 싶지 않다면 [custom server](https://nextjs.org/docs/pages/building-your-application/configuring/custom-server)로 변경해 사용할 수 있다._
 
 따라서, Serverless Function은, 이벤트가 일어나면 함수 하나를 호출해주는 역할이다. 이런 컨셉에 맞게 API Routes도 마찬가지로 Endpoint당 함수 하나만 사용할 수 있도록 만들어졌다. [공식문서 api-routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes)의 예제를 보면, 아래 코드와 같이 `handler` 함수 하나만 달랑 존재한다.
 
