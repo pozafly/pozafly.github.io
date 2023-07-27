@@ -213,7 +213,7 @@ export default function filter(handler: Hanlder) {
 
 위와 같이 HoF를 만들어주면 `return` 문에 `logFilter(errorFilter(handler))` 같은 방식으로 추후에 logFilter도 만들어 적용할 수 있다.
 
-```ts
+```ts{10}
 // pages/api/auth.ts
 
 // import 문 생략
