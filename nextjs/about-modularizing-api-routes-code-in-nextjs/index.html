@@ -228,7 +228,7 @@
   <span class="token keyword">return</span> <span class="token function">errorFilter</span><span class="token punctuation">(</span>handler<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre></div>
 <p>위와 같이 HoF를 만들어주면 <code class="language-text">return</code> 문에 <code class="language-text">logFilter(errorFilter(handler))</code> 같은 방식으로 추후에 logFilter도 만들어 적용할 수 있다.</p>
-<div class="gatsby-highlight" data-language="ts"><pre class="language-ts"><code class="language-ts"><span class="token comment">// pages/api/auth.ts</span>
+<div class="gatsby-highlight has-highlighted-lines" data-language="ts"><pre class="language-ts"><code class="language-ts"><span class="token comment">// pages/api/auth.ts</span>
 
 <span class="token comment">// import 문 생략</span>
 <span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">handler</span><span class="token punctuation">(</span>req<span class="token operator">:</span> NextApiRequest<span class="token punctuation">,</span> res<span class="token operator">:</span> NextApiResponse<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -237,7 +237,7 @@
   HttpFunctions<span class="token punctuation">[</span>method<span class="token punctuation">]</span><span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 
-<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">filter</span><span class="token punctuation">(</span>handler<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
+<span class="gatsby-highlight-code-line"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">filter</span><span class="token punctuation">(</span>handler<span class="token punctuation">)</span><span class="token punctuation">;</span></span></code></pre></div>
 <p>handler 코드에 filter를 감싸주었다. 그러면, 무조건 http 요청이 오면 filter를 거쳐 실제 함수가 실행된다. <code class="language-text">errorFilter.ts</code>를 보자.</p>
 <div class="gatsby-highlight" data-language="ts"><pre class="language-ts"><code class="language-ts"><span class="token comment">// @/backend/common/errorFilter.ts</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> Hanlder <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&#x27;@/backend/common/interfaces.ts&#x27;</span><span class="token punctuation">;</span>
@@ -258,7 +258,7 @@
     <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
       <span class="token keyword">return</span> res
         <span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span>
-        <span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span> message<span class="token operator">:</span> <span class="token string">&#x27;  알 수 없는 오류가 발생했습니다.&#x27;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span> message<span class="token operator">:</span> <span class="token string">&#x27;알 수 없는 오류가 발생했습니다.&#x27;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
   <span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre></div>
@@ -270,7 +270,7 @@
 <br/>
 <h2 id="마치며" style="position:relative">마치며<a href="#%EB%A7%88%EC%B9%98%EB%A9%B0" aria-label="마치며 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
 <p>이번 글은 Next.js의 API Routes의 컨셉을 간단히 알아보고, API Routes로 백엔드 코드를 작성해보면서 코드를 어떻게 분리시킬지 개선한 부분을 작성했다. Next.js의 API Routes는 사실 그렇게까지 많이 사용되고 있지는 않다고 한다. heath 체크 정도로만 사용하지, 백엔드의 역할을 백엔드가 한다고 한다. 그래서 그런지 API Routes 코드를 제대로 모듈화 한 자료를 많이 찾지 못했고, 컨셉을 들여다보며 원하는 방향대로 리팩토링 해봤다.</p>
-<p>Next.js를 사용한 곳의 프로젝트 사이즈가 크고, MSA 구조로 되어 있어서 BFF가 필요하다고 하면, API Routes를 데이터 가공 레이어로 활용해보면 좋겠다고 생각했다.</p>
+<p>Next.js를 사 용한 곳의 프로젝트 사이즈가 크고, MSA 구조로 되어 있어서 BFF가 필요하다고 하면, API Routes를 데이터 가공 레이어로 활용해보면 좋겠다고 생각했다.</p>
 <p>리팩토링 전 코드가 매우 지저분해서 마음에 걸렸었는데, 코드 구조가 보기 좋게 되었다. 이렇게 코드가 딱 깔끔하게 떨어졌을 때의 쾌감은 이루 말할 수 없다.</p>
 <blockquote>
 <p>참고</p>
