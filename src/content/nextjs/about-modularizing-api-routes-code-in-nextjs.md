@@ -27,7 +27,7 @@ Next.js는 SSR 뿐 아니라 다양한 기능을 제공하고 있다. 번들링�
 
 하지만, API Routes를 사용하면 코드가 매우 지저분해진다. 그 이유는 아래의 API Routes에서 조금 더 알아볼 것이다. 아래 글은, API Routes를 사용하면서 어떻게 하면 코드를 보기 좋은 형태로 남길 수 있을지 고민한 흔적이 되겠다.
 
-📌 _Next.js가 13 버전으로 올라가면서 서버 컴포넌트를 사용하기 위해 App Router가 도입 되었다. App Router가 도입 되면서 서버 코드를 작성할 수 있는 `API Router`는 `Route Handlers` 라는 이름으로 변경 되었으며, 아래의 내용 없이도 도메인 별로 서버 코드를 쉽게 작성할 수 있도록 변경되었다. 따라서 아래의 코드는 Next.js 12 버전 이하 또는 Page Route를 사용하는 Next.js 서버 코드라고 보면 된다._
+📌 _Next.js가 13 버전으로 올라가면서 서버 컴포넌트를 사용하기 위해 App Router가 도입 되었다. App Router가 도입 되면서 서버 코드를 작성할 수 있는 `API Routes`는 `Route Handlers` 라는 이름으로 변경 되었으며, 아래의 내용 없이도 도메인 별로 서버 코드를 쉽게 작성할 수 있도록 변경되었다. 따라서 아래의 코드는 Next.js 12 버전 이하 또는 Page Route를 사용하는 Next.js 서버 코드라고 보면 된다._
 
 <br/>
 
@@ -35,7 +35,7 @@ Next.js는 SSR 뿐 아니라 다양한 기능을 제공하고 있다. 번들링�
 
 API Routes는 API를 호출할 수 있는 Endpoint를 생성해준다. Next.js의 파일 기반 routing과 마찬가지로 파일 기반으로 API Endpoint가 생성된다. `pages/api` 폴더 내부에 파일을 생성하고, 함수를 작성하면 함수를 기반으로 API를 내려줄 수 있다.
 
-API Routes의 **포지션**에 대해 생각해보자. Node.js로 백엔드를 구성한다면 Express를 사용할 수도 있고, NestJS도 사용할 수 있다. 반드시 서버 프레임워크 구성 환경이 반드시 Node.js가 아니라면 Spring과 같은 엔터프라이즈 급 프레임워크로 서버를 구성할 수도 있다. 하지만, API Routes는 서버 프레임워크로 구성 된 서버 코드보다 훨씬 가벼운 개념으로 탄생했다.
+API Routes의 **포지션**에 대해 생각해보자. Node.js로 백엔드를 구성한다면 Express를 사용할 수도 있고, NestJS도 사용할 수 있다. 반드시 서버 프레임워크 구성 환경이 Node.js가 아니라면 Spring과 같은 엔터프라이즈 급 프레임워크로 서버를 구성할 수도 있다. 하지만, API Routes는 서버 프레임워크로 구성 된 서버 코드보다 훨씬 가벼운 개념으로 탄생했다.
 
 ### Serverless Function
 
