@@ -283,7 +283,8 @@ function IndexLayout(props: IndexProps) {
           body {
             overflow-x: hidden;
             color: ${lighten('-0.3', colors.midgrey)};
-            font-family: -apple-system, BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans','Ubuntu','Droid Sans','Helvetica Neue',sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+              'Noto Sans', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', sans-serif;
             font-size: 1.6rem;
             line-height: 1.6em;
             font-weight: 400;
@@ -297,13 +298,13 @@ function IndexLayout(props: IndexProps) {
             -moz-font-feature-settings: 'liga' on;
 
             &::-webkit-scrollbar {
-                background-color: transparent;
-                width: 6px;
+              background-color: transparent;
+              width: 6px;
             }
 
             &::-webkit-scrollbar-thumb {
-                border-radius: 8px;
-                background-color: hsla(230, 5%, 35%, 1);
+              border-radius: 8px;
+              background-color: hsla(230, 5%, 35%, 1);
             }
           }
 
@@ -423,7 +424,8 @@ function IndexLayout(props: IndexProps) {
           }
 
           a {
-            color: ${lighten('-0.05', colors.blue)};
+            /* color: ${lighten('-0.05', colors.blue)}; */
+            color: #90a2aa;
             text-decoration: none;
           }
 
@@ -498,15 +500,20 @@ function IndexLayout(props: IndexProps) {
             background: #fff;
           }
 
-          h1, h2, h3, h4, h5, h6 {
+          h1,
+          h2,
+          h3,
+          h4,
+          h5,
+          h6 {
             a.auto-link svg {
               opacity: 0;
-              transition: 0.25s ease;      
+              transition: 0.25s ease;
             }
             &:hover {
               a.auto-link svg {
                 opacity: 1;
-              }   
+              }
             }
           }
 
@@ -515,10 +522,9 @@ function IndexLayout(props: IndexProps) {
             svg {
               fill: #0a0b0c !important;
             }
-            
+
             &:hover {
               box-shadow: none !important;
-              
             }
           }
 

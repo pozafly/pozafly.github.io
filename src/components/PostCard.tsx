@@ -11,7 +11,7 @@ import styled from '@emotion/styled';
 
 import { colors } from '../styles/colors';
 import type { PageContext } from '../templates/post';
-import { AuthorList } from './AuthorList';
+// import { AuthorList } from './AuthorList';
 import config from '../website-config';
 
 export type PostCardProps = {
@@ -20,21 +20,31 @@ export type PostCardProps = {
   isNext?: boolean;
 };
 
-export function PostCard({ post, isLarge = false, isNext = false }: PostCardProps) {
+export function PostCard({
+  post,
+  isLarge = false,
+  isNext = false,
+}: PostCardProps) {
   const date = new Date(post.frontmatter.date);
-  // 2018-08-20
   const datetime = format(date, 'yyyy-MM-dd');
-  // 20 AUG 2018
-  const displayDatetime = format(date, 'dd LLL yyyy');
+  const displayDatetime = format(date, 'LLL dd, yyyy');
 
   return (
     <article
-      className={`post-card ${post.frontmatter.image ? '' : 'no-image'} ${isLarge ? 'post-card-large' : ''}`}
+      className={`post-card ${post.frontmatter.image ? '' : 'no-image'} ${
+        isLarge ? 'post-card-large' : ''
+      }`}
       css={[PostCardStyles, isLarge && PostCardLarge]}
     >
       {post.frontmatter.image && (
-        <Link className="post-card-image-link" css={PostCardImageLink} to={post.fields.slug}>
-          <PostCardImage className={`post-card-image ${isNext ? 'is-next' : ''}`}>
+        <Link
+          className="post-card-image-link"
+          css={PostCardImageLink}
+          to={post.fields.slug}
+        >
+          <PostCardImage
+            className={`post-card-image ${isNext ? 'is-next' : ''}`}
+          >
             {post.frontmatter?.image && (
               <GatsbyImage
                 image={getImage(post.frontmatter.image)!}
@@ -64,29 +74,37 @@ export function PostCard({ post, isLarge = false, isNext = false }: PostCardProp
             </Link>
           </PostCardPrimaryTag>
         )}
-        <Link className="post-card-content-link" css={PostCardContentLink} to={post.fields.slug}>
+        <Link
+          className="post-card-content-link"
+          css={PostCardContentLink}
+          to={post.fields.slug}
+        >
           <PostCardHeader className="post-card-header">
-
-            <PostCardTitle className="post-card-title">{post.frontmatter.title}</PostCardTitle>
+            <PostCardTitle className="post-card-title">
+              {post.frontmatter.title}
+            </PostCardTitle>
           </PostCardHeader>
           <PostCardExcerpt className="post-card-excerpt">
             <p>{post.frontmatter.excerpt || post.excerpt}</p>
           </PostCardExcerpt>
         </Link>
         <PostCardMeta className="post-card-meta">
-          <AuthorList authors={post.frontmatter.author} tooltip="small" />
+          {/* <AuthorList authors={post.frontmatter.author} tooltip="small" /> */}
           <PostCardBylineContent className="post-card-byline-content">
-            <span>
+            {/* <span>
               {post.frontmatter.author.map((author, index) => (
                 <React.Fragment key={author.name}>
-                  <Link to={`/author/${kebabCase(author.name)}/`}>{author.name}</Link>
+                  <Link to={`/author/${kebabCase(author.name)}/`}>
+                    {author.name}
+                  </Link>
                   {post.frontmatter.author.length - 1 > index && ', '}
                 </React.Fragment>
               ))}
-            </span>
+            </span> */}
             <span className="post-card-byline-date">
               <time dateTime={datetime}>{displayDatetime}</time>{' '}
-              <span className="bull">&bull;</span> {post.fields.readingTime.text}
+              <span className="bull">&bull;</span>{' '}
+              {post.fields.readingTime.text}
             </span>
           </PostCardBylineContent>
         </PostCardMeta>
@@ -144,7 +162,6 @@ const PostCardLarge = css`
     }
 
     .post-card-content-link {
-      
     }
 
     .post-card-meta {
@@ -206,8 +223,8 @@ const PostCardContentLink = css`
 
 const PostCardPrimaryTag = styled.div`
   margin: 15px 0 0.2em;
-  /* color: var(--blue); */
-  color: ${colors.blue};
+  /* color: ${colors.blue}; */
+  color: #90a2aa;
   font-size: 1.2rem;
   font-weight: 500;
   letter-spacing: 0.2px;
@@ -242,7 +259,7 @@ const PostCardBylineContent = styled.div`
   flex: 1 1 50%;
   display: flex;
   flex-direction: column;
-  margin: 4px 0 0 10px;
+  /* margin: 4px 0 0 10px; */
   /* color: color(var(--midgrey) l(+10%)); */
   color: ${lighten('0.1', colors.midgrey)};
   font-size: 1.4rem;
