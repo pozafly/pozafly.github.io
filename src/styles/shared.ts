@@ -77,12 +77,19 @@ export const PostFeed = css`
   background: #fff;
 
   /* Special Template Styles */
-  padding: 40px 0 0;
+  padding: 120px 0 0;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
 
   @media (prefers-color-scheme: dark) {
     background: ${colors.darkmode};
+  }
+
+  @media (max-width: 780px) {
+    padding: 80px 0 0;
+  }
+  @media (max-width: 500px) {
+    padding: 40px 0 0;
   }
 `;
 
@@ -167,7 +174,7 @@ export const SiteHeaderStyles = css`
     z-index: 10;
     display: block;
     height: 100%;
-    background: linear-gradient(rgba(0,0,0,.15) 50%,#fff);
+    background: linear-gradient(rgba(0, 0, 0, 0) 50%, #fff);
   }
 
   @media (prefers-color-scheme: dark) {
@@ -175,7 +182,7 @@ export const SiteHeaderStyles = css`
       background: rgba(0, 0, 0, 0.6);
     }
     :after {
-      background: linear-gradient(rgba(0,0,0,0.02) 50%,#191b1f);
+      background: linear-gradient(rgba(0, 0, 0, 0) 50%, #191b1f);
     }
   }
 `;
@@ -208,10 +215,12 @@ export const SiteHeaderBackground = css`
   margin-top: 64px;
 `;
 
-export const ResponsiveHeaderBackground = styled.div<{ backgroundImage?: string }>`
+export const ResponsiveHeaderBackground = styled.div<{
+  backgroundImage?: string;
+}>`
   ${p =>
-    p.backgroundImage
-    && `
+    p.backgroundImage &&
+    `
     position: relative;
     margin-top: 64px;
     padding-bottom: 12px;
@@ -254,8 +263,8 @@ export const ResponsiveHeaderBackground = styled.div<{ backgroundImage?: string 
   `}
 
   ${p =>
-    !p.backgroundImage
-    && `
+    !p.backgroundImage &&
+    `
 
     padding-top: 0;
     padding-bottom: 0;

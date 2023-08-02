@@ -158,7 +158,7 @@ function IndexPage(props: IndexProps) {
 
 export const pageQuery = graphql`
   query blogPageQuery($skip: Int!, $limit: Int!) {
-    header: file(relativePath: { eq: "img/common/back.png" }) {
+    header: file(relativePath: { eq: "img/common/back3.png" }) {
       childImageSharp {
         gatsbyImageData(
           width: 2000
@@ -265,6 +265,7 @@ const HomePosts = css`
     }
 
     .post-card-large .post-card-excerpt p {
+      display: block;
       margin-bottom: 1.5em;
       font-size: 1.8rem;
       line-height: 1.5em;

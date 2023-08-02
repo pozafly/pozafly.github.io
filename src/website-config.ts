@@ -54,10 +54,10 @@ export type WebsiteConfig = {
 };
 
 const config: WebsiteConfig = {
-  title: `Pozafly's 블로그`,
-  description: '우물쭈물하다 내 이럴줄 알았지🙃',
-  coverImage: 'img/common/back.png',
-  // coverImage: 'img/blog-cover.png',
+  title: `Pozafly 블로그`,
+  description: '우물쭈물하다 내 이럴줄 알았지 🙃',
+  // NOTE: templates/index.tsx 161 line에도 변경해야 함.
+  coverImage: './src/content/img/common/back3.png',
   logo: 'img/common/pozafly.png',
   lang: 'ko',
   siteUrl: 'https://pozafly.github.io',
