@@ -27,7 +27,7 @@ export function PostCard({
 }: PostCardProps) {
   const date = new Date(post.frontmatter.date);
   const datetime = format(date, 'yyyy-MM-dd');
-  const displayDatetime = format(date, 'LLL dd, yyyy');
+  const displayDatetime = format(date, 'yyyy MM dd');
 
   return (
     <article
@@ -119,7 +119,7 @@ const PostCardStyles = css`
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  margin: 0 20px 40px;
+  margin: 0 20px 60px;
   min-height: 220px;
   background-size: cover;
   transition: 0.4s ease;
@@ -258,6 +258,7 @@ const PostCardExcerpt = styled.section`
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    margin-bottom: 0.8em;
   }
 `;
 
