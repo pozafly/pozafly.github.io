@@ -5,7 +5,7 @@ author: [Pozafly]
 tags:
 	- JavaScript
 date: '2023-02-24'
-image: ../img/javascript/platypus.jpeg
+image: ../img/javascript/prototype-main.jpeg
 draft: false
 excerpt:
 
@@ -41,7 +41,9 @@ function Person(name, age) {
   this.name = name;
   this.age = age;
   this.introduce = function () {
-    console.log(`Hello, my name is ${this.name} and I am ${this.age} years old.`);
+    console.log(
+      `Hello, my name is ${this.name} and I am ${this.age} years old.`
+    );
   };
 }
 

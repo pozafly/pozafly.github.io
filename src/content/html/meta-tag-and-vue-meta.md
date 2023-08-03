@@ -3,14 +3,11 @@ layout: post
 title: 'vue-meta와 Meta tag'
 author: [Pozafly]
 tags: [Vue.js, HTML, SEO]
-image: ../img/html/meta-tag.png
+image: ../img/html/vue-meta.jpg
 date: '2021-05-30T20:13:47.149Z'
 draft: false
 excerpt: Semantic-Tag와 함께 SEO 향상을 위해 meta tag를 프로젝트에 적용하면서 meta tag의 역할과 기능, 그리고 Vue.js에서는 meta tag를 동적으로 어떻게 변화시킬 수 있는지 알아보자.
-
 ---
-
-
 
 Semantic-Tag와 함께 SEO 향상을 위해 meta tag를 프로젝트에 적용하면서 meta tag의 역할과 기능, 그리고 Vue.js에서는 meta tag를 동적으로 어떻게 변화시킬 수 있는지 알아보자.
 
@@ -77,9 +74,9 @@ Vue.use(Meta, {
   keyName: 'metaInfo',
   attribute: 'data-vue-meta',
   ssrAttribute: 'data-vue-meta-server-rendered',
-  tagIDKeyName: 'vmid',  // 변화시키는 구분 값
-  refreshOnceOnNavigation: true
-})
+  tagIDKeyName: 'vmid', // 변화시키는 구분 값
+  refreshOnceOnNavigation: true,
+});
 ```
 
 <br/>
@@ -101,13 +98,13 @@ Vue.use(Meta, {
 }
 ```
 
-컴포넌트에 위와 같이 적용하면, 
+컴포넌트에 위와 같이 적용하면,
 
 ```html
 <!-- Rendered HTML tags in your page -->
 <title>Tripllo</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 ```
 
 이렇게 적용이 되는 구조이다. 즉, 컴포넌트 별로 `metaInfo` 를 정의해주면 meta 태그가 변하는 구조.
@@ -126,14 +123,17 @@ Vue.use(Meta, {
 
 ```html
 <header>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <meta name="robots" content="ALL">
-  <meta property="og:locale" content="ko_KR">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://tripllo-file.s3.ap-northeast-2.amazonaws.com/static/main4.jpg">
-  <meta property="og:site_name" content="Tripllo - 체계적인 계획 공유 플랫폼">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta name="robots" content="ALL" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:type" content="website" />
+  <meta
+    property="og:image"
+    content="https://tripllo-file.s3.ap-northeast-2.amazonaws.com/static/main4.jpg"
+  />
+  <meta property="og:site_name" content="Tripllo - 체계적인 계획 공유 플랫폼" />
 
   <title>Tripllo - 체계적인 계획 공유 플랫폼</title>
 </header>
@@ -197,7 +197,7 @@ export const defualtMeta = [
 
 ```js
 Vue.use(Meta, {
-  attribute: 'data-vue-meta',  // 안적어 줘도 default로 data-vue-meta 임.
+  attribute: 'data-vue-meta', // 안적어 줘도 default로 data-vue-meta 임.
 });
 ```
 
@@ -217,26 +217,21 @@ App.vue에서 미리 default meta 태그를 지정해준 이유는 바로 **고�
 // parent component
 {
   metaInfo: {
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'description', content: 'foo' }
-    ]
+    meta: [{ charset: 'utf-8' }, { name: 'description', content: 'foo' }];
   }
 }
 // child component
 {
   metaInfo: {
-    meta: [
-      { name: 'description', content: 'bar' }
-    ]
+    meta: [{ name: 'description', content: 'bar' }];
   }
 }
 ```
 
 ```html
-<meta charset="utf-8">
-<meta name="description" content="foo">
-<meta name="description" content="bar">
+<meta charset="utf-8" />
+<meta name="description" content="foo" />
+<meta name="description" content="bar" />
 ```
 
 이렇게 겹쳐서 나오게 된다. 이 때 `vmid` 를 지정해주었을 때를 보자.
@@ -247,31 +242,29 @@ App.vue에서 미리 default meta 태그를 지정해준 이유는 바로 **고�
   metaInfo: {
     meta: [
       { charset: 'utf-8' },
-      { vmid: 'description', name: 'description', content: 'foo' }
-    ]
+      { vmid: 'description', name: 'description', content: 'foo' },
+    ];
   }
 }
 // child component
 {
   metaInfo: {
-    meta: [
-      { vmid: 'description', name: 'description', content: 'bar' }
-    ]
+    meta: [{ vmid: 'description', name: 'description', content: 'bar' }];
   }
 }
 ```
 
 ```html
-<meta charset="utf-8">
-<meta data-vmid="description" name="description" content="bar">
+<meta charset="utf-8" />
+<meta data-vmid="description" name="description" content="bar" />
 ```
 
 이런 식으로 나오게 된다. 즉, 1개의 description 이 나오게 되는 것이다. 이 `vmid` 는 main.js에서 옵션으로,
 
 ```js
 Vue.use(Meta, {
-  tagIDKeyName: 'vmid',  // 안적어 줘도 default로 vmid 임.
-})
+  tagIDKeyName: 'vmid', // 안적어 줘도 default로 vmid 임.
+});
 ```
 
 이 녀석으로 이름을 정해줄 수 있다.

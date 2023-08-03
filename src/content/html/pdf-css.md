@@ -3,16 +3,13 @@ layout: post
 title: 'PDF 페이지 CSS로 안전하게 작성하기'
 author: [Pozafly]
 tags: [CSS, HTML, PDF]
-image: ../img/html/pdf-css.webp
+image: ../img/html/pdf-css.png
 date: '2022-04-02T12:13:47.149Z'
 draft: false
 excerpt: 웹을 개발하다 보면, PDF로 문서를 사용자에게 제공하는 기능을 구현해야 할 때가 있다. 다른 개발자분들이 헤매지 않을 수 있도록 정리해보았다.
 ---
 
-
 # PDF 페이지 CSS로 안전하게 작성하기
-
-
 
 웹을 개발하다 보면, PDF로 문서를 사용자에게 제공하는 기능을 구현해야 할 때가 있다. 코드를 작성하고 인쇄용 화면을 보고, 전부 다 뒤집어엎고 또 코드를 재작성하면서 나름 삽질을 했다. 모던 웹 기술이 많은 발전을 이루었지만, 인쇄용 기술은 비교적 덜 중요하다고 여겨지는지, 아직 구현되지 않은 부분이 있는 것 같다. CSS 속성이 먹히지 않는 경우도 많을뿐더러, 트릭과 같은 편법을 사용해야 하는 경우가 있을 수 있다. 다른 개발자분들이 헤매지 않을 수 있도록 정리해보았다.
 
@@ -42,8 +39,10 @@ excerpt: 웹을 개발하다 보면, PDF로 문서를 사용자에게 제공하�
 인쇄물의 전체 페이지의 속성을 지정할 수 있다.
 
 ```css
-@page { }
-@page :first { }
+@page {
+}
+@page :first {
+}
 ```
 
 `@page` 내에서 사용할 수 있는 속성은 **size**, **margin**, **orphan**, **widow**(앞단에서 넘어온 짤막한 행) 및 **page break** 속성만 가능하다. `:first` 수도 코드는 첫 페이지에만 적용되는데 웬만하면 사용하지 말길 바란다. 페이지가 여러 장 될 경우 다른 페이지의 margin 속성이 뒤틀릴 가능성이 있다.
@@ -57,10 +56,10 @@ size 속성의 경우 페이지 전체 사이즈를 지정할 수 있다. px, cm
 ```css
 size: auto;
 size: portrait; /* 가로 모드 */
-size: landscape;  /* 가로 모드 */
+size: landscape; /* 가로 모드 */
 
-size: 6in;  /* 1개 값만 적으면 너비, 높이 모두 해당 값 */
-size: 4in 6in;  /* 너비: 4in, 높이 6in */
+size: 6in; /* 1개 값만 적으면 너비, 높이 모두 해당 값 */
+size: 4in 6in; /* 너비: 4in, 높이 6in */
 
 /* 표준 사이즈 */
 size: A4;
@@ -76,7 +75,7 @@ size를 명시해주지 않으면 auto로, 기본 여백이 적용된다. 주로
 
 #### margin
 
-마진은 인쇄 페이지의 여백을 지정할 수 있다. 아래의 사진은 `margin: 0`, `margin: 40px` 이 적용된 사진이다. 
+마진은 인쇄 페이지의 여백을 지정할 수 있다. 아래의 사진은 `margin: 0`, `margin: 40px` 이 적용된 사진이다.
 
 - **margin: 0**
 
@@ -86,15 +85,13 @@ size를 명시해주지 않으면 auto로, 기본 여백이 적용된다. 주로
 
 <img width="566" alt="스크린샷 2022-04-02 오후 1 46 37" src="https://user-images.githubusercontent.com/59427983/161383055-273ce170-eb83-449c-a36d-fee017feaa19.png">
 
-
-
 margin을 0을 주었을 경우 머리글과 바닥글이 삭제되었고, 40px 정도 주었을 경우는 자연스럽게 여백이 보이지만 머리글과 바닥글이 보인다.
 
-하지만,  머리글 바닥글은 보여지지 않고, 여백이 필요하다면, html을 잡는 container 요소(예: body)에 아래와 같이 작성해주면 된다.
+하지만, 머리글 바닥글은 보여지지 않고, 여백이 필요하다면, html을 잡는 container 요소(예: body)에 아래와 같이 작성해주면 된다.
 
 ```css
 body {
-  width: 714px;  // size A4 일 경우 양 옆 마진을 주기 위해 width를 고정시킴
+  width: 714px; // size A4 일 경우 양 옆 마진을 주기 위해 width를 고정시킴
   margin: 0 auto;
   padding: 50px;
 }
@@ -106,7 +103,7 @@ width와 margin auto 속성 때문에 좌우, 윗부분은 머리글과 바닥�
 
 첫 페이지의 하단과 두 번째 페이지의 상단의 padding 값이 제대로 들어가지 않았다. 그렇다고 `margin: 100px auto` 와 같이 margin을 준다고 해서 해결되지 않는다. 오히려 첫 페이지의 상단 여백이 더 많아질 뿐이다.
 
-그렇다면 어떻게 해결해야 할까? 여기서 \<table>을 사용하면 된다. 전체 요소를 table 태그로 감싸고, \<thead>, \<tfoot> 요소를 선언, thead와 tfoot의 사이에 \<tbody> 를 두어 안에다가 화면에 보일 요소를 넣어주면 된다. 
+그렇다면 어떻게 해결해야 할까? 여기서 \<table>을 사용하면 된다. 전체 요소를 table 태그로 감싸고, \<thead>, \<tfoot> 요소를 선언, thead와 tfoot의 사이에 \<tbody> 를 두어 안에다가 화면에 보일 요소를 넣어주면 된다.
 
 ```html
 <table>
@@ -120,7 +117,8 @@ width와 margin auto 속성 때문에 좌우, 윗부분은 머리글과 바닥�
       <td>
         <h1>PDF 인쇄 샘플</h1>
         <p>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eligendi, nisi maiores. Accusantium error ...
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eligendi,
+          nisi maiores. Accusantium error ...
         </p>
         <img src="..." />
         ...
@@ -142,28 +140,22 @@ width와 margin auto 속성 때문에 좌우, 윗부분은 머리글과 바닥�
 그리고 안에 문구를 \&nbsp; 로 바꾸고 border를 주면 얼마만큼 영역을 차지하는지 확인하면서 작업할 수 있다. 아래 코드를 보자.
 
 ```html
-// html
-...
+// html ...
 <thead>
   <tr>
     <td>&nbsp;</td>
   </tr>
 </thead>
-<tbody>...여기에 본 내용이 들어갑니다.</tbody>
+<tbody>
+  ...여기에 본 내용이 들어갑니다.
+</tbody>
 <tfoot>
   <tr>
     <td>&nbsp;</td>
   </tr>
 </tfoot>
-...
-
-// css
-thead td {
-  border-bottom: 40px solid green;
-}
-tfoot td {
-  border-top: 40px solid green;
-}
+... // css thead td { border-bottom: 40px solid green; } tfoot td { border-top:
+40px solid green; }
 ```
 
 <img width="564" alt="image" src="https://user-images.githubusercontent.com/59427983/161384551-7de9d425-4fa8-4b83-823b-057a86c80a57.png">
@@ -181,24 +173,25 @@ tfoot td {
 인쇄 페이지를 위한 미디어 쿼리. 인쇄 페이지에서만 적용된다. 기존에 이미 작성되었던 페이지를 인쇄용으로 적용할 때 주로 사용한다.
 
 ```css
-@media print { }
+@media print {
+}
 ```
 
 주의점은 배경(background)은 상황에 따라 출력되지 않는다. 따라서 PDF 설계 전 미리 흰색 배경화면을 사용하도록 설계 후 진행해야 한다. `color-adjust: exact !important` 와 같은 속성이 있긴 하지만 크롬 브라우저에서는 2022년 4월 현재 제대로 작동하지 않는다.
 
->  단, 전체 페이지 외 표현되는 영역 즉, 마지막 페이지의 content가 있는 곳까지 배경색을 임의로 집어넣을 수 있다. box-shadow의 inset을 이용해 콘텐츠 내부에 shadow를 주는 것이다.
+> 단, 전체 페이지 외 표현되는 영역 즉, 마지막 페이지의 content가 있는 곳까지 배경색을 임의로 집어넣을 수 있다. box-shadow의 inset을 이용해 콘텐츠 내부에 shadow를 주는 것이다.
 >
->  ```css
->  body {
->  	box-shadow: inset 0 0 0 1000px gold;
->  }
->  ```
+> ```css
+> body {
+>   box-shadow: inset 0 0 0 1000px gold;
+> }
+> ```
 >
 >  <img width="440" alt="image" src="https://user-images.githubusercontent.com/59427983/161383605-45819870-4b7d-412e-a6ad-4606ef2914b6.png">
 >
->  마지막 페이지를 **제외한** 페이지는 정상적으로 배경 색상이 들어갔지만, 마지막 페이지를 보면 이렇게 배경색상이 잘리는 것을 볼 수 있다.
+> 마지막 페이지를 **제외한** 페이지는 정상적으로 배경 색상이 들어갔지만, 마지막 페이지를 보면 이렇게 배경색상이 잘리는 것을 볼 수 있다.
 >
->  마지막 페이지의 끝부분까지 적용되지 않으므로 마음 편하게 배경 색상은 white로 고정하도록 하자.
+> 마지막 페이지의 끝부분까지 적용되지 않으므로 마음 편하게 배경 색상은 white로 고정하도록 하자.
 
 `@media print` 속성은 주로 인쇄 화면에서 불필요한 네비게이션 등의 요소를 가리거나, `display: flex, grid` 와 같은 모던 css 요소가 제대로 작동하지 않을 경우 사용한다.
 
@@ -231,7 +224,7 @@ page-break-after를 사용하면 해당 엘리먼트 뒤에 페이지를 넘긴�
 
 ```css
 .some-element {
-  page-break-inside: avoid;  // 해당 엘리먼트의 내부에서 페이지 넘김을 금지
+  page-break-inside: avoid; // 해당 엘리먼트의 내부에서 페이지 넘김을 금지
 }
 ```
 
@@ -267,7 +260,7 @@ page-break-after를 사용하면 해당 엘리먼트 뒤에 페이지를 넘긴�
 
 \<a> 즉, link는 다운받은 pdf에서 클릭하면 웹 브라우저로 연결이 된다. 즉, PDF 문서는 문서 자체의 기능뿐 아니라 외부와 연결 짓기 때문에 주의해서 작성해주어야 한다.
 
-만약 link의 href 속성이 잘못되어 있다면 잘못된 곳으로 웹 페이지가 이동할 것이다. 
+만약 link의 href 속성이 잘못되어 있다면 잘못된 곳으로 웹 페이지가 이동할 것이다.
 
 또한 link의 width가 100% 라면, PDF에서 마우스가 빈 공간의 해당 라인에 걸치게 되면 클릭을 유도하는 모양으로 변할 것이다. 이를 방지하기 위해 표현된 만큼의 width를 가지도록 하자.
 

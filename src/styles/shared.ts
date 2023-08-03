@@ -77,7 +77,7 @@ export const PostFeed = css`
   background: #fff;
 
   /* Special Template Styles */
-  padding: 120px 0 0;
+  padding: 120px 0 40px;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
 
@@ -86,10 +86,10 @@ export const PostFeed = css`
   }
 
   @media (max-width: 780px) {
-    padding: 80px 0 0;
+    padding: 80px 0 40px;
   }
   @media (max-width: 500px) {
-    padding: 40px 0 0;
+    padding: 40px 0;
   }
 `;
 

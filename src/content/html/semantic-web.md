@@ -3,13 +3,11 @@ layout: post
 title: 'Semantic Web에 대해 더 깊이 알아보기'
 author: [Pozafly]
 tags: [HTML, SEO, Semantic Web]
-image: ../img/html/html.png
+image: ../img/html/html.jpg
 date: '2021-05-29T12:13:47.149Z'
 draft: false
 excerpt: Semantic Tag를 실제로 적용해보면서 고민했던 것과 팁을 함께 내용에 적어두었다. Semantic Tag에 대한 정의는 많지만 실제로 어떤 기준으로 적용해야할지 고민한다면 이 글이 도움이 될 수 있겠다.
 ---
-
-
 
 인터뷰를 보다보면 SSR과 SPA에 대한 질문은 항상 나왔다. 프론트엔드에서 빠질 수 없는 기술 질문이라 다시 정리를 하다보니 SSR의 장점인 SEO에 대해 더 알아보게 되었다. 후에 다시 SEO에 대한 포스팅을 준비 하려고 한다.
 
@@ -79,13 +77,13 @@ Semantic은 사전적으로 '**의미의**' 라는 뜻을 가진 단어다.
 - `<aside>` : 사이드 메뉴 등 main 이외의 컨텐츠. 메인 컨텐츠가 아닌 부가 정보, 해설을 담고 있기도 함.
 - `<footer>` : 웹 페이지의 가장 하단에 있다. 웹 사이트 하단에 회사 정보나 약관 정보, 사이트 맵, 소셜 미디어 링크 등의 컨텐츠를 표시하는 것에 사용.
 
-------
+---
 
 ## 사용 팁
 
 ### `<header>`
 
-header 태그는 소개 컨텐츠 그룹을 나타낸다, 제목(\<h1>~\<h6>)을 감싸기 위한 요소지만, 필수 사항은 아니다([링크](https://developer.mozilla.org/ko/docs/Web/HTML/Element/header#%EC%82%AC%EC%9A%A9_%EC%9D%BC%EB%9E%8C)).  일반적으로 \<body> 상단에 표기되어 웹 사이트의 Title이나 네비게이션이 존재하는 영역에 사용된다. 하지만, \<article>, \<section> 내에서도 사용될 수 있다.
+header 태그는 소개 컨텐츠 그룹을 나타낸다, 제목(\<h1>~\<h6>)을 감싸기 위한 요소지만, 필수 사항은 아니다([링크](https://developer.mozilla.org/ko/docs/Web/HTML/Element/header#%EC%82%AC%EC%9A%A9_%EC%9D%BC%EB%9E%8C)). 일반적으로 \<body> 상단에 표기되어 웹 사이트의 Title이나 네비게이션이 존재하는 영역에 사용된다. 하지만, \<article>, \<section> 내에서도 사용될 수 있다.
 
 - \<body> 안에서 사용될 경우 : 웹 페이지 전체 헤더를 정의한다.
 - \<article>, \<section> 안에서 사용될 경우 : 해당 영역에 대한 특정 헤더를 정의하는 경우 사용된다.([링크](https://developer.mozilla.org/ko/docs/Learn/HTML/Introduction_to_HTML/Document_and_website_structure#html_%EB%A0%88%EC%9D%B4%EC%95%84%EC%9B%83_%EC%9A%94%EC%86%8C%EC%9D%98_%EC%84%B8%EB%B6%80_%EC%82%AC%ED%95%AD))
@@ -110,7 +108,7 @@ header 태그는 소개 컨텐츠 그룹을 나타낸다, 제목(\<h1>~\<h6>)을
 
 ### `<main>`
 
-메인 컨텐츠 내용이 들어갈 태그다. 
+메인 컨텐츠 내용이 들어갈 태그다.
 
 - \<body> 에 포함되지만 섹션 요소가 아니며, 페이지 당 여러 개가 존재할 수 는 있지만 단 1개만 시각적으로 보여야 한다.(나머지 main은 hidden 속성 처리 해주어야 함.)
 - 섹션 요소인 section, article, aside, nav 요소는 main 요소를 자식으로 포함할 수 없다.([링크](https://velog.io/@apricotsoul/HTML-section%EC%9A%94%EC%86%8C-main-%EC%9A%94%EC%86%8C))
@@ -132,7 +130,7 @@ header 태그는 소개 컨텐츠 그룹을 나타낸다, 제목(\<h1>~\<h6>)을
 
 따라서, 취향에 따라 개발자가 생각하는 의미대로 section을 사용할 수 있고, 대부분의 section은 article로 대체될 수 있는데, 반드시 article은 비슷한 틀을 가지고 묶을 필요는 없다는 것이다.
 
-또한, 
+또한,
 
 - \<article> 내부에 \<section> 태그를 포함할 수 있고, 반대로 \<section> 내부에 \<article>를 포함할 수 있다.
 - \<article> 은 웹 접근성을 위해 \<header>로 감싼, 제목(h1~h6 요소)을 포함시켜 요소를 식별하게 하자. 마찬가지로 본문 내용은 \<p> 를 사용하자. 만약 섹션 제목을 감춰야 하는 상황이라면 hidden 속성을 사용하면 된다.([링크](https://velog.io/@apricotsoul/HTML-section%EC%9A%94%EC%86%8C-main-%EC%9A%94%EC%86%8C))
@@ -145,16 +143,9 @@ aside는 문서의 주요 내용과 간접적으로만 연관된 부분을 나�
 
 ```html
 <article>
-  <p>
-    디즈니 만화영화 <em>인어 공주</em>는
-    1989년 처음 개봉했습니다.
-  </p>
-  <aside>
-    인어 공주는 첫 개봉 당시 8700만불의 흥행을 기록했습니다.
-  </aside>
-  <p>
-    영화에 대한 정보...
-  </p>
+  <p>디즈니 만화영화 <em>인어 공주</em>는 1989년 처음 개봉했습니다.</p>
+  <aside>인어 공주는 첫 개봉 당시 8700만불의 흥행을 기록했습니다.</aside>
+  <p>영화에 대한 정보...</p>
 </article>
 ```
 
@@ -173,8 +164,6 @@ aside는 문서의 주요 내용과 간접적으로만 연관된 부분을 나�
 2. `<div>` 태그 등에 CSS의 background-image 속성 사용
 
 <br/>
-
-
 
 ### Semantic Tag인 `<img>` 태그 사용
 
@@ -203,7 +192,7 @@ background-image는 HTML이 아닌, CSS 속성 그 자체이기 때문에 SEO �
 
 ```css
 .bg {
-  background-image: url("apple.png")
+  background-image: url('apple.png');
 }
 ```
 
@@ -211,7 +200,7 @@ CSS로 이미지를 구현할 때는 위의 코드처럼 background-image라는 
 
 ```css
 .bg {
-  background-image: url("apple.png");
+  background-image: url('apple.png');
   background-repeat: repeat;
 }
 ```
