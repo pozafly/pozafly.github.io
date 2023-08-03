@@ -424,9 +424,11 @@ function IndexLayout(props: IndexProps) {
           }
 
           a {
-            /* color: ${lighten('-0.05', colors.blue)}; */
             color: #768086;
             text-decoration: none;
+            @media (prefers-color-scheme: dark) {
+              color: ${lighten('0.1', colors.midgrey)};
+            }
           }
 
           a:hover {

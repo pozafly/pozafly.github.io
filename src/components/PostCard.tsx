@@ -230,8 +230,7 @@ const PostCardContentLink = css`
 
 const PostCardPrimaryTag = styled.div`
   margin: 15px 0 0.2em;
-  /* color: ${colors.blue}; */
-  color: #768086;
+  color: ${lighten('0.1', colors.midgrey)};
   font-size: 1.3rem;
   font-weight: 500;
   letter-spacing: 0.2px;
@@ -250,8 +249,7 @@ const PostCardTitle = styled.h2`
 const PostCardExcerpt = styled.section`
   font-size: 1.6rem;
   @media (prefers-color-scheme: dark) {
-    /* color: color(var(--midgrey) l(+10%)); */
-    color: ${lighten('0.1', colors.midgrey)} !important;
+    color: #768086;
   }
   p {
     width: 100%;
