@@ -101,10 +101,8 @@ function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
   }
 
   const date = new Date(post.frontmatter.date);
-  // 2018-08-20
   const datetime = format(date, 'yyyy-MM-dd');
-  // 20 AUG 2018
-  const displayDatetime = format(date, 'dd LLL yyyy');
+  const displayDatetime = format(date, 'yyyy MM dd');
 
   return (
     <IndexLayout className="post-template">
@@ -352,7 +350,6 @@ const PostFullTags = styled.section`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  /* color: var(--midgrey); */
   color: ${colors.midgrey};
   font-size: 1.3rem;
   line-height: 1.4em;
@@ -372,8 +369,7 @@ const PostFullCustomExcerpt = styled.p`
   }
 
   @media (prefers-color-scheme: dark) {
-    /* color: color(var(--midgrey) l(+10%)); */
-    color: ${lighten('0.1', colors.midgrey)};
+    color: #768086;
   }
 `;
 
@@ -382,7 +378,6 @@ const PostFullByline = styled.div`
   justify-content: space-between;
   margin: 35px 0 0;
   padding-top: 15px;
-  /* border-top: 1px solid color(var(--lightgrey) l(+10%)); */
   border-top: 1px solid ${lighten('0.1', colors.lightgrey)};
 
   .post-full-byline-content {
@@ -399,26 +394,24 @@ const PostFullByline = styled.div`
   .post-full-byline-meta {
     margin: 2px 0 0;
     /* color: color(var(--midgrey) l(+10%)); */
-    color: ${lighten('0.1', colors.midgrey)};
-    font-size: 1.2rem;
+    color: #768086;
+    font-size: 1.4rem;
     line-height: 1.2em;
     letter-spacing: 0.2px;
   }
 
   .post-full-byline-meta h4 {
     margin: 0 0 3px;
-    font-size: 1.3rem;
-    line-height: 1.4em;
+    font-size: 1.4rem;
+    line-height: 1.3em;
     font-weight: 500;
   }
 
   .post-full-byline-meta h4 a {
-    /* color: color(var(--darkgrey) l(+10%)); */
     color: ${lighten('0.1', colors.darkgrey)};
   }
 
   .post-full-byline-meta h4 a:hover {
-    /* color: var(--darkgrey); */
     color: ${colors.darkgrey};
   }
 

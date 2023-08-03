@@ -104,7 +104,7 @@ export function PostCard({
             <span className="post-card-byline-date">
               <time dateTime={datetime}>{displayDatetime}</time>{' '}
               <span className="bull">&bull;</span>{' '}
-              {post.fields.readingTime.text}
+              <span>{post.fields.readingTime.text}</span>
             </span>
           </PostCardBylineContent>
         </PostCardMeta>
@@ -272,21 +272,20 @@ const PostCardBylineContent = styled.div`
   flex: 1 1 50%;
   display: flex;
   flex-direction: column;
-  /* margin: 4px 0 0 10px; */
-  /* color: color(var(--midgrey) l(+10%)); */
   color: ${lighten('0.1', colors.midgrey)};
-  font-size: 1.4rem;
   line-height: 1.4em;
   font-weight: 400;
   letter-spacing: 0.2px;
 
+  time {
+    font-size: 1.3rem;
+  }
   span {
     margin: 0;
     font-size: 1.3rem;
   }
 
   a {
-    /* color: color(var(--darkgrey) l(+20%)); */
     color: ${lighten('0.2', colors.darkgrey)};
     font-weight: 600;
   }

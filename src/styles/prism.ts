@@ -69,11 +69,19 @@ export default css`
   /* Inline code */
   *:not(pre) > code[class*='language-'] {
     border-radius: 0.3em;
-    /* background: rgb(1, 22, 39); */
-    background: #3c4148;
-    color: white;
+    /* background: #dcdcdc; */
+    background: rgb(235, 235, 235);
+    border: 1px solid rgb(236, 237, 244);
+    color: #000;
     padding: 0.15em 0.5em;
     white-space: normal;
+
+    @media (prefers-color-scheme: dark) {
+      background: #3c4148;
+      color: white;
+      border: none;
+      font-weight: 500 !important;
+    }
   }
 
   .token {
