@@ -2,7 +2,7 @@
 layout: post
 title: '(10) Frontend -travis 배포 자동화'
 author: [Pozafly]
-tags: [Tripllo 제작기, Travis CI, AutoMation]
+tags: [Tripllo 제작기, Travis CI, Automation]
 image: ../img/tripllo/travis.png
 date: '2021-04-06T17:13:47.149Z'
 draft: false
@@ -29,7 +29,7 @@ endpoint를 잘 설정해 주어야지 오류가 나지 않는다. springboot를
 
 ## Github repository 연동
 
-https://travis-ci.com/ 이곳에 먼저 들어가서 github ID로 로그인을 해주자. 우측 상단에 내 아이콘을 선택하고 Setting -> Repositories에 가면 무슨 프로젝트를 설정할 것인지 페이지가 나온다. 여기서 어떤 프로젝트를 CI 할 것인지 설정해 줄 수 있다. Manage repositories on GitHub 을 클릭하고, github 페이지에 들어가면, 
+https://travis-ci.com/ 이곳에 먼저 들어가서 github ID로 로그인을 해주자. 우측 상단에 내 아이콘을 선택하고 Setting -> Repositories에 가면 무슨 프로젝트를 설정할 것인지 페이지가 나온다. 여기서 어떤 프로젝트를 CI 할 것인지 설정해 줄 수 있다. Manage repositories on GitHub 을 클릭하고, github 페이지에 들어가면,
 
 ![스크린샷 2021-04-06 오전 11 33 19](https://user-images.githubusercontent.com/59427983/113650888-f3ef3600-96cb-11eb-83a3-fe7d8b9849ad.png)
 
@@ -45,21 +45,21 @@ https://travis-ci.com/ 이곳에 먼저 들어가서 github ID로 로그인을 �
 ```yaml
 language: node_js
 node_js:
-- 14.16.0
+  - 14.16.0
 branches:
   only:
-  - master
+    - master
 cache:
   directories:
-  - node_modules
+    - node_modules
 script: npm run build
 notifications:
   email:
     recipients:
-    - pozafly@kakao.com
+      - pozafly@kakao.com
 ```
 
-- language : vue 프로젝트를 설정할 것이므로, language는 node_js 형태로 빌드 한다. 
+- language : vue 프로젝트를 설정할 것이므로, language는 node_js 형태로 빌드 한다.
 - node_js : 버전은 자신이 설정한 것 대로 해주면 됨
 - branches : master 브랜치에 push 되었을 때 자동으로 돌아가게 해줌.
 - cache : 빌드 시, node_modules가 계속 install 될 필요는 없으므로 해당 폴더를 캐시화 시켜주겠다는 말이다.
@@ -71,11 +71,11 @@ notifications:
 첫 번째 에러가 났다.
 
 ```
-error  
+error
 Template execution failed: ReferenceError: VUE_APP_GOOGLE_CLIENT_ID is not defined
 ```
 
-`VUE_APP_GOOGLE_CLINET_ID`  는 .env 파일에 있는데, 이걸 build 하지 못하는 이유는 .env 파일이 github에 올라가지 않아서다. 따라서 .env 파일을 travis 서버에서 인식하도록 할 필요가 있다. 방법은 3가지가 있다. [공식 페이지 환경변수](https://docs.travis-ci.com/user/environment-variables/) 이곳에 잘 설명되어 있다, 
+`VUE_APP_GOOGLE_CLINET_ID` 는 .env 파일에 있는데, 이걸 build 하지 못하는 이유는 .env 파일이 github에 올라가지 않아서다. 따라서 .env 파일을 travis 서버에서 인식하도록 할 필요가 있다. 방법은 3가지가 있다. [공식 페이지 환경변수](https://docs.travis-ci.com/user/environment-variables/) 이곳에 잘 설명되어 있다,
 
 |              사용방법              | Github 오픈 여부 | 암호화 |
 | :--------------------------------: | :--------------: | :----: |
@@ -168,7 +168,7 @@ traivs 상에서 내 파일이 build 까지 완료되었다면, 이제 호스팅
 
 ### AWS IAM key 받기
 
-[IAM](https://console.aws.amazon.com/iam/home?region=ap-northeast-2#/home)에 사용자 탭 -> 사용자 추가 -> 이름 설정 -> AWS 액세스 유형은 *프로그래밍 방식 엑세스* 체크 -> 기존 정책 직접 연결 -> 정책 필터에 *s3full* 검색 후 AmazonS3FullAccess 체크. -> cloudfront 검색 후 CloudFrontFullAccess 체크 -> 태그 등록 -> 권한 최종 확인 후 생성이 완료되면 엑세스 키와 비밀 엑세스 키가 생성된다.
+[IAM](https://console.aws.amazon.com/iam/home?region=ap-northeast-2#/home)에 사용자 탭 -> 사용자 추가 -> 이름 설정 -> AWS 액세스 유형은 _프로그래밍 방식 엑세스_ 체크 -> 기존 정책 직접 연결 -> 정책 필터에 _s3full_ 검색 후 AmazonS3FullAccess 체크. -> cloudfront 검색 후 CloudFrontFullAccess 체크 -> 태그 등록 -> 권한 최종 확인 후 생성이 완료되면 엑세스 키와 비밀 엑세스 키가 생성된다.
 
 즉, IAM 에서는 `AmazonS3FullAccess`, `CloudFrontFullAccess` 두 가지 권한이 필요한 것이다.
 
@@ -180,7 +180,7 @@ aws s3에 접근할 수 있는 엑세스키와 비밀키는 **절대절대절대
 
 ![스크린샷 2021-04-06 오후 2 29 49](https://user-images.githubusercontent.com/59427983/113663278-b6e36d80-96e4-11eb-9379-723b135ce55a.png)
 
-- name  : AWS_ACCESS_KEY, AWS_SECRET_KEY 두 개
+- name : AWS_ACCESS_KEY, AWS_SECRET_KEY 두 개
 - value : IAM에서 받은 엑세스키와 시크릿키
 
 이렇게 각각 등록해두면 된다. 그럼 이걸 .travis.yml 파일에서 변수로 가져올 수 있는 형태가 되는 것임.
@@ -188,8 +188,8 @@ aws s3에 접근할 수 있는 엑세스키와 비밀키는 **절대절대절대
 ```yaml
 deploy:
   provider: s3
-  access_key_id: $AWS_ACCESS_KEY   # 여기
-  secret_access_key: $AWS_SECRET_KEY  # 여기
+  access_key_id: $AWS_ACCESS_KEY # 여기
+  secret_access_key: $AWS_SECRET_KEY # 여기
   bucket: [버킷명]
   skip_cleanup: true
   acl: public_read
@@ -246,11 +246,11 @@ after_deploy:
   - travis-ci-cloudfront-invalidation -a $AWS_ACCESS_KEY -s $AWS_SECRET_KEY -c $AWS_CLOUDFRONT_DIST_ID -i '/*' -b $TRAVIS_BRANCH -p $TRAVIS_PULL_REQUEST -o 'master'
 ```
 
-이렇게 설정해 주었다. S3에 매번 올린 후 cloudfront에서 매번 다시 캐싱 해줄 필요 없이 위 명령어로 travis가 알아서 해준다. 여기서 `travis-ci-cloudfront-invalidation` 라는 패키지를 travis 상에 설치 후, 제일 아래에 있는 명령어로 진행하는 것이다. 
+이렇게 설정해 주었다. S3에 매번 올린 후 cloudfront에서 매번 다시 캐싱 해줄 필요 없이 위 명령어로 travis가 알아서 해준다. 여기서 `travis-ci-cloudfront-invalidation` 라는 패키지를 travis 상에 설치 후, 제일 아래에 있는 명령어로 진행하는 것이다.
 
 $AWS_ACCESS_KEY, $AWS_SECRET_KEY는 기존 travis에 설정된 대로 들어갈 것이고, `$AWS_CLOUDFRONT_DIST_ID` 는 travis의 환경 변수 설정에서 직접 입력해 주자. aws의 cloudfront 페이지에 가장 먼저 id가 나와있다. 나머지는 필요 없다. 다만 위의 yml에 적여 있어야 한다.
 
-이제 git push 해주면, 
+이제 git push 해주면,
 
 ![스크린샷 2021-04-06 오후 5 41 15](https://user-images.githubusercontent.com/59427983/113683817-94128280-96ff-11eb-9a7c-e45173c60c60.png)
 
@@ -263,26 +263,26 @@ language: node_js
 
 # nodeJS 버전
 node_js:
-- 14.16.0
+  - 14.16.0
 
 # Git Commit 수신 허용 목록 master 브랜치만.
 branches:
   only:
-  - master
+    - master
 
 # Travis CI 에서 node_modules를 캐싱한다.
 # 빌드 프로세스 속도를 높여줌.
 cache:
   directories:
-  - node_modules
+    - node_modules
 
 # Travis 서버에서 빌드 명령어
 script: npm run build
 
 # .env.production 파일 인코딩했던 것을 디코딩해서 만들어줌.
 before_install:
-- openssl aes-256-cbc -K [$encrypted_key...] -iv [$encrypted_iv...]
-  -in .env.production.enc -out .env.production -d
+  - openssl aes-256-cbc -K [$encrypted_key...] -iv [$encrypted_iv...]
+    -in .env.production.enc -out .env.production -d
 
 # AWS CloudFront 캐싱을 위해 설치.
 before_deploy:
@@ -309,7 +309,7 @@ after_deploy:
 notifications:
   email:
     recipients:
-    - pozafly@kakao.com
+      - pozafly@kakao.com
 ```
 
 아쉬운 점은 npm 모듈을 사용하지 않고 CloudFront 설정을 할 수 있을텐데 하지 못했다. [여기1](https://medium.com/lunit/travis-ci%EB%A1%9C-aws-s3%EC%97%90-spa-%EB%B0%B0%ED%8F%AC%ED%95%98%EA%B8%B0-c081e25335b5), [여기2](https://renzolucioni.com/s3-deployment-with-travis/), [여기3](https://github.com/CircleCI-Public/aws-cli-orb/issues/24) 를 보면서 연구했는데 잘 안됐다...

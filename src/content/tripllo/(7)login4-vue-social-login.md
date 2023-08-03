@@ -2,7 +2,7 @@
 layout: post
 title: '(7) 로그인4 -vue 소셜로그인'
 author: [Pozafly]
-tags: [Tripllo 제작기, Vue.js]
+tags: [Tripllo 제작기, Vue.js, Social Login]
 image: ../img/tripllo/tripllo7.jpeg
 date: '2021-02-05T10:03:47.149Z'
 draft: false
@@ -36,7 +36,8 @@ async function socialLogin(req, isSignup) {
     store.commit('setUserToken', data.data.token);
     store.commit('setUser', data.data);
 
-    if (isSignup === 'afterSignup') alert('회원가입 완료! 메인 페이지로 이동합니다.');
+    if (isSignup === 'afterSignup')
+      alert('회원가입 완료! 메인 페이지로 이동합니다.');
 
     router.push('/main');
   } catch (error) {
@@ -45,7 +46,7 @@ async function socialLogin(req, isSignup) {
     const { data } = await store.dispatch('VALID_ID', req.id);
     if (data.status === 'OK') {
       const confirmYn = confirm(
-        '아직 가입되지 않은 회원입니다. \n회원가입 화면으로 이동하시겠습니까?',
+        '아직 가입되지 않은 회원입니다. \n회원가입 화면으로 이동하시겠습니까?'
       );
       if (confirmYn) router.push('/auth/signup');
     }
@@ -61,7 +62,9 @@ async function socialSignup(req) {
   } catch (error) {
     console.log(error);
 
-    const confirmYn = confirm('이미 가입된 소셜 회원입니다. \n로그인 화면으로 이동하시겠습니까?');
+    const confirmYn = confirm(
+      '이미 가입된 소셜 회원입니다. \n로그인 화면으로 이동하시겠습니까?'
+    );
     if (confirmYn) router.push('/auth/login');
   }
 }
@@ -251,22 +254,26 @@ const Facebook = {
           response => {
             if (response.status === 'connected') {
               // const accessToken = response.authResponse.accessToken;
-              window.FB.api('/me', { fields: 'id, name, email, picture' }, res => {
-                if (!res) LoginFailure();
-                const req_body = {
-                  id: res.id,
-                  name: res.name,
-                  email: res.email,
-                  picture: res.picture.data.url,
-                  social: 'Facebook',
-                };
-                resolve(req_body);
-              });
+              window.FB.api(
+                '/me',
+                { fields: 'id, name, email, picture' },
+                res => {
+                  if (!res) LoginFailure();
+                  const req_body = {
+                    id: res.id,
+                    name: res.name,
+                    email: res.email,
+                    picture: res.picture.data.url,
+                    social: 'Facebook',
+                  };
+                  resolve(req_body);
+                }
+              );
             } else {
               LoginFailure();
             }
           },
-          { scope: 'public_profile, email' },
+          { scope: 'public_profile, email' }
         );
       });
     });
@@ -448,7 +455,11 @@ $ npm i vue-google-login
 간단하게 가기 위해서 이번엔 그냥 모듈을 다운받아서 연동시키겠다.
 
 ```html
-<GoogleLogin class="external_item" :params="googleParams" :onSuccess="googleSuccess">
+<GoogleLogin
+  class="external_item"
+  :params="googleParams"
+  :onSuccess="googleSuccess"
+>
   <img src="@/assets/user/logo/google.png" />
   <b> Continue with Google</b>
 </GoogleLogin>

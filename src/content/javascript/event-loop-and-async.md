@@ -7,7 +7,7 @@ tags:
 date: '2023-02-16'
 image: ../img/javascript/eventLoopAndAsync/main.jpg
 draft: false
-excerpt: 
+excerpt: JavaScript는 싱글 스레드 언어이다. 하지만 멀티 스레드 처럼 동작하는데 이는 Event Loop 때문이다. await 키워드를 만나면 async가 붙은 함수 전체가 MicroTask Queue에 담기는 과정까지 알아보자.
 ---
 
 ## 요약

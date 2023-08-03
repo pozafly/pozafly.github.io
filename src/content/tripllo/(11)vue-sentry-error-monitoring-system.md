@@ -2,7 +2,7 @@
 layout: post
 title: '(11) Sentry 에러 로깅 시스템 도입'
 author: [Pozafly]
-tags: [Tripllo 제작기, Sentry, 에러 모니터링]
+tags: [Tripllo 제작기, Sentry, Error]
 image: ../img/tripllo/sentry.png
 date: '2021-04-09T17:13:47.149Z'
 draft: false
@@ -25,7 +25,7 @@ Sentry는 Application Error Monitoring 도구다. 에러 로그를 수집하는�
 
 ## 설치
 
-[sentry.io](https://sentry.io/) 에서 회원가입 후 프로젝트를 생성하면, 
+[sentry.io](https://sentry.io/) 에서 회원가입 후 프로젝트를 생성하면,
 
 ![sentrymain](https://user-images.githubusercontent.com/59427983/113977290-563b6880-987d-11eb-979f-4414c49b659f.png)
 
@@ -41,17 +41,17 @@ npm install --save @sentry/vue @sentry/tracing
 
 CDN으로 하거나, SDK를 설치하는 방법이 나오는데, npm 으로 SDK를 깔아보자.
 
-그리고,  아래와 같이 코드를 main.js에 값을 넣으라고 자세히 알려준다. utils 폴더에 sentry.js 파일을 만들어 따로 빼고 main.js에 붙여주자. dsn 도 페이지에서 바로 알려주는데, env 파일로 빼서 사용하는 게 좋겠지?
+그리고, 아래와 같이 코드를 main.js에 값을 넣으라고 자세히 알려준다. utils 폴더에 sentry.js 파일을 만들어 따로 빼고 main.js에 붙여주자. dsn 도 페이지에서 바로 알려주는데, env 파일로 빼서 사용하는 게 좋겠지?
 
 ```js
 // src/utils/sentry.js
-import Vue from "vue";
-import * as Sentry from "@sentry/vue";
-import { Integrations } from "@sentry/tracing";
+import Vue from 'vue';
+import * as Sentry from '@sentry/vue';
+import { Integrations } from '@sentry/tracing';
 
 export default Sentry.init({
   Vue,
-  dsn: VUE_APP_SENTRY_DSN,  // env 파일에 저장
+  dsn: VUE_APP_SENTRY_DSN, // env 파일에 저장
   integrations: [new Integrations.BrowserTracing()],
 
   // Set tracesSampleRate to 1.0 to capture 100%
@@ -71,9 +71,9 @@ SDK는 동작을 변경할 수 있는 몇 가지 다른 구성 옵션을 허용�
 
 - 통과 `Vue`는 선택 사항이지만 통과하지 못한 경우 `window.Vue`반드시 참석해야 합니다. (Vue가 반드시 import 되어 있어야 한다는 뜻인 듯...)
 - `attachProps` 전달은 선택 사항이며 제공되지 않은 경우 `true` 입니다. `false` 로 설정하면 Sentry는 로깅을 위해 모든 Vue 구성 요소의 props를 전송하지 않습니다.
-- 전달 `logErrors`은 선택 사항이며 제공되지 않은 경우  `false` 입니다. `true` 로 설정하면 Sentry는 Vue의 원래 `logError`기능도 호출 합니다.
+- 전달 `logErrors`은 선택 사항이며 제공되지 않은 경우 `false` 입니다. `true` 로 설정하면 Sentry는 Vue의 원래 `logError`기능도 호출 합니다.
 
-*Vue 오류 처리
+\*Vue 오류 처리
 
 이 통합을 활성화하면 기본적으로 Vue가 내부적으로`logError`를 호출하지 않습니다. 즉, Vue 렌더러에서 발생하는 오류가 개발자 콘솔에 표시되지 않습니다. 이 기능을 유지하려면`logErrors : true` 옵션을 전달해야 합니다.
 
@@ -81,7 +81,7 @@ SDK는 동작을 변경할 수 있는 몇 가지 다른 구성 옵션을 허용�
 
 이렇게 적혀있다. 그래서 일단, attachProps: true, logErrors: false, 기본값 옵션을 따로 줘놨다. 나중에 필요할 때 바로 쓸 수 있게. logErrors는 false로 해두면 개발자 콘솔에 찍히지 않는다는데 내가 우선 개발할 때는 true로 두어야 할 것 같아서 눈치 살.. 보고 변경해야지.
 
-코드를 입히기 전에 Sentry 페이지에는 하단에, *첫 번째 이벤트 수신 대기 중..* 이렇게 나와있는데 local에서 한번 돌려보자. 그러면 `이벤트가 입하했습니다!` 라고 뜨면서 연동이 완료된 것임. 하지만,<img width="1040" alt="스크린샷 2021-04-08 오전 10 44 00" src="https://user-images.githubusercontent.com/59427983/113955813-680a1500-9857-11eb-9eae-007438e32c3a.png">
+코드를 입히기 전에 Sentry 페이지에는 하단에, _첫 번째 이벤트 수신 대기 중.._ 이렇게 나와있는데 local에서 한번 돌려보자. 그러면 `이벤트가 입하했습니다!` 라고 뜨면서 연동이 완료된 것임. 하지만,<img width="1040" alt="스크린샷 2021-04-08 오전 10 44 00" src="https://user-images.githubusercontent.com/59427983/113955813-680a1500-9857-11eb-9eae-007438e32c3a.png">
 
 이렇게 CORS error가 주욱 뜨는 걸 볼 수 있다. sentry를 입히지 않았을 때는 정상적으로 CORS 에러가 뜨지 않고 잘 작동되었던 것이다. 이번 CORS 에러는 Sentry와 내 local vue(node서버) 간의 CORS 문제가 **아니다!**
 
@@ -122,9 +122,9 @@ module.exports = {
 };
 ```
 
-이렇게 해주면, 지금 vue가 돌아가고 있는 local 포트가 8080 이 아닌, 3000 으로 백엔드와 같은 포트를 사용하는 것처럼 해준다. `/api` 의 의미는 url에 백엔드로 요청하는 엔드 포인트를 뜻한다. websocket도 마찬가지. 핫 리로딩을 지원하지 않으므로 프론트 서버를 다시 껐다 켜주자. 
+이렇게 해주면, 지금 vue가 돌아가고 있는 local 포트가 8080 이 아닌, 3000 으로 백엔드와 같은 포트를 사용하는 것처럼 해준다. `/api` 의 의미는 url에 백엔드로 요청하는 엔드 포인트를 뜻한다. websocket도 마찬가지. 핫 리로딩을 지원하지 않으므로 프론트 서버를 다시 껐다 켜주자.
 
-그리고, 중요한 것은 ⭐️ 서버로 요청을 보낼 때, 기존과 같이 prefix를 localhost:3000 으로 두는 것이 아니라 `공백` 으로 두어야 한다. 즉, 
+그리고, 중요한 것은 ⭐️ 서버로 요청을 보낼 때, 기존과 같이 prefix를 localhost:3000 으로 두는 것이 아니라 `공백` 으로 두어야 한다. 즉,
 
 ```js
 // axios BaseURL 설정 시
@@ -180,10 +180,10 @@ Sentry.init({
 
 ### 프로젝트 이름 등록
 
-1. Organization 이름 등록 : 좌측 텝에 보면 Settings가 있다. -> General Settins에 Organization Slug에 프로젝트 명을 등록해 주자. 
+1. Organization 이름 등록 : 좌측 텝에 보면 Settings가 있다. -> General Settins에 Organization Slug에 프로젝트 명을 등록해 주자.
 2. Project 이름 등록 : 이번엔, General Settins 말고 바로 밑 Projects에 들어가자 -> 자신의 Project를 클릭하면 Name을 정할 수 있다. 프로젝트 이름을 등록해 주자.
 
-이 두 가지가 설정되었으면, 
+이 두 가지가 설정되었으면,
 
 <br/>
 
@@ -240,7 +240,7 @@ module.exports = {
 
 위와 같이 development 환경에서는 `[]` 빈 배열을 넣어준 이유는, vscode상으로 코드를 수정하고 저장하면 핫리로딩이 일어날 때마다 빌드 해서 소스 맵을 sentry 서버에 전송한다. 코드 하나 바꾸고 또 빌드하고 올려주고 이런 작업이 반복되고 개발 속도가 현저하게 떨어지기 때문에, 개발 환경에서 쓰이지 않게 하기 위해 분기를 태운 것임. 즉, 개발 모드에서는 소스 맵을 올리지 않게 되어 sentry에는 에러만 찍힐 뿐, 어디에서 에러가 났는지 코드 자체를 보여주지 않는다.
 
-이제, git push를 하면 travis에서 
+이제, git push를 하면 travis에서
 
 ![스크린샷 2021-04-08 오후 11 35 24](https://user-images.githubusercontent.com/59427983/114048113-39c31e80-98c5-11eb-9970-52844f87de2d.png)
 
@@ -254,7 +254,7 @@ module.exports = {
 
 ![스크린샷 2021-04-08 오후 11 42 44](https://user-images.githubusercontent.com/59427983/114048964-fae19880-98c5-11eb-99ff-1e1272ba2227.png)
 
-이렇게 정상적으로 어느 소스코드에서 에러를 냈는지 자세하게 알려준다. 
+이렇게 정상적으로 어느 소스코드에서 에러를 냈는지 자세하게 알려준다.
 
 <br/>
 
@@ -277,7 +277,7 @@ export default Sentry.init({
   attachProps: true,
   logErrors: false,
   environment: process.env.NODE_ENV,
-  enabled: process.env.NODE_ENV !== 'development',  // 🔥
+  enabled: process.env.NODE_ENV !== 'development', // 🔥
 
   tracesSampleRate: 1.0,
 });
@@ -289,7 +289,7 @@ export default Sentry.init({
 
 알림 설정은 기본적으로 email로 되어있는데, Slack으로 notification을 주는 것도 가능하다. 또한 해당 코드를 관리하는 개발자에게 이슈를 맡길 수도 있고 해결 처리, 또 해결이 되지 않았는데 해결 처리를 했다면 회귀 sign도 sentry가 알아서 준다.
 
-에러 로깅 시스템을 도입하면서 사용자에게 어떻게 하면 더 안정적이고 견고한 소프트웨어를 제공할 수 있을지 고민이 되는 좋은 시간이었다! 또 Sentry를 도입하면서 내가 놓쳤던 Error를 고치고,  사용자한테 일어나지 않을 것 같은 Error까지 잡아보면서 대수롭지 않게 넘겼던 Error에 대해 다시 한번 생각해 볼 수 있는 기회였다.
+에러 로깅 시스템을 도입하면서 사용자에게 어떻게 하면 더 안정적이고 견고한 소프트웨어를 제공할 수 있을지 고민이 되는 좋은 시간이었다! 또 Sentry를 도입하면서 내가 놓쳤던 Error를 고치고, 사용자한테 일어나지 않을 것 같은 Error까지 잡아보면서 대수롭지 않게 넘겼던 Error에 대해 다시 한번 생각해 볼 수 있는 기회였다.
 
 <br/>
 

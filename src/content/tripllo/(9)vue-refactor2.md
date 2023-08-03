@@ -2,14 +2,12 @@
 layout: post
 title: '(9) vue 리팩토링2'
 author: [Pozafly]
-tags: [Tripllo 제작기, 리팩토링, Vue.js]
+tags: [Tripllo 제작기, Refactoring, Vue.js]
 image: ../img/tripllo/refactor2.jpg
 date: '2021-04-04T19:13:47.149Z'
 draft: false
 excerpt: 멘토링 후 Tripllo에 꽤 많은 것을 손봐야한다는 것을 알게 되었다. 하나하나 고쳐보면서 정리한 것을 기록해보자.
 ---
-
-
 
 <br/>
 
@@ -40,7 +38,7 @@ excerpt: 멘토링 후 Tripllo에 꽤 많은 것을 손봐야한다는 것을 �
 
 ## 10. props type
 
-기존에 prop 을  `props: ['member'],` 이런 식으로 정의했었다면,
+기존에 prop 을 `props: ['member'],` 이런 식으로 정의했었다면,
 
 ```js
 props: {
@@ -72,7 +70,7 @@ props: {
       createdBy: '',
       createdByPicture: '',
     }),
-  },  
+  },
 }
 ```
 
@@ -151,7 +149,7 @@ vue 내부적으로 달러 없이 언더바만 사용하고 있기 때문에, `$
 
 ### main.js 정리
 
-이제 플러그인을 부르는 main.js를 정리해보자. 기존의 main.js에서는, 
+이제 플러그인을 부르는 main.js를 정리해보자. 기존의 main.js에서는,
 
 ```js
 // 기존 main.js
@@ -175,11 +173,11 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from '@/routes/index';
 import store from '@/store/index';
-import { install } from '@/plugin';  // 플러그인
-import { normalFormatDate, timeForToday } from '@/utils/dateFilter';  // 필터
+import { install } from '@/plugin'; // 플러그인
+import { normalFormatDate, timeForToday } from '@/utils/dateFilter'; // 필터
 
 Vue.config.productionTip = false;
-Vue.use(install);  // 플러그인 불러 사용함.
+Vue.use(install); // 플러그인 불러 사용함.
 
 // 필터 관련
 Vue.filter('normalFormatDate', normalFormatDate);
@@ -274,7 +272,7 @@ Vue는 DOM 업데이트를 비동기로 하는데, 특정 DOM이 갱신되기 �
 
 정확한 nextTick의 사용법을 알지 못하고 남용했다. 따라서 mounted 라이프사이클 메서드에서 사용했던 nextTick의 콜백만 남기고(DOM의 데이터를 가져오는 로직) nextTick을 제거했다. mounted 라이프사이클 함수는 DOM이 입혀지고 난 후 실행되기 때문이다.
 
-나머지는 제거 후 아래의 두 가지에만 nextTick을 유지했다. 
+나머지는 제거 후 아래의 두 가지에만 nextTick을 유지했다.
 
 1. created 함수 실행 때, DOM에서 정보를 가져와 해당 정보로 비동기 api 호출 시. (특별하지 않은 이상 주로 비동기 api 함수 호출 장소는 created 라이프사이클 함수에서 한다)
 2. Modal 컴포넌트같이 DOM에 달라붙기 전 데이터를 가져와 DOM에 정보를 붙이는 작업이 필요할 때.
@@ -306,17 +304,14 @@ mounted 함수에서 사용했으므로 nextTick이 필요가 없다. 따라서 
 ```js
 // directive.js에 v-focus 정의
 Vue.directive('focus', {
-  inserted: function(el) {
+  inserted: function (el) {
     el.focus();
   },
 });
 ```
 
 ```html
-<input
-  v-focus
-  (...)
-/>
+<input v-focus (...) />
 ```
 
 이렇게 해주면 한 방에 해결된다. 쓸데없는 mounted와 methods를 하나 줄인 셈. 코드 량이 무척 많이 줄었고, focus 관련 nextTick은 전부 없어졌다. [사용자 지정 디렉티브](https://kr.vuejs.org/v2/guide/custom-directive.html) 이곳에 가면 위에서 사용한 `inserted` 와 같은 훅 함수에 대한 설명이 있으니 참고.
@@ -360,7 +355,7 @@ READ_USER({ commit }, userId) {
 이곳에서 에러 처리를 했을 때 단점을 한번 보자.
 
 1. action에서 다른 action을 호출 할 수도 있다. (이 방법은 좋은 방법은 아님. 밑에서 설명하겠음.) 그럴 때 어느 action의 오류를 핸들링하는지 모호해진다.
-2. action 안에서 여러 작업을 할 수도 있겠지만 action의 역할은, 기본적으로 상태를 변이(mutation) 시키기 위함이다. 따라서 에러 처리 시 mutation을 발생시키는 commit 로직만 있는 것이 좋을 것 같은데, try catch절이 혼재해 있으면  로직을 파악하기 어려워진다.
+2. action 안에서 여러 작업을 할 수도 있겠지만 action의 역할은, 기본적으로 상태를 변이(mutation) 시키기 위함이다. 따라서 에러 처리 시 mutation을 발생시키는 commit 로직만 있는 것이 좋을 것 같은데, try catch절이 혼재해 있으면 로직을 파악하기 어려워진다.
 
 따라서 actions.js 에서 에러 핸들링했던 것을 `모두 컴포넌트 단` 으로 옮기자. 컴포넌트 단에서 action을 호출하거나 api 함수를 사용할 때 에러 처리를 하면 action을 한눈에 파악하기 쉽고(commit 만 있음) 컴포넌트에서 각각의 action을 호출할 때 상황에 맞는 에러 처리를 할 수 있다.
 
@@ -407,7 +402,7 @@ try {
 }
 ```
 
-이렇게 컴포넌트 단에서 세부적으로 에러 핸들링을 했고, action이 반드시 필요하지 않은 api 함수는 전부 컴포넌트로 이동하게 되었다. action안의 action을 분리하면서 api 함수 호출과 commit 함수만 남아  의미 파악이 쉬워졌다. 결과로 actions.js 파일이  `415줄` 에서 `73줄` 이 되었다.
+이렇게 컴포넌트 단에서 세부적으로 에러 핸들링을 했고, action이 반드시 필요하지 않은 api 함수는 전부 컴포넌트로 이동하게 되었다. action안의 action을 분리하면서 api 함수 호출과 commit 함수만 남아 의미 파악이 쉬워졌다. 결과로 actions.js 파일이 `415줄` 에서 `73줄` 이 되었다.
 
 <br/>
 
@@ -419,7 +414,7 @@ interceptor에서는 주로 권한처리나 공통적인 에러가 발생했을 
 // api/common/interceptors.js
 
 (...)
- 
+
 // api response 시,
 instance.interceptors.response.use(
   response => {
@@ -447,11 +442,13 @@ axios로 api 함수를 사용해 백엔드로부터 데이터를 받아오면 Pr
 
 ```js
 updateBoardAPI(some)
-  .catch(error => {  // catch 체이닝 먼저.
+  .catch(error => {
+    // catch 체이닝 먼저.
     console.log(error);
     alert('보드 정보를 업데이트 하지 못했습니다.');
   })
-  .then(({ data }) => {  // 이어지는 then
+  .then(({ data }) => {
+    // 이어지는 then
     if (data.data.invitedUser) {
       return;
     }
@@ -583,7 +580,7 @@ export { readPersonalBoardAPI, (...) }
 
 ## 16. Travis 배포 자동화
 
-[(10) Frontend -travis 배포 자동화](https://pozafly.github.io/tripllo/(10)vue-travis-automation/) 여기 따로 정리해두었다.
+[(10) Frontend -travis 배포 자동화](<https://pozafly.github.io/tripllo/(10)vue-travis-automation/>) 여기 따로 정리해두었다.
 
 <br/>
 
@@ -591,7 +588,7 @@ export { readPersonalBoardAPI, (...) }
 
 ## 17. Sentry 에러 로깅 시스템 도입
 
-[(11) Sentry 에러 로깅 시스템 도입](https://pozafly.github.io/tripllo/(11)vue-sentry-error-monitoring-system/) 여기 따로 정리해두었다.
+[(11) Sentry 에러 로깅 시스템 도입](<https://pozafly.github.io/tripllo/(11)vue-sentry-error-monitoring-system/>) 여기 따로 정리해두었다.
 
 <br/>
 
@@ -599,7 +596,7 @@ export { readPersonalBoardAPI, (...) }
 
 ## 18. Let's Encrypt 갱신 자동화
 
-[(12) Let's Encrypt 갱신 자동화](https://pozafly.github.io/tripllo/(12)aws-lets-encrypt-renewal-automation/) 여기 따로 정리해두었다.
+[(12) Let's Encrypt 갱신 자동화](<https://pozafly.github.io/tripllo/(12)aws-lets-encrypt-renewal-automation/>) 여기 따로 정리해두었다.
 
 <br/>
 
@@ -607,7 +604,7 @@ export { readPersonalBoardAPI, (...) }
 
 ## 19. Closure & Currying 적용기
 
-[(14) Closure & Currying 적용기](https://pozafly.github.io/tripllo/(14)Closure-Currying/) 여기 따로 정리해두었다. (이 부분은 유지보수가 좋게 짠 것이 맞는지에 대한 확신이 없다..)
+[(14) Closure & Currying 적용기](<https://pozafly.github.io/tripllo/(14)Closure-Currying/>) 여기 따로 정리해두었다. (이 부분은 유지보수가 좋게 짠 것이 맞는지에 대한 확신이 없다..)
 
 <br/>
 

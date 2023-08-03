@@ -2,7 +2,7 @@
 layout: post
 title: "(12) Let's Encrypt 갱신 자동화"
 author: [Pozafly]
-tags: [Tripllo 제작기, Let's Encrypt, AutoMation]
+tags: [Tripllo 제작기, Let's Encrypt, Automation]
 image: ../img/tripllo/lets-encrypt.png
 date: '2021-04-12T10:13:47.149Z'
 draft: false
@@ -13,7 +13,7 @@ excerpt: AWS EC2 환경에서 Nginx와 Let's Encrypt로 HTTPS SSL 인증서 갱�
 
 <br/>
 
-> 서비스 환경은 AWS의 EC2(Amazon linux2) + Nginx 조합으로 되어있습니다. *amazon linux2는 apt-get 패키지 관련 명령어 대신 yum 패키지 명령어를 사용합니다.
+> 서비스 환경은 AWS의 EC2(Amazon linux2) + Nginx 조합으로 되어있습니다. \*amazon linux2는 apt-get 패키지 관련 명령어 대신 yum 패키지 명령어를 사용합니다.
 
 <br/>
 
@@ -23,7 +23,7 @@ Let's Encrypt는 사용자에게 무료로 SSL 인증서를 발급해 주는 비
 
 Tripllo에서 frontend는 AWS Certificate Manager를 이용해, https 프로토콜을 입혀줬고, 백엔드는 EC2 자체적으로 Let's Encrypt를 이용해 무료 SSL 인증서로 https를 입혀주었다. 참고로 만약 한쪽만 http이고, 다른 한쪽이 https라면 Mixed Content 에러가 나게 되어있다. Let's Encrypt에서 발급하는 인증서는 90일짜리 단기 인증서인데 3개월에 한 번은 갱신을 해주어야 한다.
 
- 어쨌든 EC2 백엔드 서버를 `Let's Encryp`, `Nginx` 설정으로 https를 입혀주었는데 그때 당시에는 갱신 자동화를 해놓지 않았었다. 아래와 같은 메일이 도착했다.
+어쨌든 EC2 백엔드 서버를 `Let's Encryp`, `Nginx` 설정으로 https를 입혀주었는데 그때 당시에는 갱신 자동화를 해놓지 않았었다. 아래와 같은 메일이 도착했다.
 
 <img width="681" alt="스크린샷 2021-04-12 오전 10 26 42" src="https://user-images.githubusercontent.com/59427983/114335026-bdf7f900-9b86-11eb-9f88-3689a881199a.png">
 
@@ -107,7 +107,7 @@ $ sudo certbot renew
 
 ## python-certbot-nginx 설치
 
-이제까지의 인증서 재발급 프로세스는 
+이제까지의 인증서 재발급 프로세스는
 
 1. nginx 끄기
 2. 인증서 재발급(테스트)
@@ -171,10 +171,10 @@ $ sudo crontab -e
 */10 * * * * sudo /usr/bin/certbot renew --nginx --renew-hook="sudo service nginx restart" >> /var/log/le-renew.log
 ```
 
-이 뜻은, 
+이 뜻은,
 
-- `*/10 * * * * sudo /usr/bin/certbot renew --nginx` : 10분마다 renew --nginx 명령어를 실행한다. 
-- `--renew-hook="sudo service nginx restart"` : renew 후에 nginx를 재시작하라는 hook을 실행해라. 
+- `*/10 * * * * sudo /usr/bin/certbot renew --nginx` : 10분마다 renew --nginx 명령어를 실행한다.
+- `--renew-hook="sudo service nginx restart"` : renew 후에 nginx를 재시작하라는 hook을 실행해라.
 - `>> /var/log/le-renew.log` : 모두 마치면 /var/log/re-renew.log에 로그를 쌓아라라는 뜻이다.
 
 📌 cronTab 표현식 만들어주는 사이트
@@ -216,4 +216,3 @@ $ echo "" | openssl s_client -connect localhost:443 | openssl x509 -noout -dates
 <br/>
 
 > 프로젝트 구경하기 -> [Tripllo\_메인](https://tripllo.tech), [Vue_Github](https://github.com/pozafly/tripllo_vue), [SpringBoot_Github](https://github.com/pozafly/tripllo_springBoot)
-

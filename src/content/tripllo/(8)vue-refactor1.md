@@ -2,14 +2,12 @@
 layout: post
 title: '(8) vue 리팩토링1'
 author: [Pozafly]
-tags: [Tripllo 제작기, 리팩토링, Vue.js]
+tags: [Tripllo 제작기, Refactoring, Vue.js]
 image: ../img/tripllo/refactor1.jpg
 date: '2021-04-03T19:13:47.149Z'
 draft: false
 excerpt: 멘토링 후 Tripllo에 꽤 많은 것을 손봐야한다는 것을 알게 되었다. 하나하나 고쳐보면서 정리한 것을 기록해보자.
 ---
-
-
 
 <br/>
 
@@ -53,7 +51,7 @@ excerpt: 멘토링 후 Tripllo에 꽤 많은 것을 손봐야한다는 것을 �
 }
 ```
 
-걸리는 것은 이 5가지다. 먼저 webstomp-client는 사용하지 않았는데, 시도해보기 위해서 깔아뒀던 것. 그리고, 내 소스에는 test 라이브러리와, jest 관련 작업들이 없으므로 지워준다. devDependencies라 안 지워도 되나? 싶기도 함.  `npm uninstall` 로 지운다. 
+걸리는 것은 이 5가지다. 먼저 webstomp-client는 사용하지 않았는데, 시도해보기 위해서 깔아뒀던 것. 그리고, 내 소스에는 test 라이브러리와, jest 관련 작업들이 없으므로 지워준다. devDependencies라 안 지워도 되나? 싶기도 함. `npm uninstall` 로 지운다.
 
 그리고 `node-sass`, `sass-loader` 두 가지는 [캡틴판교님 웹팩 핸드북 dependencies](https://joshua1988.github.io/webpack-guide/build/npm-module-install.html#%EA%B0%9C%EB%B0%9C%EC%9A%A9-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC%EC%99%80-%EB%B0%B0%ED%8F%AC%EC%9A%A9-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC-%EA%B5%AC%EB%B6%84%ED%95%98%EA%B8%B0)에 보면 잘 나와있듯, webpack에서 build시 필요한 로더 이므로 devDependencies로 옮겨 주어야 한다.
 
@@ -62,12 +60,12 @@ excerpt: 멘토링 후 Tripllo에 꽤 많은 것을 손봐야한다는 것을 �
 ---
 
 - node-sass : node 환경에서 sass를 css 코드로 변환해줌.
-- sass-loader : 
+- sass-loader :
   - [npm sass-loader](https://www.npmjs.com/package/sass-loader) 에 이렇게 말하고 있다. Sass / SCSS 파일을 로드하고 CSS로 컴파일 해줌. 기본적으로 로더는 종속성을 기반으로 구현함. 필요한 구현을 `package.json`( `sass`또는 `node-sass`패키지)에 추가하고 종속성을 설치해라.
 
 ---
 
-따라서 
+따라서
 
 ```json
 "dependencies": {
@@ -154,7 +152,7 @@ extends: ["plugin:vue/essential", "@vue/prettier"],
 
 ### Page 명 수정
 
-또한, views 폴더에는 ...Page.vue 들이 들어가 있는데 즉, 페이지 컴포넌트가 들어가 있는데, ...Page라고 명시하지 않은 부분을 수정했고, NotFoundPage는 common 폴더에 있던 것을 views  폴더로 이동시켜주었다.
+또한, views 폴더에는 ...Page.vue 들이 들어가 있는데 즉, 페이지 컴포넌트가 들어가 있는데, ...Page라고 명시하지 않은 부분을 수정했고, NotFoundPage는 common 폴더에 있던 것을 views 폴더로 이동시켜주었다.
 
 <br/>
 
@@ -170,7 +168,7 @@ import 구문에 .vue가 붙어있지 않다면 vscode에서 ctrl + 클릭으로
 
 <br/>
 
-### 대표되는 파일이 있다면, (...).js로 붙이지말고  파일명을 index.js 바꾸기
+### 대표되는 파일이 있다면, (...).js로 붙이지말고 파일명을 index.js 바꾸기
 
 일반적으로 폴더를 하나 만들고 끌어다 쓸 때는 index.js를 붙이지 않아도 되므로 대표 파일을 index.js 라고 바꿔주었다.
 
@@ -180,7 +178,7 @@ import 구문에 .vue가 붙어있지 않다면 vscode에서 ctrl + 클릭으로
 
 ### 위계 순 정리
 
-기존 .vue 파일은 위계가 없이 단순히 이름만 적혀있었다. 예를 들어 `BoardHeader.vue` 밑에 3개의 파일이 아래와 같이 하위 컴포넌트로 존재함. 
+기존 .vue 파일은 위계가 없이 단순히 이름만 적혀있었다. 예를 들어 `BoardHeader.vue` 밑에 3개의 파일이 아래와 같이 하위 컴포넌트로 존재함.
 
 ![스크린샷 2021-04-19 오전 11 21 48](https://user-images.githubusercontent.com/59427983/115173109-85659b80-a101-11eb-884b-1da213530ffe.png)
 
@@ -188,7 +186,7 @@ import 구문에 .vue가 붙어있지 않다면 vscode에서 ctrl + 클릭으로
 
 <img width="294" alt="스크린샷 2021-04-19 오전 11 22 01" src="https://user-images.githubusercontent.com/59427983/115173137-8eef0380-a101-11eb-999f-eb832d7bcc2c.png">
 
-이런 식으로 BoardHeader가 가장 상위 컴포넌트고 그 컴포넌트 안에 3개의 하위 컴포넌트가 있는 것을 알 수 있다.  VsCode 상으로 순서가 잡혀서 보기 좋다.
+이런 식으로 BoardHeader가 가장 상위 컴포넌트고 그 컴포넌트 안에 3개의 하위 컴포넌트가 있는 것을 알 수 있다. VsCode 상으로 순서가 잡혀서 보기 좋다.
 
 <br/>
 
@@ -305,14 +303,14 @@ created() {
 },
 ```
 
-이걸 
+이걸
 
 ```js
 created() {
   this.socketConnect();
   this.receive();
 },
- 
+
 method: {
   socketConnect() {
     if (this.socket === null) {
@@ -350,7 +348,7 @@ sessionStorage에 mainTapId를 넣어서, state에서 사용하지 않게끔 했
 
 checklist, hashtags, comment 등 store에 반드시 있지 않아야 하는 것을 제거했다. api 함수를 바로 컴포넌트 단에서 호출해, 받아온 데이터를 store에 등록하는 것이 아니라 로컬 컴포넌트의 `data` 객체에 넣어주는 것.
 
-하지만 컴포넌트 여러 개에서 사용하는 state를 컴포넌트 단으로 옮기면서 의문이 든 부분이 있다. 이 부분은, [(13)Vuex-store와 EventBus에 대한 고찰(feat. 삽질기)](https://pozafly.github.io/tripllo/(13)Vuex와-eventBus/) 에 정리해두었다.
+하지만 컴포넌트 여러 개에서 사용하는 state를 컴포넌트 단으로 옮기면서 의문이 든 부분이 있다. 이 부분은, [(13)Vuex-store와 EventBus에 대한 고찰(feat. 삽질기)](<https://pozafly.github.io/tripllo/(13)Vuex와-eventBus/>) 에 정리해두었다.
 
 <br/>
 
@@ -409,21 +407,22 @@ checklist, hashtags, comment 등 store에 반드시 있지 않아야 하는 것�
 
 - 🌈 : 이 부분에서 getAttribute로 가져옴.
 
-마지막 DOM의 createAt 값이 필요했기 때문에  ref가 걸린 상위태그의 .lastChild를 가져와서 child에 v-bind 되어있는 녀석을 `getAttribute` 로 값을 가져오는 형태이다.
+마지막 DOM의 createAt 값이 필요했기 때문에 ref가 걸린 상위태그의 .lastChild를 가져와서 child에 v-bind 되어있는 녀석을 `getAttribute` 로 값을 가져오는 형태이다.
 
 하지만 이럴 필요가 전혀 없다. DOM에 데이터를 붙이는 것이 아니라 그냥 받아온 data에서 마지막 값을 넣어주기만 하면 되는 것이었다.
 
 ```html
 <div v-for="board in personalBoard" :key="board.id">
-(...)
-
-<script>
-  // 비동기 api 함수 호출 후 data에 선언된 정보를 가져옴.
-  const boardItem = data.data;
-  const lastCreatedAt = boardItem[boardItem.length - 1].createdAt;
   (...)
-  // loastCreatedAt가 필요한 로직
-</script>
+
+  <script>
+    // 비동기 api 함수 호출 후 data에 선언된 정보를 가져옴.
+    const boardItem = data.data;
+    const lastCreatedAt = boardItem[boardItem.length - 1].createdAt;
+    (...)
+    // loastCreatedAt가 필요한 로직
+  </script>
+</div>
 ```
 
 이렇게 간단한 일을 그냥 ref고, getAttribute로 DOM에 직접 데이터를 바인딩해서 온갖 짓을 다 한 것이다. DOM에 데이터를 노출시킴으로써 사용자에게 필요 없는 정보를 보여줄 수 있는 위험이 있으며, data를 불러오지 않았을 때도 DOM이 붙지 않은 상태에서 getAttribute를 실행해버려서 데이터를 가져오려 하니 에러가 찍히기 일쑤였다.
@@ -448,7 +447,7 @@ import mutations from '@/store/mutations';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  strict: process.env.NODE_ENV === 'development',  // 이부분
+  strict: process.env.NODE_ENV === 'development', // 이부분
   state,
   getters,
   mutations,
@@ -523,11 +522,11 @@ const getTokenFromLocalStorage = () => {
 };
 ```
 
-추가로 중요한 정보이니까, Base64로 인코딩 작업을 했다. 
+추가로 중요한 정보이니까, Base64로 인코딩 작업을 했다.
 
 <img width="792" alt="스크린샷 2021-04-19 오후 12 44 05" src="https://user-images.githubusercontent.com/59427983/115178818-0a09e700-a10d-11eb-99e0-c28123e65279.png">
 
-기존 `user_id` 는 뭐, `user_picture` 는 뭐, `user_token` 은 뭐... 이렇게 하나하나 집어넣는 것이 아니라 한 번에 깔끔하게 코드 중복 없이 인코딩되어 유저 정보가 깔끔하게 잘 들어가게 된다. 
+기존 `user_id` 는 뭐, `user_picture` 는 뭐, `user_token` 은 뭐... 이렇게 하나하나 집어넣는 것이 아니라 한 번에 깔끔하게 코드 중복 없이 인코딩되어 유저 정보가 깔끔하게 잘 들어가게 된다.
 
 근데 개발자 도구의 network 탭에 token 정보가 찍히기 때문에 인코딩 작업은 서버에서 따로 디코딩해서 작동하도록 만드는 것이 좋을 듯한데 우선 그냥 서버 제외, 디코딩해 사용했다.
 
@@ -538,7 +537,12 @@ JSON.stringify, JSON.parse는 null이나 undifined 값이 들어가게 되면 �
 ```js
 // utils/libs.js
 const isEmpty = value => {
-  if (value === '' || value === null || value === undefined || value.length === 0) {
+  if (
+    value === '' ||
+    value === null ||
+    value === undefined ||
+    value.length === 0
+  ) {
     return true;
   } else {
     return false;
@@ -553,7 +557,7 @@ export { isEmpty };
 import { isEmpty } from '@/utils/libs';
 
 (...)
- 
+
 /**
  * 유저 정보를 인코딩하여 localStorage에 올려줌
  * @param {User} user
@@ -568,15 +572,13 @@ const saveUserToLocalStorage = user => {
 
 이런 식으로 libs 파일을 만들고 프로젝트 전역적으로 쓸 null 체크 함수를 만들고 붙여줌. 그리고 빠른 Exit을 위해 조건을 보고 밑 로직을 수행하지 않도록 바로 빠져나가도록 해주자. 이렇게 되면 더 안전한 함수가 되었다. (**이흰둥님, 이희찬님** 조언 감사합니다!)
 
-
-
 참고 자료 : [Base 64 간단 정리하기](https://pks2974.medium.com/base-64-%EA%B0%84%EB%8B%A8-%EC%A0%95%EB%A6%AC%ED%95%98%EA%B8%B0-da50fdfc49d2)
 
 <br/>
 
 <br/>
 
-다음 페이지에.. [이동](https://pozafly.github.io/tripllo/(9)vue-refactor2/)
+다음 페이지에.. [이동](<https://pozafly.github.io/tripllo/(9)vue-refactor2/>)
 
 <br/>
 

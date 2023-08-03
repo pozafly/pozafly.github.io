@@ -8,7 +8,7 @@ tags:
 image: ../img/java/springboot.png
 date: '2020-05-21'
 draft: false
-excerpt: SpringBoot에서 JUnit의 개념짚기
+excerpt: SpringBoot에서 JUnit의 개념짚기.
 ---
 
 Web 프로젝트를 하다보면 오류는 당연히 만나는 것이고 그 때마다 `System.out.println()`을 찍어보거나 `@Slf4j`로 log를 찍는일이 대부분이었다. 또 log를 확인하기 위해 **WAS를 올렸다 내렸다**하는 번거로움까지. 하지만 WAS를 반복적으로 올렸다 내렸다 하지 않고, 소스 상으로 기능이 제대로 동작하는 코드가 짜여졌는지 알 수 있는 것이 `테스트 프레임워크`이며, 그 중 하나인 JUnit을 알아보고자 한다.

@@ -8,7 +8,7 @@ tags:
 image: ../img/java/springboot.png
 date: '2020-05-27'
 draft: false
-excerpt: Spring MVC에서 MediaType 매핑에 대해서 알아보고 테스트 해보자
+excerpt: Spring MVC에서 MediaType 매핑에 대해서 알아보고 테스트 해보자.
 ---
 
 > 계속 JUnit에 대해서 공부하고 있는데 `@GetMapping(value = "/hello" , consumes = MediaType.APPLICATION_JSON_VALUE)` 속성으로 MediaType이 등장했다. 궁금증이 생겨 MediaType에 대해서 조금 알아보았다.

@@ -2,7 +2,7 @@
 layout: post
 title: '한영타변환기 Alfred Workflow 개발기'
 author: [Pozafly]
-tags: [Tool, Alfred]
+tags: [Tool, Alfred, Automation]
 date: '2023-06-10T20:25:47'
 image: ../img/tools/alfred-korean-english-converter/main.png
 draft: false
