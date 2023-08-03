@@ -5,7 +5,8 @@ author: [Pozafly]
 tags:
   - Blog
   - Gatsby
-image: ../img/blog/any.png
+  - Diary
+image: ../img/diary/retrospect.jpg
 date: '2021-05-17T22:03:47.149Z'
 draft: false
 excerpt: 주간회고를 시작하면서 블로그의 틀을 조금 수정했다.

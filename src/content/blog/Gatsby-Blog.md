@@ -5,6 +5,7 @@ author: [Pozafly]
 tags:
   - Blog
   - Gatsby
+  - Diary
 image: ../img/blog/gatsby.jpg
 date: '2021-03-31'
 draft: false

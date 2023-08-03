@@ -2,7 +2,7 @@
 layout: post
 title: '글또 8기 회고'
 author: [Pozafly]
-tags: [Diary, Retrospect]
+tags: [Diary]
 image: ../img/diary/geultto-8-retrospect/main.png
 date: '2023-07-16T11:03:47.149Z'
 draft: false
