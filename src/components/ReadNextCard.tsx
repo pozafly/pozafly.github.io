@@ -52,12 +52,14 @@ export function ReadNextCard(props: ReadNextProps) {
             return (
               <li key={n.node.frontmatter.title}>
                 <h4>
-                  <Link to={n.node.fields.slug}>{n.node.frontmatter.title}</Link>
+                  <Link to={n.node.fields.slug}>
+                    {n.node.frontmatter.title}
+                  </Link>
                 </h4>
                 <ReadNextCardMeta className="read-next-card-meta">
                   <p>
-                    <time dateTime={datetime}>{displayDatetime}</time> - {n.node.timeToRead} min
-                    read
+                    <time dateTime={datetime}>{displayDatetime}</time> -{' '}
+                    {n.node.timeToRead} min read
                   </p>
                 </ReadNextCardMeta>
               </li>
@@ -67,7 +69,8 @@ export function ReadNextCard(props: ReadNextProps) {
       </ReadNextCardContent>
       <ReadNextCardFooter className="read-next-card-footer">
         <Link to={`/tags/${kebabCase(props.tags[0])}/`}>
-          {props.relatedPosts.totalCount > 1 && `See all ${props.relatedPosts.totalCount} posts`}
+          {props.relatedPosts.totalCount > 1 &&
+            `See all ${props.relatedPosts.totalCount} posts`}
           {props.relatedPosts.totalCount === 1 && '1 post'}
           {props.relatedPosts.totalCount === 0 && 'No posts'} →
         </Link>
@@ -122,7 +125,6 @@ const ReadNextCardHeaderTitle = styled.h3`
   line-height: 1em;
   font-weight: 300;
   letter-spacing: 0.4px;
-  text-transform: uppercase;
 
   a {
     color: #fff;

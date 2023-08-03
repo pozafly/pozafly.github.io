@@ -425,7 +425,7 @@ function IndexLayout(props: IndexProps) {
 
           a {
             /* color: ${lighten('-0.05', colors.blue)}; */
-            color: #90a2aa;
+            color: #768086;
             text-decoration: none;
           }
 

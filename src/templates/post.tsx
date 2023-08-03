@@ -357,7 +357,6 @@ const PostFullTags = styled.section`
   font-size: 1.3rem;
   line-height: 1.4em;
   font-weight: 600;
-  text-transform: uppercase;
 `;
 
 const PostFullCustomExcerpt = styled.p`
@@ -404,7 +403,6 @@ const PostFullByline = styled.div`
     font-size: 1.2rem;
     line-height: 1.2em;
     letter-spacing: 0.2px;
-    text-transform: uppercase;
   }
 
   .post-full-byline-meta h4 {

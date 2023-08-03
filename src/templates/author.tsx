@@ -58,7 +58,9 @@ function Author({ data, location }: AuthorTemplateProps) {
   const author = data.authorYaml;
 
   const edges = data.allMarkdownRemark.edges.filter(edge => {
-    const isDraft = edge.node.frontmatter.draft !== true || process.env.NODE_ENV === 'development';
+    const isDraft =
+      edge.node.frontmatter.draft !== true ||
+      process.env.NODE_ENV === 'development';
 
     let authorParticipated = false;
     if (edge.node.frontmatter.author) {
@@ -83,12 +85,24 @@ function Author({ data, location }: AuthorTemplateProps) {
         <meta name="description" content={author.bio} />
         <meta property="og:site_name" content={config.title} />
         <meta property="og:type" content="profile" />
-        <meta property="og:title" content={`${author.name} - ${config.title}`} />
+        <meta
+          property="og:title"
+          content={`${author.name} - ${config.title}`}
+        />
         <meta property="og:url" content={config.siteUrl + location.pathname} />
-        <meta property="article:publisher" content="https://www.instagram.com/pozafly_" />
-        <meta property="article:author" content="https://www.instagram.com/pozafly_" />
+        <meta
+          property="article:publisher"
+          content="https://www.instagram.com/pozafly_"
+        />
+        <meta
+          property="article:author"
+          content="https://www.instagram.com/pozafly_"
+        />
         <meta name="github:card" content="summary" />
-        <meta name="github:title" content={`${author.name} - ${config.title}`} />
+        <meta
+          name="github:title"
+          content={`${author.name} - ${config.title}`}
+        />
         <meta name="github:url" content={config.siteUrl + location.pathname} />
         {config.github && (
           <meta
@@ -104,7 +118,10 @@ function Author({ data, location }: AuthorTemplateProps) {
         )}
       </Helmet>
       <Wrapper>
-        <header className="site-archive-header" css={[SiteHeader, SiteArchiveHeader]}>
+        <header
+          className="site-archive-header"
+          css={[SiteHeader, SiteArchiveHeader]}
+        >
           <div css={[outer, SiteNavMain]}>
             <div css={inner}>
               <SiteNav isHome={false} />
@@ -117,7 +134,10 @@ function Author({ data, location }: AuthorTemplateProps) {
             className="site-header-background"
           >
             <div css={inner}>
-              <SiteHeaderContent css={AuthorHeader} className="site-header-content author-header">
+              <SiteHeaderContent
+                css={AuthorHeader}
+                className="site-header-content author-header"
+              >
                 <img
                   style={{ marginTop: '8px' }}
                   css={[AuthorProfileImage, AuthorProfileBioImage]}
@@ -126,7 +146,9 @@ function Author({ data, location }: AuthorTemplateProps) {
                 />
                 <AuthHeaderContent className="author-header-content">
                   <SiteTitle className="site-title">{author.name}</SiteTitle>
-                  {author.bio && <AuthorBio className="author-bio">{author.bio}</AuthorBio>}
+                  {author.bio && (
+                    <AuthorBio className="author-bio">{author.bio}</AuthorBio>
+                  )}
                   <div css={AuthorMeta} className="author-meta">
                     {author.location && (
                       <div className="author-location" css={[HiddenMobile]}>
@@ -208,7 +230,11 @@ export const pageQuery = graphql`
       }
       avatar {
         childImageSharp {
-          gatsbyImageData(quality: 100, breakpoints: [40, 80, 120], layout: FULL_WIDTH)
+          gatsbyImageData(
+            quality: 100
+            breakpoints: [40, 80, 120]
+            layout: FULL_WIDTH
+          )
         }
       }
     }
@@ -285,7 +311,6 @@ const AuthorMeta = css`
   font-size: 1.2rem;
   font-weight: 400;
   letter-spacing: 0.2px;
-  text-transform: uppercase;
   white-space: nowrap;
 
   .author-location + .author-stats:before,

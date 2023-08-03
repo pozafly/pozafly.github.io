@@ -231,11 +231,10 @@ const PostCardContentLink = css`
 const PostCardPrimaryTag = styled.div`
   margin: 15px 0 0.2em;
   /* color: ${colors.blue}; */
-  color: #90a2aa;
-  font-size: 1.2rem;
+  color: #768086;
+  font-size: 1.3rem;
   font-weight: 500;
   letter-spacing: 0.2px;
-  text-transform: uppercase;
 `;
 
 const PostCardTitle = styled.h2`
@@ -281,7 +280,6 @@ const PostCardBylineContent = styled.div`
   line-height: 1.4em;
   font-weight: 400;
   letter-spacing: 0.2px;
-  text-transform: uppercase;
 
   span {
     margin: 0;
