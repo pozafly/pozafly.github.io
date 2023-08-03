@@ -7,7 +7,7 @@ tags:
 date: '2023-02-24'
 image: ../img/javascript/prototype-main.jpeg
 draft: false
-excerpt:
+excerpt: 자바스크립트가 만들어진 기반, prototype 언어가 가지는 근본적인 철학에 대해 고민해보자.
 
 ---
 
