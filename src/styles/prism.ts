@@ -36,6 +36,9 @@ export default css`
       border-radius: 8px;
       background-color: hsla(230, 5%, 35%, 1);
     }
+    @media (max-width: 800px) {
+      display: inline-block;
+    }
   }
 
   /* Code blocks */
@@ -75,6 +78,10 @@ export default css`
     color: #000;
     padding: 0.15em 0.5em;
     white-space: normal;
+
+    @media (max-width: 800px) {
+      display: inline;
+    }
 
     @media (prefers-color-scheme: dark) {
       background: #3c4148;
