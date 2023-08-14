@@ -45,7 +45,9 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
       createNodeField({
         node,
         name: 'readingTime',
-        value: readingTime(node.rawMarkdownBody),
+        value: readingTime(node.rawMarkdownBody, {
+          wordsPerMinute: 400,
+        }),
       });
     }
   }
