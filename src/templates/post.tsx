@@ -232,7 +232,8 @@ function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
                         {post.frontmatter.author.map(author => (
                           <Link
                             key={author.name}
-                            to={`/author/${kebabCase(author.name)}/`}
+                            to={'/about'}
+                            // to={`/author/${kebabCase(author.name)}/`}
                           >
                             {author.name}
                           </Link>

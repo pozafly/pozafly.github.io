@@ -46,10 +46,15 @@ export function AuthorListItem(props: AuthorListItemProps) {
       }}
     >
       {props.tooltip === 'small' && (
-        <AuthorNameTooltip className="author-name-tooltip">{props.author.name}</AuthorNameTooltip>
+        <AuthorNameTooltip className="author-name-tooltip">
+          {props.author.name}
+        </AuthorNameTooltip>
       )}
       {props.tooltip === 'large' && (
-        <div css={[AuthorCardStyles, hovered && Hovered]} className="author-card">
+        <div
+          css={[AuthorCardStyles, hovered && Hovered]}
+          className="author-card"
+        >
           {props.author.avatar && (
             <GatsbyImage
               image={getImage(props.author.avatar)!}
@@ -63,8 +68,10 @@ export function AuthorListItem(props: AuthorListItemProps) {
               <h2>{props.author.name}</h2>
               <p>{props.author.bio}</p>
               <p>
-                <Link to={`/author/${kebabCase(props.author.name)}/`}>More posts</Link> by{' '}
-                {props.author.name}.
+                <Link to={`/author/${kebabCase(props.author.name)}/`}>
+                  More posts
+                </Link>{' '}
+                by {props.author.name}.
               </p>
             </div>
           </div>
@@ -73,7 +80,8 @@ export function AuthorListItem(props: AuthorListItemProps) {
       <Link
         css={AuthorAvatar}
         className="author-avatar"
-        to={`/author/${kebabCase(props.author.name)}/`}
+        to={'/about'}
+        // to={`/author/${kebabCase(props.author.name)}/`}
       >
         <GatsbyImage
           image={getImage(props.author.avatar)!}
@@ -117,7 +125,8 @@ const AuthorNameTooltip = styled.div`
   /* background: var(--darkgrey); */
   background: ${colors.darkgrey};
   border-radius: 3px;
-  box-shadow: rgba(39, 44, 49, 0.08) 0 12px 26px, rgba(39, 44, 49, 0.03) 1px 3px 8px;
+  box-shadow: rgba(39, 44, 49, 0.08) 0 12px 26px,
+    rgba(39, 44, 49, 0.03) 1px 3px 8px;
   opacity: 0;
   transition: all 0.35s cubic-bezier(0.4, 0.01, 0.165, 0.99);
   transform: translate(-10px, 6px);
@@ -141,7 +150,8 @@ const AuthorCardStyles = css`
   line-height: 1.5em;
   background: white;
   border-radius: 3px;
-  box-shadow: rgba(39, 44, 49, 0.08) 0 12px 26px, rgba(39, 44, 49, 0.06) 1px 3px 8px;
+  box-shadow: rgba(39, 44, 49, 0.08) 0 12px 26px,
+    rgba(39, 44, 49, 0.06) 1px 3px 8px;
   opacity: 0;
   transition: all 0.35s cubic-bezier(0.4, 0.01, 0.165, 0.99);
   transform: scale(0.98) translateY(15px);
