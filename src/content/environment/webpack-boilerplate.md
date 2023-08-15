@@ -20,7 +20,7 @@ excerpt: 모던 프론트엔드 웹 개발에 필요한 세팅을 직접 해보�
 ## 목차
 
 1. ESLint / Prettier
-2. Husky(precommit)
+2. Husky(pre-commit), lint-staged
 3. Github Template
 4. Entry, Output
 5. Loader
@@ -165,7 +165,9 @@ JS 파일 하나를 만들어두고 약간 엉망인 코드를 작성하자. 그
 
 하나 팁은, 코드 크기가 커지고 파일이 많아질 수록 lint 체크 하는 것은 시간이 걸릴 것이다. 이때 캐시를 사용할 수 있다. `eslint --cache .` 를 위 scripts 에 붙여주자. `"lint": "eslint --cache ."` 그리고 명령어를 실행하면 `.eslintcache` 파일이 생성된 것을 볼 수 있다. 이제, lint를 돌릴 때마다 파일이 변경되지 않았다면 이 캐시에 있는 lint 결과를 꺼내 쓸 것이고, 새로 생성되거나 수정되었다면 새롭게 체크를 해줄 것이다. (캐시 파일은 gitignore에 등록해주자.)
 
-또 한가지는, lint 체크를 하고 싶지 않은 파일이 있다면 `.eslintignore` 파일에 적어주도록 하자. dist와 node_nodules는 반드시 포함해주자. 안해주면 디렉토리 내부에 있기 때문에 안에 있는 종속성 파일 모두 체크를 해버린다.
+그리고 eslint 설정에 위배되면서, eslint 스스로 고칠 수 있는 규칙이 있다. 만약 그런 규칙들도 고치고 싶다면 `--fix` 옵션을 함께 포함해 명령하면 코드까지 함께 고쳐준다. `"lint": "eslint --fix --cache ."`
+
+lint 체크를 하고 싶지 않은 파일이 있다면 `.eslintignore` 파일에 적어주도록 하자. dist와 node_nodules는 반드시 포함해주자. 안해주면 디렉토리 내부에 있기 때문에 안에 있는 종속성 파일 모두 체크를 해버린다.
 
 ![eslint-files](../img/environment/webpack-boilerplate/eslint-files.png)
 
@@ -199,7 +201,7 @@ module.exports = {
 
 ```json
 "scripts": {
-  "lint": "eslint --cache .",
+  "lint": "eslint --fix --cache .",
   "format": "prettier",
 },
 ```
@@ -211,7 +213,7 @@ package.json 파일에 위와 같이 적어주고 돌려보자. 그러면 어떤
 ```json
 // 최종
 "scripts": {
-  "lint": "eslint --cache .",
+  "lint": "eslint --fix --cache .",
   "format": "prettier --write --cache .",
 },
 ```
@@ -233,6 +235,10 @@ package.json 파일에 위와 같이 적어주고 돌려보자. 그러면 어떤
 만약 그래도 되지 않는다면 setting.json 파일에 format-on-save, default-formatter가 다른 것으로 지정되어 있는지 살펴보자.
 
 <br/>
+
+## Husky / lint-staged
+
+### Husky
 
 이제, eslint와 prettier를 husky를 통해 자동화를 해볼 것이다. 뭐든 cli를 통해 명령을 내릴 수 있는 것들은 자동화가 가능하다. [husky](https://typicode.github.io/husky/#/)는 git hook을 쉽게 만들어주는 패키지다. 우리는 commit을 하기 전에 eslint와 prettier를 실행시켜 문제가 생기면 commit을 하지 못하게 만들 것이다.
 
@@ -273,6 +279,45 @@ $ npx husky add .husky/pre-commit "npm run format"
 prepare는 `npm install` 명령어 이후에 실행되는 스크립트다. ※ yarn은 preinstall을 사용해야 한다.
 
 husky는 사실 개인 프로젝트에서 설정해줄 필요는 없다. 단, 개발자들 간에 협업을 할 경우 husky를 통해 컨벤션을 강제할 수 있어 좋다.
+
+### lint-staged
+
+lint-staged는 Git에 스테이징된 파일들에 대해서만 코드 검사나 포매팅 등의 작업을 수행할 수 있도록 도와주는 도구다. 즉 `git add` 명령어로 추가된 파일은 git의 stage에 들어가게 되는데, **stage에 들어간 파일만** 대상으로 명령을 실행할 수 있도록 할 수 있다.
+
+> husky로 lint 체크를 할 수 있는데 왜 lint-staged를 사용하는지 궁금했다. 둘 다 git hook을 사용하기 때문에 다른게 없어 보였기 때문이다. 하지만 아래와 같은 이유로 함께 사용한다. <br/>
+> husky는 pre-commit을 촉발 시키는 역할만 하며, 명령어로 `eslint` 와 같은 것을 실행시킬 수 있지만, `eslint` 명령어는 모든 파일을 검사한다. 하지만, lint-staged를 사용하면 stage에 올라온 파일만 검사하므로 훨씬 효율적으로 lint 검사를 할 수 있는 것이다.
+
+주로 다음과 같은 흐름으로 사용된다.
+
+1. Husky를 설정하여 pre-commit 훅을 트리거해, lint-staged를 실행시킴.
+2. lint-staged가 스테이징된 파일들을 가져와서 설정된 작업을 수행함.
+
+설치해보자.
+
+```sh
+$ npm i -D lint-staged
+```
+
+이제 lint-staged 설정 파일을 만들자. 설정은 package.json 파일에서 해도 되지만, 나는 따로 파일로 분리시키고 싶어 `.lintstagedrc.js` 파일을 생성했다.
+
+```js
+module.exports = {
+  'src/**/*.{js,jsx,ts,tsx}': ['npm run lint', 'npm run format'],
+};
+```
+
+어떤 파일 확장자를 검사할 것인지 적어주고, 배열에 차례로 실행할 명령어를 적어주면 된다.
+
+그리고 husky에 설정한 pre-commit의 명령어를 lint-staged를 실행시키도록 변경해보자. .husky/pre-commit 파일을 아래와 같이 수정한다.
+
+```
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+npx lint-staged
+```
+
+이제 commit을 하면 lint-staged가 실행되고, lint-staged가 완료 되어야만 정상적으로 commit이 이루어질 것이다.
 
 <br/>
 
