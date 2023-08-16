@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[pozafly의 기술 블로그]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 16 Aug 2023 06:15:50 GMT</lastBuildDate><item><title><![CDATA[Next.js의 API Routes 코드 모듈화에 대해서]]></title><description><![CDATA[메타 프레임워크 Next.js는 react…]]></description><link>https://pozafly.github.io/nextjs/about-modularizing-api-routes-code-in-nextjs/</link><guid isPermaLink="false">https://pozafly.github.io/nextjs/about-modularizing-api-routes-code-in-nextjs/</guid><pubDate>Wed, 26 Jul 2023 00:00:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;메타-프레임워크&quot; style=&quot;position:relative;&quot;&gt;메타 프레임워크&lt;a href=&quot;#%EB%A9%94%ED%83%80-%ED%94%84%EB%A0%88%EC%9E%84%EC%9B%8C%ED%81%AC&quot; aria-label=&quot;메타 프레임워크 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[pozafly의 기술 블로그]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 16 Aug 2023 14:46:23 GMT</lastBuildDate><item><title><![CDATA[Next.js의 API Routes 코드 모듈화에 대해서]]></title><description><![CDATA[메타 프레임워크 Next.js는 react…]]></description><link>https://pozafly.github.io/nextjs/about-modularizing-api-routes-code-in-nextjs/</link><guid isPermaLink="false">https://pozafly.github.io/nextjs/about-modularizing-api-routes-code-in-nextjs/</guid><pubDate>Wed, 26 Jul 2023 00:00:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;메타-프레임워크&quot; style=&quot;position:relative;&quot;&gt;메타 프레임워크&lt;a href=&quot;#%EB%A9%94%ED%83%80-%ED%94%84%EB%A0%88%EC%9E%84%EC%9B%8C%ED%81%AC&quot; aria-label=&quot;메타 프레임워크 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Next.js는 react의 메타 프레임워크다. 메타 프레임워크는 프레임워크의 프레임워크라고도 말할 수 있는데, 프레임워크를 사용하기 위해 기본적으로 세팅해야 하는 환경이나, 필요한 기능을 추상화 한 코드 모듈을 제공해줘서 프레임워크를 더 쉽게 사용할 수 있도록 도와준다.&lt;/p&gt;
 &lt;p&gt;특히 react의 경우, &lt;a href=&quot;https://pozafly.github.io/react/declarative-meaning-of-react-rendering-process/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;라이브러리의 정체성&lt;/a&gt;을 어느정도 가지고 있기 때문에, 사용자에 따라 코드 스타일이나 환경 등이 제각각인 경우가 많았다. 메타 프레임워크는 Best Practice를 모아두어, 개발자가 시행착오를 거치지 않고 여러 통합 환경 및 기능을 사용할 수 있도록 한다. react의 메타 프레임워크로 &lt;strong&gt;Next.js&lt;/strong&gt;, &lt;strong&gt;Remix&lt;/strong&gt;, &lt;strong&gt;Gatsby&lt;/strong&gt; 등의 프레임워크가 존재하며, Vue.js 같은 경우는 &lt;strong&gt;Nuxt.js&lt;/strong&gt;라는 메타 프레임워크가 있다.&lt;/p&gt;
 &lt;p&gt;Next.js는 SSR 뿐 아니라 다양한 기능을 제공하고 있다. 번들링과 컴파일 같은 도구를 기본으로 제공한다. 또한, 리소스를 최적화 기능, 파일 시스템 기반 라우팅, 레이아웃, 배포 등 기능을 내장하고 있다.&lt;/p&gt;
@@ -48,14 +48,7 @@
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 610px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/6055ebb1d62cbc411bbc7ec990ab46b4/5d5ad/api-test-folder.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 33.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAABA0lEQVQoz42Ry0rDQBhG8wiCIEg0k5mMuSfNpTWtqK1YAhYt1ZUbV8UHcOML+Aw+7ykZSnQhNosDA/Nz5vu/sS7zlO+3DfXyCvlU4r9MUPMRjgwQOhxENyvzxGBJHbK+m1E0Bc4kRU0z3DTG8X6Ev89/Crt7PzRYwi943SR8vZeczTN0W3FuX5hXDXvZf1JHBcgsNliODvG0j3jcYlcLZOzjVilynOKWCSIYmDCIEHGEJXSEkB5Hz5+cNivUOECvary2xLsvjPRQn11Ct0tYJnuh0py0W+zZEjWNkE2OrFPcPO5lh1YWUWS674XH6w/s6wf0bYxaFKibEbLJBv12n7BI2AEu7s5BF6YeOQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -71,7 +64,6 @@
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;사진과 같이 &lt;code class=&quot;language-text&quot;&gt;pages/api/&lt;/code&gt; 경로에 &lt;code class=&quot;language-text&quot;&gt;test1.ts&lt;/code&gt; 파일과 &lt;code class=&quot;language-text&quot;&gt;_test2.ts&lt;/code&gt; 파일을 생성했다. 예상대로라면, &lt;code class=&quot;language-text&quot;&gt;_test2&lt;/code&gt;의 경로로 api를 요청했을 경우 오류가 발생해야 한다.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;ts&quot;&gt;&lt;pre class=&quot;language-ts&quot;&gt;&lt;code class=&quot;language-ts&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// test1.ts&lt;/span&gt;
@@ -91,14 +83,7 @@
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1724px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/7151bc9d84a6128edb20359dc4dd5eee/8aa99/api-call-result.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 29.000000000000004%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAAAsTAAALEwEAmpwYAAABfUlEQVQY0z3NbWvTYBTG8XyUgShra82d5unOY6HTFfdCFBU3WtgmU9R3fuBNZixdp21XXNKkd3v/JVE8cHGuF4ffMRw/QMYpomPiOh4926P7xKLdNnn4qKX39h7UOwuCtPC8kCjq647Zw3IlYZg0t38j2G89xjj+eMbo62c+vX7H2xevGJ++5/z8gpPjUy4+fNFn4xNGo3E2iPuFfH5AMn6p3wyGPO0Kwv6A4fCIwcEhnpPy7PAIY7Va8WNyw+X3CdeTKVfXGT/nC25/zZkvlvo+L7i8+pYJIQrLsek6Pe0KC9Fqs9/u0OvZmKZACBshLAylFPVoDbudZrvVKLVjXSrKSumdhul0mkVRVAQyIE0S7fk+YRyTpglhGDZJkhjLsjCqqmK5XHJ3t6JSOXm5JC8X/F7fUm5yXT+bzW6yNE0Lx3EIgkDXgJSy7g1i2zau6yKDAGOz2VAUBev1GrWtaqSBy809SlX/wFkmpSyEEP9B0zSJ47hBa9D3/SZ/AHWUIFgTLeW6AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -115,7 +100,6 @@
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;첫 번째 사진은 정상적으로 JSON이 반환된 것을 볼 수 있고, 두 번째 사진은 오류가 발생했다. 따라서, &lt;code class=&quot;language-text&quot;&gt;_&lt;/code&gt; 접두사를 붙인 파일은 Endpoint를 만들지 않은 것을 볼 수 있다.&lt;/p&gt;
 &lt;p&gt;하지만 접두사 &lt;code class=&quot;language-text&quot;&gt;_&lt;/code&gt;를 포함한 하나의 Utility 파일이면 상관 없지만, 코드를 폴더 구조로 나누고 싶을 수 있다. 공통으로 사용하는 Utility 코드가 생길 수 있기 때문이다. 즉 확장성이 떨어진다. 그리고 여러 개의 파일을 만들게 되면 폴더 명을 포함해, 파일 명에 매번 &lt;code class=&quot;language-text&quot;&gt;_&lt;/code&gt; 접두사를 붙여주어야 한다. 2번째 방법을 사용해보자.&lt;/p&gt;
@@ -124,14 +108,7 @@
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 590px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/36c2850e6353eccbbc1476bc97d31973/6d370/backend-folder.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 170.20000000000002%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAiCAYAAABfqvm9AAAACXBIWXMAABYlAAAWJQFJUiTwAAAEAklEQVRIx5WW2W/iVhTG81SpkarZmkyzYYwXbIgx9vUGNng3YEjInlat0r60UtenUaVWqmbU5/7PX3VvAmVmJOw+WEbYfPrOPb/zHXZERYOs9eB8N4IRDpHmcyiagZOWDE5U0BDa792rrp2mpIKTVJiFjZ6to2d64NsdJrgpWluQE9vgFQNF0MY/f13BGU8wX15hfnGDxeUtxkmBo6ZYS2wt2BAViKqKy5kD2yY4NRxYXoCuTiCq2kc/2uZ2hz4U2h0cS338etvFzw8RvGiKyXyJVruL/SMOh5ywvqrOdGf1kJdUCKoOJyzQNWy4fohhmGIwTuAGEezhGI4fVjtcvSC0u1B1grP7b0AcD6OkQDY7Y1cQ5xgnE8RFyVxXlsxE6dXg8Mqa4LPlGxBiI8xnsAYjJkjdUZxWDaosmQo2eQHHTo697FsYT4K01L7lsbJPDRvHvFTV5afOiSqaHI8D/xzPL3+H5w0R5iUGowSGM8Tr42YtLnfW5dIveAFHJMF+9BV0g4B4I5iuD810Ppqc7Q5ZySqaDQ6HXolnd2/hOC5m59dIpwuM0wn69qAW4GuHnCCjIXexlz6As2LohgWNuOj2LXR0AjaidcBeC7YknHQInl//gbYTYlqeoZhfMHzMpzOkDakEe/1AkMEpOj4vf4RARnA8nyFDcaF3WjJtTm2HDV7EgaJhd/EbWmaAYBzDGyeMwaSYww8zNjm1ZpmXOmh1uliQO5Qkh+E4GCWTR5FxCqnTwwHXYk2pVTI98IYkIzJLJMk9NGcA4gWsxOE4YYlDg4GiUy8cGIMSXisaPrl7C3mQI4pTRPkM6WSB5fU9+0zLr+RwNXarpuzHX0MmPpxBwBpx2rcY2BQdtWfWA/s/bEw8u38HyU2wvLhGMl0gmczZi1+c8KzsytHbdNhQdOxNfwCvD9AzLPSIB93ymENVM5jL2g4pNodyD7uXf0J0YmT5FGE2ZaNXzJfsDKNs+tjAKmzoSzRg+8MQlu0ydxToVVITN2Ad3pzlrSXzcoetgGE+x2R5A+L68EYx6ypdAavo/1+z3GhJOJQ0fHr7DoKbIk4yBHGBpCiZIA2JqnD9QFAGp/bw0ltCJT5GER21DH6YMsjbp/11JlZySP8pCLKO6YOHmy9H8P0E5fKalUbX6EGjVStpPkibNhRTR3tyBbHnQDMstkOoM7qc6DxXbbwPwBZxpJjYvfsbil9gNj/D7PyKIVOUS5balMdNuLeDTQdf6WFv+j34/gbYxF1nIW0MdbrtLN8fPdXAi4s3kJ0IYZwhnZ4xsNOnEaR3ulK37ZYNwcfRezn/BZIdIs4KBrUfZazLNBhWEVYvvpjDPl6VP6HVHyBKciYWRDkD3HT8Wl3+F7vKBAg8b3HTAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -147,7 +124,6 @@
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;사진과 같이 &lt;code class=&quot;language-text&quot;&gt;backend&lt;/code&gt; 폴더를 생성한다. 그리고 원하는 대로 코드를 파악하기 쉽도록 잘게 쪼개어 작성한다. Utils만 따로 작성해도 되지만, http method를 여러 개 사용하고 있었기 때문에 조금 더 세분화 했다.&lt;/p&gt;
 &lt;p&gt;Next.js 13 버전에서 App Router의 API Route 코드는 &lt;code class=&quot;language-text&quot;&gt;Route Handlers&lt;/code&gt; 라는 이름으로 변경되었다고 했는데, 그 구조는 아래와 같다.&lt;/p&gt;
@@ -200,14 +176,7 @@
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1294px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/e4b9a075b6dbeddc0a7df5edeb7fcf63/80132/167-line-code.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 69.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAABYlAAAWJQFJUiTwAAACIUlEQVQ4y32TW4+bMBCFeWs3yQIh+IKNLxhMAgm5qFHV///HTuXJZtVW2T58GizZY59zhox3V4hwg/ALeLhDhgsO5584LHcw1f0F1+FL6sZjJx0yN17g9zeE6QeG5ReaboYfz3DxBOX3kDZCmgGNixBt/5LU0A1HDNMNme0ndOMJw7jgcr6jcxHGDjCmh7UDYfwMP5w/X7Fr3KNKh7pxqISFCROG6YqsZBoFa1FVEg1TGLsRYzejD0f4cET0BzRthFAR75XEZiuo/su65FgVDFklDBJvBcO3gkErD616bCpFF5WsxVte4ftmS4e+Il2UyJ4+pIUzAUYa2LCH7GYwd0DVdDDjFcLtUdTqr8OvIMmJtFFyjUYaKD+iDRN0mFAKAxUmMD8j3zUka10yrJ/1Q+qTD8mWJDdck2Q/npDCkm1E318RuhsFk9cK7zuFvNbIWYv3VGtFD9ryFgXTqaGl1FJDJw2W4xVxucPEE8bjDa4/wvsLQriiVh1ZsDMjajdhqwcwHdB2I0w4oLEDspI/jE8SSqbQHRbYYQaTA6QaIG1PslflQ9KapNVY5TXWqRYMb3lNkOTnPJGHOqI1E2yY4Wg+F5qAp+EP31Kq/wuFt6Q/3bDlBlwGiDaCmwihA0puUHBL/pTCYisMhfNV2lklLYWSNok2UEOuI3a6h5CBKvklHZiJ5ONzfF6RUTq1AlOe6uqPcfikYNjQN/t82au/JfEb/ZRo3phqKmQAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -224,7 +193,6 @@
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;하지만, 이렇게 리팩토링하면서 한 가지 아쉬운 부분이 존재했다. 공통 에러처리에 대한 부분이다. 백엔드의 코드에서 에러가 발생한다면 공통으로 잡아주고 싶었다. 또한, API Routes로 로깅을 해야하는 상황이 있을 수 있겠다는 생각이 들었다.&lt;/p&gt;
 &lt;h4 id=&quot;Filter-적용&quot; style=&quot;position:relative;&quot;&gt;Filter 적용&lt;a href=&quot;#Filter-%EC%A0%81%EC%9A%A9&quot; aria-label=&quot;Filter 적용 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h4&gt;
@@ -310,14 +278,7 @@
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1218px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/d595f4bff0c380c5d5700dacd006d42b/708e8/settlement-table.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 10.999999999999998%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAkUlEQVQI1x3HvQqCABSA0Z4wipq7vqBNbuZPglhoFmSkaYohV4SIkvYv6GxnEkUG6VE4HIRtIOz38n8YChtHCAIhTgTfF2xbcL0VljXHNKdsnBm2bWCuFzjuEs9bMNntLuS5ovoljq9kWUvXjTweL/p+JE1vJEmB6gfVN237pCx76nqgKJTzuaZpBqpq4HS68wORMYEQ1mNj7QAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -334,7 +295,6 @@
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;총 제출 횟수는 11개. 잔여 pass를 사용하지 않았다. 커피드백(네트워킹)은 3번 중 1번 참여했다. 글또에 참여할 때의 목표는 pass를 한번도 쓰지 않고 글 제출을 한 번도 빠지지 않는 것이었다. 처음 목표한대로 잘 이루어졌다.&lt;/p&gt;
 &lt;h3 id=&quot;글-작성-갯수&quot; style=&quot;position:relative;&quot;&gt;글 작성 갯수&lt;a href=&quot;#%EA%B8%80-%EC%9E%91%EC%84%B1-%EA%B0%AF%EC%88%98&quot; aria-label=&quot;글 작성 갯수 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
@@ -346,14 +306,7 @@
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1616px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/82613d3e40ea104a77a4a3bbb3d2b2d9/3e510/analytics-visitors.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 60.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAABYlAAAWJQFJUiTwAAABuUlEQVQoz21T2W7jMAz0//9dXxbdYoHGTpM4SWNLvnSQ1CxIJ243WwEDUhI1PFWlTDgPgikKmBkpZZRSkIkQYoSIgEUQUwKz2P5xppKYMccFOWfEmFARC96bI7xzkFLwcThgWRaklNA0e3OgD533+GlJESwpWDDqtCJiXNx1jUAYt6EDEYGY0E/ODDXih3wGCgzqVLdG+Fhm8KSv8kv/jxCwtDUj3RvhT4alyEam9RUpGIPWTqNazx+Ewmw13AixRfEFfagGcyw4O0Gigs9BMKeCQydoPtnQTwVXTxAmc2qErVsN6iubsT58qQmvB8KflvF+YbwdVSfsLuvZrw/G24nx+8g4doQivBLmTPDjgiUy3BiQCHBDQEiMYU7oeo+udxinBUQCJr6PV7SypBgto8c4VTpP4zjDDwPmJSCnuDXBe4/9fo9z26KudzjdWuv+VuetUfcRUkKN0DkP55yh6zoj0iHWzs3zjGmaEGLAkgNSTvcRKZbiEAS3kdHPjJQZVYgJ3xFTNugPCiEYoRIvISCS3sd/7J5RtecLdnWDw/GEutmjd34lUwdKcv9ySjiEyaTdpYznYBR/AZdXqLDCAfrlAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -370,7 +323,6 @@
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;2022년 12월 1일과 비교했을 때 사용자는 58.3%가 증가했다. 조회수는 87.2%. 2022년 12월 1일로 기준을 잡은 이유는, 글또를 2023년 2월 12일 부터 시작했고 12월 1일에는 글을 작성하고 있지 않았기 때문에 어림 잡아 기준을 정했다.&lt;/p&gt;
 &lt;p&gt;2월 13일에 사용자가 급상승 했는데 글또에 글을 제출한 이후에 급상승 한 것으로 보인다. (작고 귀여운 수치이지만..) 따라서 글또 분들이 방문해주셨기 때문에 꽤 높은 수치가 나오지 않았을까 예상해볼 수 있다. Surfit에서도 글을 큐레이션 해주셨다.&lt;/p&gt;
@@ -380,14 +332,7 @@
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1000px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/5efeabf061a5acf455f7df9dd7d38478/1263b/curation.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 320.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,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&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -403,7 +348,6 @@
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;큐레이션 된 글은 아래와 같다.&lt;/p&gt;
 &lt;ul&gt;
@@ -436,14 +380,7 @@
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1444px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/660ecc3623a84caa522d7da8c75393d0/18d28/writing-template.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 72.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAABYlAAAWJQFJUiTwAAABk0lEQVQ4y5WU3Y6CQAyFeQ9FARFQQURdUeKu/xfGqPH9H+ZsvtkMwU02YS9OypTOaXtacDzP02Qy0WKx0HK5VBiGiqLoDYPBwMTkea4sTTUej03ccDh8QxAEckajkYqi0Hq91uv10ul0esP5fFF5viocRgqjWPnmU2W5UlmW5g5FkDROEgVhKKff7xsHAbfbTY/HQ/f73eD5fNZn+3y9XrXf73U4HHQ8HvW126nabFTtDoqKDzm+75uW0jTVbDYzbU2n0xpZlr2deU9X3LFt9no9UZjveT+EBEIWx7E6nY5c120NyLBoSjKHoeCg7SRJ1O12TdB/wB0ImYUhpFxaoFpekgBrYStpTYgTPZgaWK1WqqpK8/nc+G1bPwRN6/5dIRYtGQ6DwAL2rw0hHTKHukI05DJDabbbRlOSwQNHTUiG7XZrWvytYRvAw916ykx4x5JWlXm2nyBB9jNr+gBF4MPCg3XsgRcsrF1egCZ2se3SIzwWQuKRiSQsODyOdVAlw7FoamTPTUs8G3G5XMzPgo1Aw28uapfJgZnXBgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -460,7 +397,6 @@
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;사진과 같이 Alfred 스니펫으로 등록해두었지만, 생각보다 잘 활용이 되지 않았다. 개발 스타일도 마찬가지다. 이 부분을 진행했다가 또 다른 부분 생각이 나면 다른 부분을 고쳤다가 하는 경향이 있다. 앞으로 어떻게 하면 이렇게 체계화 된 시스템 안에서 일할 수 있을까를 조금 더 고민해야겠다고 생각했다.&lt;/p&gt;
 &lt;p&gt;글 작성도 개발과 마찬가지로 트레이드 오프가 있다. 위에서 말했던, 퀄리티와 제출 기간 사이이다. 시간을 들이면 들인 만큼의 퀄리티가 나오고, 시간을 들이지 않으면 들이지 않은 만큼의 퀄리티가 나온다. 하지만, 시간을 들인다고 해서 항상 좋은 퀄리티가 나오지는 않는다. 이번 글또에 참여하면서 글을 작성할 때 너무 집중한 나머지, 글을 완성하고 나서 이명이 들린 적이 몇 번 있었다. 이런 식으로 무리해서 몰입하면 앞으로 작업을 이어갈 수 있을지 고민이 되었다.&lt;/p&gt;
@@ -566,14 +502,7 @@
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1150px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/9ceee71599b575d6aa9812980bf61059/26e62/invalidate-queries.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 7.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAdElEQVQI1zWNuQ6DMABD+f/fawmQg5KrZWBABIUOiFclFYNly4fcWOcZXxOiGxikQirNU3RVt6Ln0Yqa91KhzchkXc2dD6SUWJaVVRsOo/huG81kPT5ErAu1fHPxnf/7ZVyOC994f2Zyzuz7QQ6Rc45wXvwAwhKSTlKjtb4AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -590,7 +519,6 @@
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;네트워크 탭을 보면, 삭제 요청이 완료된 즉시 조회 요청이 간 것을 볼 수 있다. 이 방식을 사용할 경우, 서버 데이터가 새롭게 조회되어 클라이언트의 데이터가 변경되고 화면이 새롭게 그려진다.&lt;/p&gt;
 &lt;p&gt;하지만, 만약 서버에 여러 시스템이 연동되어 있을 경우 혹은 서버에서 데이터 변경에 딜레이가 걸린 경우에, 변경 내용이 반영되지 않은 채 변경 전 데이터가 조회될 가능성이 있다. 서버가 비동기로 동작하거나 적용 되는데 시간이 걸리는 경우이다.&lt;/p&gt;
@@ -710,14 +638,7 @@
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1396px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/372684a13bed1aff4eee32c3aea44f7f/bcfad/original.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 30.599999999999998%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAABYlAAAWJQFJUiTwAAABBUlEQVQY042P226DMBQE+f/vq9okMreSYC51MGDjCwlTJeGhylNXGu15WB1pEjU6eu3JLwNHcSYtGkQuOWU1adlwFBWikHydStKypZ8C3Rjod1odkMoyjIbRBJK6G/kUElENxGXhHjy34NmChzVy9557DNzcwrZG3rMBp7JFpBl69iTD5FFjoLk65BCeNDpQqcih0hRSU7QT391MVg+kZ0X92O5clKPTDuNWRuNJlF5olKPpNd/VGdl0tF1PUUkOoiTPC4xdsNYxzeaJjyshrnvfmIxDDYbJ7sofp5r+at5ENv6bH6XJiur1UM/hqfzwN0tgtuHV+/3Cv/FnZz2T8czLymQjv8QOyyBq7ioSAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -734,7 +655,6 @@
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;여기에도 조금 불편한 문제가 있었다. 매번 크롬에 즐겨찾기 해놓은 한영타변환기 페이지로 들어가서, 내가 잘못 작성한 문장을 복사해서 여기에 붙여넣고 변환 결과를 다시 편집기에 붙여넣기 해야 한다는 점이다.&lt;/p&gt;
 &lt;ol&gt;
@@ -768,14 +688,7 @@
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 896px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/98ad47d8b362cce57223d72fd76fb91c/3bd09/license.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 37.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAABYlAAAWJQFJUiTwAAABrElEQVQoz12S2W7TQBSG/ZbANYg71iuEeAeExDsgJB4CUZq0TVI3drzErtMabNfx7njJQtIPzUTlgpE+nV2a888oedWRFo1E+Mus5iGXlS1F3UtkXDTs7pFHmKb/Q7nqWWYVedmy6nYoE1VDnc4k1vya8eWUsapzeTXjfKTy4+cQVTMZnI2xnAXv3n/g6bPnPHr8hC9fv+H5CYMLHc1ckFUdim752NcRxjxAM338MCOKc3lTgR/E3C0LmWvXez5++syLV294+fot308G5PWe27AmiBuqdodiugFzL8JyAyw35DZIuUsK7pKSOC3lqnFaybV/Rym7A/9O3W5ZpiVNv5X5bnNAUacGmmFj2C62u8CwXLnyxfgKc+7hej4TVWdmOpycnjE8H2HaR2l0w+Z0OJJS3PiR1F4Rw0IrMSysGBS+0HA0mTLVLcI4w3I8JprHcOxgOiHuTYxuRyx+JeRlQxjncgvFWSTodiiLYVxSNWtZEC98fOVOardqt6TlmqRck9cbytWWZd5Rtzv67b1E9CnFaiMbBO36IHX4H/E9RPMx3ktE3G8O0or6A38BYnJGhjAPNisAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -791,7 +704,6 @@
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;위의 댓글을 발견했다. Apache License Version 2.0을 사용하신다고 하셨다. Apache License Version 2.0는 누구나 해당 소프트웨어에서 파생된 프로그램을 제작할 수 있으며 저작권을 양도, 전송할 수 있는 라이선스 규정을 의미한다고 한다.&lt;/p&gt;
 &lt;br /&gt;
@@ -802,14 +714,7 @@
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1934px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/de4df7f1c6eb9e6a052d4e763eb15f5b/47328/workflow-items.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 56.60000000000001%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAABYlAAAWJQFJUiTwAAACTklEQVQoz1VSTUuiYRR9/4FkfpX5PVaaqESbKERUJJyFZJBTZgsnoVU05KIPkTaCm4lRo6ZdDNS7cjG0aKh1Uq2nH+DKjQyhwcTQcIZzB4fmgct9nvc597znnvsoxWIR19fXODo6gsPhwPDwMPR6PXQ6HcxmM4aGhuRsMBphsVhgtVr/ZQZxA9oBGAwGOSuqqqLX66HZbMLr9cLj8SCZTGJ+fh4TExPw+/2IRiOYmZn5j6yf9/f3cfblHOvr6zCZTFACgQAikb8FVLeSyaDT6aDbe8Ly8jIqlQp+vbzg9v4e4+Pjotpms2FkZASjo6MihEs9V0WlEgwGkU6nEY1GBTw3N4dGo4GvFxeIx+MoFAq4vbvDmarC5/MJGZX1CVOpFNbyawiHwyJIoXdcrVYLJKdnRqMRRoNBAHa7HW9cLvGXZG63W9rlnoTEarVayeJhLpfD5eUlarWaFBFMkr4SnqmGmUESftdoNIJ3Op2CZfBeoZGcVH9KDF6+JuWe0b+n76enp1hcXJQ6EvfxCln5kaRslwV8JoODgzI1+so972kBizj54+Nj8Y8Y1rNtGQpb2NjYwO7uLkKhkBTl83ns7OzgbSKByclJbG1t4cPmJqampuByuaQ1tsyfjY2NIZvNori3h4WFBSixWAztdhvdbhfb29ui8OHhuwyqfniIpaV3+Pn8jB+Pj1hdXRUVVMk2iaWHzZsbPP0Gvl1dQeHjLZfLqNfrSCQS0kKpVMLnkxNkVlYwPT2NarWKjwcHmJ2dlWm+HhiD6j/Vasjl3uMPqliU5BfdNN0AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -826,21 +731,13 @@
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;이제, 실제 core가 될 코드를 넣어 변환 기능을 입혀주자. 예전에 만든 workflow는 인터넷에 돌아다니는 AppleScript 조각을 사용했지만, 이번엔 JavaScript다. Alfred는 workflow를 만들 때 JavaScript 코드도 함께 사용할 수 있다.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1602px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/b7acf112b6f6b50c4d82429bb9b3f584/b5600/alfred-language.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 72.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAABYlAAAWJQFJUiTwAAABkUlEQVQ4y42TWZKCQBBEPQiLisuoCKIoKIssAYP45f0PkxNZRLtMMDofGdgd3VmvssvBbDbDZrPBfr9H0zSo61rUXhqERYUwTnC5NPiuK8R5CdsP4LkuHNfF8XjE9XpFkWc4pAWsrwUGw+EQy+USq9UK2+0WnufBdV0YhiEyTfOjeG48HovHYDQaySa/QRCIoe/7sG0buq7/WwRbLBadIResEoYh8jwXY1Iryk+iIaGm02lnyE0uiMwq8/lcDmiaJtJ1TS51BvovPQz5HveWmcHhcMD5fEaSJJIji/AQpS6+I3wxZNt8FOYXhoG8OsUYaM6CHe1rdm8JoyhCHMeoqgplWUqWNF2v1xLDZDKRS/ztOI6slfGLocqQ86hemXl2xQyhf8i8TwXXbw1JxwxPpxOi6CSZqpb+Um/L3GQbzIs58qV3u53QsjWScy4V0cex4QZbbNsWt9tNsiNlmqaiLMvE1LIsudhH2ktIKjXULEAT7pGahCSnad9fkvRCyIPPc/bc0u+sni+rb1EU0g2/jOgHgoCXgd+Y1Z0AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -857,7 +754,6 @@
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;workflow 편집기에 osascript(JavaScript)를 선택하고 코드를 넣어주면 된다. osascript는 아래와 같다.&lt;/p&gt;
 &lt;blockquote&gt;
@@ -967,14 +863,7 @@ ReactDOM&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span c
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 560px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/c44629c4004d0d28695559e0a7068f20/6d7b8/babel-compiler.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 26.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAFCAYAAABFA8wzAAAACXBIWXMAABYlAAAWJQFJUiTwAAABG0lEQVQY043PPUvDUBSA4fyQaDUluUnuTW7z1XxUW0rboSnoIDioRZwcquAidLCTP0UqOElBwX/3SqLg6vDwcjhw4BhZNWY0XTCc1MxPzimHMxw/QqgEL8yQvT6+/iOVxvMkouFKHPenSkpUEGHYXkgQ5TT1ghip03bWSYnlKMwDm71D0TI7XezTDfHqjWL1QnG3pbrfUq5esG5e6UxWGI7foxrNyMoRUTagPxiT5MfkR2OEjNqD+5ZomR0LcfZM/vjFYvPJdL2jfvpgtn6ne7vDnD5guEH6+2LccmSMkE0jmp2vM/wwa+uFKa7wqIqCq4tLrpdL6nmNYzt4wsGXCkNFBf8ldR+lM4JenyitiLMKneQoneKHCX6Y8g3G96beL6PVuwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -990,7 +879,6 @@ ReactDOM&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span c
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;‘Automatic’은 16버전 이하 ( &lt;code class=&quot;language-text&quot;&gt;React.createElement()&lt;/code&gt; )이여, Classic은 17버전 이상 ( &lt;code class=&quot;language-text&quot;&gt;_jsx()&lt;/code&gt; )이다.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -1028,14 +916,7 @@ ReactDOM&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span c
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 962px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/a24ca501f63059c155029c305792163c/ed9f4/hooks-lifecycle.jpg&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 88.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/2wBDAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/wgARCAASABQDASIAAhEBAxEB/8QAGgABAQACAwAAAAAAAAAAAAAAAAQCBQYHCf/EABYBAQEBAAAAAAAAAAAAAAAAAAMCAf/aAAwDAQACEAMQAAAB90J8eLlXZSck0bIs4hif/8QAGhABAAIDAQAAAAAAAAAAAAAAAwIEARMyMf/aAAgBAQABBQK21jVOVgJ1lRDd1wWb1vZTnJBbvPg8f//EACQRAQABAwIFBQAAAAAAAAAAAAECAAMRISISMTJBcUJRYYGx/9oACAEDAQE/AY2JzGUY3Ue8LF2Zk06oW5C8u+mCnbtc5NHiGMvuKCPwhXqn4K9/L+1//8QAIxEAAQMDAwUBAAAAAAAAAAAAAQIREgAhMRNxwQMEIjJSsf/aAAgBAgEBPwFfc6RA0NQJyZou7FonqJUAL3bJN8UFTAW0JeUPl7xycbmj6p3VxR4H4K//xAArEAACAQIEBAQHAAAAAAAAAAABAgMAERITITEEQVFSFCJxgSM0YZGhorH/2gAIAQEABj8CuYsk52EDOIMkfUNE6YCejH73tRMJDC9rSzcVMxXewRnZcZ5MNdhzNYpQFa+y30Glr4tcXWrhzIw4mRfixSQgLuFXKjlZgtvK5AD9dqUAK1z5vmcC+/g1Y/nlqeWI97d3071Rv1qP0k/sdH0r3r//xAAgEAEAAgICAQUAAAAAAAAAAAABESEAMUFhsVFxgaHx/9oACAEBAAE/IRiw4aiQ/wDw7UOQt1Gr0hUgiPYQSe91GlAwFq2Dpd4ulxQ3AB05mVJBNbFVzs2eC0gdhMTBtCgkH66HopmzzFPWP2HjEtrt4M//2gAMAwEAAgADAAAAEF/AQP/EABoRAQADAQEBAAAAAAAAAAAAAAERIUEA8FH/2gAIAQMBAT8QSHOKgriUTAY0KYSwAEgdopQGkMPV8e3wt3//xAAYEQEBAQEBAAAAAAAAAAAAAAABETEAIf/aAAgBAgEBPxBauxQwyX4kA1SjwBEiCrl6ApihIMWl5HRzf//EABoQAQEBAQEBAQAAAAAAAAAAAAERIQAxUfD/2gAIAQEAAT8Q2Ejshm97SBSFxEXv0zHNxRFesQIEykHlijiB9bDhvmNgFJKVyuR+ovBLjQjWe0cEbGaQEqB7Cvtc0MpgFGrl9jCnjC+dmf5XWCVKqrPHe//Z&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -1051,7 +932,6 @@ ReactDOM&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span c
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://github.com/Wavez/react-hooks-lifecycle&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;출처&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;함수 컴포넌트의 Hooks를 phase에 맞게 순서대로 그려놓았다.&lt;/p&gt;
@@ -1059,14 +939,7 @@ ReactDOM&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span c
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 2000px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/1df49a5c7b060c179898a1dc5f0faffd/5ee19/lifecycle-methods.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 63.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAABYlAAAWJQFJUiTwAAACJ0lEQVQ4y22T63LbIBCF8wyJrxIgQOiOrnbs2J20nXam7/9GXwccOzNtfixHWnYPZ2H3abOTrLeCO642abT1JmErHO14ph8Xmm5iGI8cXi/IzD3iHvEfHE9huZPtEoXMcjJTsE91TLR5jbYlVd1TVZ68aBAqj/sBlS4ibvcqcjwIgyXS0vULy/GCcbfERBgyU0ZfUBmIUpnHg7t+5vX07eGPhGF5WSesNgmJKin8G938jrB9JCvKNiYbW30o9eSujoel0j4wFeZGGJLKyqO0i4S2eSVvT5j6SDO8MRzeaYYzdX8mcyOmPqCLIRKFKwnqAyZ3wrxo+fnrD/14YB9KsZ5UNyjbYcoJ56/Y9kzuL6hiRpgWoeuo+kvCWFblH84QECwoEFlBPV6ZD+/00xVdjPER1Mf+l4ThMe53KIKy8oAqFqSbo1XDhayYSbQnsQMy7OX9fwrTz5IbjqcrfljYC0MqXbRdahHS0JYZy9Tydpq4nGbGzuFyTRoqUDbe/b0bImF47lhi5hBCUliJMwEVg6+YfMU81Aytoy01tZNYrdjsFKt1ymYrI8Y+3AmetK34/uM3/XgkEQLvHb4P7WFo6oK6yWm7IvrazpE7idKSvciQxmLKEmFMHIqHQle2N9lK00w9/XHGNjXrvWSbpTjf0B8PdMuIcJqtEJGsW3qG40Qz+XjAP419m8fw/by6/YcyMl1g6xlVzTw/b1lvP0f1ZXWLfVl/zvJfTWdqjKk2J7cAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -1084,7 +957,6 @@ ReactDOM&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span c
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;출처&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;클래스 컴포넌트의 라이프사이클 메서드를 phase에 맞게 순서대로 그려놓았다.&lt;/p&gt;
@@ -1344,14 +1216,7 @@ ReactDOM&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span c
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 440px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/148587e9a1a5d97ec39ca55e1d1cf003/7c5f7/diamond-problem.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 150%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAACXBIWXMAAAsTAAALEwEAmpwYAAAE/0lEQVRIx5VWWUhbaRQ+V31w6TJtxogRTHWqaXGZPs7ASBHUOJVikvbFPbVq64aaPpaZIGIpKCaog0VMfajYwkzMk5AWFA0qPqq4RBPjmpBoOrjFaCa5Gb6LcVpo2vGHQ8495/u+u+Sc//xEnyyVSsWUlpaSWCy+ZjAYVldXV53Ly8t2o9HogMFHzGAwWLKysq4VFRVRe3s7Q8HW27dvmfr6epJKpTy73X7sD7KQk8lkPGDfvXsXXHBgYICpra0liUTC29zcPDjj+4xGI7u0tMTCRwA5YIB98+bNxQU7OztZlUr1RUFwggoODg4ydXV1nOD29rYLZLfb7V9bW/NbLBbOx0IOGGDBCSr4+vVr5unTp5Sfn/+92Wz+2+PxHLtcrn+8Zws+YsgBAyw4QQWFQiH5/X7Oz83N/bG6ulpVWFj4S0lJSToMPmJisTg9wLlx40ZQPaquruZ+IWowGD5MT0//6fV6KS0tjTOWZWl6evovg8GgD9y4pqYmuODt27cDbqhSqfxdo9HkDg0NoT7D1Gp1mE6nI41G86tSqfyNiEIAvHXr1uciL1++ZDQaDYNv8fjxY+57REZG/oDf9fV1GhsbY/A0sMnJSWZjY4PjRUVFcRhwwIW1trYy9OjRI2psbKTm5mbKyMgA5jsi4oeHh3NPXFFRQc+fPye1Wk0KhYJEIhFFREQAxwcWHHChUVZWxn38aKlUGvPw4UN+VlaWQCgU/oxrmUwWc+/ePX5sbGwoPnxqaiolJCSE5OXl8ZEDBlhwHjx4wMd1dnY2n6ampnZ3d3ddVqv10Gq1ulBjNpvtAO21uLjoFIvFQrlcTuXl5bi5EDHkgAEWBi40pqamnGSxWE6D9ez+/r5HIpEkoGdh8BELhocWrayscB3BsqxPr9ezMJ/Px7WY0+k8zs/PT0CLweAjhpzH4/GNjY2xMzMzLLiIQetcEIDe3l5WrVazLpfrm4I7Ozs+rVbLmkwm9vj4+D/BT195aWnJPz8/f/4Ke3t7X33l2dlZ/8LCwuevPDExsetwOI62trYOdnZ2XHa7/aPNZnPabDb3/Pz8bk5ODvenwOAjhhwwDofjI/4McKEBLcrOzubJZLLosrKy61euXIl99uxZi0KhSBOJRJclEkl0TExMSGJiIsHgI5acnHxZoVCkA3v16tVYuVx+HRrQopKSEq4osYxGI8roD2z/RMSgrdAhKSkpnAV8tB3GwOTkZPfi4iLHhQa0qK2tjcHW39LSEoqKf/HiRVpjY2MVEV0CUCAQMElJSXTz5k2Ki4sLbFWXmpqaqlpbW9PAARca0OKyycnJ9OrVK4gx3d3d3JOEh4eLdDoddzOlUhkCw/zQarUMcsB0dXVxnJ6eHsJNP1vv37/HZklNTU0hZ6EoIuIVFxdTR0cHZ5hyiJ3lqKGhIaSvr4/0ev2Xt6+cnBxKT0+n+Pj4sPLy8pS7d+9KCwoKfqqsrLxTVVV1Bz5icrk8VSAQhGHzyMzMDL4f9vf3cyPg/v37PJPJtHd6euo/PDz0npyceN1utxc+YsgB8+TJk6+PgMCQwly2Wq1HgYLFcPJ6vecFjBww3xxSXxqjR0dHvuHhYXZiYoI9OTm52BjF0A4IbmxsHJydEnyjo6PsyMgIi/5FDLn/NehRFuhZHDM+PYrMzc35t7a2Ln4UwcEHpYGD0Pj4uMlsNuOQZN3c3LStra3Z4COGXLDD0r8tWTsdz490JwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -1366,7 +1231,6 @@ ReactDOM&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span c
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;사진과 같이 B, C가 A로부터 상속되고, D가 B, C로 부터 상속받을 경우 어떤 속성이 상속되었는지, 어떤 필드가 존재하는지 모호해지는 경우다.&lt;/p&gt;
 &lt;p&gt;JavaScript는 기본적으로 class에서 다중 상속을 지원하지 않지만, 객체를 통한 &lt;a href=&quot;https://ko.javascript.info/mixins&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;mixin&lt;/a&gt; 기법을 사용하면 다중 상속을 구현할 수 있다. JavaScript는 prototpye을 기반으로 한 언어이기 때문에 이것이 가능하다.&lt;/p&gt;
@@ -1526,14 +1390,7 @@ Object&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span cla
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 690px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/c2a16ee0609fca9675e6a0da119df2c4/97114/void-inference.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 57.400000000000006%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB/0lEQVQoz22S23KbMBRF/SWtLzEIkBCSACEb8D2O6yZNm+n/f8rqWE7Th+Zhzx6NdNa56Ex81fIWNgS7pu9/sR3e2I2/adpHKlmh/J7SBNa6RvkD9fE3zXjhQUgesvI/TZKsRBYmHpLcsMyrqKSwzNOCeaaiL9Kcxe1ONSyVY5pKZkJFXwjJ4t0neVHhyhpZVBRloDIjSq+IicoOXfUYu6E0A5m0yFxjlI0xWlmscqSqJtWetGyY1Lrm6kc21rPyZ8b+lWHzhqsH2vDE0L8Suitdd6HUgVIaetuxdYHBdozWI3RHZntE1TGZChUznpueveuQucJur3THn9jxibLumCX5vX2hoqbvrX7asvQ7Ut3wNSli0CzJmCUiQm6P5hF21+zmQr0HqwiMMKH+fUprO05+pFYW7Q604RnbnrHNkVQ1uO5KE55pwndsvb/Put6Qa49ThsysWEoXwRFYFJqDC2xc4NRsuLiBR7+/j6CqObs1x7JmV3Vo01MUFaJsEdJSKRs/5CHXH1VO5oUhl5ZvzvNSCFZ5waNx+NLSVi1GarQJbKXEJku+iJLFbY3EfYZ/27/Bbj7R3Q5hPGIpOIqEs9I8S0WfS1aywheaVXfgUjmaVDDN9KcL/VFhoxuufmBtPD6cGAvJsTnwo3/h0p7YhyOjrbFJEnfzHqg+hd6AfwB6+FhM7bk4XQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -1549,7 +1406,6 @@ Object&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span cla
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;반환 값을 변수에 할당하고 마우스를 올려보면 사진과 같이 TypeScript는 반환 값을 &lt;code class=&quot;language-text&quot;&gt;void&lt;/code&gt;로 추론하고 있다. 그렇다면 method는 어떨까?&lt;/p&gt;
 &lt;h3 id=&quot;메서드에서-void&quot; style=&quot;position:relative;&quot;&gt;메서드에서 void&lt;a href=&quot;#%EB%A9%94%EC%84%9C%EB%93%9C%EC%97%90%EC%84%9C-void&quot; aria-label=&quot;메서드에서 void permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
@@ -1746,14 +1602,7 @@ myString &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span cl
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/24222daa0293324245114e0b102c1511/0eb09/tsc-tsserver.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 104.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAVCAYAAABG1c6oAAAACXBIWXMAABYlAAAWJQFJUiTwAAADaUlEQVQ4y4WU2W4iRxSGeYYkUuwZ0/veTZtmNcPaYBpDY8CADV6T0UysSLlJRsptchMlVyPlEfIgebcv6vKijOTl4tc5parz1V91SpUz3QDLsvl29SvG0TVxLyZdrEhnJwzHU6HFeoPh+ORVA0kzX1TOCOvoXkT+6CNS/5zooEs7mVPrjGjEE6qdEd1kgRFUUdwSild+UblaPKOdbhnEE/64uWWxvSW9+YnR9geCzpRC9xi/PaXUX1AfvK5cuTOhmSypxzM+//gzv9184OP6gvfzUxadISe9hGUvYdwdEXVSKp2U8gvKSXYRyY7YM0OmfsBxnNDbr7DoHtIv1TiwfWpOgZHjUXcCdu0IWdQ8rZysm8img6HqnAQ2YSvGjqrEkxluuc7XewpfyQaOqjLSZXZ0GyWr0a0nlZMNB9n0MHSL48AmaHQxggivVCesNQmr7wgO2lTCIoeazI7homQ1zygn6zay6ZJXTFamzbgTE5crXM1m3G63bCcTblanbOsVmqrMGwG0nwdKuo1m+eiey/ncZVF2SItFuoZKQ3pLU5FoynvUNVUUZOuFieeBFrZfwo9c/v5nxvL6mOHsjEq7zzeSzq7usKPZ7Oo2ec16hEnPQMUdSoaDpluMQo/Q89GcgGC/TFiq4e+XKERVTLeA6YUvwu6BNnu6jWs5/NXQOCr6tJMp680lZ5ffsbn6nvX5NUk6Z7m5/AL4FDgn3Sd53cHyPTTLQbE8VMtFtbzHhYp5N87iKw7vdlJtl/YypHBQJJ2fsdxcsFhvhcvM4Wi6ELHdT14/8gPUioroXkBYruPtl3EKkciL1QZuWEJ3AqHXm6JZKE5I7fd/8YcXrNenzNfnzNdbTs4uWG0uafYOWW2vKB+0eKsYLzybLNFtJMNFba1R/Bq2VxDugmJVOPu/2+we91Tz+abcTdxN/vlLkW6rQHpywWx5xnAyY3v1nunJKb3hmO7hEeliLa4gg2YNyvTQtC+aopgOnz5E1Gs+YaUl3l7msNJoYwdF4SxzWijVROFOXhVHf4i7kiY490AL2Q4xrz4jh03avT6tfkJnMBIuG52+cHc4PuZdZyA63U9Skslc5Nmm2Qmyh//oMPsgCutPaFGb/agsFsTJhFY8FPlwfCzG8XBCf5QyOJrS6g1FrLd6DEZTDLfAfwfnm22zFstkAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -1768,7 +1617,6 @@ myString &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span cl
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;사진은 node_modules 내부에 있는 typescript 패키지 안의 모습이다. tsc, tsserver가 설치된 모습을 볼 수 있다.&lt;/p&gt;
 &lt;blockquote&gt;
@@ -1818,14 +1666,7 @@ myString &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span cl
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 2000px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/2efefc86b4429f2ef5d82a90d714d95d/13ce4/math-lib.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 52%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAABlklEQVQoz2WSy3KcMBRE+RB7eAu9JQRiBuZhsMcVV7LwIlll5f//iXZJjFMTvDjV4iK1WldK9pdn9JcfcMcr7HCGPSxoDwuMP0N1I1Q3RXRQN0bC2PoTunGOMO1BtUej90iIdCiZRiUc6oDykYpb5EQgb+QNcUPGurA9xvOC6XIG1w5EdtixHklJJQI54chriqxqohYNj/WiEfiaE6iYQkY4jD9ifv2Jab5iOM0whwUP6glJSMe4gTMduDuCd0ewdkLF9H8mJV0J45Ra6Kd3XH9/4O3PX9jlHfX4C2n/thpyKaGkAlEeRK9HzmqOtKLIahp1S6iXVICFdVxiVxCkJUHCTQ9rDFzr0Y0TqHKouUYjWxDZRo0oF3X9b7ArGzyWDR4KgseCYBc3YkgqrpETicF4uHCD4wuEO4AIE43v+/dF6Os2cdggaDQME7zp0XYT5DBD+Us0C30MR89q9o3vhreEJVPRsFUttN3HixFu/Jck3xit32uiLWtCYVFQDRd62Z8gQsJhxvo+zd07vINIpOHSNmRE4BOfWC1ILHV8aAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -1843,7 +1684,6 @@ myString &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span cl
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;lib를 지정하지 않으면, target을 지정함에 따라 자동으로 lib가 암묵적 선택된다.&lt;/p&gt;
 &lt;ul&gt;
@@ -1856,14 +1696,7 @@ myString &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span cl
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 524px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/815abbea62998a06907479265d6f6d2b/6d924/typescript-lib-directory.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 318.79999999999995%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,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&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -1879,7 +1712,6 @@ myString &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span cl
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;또 한가지 짚고 넘어갈 부분은, target을 설정하면서 기본 값인 lib를 사용하고 있을 때, lib를 추가로 정의하면, target에 설정된 기본 값 위에 추가적인 lib가 생기는게 아니라 다시 모두 지정해주어야 한다는 점이다. 예를 들어 target이 ES5 이면서, lib를 &lt;code class=&quot;language-text&quot;&gt;esnext&lt;/code&gt;로 설정한다고 했을 경우, 기본으로 사용하고 있는 dom, es5, scripthost은 위의 배열에 다시 넣어주어야 한다.&lt;/p&gt;
 &lt;p&gt;브라우저 런타임 환경이 아닌 Node.js 환경같은 경우 DOM Type이 필요없기 때문에 lib에 필요한 라이브러리만 명시해서 제외시켜줄 수 있다.&lt;/p&gt;
@@ -1899,14 +1731,7 @@ myString &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span cl
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 686px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/a2943141280e145ba56b261d39821798/3a6ec/esnext.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 26.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAFCAYAAABFA8wzAAAACXBIWXMAABYlAAAWJQFJUiTwAAABDElEQVQY00WQy26DMBRE+ZYkBYONwcY8C0loEmgerdQqXfX/v+NUOGq7GI3uZubOCSJlkKYiUpbitKO8jthpR3kZ0UOLcyea5sx+uNO1N9r2RmYG+u6Nrjli+4nm+OE9yRzBJs4IZY53bf4kTEGoc4QsEKokVhWJqhDSsY5SlG5IVEGUWqTtCJXlKcn+A5djCYkLhzDWK0wNQjlk6kjyCpHXqHIgLbdsZMYm1qwixSqUrIViLVKCZaoytZ9sD1vcZcQeH66HjrKcGZpXqn6ine5sb99U4ztxVvmSUBof/KvAM1za0wdDd95TLAyvL2RDhy0ODPVMvbA6ffI8f5G3B2w/e3a63hPrx/Tlwx/02KBoMh/ruAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -1922,7 +1747,6 @@ myString &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span cl
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;이는 es2023, esnext.intl 파일을 참조하고 있다. es2023은, es2022를, es2022는 es2021을 … es5 까지 이어지는데, 사이 사이에는 각 버전의 또다른 파일을 참조하고 있다. 즉, ESMAScript 버전 관련 lib 파일 모두를 참조하고 있다. TypeScript 버전이 업그레이드 될 때마다 lib 파일이 변경되거나 추가될텐데 이를 적절히 나누어 참조하고 있다는 것을 알 수 있다.&lt;/p&gt;
 &lt;p&gt;esnext를 설정해주면 소스코드에서 JavaScript 최신 문법에 대한 타입을 지원받을 수 있다.&lt;/p&gt;
@@ -1981,14 +1805,7 @@ console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span cl
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1668px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/9e2e7b38608cfe81058cf70dad58a13b/b66f5/lodash.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 26.400000000000002%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAFCAYAAABFA8wzAAAACXBIWXMAABYlAAAWJQFJUiTwAAAA4ElEQVQY042Qy27DIBBF/SdtWscPsIHBgSFgTJyq/f8/uhUssqvUxdG9M9I8O7IJq2Fw2MHHN3w64VIGHwVcCnyuHLCcsIUdamMMQmOQGlehMC7mxee0oBP3H6wug1NBPJ4I+QGfCsjFhtQ3LMZB6g2r9ZDm1hB6w7QSFnKNWVl8jBKdJ4baEnT8AsUnFBcQZ4R8Noy7g3xszWph1dqsblrj6vUttHwd0HE6QZZhjWuJuvq8UvNC2dc5b/2E935q+heXQaAj47GYAPIPTBQhbfX1Xxk27Fisx2WU6Gf1L34BTvCcYXZztdcAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -2005,7 +1822,6 @@ console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span cl
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;사진은 lodash 라이브러리를 설치하고 ESM 방식으로 import 해온 모습이다. 에러가 존재한다. 왜냐하면 lodash는 CommonJS의 export 방식을 사용하고, 프로젝트에서는 ESM 방식을 사용하고 있기 때문이다.&lt;/p&gt;
 &lt;p&gt;위에서 살펴봤듯, ESM에는 require() 함수를 사용하지 않고 import/export 키워드로 모듈을 가져온다. 하지만, CommonJS 모듈 시스템에서 ESM 모듈을 사용하기 위해 require() 함수를 사용해야 하는 경우가 있는데 &lt;code class=&quot;language-text&quot;&gt;import&lt;/code&gt; 구문과 호환되도록 변환해주는 도구가 &lt;code class=&quot;language-text&quot;&gt;esModuleInterop&lt;/code&gt; 이다.&lt;/p&gt;
@@ -2150,14 +1966,7 @@ parser&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 592px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/526a64ddefdb92c4d387b38a94286608/d9142/mvc.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 61.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsTAAALEwEAmpwYAAABaklEQVQoz31TYa+CMAzk//83P6tRoxLA4XCwAdsYjHvpfBAQ32vSAO31dm1HVJYlnHOw1qLrupW3bQslFRrVBFdKBZzt3v6JJ4+01vjL6KD4FePET9izPTKRoakb/GdR07wB4zjOjvGdJIW84ojzGGmRgguOSlQoVIHBD5s68oiKlgkyAsc8DoREXqsazjqMfgQTDClPcWbn+fCpbkU4BciILBf5HKfZTIqYZLiya8gnr2QjZibshz48TWsgpZzJet8jfsZB3VTEKgZecOhahyVtFHrvQbMsZIE7u6Ou66AqqOs7HNPjPFdaVGc7PF4P3PIbhBSYFjsTUjvWWCQiweFxQKtbuM7NKrXR4dAl4fl5xu62Q9mUMNpsZ2iMweAGjP0Y2siKLCgmo28imoro2/ce8Ajky9xqKSH425vtLS75JbSUsxzL2/CJXcY312a5salIKgljzVfcEr+9h1gnp3fRCkgtNwq//Sk/Qe6pn54jlTYAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -2173,7 +1982,6 @@ parser&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://www.geeksforgeeks.org/benefit-of-using-mvc/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;출처&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;기존 웹 MVC 패턴에서는 View는 단순히 HTML파일을 만들어주는 역할만 담당했다. HTML 안에는 JavaScript 파일도 함께 존재하기 때문에 사용자의 요청 혹은 앵커 태그로부터 다시 서버에 HTTP 요청을 보낼 수 있는 구조였다.&lt;/p&gt;
@@ -2283,14 +2091,7 @@ parser&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 286px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/c34e4c9dde270c0bf560257929733716/9e45f/dom.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 115.38461538461537%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAXCAYAAAALHW+jAAAACXBIWXMAABYlAAAWJQFJUiTwAAACbklEQVQ4y42VXXOaQBSG/f+/Ine9zFUnF22ambSZJjVfk0xjIooIiqB8yrewPB1IaIyocWcOy8LZd993z56zHQDDNHEdl9RNiBYh6TJBFIIiS4gcg9hx8TUf30sJoxxvHrHUfYosr6ZTliVN61QPRVXRFR35REI5lxmdDYjthKUxRDr9gnrxgK9HHB8rHB1JXPw0CDUXe2i3AdcHaZpS8j4uS1Fb01YrQRjmFMW6z/v7f8DK8jzn+u4Os2/Q/9pj+K3P+NeIyZWK+TBrTWzmbZXcfCiEQGQFkR7gTz2WU5/IiljFqw8gtf8uwM2PjufSlwdEZkhgLHEVh8gKP/hsst0quXGK4xjTnOO+2Jj3M6z+Al/zWjJ3Am7uS9P8aEmcJuRxXkuubJ3hLradTTAhXqM6lGXk3gjzVsd41NEux4SL8M3nFVBsAFfW2UZ7fdXqGOVRhkjznTJbUd72c12WHRSoi4zTW5eze4+bfsBJ1+WyFzDUk/0MtwFGqSBMQLVKelqOHZRI05RnLSaIi8MlN72uz5AkiammoE8URvIQ09APk7zNSSAYaypX113+dK956j2TZtnWaHf2MRO5IHFjonlI5qWIsNi56N6gNI6Jl6DfTHCGFsbjDPW3QuInO/e6dQ63MSxWBXmaU2TFYanXSvqqSKwKZvdTZrdTxucy+u0Ed/RW+8R+0J2pl4VZXZGrvkq7qoIfks/v1eZtZUe2mXY1ht/7jH4ManbqxQhnYH0qt1UPG7lVZCvzJx7e2K3vmVWUHQa4HlFPceqozp9M7IFV71sj9RCwD4BZkGJLCxa9OfO/Rm3Wy7x1s33G8B/QFACjJD2vXAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -2305,7 +2106,6 @@ parser&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;html 파일은 &lt;code class=&quot;language-text&quot;&gt;&amp;lt;div id=&quot;app&quot;&gt;&amp;lt;/div&gt;&lt;/code&gt; 밖에 작성하지 않았지만, JavaScript 코드로 DOM을 생성한 것이다. View.js 파일의 &lt;code class=&quot;language-text&quot;&gt;$newEl&lt;/code&gt;은 react와 vue에서 사용하는 Virtual DOM이다.&lt;/p&gt;
 &lt;blockquote&gt;
@@ -2525,14 +2325,7 @@ parser&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 446px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/f6edab88007811d58724490eae6788bf/6dbe6/hierarchy.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 152.91479820627802%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAfCAYAAADnTu3OAAAACXBIWXMAABYlAAAWJQFJUiTwAAAEd0lEQVRIx42V23LaVhSGeYk2sWNACG3tLSRAGAzYyBxtjkbmZAPG2CaOEyeZxr3pTG+b20xn+gqdyUwvOslr9Kad3nb6Mn9nbSKKHezkYrOFNPr1r8O3tk9EE9BNG72zK2QKVaS2d+H2hnD7Q7S7x0jnCqgddNB0+3JnkRj8qo6gJlYuHwmGhYWj2TUK1QaYYaFca2G/6WKv3kbGKaLaOkS+UkNxv/FlQb/KoWgCjwIMa1YeAd3ChqLJlwJhjo0QwyO/grWAKpcnRs9WCiosAnszBSWaRfzmI2L1GerNA0wurjA8vYCV2JIvh/QIFGY8KCYF5w85AmGBUCQJ3bSgCVO+LN1tKFgPhvFE0b4oJgXpR2EUskAlr+Ov9zqKjkC53kNnMETzsC9zuJ0vyw88JLZwSGstqMMyFVyPdTCuIprcRnonj1xxTxYpmXUeLMb/DpmBMDfBLRuFRhdP2Ca2dgqIbqYRT2Vl6I/9oUXI9y0vFT56wbJTMOJJvPrxJ6SLdWScEjpHY4ymMxnqcv7uW95zn9ca8/Zh2E7rCOs6VG5hnl8DKp8Xyas07bRWOqSfEBP4xi9QKwn8+1Gg6HBU20OMTs9x9fINxtMZ2r1jjKdPcXJ+ic5gjKtXbyQ5/eEEifTOIgrf/AscG6qAYQqUdgXCnCOgGdCMqFyeI1rklsjSIzEQZZRnunfLocI4HgcFdrICH37mcnfKLZT2G2gd9lFvd6Wb/YYr9+xuCTuFiqw6petWDqWgRm0jkE1zvP1OIBrVEd9yUG26aHUGqNQP0HB7Uoz+E9fE+t2CfBayMAWmXY5Y3IBpZ+R92QWJLRmWxzcNCLpPodP1Mj2LkOdF4fj7N4FclsGptDE5f4oXr7/HYDxFf3SKs8sXOH92jdnVS0wunkmKDgcjieYtwQXLukDE4nKnoUH58XK0rsx59hinApE7crnCocC3xHJB4M/3AgWHo1jroul2MRhNZVHIIeWxVG3K3JI4Cd0dZ59Y1rEW5LAMhuuRDm5o0CI2nNKerCxxTEwX9upyp6Isc33bIaO+i4JFDTjdFEIWHQmbyBUrMGKbcnyRG2/AUr5ov2+U+SjcaCINFhO4+aULd+IiX25icn6Jg87RraZdFlh1bxGyx3JI45JlJqgITKbCY9kj5C6/nwkus1wtCfzzgWO/ZKHZnWB8diFbhtbJ2aVsGzoNe8cTmHZq5cD1eRcbKv/EMgcThpw2Xlt4TUytQnMzEk/ef0jNaZiz7GQFfn83Zzmbr6FcbcjKEno0tZc5JtGVDqmhPcFkWuDdDxy2raNYdWWlSWh0OpP9R+cy/SdCYsnMyinu8yhRGUfD5AgHOcKmDVWPyDDJBYXpDVbqP2odz92KonD4SVDjeJvlyAkNjf5Its3z1zeSEirKdPYcbu8YkVhSitIHVvZhYIllQ3CousB6UMN6UF3gRY6++qCnWbiuCNgJjj9+Feg3GbKFFtzekRz1dEjRuXz3oH+wyvPxz3F9IpBK6rDTu6jUWpLZTK6IwgPs3hX8D9G8yMiflOOIAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -2547,7 +2340,6 @@ parser&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;지금이야 단일 도메인이라 큰 효과는 없어보이지만, 이곳에 페이지를 추가하고, Layout을 관장하는 View, Controller와 여러 도메인이 생기면 Controller끼리, Model끼리, View끼리 묶이게 되면 이곳 저곳을 이동해야하기 때문에 도메인 별로 묶어 관리하는 것을 추천한다.&lt;/p&gt;
 &lt;hr&gt;
@@ -2606,14 +2398,7 @@ parser&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 2000px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/1e5e131ee24caf85f346a7a3c459b01f/a1aba/webpack-main.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 43%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAABf0lEQVQoz3VSy1LCQBDM14hAIEASQggB8tgkBJKA6MVSLpbFyYOKpXD15Ed4sDx4xir8DB8XfqetHYHCoIep2drd6emZbqHc7iCv2z9RsyiLdWeTRcNFTrdRMNzf96tzOgSp6aPU9KG6EcrtkArXRVmtjX2lAclwkJGN3WZbkV9lQXUiqCyG4kaod4aosphYFRsMshXiZPaA66c3DC9mKGwDcFDDRcUKUWoFUJwenQXVjaE4EWS7i1owgOr06OOebGAwvsLdYonR8wemr59gRyMC4o0k09sB5OsTODvNS+iCA3Oma8Dk/BLTxRJnL1+4nb+DHZ5uAEumR+vhRMpWCNnu0coE2eqiyhJCV2nsAxqJj1xpBTi+ucfkcY7+eAJRt+hte8+63yeWGotpXYLUDKAHAwLi1Dk7kStWd5CrWcjIDRR1ixinRcmT+gyKGxPDvO5A0LwYRdOj4qzW+tM2/OPaNmJaGJrGoyCVlZUoKktQ9fqQTP9fe6Q9mPYiB/wGFqE9MzIz/fsAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -2631,7 +2416,6 @@ parser&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;그렇다면, 단순히 전역 scope를 module로 바라보고 개발하기 위해 모듈 번들링을 해야할까? 그렇지 않다. 더 중요한 이유가 있다. 바로 HTTP 1.1의 스펙 때문에 그렇다. HTTP의 간단한 요청 프로세스를 알아보자.&lt;/p&gt;
 &lt;p&gt;HTTP 요청을 하기 위해서는 TCP/IP 스펙에 따라 3way-handshake 과정을 통과하고, network 전송을 받고 다시 커넥션을 닫기 위해 4way-handshake 과정을 거친다. 또한, HTTPS 프로토콜은 기본이기 때문에 HTTPS Handshake 과정은 당연하게 거쳐야 한다. 서버와 브라우저가 처음 연결되어 HTTP GET 요청으로 html 파일을 받아보기까지 꽤나 많은 처리들이 이루어지고 있다.&lt;/p&gt;
@@ -2711,14 +2495,7 @@ module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 436px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/a09a76d7311d989714bc6fadea231d80/94556/eslint-files.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 36.23853211009174%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAAA7klEQVQoz41RQU7DMBDMY0hSNxRcmzg2TuLUTVu7CEQ58A8OSBx4BR8e5K3CAQnSw2g8lnY0O5uxegtzeEMpHRZ3BsumQ6Udlk0PVrdgqkWle+JCaOTrhvgvZEzt4B4/UcoB1/cOt92Im3aLlfUE0tbT30WGOT0GEldcnQek+Rn+jTnTrGqOCK9fKKWH9AfocII5vkCHZ5h4gto/EZJOdeRc/Z+wEBZMRRTCoJRnTClSj4vaUmJiYS7osB7RPXzQUSrTg/c7SB8hhoCV3aAyjrrMpzrmVk6GNr6TIe9HiE3Eegjgbk+HSJwwl2wy/Abv5OJAePmhEgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -2733,21 +2510,13 @@ module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;이제 IDE에서도 문법이 틀린 것을 바로바로 표시해줄 수 있도록 마켓플레이스에서 ESLint 플로그인을 깔면된다. VSCode 기준으로 아래의 것이다.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1482px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/bfd6d07370cdd3aea3f94d8ae0e4b449/4585a/marketplace-eslint-plugin.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 27.999999999999996%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAABYlAAAWJQFJUiTwAAABYUlEQVQY002RS04UYRSFayNKAjRNaLre/6teXdXV1WVVgyHYiYRgjInRiXFkGOFM2IBh6MA1uAmnjmADLIA55jP8rcLgyz25g5Nzz3VUFPCp2OQoHfPUlXhJSdbuEeY1Y5XjmQk7ImXTl2yFmkGgrL7H6kA/4Euc69MGLt/w+0vH587DLTuWJ6/pl0eY+QLT9ARFzSDU1nA7TtiRGSOZMYw0u7FkLARjoezO4esJtz8uufv2kav3PiLJUXWHnLaI/jleNSduFwTVHNcUmLqjWhxgZj0jaUjTkEnmUxYCXXc4nCXcXizhvOPn2xBX51T7h6T36eqOpOnR0xY9fYYo57aKeDJbnR0o1n3Num/s3PAEzveXETcfBL/eCV7kEQNdsnf8imL/ENn0TA6WuGlpjXZ1wTAyDP+ev0I9QuOseQodh4yCmCfuqgdZtYiyQU1bomL2P13a9Daxn1X2If9MH+s/hQnV61rV5BUAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -2764,7 +2533,6 @@ module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;h2 id=&quot;Prettier&quot; style=&quot;position:relative;&quot;&gt;Prettier&lt;a href=&quot;#Prettier&quot; aria-label=&quot;Prettier permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; i &lt;span class=&quot;token parameter variable&quot;&gt;-D&lt;/span&gt; prettier&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -2797,14 +2565,7 @@ module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 410px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/af86593ef3dfb82574e920d60b1f819c/cb1d0/prettier-cache.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 63.90243902439025%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB70lEQVQ4y32Sy27aQBSGeYgu2w0XxwZsPJ7xZczYxhgIhCgtkCYlEEVKW6lSdpG66rpdV32BLvsmfa2/msOlXJIsfs34zPE3/5lzSidcwmASbkciGMUweAjDi0gnIt7uDZ2nY1yutD6rsf/5WiWmcnjxAOncx5+/37H48hk1ruDlQ3j5CI7qoiEzuNkAbjoAo7UP3j1DM86PgXSLG6LGfbRHA1giQtkR5EIn69UU7X135HalI2DVDWDLFHVfIR2/x/3jN7TaXZi+gh3nsHxFPz2nw7IJ6MgMzTBBf3aDrz9+QuRDWIGCowrUw/TIxa6eLFlDK60AFRbgtdFAxeaUqOOHLl6Cbx26SYEgzvBqsoD16zfYeALTk3CSHlppH62kv9eAl6AlfWiKGJYX4Y3qofHxAVZSwGARlVsPEph+m/Tcux13eQ01XR9hUiAbT9edXHWWgCI+mr1d6Ga/fUOeFtTt8fITNYZRqT2wzinNpJ4/LQ0/HPZd6NZhbXOLTuJrJ56kBpUbHqliC5SbnGIVR6ziTb6Oif2SN+VU3RCdwkenCMCiAPx8AnU9R3pzi/zuHsl8ifBiCnF2gfjyGtnyDunilr6rLf8JIIug8hBZN4AdRpCXHxC9m0FOrxC+nRLEOx2T2ldzxDMdn4EPzwn4D/M7qR9UlvQ4AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -2819,7 +2580,6 @@ module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;위와 같다. 여기서 꺼내 쓸 것이다. 이제, cli는 모두 구성했으니 마찬가지로 마켓 플레이스에서 prettier를 검색해 설치하자.&lt;/p&gt;
 &lt;p&gt;처음 gif 사진과 같이 IDE 차원에서 코드 포매팅이 자동으로 되고 싶다면, VSCode의 설정 -&gt; Format On Save 검색 -&gt; 체크를 해주면 된다.&lt;/p&gt;
@@ -2827,14 +2587,7 @@ module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1730px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/a230f0556d6b5ac08ea5c15141838c6a/f537a/format-on-save.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 14.799999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAeklEQVQI143N0QqDMAyF4T7M5sZUsK3U2NSOWpmy+f6vc0Yz2bUXPx8JgaiGImxcUIeE9vnz0jlc9YDK0N8zlVvVcMKQN/h1B70+4HWHX97Q0yyPSjrMMotHNmaYY2emLLYUoap+RO0COk7QnMRy8HCMmx1x7714LsIXJwFhrE91PNoAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -2851,21 +2604,13 @@ module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;만약 되지 않는다면 VSCode의 &lt;code class=&quot;language-text&quot;&gt;default formatter&lt;/code&gt;가 어떻게 되어있는지 봐야 한다. prettier로 되어 있는지 확인.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1726px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/e5fef970e164c5267be414e5632a22ca/dd200/default-formatter.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 14.399999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAk0lEQVQI122O2QqDMBRE/Zgutn0wjSbuS6xJlOL/f84pCRSk9OFw5w4DM4kcForRImZPNlky4xD9jBotsn+hjeOmWi6yIi1q0rzm+ofgh0wijaNfdyr3pl13mnVHGYeaLNp46mVDTQ7RGvJhiX4o+iWMuuuO5FGPKOMR3YyePeVri4tOQnN+lpG0aGJ70Mf75fh/ADsCYwtqNieMAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -2882,7 +2627,6 @@ module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;만약 그래도 되지 않는다면 setting.json 파일에 format-on-save, default-formatter가 다른 것으로 지정되어 있는지 살펴보자.&lt;/p&gt;
 &lt;br/&gt;
@@ -2900,14 +2644,7 @@ $ npx husky &lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt; .husky
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 594px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/59e11df65b238848a5d5183e77d174ac/d32a3/husky.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 36%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAABQklEQVQoz42PyU7jQBgG/SAISAKEeImNHXfH3W27u73EKEggzbBIXOb9X6JGMcs5hzp80v+XVEGsHbFyhKJmIy1h5WfW0hHrjo1oiCrLnTBcpyU3JzLJaitYfvOzb1JBsC4qIuV4GF+opwOyqVHeYkdHbhriyhAah1YdpvIkbiSSisK15K6l7OzX9pa0HQjud4ZQ1uTHd57+HBlGw/HJ8vneo50hUZpbqZmqjrHq2HYTavKYY8fwNtG/TlSTx76MpK0nWGWSq7hkmRRchjuuE8FlVHKx2XEVlSySktsHyTITLDIxJ5/2b3Lylbz8SS60Zji0bCuNGBypMYjesh8d6rEjt838sM733J1BoKzh47UjU5rmeZgF+4OnfR7o/06UvWWVirNks7D2Nf8+Bwqj8d8COTqGt0eyumYRl/PhKfMc4X8TkeVpkLzyOQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -2923,21 +2660,13 @@ $ npx husky &lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt; .husky
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;이제 git commit을 실행할 때마다 eslint와 prettier가 자동으로 실행되고, error가 발생하면 commit을 멈춘다.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1172px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/a97924b03176b359a2615498a16967fb/95fbb/husky-precommit.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 76.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAABYlAAAWJQFJUiTwAAACGklEQVQ4y4VUWZabMBD0VRKP48zYPLODEUISAsTmbZyP3P8ilae2nZgJk3z0a6GlVKquZuGLDmE1IjM/EOszAjmA1R14MyBvBqj+iEC02LAer4nGJjN4Syts9jUcZuDkLbY2Zwo+U1jYw6FUSEuDpGzgMoFUSiRCYK8khZ8LmrexTXLsMgEn5XhxI6y8GCs3pvzixlhEsoEaLpD9CVnVo2iPSHWH3BxRdGe4uYbPNWLVIJI1dkwiKCq4TGHlJfjmp5NYbNMCTibhpAU2CaeNXl7iNWJ0wN663EX4uosoL+/fy11MAHbPM/AikA1Ye0KiOwp9eEd1vKIcLwhFNcviEbMM/aJGqAwssMc1srpHbkaI/oREGayDPyweAB9ZTQCTqkfenYhl0Z8peHeCHC7wiopALVNW94iV+SdjAtyxEqE0iFRLLC3DUNRUJL/Q+OIE/33mBJD3Z4jxHWk9oBguSKv+t44eL6lAnz1zVsNY98jMARHpaJA1I/JmBGsGAvZ5OdFwTs8JoBguiMoWLtdUFMvKavY9zLAO9mSbz545y5CbA9RwJlZFeyANk9Iglg1lG6luweoBWdXRZbYZ3u4+/QvQGpo6IJPUEXZsTW0X10/aWbZ27sH4mfnE2OzuO1vV+nQle3AzgrcH0nBfddgkOW2mrtoL6io7ntXQMrNg9s9izdxdf96KUg80L7rjbf1+qR5vfR8UevbJvwBlYvKogBS+NAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -2954,7 +2683,6 @@ $ npx husky &lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt; .husky
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;다른 개발자가 repository를 clone 받는다면 &lt;code class=&quot;language-text&quot;&gt;.husky&lt;/code&gt; 파일도 함께 clone 받아도 husky install이 안되어 있을 수 있다. 따라서 package.json 파일에 install할 수 있는 명령어를 넣어주자.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token property&quot;&gt;&quot;scripts&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
@@ -3011,14 +2739,7 @@ npx lint-staged&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1924px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/9c64f2564d6016e9d59f8cad5872b4f3/2f33f/ISSUE_TEMPLATE.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 57.599999999999994%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAABYlAAAWJQFJUiTwAAABY0lEQVQoz52Ry26DMBBFnTYvCGAM+B2IIaTddBOpUv+gm/b/f+dWnqQokRIp7eJoPNb19TzYfvuJwnTgekChArju71KonjSneJmH6cysfkfdjijtCGFHcDOQ+S1Ks4dwh0lLuAMq/0J38VOWlhW0Dygbg1worDOBJK9usuENaWLMSknEvKg0IW0HtikVlO1QK48kE1gmHOw5AZvf4Hl9m9kSy6RAN7ycDKVpod0ObTigEJJEs3nyMOxphVVaYHdpaLcBdtsjzSsSzM4VPWx4WWFst5KOYqO31Hps41HTX8OpQl4bGL8jQ+MDxcU6/3+FcX6uHajdONxVyvG0SGk5f58hlxCNpQpjLGuDjDckmri33WnLKyzXOdowguWVRWMDpA1QfoDyPZTrIYlAuZAevLbgjQOvrymlA4/zty1MtwfjjYdu92ezE/EDenymqC3yylxTW2RCw328Yvw6Yvw+Qr0N+AHYERuytE/ZOQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -3035,7 +2756,6 @@ npx lint-staged&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;PULL_REQUEST_TEMPLATE.md&lt;/code&gt;은 아래와 같다.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;## 주제
@@ -3242,14 +2962,7 @@ module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 796px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/db79a7753403e81768643334eb4a2d09/c0214/url-loader.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 15.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAnElEQVQI11WM2w6CMBQE+f8vNFEjLVKk4Y5YbM9hDOiLm0x292WyPDdURUGYZ3ivyDsgKaIpwib/8OPYisQVm98onWP3eO/JUowEa3hZiztZSlNzLgdu1Ujz3GhmxU9K+1RMI5S98BgVNyimTTz6lWVZiDEeZCEE9iTdsL1SjRumFYpOuHeCbeX4bhAuPnH1ibz59v7rSQ/RHlXlA0vt5gjDsrWLAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -3265,7 +2978,6 @@ module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;url-loader 같은 경우 주로 크기가 작은 svg 파일을 사용한다.&lt;/p&gt;
 &lt;p&gt;기존에 Webpack4에서 이미지의 크기 설정에 따라 크기가 작다면 url-loader로 처리하고, 이미지가 크다면 file-loader로 외부에서 받아올 수 있도록 설정이 권장 되었는데, 이는 url-loader가 크기가 커질 수록 변환 시간이 오래 걸리기도 하고 html 파일을 불러오는데 기하급수적으로 이미지 크기가 커지기 때문이다.&lt;/p&gt;
@@ -3441,14 +3153,7 @@ module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1228px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/4e4a6ed7a5e8f6b60b50542b058c8159/912c7/mangling.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 35.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAABMElEQVQozz2Q63KCMBCFeZq2f8UbVZAAIYSrgChYrdOZvv8znM5Ziz92snuy59tNnMVBww1TrJMcW1288rlexxZLZSTc0LzuGKIpg4+Nj/fVHm/LTzjFeIcdrsgvN2TDVaKc7rDnr1cdNyek/YioOT3r4wBV9zCnCYeyhZdycAY/b+A0tx8wwqpDUBwF1D1+xUCNZpp4EkpIdX2gnL6l5kLsp8bcYbPuLhIEqqoXaNKeBaLbi2xAODUCuQnv5gXo4famH+GwkQLpM5jTaCRAt2cxso/PpcZ8/oK4GUSL6ue3OBQZu6ySqWHZYW9rzIP4Aga3EsD//zEP8qPUBDIX4C4t4CUWyzCBbyu4QYyFr7BNLHyTIqlKrJTBOkqxMwW2cQZPW6yUxiYyCPJacmr0/wHeQQN1TLaPEQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -3465,7 +3170,6 @@ module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;h4 id=&quot;소스맵&quot; style=&quot;position:relative;&quot;&gt;소스맵&lt;a href=&quot;#%EC%86%8C%EC%8A%A4%EB%A7%B5&quot; aria-label=&quot;소스맵 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;소스맵이란, 코드를 디버깅 할 수 있도록 도와주는 자료다. 여기서 자료라고 한 이유는, 소스맵 설정을 어떻게 하는지에 따라 번들링 된 파일 내부에 소스맵이 있을 수도 있고, &lt;code class=&quot;language-text&quot;&gt;.map&lt;/code&gt; 파일로 생성될 수도 있기 때문이다. Webpack에서는 소스맵을 생성하는 다양한 방식을 지원한다.&lt;/p&gt;
@@ -3487,14 +3191,7 @@ module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 818px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/e61cbdab4784b77a38e6919fea404929/35f7f/css-sourcemap.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 99.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAABYlAAAWJQFJUiTwAAADC0lEQVQ4y42U6XLkNgyE9f4Plj+bxHZ2N3N7RufopC5KGh2jLwXYs64tJ6llFQQJJBuNJiFnsz/z9HVLlOScXi/sDif1eWHYHY4EYUQYXTmezhrfH0+EUazzhamom5amteqrpsU5egmXyND2I13X09oO23X0w6CLJCYmsSwvuHg+SZpzjRMFFX92PYIoIk4SnCRJSNOE2+2mG4dhYJom5mVhWe7q53nhfr/T9gNBnFI0LXFhMI0lynKCJCMxJW4Q4DRNi+16+r5H3ru+Z5pn1nX9ZAwdDBa69sP3FvoWbh2pe8Ypq4qyqpmWBRmyj1VfWZTlm93XlWHzQvjtL/Ljnsvzn4Tfv+K+PJEfd+SnA/GX33BsXVMc9vSey+10ZKgbXv0QPwh5DGUHzKctuXehigL1heeSXs7U15AmiUmff8e5TxO33Zb++ze6lyfa85kijvH8QAUfx/ENVB5SoknBZFDmUL57iZUZmZQ8324Mhx395m863yM9n8k8n7PrU5hSD+lDix9q/DQeMZHN6buedZ6Z+15PclpXbtP0AQQaFw1Vz3lW09swjmqPmFTjyKWV+5UVhuga4/sBxpTESaoMg/BtXg9lGDgcj4RRxH6/53R6ZbPZEkVX3de2Fkd0StJMQeSiPjpDAQtDXhTUTUOa5Vi59LbTdU3bUtU1pqzouk4Pbp5nHNkoV0cAhZGwKYwhzwtM+RYTn+l3pd8yJyaJWmuVgCQWSRxhJNllgZzsA1TKN1pypFdIKlFpslwrEquqGtfzieJYW1UZClj2nk0ySf9KNmEuXRNeY60gzTJNIoykZJmXvVXdaDKpQgFdL8APIl0gTAT0oaH/zl60FFARvSwrbdEsz7XDRFMB1G6bJhzpYZvn1MbQiFamJIpTxnHSjI8u+ZWhDO/Lwm2/pQ98Mtcl2O5IfV9LExnkNJcffb7+rynDeRwZjge1Koqog4DVWhprtcy6bn4C/NQljz/Rg+Eyjtg/vtA9P3ENQ7xr/K/l/FfpnwCHrmcxBVOaMFurf+z1fv/8L/xFhv8A0wf4vAksINoAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -3510,7 +3207,6 @@ module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;위 사진은 css 소스맵이 적용되었지만, singletonStyleTag는 빨간색 부분이 존재하지 않는다. 소스맵이 없어도 css는 적용한 스타일이 개발자도구에서 보이긴 하지만, 나중에 사용할 소스맵을 위해 옵션을 제거해주었다.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -3532,14 +3228,7 @@ module.exports = &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 2000px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/8ea2f555123f4980b72a4b756d29cd5c/218ba/stats.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 19.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAYAAACOXx+WAAAACXBIWXMAABYlAAAWJQFJUiTwAAAA4klEQVQY003My26CUACEYR7GJq1CC1bAA57D/S6ICtqwMOm277//GzBpuvgyk1mMJpuC03dLOhZkY0ky5ERDQ3zr8U89VjlghBW6zDBUzovlsvqwWZn2M/8zbbSwbxl+RurHmebRU9wbqqklGWvyqUfdvpDXEdHfcboJIygWusr/uhGUTypHU92F8HpBHFv8Y42sC5w0ZhsqPiOFHUl0V/C62/PmHNiIgPV+ppauC4UhFLo/bxItbc94SYWtMpw4RXYJoopxwpztIWHjSAwR8L5QC92Vi/nIFD5bz8MKJGtX8At8boo+UPlp3AAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -3557,7 +3246,6 @@ module.exports = &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;br/&gt;
 &lt;h2 id=&quot;Babel-설정&quot; style=&quot;position:relative;&quot;&gt;Babel 설정&lt;a href=&quot;#Babel-%EC%84%A4%EC%A0%95&quot; aria-label=&quot;Babel 설정 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
@@ -3632,14 +3320,7 @@ module.exports = &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 596px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/cc478fc5e8ba6376d52451a262ca15c9/fe133/babel-cache.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 29.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAABYlAAAWJQFJUiTwAAAA7klEQVQY04WRy26DMBBF/SNpEMXg2iQ2YGwgMQ8pTVRllV26bD+g6/79reIAilCkLo7OlWY8I40JyytQ6xD2JyRFjTivkBTNnB+hmf0XIq0D7U+Ifn7B6w5p3SNtBu9l83LBM0ggJNZCQg9H6P6AcJOBKoNI6hmqSrxuc9x6A6FGllkiUgYk4BLrVKI7X7D/+MSKKTBdjUMKxJlBklu/aJUIvCTiuVmKSJYgNDOgyiLcFrh+bbA7loh1C2EduHHg9o6oWryZvbeoOnD76Ha+MZk+4ebrt0bzbsHMMD5s/S35ZNt6pnwf6Hyd6Z2/4R/+sLzzvDQNegAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -3655,7 +3336,6 @@ module.exports = &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;br/&gt;
 &lt;h2 id=&quot;browserlist&quot; style=&quot;position:relative;&quot;&gt;browserlist&lt;a href=&quot;#browserlist&quot; aria-label=&quot;browserlist permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
@@ -3678,14 +3358,7 @@ module.exports = &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 536px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/9da294abebc22c88c9847851079ef33a/e52bb/autoprefixer.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 81.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAACXBIWXMAABYlAAAWJQFJUiTwAAAC0ElEQVQ4y1WU63baOBSF8ySz0lUgQ4q5+irZsuUbYBsMAdJMZ6bT93+Jb5ZEIM2Pbcn+8ekc7e3zUEjNm16zjytW0iVMZzw6AcOFz3ARMJj7VmZv9NVofl3N+8isy/C6X4Y8zDyJHyQoVTGLYjytcYTmOUgYexJHZEyl5k8vZrwKmfuCZSBZ+IJnT1jIDWaBg2VoT1OHV+LmhaDake7PZP2FpH2h+esXun/FUTVhKDhVBess41Rqpqpm5MrPQPN4WkXIbY9XbAmrjrDeEZQtXr5FbHqCskE0RwYrgZQxuUrJlUKpjG9RZq/kA7iK7AlxcySsO+ZJYYFye8DNN0T1jnR3Rh/feHIlpVK2QrMmKsNR1WeggZl7SvcXVHeiPP9gKjT54Tvr13/Rl588LgQ6inipchqdoVPNWK15dFyG77C7KTeggZm21e6MXzQssjWTUFEWFasops4yVKwo02u7gSoYrYwpH/f3Gbg7v0MP6P7CsmgZLwMOhSaWCbGQFnqsCo5FxnrdMPIVo8VHu8Mb0MQi6V6I2+O1yu7ETG+YuqFtsUpTpnHBH1Pvri8zn4HJ6W8ymbRAkzljipFx1cRlVbRMgpgkzdG6wCsbm8tJmPDsm0xGTNyIb26EY1ZPMFz85rLJno1L1VmwgRp4/vKDYNOT7S/E2wP19/+Y1z3TMKHTGV2u+bUt6bqer668Vjj2Y7LeBPvAPCntPRpotN6RtEeiukO2J5682BqjVUqrNbXWTERmWzWF3YNt5OoN0XqPXzY2e8ZpE/JlWhNULeGmt65KIREyodUZeaYZi5zBzLtH52EwD21g8+ObNcS0nnQnCzOV1pd/7Ht9/ptF0eCEysIOZcEmVRTVlpEX391+WEqXSRAyV9V9EEyi1GbQ7I3M91mcMw4SOxDcQN4HxFSktvJ7sIVe4gQeXxzvPqo+6/37zLN/xfA2vt5H2G203Vr+HzBCGu4gYSTiAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -3701,7 +3374,6 @@ module.exports = &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;-ms-flex&lt;/code&gt; 라는 prefix가 붙었다. 이는 브라우저마다 지원하는 vendor prefixer가 다르기 때문이다. css 코드 중 구 브라우저를 지원하기 위해 이런 prefix를 붙여주는 것이다.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; i &lt;span class=&quot;token parameter variable&quot;&gt;-D&lt;/span&gt; postcss postcss-preset-env&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -3787,14 +3459,7 @@ $ volta &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; &lt;sp
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1558px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/1b7b261b41900ceb89109b41171ed31d/3a95e/volta-shim.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 31.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAABYlAAAWJQFJUiTwAAABFklEQVQY04VQ23KCMBTkY7yhghQwd2KARCLVVqf//y3byWnpax92NsmZs5dkJ+Zw7iKOVYf1tsEmb7HZtcSrbYP1rsFqWxPT7B9kbpihdIBQntAmAz4gP3A0zKFuL9B2QlmbP4P1wst5wa5FZvuZBNJiP96huwnd5YZ9IdDynkxCfOIiI6pCg8kRylwhTaC5NFdw5SF1QNV0yDp3o6Uk6JKgjSR4LBW9CRUQ4gtB33F+c+jGO8L0gr9+wroZfnqiHx90Z2JElupw6X8TPmBs/EnpZgzhA2cxYHr/guU9dEp9kihKQQ3yIyNekB9YEoxgYsCpNrApbfpP7alaEq5bC+cfkI2FKQRMY1C+acKhFMRFpQj7guMbDbTGLRVkO8EAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -3811,7 +3476,6 @@ $ volta &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; &lt;sp
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;volta가 설치된 곳을 따라서 들어가보면 이런 구조로 되어있는 것을 볼 수 있다. &lt;code class=&quot;language-text&quot;&gt;-&gt;&lt;/code&gt; 를 통해 특졍 경로를 가리키고 있는 것을 볼 수 있다. 따라서 전역으로 설치된 Node.js를 Volta는 사용만 하는 구조이다. 심볼릭 링크를 통해서.&lt;/p&gt;
 &lt;p&gt;그래서 터미널이 특정 경로로 들어갔을 때 Node.js 버전을 변경하지는 않는다. 단, &lt;code class=&quot;language-text&quot;&gt;node -v&lt;/code&gt; 을 통해 Node.js를 실행시켰기 때문에 노드 버전 자체는 그때 변경될 수 있다. 터미널이 nvm과 같이 정지하지 않는다.&lt;/p&gt;
@@ -3839,14 +3503,7 @@ $ fnm &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span clas
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 926px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/ff11784f7da1cff9859ca43d088bb2b5/21062/fnm-path.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 45.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAABhklEQVQoz1WRaZKjMAyFuVWzQwCDbRabxRBClp7M/c/wuqRMMjM/VC7pSZ8We+HJIGwc4mZFrHbE7YFILIjlhqiaEOsLa1HtOBbrHZGY/+ScEZ4G+EGFIKrhhwJeWVpk3QjZnRHlHfxUw08U/EQjSBSCrH3FYvmKkc+6gp+2nEOgD9COF4zTAakmxIlEkkqcig5F2bOf5Zr9NFP8xknDsbcFoYAf1X+B43zFYHdIvaCqLUQzYtufbKKxrNnpQC0nUG4pDMeW9QEzXhAmklcm2AdIgmoXTi6qAbO7Y1nv3KDtVwakuUY3bKy33SvWdg6VOSC335DrE7l28Kh7b86QekZRGYbO7sbQShguJp2Ag9kZSGCK0VsvDwY265P/4J8J3WdCWuc9IRWRTkCCkK47x410v6KyV4jphsoeCFMFb1r+B5K57ZvtDbQMbGHszjqBaTMzHhDzA437xat/BRU8ugUVNWri7qey5+NTAfnUiO6YZIony4uO7011POF4hRhvENMdQdTgB6yfUN+fHRhmAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -3862,21 +3519,13 @@ $ fnm &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span clas
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;위 경로에 Node.js 버전 별로 fnm이 관리하는 Node.js 버전 디렉토리들이 있다. 한번 따라가보자.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1202px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/c78839c51f038eaa9ae6b6c552f227dc/98b00/fnm-node_modules.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 16.799999999999997%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAApElEQVQI102NSw6CMABEuRSCpZTKt9BSrB/UGJfe/wjPUF24eMlLJjOT5NqRNgs7/SVVjp1yZHUg0z56zKo5+panpY2eHzxFGxDND+1I/PLA+hUhe/aio9IWWRqkMhTlwL7okWpEyIHqYFEbXUCokSxvYif/I5mXO5O9Ureetj9yPD0x0xkzXeiGQG9O2HmNPvs7o1sZH2+68KJ2N0Rp4tB2vPEBdDxr/6jAnLoAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -3893,21 +3542,13 @@ $ fnm &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span clas
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;하나의 버전을 지정해서 따라가보면 lib 안에 익숙한 &lt;code class=&quot;language-text&quot;&gt;node_modules&lt;/code&gt; 폴더가 보인다. 이곳에서 fnm은 패키지 관리를 하고 있다. 한가지 더 살펴볼 것은 fnm의 alias다. nvm에서 alias를 통해 버전에 명칭을 주어 명칭으로 버전 관리를 했다. 또 &lt;code class=&quot;language-text&quot;&gt;default&lt;/code&gt; 라는 alias를 주면 &lt;code class=&quot;language-text&quot;&gt;.nvmrc&lt;/code&gt; 파일이 없다면 default로 지정된 버전을 사용하듯, fnm도 shim을 통해 default를 관리한다.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1884px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/0ad015fb0fbef2b1ecb4bcae37b58a35/7c717/fnm-shim.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 13.600000000000001%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAj0lEQVQI112NWw6CMBQFWRa2lJa+oOVRMMQP97+PMWAk6sdk7slJzq2EW7l1hdrMCLsibHnbzNQiXNxk/Mn/fPoqxIJ1M0O6Y7oRISOtTiidsG7BNxNaZaxfCP2GjysuFOKw4UM5c+jX0wfVkHfy9KBsT9K407QJZTJKZ3Q3YWRGy0RrxnPooHPLdR+Pvv0CYKdryQ2v0H4AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -3924,7 +3565,6 @@ $ fnm &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span clas
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;volta와는 확실히 차이점이 있다. 전역 설치 패키지를 build 해도 쉘 세션 별 사용하는 버전이 다르기 때문에 volta의 문제점이 발생하지 않는다. 단순히 default alias만 shim으로 fnm이 관리하고 있는 버전에 연결시킨 구조이다.&lt;/p&gt;
 &lt;p&gt;단, nvm과 동일하게 터미널이 로드되면 Node.js 버전을 맞춰주어야 하기 때문에 잠깐 터미널을 사용할 수 없다. 하지만 Rust로 작성된 fnm은 빠르기 때문에 nvm 보다 속도 면에서 월등하다고 할 수 있다.&lt;/p&gt;
@@ -3950,14 +3590,7 @@ $ fnm &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span clas
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1820px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/23d3e5bdebfc7efe30602b7e55516909/ebd6b/nvm-time.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 89.60000000000001%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAASCAYAAABb0P4QAAAACXBIWXMAABYlAAAWJQFJUiTwAAADLElEQVQ4yz1U2W7jOBD07ywWGGCwiWIruiiRFC+RuixfSeZ6Wuz/P9ei204eGi22yGJ1V0k7ny5w8QQbT+j9EcN0gx1O0G5Fq0dU3YCunziESmi6iFJ41JwD1w6VxV9/Z3jKBHZJBQQZoCsN33l+Tn3k577uYYXlGmVT94hqgCoUmpcGdVZztC8Nvj81yA4Su6mzKCuD4lVhXW7wbkEcNqR0whCOiHFDCCvXeP3IshtQVwaN8HCVxrfvNZ72Eru5c2gIcN8i+QXBjBjsjGAmRDdjsBOv6Z3TCXPcsKQTpuEIb0b0KsIUHfKDxD7X2N2EwjmvMD8f8FsZ/GgVZ4o/2vL6Z6fxS/Zc+y+O+DdE/Oo0fC5Q5xLVvsXhVeHwqrG7KIexEPBZgat2OHcGV+Xw4SJu2mMTGqfW4CIt3u2A33HGnzgj2YkFEvIuVF70eKEZGregqiz2+w5Sxq/wfkVvJrRd4LVSCdbOGMcLx5DOcGGDo3nqEa2MaNpAgCuK2uF5L6HMDCEjWpVg/BGSrPJY0yHaOy1vSPMNvV0gugH7/N4qMXwtzR2wFh5PWcu30CbVT/DkS7ugEp7rvZ3hhw3jfMU43YPOVo1DWVsU1GWuHgwri38yAdFFNN3AjGzYHowTOj1C24VbHJc3vqxsPPLSoGwcE6oafxfFmhll2SPLBDS1JgeeVwhHGDs/5hdhzITgV0zjBc4tvJfOFYVmZp+t784mIpQS8rnAUQfM0mHVAdcwYesHzJ3l2HTAxSV8pBU/pw1XP2EUBlOjUR9aZARKKpNpm0IjzwQb16rImY3cjzBq4BoZPIWVTU3m9n2Cbj2kcBBt4NnTyHakZl5aPL10PDvy1JfKZr7/GPSI3q0812l9Z5VphvtXzUEKf8bO2IXlJlOSitrMsOGIQCq7hRVXxNQu/H5e31jhIZ5Z+Y5mWduH2g47sgYhk200bWBFZ1aSHEBeJA/2D5XJh2RqHzY2MgGRSyiT0mybO6BgNq1MXz7ktvV4b/mL4Tt/HXG88IXEisBIYf70rF+Rl3dAOkSMqNWQzgx4b3kC7aMxjPMNabriePrBoOv2wcw/bfM/f/uZKB8TLeoAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -3974,21 +3607,13 @@ $ fnm &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span clas
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;충격적이게도 터미널 전체 로드 중 약 97%가 nvm을 동작시키는데 사용되었다.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1304px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/4377183bc35ccfae23880f80792ca591/8cdd0/nvm-time-result.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 12.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAk0lEQVQI1z3IWw6DIBCFYTfVFGQYosAAXuK17n8npwnaPnz5T05jSBBkQddPlciK3s/wYUaUFVGW+pVhh6QVPi6QvEHyjs7PeOsA1ca/xsgJmz4gOUHxAOcLVg5Q2Gs5fcDphM0XOGxgV8BugOvGijhXxt5tXlSg3AjNI7R78E3ZAvWrm6AoQ5sIbaS2JUFL6XHvLygxaylKita8AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -4005,7 +3630,6 @@ $ fnm &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span clas
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;하단에는 최종적으로 2.956s가 걸렸다고 표현되고 있다.&lt;/p&gt;
 &lt;p&gt;이제 fnm을 보자.&lt;/p&gt;
@@ -4013,14 +3637,7 @@ $ fnm &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span clas
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1702px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/4211c4aa50083965eb46acdde0a08131/526f1/fnm-time.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 68.80000000000001%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAABYlAAAWJQFJUiTwAAACW0lEQVQ4y01T2W7jQAzzP23T2PE5vubwMT7ixGnaAov+/zdwQSXZ3QdBwnhEkdQ4qIYNcTMhbxZkzYJYjYjyHmHe41SMiOIWaWaRpAan/+q3Q4G3d4XDsZQ7rwiKakDEy6lBnFvk5YA4d4gziyjVSIoOeTUie54rDq89jonGr7DGIaoRnhoJARySCuY9w1oa3J3HVlnczICf5YpVaXz3Mxal8em81L/9GT/zBZ9uwlq0aJIGUaIRp1pAgzZroUIF5tl4OGUlX/0GVzrMdoIpjOTJeHzMO27zFff1hu/tjn29Q7szqsYjySwCyjjGWuSU7SQSi9pDdxtS1aPSy1+pDDfu6PwNlZ4RJkasiVODNHcSQV72COMGzK1dUJQ9Gj2jG67IVYfWLMiKDtquaNoJfrph9Du6foOxq7A6HCu8hzWOUY1A1SPCuH00uRVVO0lz73eoakRrV2Sqg+svMmg5f2FeP+HnD2i7QFUD0tyiKAdkhUNAIJr5YDPLhbqdYLtN2NruLMOMOwvgON3Qj1fZKBmdkhan51KYA+onXVIvay/NBCUgPSEIvzFT/uB3Ycbhj95KgI/R4+kEpMuCbNhAUGYyeTDcZAgl0wqeT8sd/biLKg5jUC6xAhakT1bGragbL2aziWdcTqF6kUnZ9G5e7/JM6DHtYc3MAUHyZJirXhbAJdV6lqVw8wThUsiOUl8eun4TySQjf8nTRwE8ErAcYLozysYLsF/u4G/phosMo2TK54ZfoI8n5eQ7szwb6ueU15ujDC6ADcWLYfGPYTdchN00f0j98pT2cCl/ADgUAGPjbnRaAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -4037,21 +3654,13 @@ $ fnm &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span clas
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;터미널 전체 로드 중 약 12%가 사용되었다.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1286px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/3d32e18ae73d3fbb2cead8256a24a9b4/908d1/fnm-time-result.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 13.200000000000001%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAhElEQVQI103MbQ6DIBBFUVbVFhk+VBio1laI+9/Ka2TS2B83J5lJnjLEmNMbYVwxzdtVFCN/kPIOLhUz70ildWOuIFdw1wmP4UqZ2OD4AKUGy4eUGijW7vlzWe5u2uDHFTYson/C2NyHT40tUDe7QIcN2r8u/ztvvyhjIIY23JURaSDxC/lxawzICM04AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -4068,7 +3677,6 @@ $ fnm &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span clas
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;총 걸린 시간은 0.462s다. total 기준으로는 약 6배 차이다. 확실히 fnm이 nvm에 비해 빠르다. 이로서 fnm이 빠르다는 것이 증명되었다.&lt;/p&gt;
 &lt;p&gt;volta 같은 경우 쉘 스크립트를 사용하지 않기 때문에 터미널에서 사용 속도는 확인이 불가능하다. 즉, 터미널 로드 속도는 fnm, nvm을 사용하지 않은, 기본 환경과 동일하다고 여겨도 좋다.&lt;/p&gt;
@@ -4151,14 +3759,7 @@ $ fnm &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span clas
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1724px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/823ac7ce2f7f5aff8a5105957c3a2742/8aa99/1.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 36.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAABGklEQVQoz7WP207CYBCEef8HMZFElBBjREGIGkSopRUpbVpAyrFAhUKhHPp/hmIid+qFc7HZ2Uwm+8WEAIjGlwTiyIpj84P22dh+WW0Fd9aCjOWz2OwvIYpbQJtKUTBcjlh1cnRki86zyeIxi5tOsSyV8J+aeHkdMfGjbFS4CUHu+pTtBcFWRF+aszfePeNQGEwJnApDo4ejd/GrMh/FB1aGwbLWY/bSRMzXh8K/IP0aeR5siUt9zpQJ960CeTtFtpXi1jwn075Et28IGteUL4qoiRzD5CmDxAm9ZJz+VZlJuorY7L6R19sQ2fao2HOscQPNkamPVOqOgjZWGbg6O9eg/dqiq5p4qsRULuEqEjPNZl7rInbh/yB/Ao3UE1NsHcqxAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -4175,7 +3776,6 @@ $ fnm &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span clas
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;URI의 구조이다.&lt;/p&gt;
 &lt;h3 id=&quot;SchemeProtocol&quot; style=&quot;position:relative;&quot;&gt;Scheme(Protocol)&lt;a href=&quot;#SchemeProtocol&quot; aria-label=&quot;SchemeProtocol permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
@@ -4203,14 +3803,7 @@ $ fnm &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span clas
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1252px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/0bb77694f845594a96af185452a2cc4e/4c530/2.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 77.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAABYlAAAWJQFJUiTwAAAC70lEQVQ4y0WS6W7zNhRE9SxBYlu2FpLiImq3LMnxkjhOG7Ro0Z9t0fd/gFNITr/+GJAAgeGZeyeoRU530KxVjlQ1661hs7OsQo0rDlTtkaKa8OVI1b6Sl8Pyvom+tTWEkWUb2+UMMtuQ6gJddWS+JtGWUCgilRFrQ2wNL5HkJVKEIiOUmrXQ7DLDVhrWqSErPbrybBJDIHWFcg2u7tF5Td7WmKqg7BuEK0hsTpTNKkitJzGeSFu2mSGUjo00RMaS5g7pPYHze5rhiPEdebnneLvSjCPtNGGbnrwbaKZXhssbfj/Qn8+4tmOdajbSshFmoY+0wfc1QVEPjO/vmLpFFyWn+xuHywXhKp53iqeNYJ1mxMbwPMdWmq027DJHKMxClbicyFoS5wl03tJOR3TZYquO4XzldPukHkaeNilPW0Eo51laVkn2TaYfp9Doeh6LY2tqkvpM0Ewj/elE2Y8044l2OjFe3ij7AVvvEa7GNC26rJcUMq+QrsI2LeXQ4/sDcTESNe+o8YugHgeKbsSUe9rpjK32C6mpWvy+JysadF2iCv8gNQ5dFaTOIcqKpL0Qd3eS/Qfm+EWwk4adesxj3uI6yVglCll4EmuXyJulLoZQPZQ4Q5QXhOWZqPsg7e+Iwx07G4o5Ql6TmHzZnmt7srLjePtAFuXSu7lzO22WT+Z7aGui+vrDSA6fi/z5F4LYep5DwSpWRMaxSjPWC5Fik2RE2RzTksw9Kxy7fE/U3BYzebijhk+y8SdE/8Hp1z8J8mHPLrPLxlTpeYkVO6lJ57I6u9RlqzSRnc064vYd0d9Rh88fZnp6GF5+/5tgm1me1inrWJFat1CFaYZw+UImvSPJPVE5kXQf/1MtZg/pb8Lzb38R7LRlFWu2yjzmIzUviVoWMfctyhvi5or4j2jW9DP6OOtr0bxdMXxy/eMfAl+3vJ5ulPWBWDpi4ZC6IFYOWfWI5kLizwh/Re9v6MM7sjyRlq+kxfGh8kjsJ4rxzr99AvHwN2iGlgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -4227,7 +3820,6 @@ $ fnm &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span clas
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;이렇게 생긴 파일이다. 맥에서는 &lt;code class=&quot;language-text&quot;&gt;/etc/hosts&lt;/code&gt; 경로에 있다. 사진과 같이 &lt;code class=&quot;language-text&quot;&gt;www.naver.com&lt;/code&gt; 주소를 적어두면 브라우저로 접속했을 때 localhost로 접속한 것과 같은 효과를 가진다. 회사에서 개발 환경 세팅을 할 경우, 또는 프록시 서버를 세팅할 경우 서버를 경유하기 위해, 또 프록시 서버 주소를 외부에 노출하지 않기 위해 적기도 한다.&lt;/p&gt;
 &lt;p&gt;Hosts 파일에도 존재하지 않는다면 이제 Local DNS Server에 요청을 보낸다. 이는 ISP(Internet Service Provider) DNS Server라고도 하는데, ISP는 인터넷에 접속하는 수단을 제공하는 주체를 가리키는 말이다. 그 주체는 영리를 목적으로 하는 사기업인 경우가 대다수이나 비영리 공동체가 주체인 경우도 있다. 우리나라로 따지면 KT, U+, SK브로드밴드 등이다.&lt;/p&gt;
@@ -4237,14 +3829,7 @@ $ fnm &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span clas
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1280px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/a83e3c18a6fe66e5cc330d4af4804943/bbbf7/3.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 58.599999999999994%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsTAAALEwEAmpwYAAABtklEQVQoz31SXWsTQRSdX66vRfRFCiLqQwtSDbRQEvMSg5Z+mGoxSlt8N2yyG8KabL5m987sKffOzrBZpBeGPTNz751zzx6FR6IsS1ke+7DW4aPTAVrtgWBjrOSoUFQrLBu4uS+KQvYv33Vx0PoiOM9zGGOgOLVsFPsGzKTebLVaYbPZwFqLf2mK8XiMOI6x3W5Djqra/XdcH8yIiKC1FhbuMVuTwAYi6sPgFic/7lEaIwdMnaqi4+4NPp/fhiJuzA1N1azdG+JTf+ge1RqWCKp3PcTZzztQxWI+nwsTjifPPuKg9VWwznMsl0sZmcg9+OJ1B2/f9wXTZg2rdTWyoTAKN+XIsgxRNMZkMhHtmD3fMdPZbIbpdIooikTDJEmwyDKpUywVJ3Eyj+QFZhtUagYN1+t1yHNTOP23WqMgkp3a9ZcNRe5nGOQFhXvWl1dRnfXO79G/uHOTsW1Yw6b3FosFtM4FP31+gjeVRqb2Jz37vf1TvDrsOY2nMWie1oxds4r/HneucPn9z441OHgK1vbvaCQ6J0mMonAkVNN33l9pmuLb1QV+/xruGNfpa5y9iMQdjP3dA4XpnFPtgwMiAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -4261,7 +3846,6 @@ $ fnm &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span clas
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;정리하자면,&lt;/p&gt;
 &lt;ul&gt;
@@ -4277,14 +3861,7 @@ $ fnm &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span clas
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 756px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/957030230ddcdb0ae691757e5e7a7131/68c0a/4.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 118.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAYCAYAAAD6S912AAAACXBIWXMAABYlAAAWJQFJUiTwAAADJElEQVQ4y5WV+28bRRDH/TeDhHhIqD/wGxK/oFJBojZSaWmSxoWmtUuDXSkNJk0NdtM6D9exz8SPix3n/Lzn7n6Q7+LL+REKK612527nO7Mz35mNsWAoNVnV5V5N/bv6P68b45qhwtMKIRVSBusEXC1CCwEjJtXlHCuaniLbgt0zeNWCjA6FTmBETZ29MhCb9kj59sUlfsuGB/kLltJHLKWO+CF9zK8VgSOuB41F0f1FWIALysKwFU9KLutvu2y87bK632O7pqZiPBui2CTKvmjVcapJSrv3GJUeQ/+QrgNtG+oj6DgwcCWadcCh+SdFO0fRfIMjrYiHvsvS/yDaOWp7t8k9v8n7l9/j1F6EVxu6wRlHmmQHaRLHazzMrrBznsAQ7VnAwF3HOKGyu0I9t+avg9qe/92TQYICQJv8cIc/zp+z3Uiw10sxEMZ0DAMvJtFwwOuCMkOKiBAwkIeiz7nXoCN1+sJYlJRI1sY7t4+SIlBXCk/CyAvMycltpIMt7EgBRGgTteADCifcB14pXKHCfTBEwIYZ/dhcZUgbrDNwLsauMvCgNoRqH84saJpjWVAZGpwMDXrOAmJPBOnZuLUUrvYY++QRQs+Q1lzixw6bJY/7+S5rhQErpRy3iim+PdxiQ3uHjIRsGtDu8Sp+g8z6F/z+4FOyT7/mq9VtPv/xJZ/c+Y2Pl7e4sb7Dl+l7fLa1zEfJ7/hmdxN3FpCwq0hE+zVeI4VspnHbeVIVm82K4klZkKxC/MjkbrnA7UqGpXKGZKM842G0Fi0LpddReg3VPIWWjt3UOdfqXGg1On83ME51OtUG7WqVlqZhnl2RmvlalijhoYQIpueC8MC1oG+M0w/CHQcbpAQp/PnvWZ7ti34gQI5GRIkzS6IJzeZ5GA1Bq4ksv4fTCtQ0qJ4gtRLKMqcJHemnses69VhJvEjiPfuZdvw++vpdRok4IhlHFg/mKuTaJyAENIeI1FO8Z484/ekOheWbdH9ZRSY2EIf7/x9w7L4sFxFvXkMhDwd51Lu/EPtZVM/474CLEjSbgA8/UouufNl4lZTBOpm+rKa4FwX8B7blMfw15HBcAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -4300,7 +3877,6 @@ $ fnm &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span clas
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;사진을 보자. D(Domain)NS는 URI로 결국 IP를 찾아오는 녀석인데, 이때 사용되는 것이 Domain이다. 즉 &lt;code class=&quot;language-text&quot;&gt;pozafly.com&lt;/code&gt; 까지 해당된다.&lt;/p&gt;
 &lt;h3 id=&quot;TLDTop-Level-Domain&quot; style=&quot;position:relative;&quot;&gt;TLD(Top Level Domain)&lt;a href=&quot;#TLDTop-Level-Domain&quot; aria-label=&quot;TLDTop Level Domain permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
@@ -4327,14 +3903,7 @@ $ fnm &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span clas
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1638px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/cffefd06d87cf4b0f214727aca7fe29d/f4b5f/5.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 51.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAABfElEQVQoz5WSDUvbYBSF8y/7t/YHHBaEMSlIt/lRG8XOlrZJalus64ebrBJa+75Js3z1I7F5hlGxONF54YV77j33vBw4SpIkrNdb+LVKSFDump/TmN2uS3sSpYvg1sWQJYZBP8WxP2IxKmGeXWFqvwjr33HUPYJ6mUXjN+5Jn/hSpNxU8NqNKfYdumKRDsNbn5asYgZX94KhYD6uM+pcM2oPCVoadknFa+rMOyZ2uUc0tO8FV++w9Kbl5MFydzLj6w8PzXRpilPOrDL6pIR+c4JhVRjbOslNnU6xTe/QwD7aRe7nmRzkkeUmsnBOJLwny9WeyYcvDXKVNjvaFtvVTT6dbvC58pGcvkXVyDE0dmgVGlwcaFjHe8jDb4wLeUSliSg+E1zMQhxL4FiSP7aL5/jM/DmhN8MWU6ScIizn/yy/FItarUY2m8XzvX8OVqsVyUvvQUdZJ8ZxnA4zmQyKoqCqaoqjKEo5j0evZVNZ//2RKIRgMBiwXC7fHe6/rj3xwXBwUBkAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -4351,7 +3920,6 @@ $ fnm &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span clas
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Origin은 &lt;code class=&quot;language-text&quot;&gt;Scheme&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;Host&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;Port&lt;/code&gt;를 모두 합친 것을 이야기한다. 사진의 &lt;code class=&quot;language-text&quot;&gt;/blog?sort=desc#here&lt;/code&gt; 에 해당하는 부분은 Origin이 아닌 것이다.&lt;/p&gt;
 &lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;https://www.pozafly.com&lt;/code&gt; 을 기준으로 출처인지 아닌지 아래 표로 알아보자.&lt;/p&gt;
@@ -4413,14 +3981,7 @@ $ fnm &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span clas
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 2000px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/4394efa62b8d5cbf992b8e6efb70a5f8/8b6bd/6.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 58.00000000000001%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAABYlAAAWJQFJUiTwAAACVklEQVQoz0WTy47aQBBF+fZkGBhmviXLbLLNLtKsotGAARu/wW13+/0CTlRNlFi6stUun763qr1Yvy1ZLles1y+s1mueVyu+PIme/62tVis2L2uWS6l9ttpsNry+vfG6eWWzemK9XvLl6xOLpmmR63a7U1Y18/XGNN9o+9E+3+53tDKkscFkmrwQGbphpOsHun6kbRqatmUYZxZxkjBNE/0wsHMOOPsjSXrmkikuKsfoAvcQsTumaNVQFDnpOaPQmqqqH3VWOWGUsMiyM9d55H6/cfJD66Dregpt0KaiNIaTm+CFZ4xqMEaTqZy6bmydJGy7DpUX1sji/f2Dy6XC6AY/CK0rcewHEbv9kePR5egE+FFGpVuqsrQfiztJNQwj4zRZI+n5wuLbj0++/wz59X4ijWOatqduWvYHl93eJQhCnG3A5z4mSw1KKaI4ReWasqwfKarawvwwYnHafzK3hts04PkhShU2jnNwrVz3xGHn8Xsb2uGoTBEnZ+tSQKasrAEBBmHMIkpSmrZjGCfCKKbtehtDIssG4jAJQzzfZ2hqSlOS5YUFdX3PMI7M8/XRQ4m82zkURWH7JkORaZmyZH/0+Ng6+H5AHEScwoS+rtFak14ytCmtERlI3w//h7Ld7sjzgr7v8fzALspL1/PZOgd7T09HAs9hrDRGHKrcxhWQAOU85rl+AD3PwxhjgXGSUtWNjSGRxakcjTx0OTgfdEWK1qU9dwJs2wdM6mWTWIDjONk/RXaTyUZxYiVAKZymmbEu6VTCtalsa0a7PjFfr1z/SjjS+z8dwXF5LqZ80gAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -4438,7 +3999,6 @@ $ fnm &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span clas
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;위 시진은 쿠팡의 페이지에서, 크롬 개발자 도구를 키고 Application 탭의 Cookie를 확인해본 것이다. 쿠팡 도메인의 쿠키 외 다른 사이트의 쿠키가 있는 것을 확인할 수 있다.&lt;/p&gt;
 &lt;p&gt;이를 &lt;code class=&quot;language-text&quot;&gt;서드파티 쿠키&lt;/code&gt; 라고 한다. 반대로 자신 사이트의 쿠키는 &lt;code class=&quot;language-text&quot;&gt;퍼스트파티 쿠키&lt;/code&gt;라고 한다. Domain 탭에 표기된 내용은, 네트워크 요청시 서버의 HTTP Response Header에 Set-Cookie의 값으로 Domain 옵션이 붙어서 온 결과이다. 위 사진 기준으로 쿠팡의 페이지에서 보고 있는 쿠키이기 때문에, Domain의 &lt;code class=&quot;language-text&quot;&gt;.coupang.com&lt;/code&gt;은 쿠팡의 퍼스트파티 쿠키다. 그리고 &lt;code class=&quot;language-text&quot;&gt;.criteo.com&lt;/code&gt;은 서드파티 쿠키다. 서드파티 쿠키를 구분하는 것은 기본적으로, Domain 옵션으로 판단한다.&lt;/p&gt;
@@ -4452,14 +4012,7 @@ $ fnm &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span clas
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 978px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/b8284728cff43da0ce83eaef812d0ec2/9b76f/7.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 48.400000000000006%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAABQ0lEQVQoz42S3UvCYBTG938HXXUV9Bd0F9hFgd6Ew1ApBClCmtmHCbJ50eaMtphuur3b+wtnOpsaPnA4nJdznvPxvAo7IKVc+JxtRL95Syi7ySQLJ4AI5NwkIoFQQpSsNZV7EKY5ic/w6YL+3Rl2+xw5NrgxQk7rXYodl7Ega7wXoRTMvg0m9guh2wcxwfYlr8MA3YnSaReEGaOSFu+0ZYdwdb05xKo+y10OorAPkvBPGMmMPC+iMp1OsSwL27bxPA/HcVLveWP8iUfw0cTXK3z1yoz7KgP9AbXVptXrEs5m+L6PECKbcDQa0Wg0KJVKNJtNNE2jWq1SrdW5rak8Xx/TUY+4Lx7QuTqkXClwclmiUFGxLBPTNAmCYHPlOI63qJMQu+9IR0O6HXA0PodvPOoDjNFw+8rrR10pnHv77/PnRfkBjk8DCSqjPpcAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -4475,7 +4028,6 @@ $ fnm &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span clas
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;TLD는 우리가 위에서 살펴보았듯 &lt;code class=&quot;language-text&quot;&gt;.com&lt;/code&gt; 혹은 &lt;code class=&quot;language-text&quot;&gt;.org&lt;/code&gt;과 같은 최상위 레벨의 도메인이었다. 그렇다면 eTLD는 뭘까?&lt;/p&gt;
 &lt;p&gt;eTLD의 e는 &lt;em&gt;effective&lt;/em&gt;다. 유효하다라는 뜻을 가지고 있다. 기존 TLD 같은 경우는 위에서 살펴보았듯 &lt;code class=&quot;language-text&quot;&gt;.&lt;/code&gt;  하나만으로 구분된다. 하지만, &lt;code class=&quot;language-text&quot;&gt;.github.io&lt;/code&gt; 나 &lt;code class=&quot;language-text&quot;&gt;.co.kr&lt;/code&gt;과 같이 2개의 &lt;code class=&quot;language-text&quot;&gt;.&lt;/code&gt; 이 TLD가 되는 녀석들이 생겨나면서 ‘effective’ 를 붙여 TLD를 표시하게 되었다. 이를 eTLD라고 한다. &lt;a href=&quot;https://publicsuffix.org/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;PUBLIC SUFFIX LIST&lt;/a&gt;에서 단어 2개가 붙은 TLD 목록을 확인할 수 있다.&lt;/p&gt;
@@ -4484,14 +4036,7 @@ $ fnm &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span clas
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 916px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/3806e7202d551a3ecb0d5dc880f2179a/eb088/8.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 48.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAABbElEQVQoz42SXUsCQRSG92d30U0/ICKSoqvuCjI1iqgIi7qxD9cNiaCP1ezb1jV1c0d3Z+aJVbYsDTswMBfnPPO+7xyDEaW1ZnxpRrUZv0ExTActuu82QaNM2KygVcBjS3LjCO7eQwIVQ/X/gLJ+yfXRAnZuCae4jBQuG5cei/tXrJhvNIJxwBgWN2gJoYcWDkiB1oquAkfARxjH0rc9OGfEqoZO/w10BOuN9hV15LCjQZXG36FHIUVSOr17pDAa80NNqDRqxI9EYCMIAqrVKq7r0m63abY+cO9Nuvc7tMvb1C6SeJUsh+cmm8en7Fnn7BYsdswCpacHhO/jC/Gt0PM8stks6XSa9UyGvGmR20pQ3JoitzbJcXKCk+0ZppdXmF1NkkilmE9nmEtlOMifUn15pua6X7a/LCulkFL28/JfUc4ZyrWgbiFe8xTtK6xyhYJdolAqkb+1qTUbP/a2Z/l3qMPrO2a9B2CRwk9YYPyVUfjxeAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -4507,7 +4052,6 @@ $ fnm &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span clas
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;헷갈리는 &lt;code class=&quot;language-text&quot;&gt;github.io&lt;/code&gt; 라는 eTLD는 위와 같이 평가한다. 그리고 eTLD + 1은 한칸 앞의 pozafly까지 포함한다.&lt;/p&gt;
 &lt;p&gt;이제 &lt;code class=&quot;language-text&quot;&gt;https://www.pozafly.com&lt;/code&gt; 을 기준으로 사이트인지 아닌지 아래 표로 알아보자.&lt;/p&gt;
@@ -5001,14 +4545,7 @@ console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span cl
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 760px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/5a90792f32e7004f26965a745cabcda4/efd7b/prototype1.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 77.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAABYlAAAWJQFJUiTwAAACPElEQVQ4y5WU127cMBBF/f/flKc8GIZLXAA3tVWhtKqkqGZJq90TiI4bYBvOAPdBAOdo5s6QR/v9nlRkBF5Ekhb40ZZIJDyNIy9xOBx+rKM1oZISx7UJRcKVPzEvC8uyYzfPzPPMsuxfwWsBq74FrgeKoiRPC8qsQIQxspSUleL+/p40TQ34J3G0Utfo+wEVVNSBQouaNtHoskeIDM/b4LoeUiq01tR1Tdd1n1f4BuyRKzBU1JFCehU6UdR6YuMHWJaF4zjc3d1h2w5aN99X2LYdKpLoFRgqKqdARQq91RR+RlU1CJEYC4IgZJumiDhGiJg4jsnzwlj3seWwMu3q6LntOpSooiNPS3w/wNts8DzPWBCGIeM4vmqapo8td12PDCuaWFMLidJPhJEw7T1alvHuP4fSo1ON8ipkpKi2mm2UEAlBnldmyuswlFJG6/llWdjtdh929RU4DANd2T4PZVUg6dKWsRtp2pkk2WLbNo7jmgEJ86PCgF+AHypc16ArGwOSboHclLRxTd/0aD2S5zmObfP48MDjo0UURUgpTSGfAvtxYuhm6qSl8mtU3NDkPcO4o306oJoOxw+4tx0s2yZJErOXXwKHIqO9s2lvXXprQ7Nx2VycEl1dssu2DCJgybdGh3/Xb/XvJf/Nw/VrmWmuL9DWmpTTuRGDJ+jjhCbOyOwH7PNTUtdGnR+zb7+e+JG56MDk2wwnxyy3l4wXp0yrbs4Yr/8wXJ6Q/f5Fd3HM080Zyzyxf/dQvNdftLt6w3Nmkn8AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -5024,7 +4561,6 @@ console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span cl
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;사진에 보면 하단에 &lt;code class=&quot;language-text&quot;&gt;get&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;set&lt;/code&gt; 키워드로 &lt;code class=&quot;language-text&quot;&gt;__proto__&lt;/code&gt; 를 가리키고 있다. getter / setter이므로, &lt;code class=&quot;language-text&quot;&gt;__proto__&lt;/code&gt;에 접근할 경우나 재할당 할 경우 보이지는 않지만 내부적으로 어떤 조치를 취하고 있음을 알 수 있다. 그러면 이녀석을 왜 사용하고 있을까?&lt;/p&gt;
 &lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;[[Prototype]]&lt;/code&gt; 내부 슬롯의 값, 즉 프로토타입에 접근하기 위해 접근자 프로퍼티를 사용하는 이유는 상호 참조에 의해 프로토타입 체인이 생성되는 것을 방지하기 위해서다.&lt;/p&gt;
@@ -5168,14 +4704,7 @@ dog&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 2000px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/8232f38f0411a4dabe68c64b8cc7472d/1a2d7/prototype2.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 48.800000000000004%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAACTElEQVQoz1WSWU8iURCF+2f6T+bBH2Am8WHWmDgSh9kyLnFhRBkxMoioKArNKhBBBWTpDZruppvFb0KDk8x9uLmpOvdU1akjMDuj0RBFatBqPFGvVnmq1eioMuPx2M0/Pz9PccMhjt3Hse3/cqPRyH0Lw8HADUxAlVIaWZaRpDa6rtOsV9DU5ktNF6PIEpqqoGkq3Y5G3zSxDAPLNDCNHoLe7WAaBobRI5c8JbD2mVT8hNvMGfn0Ke1WedoFYBk9ul0dSdFcws6EWJGRZIlGs4GqqgiGrtNVFRxDp3AR5HJrlWQsyLH/B3tbHh4q4nTc2ci6UqecDmOZFgPHdjuUpTaSJLkyCJOrXMhxlC2ychjCEzggkfhD4ucyoY0VKnd5DL3jkvWtDqH114S88xRvAjP9xq6Wd9kUhUwKQddUekYPRVP5cp1hPhRm3bdKfOEVWc976q02tYd797Oht7kKfCN77ENp3jNwHGzLRFck7mJBDr5/QrD7fSY69jsqoXiUzeBbDvyL7Hs+EHz3hurjI41a1SW01DaZsyVyh8tkL9ZoFkQMTSYfi3Cxt8WJbxOhp3fdpVimSSK2y+Wpl5voEV+X1jnamKOY2sSxp/aoRX6T/LWAJm6T3FlEqZTceDJyjt+7Q2T/DGEieN/SsIwnxOt94ufbiGKUZe9HxOgcjVr4ZR+0Cim657uMr3300hGG43+O4iacILwTmhCOMfVHOkqRcumKSimO1Mxzm4tSq6Rw7N7UM5ORuwpi2M9lNEgqfT0z8zSZiIdJJSL8BbD20pd6I9nnAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -5193,7 +4722,6 @@ dog&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&amp;#x3C;네이버 지식 백과 - 맥락&gt;&lt;/p&gt;
 &lt;p&gt;이렇게, 프로토타입(원형)은 현실에 존재하는 것 중 가장 좋은 본보기를 원형(prototype)으로 선택한다. 클래스 기반 프로그래밍과 접근 방식이 다르다. 먼저 분류하는 것이 아니라 상황과 맥락 관점에 따라 그 중에 가장 좋은 것을 원형으로 삼는다. 원형에서 파악된 특징은 객체에 전달된다.&lt;/p&gt;
@@ -5264,14 +4792,7 @@ String&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span cla
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 545px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/8777e58593e15d2b8520249052ba6463/f2ede/1.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 92.19999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAASCAYAAABb0P4QAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEFElEQVQ4y3WU+09URxTH+Rv6U3/pI6bPGLWiVEGCUEERsGCMghr7SmqbptUmxlrFGsUKoRrUUE0LKqyIK7uLy3OlaBUhrY1iFCoPWwF5LOyuKLB0H/cx99PcYbGxTU8y98ycO+dzv2fm5EaFQiEC0wF8I16eeB7jcXvwjfp4PDYu18FAEHNPMBTGNA0YcI/inZxiyOvDr2hP4+beKE3RGHw8TM0dFzV3XbT33eG3/naqb9fT2NnMk+kJVFXH7/PS77TS57Ty+4Vy7lnL6Dx3ip4qC39YzzDe1YGiC6IQsP/qYV46tpi5J5eTbFlPwpksXv9+Ga8Ux2K7WysVuLs7cSQvwpkeR9PmdOqyEuVoyEmlMmYOnWUn0YEo87m7+RAvFi1i7onlvP1DKrEl6Sz+cRVvFMdztr1KAsf+7MG1OZ3arEQaN66m+eNsmj5cR83aJJxpcdx3VMqyJTD3cgFLStNYfW4Ty0rXkHA6i4zzW1hamobl1iywl/rsVKrXxEvv+mAtdTmruZiViG1lDD3/BprqEsvWEleSQUr5BjKt77O0JI2KdpsEjvZ20bBhFc6MeOmbt+bg2pKJM3M5jpTF9FywRIACdlzaz3OFb/LysRjmFScy/0QSc44v4fnD8yi/aZ1ReL8LZ1os9qQFOFZE40iOxv7OQuwrorEufY3uytORM9TA1lFLdtUnbLJ9xsGfi9jzUz4bqz7lPfvn8sZN8w0O8Gv+XtoO7KQtbxdtB7+m9cBXtObtoiV3OwMtl1FNoK7rGJqBxGtixsv5TExXdYQQBEJh/IrOtCYICPhLNwgKCOjgVwX+UBhN04gyv25gIAwdw5wbIQwjKOdmzDRdCIKBgJyH/RM8cg8x4R1lfHQY/7hXEtBVgqEQUYZhYEQS1ckrTD3YxVTfHvTgAxkz3xlC8GhymvqOYapv9eG40Yv9xn0qW+9R9UsPtpv99I5NoCmKCRQyUShu/P27CYemUMJTaBOXMNQxqdRUcO/hGPP3XGDhXhuphxtIKawjKb+GuLxqXthm4eTlDpPyD1Cd7iAwcpRZC/Z9hPLEFVkJeod9pBTWk1xQy7rjTWQddZF+pJ53ixqJ2WfnbFuPPHxZskwRBlMD3xL0lBHyVjA5UIAQPFVoApMKakk4VEPm0UusKXKR+l09KwvrWJBrw9I6C5TnNJOmaSGmPTX4x6oR+szfRUQq6B7ySqBZas6JZtYXN0l1aUca5DGUXe9+VqGqqoyMuBn1+PE8CvDw4SDhcDhSsiGBsXlOqSZ6n4Pob+y8lWuTsFd3nudUS9ezQNObfaSqZj8pKIoi+8+IIPvcPnZUXOeLsqtst1zjS0sL28qvsr38GltLr9B4+wGI2T40DP7XZFsZCF0HQ5NJ/xlm2+mavIe/AYUpmNQJxA4BAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -5287,7 +4808,6 @@ String&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span cla
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;JavaScript 엔진에는 &lt;strong&gt;Memory Heap&lt;/strong&gt;과 &lt;strong&gt;Call Stack&lt;/strong&gt;이 있다.&lt;/p&gt;
 &lt;ul&gt;
@@ -5299,14 +4819,7 @@ String&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span cla
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1120px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/a5fc715924d07c4f2abad73500eec05b/1b198/2.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 41.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAIAAAB2/0i6AAAACXBIWXMAAAsTAAALEwEAmpwYAAABhUlEQVQY003QS2+jMAAEYP5ThCE0afOgYGPAYAPG5mUIbQJ50KSK2uP+9FUq7arfYTSHOY3mui78BSEUcZdwJ629pPIjjpjEaePREkEPuu5jACF0f2iU0qZpTqfTNE11XRdFcf243a6f72/7hKU+9p1XaG/cJOLH4UIptW0bQkgIYYxpYRRUbT4M4zCMpeJC8JyLuq7zXAopKIs327UNV6lCtICBH/CMY+y1bZvnuUYIgRA6/xSVRIG9XJuMk/3+XQpZHog82x5bBeKl+8b9V6zG9Prx2fe95vu+ZT0ppXb9zgBGUeXqwLM62J3EYdznWVEdQ5yuaJhhGLLd+mVrecgfhqFpGi0IAozx+Xy+3+8YYyGEUopnuWratmtDP8o6HMqVY3v21paXV5qGEYmTJJFSPg6Lf0RRFEdU9WV7SVKF3iY5Hoe6auoxbr8Ra5ysd8sTnv4Uh1vZqq7rOm02mwEAdF3/nwAAwzAAAJZlLRaL+XxuAHODnp43j6ID3TTN5XJpGMZf5VeZlFC00S4AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -5323,7 +4836,6 @@ String&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span cla
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;이 그림에서도 브라우저 환경과 비슷하다. Node.js는 비동기 IO를 지원하기 위해 &lt;code class=&quot;language-text&quot;&gt;libuv&lt;/code&gt; 라이브러리를 사용하고, libuv에서 Event Loop를 제공한다. 자바스크립트 엔진은 비동기 작업을 위해 Node.js API를 호출하고, 이때 넘겨진 콜백은 libuv의 Event Loop를 통해 스케줄되고 실행된다.&lt;/p&gt;
 &lt;p&gt;확실한 것은, 자바스크립트가 ‘단일 스레드’ 기반의 언어라는 것은, ‘자바스크립트 엔진이 단일 Call Stack을 사용한다’는 관점에서만 사실이다. &lt;strong&gt;실제 자바스크립트가 실행되는 환경(브라우저, Node.js)에서는 주로 여러 개의 스레드가 사용&lt;/strong&gt;되고, 이런 구동 환경이 Call Stack을 사용하는 자바스크립트 엔진과 상호 연동하기 위해 사용하는 장치가 ‘이벤트 루프’인 것이다. 즉, 브라우저, Node.js환경은 자바스크립트 엔진의 Wrapper 역할을 하고 있다.&lt;/p&gt;
@@ -5334,14 +4846,7 @@ String&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span cla
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1024px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/2869d8553ce937e3cdb8d399895479eb/42a19/3.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 56.199999999999996%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAAsTAAALEwEAmpwYAAABhklEQVQoz32T63KCMBSEeQ8x5EYCKFVARUFop9P3f6Xt7LFYdTr9sYSE8GXPJYlSGq9ar7On9ywziLFEnsen0RiH1Wp9388x4eNR6gG2bHIuxzCMOJ8HzPMHrtcZl8uIpmnhfZADF2iSaQfjIvJYQdscSnv5mP4ckKZK3JxOZxFB1PHYYxwn9P1FgNwnQO89dt0eTdegrreIIcJoA2ctnLECpYtpesfhcMIwXAXCkY7LciNAhi9Aaz3qdg8fI0Lu4a2FNRbeOpFSN+ACatsDxvEG45xOmQKmQmuLxBmPuqixqTuEYiuhrlIlIaQrJUkPoZCfCFjCpOP9vr2Hei8KHRTVFtXmDWVZIXgvoWpjYUMAU1JVG3x+fglsmmZ03RFN04lrgnkY18QhH9p5aGvh3S1Ma4x8ND6Hc07ahK5YDOax788ypwhmFM9tk96ULlraKM1kM6tMF6wynfBnHshivPZw8ldjP4o5KooKu10jDlkMVpTrT/37m8P/gctNoSM2+Gsjv96ub0PzP7ZFVkmUAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -5358,7 +4863,6 @@ String&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span cla
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;위 코드를 실행하면 브라우저 프로세스가 죽어버린다. console 창에 ‘Will it be print?’ 라는 문장은 나타나지 않을 것이다. 다만, ‘Running…1234837’ 이라는 문구만 console에 나타난다. 그리고 브라우저가 동작하지 않는다는 alert이 뜬다.&lt;/p&gt;
 &lt;br/&gt;
@@ -5451,14 +4955,7 @@ button&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span cla
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/19fc712db5173aee0cbafd95af15e61a/0eb09/10.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 34.400000000000006%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAABYklEQVQoz12P2Y6bQBQF/f+flUhxNI7GC7bxEmxo6MUYmsVbwIGKaGtGoxzpXN2nUp1R86fhHtXck5rEaOJYEkuFVNq1ri9YW3C93RCJpCwKhvR9P1z+z6htWi6qolIFRVWitcGYE9qcyHPL5XJ10PvjQWFzIlWii78ONkA/Sv+Cj57PJ4lWRLFg7W/Y7vec0pSyqkikcrahiAmOEelJspTwffey6fqX44fnAB65p+uxuSVVivh4QEYRSghkGKJjQaY1ZXbmsN2y99cEv3eIMOQT1zb0XfcydMpAYzP0YorcrBHeHOWvCBdTkpWH2qwwW59zsMP6S84/vmEnY9rVnMab0ikBReY4n0BuNSZJ0LYiNik6t8hz7mpsiUwz8svVWTyE4CYE9TGk3u9pup7enoepX4B1iZm+Ib0Zh8mYePaL4+Qnh7cxcvGO9mYob8o1CsiCHdFi5syVvySZv9Oq2E3+B4ptDi3Ha3SfAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -5473,7 +4970,6 @@ button&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span cla
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;내부에는 &lt;code class=&quot;language-text&quot;&gt;[[PromiseState]]&lt;/code&gt;와 &lt;code class=&quot;language-text&quot;&gt;[[PromiseResult]]&lt;/code&gt; 라는것이 있다. PromiseState는 상태값을 나타낸다. 아래의 3가지 상태가 있다.&lt;/p&gt;
 &lt;ul&gt;
@@ -5486,14 +4982,7 @@ button&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span cla
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 712px; &quot;
     &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/621d530ab3f941c8e2d34facc52e40e6/c62b2/10.1.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
+      &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
     style=&quot;padding-bottom: 49.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAABpklEQVQoz32R2a7aMBRF+f+/61PbCxdI4tkOGXAGk2FVCb1IVWktHfnIso/3XvvwSD1DUdGGG9oqhMgJwSFlS160hHCnrjvOWYPzLX3XUNclhcjRRnOzikFcqb2l7yOHaZrxJvD5eeZ8ueKcx4cSrT3aBITUxH5kEJqkJd+uA0VYYJ15TDPLvLBME8uysqwrB4AxjVjrUErjvacoBNoY2rYlz3NOxyNOSdbpwTBOTNPCv9bhq2nvdwohUVqT5QVSqv2DqqoZrKE/HUlSMp4+WB/p+Whd/x64/j6MXYex9qV0qxBKqrrh0XUMpw/mYWC7/786pDHRZQ2Vq1DG7iq9LxEykuUdPvTUTeKSRayLxBi5VTVFITE+0BnD3Tmqpn0qnOeZsizJsgwhJCEEyvKG9wFrPc4HUteTlOCi7nxXT2tbmMuyvJRt/YvhMD5DyfNi3zeVG8OqqvZQLuczXitSmhjGeYP3NpDd8hfDtr0jpEIqTZblFELsHOu6obeW+PMHKc94FNk+7h2/P0OJHcZYrHPPhLXe7W+8phhJ1wvrPL+0ret7lb8ACDT96Kr3kjUAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
@@ -5509,7 +4998,6 @@ button&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span cla
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
-  &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;만약, resolve 되었다면, Promise는 &lt;code class=&quot;language-text&quot;&gt;.then()&lt;/code&gt; 구문을 사용해 이어서 다른 작업을 할 수 있다. &lt;code class=&quot;language-text&quot;&gt;.then()&lt;/code&gt; 인자로 다시 콜백 함수를 받고, 콜백 함수의 인자는 resolve에 매개변수로 넘겨주었던 데이터가 넘어온다.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getImage&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
