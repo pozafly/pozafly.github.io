@@ -1,18 +1,3 @@
-- name: Ghost
-  avatar: avatars/ghost.png
-  bio: The professional publishing platform
-  github: TryGhost
-  instagram: ghost
-  website: https://ghost.org/
-  location: San Francisco
-- name: Another Author
-  avatar: avatars/ghost.png
-  bio: This is another test author with a profile background image
-  twitter: TryGhost
-  facebook: ghost
-  website: https://ghost.org/
-  location: San Francisco
-  profile_image: img/vue/vue-jet.jpeg
 - name: Pozafly
   avatar: img/common/pozafly.png
   bio: Frontend Developer

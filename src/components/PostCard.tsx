@@ -11,7 +11,6 @@ import styled from '@emotion/styled';
 
 import { colors } from '../styles/colors';
 import type { PageContext } from '../templates/post';
-// import { AuthorList } from './AuthorList';
 import config from '../website-config';
 
 export type PostCardProps = {
@@ -79,28 +78,17 @@ export function PostCard({
           css={PostCardContentLink}
           to={post.fields.slug}
         >
-          <PostCardHeader className="post-card-header">
+          <header>
             <PostCardTitle className="post-card-title">
               {post.frontmatter.title}
             </PostCardTitle>
-          </PostCardHeader>
+          </header>
           <PostCardExcerpt className="post-card-excerpt">
             <p>{post.frontmatter.excerpt || post.excerpt}</p>
           </PostCardExcerpt>
         </Link>
         <PostCardMeta className="post-card-meta">
-          {/* <AuthorList authors={post.frontmatter.author} tooltip="small" /> */}
           <PostCardBylineContent className="post-card-byline-content">
-            {/* <span>
-              {post.frontmatter.author.map((author, index) => (
-                <React.Fragment key={author.name}>
-                  <Link to={`/author/${kebabCase(author.name)}/`}>
-                    {author.name}
-                  </Link>
-                  {post.frontmatter.author.length - 1 > index && ', '}
-                </React.Fragment>
-              ))}
-            </span> */}
             <span className="post-card-byline-date">
               <time dateTime={datetime}>{displayDatetime}</time>{' '}
               <span className="bull">&bull;</span>{' '}
@@ -171,10 +159,6 @@ const PostCardLarge = css`
     .post-card-content-link {
     }
 
-    .post-card-meta {
-      /* padding: 0 0 0 40px; */
-    }
-
     .post-card-excerpt p {
       margin-bottom: 1.5em;
       font-size: 1.8rem;
@@ -220,7 +204,6 @@ const PostCardContent = styled.div`
 const PostCardContentLink = css`
   position: relative;
   display: block;
-  /* color: var(--darkgrey); */
   color: ${colors.darkgrey};
 
   :hover {
@@ -297,10 +280,6 @@ const PostCardBylineContent = styled.div`
   }
 `;
 
-const PostCardHeader = styled.header`
-  /* margin: 15px 0 0; */
-`;
-
 export const StaticAvatar = css`
   display: block;
   overflow: hidden;
@@ -311,7 +290,6 @@ export const StaticAvatar = css`
   border-radius: 100%;
 
   @media (prefers-color-scheme: dark) {
-    /* border-color: color(var(--darkgrey) l(+2%)); */
     border-color: ${lighten('0.02', colors.darkgrey)};
   }
 `;
@@ -320,7 +298,6 @@ export const AuthorProfileImage = css`
   display: block;
   width: 100%;
   height: 100%;
-  /* background: color(var(--lightgrey) l(+10%)); */
   background: ${lighten('0.1', colors.lightgrey)};
   border-radius: 100%;
   object-fit: cover;

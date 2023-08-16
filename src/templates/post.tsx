@@ -19,8 +19,8 @@ import IndexLayout from '../layouts';
 import { colors } from '../styles/colors';
 import { inner, outer, SiteMain } from '../styles/shared';
 import config from '../website-config';
-import { AuthorList } from '../components/AuthorList';
 import Giscus from '../components/Giscus';
+import { AuthorItem } from '../components/AuthorItem';
 
 export type Author = {
   name: string;
@@ -223,13 +223,16 @@ function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
                 </PostFullCustomExcerpt>
                 <PostFullByline className="post-full-byline">
                   <section className="post-full-byline-content">
-                    <AuthorList
-                      authors={post.frontmatter.author}
-                      tooltip="large"
-                    />
+                    <AuthorListUl className="author-list">
+                      <AuthorItem
+                        key={post.frontmatter.author[0].name}
+                        author={post.frontmatter.author[0]}
+                      />
+                    </AuthorListUl>
+
                     <section className="post-full-byline-meta">
                       <h4 className="author-name">
-                        {post.frontmatter.author.map(author => (
+                        {post.frontmatter.author.map((author) => (
                           <Link
                             key={author.name}
                             to={'/about'}
@@ -304,7 +307,6 @@ const PostTemplate = css`
 
   @media (prefers-color-scheme: dark) {
     .site-main {
-      /* background: var(--darkmode); */
       background: ${colors.darkmode};
     }
   }
@@ -357,6 +359,14 @@ const PostFullTags = styled.section`
   font-weight: 600;
 `;
 
+export const AuthorListUl = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 0 0 4px;
+  padding: 0;
+  list-style: none;
+`;
+
 const PostFullCustomExcerpt = styled.p`
   margin: 20px 0 0;
   color: var(--midgrey);
@@ -394,7 +404,6 @@ const PostFullByline = styled.div`
 
   .post-full-byline-meta {
     margin: 2px 0 0;
-    /* color: color(var(--midgrey) l(+10%)); */
     color: #768086;
     font-size: 1.4rem;
     line-height: 1.2em;
@@ -423,7 +432,6 @@ const PostFullByline = styled.div`
   }
 
   @media (prefers-color-scheme: dark) {
-    /* border-top-color: color(var(--darkmode) l(+15%)); */
     border-top-color: ${lighten('0.15', colors.darkmode)};
 
     .post-full-byline-meta h4 a {
