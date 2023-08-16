@@ -544,6 +544,10 @@ function IndexLayout(props: IndexProps) {
               }
             }
           }
+
+          .medium-zoom-overlay {
+            backdrop-filter: blur(8px);
+          }
         `}
       />
       {props.children}

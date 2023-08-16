@@ -52,6 +52,14 @@ module.exports = {
             options: {
               maxWidth: 2000,
               quality: 100,
+              linkImagesToOriginal: false,
+            },
+          },
+          {
+            resolve: `gatsby-remark-images-medium-zoom`, // Important!
+            options: {
+              zIndex: 1001,
+              background: 'rgba(255, 255, 255, 0.4)',
             },
           },
           {
@@ -97,7 +105,7 @@ module.exports = {
         feeds: [
           {
             serialize: ({ query: { site, allMarkdownRemark } }) =>
-              allMarkdownRemark.edges.map(edge => ({
+              allMarkdownRemark.edges.map((edge) => ({
                 ...edge.node.frontmatter,
                 description: edge.node.excerpt,
                 date: edge.node.frontmatter.date,

@@ -314,7 +314,7 @@ const PostTemplate = css`
 
 export const PostFull = css`
   position: relative;
-  z-index: 50;
+  /* z-index: 50; */
 `;
 
 export const NoImage = css`
