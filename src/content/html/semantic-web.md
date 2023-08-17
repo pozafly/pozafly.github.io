@@ -3,7 +3,7 @@ layout: post
 title: 'Semantic Web에 대해 더 깊이 알아보기'
 author: [Pozafly]
 tags: [HTML, SEO, Semantic Web]
-image: ../img/html/html.jpg
+image: ../img/html/semantic-web/main.jpg
 date: '2021-05-29T12:13:47.149Z'
 draft: false
 excerpt: Semantic Tag를 실제로 적용해보면서 고민했던 것과 팁을 함께 내용에 적어두었다. Semantic Tag에 대한 정의는 많지만 실제로 어떤 기준으로 적용해야할지 고민한다면 이 글이 도움이 될 수 있겠다.
@@ -67,7 +67,7 @@ Semantic은 사전적으로 '**의미의**' 라는 뜻을 가진 단어다.
 
 ## 대표적인 Semantic Tag
 
-![image](https://user-images.githubusercontent.com/59427983/120062107-5432a080-c09b-11eb-933e-45d4a22e929f.png)
+![semantic-tags](../img/html/semantic-web/semantic-tags.png)
 
 - `<header>` : 웹 페이지 도입부. 주로 페이지 상단에 웹 사이트 로고와 네비게이션 링크를 감싸는 것에 사용.
 - `<nav>` : 사이트 내 링크를 모아둔 네비게이션을 만드는 태그. 웹 사이트의 동선을 생성해준다. 또한 상위 페이지에서 하위 페이지로 유도하는 역할.

@@ -3,7 +3,7 @@ layout: post
 title: '(2) MySQL 설계 & SpringBoot init'
 author: [Pozafly]
 tags: [Tripllo 제작기, MySQL, SpringBoot]
-image: ../img/tripllo/tripllo2.png
+image: ../img/tripllo/(2)mysql-design-spring-boot/main.png
 date: '2021-02-03T12:03:47.149Z'
 draft: false
 excerpt: Tripllo 백엔드 세팅을 해보자. Workbench로 DB를 설계하고 MySQL, MyBatis와 SpringBoot를 연동한다.
@@ -29,7 +29,7 @@ excerpt: Tripllo 백엔드 세팅을 해보자. Workbench로 DB를 설계하고 
 
 첫 설계는 이렇다.
 
-<img width="922" alt="스크린샷 2021-02-04 오전 9 40 57" src="https://user-images.githubusercontent.com/59427983/106828257-2d57f500-66cd-11eb-94bb-f1736bf8db4c.png">
+![db-design](<../img/tripllo/(2)mysql-design-spring-boot/db-design.png>)
 
 user는 id를 pk로 각 사람을 구분하고, user는 여러개의 board를 가질 수 있다. board -> list -> card 로 이어지는 1:N 관계가 가장 기본이 되는 뼈대라고 생각했다. comment는 user는 여러개의 comment를 가질 수 있고, card또한 여러개의 comment를 가질 수 있다. 그리고 card의 정보가 다양할 것이라고 생각해서 card_detail 이라는 테이블을 한개 더 생성했다. 지금은 결국 card_detail이 없어지고 card 에 포함이 된 상태이다.
 
@@ -43,11 +43,11 @@ user는 id를 pk로 각 사람을 구분하고, user는 여러개의 board를 �
 
 Reverse Engineer는 DB를 도식화 해서 보기 좋고, 관계를 한눈에 파악하기 쉬워서 개발하면서 몇번이고 들어가서 보기 좋았던 기억이라 간략하게 기록해두기로 한다.
 
-![스크린샷 2021-02-04 오전 10 08 43](https://user-images.githubusercontent.com/59427983/106830274-0f8c8f00-66d1-11eb-8e03-32f2bd566bf4.png)
+![mysql-workbench1](<../img/tripllo/(2)mysql-design-spring-boot/mysql-workbench1.png>)
 
 스키마가 생성되어있는 DB에서 상단탭 -> Database -> Reverse Engineer.. 를 클릭하면 Connection 설정 탭이 나온다. 자신의 로컬 환경에 맞는 connection 정보를 세팅 후(기존에 connection이 되어있으면 자동으로 된다.) Continue를 누르면
 
-![image](https://user-images.githubusercontent.com/59427983/106830391-5da19280-66d1-11eb-9af0-d7da050fbd3f.png)
+![mysql-workbench2](<../img/tripllo/(2)mysql-design-spring-boot/mysql-workbench2.png>)
 
 다음과 같이 스키마를 선택할 수 있는 화면이 나온다. 해당 스키마를 선택해주고 Continue. 그리고 Import MySQL Table Objects 가 나오는데 우리는 filter 할 필요 없이 전부를 ERD 화면에 불러올 것이기 때문에 아무것도 하지 않고 Execute를 눌러주자. 그러면 이 포스팅의 가장 상단에 나와있는 그림이 우리를 맞이할 것이다.
 
@@ -59,15 +59,15 @@ Reverse Engineer는 DB를 도식화 해서 보기 좋고, 관계를 한눈에 �
 
 중요한 것은 여기서 Diagram을 다시 나의 DB에 적용시키는 것인데, 아래 사진과 같이 이번엔 Reverse Enginner가 아니라 `Forward Engineer`를 눌러서 적용시켜줄 수 있다.
 
-![image](https://user-images.githubusercontent.com/59427983/106830780-136ce100-66d2-11eb-81cc-f8518bf9483e.png)
+![mysql-workbench3](<../img/tripllo/(2)mysql-design-spring-boot/mysql-workbench3.png>)
 
 그러면 아까와 같은 Connection Options 화면이 나오고, 설정 후,
 
-![image](https://user-images.githubusercontent.com/59427983/106831934-21bbfc80-66d4-11eb-8b04-238e509c439f.png)
+![mysql-workbench4](<../img/tripllo/(2)mysql-design-spring-boot/mysql-workbench4.png>)
 
 Create Options를 설정 할 수 있다. `DROP objects bofore each CREATED object`는 기존에 있던 내 테이블의 DB자료를 몽땅 `delete cascade` 후 새로운 테이블을 다시 만들어주는 옵션이고, `Include model attached scripts` 는 스크립트를 확인 후 적용시키는 옵션이다. 원하는 옵션을 체크 후 Continue. 그리고 다음도 그냥 Continue.
 
-![image](https://user-images.githubusercontent.com/59427983/106832254-a9a20680-66d4-11eb-8099-1751fbee205f.png)
+![mysql-workbench5](<../img/tripllo/(2)mysql-design-spring-boot/mysql-workbench5.png>)
 
 그러면 위와 같이 스크립트가 만들어진 것을 볼 수 있다. 워크밴치는 이 스크립트 기반으로 새롭게 Table을 생성해준다. 이 스크립트를 긁어서 AWS의 RDS에 사용할 수도 있고, 원하는대로 저장해둘 수 있다. 그리고 Forward Engineer에서 미처 선택하지 못한 명령어를 여기다가 직접 입력해주면 알아서 그 명령어 또한 같이 실행해준다. 가령 Delete cascade 같은 옵션들.
 

@@ -6,7 +6,7 @@ tags:
   - Blog
   - Gatsby
   - Diary
-image: ../img/blog/gatsby.jpg
+image: ../img/blog/gatsby-blog/main.jpg
 date: '2021-03-31'
 draft: false
 excerpt: 블로그 이사를 완료했다. 사실 블로그를 어떤 기준으로 운영해야하는지 감이 없기도 했고 개발 기록을 남기는 작업은, 첫 블로그를 만들기 전에 onenote에 전부 작업을 해두고 있었기 때문에 블로그에 전부 옮기는 작업이 귀찮기도 했었다. 하지만 어쨌든 블로그를 만들어뒀기 때문에 포트폴리오 프로젝트 정리를 약간 하는 용도로 사용했다.
@@ -20,7 +20,7 @@ excerpt: 블로그 이사를 완료했다. 사실 블로그를 어떤 기준으�
 
 우선 기존 블로그 화면을 한번 봐보자.
 
-<img src="https://user-images.githubusercontent.com/59427983/113080318-b133e680-9211-11eb-852c-1fad21cfcad5.png" width="90%" />
+![previous-blog](../img/blog/gatsby-blog/previous-blog.png)
 
 이렇게 생겼다. jekyll의 Minial Mistake 테마 기반으로 CSS를 수정해 커스텀 한 블로그다. 그래도 나름 열심히 꾸민 블로그였다. 욕심이 많아서 그런지 이곳저곳에 포인트를 넣다보니 생각보다 엄청 조잡해졌다.(글은 쓰지 않고 꾸미기만...)
 
@@ -34,7 +34,7 @@ Gatsby는 공식 doc에 나와있듯 React기반 프레임워크다. React는 �
 
 플러그인 확장성이 매우 좋다. 비교적 핫한 기술 스택을 가지고 있는 프레임워크라 그런지 플러그인도 잘되어있다. 많은 개발자들이 오픈소스에 기여하고 있다. 나도 언젠가는 오픈소스에 기여해 누군가에게 도움이 되면 참 좋겠다.
 
-<img src="https://user-images.githubusercontent.com/59427983/113079618-5bab0a00-9210-11eb-85de-690b21d467a3.png" width="90%" />
+![current-blog](../img/blog/gatsby-blog/current-blog.png)
 
 내 블로그 첫 화면이다. 아주 깔끔하게 마음에 쏙 든다. 서버가 돌지 않고 자바스크립트로만 클라이언트단에서 처리하기 때문에 GraphQL을 사용해 페이지의 데이터를 조작하는 듯하다. 아주 재미있다. 다크모드는 소스를 까보니 css에 `@media (prefers-color-scheme: dark)` 이 처리가 되어있었다. 따라서 지금은 사용자의 디바이스가 light 모드인지 dark 모드인지에 따라 블로그의 모드가 바뀐다. 토글 버튼을 하나 두고, 모드를 바꿀 수 있게 커스텀 해보고 싶은 욕심이 생긴다. 그리고 Tag를 모아서 볼 수 있는 페이지가 하나 있으면 좋겠다. 할 것은 많고 욕심 또 욕심이다 ㅜㅜ.
 

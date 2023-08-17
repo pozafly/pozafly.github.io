@@ -3,7 +3,7 @@ layout: post
 title: '(11) Sentry 에러 로깅 시스템 도입'
 author: [Pozafly]
 tags: [Tripllo 제작기, Sentry, Error]
-image: ../img/tripllo/sentry.png
+image: ../img/tripllo/(11)vue-sentry-error-monitoring-system/main.png
 date: '2021-04-09T17:13:47.149Z'
 draft: false
 excerpt: Sentry를 통해 프론트엔드 에러 로깅 시스템을 도입해보자.
@@ -27,7 +27,7 @@ Sentry는 Application Error Monitoring 도구다. 에러 로그를 수집하는�
 
 [sentry.io](https://sentry.io/) 에서 회원가입 후 프로젝트를 생성하면,
 
-![sentrymain](https://user-images.githubusercontent.com/59427983/113977290-563b6880-987d-11eb-979f-4414c49b659f.png)
+![add-sentry-project](<../img/tripllo/(11)vue-sentry-error-monitoring-system/add-sentry-project.png>)
 
 이렇게 플랫폼을 선택할 수 있는 화면이 나온다. vue를 클릭. 간단 시작 가이드가 나온다.
 
@@ -81,7 +81,9 @@ SDK는 동작을 변경할 수 있는 몇 가지 다른 구성 옵션을 허용�
 
 이렇게 적혀있다. 그래서 일단, attachProps: true, logErrors: false, 기본값 옵션을 따로 줘놨다. 나중에 필요할 때 바로 쓸 수 있게. logErrors는 false로 해두면 개발자 콘솔에 찍히지 않는다는데 내가 우선 개발할 때는 true로 두어야 할 것 같아서 눈치 살.. 보고 변경해야지.
 
-코드를 입히기 전에 Sentry 페이지에는 하단에, _첫 번째 이벤트 수신 대기 중.._ 이렇게 나와있는데 local에서 한번 돌려보자. 그러면 `이벤트가 입하했습니다!` 라고 뜨면서 연동이 완료된 것임. 하지만,<img width="1040" alt="스크린샷 2021-04-08 오전 10 44 00" src="https://user-images.githubusercontent.com/59427983/113955813-680a1500-9857-11eb-9eae-007438e32c3a.png">
+코드를 입히기 전에 Sentry 페이지에는 하단에, _첫 번째 이벤트 수신 대기 중.._ 이렇게 나와있는데 local에서 한번 돌려보자. 그러면 `이벤트가 입하했습니다!` 라고 뜨면서 연동이 완료된 것임. 하지만,
+
+![devtool-cors-error](<../img/tripllo/(11)vue-sentry-error-monitoring-system/devtool-cors-error.png>)
 
 이렇게 CORS error가 주욱 뜨는 걸 볼 수 있다. sentry를 입히지 않았을 때는 정상적으로 CORS 에러가 뜨지 않고 잘 작동되었던 것이다. 이번 CORS 에러는 Sentry와 내 local vue(node서버) 간의 CORS 문제가 **아니다!**
 
@@ -142,7 +144,7 @@ const createInstance = () => {
 
 이제 로컬에서, 임의로 오류를 발생시키고, sentry 페이지에 가보면 오류 문이 잘 찍혀있는 것을 볼 수 있다.
 
-![스크린샷 2021-04-08 오후 4 28 03](https://user-images.githubusercontent.com/59427983/114003087-6ca2ed80-9898-11eb-990d-edda67fdf5da.png)
+![sentry-error-page](<../img/tripllo/(11)vue-sentry-error-monitoring-system/sentry-error-page.png>)
 
 <br/>
 
@@ -160,11 +162,11 @@ Sentry.init({
 
 이렇게 설정해주면
 
-![스크린샷 2021-04-08 오후 6 33 25](https://user-images.githubusercontent.com/59427983/114003693-ec30bc80-9898-11eb-8ca7-69b757d65115.png)
+![sentry-environment-setting](<../img/tripllo/(11)vue-sentry-error-monitoring-system/sentry-environment-setting.png>)
 
 이런 탭이 생기고 어느 환경에서 어떤 error가 생겼는지 쉽게 볼 수 있다. 지금은 이슈 탭에 보면
 
-![스크린샷 2021-04-08 오후 9 19 06](https://user-images.githubusercontent.com/59427983/114025443-1346b880-98b0-11eb-8bc2-16e824e5c42c.png)
+![sentry-issue-tab](<../img/tripllo/(11)vue-sentry-error-monitoring-system/sentry-issue-tab.png>)
 
 이렇게 어떤 Error가 떴는지만 나오고 소스 추적이 안되는 상태이다. 이제 소스를 추적할 수 있도록 만들 것이다.
 
@@ -189,11 +191,11 @@ Sentry.init({
 
 ### 토큰 획득
 
-![스크린샷 2021-04-08 오후 9 38 08](https://user-images.githubusercontent.com/59427983/114043706-7db42480-98c1-11eb-8dfe-bcc85c767c82.png)
+![get-sentry-token](<../img/tripllo/(11)vue-sentry-error-monitoring-system/get-sentry-token.png>)
 
 이곳으로 들어가서, Create New Token -> 체크된 상태로 다음으로 가면 토큰을 발급해 준다.
 
-![스크린샷 2021-04-08 오후 9 40 21](https://user-images.githubusercontent.com/59427983/114043983-bd7b0c00-98c1-11eb-8990-a632c5bd0f7e.png)
+![get-sentry-token2](<../img/tripllo/(11)vue-sentry-error-monitoring-system/get-sentry-token2.png>)
 
 이렇게. 이걸 잘 가지고 있자.
 
@@ -242,17 +244,17 @@ module.exports = {
 
 이제, git push를 하면 travis에서
 
-![스크린샷 2021-04-08 오후 11 35 24](https://user-images.githubusercontent.com/59427983/114048113-39c31e80-98c5-11eb-9970-52844f87de2d.png)
+![travis-build-log](<../img/tripllo/(11)vue-sentry-error-monitoring-system/travis-build-log.png>)
 
 이렇게 소스 맵을 생성해주고, sentry에 올려주는 것을 볼 수 있다. 그리고 sentry 홈페이지 Settings -> 한 칸 오른쪽 탭의 Projects -> 내 프로젝트 선택 -> Source Maps를 클릭
 
-![스크린샷 2021-04-08 오후 11 52 48](https://user-images.githubusercontent.com/59427983/114048567-a9d1a480-98c5-11eb-9363-fa92505642e1.png)
+![sentry-sourcemap](<../img/tripllo/(11)vue-sentry-error-monitoring-system/sentry-sourcemap.png>)
 
 이렇게 임의의 이름으로 소스 맵이 올라온 것을 볼 수 있다. (약간 늦게 뜰 수 있다. 기다리면 나옴.) 그 녀석을 눌러보면 .js파일과 .map 파일이 주욱 뜨면 소스 맵을 sentry 서버에 올린 것을 확인할 수 있다.
 
 그리고 배포된 프로젝트에 들어가서 오류를 내고 Issues 탭에 들어가서 오류를 확인해보면,
 
-![스크린샷 2021-04-08 오후 11 42 44](https://user-images.githubusercontent.com/59427983/114048964-fae19880-98c5-11eb-99ff-1e1272ba2227.png)
+![sentry-issue-tap2](<../img/tripllo/(11)vue-sentry-error-monitoring-system/sentry-issue-tap2.png>)
 
 이렇게 정상적으로 어느 소스코드에서 에러를 냈는지 자세하게 알려준다.
 

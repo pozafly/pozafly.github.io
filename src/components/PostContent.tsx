@@ -36,6 +36,7 @@ export const PostFullContent = styled.section`
   font-size: 2rem;
   line-height: 1.6em;
   background: #fff;
+  border-radius: 6px;
 
   @media (max-width: 1170px) {
     padding: 0 11vw;

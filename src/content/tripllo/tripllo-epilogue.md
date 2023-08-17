@@ -3,7 +3,7 @@ layout: post
 title: 'Tripllo 후기'
 author: [Pozafly]
 tags: [Tripllo 제작기]
-image: ../img/tripllo/후기.png
+image: ../img/tripllo/tripllo-epilogue/main.png
 date: '2021-02-19'
 draft: false
 excerpt: 프로젝트를 마무리했다. 두달 반 조금 안 되게 시간이 걸린 듯 하다. 프로젝트를 진행하면서 느꼈던 점을 조금 적어보려고 한다.

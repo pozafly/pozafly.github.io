@@ -3,7 +3,7 @@ layout: post
 title: "(12) Let's Encrypt 갱신 자동화"
 author: [Pozafly]
 tags: [Tripllo 제작기, Let's Encrypt, Automation]
-image: ../img/tripllo/lets-encrypt.png
+image: ../img/tripllo/(12)aws-lets-encrypt-renewal-automation/main.png
 date: '2021-04-12T10:13:47.149Z'
 draft: false
 excerpt: AWS EC2 환경에서 Nginx와 Let's Encrypt로 HTTPS SSL 인증서 갱신 자동화를 해보자.
@@ -25,7 +25,7 @@ Tripllo에서 frontend는 AWS Certificate Manager를 이용해, https 프로토�
 
 어쨌든 EC2 백엔드 서버를 `Let's Encryp`, `Nginx` 설정으로 https를 입혀주었는데 그때 당시에는 갱신 자동화를 해놓지 않았었다. 아래와 같은 메일이 도착했다.
 
-<img width="681" alt="스크린샷 2021-04-12 오전 10 26 42" src="https://user-images.githubusercontent.com/59427983/114335026-bdf7f900-9b86-11eb-9f88-3689a881199a.png">
+![let's-encryp-email](<../img/tripllo/(12)aws-lets-encrypt-renewal-automation/let's-encryp-email.png>)
 
 만료 20일 전인데 갱신하라는 메일이다. 이번 기회를 통해 갱신을 자동화해보자.
 
@@ -43,7 +43,7 @@ $ echo "" | openssl s_client -connect localhost:443 | openssl x509 -noout -dates
 $ sudo letsencrypt certificates
 ```
 
-<img width="689" alt="스크린샷 2021-04-12 오후 12 09 12" src="https://user-images.githubusercontent.com/59427983/114335514-e7fdeb00-9b87-11eb-9889-716a5a0ebbdb.png">
+![let's-encryp-expire-date](<../img/tripllo/(12)aws-lets-encrypt-renewal-automation/let's-encryp-expire-date.png>)
 
 나는 첫 번째 명령어를 사용해 확인했다. 1/28일에 처음 생성했고, 4/28일 이후에는 유효하지 않다는 메세지가 뜬다. 두 번째 명령어를 사용하면 며칠 남았는지와 인증서의 시리얼 넘버를 알려준다.
 
@@ -91,7 +91,7 @@ Let's Encrypt는 갱신 전 테스트를 할 수 있다. Nginx를 껐다면 아�
 $ sudo certbot renew --dry-run
 ```
 
-<img width="657" alt="스크린샷 2021-04-12 오후 12 17 08" src="https://user-images.githubusercontent.com/59427983/114336187-58593c00-9b89-11eb-8a90-d74459ff0b34.png">
+![renew-test](<../img/tripllo/(12)aws-lets-encrypt-renewal-automation/renew-test.png>)
 
 모든 시뮬레이션 된 갱신이 성공했다고 뜬다. 만약, 인증서 갱신 기간이 아닐 때 위와 같은 명령어로 갱신 테스트를 한다면 오류가 뜬다. 이렇게 되면 이제 갱신을 할 수 있는 환경이 만들어진 것이다.
 
@@ -201,7 +201,7 @@ $ echo "" | openssl s_client -connect localhost:443 | openssl x509 -noout -dates
 
 명령어로 갱신되어 언제까지 유효한지 확인하자.
 
-<img width="689" alt="스크린샷 2021-04-12 오후 2 52 04" src="https://user-images.githubusercontent.com/59427983/114349272-a29ae700-9ba2-11eb-8312-8f6ef7a24174.png">
+![complete-confirm](<../img/tripllo/(12)aws-lets-encrypt-renewal-automation/complete-confirm.png>)
 
 이렇게 나는 7월 11일까지 유효한 인증서로 대체되었다.
 

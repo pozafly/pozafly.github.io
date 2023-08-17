@@ -3,7 +3,7 @@ layout: post
 title: 'PDF 페이지 CSS로 안전하게 작성하기'
 author: [Pozafly]
 tags: [CSS, HTML, PDF]
-image: ../img/html/pdf-css.png
+image: ../img/html/pdf-css/main.png
 date: '2022-04-02T12:13:47.149Z'
 draft: false
 excerpt: 웹을 개발하다 보면, PDF로 문서를 사용자에게 제공하는 기능을 구현해야 할 때가 있다. 다른 개발자분들이 헤매지 않을 수 있도록 정리해보았다.
@@ -79,11 +79,11 @@ size를 명시해주지 않으면 auto로, 기본 여백이 적용된다. 주로
 
 - **margin: 0**
 
-<img width="564" alt="스크린샷 2022-04-02 오후 1 46 13" src="https://user-images.githubusercontent.com/59427983/161382932-9ca82e71-4b37-4d2f-8b94-84a5e3e5ef0e.png">
+![margin0](../img/html/pdf-css/margin0.png)
 
 - **margin: 40**
 
-<img width="566" alt="스크린샷 2022-04-02 오후 1 46 37" src="https://user-images.githubusercontent.com/59427983/161383055-273ce170-eb83-449c-a36d-fee017feaa19.png">
+![margin40](../img/html/pdf-css/margin40.png)
 
 margin을 0을 주었을 경우 머리글과 바닥글이 삭제되었고, 40px 정도 주었을 경우는 자연스럽게 여백이 보이지만 머리글과 바닥글이 보인다.
 
@@ -99,7 +99,7 @@ body {
 
 width와 margin auto 속성 때문에 좌우, 윗부분은 머리글과 바닥글은 없지만, 여백이 잘 적용되었다. 하지만 첫 페이지와 두 번째 페이지의 사이를 보자.
 
-<img width="564" alt="스크린샷 2022-04-02 오후 9 26 55" src="https://user-images.githubusercontent.com/59427983/161383359-9ffe231f-9ded-41b7-b56e-1d846d4bc5ae.png">
+![side](../img/html/pdf-css/side.png)
 
 첫 페이지의 하단과 두 번째 페이지의 상단의 padding 값이 제대로 들어가지 않았다. 그렇다고 `margin: 100px auto` 와 같이 margin을 준다고 해서 해결되지 않는다. 오히려 첫 페이지의 상단 여백이 더 많아질 뿐이다.
 
@@ -135,7 +135,7 @@ width와 margin auto 속성 때문에 좌우, 윗부분은 머리글과 바닥�
 
 그러면 아래 사진과 같이, 모든 페이지에서 thead, tfoot이 머리글과 바닥글 형태로 나오게 된다.
 
-<img width="565" alt="image" src="https://user-images.githubusercontent.com/59427983/161383906-2542fe9f-e399-44b1-b3eb-31773b279667.png">
+![headfoot](../img/html/pdf-css/headfoot.png)
 
 그리고 안에 문구를 \&nbsp; 로 바꾸고 border를 주면 얼마만큼 영역을 차지하는지 확인하면서 작업할 수 있다. 아래 코드를 보자.
 
@@ -158,7 +158,7 @@ width와 margin auto 속성 때문에 좌우, 윗부분은 머리글과 바닥�
 40px solid green; }
 ```
 
-<img width="564" alt="image" src="https://user-images.githubusercontent.com/59427983/161384551-7de9d425-4fa8-4b83-823b-057a86c80a57.png">
+![green](../img/html/pdf-css/green.png)
 
 \&nbsp; 대신 문구를 넣어서 직접 내가 커스텀 한 머리글과 바닥글을 만들어 줄 수도 있다. 확인 후 border 색상을 white로 바꾸면 여백을 확보할 수 있다. margin, padding 속성은 제대로 적용되지 않는다.
 
@@ -187,7 +187,7 @@ width와 margin auto 속성 때문에 좌우, 윗부분은 머리글과 바닥�
 > }
 > ```
 >
->  <img width="440" alt="image" src="https://user-images.githubusercontent.com/59427983/161383605-45819870-4b7d-412e-a6ad-4606ef2914b6.png">
+> ![yellow](../img/html/pdf-css/yellow.png)
 >
 > 마지막 페이지를 **제외한** 페이지는 정상적으로 배경 색상이 들어갔지만, 마지막 페이지를 보면 이렇게 배경색상이 잘리는 것을 볼 수 있다.
 >
@@ -203,7 +203,7 @@ width와 margin auto 속성 때문에 좌우, 윗부분은 머리글과 바닥�
 
 ## 페이지 넘김 및 요소가 잘리는 부분에 대해
 
-<img width="478" alt="image" src="https://user-images.githubusercontent.com/59427983/161386982-470d2da7-9865-409a-bde6-0b75f5eccfcb.png">
+![cut-page](../img/html/pdf-css/cut-page.png)
 
 작업을 하다 보면, 위와 같이 사진 혹은 다른 element가 잘리거나 겹치는 현상이 때때로 일어난다. 밑의 2가지 상황을 보고 적절하게 대응할 수 있다.
 
@@ -254,8 +254,6 @@ page-break-after를 사용하면 해당 엘리먼트 뒤에 페이지를 넘긴�
 
 <br/>
 
-<br/>
-
 ## link는 PDF에서도 동작한다
 
 \<a> 즉, link는 다운받은 pdf에서 클릭하면 웹 브라우저로 연결이 된다. 즉, PDF 문서는 문서 자체의 기능뿐 아니라 외부와 연결 짓기 때문에 주의해서 작성해주어야 한다.
@@ -266,7 +264,7 @@ page-break-after를 사용하면 해당 엘리먼트 뒤에 페이지를 넘긴�
 
 또한 link를 표현하는 텍스트가 매우 길 경우가 문제가 될 수 있다. 한글이 포함된 URL 같은 경우 퍼센트 인코딩(percent-encoding)으로 인해 한글 대신 %로 시작되는 것을 본 적이 있을 것이다. 이럴 경우 PDF의 layout 전체가 틀어지는 불상사가 발생한다.
 
-<img width="614" alt="image" src="https://user-images.githubusercontent.com/59427983/161387535-25ad3bc9-e3f6-4605-a8e5-2b5712f8e496.png">
+![pdf-link](../img/html/pdf-css/pdf-link.png)
 
 이렇게 화면 전체 layout이 틀어져버렸다.
 

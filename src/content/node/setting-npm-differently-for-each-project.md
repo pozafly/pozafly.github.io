@@ -3,7 +3,7 @@ layout: post
 title: 'nvm을 사용해 프로젝트별로 Node.js 버전 다르게 사용하기'
 author: [Pozafly]
 tags: [Tool, Node.js]
-image: ../img/node/setting-npm-differently-for-each-project.webp
+image: ../img/node/setting-npm-differently-for-each-project/main.webp
 date: '2022-04-10T12:13:47.149Z'
 draft: false
 excerpt: NVM을 사용해 프로젝트 별로 Node.js 버전 지정을 자동화 해보자.
@@ -59,7 +59,7 @@ or
 $ nvm list
 ```
 
-<img width="386" alt="스크린샷 2022-04-10 오후 5 23 17" src="https://user-images.githubusercontent.com/59427983/162609562-b3223d43-e391-4f74-8153-5656ff5116f4.png">
+![nvm-list-command](../img/node/setting-npm-differently-for-each-project/nvm-list-command.png)
 
 지금 사용되고 있는 버전은 16.13.1이고, 위로는 내 컴퓨터에 깔려있는 Node.js 버전들을 말해준다.
 
@@ -104,11 +104,11 @@ $ nvm use pozalfy
 
 이 때는 **.nvmrc** 파일을 프로젝트의 루트 디렉토리에 생성해서 맞는 버전을 기록해두면 된다.
 
-<img width="216" alt="image" src="https://user-images.githubusercontent.com/59427983/162609918-ef4008a4-c718-4e1a-9db6-7209500211aa.png">
+![nvmrc-file](../img/node/setting-npm-differently-for-each-project/nvmrc-file.png)
 
 이렇게 파일을 생성해두고, Node.js 버전을 기록해두자.
 
-<img width="222" alt="image" src="https://user-images.githubusercontent.com/59427983/162609948-033ab829-fc50-41aa-b2fb-5957f4224aa3.png">
+![rc-file-version](../img/node/setting-npm-differently-for-each-project/rc-file-version.png)
 
 이제 터미널을 열고 `nvm use` 명령어만 쳐주면 해당 버전이 적용되는 것이다. 그런데 이 또한 번거롭다. `.nvmrc` 파일을 만들었지만, default alias system 로 지정한 버전이 가장 먼저 적용될 것이고, 다시 `nvm use` 명령어로 Node.js 버전을 한번 더 적용시켜주어야만 하기 때문이다.
 
@@ -144,7 +144,7 @@ load-nvmrc
 
 이렇게 입력해주고 `:wq` 로 저장하면 이제, 터미널을 열고 원하는 프로젝트로 이동하면 아래와 같은 문구가 출력되는 것을 볼 수 있다.
 
-<img width="691" alt="image" src="https://user-images.githubusercontent.com/59427983/162611307-3d16430a-de33-4def-96d7-cb2b09a31513.png">
+![move-terminal](../img/node/setting-npm-differently-for-each-project/move-terminal.png)
 
 **.nvmrc** 파일을 찾았고, 명시된 대로 해당 버전의 Node.js를 사용하겠다는 뜻이다. 매번 프로젝트 별로 터미널을 열었을 때, `$ nvm use` 명령어로 버전을 변경하지 않아도 알아서 변경되도록 되었다.
 

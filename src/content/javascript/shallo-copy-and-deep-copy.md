@@ -5,7 +5,7 @@ author: [Pozafly]
 tags:
 	- JavaScript
 date: '2023-02-08'
-image: ../img/javascript/deep-copy-shallow-copy.png
+image: ../img/javascript/shallo-copy-and-deep-copy/main.png
 draft: false
 excerpt: JavaScript의 얕은 복사와 깊은 복사로 알아보는 객체의 특성. (feat. React, Vue.js)
 ---
@@ -55,7 +55,7 @@ var obj = {
 };
 ```
 
-<img width="1157" alt="스크린샷 2023-02-07 오후 8 04 24" src="https://user-images.githubusercontent.com/59427983/217228274-5af5ff74-f2d6-44f0-a260-e658ebc1c508.png">
+![variable-address](../img/javascript/shallo-copy-and-deep-copy/variable-address.png)
 
 (Note : 코어 자바스크립트 책의 그림을 다시 그렸습니다.)
 

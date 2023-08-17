@@ -3,7 +3,7 @@ layout: post
 title: '(3) Vue init & ESLint, Prettier 설정'
 author: [Pozafly]
 tags: [Tripllo 제작기, Vue.js]
-image: ../img/tripllo/tripllo3.png
+image: ../img/tripllo/(3)vue-esLint-prettier-setting/main.png
 date: '2021-02-03T19:03:47.149Z'
 draft: false
 excerpt: 백엔드 Setting은 끝났으니 이제 프론트엔드 Setting이 필요하다. npm 으로 Vue를 생성하고, 코드 포맷터인 ESLint, Prettier 설정을 해보자.
@@ -28,7 +28,7 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 ```
 
-<img width="960" alt="스크린샷 2021-02-04 오후 1 06 03" src="https://user-images.githubusercontent.com/59427983/106843711-065bec00-66ea-11eb-9086-31150dcd5c62.png">
+![zshrc-setting](<../img/tripllo/(3)vue-esLint-prettier-setting/zshrc-setting.png>)
 
 :wq 로 저장 후 빠져나와서
 
@@ -60,23 +60,23 @@ $ vue create <프로젝트명>
 
 그러면 터미널에 아래와 같이 Vue 프로젝트의 초기 세팅 화면이 나온다.
 
-![스크린샷 2021-02-04 오후 1 49 04](https://user-images.githubusercontent.com/59427983/106846199-cc8de400-66ef-11eb-80de-5e8ca4749e03.png)
+![vue-setting1](<../img/tripllo/(3)vue-esLint-prettier-setting/vue-setting1.png>)
 
 우리는 커스텀을 해줄 것이기 때문에 `Manually select features` 를 선택해주자.
 
-![스크린샷 2021-02-04 오후 1 55 33](https://user-images.githubusercontent.com/59427983/106846676-aa489600-66f0-11eb-8825-3ccbb6bb584e.png)
+![vue-setting2](<../img/tripllo/(3)vue-esLint-prettier-setting/vue-setting2.png>)
 
 이런 화면이 뜰껀데 선택되어있는 것으로 넘어가자. Router나 Vuex는 따로 설치할 예정. 참고로 선택하는 것은 화살표로 커서를 움직여서 스페이스바를 누르면 선택된다. 다음 화면에서는 `2.x` 버전은 선택하자. Vue 3는 작년에 2버전에서 업데이트 되었는데 사용법을 아직 잘 모르니 패스..
 
-![스크린샷 2021-02-04 오후 2 02 46](https://user-images.githubusercontent.com/59427983/106847153-b2550580-66f1-11eb-8468-e90d13efed2a.png)
+![vue-setting3](<../img/tripllo/(3)vue-esLint-prettier-setting/vue-setting3.png>)
 
 이번에는 코드 포맷터를 선택하는 란인데 우리는 `ESLint + Prettier`를 선택해주자. 그리고 다음 페이지에서 `Lint on save`선택.
 
-![스크린샷 2021-02-04 오후 2 05 12](https://user-images.githubusercontent.com/59427983/106847309-04962680-66f2-11eb-9573-824f4c8588a9.png)
+![vue-setting4](<../img/tripllo/(3)vue-esLint-prettier-setting/vue-setting4.png>)
 
 이번에는 우리가 선택한 Babel, ESLint ... 등을 package.json으로 설정할 것인지 config 파일로 빼서 설정할 것인지를 선택하는 화면인데 우리는 `In dedicated config files`를 선택하자. 그러면 Save this as a preset for future projects? 라고 우리가 설정한 포맷을 다음에 사용하도록 저장하는 화면이 나오는데 `N`을 입력해주자.
 
-![스크린샷 2021-02-04 오후 2 08 12](https://user-images.githubusercontent.com/59427983/106847536-72425280-66f2-11eb-9077-0bdf52664190.png)
+![vue-setting5](<../img/tripllo/(3)vue-esLint-prettier-setting/vue-setting5.png>)
 
 요렇게 설치 되는 모습을 볼 수 있고, 설치가 완료되면 프로젝트명으로 된 폴더가 생성되고 vue가 설치되어있다. 해당 폴더로 이동 후 `npm run serve`명령을 내리고 localhost:8080으로 가보면 Vue가 실행된 모습을 볼 수 있다.
 
@@ -98,7 +98,7 @@ $ vue create <프로젝트명>
 
 만약 vue를 개발하다가 오류가 있는 코드를 치고 저장했을 시
 
-![스크린샷 2021-02-04 오후 2 56 43](https://user-images.githubusercontent.com/59427983/106851327-5e4e1f00-66f9-11eb-8c2b-6958da96e83c.png)
+![error-overlay](<../img/tripllo/(3)vue-esLint-prettier-setting/error-overlay.png>)
 
 이런 화면을 브라우저 상에서 볼 수 있을 것이다. 이게 상당히 거슬리기 때문에 에러가 나는 코드를 쳐도 브라우저상에서 표시되지 않도록 설정하겠다.
 
@@ -122,7 +122,7 @@ ESLint, Prettier를 이용해서 코드 스타일을 획일화 하는 작업(코
 
 vscode에 eslint 플러그인을 깔자. 그리고 먼저 생성되어 있는(없으면 최 상단 루트에 만들자) .eslintrc.js 파일에 들어가보자.
 
-<img width="668" alt="제목 없는 그림" src="https://user-images.githubusercontent.com/59427983/106852373-4b3c4e80-66fb-11eb-9cdd-0b44c6935f0d.png">
+![eslintrc](<../img/tripllo/(3)vue-esLint-prettier-setting/eslintrc.png>)
 
 사진과 같이 rules 안에
 
@@ -151,15 +151,15 @@ vscode에 eslint 플러그인을 깔자. 그리고 먼저 생성되어 있는(�
 
 이렇게 적어줄 것이다. 그렇게 하면 이제 prettier에서 우리의 문법과 코드 컨벤션을 검사해주고 error를 내줄 것이다.(서버 껐다켜야 함.) 그러면 이제 이것을 ESLint가 받아서 알아서 수정해주는 역할을 해줄껀데 vscode 플러그인으로 깔아둔 ESLint를 설정창에서 검색해보자.
 
-<img width="642" alt="제목 없는 그림1" src="https://user-images.githubusercontent.com/59427983/106852782-f6e59e80-66fb-11eb-8427-a5d9a1b06e31.png">
+![vscode-setting1](<../img/tripllo/(3)vue-esLint-prettier-setting/vscode-setting1.png>)
 
 이게 ESLint에서 지원하는 언어들이고, vue 가 없다면 항목 추가버튼을 눌러서 추가해주자.
 
-<img width="768" alt="제목 없는 그림2" src="https://user-images.githubusercontent.com/59427983/106852832-0ebd2280-66fc-11eb-8805-898cb0101eaf.png">
+![vscode-setting2](<../img/tripllo/(3)vue-esLint-prettier-setting/vscode-setting2.png>)
 
 그리고 여기서 settings.json에서 편집 을 눌러서 직접 settings.json에서 편집해주어야 한다.
 
-<img width="505" alt="제목 없는 그림3" src="https://user-images.githubusercontent.com/59427983/106852875-23011f80-66fc-11eb-9fc9-c90fa20caf70.png">
+![vscode-setting3](<../img/tripllo/(3)vue-esLint-prettier-setting/vscode-setting3.png>)
 
 이런 그림이 뜰텐데 eslint.validate 란에다가 직접 적어주자.
 
@@ -198,15 +198,15 @@ autoFix를 true로 해준다는 것은 알아서 고쳐주겠다는 뜻이된다
 
 이번에는 Prettier 플러그인을 깔고,
 
-<img width="365" alt="제목 없는 그림4" src="https://user-images.githubusercontent.com/59427983/106852981-504dcd80-66fc-11eb-8d47-d70fe2fd4351.png">
+![vscode-prettier](<../img/tripllo/(3)vue-esLint-prettier-setting/vscode-prettier.png>)
 
 사진과 같이 사용안함(작업영역)을 선택해주자. 그리고, 설정에 들어가서 `format on save` 로 검색하여 체크 해제 해야한다. 왜냐면 eslint로 정렬을 할지 vscode에서 포매팅이 들어갈지 충돌날 수 있기 때문에.
 
-<img width="917" alt="제목 없는 그림5" src="https://user-images.githubusercontent.com/59427983/106853578-49738a80-66fd-11eb-8bdc-ba9d2246957f.png">
+![vscode-format-on-save](<../img/tripllo/(3)vue-esLint-prettier-setting/vscode-format-on-save.png>)
 
 그리고, 아래 그림과 같이
 
-<img width="106" alt="제목 없는 그림6" src="https://user-images.githubusercontent.com/59427983/106853614-58f2d380-66fd-11eb-8965-1d7781ae775a.png">
+![vscode-bottom](<../img/tripllo/(3)vue-esLint-prettier-setting/vscode-bottom.png>)
 
 vscode 최하단 오른쪽에 보면 ESlint 에 빨간색으로 X자가 되어있다면 이거 켜줘야 한다. 위의 그림처럼.
 

@@ -53,7 +53,7 @@ TAGS 탭과 DIARY을 만들었다. 이제 TAGS 탭을 누르면 내 블로그 �
 
 그렇다면 내가 블로그 틀을 수정한 부분의 소스가 잘못되었구나. 로컬에서 블로그를 돌려보았을 때는 오류없이 정상적으로 동작했는데 뭐가 잘못된거지? 정말 한참을 찾았다. git으로 이전에 배포가 정상적으로 되었을 때로 돌려서 배포해봐도 도무지 Github Actions가 동작하지 않는다. 마음이 급했다. 저녁에는 Zoom으로 모임 약속이 있었고, 나는 이걸 지금 당장 해결하고 싶었다. 이걸 마무리 해야 속이 편할 것 같았다. 결론적으로 나의 문제가 아니라 해결할 수 없었지만..
 
-![스크린샷 2021-05-17 오전 10 55 28](https://user-images.githubusercontent.com/59427983/118422574-71ac5580-b6fe-11eb-92aa-cd2ea7578abc.png)
+![github-deploy-record](../img/blog/blog-insert-tap/github-deploy-record.png)
 
 그 때의 배포 기록. 도대체.!! (원래는 배포가 정상적으로 되었다면 `초록색 체크 표시` 가 들어와야 함)
 
@@ -65,11 +65,11 @@ My Gatsby blog, which was well deployed a few days ago, is not deploy. The Gatsb
 What's the matter? Even if I revert to the previous version with git and try to deploy it again, it does not work.
 ```
 
-구글 번역기의 도움을 받았다.. ㅋㅋㅋ
+구글 번역기의 도움을 받았다..
 
-일요일인데도 불구하고 2분만에 답장을 받았다. 요점은 Github 측에서 Github Actions와 Github Pages에 문제가 있다는 사실을 인지했고, 그것을 status로 공유하고 있다는 사실이었다. [githubstatus](https://www.githubstatus.com/) 이곳에서 확인해보라는 것이었다.
+일요일인데도 불구하고 2분만에 답장을 받았다. 요점은 Github 측에서 Github Actions와 Github Pages에 문제가 있다는 사실을 인지했고, 그것을 status로 공유하고 있다는 사실이었다. [github status](https://www.githubstatus.com/) 이곳에서 확인해보라는 것이었다.
 
-![스크린샷 2021-05-16 오후 8 45 11](https://user-images.githubusercontent.com/59427983/118423241-89380e00-b6ff-11eb-89bd-f3c978a7cd5b.png)
+![github-status](../img/blog/blog-insert-tap/github-status.png)
 
 이 글을 쓰고 있는 시점엔 모두 해결 완료된 상태다. 어제 이 문제로 시간을 꽤 낭비한 것 같아 슬프지만 해결되었다고 하니 다행이다.
 

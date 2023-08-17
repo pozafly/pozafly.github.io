@@ -548,6 +548,12 @@ function IndexLayout(props: IndexProps) {
           .medium-zoom-overlay {
             backdrop-filter: blur(8px);
           }
+          .gatsby-resp-image-background-image {
+            border-radius: 6px;
+          }
+          .gatsby-resp-image-wrapper {
+            width: 80%;
+          }
         `}
       />
       {props.children}

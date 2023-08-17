@@ -12,8 +12,8 @@ excerpt: CHR(), ASCII() 함수 사용법.
 
 ## 정의
 
- -`CHR()` : 아스키코드값 얻기(숫자)
-​ -`ASCII()` : CHR값 얻기(문자)
+- `CHR()` : 아스키코드값 얻기(숫자)
+- `ASCII()` : CHR값 얻기(문자)
 
 이렇게만 적어놓으면 뭐가뭔지 잘 모를테니, 문자로 아스키코드값과 아스키코드로 문자열 값을 얻는 쿼리문을 한번 보자.
 
@@ -38,7 +38,7 @@ FROM DUAL
 
 이렇게 나온다.
 
-<br/><br/>
+<br/>
 
 ## 활용법
 
@@ -52,7 +52,7 @@ CONNECT BY ROWNUM <= 26;
 
 이러면 ID라는 칼럼에 A~Z 까지 모두 출력된다. 이 때 사용한 것은 `ROWNUM`임. ROWNUM은 1부터 시작하기 때문에 (ROWNUM-1)이 필요했고, 각 칼럼에 ROWNUM을 더해주는 것.
 
-<br/><br/>
+<br/>
 
 ## CHR(10), CHR(13)
 
@@ -74,10 +74,10 @@ SELECT CHR(10), CHR(13) FROM DUAL;
 
 `SQL DEVELOPER`에서 실행했을때,
 
-![주석 2020-06-12 121723](https://user-images.githubusercontent.com/59427983/84461248-f4cf5b00-aca6-11ea-82ca-603204390d22.png)
+![sql-developer](../img/oracle/CHR-ASCII/sql-developer.png)
 
 이렇게 아무것도 표시가 되지 않고, `DBeaver`에서 실행했을 때,
 
-![주석 2020-06-12 121711](https://user-images.githubusercontent.com/59427983/84461240-eda84d00-aca6-11ea-9e97-c2fcad6ff7ea.png)
+![dbeaver](../img/oracle/CHR-ASCII/dbeaver.png)
 
 이렇게 개행문자는 표시되는 것을 볼 수 있다. 개발하다 쿼리문에서 개행해 넘겨줄 필요한 경우가 있었는데 이런식으로 쿼리단에서 자바단으로 개행을 주는 것이 가능하다.

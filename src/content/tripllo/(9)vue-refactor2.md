@@ -3,7 +3,7 @@ layout: post
 title: '(9) vue 리팩토링2'
 author: [Pozafly]
 tags: [Tripllo 제작기, Refactoring, Vue.js]
-image: ../img/tripllo/refactor2.jpg
+image: ../img/tripllo/(9)vue-refactor2/main.jpg
 date: '2021-04-04T19:13:47.149Z'
 draft: false
 excerpt: 멘토링 후 Tripllo에 꽤 많은 것을 손봐야한다는 것을 알게 되었다. 하나하나 고쳐보면서 정리한 것을 기록해보자.
@@ -184,7 +184,7 @@ Vue.filter('normalFormatDate', normalFormatDate);
 Vue.filter('timeForToday', timeForToday);
 
 new Vue({
-  render: h => h(App),
+  render: (h) => h(App),
   router,
   store,
 }).$mount('#app');
@@ -252,7 +252,7 @@ Vue.use(directives);
 Vue.use(filters);
 
 new Vue({
-  render: h => h(App),
+  render: (h) => h(App),
   router,
   store,
 }).$mount('#app');
@@ -442,7 +442,7 @@ axios로 api 함수를 사용해 백엔드로부터 데이터를 받아오면 Pr
 
 ```js
 updateBoardAPI(some)
-  .catch(error => {
+  .catch((error) => {
     // catch 체이닝 먼저.
     console.log(error);
     alert('보드 정보를 업데이트 하지 못했습니다.');
@@ -534,12 +534,12 @@ api 명세를 해두자. 누가 와서 보더라도, 혹은 내가 다시 나중
  * @param {CreateBoardInfo} createBoardInfo - Board 생성 정보
  * @returns {Promise<Board>}
  */
-const createBoardAPI = createBoardInfo => board.post('/', createBoardInfo);
+const createBoardAPI = (createBoardInfo) => board.post('/', createBoardInfo);
 ```
 
 이렇게 작성해주면 vscode상에
 
-<img width="901" alt="스크린샷 2021-04-20 오전 11 49 37" src="https://user-images.githubusercontent.com/59427983/115330173-83b5d980-a1ce-11eb-9790-c867f2acc45b.png">
+![vscode-auto-complete](<../img/tripllo/(9)vue-refactor2/vscode-auto-complete.png>)
 
 이렇게 api 함수에 `.` 을 찍어주면, @returns가 Promise 이므로, Promise에 체이닝 되는 메서드들이 자동 완성된다. 또한 JSDoc을 적어주는 것은 협업할 때, api가 어떤 것을 return 하는지, 파라미터로 무엇을 넘기는지 알 수 있게 도와준다. JSDoc이 언어 레벨로 표현된 것이 typescript 라고 한다.
 
@@ -625,13 +625,9 @@ export { readPersonalBoardAPI, (...) }
 
 ## 21. Process 정리
 
-![Frontend-process](https://user-images.githubusercontent.com/59427983/115864975-a36d2c00-a472-11eb-8891-b7fcfa4fe55f.png)
+![frontend-deploy-process](<../img/tripllo/(9)vue-refactor2/frontend-deploy-process.png>)
 
-[크게보기](https://user-images.githubusercontent.com/59427983/115864975-a36d2c00-a472-11eb-8891-b7fcfa4fe55f.png)
-
-![Backend-process](https://user-images.githubusercontent.com/59427983/115865001-abc56700-a472-11eb-8297-9c206f981451.png)
-
-[크게보기](https://user-images.githubusercontent.com/59427983/115865001-abc56700-a472-11eb-8297-9c206f981451.png)
+![backend-deploy-process](<../img/tripllo/(9)vue-refactor2/backend-deploy-process.png>)
 
 <br/>
 

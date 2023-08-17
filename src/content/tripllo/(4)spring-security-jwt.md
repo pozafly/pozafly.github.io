@@ -3,7 +3,7 @@ layout: post
 title: '(4) 로그인1 -SpringSecurity & JWT 개념'
 author: [Pozafly]
 tags: [Tripllo 제작기, Spring Security, JWT]
-image: ../img/tripllo/tripllo4.png
+image: ../img/tripllo/(4)spring-security-jwt/main.png
 date: '2021-02-04T10:03:47.149Z'
 draft: false
 excerpt: Spring Security와 JWT를 사용해서 로그인 기능을 구현했다. Spring Security와 JWT의 개념을 알아보자.
@@ -29,7 +29,7 @@ Spring Security는 Filter 구조이다. 사용자의 정보가 여러 체이닝 
 
 ### 전체 구조
 
-![ss](https://user-images.githubusercontent.com/59427983/106862908-1d5f0600-670b-11eb-8b65-8e83e71636e3.png)
+![spring-security-structure](<../img/tripllo/(4)spring-security-jwt/spring-security-structure.png>)
 
 1. 클라이언트가 Http Request로 로그인 요청을 보낸다.
 2. 요청은 맨 처음 AuthenticationFilter에 가게 되고, UsernamePasswordAuthenticationFilter 로 가게 된다. 여기서 AuthenticationFilter는, Spring Security와 관련된 여러 **Filter List**를 가지고 있다. 그 중 하나인 UsernamePasswordAuthenticationFilter는 ID, PW를 이용한 인증을 담당하는 Filter다. 얻어온 ID, PW로 UsernamePasswordAuthenticationToken(Authentication)을 생성한다. Tripllo 프로젝트는 `JwtAuthenticationFilter` 를 이용한다.
@@ -56,7 +56,7 @@ JWT(JSON Web Token)은 클라이언트와 서버, 서비스와 서비스 사이 
 
 ### 토큰 기반 인증 방식
 
-![22](https://user-images.githubusercontent.com/59427983/106880800-260e0700-6720-11eb-8682-44f9a389721b.png)
+![token-authorization](<../img/tripllo/(4)spring-security-jwt/token-authorization.png>)
 
 위의 그림을 보면 이해하기 쉽다.
 

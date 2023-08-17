@@ -5,13 +5,11 @@ author: [Pozafly]
 tags:
   - SpringBoot
   - JUnit
-image: ../img/java/springboot.png
+image: ../img/spring/JUnit(2)Mockito/mockito.png
 date: '2020-05-25'
 draft: false
 excerpt: Mockito 프레임워크를 통해 Mock 테스트를 알아보자.
 ---
-
-![1](https://user-images.githubusercontent.com/59427983/82849592-9038a000-9f33-11ea-86df-ab8e2c52c2ec.png)
 
 > 이전 포스팅에서는 Assertion 객체를 사용해, 테스트 코드의 return 값을 검증했다. 단순히 return 되는 값만 검증한 것인데, 만약 return 값이 없는 테스트를 하려면 어떻게 해야할까? 즉, void형 메서드를 테스트하고자 할 때는 어떤 단위 테스트가 필요할까?
 

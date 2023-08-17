@@ -5,7 +5,7 @@ author: [Pozafly]
 tags:
 	- JavaScript
 date: '2023-02-10'
-image: ../img/javascript/array-is-object.png
+image: ../img/javascript/array-is-object/main.png
 draft: false
 excerpt: 배열이 객체인 이유와, 유사 배열 객체와의 차이점을 알아본다.
 ---
@@ -21,7 +21,7 @@ excerpt: 배열이 객체인 이유와, 유사 배열 객체와의 차이점을 
 
 ## 자바스크립트에서의 배열
 
-자바스크립트에서의 배열은 [mdn 배열](https://developer.mozilla.org/ko/docs/Learn/JavaScript/First_steps/Arrays#%EB%B0%B0%EC%97%B4%EC%9D%B4%EB%9E%80)에서 말하기를 '리스트같은 객체(list-like objects)'라고 기술된다. 배열은 리스트에 저장된 다수의 값들을 포함하고 있는 하나의 객체다.
+`자바스크립트에서의 배열은 [mdn 배열](https://developer.mozilla.org/ko/docs/Learn/JavaScript/First_steps/Arrays#%EB%B0%B0%EC%97%B4%EC%9D%B4%EB%9E%80)에서 말하기를 '리스트같은 객체(list-like objects)'라고 기술된다. 배열은 리스트에 저장된 다수의 값들을 포함하고 있는 하나의 객체다.
 
 자료구조에서 말하는 배열은, 동일한 크기의 메모리 공간이 빈틈없이 연속적으로 나열된 구조를 말한다. 즉, 배열 안에 들어가는 요소는 동일한 데이터 타입이며 그렇기 때문에 동일한 크기의 메모리 공간을 차지한다. 순서가 있고 순서에 따라 값을 가져올 수 있도록 하기 위해 서로 연속적으로 메모리에 인접해있다.
 
@@ -71,9 +71,7 @@ console.dir(emptyArr.__proto__);
 console.dir(emptyObj.__proto__);
 ```
 
-![object_array_prototype2](https://user-images.githubusercontent.com/59427983/217999478-bb6c44f3-170f-4fd8-a2cb-a5a4b7584faf.png)
-
-따라서, 배열은 인덱스를 키로 갖고 있고, length 프로퍼티를 갖는 특수한 객체이다. 또한 자바스크립트의 배열은 일반적인 배열의 동작을 흉내 낸 특수한 객체다.
+![devtool-prototype](../img/javascript/array-is-object/devtool-prototype.png)따라서, 배열은 인덱스를 키로 갖고 있고, length 프로퍼티를 갖는 특수한 객체이다. 또한 자바스크립트의 배열은 일반적인 배열의 동작을 흉내 낸 특수한 객체다.
 
 <br/>
 

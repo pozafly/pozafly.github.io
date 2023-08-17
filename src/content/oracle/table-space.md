@@ -1,0 +1,176 @@
+---
+layout: post
+title: '오라클 테이블 스페이스 조작'
+author: [Pozafly]
+tags:
+  - Oracle
+image: ../img/oracle/oracle.jpeg
+date: '2020-06-11'
+draft: false
+excerpt: Local Oracle 사용시 용량에 문제가 생기면 이 방법을 사용하자.
+---
+
+> 이동욱님이 쓰신 `스프링부트와 AWS로 혼자 구현하는 웹서비스` 책을 다 떼고, SQL을 공부하기 위해 DBlan에서 나온 SQL BOOSTER라는 책을 샀다. 쿼리문을 잘 다루는 백엔드 개발자가 되기 위해 SQL의 기본적인 문법은 제쳐두고 실제적인 내용이 많은 책인듯 싶어서. 하지만 처음부터 막혔다. 책의 제일 처음엔 ORACLE DB의 TABLE SPACE를 확보하는 것부터 시작하는데 `The request exceeds the maximum allowed database size of 11 GB`이런 오류문을 뱉으면서 TABLE SPACE를 확보하는데 실패했다고 한다. 알아보니 익스프레스 버전(무료)에서는 스토리지를 11 GB까지만 내어주고, 유료버전을 구입해서 사용할 경우 더 많은 스토리지를 사용할 수 있다고 한다. 즉, 내 로컬에 있는 ORACLE 스토리지가 다 찼다는 말. 따라서 오라클 TABLE SPACE를 조작해서 용량을 확보해보려고 한다.
+
+<br/><br/>
+
+## 계정 LOCK 풀기
+
+가장 먼저, SQL DEVELOPER를 열어서 System 계정으로 접속해야 한다. 보통 System 계정의 비밀번호는 manager다. 치고 들어갔더니 `the account is locked`이란 오류문을 뱉음. 이 에러는 잘못된 패스워드로 설정 횟수만큼 접속 시도시 Lock이 걸리거나, 30일 동안 해당 계정으로 로그인을 하지 않았을 경우 Lock이 걸렸을 때, 나오는 에러.
+
+<br/>
+
+cmd 창을 열어서 최상위 System 계정으로 로그인이 필요함.
+
+```shell
+$ sqlplus / as sysdba;
+```
+
+sysdba 계정으로 접속 후,
+
+```sql
+SELECT username, account_status, lock_date FROM dba_users;
+```
+
+이 명령어로 lock이 걸린 사용자를 확인하자. 나 같은 경우는,
+
+| USERNAME | ACCOUNT_STATUS   | LOCK_DATE |
+| -------- | ---------------- | --------- |
+| SYSTEM   | EXPIRED & LOCKED | 20/02/22  |
+
+이렇게 SYSTEM 계정이 LOCKED 걸린걸 확인했다. LOCKED <TIMED> 라고 되어있으면, 패스워드 설정횟수 입력오류이고, 아래의 Unlock 명령만 수행해주면 된다. 그리고 EXPIRED & LOCKED 라고 되어있으면, 패스워드 기간만료로 Unlock 후 비밀번호를 지정해주어야 한다.
+
+```sql
+ALTER USER 사용자명 ACCOUNT UNLOCK;
+```
+
+으로 락을 풀어주자. 그리고
+
+```sql
+ALTER USER 사용자명 IDENTIFIED BY 바꿀패스워드;
+```
+
+로 SYSTEM 계정의 비밀번호를 바꿔주었다. 그러면 이제 SQL DEVELOPER에 SYSTEM 계정으로 접속이 잘 된다.
+
+[참고블로그](https://m.blog.naver.com/PostView.nhn?blogId=qor3326&logNo=220934450444&proxyReferer=https:%2F%2Fwww.google.com%2F)
+
+<br/>
+
+## 테이블 스페이스 변경하기
+
+### 테이블 스페이스 확인
+
+제일 처음 해야할 것은 DBA 탭을 활성화 시키는 것이다. 상단 탭에 보기 > `DBA`를 눌러서 왼쪽 하단 DBA 창을 활성화 시키자.
+
+![dba-enabled](../img/oracle/table-space/dba-enabled.png)
+
+DBA 창에서 접속을 더블클릭하면 또 System 에 로그인 하라고 한다. 로그인 하자.
+
+전체 ORACLE DB 상태를 보고 싶다면 Sytem > 데이터베이스 상태 > `DB 인스턴스`를 더블클릭하면 아래와 같이 전체 상채를 알 수 있다.
+
+![all-status](../img/oracle/table-space/all-status.png)
+
+이런식으로 나온다. 여기서 STORAGE 부분을 더블클릭하면,
+
+![db-storage-status](../img/oracle/table-space/db-storage-status.png)
+
+이렇게 내 테이블스페이스 명과, 테이블스페이스 사이즈, 실 사용량, 퍼센테이지로 테이블스페이스의 전체적인 정보를 볼 수 있다. 가장 오른쪽에 `Auto Extend`라는 부분은, 부과된 Size(예전에 허용해 둔)가 용량이 초과 되었을 때 자동으로 늘릴 것인지 여부를 결정하는 옵션이다.
+
+정보를 봤을 때, 나는 SYSAUX, SYSTEM의 테이블스페이스의 용량을 줄일 것이다.
+
+<br/>
+
+### 테이블 Drop
+
+이제 DBA 탭의 한칸위에 보면 보고서 탭이 있다. 모든 보고서 > 데이터 딕셔너리 보고서 > 데이터베이스 관리 > 모든 테이블 > `테이블스페이별 테이블 수`를 클릭해보면, 어느 테이블 스페이스에 어느 테이블이 매칭되어있는지 나와있다.
+
+![table-count](../img/oracle/table-space/table-count.png)
+
+이 정보를 가지고 아까 접속했던 SYSDBA 계정으로 테이블들을 DROP 시킬 것이다.
+
+CMD에서
+
+```sql
+drop user 삭제할 테이블명 cascade;
+```
+
+으로 내가 생성했던 TABLE들을 DROP 시키자. 반드시 내가 사용하던 TABLE들만 DROP 시켜야 한다. SYSTEM 계정의 SYS 같은 중요한 정보가 들어있는 TBALE을 DROP 시키면 안됨.
+
+<br/>
+
+### 용량 재할당
+
+![table-system](../img/oracle/table-space/table-system.png)
+
+DBA 탭에 저장영역 > 테이블스페이스 > `SYSTEM` 으로 들어가보면, 해당 테이블 스페이스의 정보들이 나오고, 작업... > 편집... 을 누르면 테이블스페이스를 편집할 수있는 창이 뜬다.
+
+![table-system-edit](../img/oracle/table-space/table-system-edit.png)
+
+이부분에서 파일 크기를 650MB 정도로 줄이고 확인을 누르자. 나는 자동 확장 설정체크를 해재했다. SYSAUX 계정은 용량이 초과해서 650이 안되어, 660으로 맞춰줬다.
+
+![table-system-edit2](../img/oracle/table-space/table-system-edit2.png)
+
+그러면 다음 사진과 같이 테이블스페이스 용량이 줄어들어있는 것을 볼 수 있다.
+
+그러면 C폴더에 ORA_SQL_TEST 폴더를 만들어두고, SQL BOOSTER에 첫 명령어인,
+
+```sql
+CREATE TABLESPACE ORA_SQL_TEST_TS DATAFILE 'C:\ORA_SQL_TEST\ORA_SQL_TEST.DBA' SIZE 10G EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO;
+```
+
+를 실행하면 10 GB 인 테이블스페이스가 잘 생성된 것을 볼 수 있다.
+
+> 테이블스페이스를 쿼리문으로만 조작하고 싶다면 [링크1](https://javafactory.tistory.com/83) [링크2](https://m.blog.naver.com/PostView.nhn?blogId=youngram2&logNo=220290407060&proxyReferer=https:%2F%2Fwww.google.com%2F)를 참고.
+
+<br/><br/>
+
+## 사용자 생성
+
+```sql
+CREATE USER ORA_SQL_TEST IDENTIFIED BY "1111" DEFAULT TABLESPACE ORA_SQL_TEST_TS;
+```
+
+ORA_SQL_TEST 라는 사용자에게 1111이라는 비밀번호를 주고 생성했다. 새로운 사용자가 접속할 수 있도록 계정 UNLOCK과 접속 및 리소스 권한을 부여해야 한다.
+
+```sql
+ALTER USER ORA_SQL_TEST ACCOUNT UNLOCK;
+GRANT CONNECT, RESOURCE TO ORA_SQL_TEST;
+```
+
+그리고 추후 성능 관련 내용을 다루기 위해서는 아래 SQL문을 실행해 권한을 더 추가해 주어야 함.
+
+```sql
+GRANT ALTER SYSTEM TO ORA_SQL_TEST;
+GRANT SELECT ON V_$SQL TO ORA_SQL_TEST;
+GRANT SELECT ON V_$SQL_PLAN_STATISTICS_ALL TO ORA_SQL_TEST;
+GRANT SELECT ON V_$SQL_PLAN TO ORA_SQL_TEST;
+GRANT SELECT ON V_$SESSION TO ORA_SQL_TEST;
+GRANT EXECUTE ON DBMS_STATS TO ORA_SQL_TEST;
+GRANT SELECT ON DBA_SEGMENTS TO ORA_SQL_TEST;
+```
+
+---
+
+<br/><br/>
+
+### ※ 오라클의 `TEMP 영역 사이즈`에 대해서
+
+TEMP 영억은 데이터를 생산하거나 사용할 때 오라클 자체 엔진이 TEMP 공간을 활용하여 작업한다. 따라서 이 크기가 작다면 5,000 MB 까지 TEMP를 늘리기를 권장함.
+
+#### TEMP 확인법
+
+```sql
+SELECT  T1.FILE_NAME
+		,(T1.BYTES / 1024 / 1024) TMP_MB
+FROM    DBA_TEMP_FILES T1;
+```
+
+<br/>
+
+#### TEMP 늘리기
+
+```sql
+ALTER DATABASE TEMPFILE 'C:\dev\db\app\oracle\oradata\XE\TEMP.DBF' RESIZE 5000M;
+```
+
+이때 경로는 자기가 ORACLE을 깐 경로안에 있다.

@@ -1,20 +1,17 @@
 ---
 layout: post
-title: "(13) Vuex-store와 EventBus에 대한 고찰"
+title: '(13) Vuex-store와 EventBus에 대한 고찰'
 author: [Pozafly]
 tags: [Tripllo 제작기, Vue.js]
-image: ../img/tripllo/eventBus.png
+image: ../img/tripllo/(13)Vuex-and-eventBus/main.png
 date: '2021-04-16T15:13:47.149Z'
 draft: false
 excerpt: 데이터를 Vuex store에 저장시키지 말고 로컬 컴포넌트에서 불러와 EventBus로 통신을 하면 어떻게 될까? 라는 물음에서 시작된 삽질기.
-
 ---
 
 # Vuex-store와 EventBus에 대한 고찰
 
-
-
->  Tripllo 프로젝트를 리팩토링하면서, [vue 리팩토링1](https://pozafly.github.io/tripllo/(8)vue-refactor1/)의 `6.store에 필요 없는 state 제거` 파트를 진행하게 되었다. 해당 부분을 상세하게 한번 보면서 생각할 부분을 정리해보자.
+> Tripllo 프로젝트를 리팩토링하면서, [vue 리팩토링1](<https://pozafly.github.io/tripllo/(8)vue-refactor1/>)의 `6.store에 필요 없는 state 제거` 파트를 진행하게 되었다. 해당 부분을 상세하게 한번 보면서 생각할 부분을 정리해보자.
 
 <br/>
 
@@ -30,7 +27,7 @@ store에서 걷어낸 몇 가지가 있는데 이번 비교는 `checklists` 라�
 
 ### 기존 소스
 
-먼저 checklist를 읽어오는 로직이 
+먼저 checklist를 읽어오는 로직이
 
 ```js
 // 상위 컴포넌트
@@ -63,7 +60,7 @@ state에 있던 checklists 상탯값을 삭제하고, actions, mutations에서 c
 
 ```jsx
 // ChecklistWrapper.vue
-<Checklists ...(위에와 동일, props로 내려줌) /> 
+<Checklists ...(위에와 동일, props로 내려줌) />
 
 data() {
   return {
@@ -94,11 +91,11 @@ props: {
     validator(value) {
       return typeof value === 'function';
     },
-  },  
+  },
 }
 
 (...)
- 
+
 this.readChecklist(cardId);  // 메서드 사용
 ```
 
@@ -126,7 +123,7 @@ methods: {
     bus.$on('readChecklist', cardId => {
       this.readChecklist(cardId);
     });
-  }, 
+  },
 }
 ```
 
@@ -189,7 +186,7 @@ testCreateChecklist() {
 },
 ```
 
-이렇게 해주고 기존에 있던 readAPI를 주석 처리하고 렌더링 해보자. 
+이렇게 해주고 기존에 있던 readAPI를 주석 처리하고 렌더링 해보자.
 
 📌 성능 측정 순서
 
@@ -199,13 +196,13 @@ testCreateChecklist() {
 
 결과를 한번 보자. 먼저 store에 올라가 있던 기존 소스다.
 
-<img width="785" alt="스크린샷 2021-04-16 오후 6 07 42" src="https://user-images.githubusercontent.com/59427983/115016684-5f1ce180-9ef0-11eb-816f-a40f0dca3a0a.png">
+![devtool-performance](<../img/tripllo/(13)Vuex-and-eventBus/devtool-performance.png>)
 
 저기 청록색으로 되어있는 부분에 보면 약간 잘려 있지만 dispatch 된 것을 볼 수 있다. 한 번의 클릭에 `477.36ms` 가 나왔다. 그리고 다시 컴포넌트에서 read 하는 변경된 소스로 테스트해보자.
 
-<img width="786" alt="스크린샷 2021-04-16 오후 6 08 38" src="https://user-images.githubusercontent.com/59427983/115016892-a73c0400-9ef0-11eb-81af-ee194e1505d8.png">
+![devtool-performance2](<../img/tripllo/(13)Vuex-and-eventBus/devtool-performance2.png>)
 
-이번엔 `349.68ms` 이 나왔다. 만개를 테스트했는데 생각보다 별 차이가 없다..  그리고 심지어 테스트할 때마다 값이 변하고 심지어 store에 올려서 테스트한 것이 더 빠른 결과를 내기도 했다...🤤 그리고 Vue.js 공식 페이지에서도 이벤트 버스를 권장하지 않는지 이벤트 버스에 대한 이야기나 예제가 별로 없다고 한다.
+이번엔 `349.68ms` 이 나왔다. 만개를 테스트했는데 생각보다 별 차이가 없다.. 그리고 심지어 테스트할 때마다 값이 변하고 심지어 store에 올려서 테스트한 것이 더 빠른 결과를 내기도 했다...🤤 그리고 Vue.js 공식 페이지에서도 이벤트 버스를 권장하지 않는지 이벤트 버스에 대한 이야기나 예제가 별로 없다고 한다.
 
 그렇다면, 앞으로도 계속 이렇게 컴포넌트 뎁스가 깊어지거나 이벤트 버스를 사용할 일이 많아지면 무조건 Vuex를 사용해야 될까? 그렇다면 store에 엄청나게 많은 상탯값이 존재하게 되고 메모리를 많이 잡아먹겠지?
 
@@ -222,4 +219,3 @@ testCreateChecklist() {
 <br/>
 
 > 프로젝트 구경하기 -> [Tripllo\_메인](https://tripllo.tech), [Vue_Github](https://github.com/pozafly/tripllo_vue), [SpringBoot_Github](https://github.com/pozafly/tripllo_springBoot)
-

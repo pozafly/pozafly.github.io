@@ -4,7 +4,7 @@ title: '(1) 제작동기'
 author: [Pozafly]
 tags:
   - Tripllo 제작기
-image: ../img/tripllo/tripllo1.png
+image: ../img/tripllo/(1)production-motive/main.png
 date: '2021-02-03T10:03:47.149Z'
 draft: false
 excerpt: Trello 어플리케이션을 만들기 시작한 지 벌써 2달이 조금 안 되었다. 하루에 10시간씩 꼬박 시간을 들여가며 만드는 시간이 조급하면서도 즐거웠다. 현재 어플 상태는 3/4 정도 만들어진 상태로 배포되어 있다. 어플을 만들면서 다음번에 같은 문제를 만났을 때 참고할 만한 자료를 남겨두어야지 생각만 하다가 지금부터라도 남겨두어야겠다 싶어 제작기를 적으려고 한다.

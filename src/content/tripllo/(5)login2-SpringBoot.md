@@ -3,7 +3,7 @@ layout: post
 title: '(5) 로그인2 -SpringBoot 구현'
 author: [Pozafly]
 tags: [Tripllo 제작기, SpringSecurity, JWT]
-image: ../img/tripllo/tripllo5.png
+image: ../img/tripllo/(5)login2-SpringBoot/main.png
 date: '2021-02-04T15:03:47.149Z'
 draft: false
 excerpt: Spring Security와 JWT를 사용해서 로그인 기능을 구현했다. Spring Security의 구현된 소스와 login의 Service 단 내부 로직을 개념에 맞춰서 알아보자.
@@ -249,7 +249,7 @@ return request.getHeader("Authorization");
 
 이 부분이다. vue에서 axios로 api를 날릴때 token 이름을 "Token ...." 이런식으로 주었더니 토큰을 가져오지 못하는 경우가 발생했다.
 
-<img width="1038" alt="스크린샷 2021-02-04 오후 9 18 58" src="https://user-images.githubusercontent.com/59427983/106891971-c79c5500-672e-11eb-8840-2377296e626c.png">
+![devtool-status-code](<../img/tripllo/(5)login2-SpringBoot/devtool-status-code.png>)
 
 개발자 도구에 Network 탭에서 확인해보자. 만약 위 코드를
 
@@ -386,10 +386,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
           .and()
 	          .cors()
           .and()
-          	.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-                             	UsernamePasswordAuthenticationFilter.class)
-        // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다
-                ;
+            // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다
+          	.addFilterBefore(
+                new JwtAuthenticationFilter(jwtTokenProvider),
+                UsernamePasswordAuthenticationFilter.class
+            );
     }
 }
 ```
@@ -436,7 +437,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 role이란, `역할`을 말한다. Workbench의 user 테이블을 보자.
 
-<img width="94" alt="스크린샷 2021-02-04 오후 10 22 33" src="https://user-images.githubusercontent.com/59427983/106898417-80669200-6737-11eb-8387-4860cadc36e2.png">
+![user-table](<../img/tripllo/(5)login2-SpringBoot/user-table.png>)
 
 이렇게 role이라는 column이 있고 ROLE*USER라는 값이 String으로 들어있다. spring security의 config 파일에 보면 .antMatchers("/api/\*\*").hasRole("USER") 이렇게 되어있다. role을 config에 등록해서, 어떤 api 호출이 가능한지 분기를 태울 수 있다는 말이된다. 그리고 hasRole에 USER 라는 값이 있으면 prefix 로 자동으로 앞에 \*\*ROLE*\*\* 이라는 값을 붙여서 검증한다. 즉, 일반 유저라는 뜻이 되는 것이고, 만약 user 테이블에 ROLE_ADMIN 의 값을 주고 .antMatchers("/api/\*\*").hasRole("ADMIN") 이렇게 하면 api에 해당하는 모든 자원을 허용하겠다는 뜻이 된다.
 
@@ -448,7 +449,7 @@ role이란, `역할`을 말한다. Workbench의 user 테이블을 보자.
 
 ### 회원가입 프로세스
 
-![회원가입 로그인 프로세스 001](https://user-images.githubusercontent.com/59427983/106987685-5c479700-67b1-11eb-8937-3507056b0b22.jpeg)
+![signin-process](<../img/tripllo/(5)login2-SpringBoot/signin-process.jpeg>)
 
 1. front에서 회원가입 시 이미 회원가입이 된 ID인지 검사하는 Http Call을 날린다. MySQL에서 회원 ID를 SELECT, 가입 가능한지 판별하여 return. 보면 Spring Security config 파일에 .antMatchers("/api/user/valid/\*\*").permitAll() 로 프론트에서 header를 가지고 들어오지 않아도 리소스를 요청할 수 있도록 풀어주었기 때문에 가능하다.
 2. 가입 가능하다면 나머지 정보를 입력해서 Create Http Call을 날림. 여기도 마찬가지로 permitAll()로 풀어둔 상태다.
@@ -456,7 +457,7 @@ role이란, `역할`을 말한다. Workbench의 user 테이블을 보자.
 
 ### 로그인 프로세스
 
-![회원가입 로그인 프로세스 002](https://user-images.githubusercontent.com/59427983/106987714-68cbef80-67b1-11eb-98d2-17faa2b688c3.jpeg)
+![login-process](<../img/tripllo/(5)login2-SpringBoot/login-process.jpeg>)
 
 1. 로그인 시 ID, Password는 GET 방식으로 날릴 시 url 파라미터에 노출되므로 POST 방식으로 접근.
 2. Payload에 담긴 ID로 유저 정보 조회
@@ -476,7 +477,7 @@ role이란, `역할`을 말한다. Workbench의 user 테이블을 보자.
 
 - .matches(String requestPassword, String DBSavedPassword) : 파라미터로 유저가 요청한 password를 첫번째로 넣어주고, DB에서 조회해온 BCrypt 방식으로 가져온 password와 같은지 내부적으로 판단해 boolean 값으로 리턴해준다. `순서가 중요`하다. 첫번째 파라미터와 두번째 파라미터를 반대로 적으면 체크가 제대로 되지 않는다.
 
-<img width="408" alt="스크린샷 2021-02-05 오후 12 49 05" src="https://user-images.githubusercontent.com/59427983/106990185-1c83ae00-67b7-11eb-8ce3-6dc6a9df66dd.png">
+![password-encoding](<../img/tripllo/(5)login2-SpringBoot/password-encoding.png>)
 
 DB에 접속해서 select 해보면 이런 값이 들어가있는 것을 확인할 수 있다. 지금 위의 값은 내가 임의로 만든 사용자인데 모두 *같은 비밀번호*를 입력했음에도 불구하고 서로 다른 값이 들어가있는 것을 볼 수 있다. 이는 DBA도 유저가 **어떤 패스워드를 사용했는지 모르게** 한다.
 

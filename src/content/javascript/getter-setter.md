@@ -5,7 +5,7 @@ author: [Pozafly]
 tags:
 	- JavaScript
 date: '2023-02-09'
-image: ../img/javascript/JavaScript_Getter_Setter.png
+image: ../img/javascript/getter-setter/main.png
 draft: false
 excerpt: 객체의 접근자 프로퍼티인 Getter와 Setter에 대해 알아보자.
 ---
@@ -34,7 +34,7 @@ const user = {
     return `${this.name}님`;
   },
 };
-user.addNimName // 선태님
+user.addNimName; // 선태님
 ```
 
 addNimName이라는 getter를 객체 내부에 선언해두었다. 그리고 객체 외부에서 getter에 접근해 user 객체의 name 데이터 프로퍼티를 가공해 return했다. 이렇게 한 프로퍼티의 값을 가공해 외부에서 사용할 수 있게 되었다. getter는 함수처럼 호출하지 않고 프로퍼티에서 값에 접근하는 것처럼 접근할 수 있다.
@@ -142,7 +142,7 @@ console.log(user.getFullName()); // 선태 황
 
 getter인 fullName과 method인 getFullName() 은 동일한 값을 return하며, 로직 또한 동일하다. 하지만 `console.log(user)` 로 값을 보면 다르게 나타난다.
 
-<img width="309" alt="image" src="https://user-images.githubusercontent.com/59427983/217734448-76698eb1-bd17-4459-8642-d35d8c5f5ee4.png">
+![console](../img/javascript/getter-setter/console.png)
 
 method인 `getFullName()` 은 console에 나타났고, getter인 `fullName()` 은 나타나지 않았다. 해당 객체를 직접 열어보면 그제서야 `get fullName()` 이라는 함수가 나타난다. 즉, getter는 가상의 프로퍼티다. 가상의 프로퍼티라는 것은, 읽고 쓸 수는 있지만, 실제로는 존재하지 않는다는 의미다. 가상의 프로퍼티는 [mdn](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Functions/get#%EC%84%A4%EB%AA%85)에서 번역하기를 '유사 속성'이라고 되어 있다.
 
@@ -189,7 +189,9 @@ let user = {
   },
   set name(value) {
     if (value.length < 4) {
-      alert('입력하신 값이 너무 짧습니다. 네 글자 이상으로 구성된 이름을 입력하세요.');
+      alert(
+        '입력하신 값이 너무 짧습니다. 네 글자 이상으로 구성된 이름을 입력하세요.'
+      );
       return;
     }
     this._name = value;

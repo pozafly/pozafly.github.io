@@ -5,7 +5,7 @@ author: [Pozafly]
 tags:
 	- JavaScript
 date: '2023-02-15'
-image: ../img/javascript/symbol.png
+image: ../img/javascript/symbol/main.png
 draft: false
 excerpt: Symbol은 도대체 뭘까? 어디에 사용되고 있을까? 조금 더 깊게 들어가서 알아보자. 나중에 라이브러리를 만들 수도 있으니..
 ---
@@ -118,8 +118,6 @@ getOwnPropertyNames() 메서드에서도 Symbol은 나타나지 않지만, getOw
 
 <br/>
 
-<br/>
-
 ## 2. Symbol 사용 개념
 
 ES5 이전까지 상수(enum, constant)를 사용할 때는 String을 사용해 아래와 같이 사용했다.
@@ -186,8 +184,6 @@ getComplement(MOOD_BLUE); // Error
 
 <br/>
 
-<br/>
-
 ## 3. 프로퍼티 key로서의 Symbol
 
 이처럼 고유한 Symbol은 이제 객체의 key로 들어가면 다른 어떤 key 이름과도 충돌하지 않는다. 다음과 같을 경우 유용하다.
@@ -222,7 +218,7 @@ const user = new Login('a', 'b');
 
 이때, user를 찍어보면 다음과 같이 나온다.
 
-![image-20230215182624111](https://raw.githubusercontent.com/pozafly/blog-images/master/images/image-20230215182624111.png)
+![console1](../img/javascript/symbol/console1.png)
 
 즉, password가 가려져서 나오지 않는다. 이제 password 멤버변수는 외부로 노출되지 않는다.
 
@@ -246,7 +242,7 @@ const user = new Login('a', 'b');
 
 다시 user를 찍어보자.
 
-![image-20230215182812318](https://raw.githubusercontent.com/pozafly/blog-images/master/images/image-20230215182812318.png)
+![console2](../img/javascript/symbol/console2.png)
 
 이번엔 Symbol이 나타났다. 외부에 노출이 되었다는 뜻이다. 즉, WeakMap은 내부 구현을 다른 개발자에게 숨길 때 유용하다. 절대적인 private이 되었다. Symbol 같은 경우 형태는 존재하나, 어떤 것으로 Symbol이 되었는지 알기 어렵다. 그리고 'password' 라는 key 이름은 이제 충돌하지 않을(덮어써지지 않을) 것이다.
 
@@ -298,8 +294,6 @@ for (let x of obj) {
 obj는 객체다. 따라서 원래는 iterable이 없기 때문에 `for ... of` 문법을 사용하지 못한다. 배열은 iterable이 존재한다. 따라서 `for ... of` 문법을 사용해 반복 가능하다. 위 코드는 obj 객체에 iterator를 강제로 주입한 사례다. 우리는 iterable과 `for ... of` 가 내부적으로 어떻게 구현되어있는지 알지 못한다. 하지만 obj 객체에서도 `for ... of` 를 통해 반복하고 싶다. iterable을 사용하고 싶다. 즉, 개발자(사용자)가 커스텀하게 iterator를 구현하도록 JavaScript에서 열어둔 것이다. `for ... of` 의 내부 구현을 몰라도 말이다.
 
 여기서 사용된 `iterable, iterator, .next()` 는 다음 포스팅에서 더 상세하게 알아보자.
-
-<br/>
 
 <br/>
 
@@ -371,8 +365,6 @@ console.log(keyName); // undefined
 
 <br/>
 
-<br/>
-
 ## 5. 안정성 체크
 
 Symbol은 안정성을 위해 JavaScript에서 예외를 발생시켜준다. Symbol을 생성자로 호출하는 것과 Symbol를 문자열로 강제하는 것.
@@ -407,19 +399,15 @@ console.log(sym.toString()); // 'Symbol(My symbol)'
 
 <br/>
 
-<br/>
-
 ## 6. Well-Known Symbol
 
 Symbol() 함수를 브라우저에서 실행보자.
 
-![image-20230215203739381](https://raw.githubusercontent.com/pozafly/blog-images/master/images/image-20230215203739381.png)
+![console3](../img/javascript/symbol/console3.png)
 
 위의 프로퍼티들은 `length` 프로퍼티를 제외하면 모두 Well-Known Symbol이라고 부른다. 의미는 **자바스크립트가 기본 제공하는 빌트인 심볼**을 말한다. 위 심볼은, 자바스크립트 엔진의 내부 알고리즘에 사용된다.
 
 Well-Known 심볼의 가장 대표적인 예시가 바로 **Symbol.iterator**이다. 반복 가능하게 해주는 녀석으로 이것 또한 자바스크립트가 기본 제공하는 빌트인 심볼로 구현되었다. 다음 포스팅에서 더 자세하게 알아보자.
-
-<br/>
 
 <br/>
 
@@ -438,7 +426,7 @@ console.log(jsxMaker);
 
 react에서 위 코드를 실행해보자.
 
-![스크린샷 2023-02-15 오후 9.44.51](https://raw.githubusercontent.com/pozafly/blog-images/master/images/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-02-15%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%209.44.51.png)
+![console4](../img/javascript/symbol/console4.png)
 
 이 객체를 React Element라고 부른다. 이 객체는 react에게 무엇을 렌더링 할지 알려준다. 여기에는 `$$typeof` 라는 값이 있다. 그리고 `Symbol(react.element)` 라는 Symbol 값이 사용되었다.
 

@@ -3,7 +3,7 @@ layout: post
 title: 'vue-meta와 Meta tag'
 author: [Pozafly]
 tags: [Vue.js, HTML, SEO]
-image: ../img/html/vue-meta.jpg
+image: ../img/html/meta-tag-and-vue-meta/main.jpg
 date: '2021-05-30T20:13:47.149Z'
 draft: false
 excerpt: Semantic-Tag와 함께 SEO 향상을 위해 meta tag를 프로젝트에 적용하면서 meta tag의 역할과 기능, 그리고 Vue.js에서는 meta tag를 동적으로 어떻게 변화시킬 수 있는지 알아보자.
@@ -187,11 +187,11 @@ export const defualtMeta = [
 
 - index.html 에서 고정적으로 넣었던 태그
 
-<img width="504" alt="스크린샷 2021-05-30 오후 10 15 32" src="https://user-images.githubusercontent.com/59427983/120105637-c33ff000-c194-11eb-967f-d6cbd1fa5d47.png">
+![static-tag](../img/html/meta-tag-and-vue-meta/static-tag.png)
 
 - App.vue에 default 값으로 넣었던 태그
 
-<img width="505" alt="스크린샷 2021-05-30 오후 10 15 44" src="https://user-images.githubusercontent.com/59427983/120105688-fedaba00-c194-11eb-8f66-afb8ec17eae8.png">
+![dynamic-tag](../img/html/meta-tag-and-vue-meta/dynamic-tag.png)
 
 자세히 보면, App.vue에 넣었던 태그는 `data-vue-meta` 라는 녀석이 붙어있다. 가장 처음 Vue에 vue-meta를 적용할 때 main.js에 옵션을 넣을 수 있는 곳이 있었다. 그곳에 `attribute` 를 정의할 수 있었는데 그곳의 디폴트 값은 아래와 같았다.
 

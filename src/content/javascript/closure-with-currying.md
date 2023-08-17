@@ -5,7 +5,7 @@ author: [Pozafly]
 tags:
 	- JavaScript
 date: '2023-02-14'
-image: ../img/javascript/closure-with-curring.png
+image: ../img/javascript/closure-with-curring/main.png
 draft: false
 excerpt: JavaScript의 클로저를 통해 currying 함수를 알아보자.
 
@@ -231,7 +231,7 @@ console.log(curriedSumSix(1)); // 7
 curry 함수를 가독성이 좋게 화살표 함수로 만들 수 있다.
 
 ```js
-const curry = f => a => b => f(a, b);
+const curry = (f) => (a) => (b) => f(a, b);
 ```
 
 > 참고

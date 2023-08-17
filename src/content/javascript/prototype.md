@@ -5,7 +5,7 @@ author: [Pozafly]
 tags:
 	- JavaScript
 date: '2023-02-24'
-image: ../img/javascript/prototype-main.jpeg
+image: ../img/javascript/prototype/main.jpeg
 draft: false
 excerpt: 자바스크립트가 만들어진 기반, prototype 언어가 가지는 근본적인 철학에 대해 고민해보자.
 
@@ -273,7 +273,7 @@ console.log(a.__proto__ === Object.prototype); // true
 
 a는 Object의 인스턴스이기 때문이다. `__proto__`는 getter / setter다. a를 콘솔에 찍어보자.
 
-![01](../img/javascript/prototype1.png)
+![01](../img/javascript/prototype/get-set-console.png)
 
 사진에 보면 하단에 `get`, `set` 키워드로 `__proto__` 를 가리키고 있다. getter / setter이므로, `__proto__`에 접근할 경우나 재할당 할 경우 보이지는 않지만 내부적으로 어떤 조치를 취하고 있음을 알 수 있다. 그러면 이녀석을 왜 사용하고 있을까?
 
@@ -491,7 +491,7 @@ prototype은 오리너구리와 비슷하다.
 
 아마 관점에 따라서 달라질 것이다. '부리'에 초점을 맞추면 조류가 될 것이고, 젖이 있어 자식에게 젖을 먹인다는 것을 중요하게 생각하면 포유류가 될 것이다(오리너구리는 포유류임). 즉 관점(맥락-context)에 따라 다르게 정의할 수 있을 것이다. 맥락의 의미를 더 짚어보자. 이 사진 하나면 맥락에 따른 의미가 어떻게 달라지는지 알 수 있다.
 
-![02](../img/javascript/prototype2.png)
+![02](../img/javascript/prototype/meaning.png)
 
 <네이버 지식 백과 - 맥락>
 

@@ -3,13 +3,11 @@ layout: post
 title: '(10) Frontend -travis 배포 자동화'
 author: [Pozafly]
 tags: [Tripllo 제작기, Travis CI, Automation]
-image: ../img/tripllo/travis.png
+image: ../img/tripllo/(10)vue-travis-automation/main.png
 date: '2021-04-06T17:13:47.149Z'
 draft: false
 excerpt: Vue프로젝트를 aws의 S3와 CloudFront에 Travis CI를 통해 배포 자동화를 해보자.
 ---
-
-# Travis
 
 Travis CI에 대해서 알아보자. 우선 [Travis 공식](https://docs.travis-ci.com/) Docs를 보고 따라 해봤다. 참고 자료는 이동욱 님의 스프링 부트와 AWS로 혼자 구현하는 웹 서비스 책을 참고했다.
 
@@ -25,17 +23,15 @@ Travis CI에 대해서 알아보자. 우선 [Travis 공식](https://docs.travis-
 endpoint를 잘 설정해 주어야지 오류가 나지 않는다. springboot를 travis로 빌드 자동화를 했을 때도 겪었었지만, .org 엔드 포인트는 오류가 많고 잘되지 않는 경우가 많다. 버전 차이인듯싶다. 어쨌든 우리는 앞으로 `.com` 인 `--pro` 를 붙여 엔드포인트를 설정해줄 것이다.
 
 <br/>
-<br/>
 
 ## Github repository 연동
 
 https://travis-ci.com/ 이곳에 먼저 들어가서 github ID로 로그인을 해주자. 우측 상단에 내 아이콘을 선택하고 Setting -> Repositories에 가면 무슨 프로젝트를 설정할 것인지 페이지가 나온다. 여기서 어떤 프로젝트를 CI 할 것인지 설정해 줄 수 있다. Manage repositories on GitHub 을 클릭하고, github 페이지에 들어가면,
 
-![스크린샷 2021-04-06 오전 11 33 19](https://user-images.githubusercontent.com/59427983/113650888-f3ef3600-96cb-11eb-83a3-fe7d8b9849ad.png)
+![travis-repo-register](<../img/tripllo/(10)vue-travis-automation/travis-repo-register.png>)
 
 이곳에서 자신의 프로젝트를 선택해서 연동시킬 수 있다.
 
-<br/>
 <br/>
 
 ## .travis.yml
@@ -134,7 +130,7 @@ $ travis encrypt-file --pro [파일명]
 
 --pro를 붙여주자. 붙여주지 않으면,
 
-![스크린샷 2021-04-06 오전 11 55 25](https://user-images.githubusercontent.com/59427983/113652592-04ed7680-96cf-11eb-9b43-f67b49341adc.png)
+![travis-error-log](<../img/tripllo/(10)vue-travis-automation/travis-error-log.png>)
 
 push 후 build 때, `iv undefined` 오류가 계속 뜰 것임.
 
@@ -178,7 +174,7 @@ traivs 상에서 내 파일이 build 까지 완료되었다면, 이제 호스팅
 
 aws s3에 접근할 수 있는 엑세스키와 비밀키는 **절대절대절대절대** github 에 올라가서는 안된다. 따라서 travis 상에 키를 등록해놓고 .traivs.yml에서 불러다 쓰는 형태로 진행해야 한다. (만약 github에 올라가면 aws로부터 이메일이 겁나 많이 오고 aws에 설정했던 인스턴스를 모두 삭제해야 하는 상황이 발생할 수도 있다. 한번 더 확인하세요... 아니 다섯 번) 이 방법이 아까 환경 변수 설정 방법 3가지 중 3번째 방법을 사용하는 것이라 볼 수 있다. travis.com에 가서, Settings 화면에 가자. 해당 프로젝트 우측에 Settings 를 눌러서 key를 등록할 수 있다.
 
-![스크린샷 2021-04-06 오후 2 29 49](https://user-images.githubusercontent.com/59427983/113663278-b6e36d80-96e4-11eb-9379-723b135ce55a.png)
+![travis-key-register](<../img/tripllo/(10)vue-travis-automation/travis-key-register.png>)
 
 - name : AWS_ACCESS_KEY, AWS_SECRET_KEY 두 개
 - value : IAM에서 받은 엑세스키와 시크릿키
@@ -252,7 +248,7 @@ $AWS_ACCESS_KEY, $AWS_SECRET_KEY는 기존 travis에 설정된 대로 들어갈 
 
 이제 git push 해주면,
 
-![스크린샷 2021-04-06 오후 5 41 15](https://user-images.githubusercontent.com/59427983/113683817-94128280-96ff-11eb-9a7c-e45173c60c60.png)
+![aws-cache-invalidation](<../img/tripllo/(10)vue-travis-automation/aws-cache-invalidation.png>)
 
 요런식으로 도는걸 볼 수 있다. 완료!!
 

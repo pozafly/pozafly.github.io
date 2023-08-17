@@ -3,7 +3,7 @@ layout: post
 title: '(6) 로그인3 -vue 구현'
 author: [Pozafly]
 tags: [Tripllo 제작기, Vue.js]
-image: ../img/tripllo/tripllo6.png
+image: ../img/tripllo/(6)login3-vue/main.png
 date: '2021-02-05T07:03:47.149Z'
 draft: false
 excerpt: SpringBoot 쪽 서비스 로직이 만들어졌으므로 이번엔 vue에서 화면을 만들고 회원가입과 로그인을 진행해보자. 우리는 vue의 기능을 최대한 살려서 뼈대가 되는 페이지 하나에 login과 signup 2개의 컴포넌트를 붙이고 watch를 활용해 데이터를 검증할 것이다.
@@ -11,7 +11,7 @@ excerpt: SpringBoot 쪽 서비스 로직이 만들어졌으므로 이번엔 vue�
 
 > SpringBoot 쪽 서비스 로직이 만들어졌으므로 이번엔 vue에서 화면을 만들고 회원가입과 로그인을 진행해보자. 우리는 vue의 기능을 최대한 살려서 뼈대가 되는 페이지 하나에 login과 signup 2개의 컴포넌트를 붙이고 watch를 활용해 데이터를 검증할 것이다.
 
-![1113](https://user-images.githubusercontent.com/59427983/107032048-83748780-67f6-11eb-82a0-610a4d442113.gif)
+![login-page](<../img/tripllo/(6)login3-vue/login-page.gif>)
 
 ## vue-router
 
@@ -89,16 +89,18 @@ excerpt: SpringBoot 쪽 서비스 로직이 만들어졌으므로 이번엔 vue�
       },
     },
     created() {
-      this.$loadScript(`https://developers.kakao.com/sdk/js/kakao.js`).then(() => {
-        if (!window.Kakao.isInitialized()) this.$Kakao.init();
-      });
+      this.$loadScript(`https://developers.kakao.com/sdk/js/kakao.js`).then(
+        () => {
+          if (!window.Kakao.isInitialized()) this.$Kakao.init();
+        }
+      );
       this.$Facebook.init();
     },
   };
 </script>
 ```
 
-뼈대 Page는 이렇게 생겼다. \<router-view>\</router-view> 이 부분이 router에서 설계한 child 컴포넌트들이 뿌려질 곳이다. created() 메서드에는 이 다음에 포스팅 할 소셜 로그인 기능을 위해 둔 것.
+뼈대 Page는 이렇게 생겼다. `<router-view> </router-view>` 이 부분이 router에서 설계한 child 컴포넌트들이 뿌려질 곳이다. created() 메서드에는 이 다음에 포스팅 할 소셜 로그인 기능을 위해 둔 것.
 
 <br/>
 
@@ -112,7 +114,7 @@ SignupForm.vue와 LoginForm.vue는 비슷한 로직으로 되어있어 SignupFor
 
 #### ID 사용여부 체크
 
-![스크린샷 2021-02-05 오후 12 00 49](https://user-images.githubusercontent.com/59427983/107036121-76f32d80-67fc-11eb-84e3-970fddffbc54.png)
+![id-validation](<../img/tripllo/(6)login3-vue/id-validation.png>)
 
 사진과 같이 실시간으로 ID가 사용되고 있는지 여부를 체크해주면 좋겠다고 생각했다. 하지만 입력 이벤트가 일어날 때마다 백엔드로 http call을 보내면 쓸데없는 자원낭비라는 생각이 들었다. 여기다가 setTimeout 을 걸어줄까? 도 생각했지만 예전에 지나가다가 봤던 **lodash**의 `debounce` 를 사용해보기로 했다. setTimeout 은 설정한 시간이 흐른 후에 실행 되므로, 클라이언트가 타이핑 하고 나서 시간이 흐른 뒤 모든 http call을 요청했다. 하지만 lodash의 debounce는 시간을 설정하고 시간 내에 새로운 event가 일어나면 이전 것은 무시되고 제일 **마지막 한번이 동작**하게 되어 http call에 적합했다.
 
@@ -210,7 +212,8 @@ function validatePw(pw) {
 }
 
 function validateEmail(email) {
-  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const re =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
 }
 

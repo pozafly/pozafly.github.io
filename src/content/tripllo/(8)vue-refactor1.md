@@ -3,7 +3,7 @@ layout: post
 title: '(8) vue 리팩토링1'
 author: [Pozafly]
 tags: [Tripllo 제작기, Refactoring, Vue.js]
-image: ../img/tripllo/refactor1.jpg
+image: ../img/tripllo/(8)vue-refactor1/main.jpg
 date: '2021-04-03T19:13:47.149Z'
 draft: false
 excerpt: 멘토링 후 Tripllo에 꽤 많은 것을 손봐야한다는 것을 알게 되었다. 하나하나 고쳐보면서 정리한 것을 기록해보자.
@@ -180,11 +180,11 @@ import 구문에 .vue가 붙어있지 않다면 vscode에서 ctrl + 클릭으로
 
 기존 .vue 파일은 위계가 없이 단순히 이름만 적혀있었다. 예를 들어 `BoardHeader.vue` 밑에 3개의 파일이 아래와 같이 하위 컴포넌트로 존재함.
 
-![스크린샷 2021-04-19 오전 11 21 48](https://user-images.githubusercontent.com/59427983/115173109-85659b80-a101-11eb-884b-1da213530ffe.png)
+![file-structure](<../img/tripllo/(8)vue-refactor1/file-structure.png>)
 
 이렇게 되었을 때는 컴포넌트 구조를 볼 때 어느 것이 상위 컴포넌트고, 어느 것이 하위 컴포넌트인지 구분하기 쉽지 않다. 폴더 구조를 딱 봤을 때 바로 어떤 컴포넌트가 상위고 하위로 이어지는지 컴포넌트 명만 보고 쉽게 파악하게 하기 위해서는 위계 구조를 잡아주는 것이 좋다.
 
-<img width="294" alt="스크린샷 2021-04-19 오전 11 22 01" src="https://user-images.githubusercontent.com/59427983/115173137-8eef0380-a101-11eb-999f-eb832d7bcc2c.png">
+![file-structure2](<../img/tripllo/(8)vue-refactor1/file-structure2.png>)
 
 이런 식으로 BoardHeader가 가장 상위 컴포넌트고 그 컴포넌트 안에 3개의 하위 컴포넌트가 있는 것을 알 수 있다. VsCode 상으로 순서가 잡혀서 보기 좋다.
 
@@ -221,7 +221,7 @@ routes: [
 
 프론트에서 route 처리 중 가장 중요한 것은 권한에 따라 페이지를 막는 것이 제일 중요하다. 예를 들면 로그인 되지 않은 상태로 url을 쳐서 화면을 넘길 때, 현재는 이 처리가 되어있지 않을 때,
 
-![스크린샷 2021-04-02 오후 9 10 01](https://user-images.githubusercontent.com/59427983/113414586-4a245680-93f8-11eb-8fae-5e7b42b8e094.png)
+![already-rendering](<../img/tripllo/(8)vue-refactor1/already-rendering.png>)
 
 이런 식으로 권한이 없다고 나오지만, 페이지가 보인다(렌더링). 만약, 중요한 페이지인데 권한이 없는 누군가 url을 쳐서 페이지에 접속했을 때 보이면 안 되는 페이지라면 안되기 때문. 페이지 자체가 보이지 않도록 가드를 걸어줘야 함.
 
@@ -497,14 +497,14 @@ const makeEncode = (key, value) => {
   localStorage.setItem(key, btoa(encode));
 };
 
-const returnDecode = value => {
+const returnDecode = (value) => {
   const decode = atob(value);
   const data = JSON.parse(decodeURIComponent(decode));
   return data;
 };
 
 // 로컬스토리지 관련 함수(user)
-const saveUserToLocalStorage = user => makeEncodeValue(USER_INFO, user);
+const saveUserToLocalStorage = (user) => makeEncodeValue(USER_INFO, user);
 
 const getUserFromLocalStorage = () => {
   if (localStorage.getItem(USER_INFO)) {
@@ -513,7 +513,7 @@ const getUserFromLocalStorage = () => {
 };
 
 // 로컬스토리지 관련 함수(token)
-const saveTokenToLocalStorage = token => makeEncodeValue(TOKEN, token);
+const saveTokenToLocalStorage = (token) => makeEncodeValue(TOKEN, token);
 
 const getTokenFromLocalStorage = () => {
   if (localStorage.getItem(TOKEN)) {
@@ -524,7 +524,7 @@ const getTokenFromLocalStorage = () => {
 
 추가로 중요한 정보이니까, Base64로 인코딩 작업을 했다.
 
-<img width="792" alt="스크린샷 2021-04-19 오후 12 44 05" src="https://user-images.githubusercontent.com/59427983/115178818-0a09e700-a10d-11eb-99e0-c28123e65279.png">
+![devtool-local-storage](<../img/tripllo/(8)vue-refactor1/devtool-local-storage.png>)
 
 기존 `user_id` 는 뭐, `user_picture` 는 뭐, `user_token` 은 뭐... 이렇게 하나하나 집어넣는 것이 아니라 한 번에 깔끔하게 코드 중복 없이 인코딩되어 유저 정보가 깔끔하게 잘 들어가게 된다.
 
@@ -536,7 +536,7 @@ JSON.stringify, JSON.parse는 null이나 undifined 값이 들어가게 되면 �
 
 ```js
 // utils/libs.js
-const isEmpty = value => {
+const isEmpty = (value) => {
   if (
     value === '' ||
     value === null ||
