@@ -56,7 +56,7 @@ module.exports = {
             },
           },
           {
-            resolve: `gatsby-remark-images-medium-zoom`, // Important!
+            resolve: `gatsby-remark-images-medium-zoom`,
             options: {
               zIndex: 1001,
               background: 'rgba(255, 255, 255, 0.4)',

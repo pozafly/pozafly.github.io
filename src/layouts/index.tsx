@@ -553,6 +553,12 @@ function IndexLayout(props: IndexProps) {
           }
           .gatsby-resp-image-wrapper {
             width: 80%;
+            @media (max-width: 800px) {
+              width: 100%;
+            }
+          }
+          .medium-zoom-image {
+            box-shadow: none !important;
           }
         `}
       />
