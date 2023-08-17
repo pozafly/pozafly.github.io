@@ -97,20 +97,7 @@ export const PostFullContent = styled.section`
   }
 
   a {
-    /* color: var(--darkgrey); */
-    color: ${colors.blue};
-    word-break: break-word;
-    /* box-shadow: var(--darkgrey) 0 -1px 0 inset; */
-    box-shadow: ${colors.blue} 0 -1px 0 inset;
-    transition: all 0.2s ease-in-out;
-  }
-
-  a:hover {
-    /* color: var(--blue); */
-    color: ${colors.darkgrey};
-    text-decoration: none;
-    /* box-shadow: var(--blue) 0 -1px 0 inset; */
-    box-shadow: ${colors.darkgrey} 0 -1px 0 inset;
+    color: #0a84ff;
   }
 
   a[class*='image'],
@@ -123,7 +110,6 @@ export const PostFullContent = styled.section`
 
   strong,
   em {
-    /* color: color(var(--darkgrey) l(-5%)); */
     color: ${lighten('-0.05', colors.darkgrey)};
   }
 
@@ -170,7 +156,10 @@ export const PostFullContent = styled.section`
   blockquote {
     margin: 0 0 1.5em;
     padding: 0 1.5em;
-    border-left: #3eb0ef 3px solid;
+    border-left: #e0e0e0 3px solid;
+    @media (prefers-color-scheme: dark) {
+      border-left: #2c2c2c 3px solid;
+    }
   }
   @media (max-width: 500px) {
     blockquote {
@@ -195,7 +184,6 @@ export const PostFullContent = styled.section`
     font-size: 0.8em;
     line-height: 1em;
     font-weight: 400 !important;
-    /* background: var(--whitegrey); */
     background: ${colors.whitegrey};
     border-radius: 3px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
@@ -208,23 +196,12 @@ export const PostFullContent = styled.section`
 
   pre {
     overflow-x: auto;
-    /* margin: 1.5em 0 3em; */
     padding: 20px;
     max-width: 100%;
-    /* border: color(var(--darkgrey) l(-10%)) 1px solid; */
-    /* border: ${lighten('-0.1', colors.darkgrey)} 1px solid; */
-    /* color: var(--whitegrey); */
     color: ${colors.whitegrey};
     font-size: 1.4rem;
     line-height: 1.5em;
-    /* background: color(var(--darkgrey) l(-3%)); */
-    /* background: ${lighten('-0.03', colors.darkgrey)}; */
     border-radius: 5px;
-  }
-
-  pre ::selection {
-    /* color: color(var(--midgrey) l(-25%)); */
-    color: ${lighten('-0.25', colors.midgrey)};
   }
 
   pre code {
@@ -255,7 +232,6 @@ export const PostFullContent = styled.section`
     margin-left: -10px;
     width: 1px;
     height: 30px;
-    /* background: color(var(--lightgrey) l(+10%)); */
     background: ${lighten('0.1', colors.lightgrey)};
     box-shadow: #fff 0 0 0 5px;
     transform: rotate(45deg);
@@ -271,7 +247,6 @@ export const PostFullContent = styled.section`
   h4,
   h5,
   h6 {
-    /* color: color(var(--darkgrey) l(-5%)); */
     color: ${lighten('-0.05', colors.darkgrey)};
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
       'Noto Sans', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', sans-serif;
@@ -442,26 +417,22 @@ export const PostFullContent = styled.section`
   }
 
   table th {
-    /* color: var(--darkgrey); */
     color: ${colors.darkgrey};
     font-size: 1.2rem;
     font-weight: 700;
     letter-spacing: 0.2px;
     text-align: left;
     text-transform: uppercase;
-    /* background-color: color(var(--whitegrey) l(+4%)); */
     background-color: ${lighten('0.04', colors.whitegrey)};
   }
 
   table th,
   table td {
     padding: 6px 12px;
-    /* border: color(var(--whitegrey) l(-1%) s(-5%)) 1px solid; */
     border: ${lighten('-0.01', colors.whitegrey)} 1px solid;
   }
 
   @media (prefers-color-scheme: dark) {
-    /* background: var(--darkmode); */
     background: ${colors.darkmode};
 
     h1,
@@ -470,15 +441,6 @@ export const PostFullContent = styled.section`
     h4,
     h6 {
       color: rgba(255, 255, 255, 0.9);
-    }
-
-    a {
-      color: #26a6ed;
-      box-shadow: inset 0 -1px 0 #26a6ed;
-      &:hover {
-        color: #fff;
-        box-shadow: inset 0 -1px 0 #fff;
-      }
     }
 
     a[class*='image'],
@@ -500,7 +462,6 @@ export const PostFullContent = styled.section`
     }
 
     hr {
-      /* border-top-color: color(var(--darkmode) l(+8%)); */
       border-top-color: ${lighten('0.08', colors.darkmode)};
     }
 
@@ -514,11 +475,6 @@ export const PostFullContent = styled.section`
     }
 
     table td:first-of-type {
-      /* background-image: linear-gradient(
-        to right,
-        var(--darkmode) 50%,
-        color(var(--darkmode) a(0%)) 100%
-      ); */
       background-image: linear-gradient(
         to right,
         ${colors.darkmode} 50%,
@@ -527,11 +483,6 @@ export const PostFullContent = styled.section`
     }
 
     table td:last-child {
-      /* background-image: linear-gradient(
-        to left,
-        var(--darkmode) 50%,
-        color(var(--darkmode) a(0%)) 100%
-      ); */
       background-image: linear-gradient(
         270deg,
         #191b1f 50%,
@@ -541,13 +492,11 @@ export const PostFullContent = styled.section`
 
     table th {
       color: rgba(255, 255, 255, 0.85);
-      /* background-color: color(var(--darkmode) l(+8%)); */
       background-color: ${lighten('0.08', colors.darkmode)};
     }
 
     table th,
     table td {
-      /* border: color(var(--darkmode) l(+8%)) 1px solid; */
       border: ${lighten('0.08', colors.darkmode)} 1px solid;
     }
 

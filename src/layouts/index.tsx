@@ -156,7 +156,10 @@ function IndexLayout(props: IndexProps) {
           }
           b,
           strong {
-            font-weight: bold;
+            font-weight: 600;
+            @media (prefers-color-scheme: dark) {
+              font-weight: normal;
+            }
           }
           i,
           em,
@@ -306,12 +309,6 @@ function IndexLayout(props: IndexProps) {
               border-radius: 8px;
               background-color: hsla(230, 5%, 35%, 1);
             }
-          }
-
-          ::selection {
-            text-shadow: none;
-            /* background: ${lighten('0.3', colors.blue)}; */
-            background: ${lighten('0.001', '#3498db')};
           }
 
           hr {
