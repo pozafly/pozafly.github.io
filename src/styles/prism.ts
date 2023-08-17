@@ -49,35 +49,14 @@ export default css`
     overflow: auto;
   }
 
-  pre[class*='language-']::-moz-selection {
-    /* Firefox */
-    background: hsl(207, 4%, 16%);
-  }
-
-  pre[class*='language-']::selection {
-    /* Safari */
-    background: hsl(207, 4%, 16%);
-  }
-
   /* Text Selection colour */
-  pre[class*='language-']::-moz-selection,
-  pre[class*='language-'] ::-moz-selection {
-    text-shadow: none;
-    background: hsla(0, 0%, 100%, 0.15);
-  }
-
-  pre[class*='language-']::selection,
-  pre[class*='language-'] ::selection {
-    text-shadow: none;
-    background: hsla(0, 0%, 100%, 0.15);
-  }
 
   /* Inline code */
   *:not(pre) > code[class*='language-'] {
     border-radius: 0.3em;
     /* background: #dcdcdc; */
-    background: rgb(235, 235, 235);
-    border: 1px solid rgb(236, 237, 244);
+    background: #fafafa;
+    border: 1px solid #d1d1d1;
     color: #000;
     padding: 0.15em 0.5em;
     white-space: normal;
@@ -200,19 +179,6 @@ export default css`
   /* End Syntax Highlighting */
 
   @media (prefers-color-scheme: light) {
-    code[class*='language-']::-moz-selection,
-    code[class*='language-'] *::-moz-selection,
-    pre[class*='language-'] *::-moz-selection {
-      background: hsl(230, 1%, 90%);
-      color: inherit;
-    }
-
-    code[class*='language-']::selection,
-    code[class*='language-'] *::selection,
-    pre[class*='language-'] *::selection {
-      background: hsl(230, 1%, 90%);
-      color: inherit;
-    }
     .token.comment,
     .token.prolog,
     .token.cdata {
@@ -476,53 +442,9 @@ export default css`
       background-color: hsla(353, 100%, 66%, 0.15);
     }
 
-    pre.diff-highlight > code .token.token.deleted:not(.prefix)::-moz-selection,
-    pre.diff-highlight
-      > code
-      .token.token.deleted:not(.prefix)
-      *::-moz-selection,
-    pre > code.diff-highlight .token.token.deleted:not(.prefix)::-moz-selection,
-    pre
-      > code.diff-highlight
-      .token.token.deleted:not(.prefix)
-      *::-moz-selection {
-      background-color: hsla(353, 95%, 66%, 0.25);
-    }
-
-    pre.diff-highlight > code .token.token.deleted:not(.prefix)::selection,
-    pre.diff-highlight > code .token.token.deleted:not(.prefix) *::selection,
-    pre > code.diff-highlight .token.token.deleted:not(.prefix)::selection,
-    pre > code.diff-highlight .token.token.deleted:not(.prefix) *::selection {
-      background-color: hsla(353, 95%, 66%, 0.25);
-    }
-
     pre.diff-highlight > code .token.token.inserted:not(.prefix),
     pre > code.diff-highlight .token.token.inserted:not(.prefix) {
       background-color: hsla(137, 100%, 55%, 0.15);
-    }
-
-    pre.diff-highlight
-      > code
-      .token.token.inserted:not(.prefix)::-moz-selection,
-    pre.diff-highlight
-      > code
-      .token.token.inserted:not(.prefix)
-      *::-moz-selection,
-    pre
-      > code.diff-highlight
-      .token.token.inserted:not(.prefix)::-moz-selection,
-    pre
-      > code.diff-highlight
-      .token.token.inserted:not(.prefix)
-      *::-moz-selection {
-      background-color: hsla(135, 73%, 55%, 0.25);
-    }
-
-    pre.diff-highlight > code .token.token.inserted:not(.prefix)::selection,
-    pre.diff-highlight > code .token.token.inserted:not(.prefix) *::selection,
-    pre > code.diff-highlight .token.token.inserted:not(.prefix)::selection,
-    pre > code.diff-highlight .token.token.inserted:not(.prefix) *::selection {
-      background-color: hsla(135, 73%, 55%, 0.25);
     }
 
     /* Previewers plugin overrides */

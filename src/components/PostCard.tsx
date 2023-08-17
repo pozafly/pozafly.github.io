@@ -177,7 +177,6 @@ const PostCardImageLink = css`
 const PostCardImage = styled.div`
   width: auto;
   height: 200px;
-  background: #fff no-repeat center center;
   background-size: cover;
   border-radius: 12px;
   border: 1px solid hsl(230deg 25% 94%);

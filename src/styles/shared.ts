@@ -24,9 +24,11 @@ export const SiteNavMain = css`
   left: 0;
   z-index: 1000;
   backdrop-filter: blur(8px);
-  background: transparent;
-  /* background: color(var(--darkgrey) l(-5%)); */
-  /* background: ${lighten('-0.05', colors.darkgrey)}; */
+  background: rgba(255, 255, 255, 0.4);
+  @media (prefers-color-scheme: dark) {
+    background: rgba(25, 27, 31, 0.4);
+    /* background: transparent; */
+  }
 `;
 
 export const SiteMain = css`
@@ -218,7 +220,7 @@ export const SiteHeaderBackground = css`
 export const ResponsiveHeaderBackground = styled.div<{
   backgroundImage?: string;
 }>`
-  ${p =>
+  ${(p) =>
     p.backgroundImage &&
     `
     position: relative;
@@ -262,7 +264,7 @@ export const ResponsiveHeaderBackground = styled.div<{
     }
   `}
 
-  ${p =>
+  ${(p) =>
     !p.backgroundImage &&
     `
 

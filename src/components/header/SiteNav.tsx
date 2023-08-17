@@ -1,11 +1,9 @@
 import { Link } from 'gatsby';
-import { darken } from 'polished';
 import React from 'react';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { colors } from '../../styles/colors';
 import { SocialLink, SocialLinkFb } from '../../styles/shared';
 import config from '../../website-config';
 import { Instagram } from '../icons/instagram';
@@ -171,16 +169,6 @@ class SiteNav extends React.PureComponent<SiteNavProps, SiteNavState> {
     );
   }
 }
-
-export const SiteNavMain = css`
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  z-index: 1000;
-  backdrop-filter: blur(8px);
-  background: transparent;
-`;
 
 const SiteNavStyles = css`
   position: relative;
