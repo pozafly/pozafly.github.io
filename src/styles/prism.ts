@@ -1,30 +1,80 @@
 import { css } from '@emotion/react';
 
 export default css`
-  /* Start Syntax Highlighting */
-  /* Taken from overreacted https://github.com/gaearon/overreacted.io/blob/942b41555f5e5ccbb5f93f6c26142cd90b314236/src/utils/global.css#L68 */
-  code[class*='language-'],
-  pre[class*='language-'] {
-    color: white;
+  *:not(pre) > code[class*='language-'] {
+    border-radius: 0.3em;
+    background: #fafafa;
+    border: 1px solid #d1d1d1;
+    color: #000;
+    padding: 0.15em 0.5em;
+    white-space: normal;
+
+    @media (max-width: 800px) {
+      display: inline;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      background: rgb(32 36 39);
+      border: 1px solid #515151;
+      color: white;
+      border: none;
+      font-weight: 500 !important;
+    }
+  }
+
+  .gatsby-highlight-code-line {
+    display: block;
+    margin-right: -1.3125rem;
+    margin-left: -1.3125rem;
+    padding-right: 1em;
+    padding-left: 1.25em;
+    background-color: rgb(0 0 0 / 40%);
+    border-left: 0.25em solid #818181;
+    @media (prefers-color-scheme: light) {
+      background-color: hsl(0deg 0% 90.66%);
+      border-left: 0.25em solid hsl(0deg 0% 82.88%);
+    }
+  }
+
+  .gatsby-highlight {
+    margin-bottom: 1.75rem;
+    margin-left: -1.3125rem;
+    margin-right: -1.3125rem;
+    border-radius: 10px;
+    background: rgb(32 36 39);
+    @media (prefers-color-scheme: light) {
+      background: #fafafa;
+      border: 1px solid #d1d1d1;
+    }
+    -webkit-overflow-scrolling: touch;
+    overflow: auto;
+  }
+
+  .gatsby-highlight pre[class*='language-'] {
+    float: left;
+    min-width: 100%;
+    font-size: 1.5rem;
+    line-height: 24px;
+  }
+
+  pre[class*='language-'],
+  code[class*='language-'] {
+    color: #c9d1d9;
     @media (prefers-color-scheme: light) {
       color: black;
     }
-    background: none;
-    font-family: Consolas, Menlo, Monaco, source-code-pro, Courier New,
-      monospace;
-    font-feature-settings: normal;
+    font-size: 13px;
+    text-shadow: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    direction: ltr;
     text-align: left;
     white-space: pre;
     word-spacing: normal;
     word-break: normal;
-    word-wrap: normal;
-    line-height: 1.5;
-    margin-bottom: 0;
-
+    line-height: 1.8;
     -moz-tab-size: 4;
     -o-tab-size: 4;
     tab-size: 4;
-
     -webkit-hyphens: none;
     -moz-hyphens: none;
     -ms-hyphens: none;
@@ -44,98 +94,12 @@ export default css`
     }
   }
 
-  /* Code blocks */
   pre[class*='language-'] {
     overflow: auto;
   }
 
-  /* Text Selection colour */
-
-  /* Inline code */
-  *:not(pre) > code[class*='language-'] {
-    border-radius: 0.3em;
-    /* background: #dcdcdc; */
-    background: #fafafa;
-    border: 1px solid #d1d1d1;
-    color: #000;
-    padding: 0.15em 0.5em;
-    white-space: normal;
-
-    @media (max-width: 800px) {
-      display: inline;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      background: #3c4148;
-      color: white;
-      border: none;
-      font-weight: 500 !important;
-    }
-  }
-
   .token {
     font-size: 1.4rem;
-  }
-
-  .token.attr-name {
-    color: rgb(173, 219, 103);
-    font-style: italic;
-  }
-
-  .token.comment {
-    color: rgb(128, 147, 147);
-  }
-
-  .token.string,
-  .token.url {
-    color: rgb(173, 219, 103);
-  }
-
-  .token.variable {
-    color: rgb(214, 222, 235);
-  }
-
-  .token.number {
-    color: rgb(247, 140, 108);
-  }
-
-  .token.builtin,
-  .token.char,
-  .token.constant,
-  .token.function {
-    color: rgb(130, 170, 255);
-  }
-
-  .token.punctuation {
-    color: rgb(199, 146, 234);
-  }
-
-  .token.selector,
-  .token.doctype {
-    color: rgb(199, 146, 234);
-    font-style: 'italic';
-  }
-
-  .token.class-name {
-    color: rgb(255, 203, 139);
-  }
-
-  .token.tag,
-  .token.operator,
-  .token.keyword {
-    color: #ffa7c4;
-  }
-
-  .token.boolean {
-    color: rgb(255, 88, 116);
-  }
-
-  .token.property {
-    color: rgb(128, 203, 196);
-  }
-
-  .token.namespace {
-    color: rgb(178, 204, 214);
   }
 
   pre[data-line] {
@@ -143,38 +107,104 @@ export default css`
     position: relative;
   }
 
-  .gatsby-highlight-code-line {
-    display: block;
-    margin-right: -1.3125rem;
-    margin-left: -1.3125rem;
-    padding-right: 1em;
-    padding-left: 1.25em;
-    background-color: hsl(0deg 0% 20.82%);
-    border-left: 0.25em solid #818181;
-    @media (prefers-color-scheme: light) {
-      background-color: hsl(0deg 0% 90.66%);
-      border-left: 0.25em solid hsl(0deg 0% 82.88%);
+  @media print {
+    pre[class*='language-'],
+    code[class*='language-'] {
+      text-shadow: none;
     }
   }
-
-  .gatsby-highlight {
-    margin-bottom: 1.75rem;
-    margin-left: -1.3125rem;
-    margin-right: -1.3125rem;
-    border-radius: 10px;
-    background: rgb(32 36 39);
-    @media (prefers-color-scheme: light) {
-      background-color: #fafafa;
-      border: 1px solid #d1d1d1;
-    }
-    -webkit-overflow-scrolling: touch;
+  pre[class*='language-'] {
+    padding: 1em;
     overflow: auto;
+    margin: 0;
   }
-
-  .gatsby-highlight pre[class*='language-'] {
-    float: left;
-    min-width: 100%;
-    font-size: 1.5rem;
+  :not(pre) > code[class*='language-'] {
+    padding: 0.1em 0.3em;
+    border-radius: 0.3em;
+    color: #c9d1d9;
+    background: #343942;
+  }
+  /* Line highlighting */
+  pre[data-line] {
+    position: relative;
+  }
+  pre[class*='language-'] > code[class*='language-'] {
+    position: relative;
+    z-index: 1;
+  }
+  .line-highlight {
+    position: absolute;
+    left: 0;
+    right: 0;
+    padding: inherit 0;
+    margin-top: 1em;
+    background: #2f2a1e;
+    box-shadow: inset 5px 0 0 #674c16;
+    z-index: 0;
+    pointer-events: none;
+    line-height: inherit;
+    white-space: pre;
+  }
+  /* Tokens */
+  .namespace {
+    opacity: 0.7;
+  }
+  .token.comment,
+  .token.prolog,
+  .token.doctype,
+  .token.cdata {
+    color: #8b949e;
+  }
+  .token.punctuation {
+    color: #c9d1d9;
+  }
+  .token.property,
+  .token.tag,
+  .token.boolean,
+  .token.number,
+  .token.constant,
+  .token.symbol,
+  .token.deleted {
+    color: #79c0ff;
+  }
+  .token.selector,
+  .token.attr-name,
+  .token.string,
+  .token.char,
+  .token.builtin,
+  .token.inserted {
+    color: #a5d6ff;
+  }
+  .token.operator,
+  .token.entity,
+  .token.url,
+  .language-css .token.string,
+  .style .token.string {
+    color: #a5d6ff;
+    /* background: #161b22; */
+  }
+  .token.atrule,
+  .token.attr-value,
+  .token.keyword {
+    color: #a5d6ff;
+  }
+  .token.function {
+    color: #d2a8ff;
+  }
+  .token.regex,
+  .token.important,
+  .token.variable {
+    color: #a8daff;
+  }
+  .token.important,
+  .token.bold {
+    font-weight: bold;
+  }
+  .token.italic {
+    font-style: italic;
+  }
+  .token.entity {
+    cursor: help;
   }
   /* End Syntax Highlighting */
 
@@ -302,7 +332,7 @@ export default css`
     .language-markdown .token.blockquote.punctuation,
     .language-markdown .token.hr.punctuation {
       color: hsl(230, 4%, 64%);
-      font-style: italic;
+      /* font-style: italic; */
     }
 
     .language-markdown .token.code-snippet {
@@ -327,11 +357,6 @@ export default css`
     /* General */
     .token.bold {
       font-weight: bold;
-    }
-
-    .token.comment,
-    .token.italic {
-      font-style: italic;
     }
 
     .token.entity {
