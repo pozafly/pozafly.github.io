@@ -16,13 +16,15 @@ type ReadNextProps = {
     totalCount: number;
     edges: Array<{
       node: {
-        timeToRead: number;
         frontmatter: {
           date: string;
           title: string;
         };
         fields: {
           slug: string;
+          readingTime: {
+            text: string;
+          };
         };
       };
     }>;
@@ -33,7 +35,12 @@ type ReadNextProps = {
   };
 };
 
-export function ReadNext({ relatedPosts, currentPageSlug, tags, pageContext }: ReadNextProps) {
+export function ReadNext({
+  relatedPosts,
+  currentPageSlug,
+  tags,
+  pageContext,
+}: ReadNextProps) {
   const showRelatedPosts = relatedPosts.totalCount > 1;
 
   return (
@@ -48,8 +55,12 @@ export function ReadNext({ relatedPosts, currentPageSlug, tags, pageContext }: R
             />
           )}
 
-          {pageContext.prev && <PostCard post={pageContext.prev} isNext={true} />}
-          {pageContext.next && <PostCard post={pageContext.next} isNext={true} />}
+          {pageContext.prev && (
+            <PostCard post={pageContext.prev} isNext={true} />
+          )}
+          {pageContext.next && (
+            <PostCard post={pageContext.next} isNext={true} />
+          )}
         </ReadNextFeed>
       </div>
     </ReadNextAside>

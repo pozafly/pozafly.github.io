@@ -53,12 +53,14 @@ type PageTemplateProps = {
       totalCount: number;
       edges: Array<{
         node: {
-          timeToRead: number;
           frontmatter: {
             title: string;
             date: string;
           };
           fields: {
+            readingTime: {
+              text: string;
+            };
             slug: string;
           };
         };
@@ -310,7 +312,6 @@ const PostTemplate = css`
 
 export const PostFull = css`
   position: relative;
-  /* z-index: 50; */
 `;
 
 export const NoImage = css`

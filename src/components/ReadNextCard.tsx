@@ -14,12 +14,14 @@ export type ReadNextProps = {
     totalCount: number;
     edges: Array<{
       node: {
-        timeToRead: number;
         frontmatter: {
           title: string;
           date: string;
         };
         fields: {
+          readingTime: {
+            text: string;
+          };
           slug: string;
         };
       };
@@ -30,9 +32,9 @@ export type ReadNextProps = {
 export function ReadNextCard(props: ReadNextProps) {
   // filter out current post and limit to 3 related posts
   const relatedPosts = props.relatedPosts.edges
-    .filter(post => post.node.fields.slug !== props.currentPageSlug)
+    .filter((post) => post.node.fields.slug !== props.currentPageSlug)
     .slice(0, 3);
-
+  console.log(relatedPosts);
   return (
     <ReadNextCardArticle className="read-next-card">
       <header className="read-next-card-header">
@@ -43,12 +45,12 @@ export function ReadNextCard(props: ReadNextProps) {
       </header>
       <ReadNextCardContent className="read-next-card-content">
         <ul>
-          {relatedPosts.map(n => {
+          {relatedPosts.map((n) => {
             const date = new Date(n.node.frontmatter.date);
             // 2018-08-20
             const datetime = format(date, 'yyyy-MM-dd');
             // 20 AUG 2018
-            const displayDatetime = format(date, 'dd LLL yyyy');
+            const displayDatetime = format(date, 'yyyy MM dd');
             return (
               <li key={n.node.frontmatter.title}>
                 <h4>
@@ -59,7 +61,7 @@ export function ReadNextCard(props: ReadNextProps) {
                 <ReadNextCardMeta className="read-next-card-meta">
                   <p>
                     <time dateTime={datetime}>{displayDatetime}</time> -{' '}
-                    {n.node.timeToRead} min read
+                    {n.node.fields.readingTime.text}
                   </p>
                 </ReadNextCardMeta>
               </li>
@@ -121,10 +123,15 @@ const ReadNextCardArticle = styled.article`
 const ReadNextCardHeaderTitle = styled.h3`
   margin: 0;
   color: rgba(255, 255, 255, 0.6);
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   line-height: 1em;
   font-weight: 300;
   letter-spacing: 0.4px;
+
+  span,
+  a {
+    font-size: inherit;
+  }
 
   a {
     color: #fff;
@@ -139,7 +146,7 @@ const ReadNextCardHeaderTitle = styled.h3`
 `;
 
 const ReadNextCardContent = styled.div`
-  font-size: 1.7rem;
+  font-size: 1.3rem;
 
   ul {
     display: flex;
@@ -165,12 +172,13 @@ const ReadNextCardContent = styled.div`
 
   h4 {
     margin: 0;
-    font-size: 1.6rem;
-    line-height: 1.35em;
+    font-size: 1.3rem;
+    line-height: 1.6em;
     font-weight: 600;
   }
 
   li a {
+    font-size: inherit;
     display: block;
     color: #fff;
     opacity: 0.8;
@@ -188,8 +196,12 @@ const ReadNextCardMeta = styled.div`
   font-weight: 400;
 
   p {
+    font-size: inherit;
     margin: 0;
     color: rgba(255, 255, 255, 0.6);
+    time {
+      font-size: inherit;
+    }
   }
 `;
 
