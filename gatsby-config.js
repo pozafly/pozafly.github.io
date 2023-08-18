@@ -3,8 +3,8 @@ const path = require('path');
 
 module.exports = {
   siteMetadata: {
-    title: '우물쭈물하다 내 이럴줄 알았지🙃',
-    description: 'pozafly의 기술 블로그',
+    title: '기록 여정',
+    description: 'Pozafly Blog',
     siteUrl: 'https://pozafly.github.io', // full path to blog - no ending slash
   },
   mapping: {

@@ -17,7 +17,6 @@ export default css`
       background: rgb(32 36 39);
       border: 1px solid #515151;
       color: white;
-      border: none;
       font-weight: 500 !important;
     }
   }

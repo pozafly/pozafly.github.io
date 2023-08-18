@@ -8,7 +8,6 @@ import { SocialLink, SocialLinkFb } from '../../styles/shared';
 import config from '../../website-config';
 import { Instagram } from '../icons/instagram';
 import { Github } from '../icons/github';
-import { SubscribeModal } from '../subscribe/SubscribeModal';
 import { SiteNavLogo } from './SiteNavLogo';
 
 type SiteNavProps = {
@@ -22,17 +21,10 @@ type SiteNavState = {
 };
 
 class SiteNav extends React.PureComponent<SiteNavProps, SiteNavState> {
-  subscribe = React.createRef<SubscribeModal>();
   titleRef = React.createRef<HTMLSpanElement>();
   lastScrollY = 0;
   ticking = false;
   state = { showTitle: false };
-
-  openModal = () => {
-    if (this.subscribe.current) {
-      this.subscribe.current.open();
-    }
-  };
 
   componentDidMount(): void {
     this.lastScrollY = window.scrollY;
@@ -81,7 +73,6 @@ class SiteNav extends React.PureComponent<SiteNavProps, SiteNavState> {
     const { isHome = false, isPost = false, post = {} } = this.props;
     return (
       <>
-        {config.showSubscribe && <SubscribeModal ref={this.subscribe} />}
         <nav css={SiteNavStyles}>
           <SiteNavLeft className={`site-nav-left ${isHome ? 'is-home' : ''}`}>
             <SiteNavLogo />
@@ -158,11 +149,6 @@ class SiteNav extends React.PureComponent<SiteNavProps, SiteNavState> {
                 </a>
               )}
             </SocialLinks>
-            {config.showSubscribe && (
-              <SubscribeButton onClick={this.openModal}>
-                Subscribe
-              </SubscribeButton>
-            )}
           </SiteNavRight>
         </nav>
       </>
@@ -292,23 +278,6 @@ const SocialLinks = styled.div`
   flex-shrink: 0;
   display: flex;
   align-items: center;
-`;
-
-const SubscribeButton = styled.a`
-  display: block;
-  padding: 4px 10px;
-  margin: 0 0 0 10px;
-  border: #fff 1px solid;
-  color: #fff;
-  line-height: 1em;
-  border-radius: 10px;
-  opacity: 0.8;
-
-  :hover {
-    text-decoration: none;
-    opacity: 1;
-    cursor: pointer;
-  }
 `;
 
 const NavPostTitle = styled.span`
