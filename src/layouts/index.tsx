@@ -100,7 +100,8 @@ function IndexLayout(props: IndexProps) {
             padding: 0;
             border: 0;
             font: inherit;
-            font-size: 93%;
+            /* font-size: 92%; */
+            font-size: 16px;
             vertical-align: baseline;
 
             .copyright {
@@ -158,7 +159,7 @@ function IndexLayout(props: IndexProps) {
           strong {
             font-weight: 600;
             @media (prefers-color-scheme: dark) {
-              font-weight: normal;
+              font-weight: 500;
             }
           }
           i,

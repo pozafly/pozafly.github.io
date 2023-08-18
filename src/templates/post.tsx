@@ -350,9 +350,12 @@ const PostFullTags = styled.section`
   justify-content: flex-start;
   align-items: center;
   color: ${colors.midgrey};
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   line-height: 1.4em;
   font-weight: 600;
+  a {
+    font-size: 1.2rem;
+  }
 `;
 
 export const AuthorListUl = styled.ul`
@@ -414,11 +417,17 @@ const PostFullByline = styled.div`
   }
 
   .post-full-byline-meta h4 a {
+    font-size: 13px;
     color: ${lighten('0.1', colors.darkgrey)};
   }
 
   .post-full-byline-meta h4 a:hover {
     color: ${colors.darkgrey};
+  }
+
+  .post-full-byline-meta .byline-reading-time,
+  .post-full-byline-meta .byline-meta-date {
+    font-size: 13px;
   }
 
   .post-full-byline-meta .bull {

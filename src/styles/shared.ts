@@ -141,11 +141,9 @@ export const SiteHeaderContent = styled.div`
 
 export const SiteHeaderStyles = css`
   position: relative;
-  /* margin-top: 64px; */
   padding-bottom: 12px;
   color: #fff;
-  /* background: color(var(--darkgrey) l(-5%)) no-repeat center center; */
-  background: ${lighten('-0.05', colors.darkgrey)} no-repeat center center;
+  background: #fff no-repeat center center;
   background-size: cover;
   height: 35rem;
   @media (max-width: 780px) {
@@ -180,6 +178,8 @@ export const SiteHeaderStyles = css`
   }
 
   @media (prefers-color-scheme: dark) {
+    background: ${lighten('-0.05', colors.darkgrey)} no-repeat center center;
+    background-size: cover;
     :before {
       background: rgba(0, 0, 0, 0.6);
     }
@@ -207,7 +207,6 @@ export const SiteArchiveHeader = css`
   .site-header-content {
     position: relative;
     align-items: stretch;
-    /* padding: 12vw 0 20px; */
     min-height: 200px;
     max-height: 600px;
   }

@@ -8,6 +8,7 @@ export default css`
     color: #000;
     padding: 0.15em 0.5em;
     white-space: normal;
+    font-size: 13px;
 
     @media (max-width: 800px) {
       display: inline;
@@ -29,6 +30,7 @@ export default css`
     padding-left: 1.25em;
     background-color: rgb(0 0 0 / 40%);
     border-left: 0.25em solid #818181;
+    font-size: 1.4rem;
     @media (prefers-color-scheme: light) {
       background-color: hsl(0deg 0% 90.66%);
       border-left: 0.25em solid hsl(0deg 0% 82.88%);
@@ -52,7 +54,7 @@ export default css`
   .gatsby-highlight pre[class*='language-'] {
     float: left;
     min-width: 100%;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     line-height: 24px;
   }
 
@@ -62,7 +64,6 @@ export default css`
     @media (prefers-color-scheme: light) {
       color: black;
     }
-    font-size: 13px;
     text-shadow: none;
     font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
     direction: ltr;

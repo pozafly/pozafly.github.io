@@ -212,7 +212,7 @@ const NavStyles = css`
     font-size: 1.2rem;
     position: relative;
     display: block;
-    padding: 14px 12px;
+    padding: 10px 12px;
     color: #000;
     opacity: 0.8;
     transition: opacity 0.35s ease-in-out;
@@ -220,7 +220,7 @@ const NavStyles = css`
       color: #fff;
     }
     @media (max-width: 700px) {
-      padding: 14px 8px;
+      padding: 10px 8px;
     }
   }
 

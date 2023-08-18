@@ -213,9 +213,12 @@ const PostCardContentLink = css`
 const PostCardPrimaryTag = styled.div`
   margin: 15px 0 0.2em;
   color: ${lighten('0.1', colors.midgrey)};
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 500;
   letter-spacing: 0.2px;
+  a {
+    font-size: 1.2rem;
+  }
 `;
 
 const PostCardTitle = styled.h2`
@@ -241,6 +244,7 @@ const PostCardExcerpt = styled.section`
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     margin-bottom: 0.8em;
+    font-size: 1.5rem;
   }
 `;
 
