@@ -96,7 +96,9 @@ export const PostFeed = css`
 `;
 
 export const SocialLink = css`
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 0;
   padding: 10px;
   opacity: 0.8;

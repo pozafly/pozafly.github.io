@@ -9,6 +9,7 @@ import config from '../../website-config';
 import { Instagram } from '../icons/instagram';
 import { Github } from '../icons/github';
 import { SiteNavLogo } from './SiteNavLogo';
+import ThemeModeSwitch from './ThemeModeSwitch';
 
 type SiteNavProps = {
   isHome?: boolean;
@@ -148,6 +149,7 @@ class SiteNav extends React.PureComponent<SiteNavProps, SiteNavState> {
                   <Github />
                 </a>
               )}
+              <ThemeModeSwitch isHome={isHome} />
             </SocialLinks>
           </SiteNavRight>
         </nav>
