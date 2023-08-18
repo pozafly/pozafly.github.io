@@ -68,8 +68,6 @@ export function ReadNext({
 }
 
 const ReadNextAside = styled.aside`
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  /* background: color(var(--darkgrey) l(-5%)); */
   background: ${lighten('-0.05', colors.darkgrey)};
 
   .post-card {
@@ -115,7 +113,6 @@ const ReadNextAside = styled.aside`
       flex: 1 1 auto;
       margin: 25px;
       padding: 25px 0 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
   }
 `;

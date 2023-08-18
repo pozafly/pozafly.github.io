@@ -243,8 +243,8 @@ const PostCardExcerpt = styled.section`
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    margin-bottom: 0.8em;
-    font-size: 1.5rem;
+    margin-bottom: 0.4em;
+    font-size: 1.4rem;
   }
 `;
 

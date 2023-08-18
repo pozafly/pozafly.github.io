@@ -106,6 +106,9 @@ function IndexLayout(props: IndexProps) {
 
             .copyright {
               font-size: 1.4rem;
+              a {
+                font-size: inherit;
+              }
             }
             .error-front-page {
               font-size: 1.6rem;

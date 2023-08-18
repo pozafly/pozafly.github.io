@@ -34,7 +34,7 @@ export function ReadNextCard(props: ReadNextProps) {
   const relatedPosts = props.relatedPosts.edges
     .filter((post) => post.node.fields.slug !== props.currentPageSlug)
     .slice(0, 3);
-  console.log(relatedPosts);
+
   return (
     <ReadNextCardArticle className="read-next-card">
       <header className="read-next-card-header">
@@ -89,10 +89,6 @@ const ReadNextCardArticle = styled.article`
   overflow: hidden;
   margin: 0 25px 50px;
   padding: 25px;
-  /* background: linear-gradient(
-    color(var(--darkgrey) l(+2%)),
-    color(var(--darkgrey) l(-5%))
-  ); */
   background: linear-gradient(
     ${lighten('0.02', colors.darkgrey)},
     ${lighten('-0.05', colors.darkgrey)}
@@ -113,6 +109,8 @@ const ReadNextCardArticle = styled.article`
   }
 
   @media (max-width: 650px) {
+    display: none;
+
     flex: 1 1 auto;
     margin: 0 25px;
     padding: 0;
