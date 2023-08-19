@@ -295,7 +295,7 @@ const NavPostTitle = styled.span`
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: calc(100vw - 110px);
+    max-width: calc(100vw - 126px);
   }
 
   .dash {

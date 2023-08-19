@@ -18,10 +18,13 @@ export default function ThemeModeSwitch({ isHome }: { isHome: boolean }) {
 }
 
 const SwitchContainer = styled.button`
-  padding: 6px;
+  margin: 6px;
+  padding: 2px;
   border-radius: 50%;
   overflow: hidden;
   background: transparent;
+  background: rgba(215, 215, 215, 0.6);
+  transition: all 0.3s ease;
 
   #switch {
     position: relative;
@@ -77,9 +80,7 @@ const SwitchContainer = styled.button`
       left: 30%;
 
       border-radius: 50%;
-      background: #fff;
-      backdrop-filter: blur(8px);
-      background: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.9);
 
       transition: transform 0.45s ease;
     }
@@ -89,7 +90,15 @@ const SwitchContainer = styled.button`
     }
   }
 
+  &:hover {
+    background: rgba(215, 215, 215, 0.9);
+  }
+
   &.dark {
+    background: transparent;
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
     .mode {
       transform: scale(0.5);
       background: white;
