@@ -1,16 +1,21 @@
-import { useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 
 type Ttheme = 'dark' | 'light';
 
 const useTheme = () => {
-  const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)')
-    .matches
-    ? 'dark'
-    : 'light';
+  const [theme, setTheme] = useState('dark');
+  let prefersColorScheme;
+  let localTheme;
 
-  const localTheme = localStorage.getItem('theme');
-  const initialTheme = localTheme || (prefersColorScheme as Ttheme);
-  const [theme, setTheme] = useState(initialTheme);
+  useLayoutEffect(() => {
+    prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)')
+      .matches
+      ? 'dark'
+      : 'light';
+    localTheme = localStorage.getItem('theme');
+    const initialTheme = localTheme || (prefersColorScheme as Ttheme);
+    setTheme(initialTheme);
+  }, []);
 
   const setMode = (mode: Ttheme) => {
     localStorage.setItem('theme', mode);
