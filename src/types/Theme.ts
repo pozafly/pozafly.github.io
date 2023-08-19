@@ -10,10 +10,9 @@ declare module '@emotion/react' {
       };
       main: {
         borderTopColor: string;
-        postFeedBackground: string;
         navMainBackground: string;
         siteMainBackground: string;
-        socialLinkSvg: string;
+        mainColor: string;
         siteHeaderStyles: string;
         siteHeaderStylesBefore: string;
         siteHeaderStylesAfter: string;
@@ -27,13 +26,13 @@ declare module '@emotion/react' {
         anchorColor: string;
         loaderColor: string;
         loaderColor2: string;
+        imageBorderColor: string;
       };
       postCard: {
         postCardTitleColor: string;
         postCardExcerptColor: string;
         postCardBylineContentColor: string;
         PostCardImageBackground: string;
-        PostCardImageBorderColor: string;
       };
       postContent: {
         headerColor: string;
@@ -49,14 +48,9 @@ declare module '@emotion/react' {
         tableThBorderColor: string;
       };
     };
-    nav: {
-      linkColor: string;
-    };
     tag: {
-      tagColor: string;
       tagHoverBoxShadow: string;
       tagBackground: string;
-      tagBorderColor: string;
     };
     post: {
       excerptColor: string;
@@ -72,8 +66,6 @@ declare module '@emotion/react' {
       highlightBorder: string;
       preCodeColor: string;
       small: {
-        color: string;
-        background: string;
         borderColor: string;
       };
     };

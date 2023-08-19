@@ -215,7 +215,7 @@ const NavStyles = (theme: Theme) => css`
     position: relative;
     display: block;
     padding: 10px 12px;
-    color: ${theme.nav.linkColor};
+    color: ${theme.global.main.mainColor};
     opacity: 0.8;
     transition: opacity 0.35s ease-in-out;
 
@@ -236,7 +236,7 @@ const NavStyles = (theme: Theme) => css`
     bottom: 8px;
     left: 12px;
     height: 1px;
-    background: ${theme.nav.linkColor};
+    background: ${theme.global.main.mainColor};
     opacity: 0.25;
     transition: all 0.35s ease-in-out;
   }
@@ -283,7 +283,7 @@ const NavPostTitle = styled.span`
   visibility: hidden;
   position: absolute;
   top: 9px;
-  color: ${({ theme }) => theme.nav.linkColor};
+  color: ${({ theme }) => theme.global.main.mainColor};
   font-size: 1.7rem;
   font-weight: 400;
   text-transform: none;

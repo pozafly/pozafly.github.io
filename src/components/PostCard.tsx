@@ -180,8 +180,7 @@ const PostCardImage = styled.div`
   background-size: cover;
   border-radius: 12px;
   border: 1px solid
-    ${({ theme }: { theme: Theme }) =>
-      theme.global.postCard.PostCardImageBorderColor};
+    ${({ theme }: { theme: Theme }) => theme.global.main.imageBorderColor};
   background: ${({ theme }: { theme: Theme }) =>
     theme.global.postCard.PostCardImageBackground};
   img {

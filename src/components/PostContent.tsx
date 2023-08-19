@@ -128,8 +128,7 @@ export const PostFullContent = styled.section`
     height: auto;
     border-radius: 6px;
     border: 1px solid
-      ${({ theme }: { theme: Theme }) =>
-        theme.global.postCard.PostCardImageBorderColor};
+      ${({ theme }: { theme: Theme }) => theme.global.main.imageBorderColor};
   }
   @media (max-width: 1040px) {
     img,
@@ -157,9 +156,8 @@ export const PostFullContent = styled.section`
   blockquote {
     margin: 0 0 1.5em;
     padding: 0 1.5em;
-    border-left: ${({ theme }: { theme: Theme }) =>
-        theme.global.postCard.PostCardImageBorderColor}
-      3px solid;
+    border-left: 3px solid
+      ${({ theme }: { theme: Theme }) => theme.global.main.imageBorderColor};
   }
   @media (max-width: 500px) {
     blockquote {

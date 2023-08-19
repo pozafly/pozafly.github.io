@@ -12,15 +12,14 @@ const darkTheme: Theme = {
     },
     main: {
       borderTopColor: lighten('0.08', colors.darkmode),
-      postFeedBackground: colors.darkmode,
       navMainBackground: 'rgba(25, 27, 31, 0.4)',
       siteMainBackground: colors.darkmode,
-      socialLinkSvg: '#fff',
+      mainColor: '#fff',
       siteHeaderStyles: `${lighten(
         '-0.05',
         colors.darkgrey
       )} no-repeat center center`,
-      siteHeaderStylesAfter: 'linear-gradient(rgba(0, 0, 0, 0) 50%, #191b1f)',
+      siteHeaderStylesAfter: '#191b1f',
       siteHeaderStylesBefore: 'rgba(0, 0, 0, 0.6)',
       authorProfileImage: colors.darkmode,
       authorBorderColor: lighten('0.02', colors.darkgrey),
@@ -32,13 +31,13 @@ const darkTheme: Theme = {
       anchorColor: lighten('0.1', colors.midgrey),
       loaderColor: 'hsla(230, 40%, 90%, 0.8)',
       loaderColor2: 'hsla(230, 40%, 90%, 0.2)',
+      imageBorderColor: 'hsl(230 6% 23%)',
     },
     postCard: {
       postCardTitleColor: 'rgba(255, 255, 255, 0.85)',
       postCardExcerptColor: '#768086',
       postCardBylineContentColor: 'rgba(255, 255, 255, 0.75)',
       PostCardImageBackground: colors.darkmode,
-      PostCardImageBorderColor: 'hsl(230 6% 23%)',
     },
     postContent: {
       headerColor: 'rgba(255, 255, 255, 0.9)',
@@ -52,8 +51,7 @@ const darkTheme: Theme = {
         ${colors.darkmode} 50%,
         ${colors.darkmode} 100%
       )`,
-      tableLastOfTypeColor: `
-      linear-gradient(
+      tableLastOfTypeColor: `linear-gradient(
         270deg,
         #191b1f 50%,
         rgba(25, 27, 31, 0)
@@ -63,14 +61,9 @@ const darkTheme: Theme = {
       tableThBorderColor: lighten('0.08', colors.darkmode),
     },
   },
-  nav: {
-    linkColor: '#fff',
-  },
   tag: {
-    tagColor: '#fff',
     tagHoverBoxShadow: '#090f1a',
     tagBackground: '#282b31',
-    tagBorderColor: 'hsl(230 6% 23%)',
   },
   post: {
     excerptColor: '#768086',
@@ -86,8 +79,6 @@ const darkTheme: Theme = {
     highlightBorder: 'none',
     preCodeColor: '#c9d1d9',
     small: {
-      color: 'white',
-      background: 'rgb(32 36 39)',
       borderColor: '#515151',
     },
   },

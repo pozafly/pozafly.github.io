@@ -12,12 +12,11 @@ const lightTheme: Theme = {
     },
     main: {
       borderTopColor: lighten('0.1', colors.lightgrey),
-      postFeedBackground: '#fff',
       navMainBackground: 'rgba(255, 255, 255, 0.4)',
       siteMainBackground: 'none',
-      socialLinkSvg: '#000',
+      mainColor: '#000',
       siteHeaderStyles: '#fff no-repeat center center',
-      siteHeaderStylesAfter: 'linear-gradient(rgba(0, 0, 0, 0) 50%, #fff)',
+      siteHeaderStylesAfter: '#fff',
       siteHeaderStylesBefore: 'rgba(0, 0, 0, 0.18)',
       authorProfileImage: 'none',
       authorBorderColor: '#fff',
@@ -29,13 +28,13 @@ const lightTheme: Theme = {
       anchorColor: '#768086',
       loaderColor: 'hsla(230, 40%, 10%, 0.8)',
       loaderColor2: 'hsla(230, 40%, 10%, 0.2)',
+      imageBorderColor: 'hsl(230 25% 94%)',
     },
     postCard: {
       postCardTitleColor: 'none',
       postCardExcerptColor: 'none',
       postCardBylineContentColor: lighten('0.2', colors.darkgrey),
       PostCardImageBackground: 'none',
-      PostCardImageBorderColor: 'hsl(230 25% 94%)',
     },
     postContent: {
       headerColor: lighten('-0.05', colors.darkgrey),
@@ -59,14 +58,9 @@ const lightTheme: Theme = {
       tableThBorderColor: lighten('-0.01', colors.whitegrey),
     },
   },
-  nav: {
-    linkColor: '#000',
-  },
   tag: {
-    tagColor: '#000',
     tagHoverBoxShadow: 'hsla(218, 53%, 10%, 12%)',
     tagBackground: '#f5f5f5',
-    tagBorderColor: 'hsl(230 25% 94%)',
   },
   post: {
     excerptColor: 'rgb(48, 58, 62)',
@@ -76,14 +70,12 @@ const lightTheme: Theme = {
     postFullTitleColor: setLightness('0.05', colors.darkgrey),
   },
   prism: {
-    background: 'hsl(0deg 0% 90.66%)',
-    borderLeft: 'hsl(0deg 0% 82.88%)',
+    background: 'hsl(0 0% 90.66%)',
+    borderLeft: 'hsl(0 0% 82.88%)',
     highlightBackground: '#fafafa',
     highlightBorder: '#d1d1d1',
-    preCodeColor: 'black',
+    preCodeColor: '#000',
     small: {
-      color: '#000',
-      background: '#fafafa',
       borderColor: '#d1d1d1',
     },
   },

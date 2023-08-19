@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "typeRoots": ["./node_modules/@types", "./src/types"],
     "module": "commonjs",
     "target": "ESNext",
     "jsx": "preserve",

@@ -150,12 +150,6 @@ function IndexPage(props: IndexProps) {
   );
 }
 
-// logo: file(relativePath: { eq: "img/ghost-logo.png" }) {
-//       childImageSharp {
-//     gatsbyImageData(layout: FIXED)
-//   }
-// }
-
 export const pageQuery = graphql`
   query blogPageQuery($skip: Int!, $limit: Int!) {
     header: file(relativePath: { eq: "img/common/back3.png" }) {

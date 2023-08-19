@@ -39,7 +39,7 @@ const TagArea = (theme: Theme) => css`
       display: inline-block;
       list-style: none;
       background: ${theme.tag.tagBackground};
-      border: 1px solid ${theme.tag.tagBorderColor};
+      border: 1px solid ${theme.global.main.imageBorderColor};
       border-radius: 6px;
       margin-right: 12px;
       color: #000;
@@ -55,7 +55,7 @@ const TagArea = (theme: Theme) => css`
       a {
         padding: 6px;
         text-decoration: none;
-        color: ${theme.tag.tagColor};
+        color: ${theme.global.main.mainColor};
         box-shadow: none;
         &:hover {
           box-shadow: none;

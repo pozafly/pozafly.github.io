@@ -3,9 +3,9 @@ import { Theme, css } from '@emotion/react';
 export default (theme: Theme) => css`
   *:not(pre) > code[class*='language-'] {
     border-radius: 0.3em;
-    background: ${theme.prism.small.background};
+    background: ${theme.prism.highlightBackground};
     border: 1px solid ${theme.prism.small.borderColor};
-    color: ${theme.prism.small.color};
+    color: ${theme.global.body.backgroundColor};
     padding: 0.15em 0.5em;
     white-space: normal;
     font-size: 13px;

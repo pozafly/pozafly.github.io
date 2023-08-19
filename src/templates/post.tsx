@@ -460,8 +460,7 @@ const PostFullImage = styled.figure`
     margin-bottom: 4vw;
   }
   border: 1px solid
-    ${({ theme }: { theme: Theme }) =>
-      theme.global.postCard.PostCardImageBorderColor};
+    ${({ theme }: { theme: Theme }) => theme.global.main.imageBorderColor};
 `;
 
 export const query = graphql`

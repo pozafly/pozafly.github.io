@@ -68,7 +68,7 @@ export const PostFeed = (theme: Theme) =>
     flex-wrap: wrap;
     margin: 0 -20px;
     padding: 50px 0 0;
-    background: ${theme.global.main.postFeedBackground};
+    background: ${theme.global.body.backgroundColor};
 
     padding: 120px 0 40px;
     border-top-left-radius: 3px;
@@ -97,7 +97,7 @@ export const SocialLink = (theme: Theme) => css`
 
   svg {
     height: 1.8rem;
-    fill: ${theme.global.main.socialLinkSvg};
+    fill: ${theme.global.main.mainColor};
   }
 
   &.is-home {
@@ -160,7 +160,10 @@ export const SiteHeaderStyles = (theme: Theme) => css`
     z-index: 10;
     display: block;
     height: 100%;
-    background: ${theme.global.main.siteHeaderStylesAfter};
+    background: linear-gradient(
+      rgba(0, 0, 0, 0) 50%,
+      ${theme.global.main.siteHeaderStylesAfter}
+    );
   }
 `;
 
@@ -289,7 +292,7 @@ export const NoImage = (theme: Theme) => css`
     padding-top: 0;
     padding-bottom: 0;
     color: ${theme.global.main.headerColor};
-    background: ${theme.global.main.postFeedBackground};
+    background: ${theme.global.body.backgroundColor};
     opacity: 1;
   }
 
