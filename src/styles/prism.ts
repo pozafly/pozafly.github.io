@@ -32,7 +32,7 @@ export default (theme: Theme) => css`
     margin-right: -1.3125rem;
     border-radius: 10px;
     background: var(--highlight-background);
-    border: 1px solid var(--highlight-border);
+    box-shadow: inset 0 0 0 1px var(--highlight-border);
     -webkit-overflow-scrolling: touch;
     overflow: auto;
   }

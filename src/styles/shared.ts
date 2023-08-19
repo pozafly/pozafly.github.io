@@ -233,7 +233,7 @@ export const ResponsiveHeaderBackground = styled.div<{
   }
 
   .site-header-content {
-    border-bottom: 1px solid var(--body-color);
+    border-bottom: 1px solid var(--border-top-color);
   }
 
   .author-bio {

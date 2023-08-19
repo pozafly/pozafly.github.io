@@ -102,7 +102,7 @@ function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
 
   const date = new Date(post.frontmatter.date);
   const datetime = format(date, 'yyyy-MM-dd');
-  const displayDatetime = format(date, 'yyyy MM dd');
+  const displayDatetime = format(date, 'yyyy-MM-dd');
 
   return (
     <IndexLayout className="post-template">

@@ -26,7 +26,7 @@ export function PostCard({
 }: PostCardProps) {
   const date = new Date(post.frontmatter.date);
   const datetime = format(date, 'yyyy-MM-dd');
-  const displayDatetime = format(date, 'yyyy MM dd');
+  const displayDatetime = format(date, 'yyyy-MM-dd');
 
   return (
     <article
@@ -112,8 +112,18 @@ const PostCardStyles = css`
   background-size: cover;
   transition: 0.4s ease;
 
+  img {
+    transform: scale(1) !important;
+    transition: opacity 1s ease-out 0s, transform 0.5s ease 0s !important;
+  }
+
   &:hover {
-    transform: translateY(-2px);
+    .post-card-image:after {
+      opacity: 1;
+    }
+    img {
+      transform: scale(1.03) !important;
+    }
   }
 `;
 
@@ -172,6 +182,7 @@ const PostCardImageLink = css`
   display: block;
   overflow: hidden;
   border-radius: 12px;
+  overflow: hidden;
 `;
 
 const PostCardImage = styled.div`
@@ -179,8 +190,24 @@ const PostCardImage = styled.div`
   height: 200px;
   background-size: cover;
   border-radius: 12px;
+  overflow: hidden;
   border: 1px solid var(--image-border-color);
   background: var(--background-color);
+
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    /* background-color: var(--color-dimmed); */
+    background-color: rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+  }
+
   img {
     border-radius: 12px;
   }
