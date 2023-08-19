@@ -1,4 +1,10 @@
-import React, { createRef, useLayoutEffect } from 'react';
+import React, {
+  createRef,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+} from 'react';
+import { ThemeToggleContext } from '../layouts/ThemeToggleContext';
 
 const src = 'https://giscus.app/client.js';
 
@@ -8,6 +14,7 @@ export interface IGiscusProps {
 
 const Giscus: React.FC<IGiscusProps> = React.memo(({ repo }) => {
   const containerRef = createRef<HTMLDivElement>();
+  const { theme } = useContext(ThemeToggleContext);
 
   useLayoutEffect(() => {
     const giscus = document.createElement('script');
@@ -23,7 +30,7 @@ const Giscus: React.FC<IGiscusProps> = React.memo(({ repo }) => {
       'data-reactions-enabled': '1',
       'data-emit-metadata': '0',
       'data-input-position': 'top',
-      'data-theme': 'preferred_color_scheme',
+      'data-theme': theme === 'light' ? 'light' : 'dark',
       crossorigin: 'anonymous',
     };
 
@@ -33,6 +40,24 @@ const Giscus: React.FC<IGiscusProps> = React.memo(({ repo }) => {
 
     containerRef.current?.appendChild(giscus);
   }, [repo]);
+
+  useEffect(() => {
+    const iFrameEl = containerRef.current?.querySelector(
+      'iframe.giscus-frame'
+    ) as HTMLIFrameElement;
+    if (!iFrameEl) return;
+
+    iFrameEl.contentWindow?.postMessage(
+      {
+        giscus: {
+          setConfig: {
+            theme,
+          },
+        },
+      },
+      'https://giscus.app'
+    );
+  }, [theme]);
 
   return <div ref={containerRef} />;
 });

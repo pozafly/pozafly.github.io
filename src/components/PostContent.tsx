@@ -1,10 +1,10 @@
-import { lighten } from 'polished';
 import React from 'react';
 import styled from '@emotion/styled';
 import RehypeReact from 'rehype-react';
 
 import { colors } from '../styles/colors';
 import prism from '../styles/prism';
+import { Theme } from '@emotion/react';
 
 const renderAst = new RehypeReact({
   createElement: React.createElement,
@@ -35,7 +35,8 @@ export const PostFullContent = styled.section`
   min-height: 230px;
   font-size: 2rem;
   line-height: 1.6em;
-  background: #fff;
+  background: ${({ theme }: { theme: Theme }) =>
+    theme.global.body.backgroundColor};
   border-radius: 6px;
 
   @media (max-width: 1170px) {
@@ -110,7 +111,8 @@ export const PostFullContent = styled.section`
 
   strong,
   em {
-    color: ${lighten('-0.05', colors.darkgrey)};
+    color: ${({ theme }: { theme: Theme }) =>
+      theme.global.postContent.strongColor};
   }
 
   small {
@@ -125,10 +127,9 @@ export const PostFullContent = styled.section`
     max-width: 840px;
     height: auto;
     border-radius: 6px;
-    border: 1px solid hsl(230deg 25% 94%);
-    @media (prefers-color-scheme: dark) {
-      border: 1px solid hsl(230, 6%, 23%);
-    }
+    border: 1px solid
+      ${({ theme }: { theme: Theme }) =>
+        theme.global.postCard.PostCardImageBorderColor};
   }
   @media (max-width: 1040px) {
     img,
@@ -156,10 +157,9 @@ export const PostFullContent = styled.section`
   blockquote {
     margin: 0 0 1.5em;
     padding: 0 1.5em;
-    border-left: #e0e0e0 3px solid;
-    @media (prefers-color-scheme: dark) {
-      border-left: #2c2c2c 3px solid;
-    }
+    border-left: ${({ theme }: { theme: Theme }) =>
+        theme.global.postCard.PostCardImageBorderColor}
+      3px solid;
   }
   @media (max-width: 500px) {
     blockquote {
@@ -184,8 +184,11 @@ export const PostFullContent = styled.section`
     font-size: 0.8em;
     line-height: 1em;
     font-weight: 400 !important;
-    background: ${colors.whitegrey};
+    background: ${({ theme }: { theme: Theme }) =>
+      theme.global.postContent.codeColor};
     border-radius: 3px;
+    color: ${({ theme }: { theme: Theme }) =>
+      theme.global.postContent.codeColor};
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
       'Noto Sans', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', sans-serif;
   }
@@ -223,20 +226,6 @@ export const PostFullContent = styled.section`
     margin: 2em 0;
   }
 
-  hr:after {
-    content: '';
-    position: absolute;
-    top: -15px;
-    left: 50%;
-    display: block;
-    margin-left: -10px;
-    width: 1px;
-    height: 30px;
-    background: ${lighten('0.1', colors.lightgrey)};
-    box-shadow: #fff 0 0 0 5px;
-    transform: rotate(45deg);
-  }
-
   hr + p {
     margin-top: 1.2em;
   }
@@ -247,7 +236,7 @@ export const PostFullContent = styled.section`
   h4,
   h5,
   h6 {
-    color: ${lighten('-0.05', colors.darkgrey)};
+    color: ${({ theme }: { theme: Theme }) => theme.global.main.headerColor};
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
       'Noto Sans', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', sans-serif;
   }
@@ -326,9 +315,7 @@ export const PostFullContent = styled.section`
     margin: 0.5em 0;
     padding: 0.4em 1em 0.9em;
     border: 0;
-    /* color: var(--blue); */
     color: ${colors.blue};
-    /* font-family: Georgia, serif; */
     font-size: 3.2rem;
     line-height: 1.35em;
     text-align: center;
@@ -336,7 +323,6 @@ export const PostFullContent = styled.section`
   @media (min-width: 1180px) {
     h5 {
       max-width: 1060px;
-      /* width: 100vw; */
     }
   }
   @media (max-width: 800px) {
@@ -396,115 +382,43 @@ export const PostFullContent = styled.section`
   }
 
   table td:first-of-type {
-    background-image: linear-gradient(
-      to right,
-      rgba(255, 255, 255, 1) 50%,
-      rgba(255, 255, 255, 0) 100%
-    );
+    background-image: ${({ theme }: { theme: Theme }) =>
+      theme.global.postContent.tableFirstOfTypeColor};
     background-size: 20px 100%;
     background-repeat: no-repeat;
   }
 
   table td:last-child {
-    background-image: linear-gradient(
-      to left,
-      rgba(255, 255, 255, 1) 50%,
-      rgba(255, 255, 255, 0) 100%
-    );
+    background-image: ${({ theme }: { theme: Theme }) =>
+      theme.global.postContent.tableLastOfTypeColor};
     background-position: 100% 0;
     background-size: 20px 100%;
     background-repeat: no-repeat;
   }
 
   table th {
-    color: ${colors.darkgrey};
+    color: ${({ theme }: { theme: Theme }) =>
+      theme.global.postContent.tableThColor};
     font-size: 1.2rem;
     font-weight: 700;
     letter-spacing: 0.2px;
     text-align: left;
     text-transform: uppercase;
-    background-color: ${lighten('0.04', colors.whitegrey)};
+    background-color: ${({ theme }: { theme: Theme }) =>
+      theme.global.postContent.tableThBackground};
   }
 
   table th,
   table td {
     padding: 6px 12px;
-    border: ${lighten('-0.01', colors.whitegrey)} 1px solid;
+    border: ${({ theme }: { theme: Theme }) =>
+        theme.global.postContent.tableThBorderColor}
+      1px solid;
   }
 
-  @media (prefers-color-scheme: dark) {
-    background: ${colors.darkmode};
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h6 {
-      color: rgba(255, 255, 255, 0.9);
-    }
-
-    a[class*='image'],
-    a[class*='image']:hover {
-      box-shadow: none;
-    }
-
-    strong {
-      color: #fff;
-    }
-
-    em {
-      color: #fff;
-    }
-
-    code {
-      color: #fff;
-      background: #000;
-    }
-
-    hr {
-      border-top-color: ${lighten('0.08', colors.darkmode)};
-    }
-
-    hr:after {
-      background: #17191c;
-      box-shadow: ${colors.darkmode} 0 0 0 5px;
-    }
-
-    figcaption {
-      color: rgba(255, 255, 255, 0.6);
-    }
-
-    table td:first-of-type {
-      background-image: linear-gradient(
-        to right,
-        ${colors.darkmode} 50%,
-        ${colors.darkmode} 100%
-      );
-    }
-
-    table td:last-child {
-      background-image: linear-gradient(
-        270deg,
-        #191b1f 50%,
-        rgba(25, 27, 31, 0)
-      );
-    }
-
-    table th {
-      color: rgba(255, 255, 255, 0.85);
-      background-color: ${lighten('0.08', colors.darkmode)};
-    }
-
-    table th,
-    table td {
-      border: ${lighten('0.08', colors.darkmode)} 1px solid;
-    }
-
-    .kg-bookmark-container,
-    .kg-bookmark-container:hover {
-      color: rgba(255, 255, 255, 0.75);
-      box-shadow: 0 0 1px rgba(255, 255, 255, 0.9);
-    }
+  figcaption {
+    color: ${({ theme }: { theme: Theme }) =>
+      theme.global.postContent.figcaptionColor};
   }
 `;
 

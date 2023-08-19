@@ -1,17 +1,14 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
+import { ThemeToggleContext } from '../../layouts/ThemeToggleContext';
 
-export default function ThemeModeSwich({ isHome }: { isHome: boolean }) {
-  const [mode, setMode] = useState(false);
-  const switchTheme = () => {
-    // TODO: theme 변경로직
-    setMode((prev) => !prev);
-  };
+export default function ThemeModeSwitch({ isHome }: { isHome: boolean }) {
+  const { theme, themeToggler } = useContext(ThemeToggleContext);
 
   return (
     <SwitchContainer
-      onClick={switchTheme}
-      className={`${mode ? 'dark' : ''} ${isHome ? 'is-home' : ''}`}
+      onClick={themeToggler}
+      className={`${theme === 'dark' ? 'dark' : ''} ${isHome ? 'is-home' : ''}`}
     >
       <div id="switch">
         <div className="mode"></div>
@@ -44,10 +41,12 @@ const SwitchContainer = styled.button`
     width: 18px;
     height: 18px;
 
-    transition: transform 0.45s ease;
+    transition: all 0.45s ease;
     border-radius: 50%;
     background: #000;
     opacity: 0.8;
+    overflow: hidden;
+
     &::before {
       // sun
       content: '';
@@ -79,8 +78,14 @@ const SwitchContainer = styled.button`
 
       border-radius: 50%;
       background: #fff;
+      backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, 0.8);
 
       transition: transform 0.45s ease;
+    }
+
+    &:hover {
+      opacity: 1;
     }
   }
 
@@ -90,6 +95,7 @@ const SwitchContainer = styled.button`
       background: white;
       opacity: 1;
       opacity: 0.8;
+      overflow: initial;
 
       &::before {
         opacity: 1;
@@ -119,6 +125,9 @@ const SwitchContainer = styled.button`
           box-shadow: 0 -16px 0 0 white, 0 16px 0 0 white, -16px 0 0 0 white,
             16px 0 0 0 white, 12px 12px 0 0 white, 12px -12px 0 0 white,
             -12px 12px 0 0 white, -12px -12px 0 0 white;
+        }
+        &::after {
+          background: rgba(46, 64, 79);
         }
       }
     }

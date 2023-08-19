@@ -1,6 +1,4 @@
-import { lighten } from 'polished';
-
-import { css } from '@emotion/react';
+import { Theme, css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { colors } from './colors';
@@ -17,26 +15,19 @@ export const inner = css`
   width: 100%;
 `;
 
-export const SiteNavMain = css`
+export const SiteNavMain = (theme: Theme) => css`
   position: fixed;
   top: 0;
   right: 0;
   left: 0;
   z-index: 1000;
   backdrop-filter: blur(8px);
-  background: rgba(255, 255, 255, 0.4);
-  @media (prefers-color-scheme: dark) {
-    background: rgba(25, 27, 31, 0.4);
-    /* background: transparent; */
-  }
+  background: ${theme.global.main.navMainBackground};
 `;
 
-export const SiteMain = css`
+export const SiteMain = (theme: Theme) => css`
   flex-grow: 1;
-
-  @media (prefers-color-scheme: dark) {
-    background: ${colors.darkmode};
-  }
+  background: ${theme.global.main.siteMainBackground};
 `;
 
 export const SiteTitle = styled.h1`
@@ -70,38 +61,35 @@ export const Posts = css`
   overflow-x: hidden;
 `;
 
-export const PostFeed = css`
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0 -20px;
-  padding: 50px 0 0;
-  background: #fff;
+export const PostFeed = (theme: Theme) =>
+  css`
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -20px;
+    padding: 50px 0 0;
+    background: ${theme.global.main.postFeedBackground};
 
-  /* Special Template Styles */
-  padding: 120px 0 40px;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
+    padding: 120px 0 40px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
 
-  @media (prefers-color-scheme: dark) {
-    background: ${colors.darkmode};
-  }
+    @media (max-width: 780px) {
+      padding: 80px 0 40px;
+    }
+    @media (max-width: 500px) {
+      padding: 40px 0;
+    }
+  `;
 
-  @media (max-width: 780px) {
-    padding: 80px 0 40px;
-  }
-  @media (max-width: 500px) {
-    padding: 40px 0;
-  }
-`;
-
-export const SocialLink = css`
+export const SocialLink = (theme: Theme) => css`
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0;
   padding: 10px;
   opacity: 0.8;
+  transition: opacity 0.35s ease;
 
   :hover {
     opacity: 1;
@@ -109,10 +97,7 @@ export const SocialLink = css`
 
   svg {
     height: 1.8rem;
-    fill: #000;
-    @media (prefers-color-scheme: dark) {
-      fill: #fff;
-    }
+    fill: ${theme.global.main.socialLinkSvg};
   }
 
   &.is-home {
@@ -136,16 +121,15 @@ export const SiteHeaderContent = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* padding: 3vw; */
   min-height: 200px;
   max-height: 340px;
 `;
 
-export const SiteHeaderStyles = css`
+export const SiteHeaderStyles = (theme: Theme) => css`
   position: relative;
   padding-bottom: 12px;
   color: #fff;
-  background: #fff no-repeat center center;
+  background: ${theme.global.main.siteHeaderStyles};
   background-size: cover;
   height: 35rem;
   @media (max-width: 780px) {
@@ -164,7 +148,7 @@ export const SiteHeaderStyles = css`
     left: 0;
     z-index: 10;
     display: block;
-    background: rgba(0, 0, 0, 0.18);
+    background: ${theme.global.main.siteHeaderStylesBefore};
   }
   :after {
     content: '';
@@ -176,31 +160,7 @@ export const SiteHeaderStyles = css`
     z-index: 10;
     display: block;
     height: 100%;
-    background: linear-gradient(rgba(0, 0, 0, 0) 50%, #fff);
-  }
-
-  @media (prefers-color-scheme: dark) {
-    background: ${lighten('-0.05', colors.darkgrey)} no-repeat center center;
-    background-size: cover;
-    :before {
-      background: rgba(0, 0, 0, 0.6);
-    }
-    :after {
-      background: linear-gradient(rgba(0, 0, 0, 0) 50%, #191b1f);
-    }
-  }
-`;
-
-export const AuthorProfileImage = css`
-  flex: 0 0 60px;
-  margin: 0;
-  width: 60px;
-  height: 60px;
-  border: none;
-
-  @media (prefers-color-scheme: dark) {
-    box-shadow: 0 0 0 6px hsla(0, 0%, 100%, 0.04);
-    background: ${colors.darkmode};
+    background: ${theme.global.main.siteHeaderStylesAfter};
   }
 `;
 
@@ -221,17 +181,16 @@ export const SiteHeaderBackground = css`
 export const ResponsiveHeaderBackground = styled.div<{
   backgroundImage?: string;
 }>`
-  ${(p) =>
-    p.backgroundImage &&
+  ${({ backgroundImage, theme }) =>
+    backgroundImage &&
     `
     position: relative;
     margin-top: 64px;
     padding-bottom: 12px;
     color: #fff;
     background-size: cover;
-    /* background: color(var(--darkgrey) l(-5%)) no-repeat center center; */
     background: #090a0b no-repeat 50%;
-    background-image: url(${p.backgroundImage});
+    background-image: url(${backgroundImage});
 
     :before {
       content: '';
@@ -242,7 +201,7 @@ export const ResponsiveHeaderBackground = styled.div<{
       left: 0;
       z-index: 10;
       display: block;
-      background: rgba(0, 0, 0, 0.18);
+      background: ${theme.global.main.siteHeaderStylesBefore};
     }
 
     :after {
@@ -257,64 +216,48 @@ export const ResponsiveHeaderBackground = styled.div<{
       height: 140px;
       background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0));
     }
-
-    @media (prefers-color-scheme: dark) {
-      &:before {
-        background: rgba(0, 0, 0, 0.6);
-      }
-    }
   `}
 
-  ${(p) =>
-    !p.backgroundImage &&
+  ${({ backgroundImage, theme }) =>
+    !backgroundImage &&
     `
-
     padding-top: 0;
     padding-bottom: 0;
-    /* color: var(--darkgrey); */
-    color: ${colors.darkgrey};
-    background: #fff;
+    color: ${theme.global.main.headerColor};
+    background: ${theme.global.body.backgroundColor};
     opacity: 1;
 
 
   .site-description {
-    /* color: var(--midgrey); */
     color: ${colors.midgrey};
     opacity: 1;
   }
 
   .site-header-content {
-    // padding: 0px 5vw;
-    /* border-bottom: 1px solid color(var(--lightgrey) l(+12%)); */
-    border-bottom: 1px solid ${lighten('0.12', colors.lightgrey)};
+    border-bottom: 1px solid ${theme.global.main.responsiveHeaderBorderBottomColor};
   }
 
   .author-bio {
-    /* color: var(--midgrey); */
     color: ${colors.midgrey};
     opacity: 1;
   }
 
   .author-meta {
-    /* color: var(--midgrey); */
     color: ${colors.midgrey};
     opacity: 1;
   }
 
   .author-social-link a {
-    /* color: var(--darkgrey); */
-    color: ${colors.darkgrey};
+    color: ${theme.global.main.responsiveHeaderAuthorLinkColor};
   }
 
   .author-social-link a:before {
-    /* color: var(--midgrey); */
     color: ${colors.midgrey};
   }
 
   .author-location + .author-stats:before,
   .author-stats + .author-social-link:before,
   .author-social-link + .author-social-link:before {
-    /* color: var(--midgrey); */
     color: ${colors.midgrey};
   }
 
@@ -334,80 +277,52 @@ export const ResponsiveHeaderBackground = styled.div<{
       text-align: center;
     }
 
-    .site-header-content {
-      // padding: 12vw 0 20px;
-    }
-
     .author-header {
       padding-bottom: 10px;
-    }
-  }
-  @media (prefers-color-scheme: dark) {
-    color: rgba(255, 255, 255, 0.9);
-    /* background: var(--darkmode); */
-    background: ${colors.darkmode};
-
-    .site-header-content {
-      /* border-bottom-color: color(var(--darkmode) l(+15%)); */
-      /* border-bottom-color: ${lighten('0.15', colors.darkmode)}; */
-      border-bottom-color: #272a30;
-    }
-
-    .author-social-link a {
-      color: rgba(255, 255, 255, 0.75);
     }
   }
   `}
 `;
 
-export const NoImage = css`
+export const NoImage = (theme: Theme) => css`
   .no-image {
     padding-top: 0;
     padding-bottom: 0;
-    /* color: var(--darkgrey); */
-    color: ${colors.darkgrey};
-    background: #fff;
+    color: ${theme.global.main.headerColor};
+    background: ${theme.global.main.postFeedBackground};
     opacity: 1;
   }
 
   .no-image .site-description {
-    /* color: var(--midgrey); */
     color: ${colors.midgrey};
     opacity: 1;
   }
 
   .no-image .site-header-content {
-    /* padding: 5vw 0 10px; */
-    /* border-bottom: 1px solid color(var(--lightgrey) l(+12%)); */
-    border-bottom: 1px solid ${lighten('0.12', colors.lightgrey)};
+    border-bottom: 1px solid ${theme.global.main.noImageBorderBottomColor};
   }
 
   .no-image .author-bio {
-    /* color: var(--midgrey); */
     color: ${colors.midgrey};
     opacity: 1;
   }
 
   .no-image .author-meta {
-    /* color: var(--midgrey); */
     color: ${colors.midgrey};
     opacity: 1;
   }
 
   .no-image .author-social-link a {
-    /* color: var(--darkgrey); */
-    color: ${colors.darkgrey};
+    color: ${theme.global.main.responsiveHeaderAuthorLinkColor};
   }
 
   .no-image .author-social-link a:before {
-    /* color: var(--midgrey); */
     color: ${colors.midgrey};
   }
 
   .no-image .author-location + .author-stats:before,
   .no-image .author-stats + .author-social-link:before,
   .no-image .author-social-link + .author-social-link:before {
-    /* color: var(--midgrey); */
     color: ${colors.midgrey};
   }
 
@@ -421,26 +336,6 @@ export const NoImage = css`
     .site-title {
       font-size: 4.2rem;
       text-align: center;
-    }
-
-    .no-image .site-header-content {
-      /* padding: 12vw 0 20px; */
-    }
-  }
-  @media (prefers-color-scheme: dark) {
-    .no-image {
-      color: rgba(255, 255, 255, 0.9);
-      /* background: var(--darkmode); */
-      background: ${colors.darkmode};
-    }
-
-    .no-image .site-header-content {
-      /* border-bottom-color: color(var(--darkmode) l(+15%)); */
-      border-bottom-color: ${lighten('0.15', colors.darkmode)};
-    }
-
-    .no-image .author-social-link a {
-      color: rgba(255, 255, 255, 0.75);
     }
   }
 `;

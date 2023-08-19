@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
-import { colors } from '../styles/colors';
+import { Theme } from '@emotion/react';
 
 const FrameWrapper = styled.div`
   display: flex;
@@ -27,20 +27,16 @@ const Loading = styled.div`
     position: relative;
     text-indent: -9999em;
     // outer
-    border-top: 2px solid hsla(230, 40%, 10%, 0.8);
-    border-right: 2px solid hsla(230, 40%, 10%, 0.8);
-    border-bottom: 2px solid hsla(230, 40%, 10%, 0.8);
+    border-top: 2px solid
+      ${({ theme }: { theme: Theme }) => theme.global.main.loaderColor};
+    border-right: 2px solid
+      ${({ theme }: { theme: Theme }) => theme.global.main.loaderColor};
+    border-bottom: 2px solid
+      ${({ theme }: { theme: Theme }) => theme.global.main.loaderColor};
     // inner
-    border-left: 2px solid hsla(230, 40%, 10%, 0.2);
+    border-left: 2px solid
+      ${({ theme }: { theme: Theme }) => theme.global.main.loaderColor2};
 
-    @media (prefers-color-scheme: dark) {
-      // outer
-      border-top: 2px solid hsla(230, 40%, 90%, 0.8);
-      border-right: 2px solid hsla(230, 40%, 90%, 0.8);
-      border-bottom: 2px solid hsla(230, 40%, 90%, 0.8);
-      // inner
-      border-left: 2px solid hsla(230, 40%, 90%, 0.2);
-    }
     -webkit-transform: translateZ(0);
     -ms-transform: translateZ(0);
     transform: translateZ(0);
@@ -76,7 +72,7 @@ const Frame = styled.iframe`
   opacity: 0;
   transform: translateY(3px);
   transition: opacity 0.7s ease, transform 0.7s ease;
-  box-shadow: 0 8px 18px 0 hsla(218,53%,10%,0.05);
+  box-shadow: 0 8px 18px 0 hsla(218, 53%, 10%, 0.05);
 
   &.frame-loaded {
     opacity: 1;
@@ -88,12 +84,12 @@ const ResumeFrame: React.FC<any> = React.memo(() => {
   const [isIframeLoad, setIsIframeLoad] = useState(false);
   const loaded = () => {
     setIsIframeLoad(true);
-  }
+  };
 
   return (
     <FrameWrapper>
       <Loading className={isIframeLoad ? 'loaded' : ''}>
-        <div className='loader'></div>
+        <div className="loader"></div>
       </Loading>
       <Frame
         src="https://my.surfit.io/w/2082055482"
@@ -105,6 +101,3 @@ const ResumeFrame: React.FC<any> = React.memo(() => {
 });
 
 export default ResumeFrame;
-
-
-

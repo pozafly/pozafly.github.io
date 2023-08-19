@@ -1,11 +1,9 @@
 import { Link } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
-import { lighten } from 'polished';
 import React from 'react';
 
-import { css } from '@emotion/react';
+import { Theme, css } from '@emotion/react';
 
-import { colors } from '../styles/colors';
 import type { Author } from '../templates/post';
 import { AuthorProfileImage } from './PostCard';
 import styled from '@emotion/styled';
@@ -41,22 +39,17 @@ const AuthorItemLi = styled.li`
   }
 `;
 
-const AuthorAvatar = css`
+const AuthorAvatar = (theme: Theme) => css`
   display: block;
   overflow: hidden;
   margin: 0 -4px;
   width: 40px;
   height: 40px;
-  border: #fff 2px solid;
+  border: 2px solid ${theme.global.main.authorBorderColor};
   border-radius: 100%;
-  transition: all 0.5s cubic-bezier(0.4, 0.01, 0.165, 0.99) 700ms;
 
   @media (max-width: 500px) {
     width: 36px;
     height: 36px;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    border-color: ${lighten('0.02', colors.darkgrey)};
   }
 `;

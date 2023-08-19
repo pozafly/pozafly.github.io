@@ -6,7 +6,7 @@ import { lighten } from 'polished';
 import React from 'react';
 import _ from 'lodash';
 
-import { css } from '@emotion/react';
+import { Theme, css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { colors } from '../styles/colors';
@@ -179,15 +179,13 @@ const PostCardImage = styled.div`
   height: 200px;
   background-size: cover;
   border-radius: 12px;
-  border: 1px solid hsl(230deg 25% 94%);
-
+  border: 1px solid
+    ${({ theme }: { theme: Theme }) =>
+      theme.global.postCard.PostCardImageBorderColor};
+  background: ${({ theme }: { theme: Theme }) =>
+    theme.global.postCard.PostCardImageBackground};
   img {
     border-radius: 12px;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    background: ${colors.darkmode};
-    border: 1px solid hsl(230deg 6% 23%);
   }
   &.is-next {
     border: 1px solid hsl(230deg 6% 23%);
@@ -225,17 +223,14 @@ const PostCardTitle = styled.h2`
   margin: 0 0 0.4em;
   line-height: 1.15em;
   transition: color 0.2s ease-in-out;
-
-  @media (prefers-color-scheme: dark) {
-    color: rgba(255, 255, 255, 0.85);
-  }
+  color: ${({ theme }: { theme: Theme }) =>
+    theme.global.postCard.postCardTitleColor};
 `;
 
 const PostCardExcerpt = styled.section`
   font-size: 1.6rem;
-  @media (prefers-color-scheme: dark) {
-    color: #768086;
-  }
+  color: ${({ theme }: { theme: Theme }) =>
+    theme.global.postCard.postCardExcerptColor};
   p {
     width: 100%;
     overflow: hidden;
@@ -272,43 +267,20 @@ const PostCardBylineContent = styled.div`
   }
 
   a {
-    color: ${lighten('0.2', colors.darkgrey)};
+    color: ${({ theme }: { theme: Theme }) =>
+      theme.global.postCard.postCardBylineContentColor};
     font-weight: 600;
   }
-
-  @media (prefers-color-scheme: dark) {
-    a {
-      color: rgba(255, 255, 255, 0.75);
-    }
-  }
 `;
 
-export const StaticAvatar = css`
-  display: block;
-  overflow: hidden;
-  margin: 0 0 0 -6px;
-  width: 34px;
-  height: 34px;
-  border: #fff 2px solid;
-  border-radius: 100%;
-
-  @media (prefers-color-scheme: dark) {
-    border-color: ${lighten('0.02', colors.darkgrey)};
-  }
-`;
-
-export const AuthorProfileImage = css`
+export const AuthorProfileImage = (theme: Theme) => css`
   display: block;
   width: 100%;
   height: 100%;
   background: ${lighten('0.1', colors.lightgrey)};
   border-radius: 100%;
   object-fit: cover;
-
-  @media (prefers-color-scheme: dark) {
-    background: ${colors.darkmode};
-  }
-
+  background: ${theme.global.main.authorProfileImage};
   img {
     border-radius: 100%;
   }

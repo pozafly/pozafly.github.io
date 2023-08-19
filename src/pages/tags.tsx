@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { graphql, Link } from 'gatsby';
-import { css } from '@emotion/react';
+import { css, Theme } from '@emotion/react';
 import kebabCase from 'lodash/kebabCase';
 
 import { Footer } from '../components/Footer';
@@ -23,31 +23,23 @@ import {
   PostFullHeader,
   PostFullTitle,
 } from '../templates/post';
-import { colors } from '../styles/colors';
 
-const PageTemplate = css`
+const PageTemplate = (theme: Theme) => css`
   .site-main {
     margin-top: 64px;
     padding-bottom: 4vw;
-    background: #fff;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .site-main {
-      /* background: var(--darkmode); */
-      background: ${colors.darkmode};
-    }
+    background: ${theme.global.body.backgroundColor};
   }
 `;
 
-const TagArea = css`
+const TagArea = (theme: Theme) => css`
   ul {
     padding-left: initial;
     li {
       display: inline-block;
       list-style: none;
-      background: #f5f5f5;
-      border: 1px solid hsl(230deg 25% 94%);
+      background: ${theme.tag.tagBackground};
+      border: 1px solid ${theme.tag.tagBorderColor};
       border-radius: 6px;
       margin-right: 12px;
       color: #000;
@@ -56,29 +48,17 @@ const TagArea = css`
       transition: all 0.4s ease;
 
       &:hover {
-        box-shadow: 0px 8px 20px hsla(218, 53%, 10%, 12%);
+        box-shadow: 0px 8px 20px ${theme.tag.tagHoverBoxShadow};
         transform: translateY(-3px);
-      }
-
-      @media (prefers-color-scheme: dark) {
-        background: #282b31;
-        border: 1px solid hsl(230deg 6% 23%);
-        &:hover {
-          /* box-shadow: 0px 8px 20px hsla(218,53%,10%,12%); */
-          box-shadow: 0px 8px 20px #090f1a;
-        }
       }
 
       a {
         padding: 6px;
         text-decoration: none;
-        color: #000;
+        color: ${theme.tag.tagColor};
         box-shadow: none;
         &:hover {
           box-shadow: none;
-        }
-        @media (prefers-color-scheme: dark) {
-          color: #fff;
         }
       }
     }

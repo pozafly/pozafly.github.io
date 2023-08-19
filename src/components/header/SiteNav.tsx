@@ -1,7 +1,7 @@
 import { Link } from 'gatsby';
 import React from 'react';
 
-import { css } from '@emotion/react';
+import { Theme, css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { SocialLink, SocialLinkFb } from '../../styles/shared';
@@ -127,7 +127,7 @@ class SiteNav extends React.PureComponent<SiteNavProps, SiteNavState> {
             <SocialLinks>
               {config.instagram && (
                 <a
-                  className={`${isHome ? 'is-home' : ''}`}
+                  className={`${isHome ? 'is-home' : ''} not-mobile`}
                   css={[SocialLink, SocialLinkFb]}
                   href={config.instagram}
                   target="_blank"
@@ -139,7 +139,7 @@ class SiteNav extends React.PureComponent<SiteNavProps, SiteNavState> {
               )}
               {config.github && (
                 <a
-                  className={`${isHome ? 'is-home' : ''}`}
+                  className={`${isHome ? 'is-home' : ''} not-mobile`}
                   css={SocialLink}
                   href={config.github}
                   title="Github"
@@ -195,7 +195,7 @@ const SiteNavContent = styled.div`
   align-self: flex-start;
 `;
 
-const NavStyles = css`
+const NavStyles = (theme: Theme) => css`
   position: absolute;
   z-index: 1000;
   display: flex;
@@ -215,12 +215,10 @@ const NavStyles = css`
     position: relative;
     display: block;
     padding: 10px 12px;
-    color: #000;
+    color: ${theme.nav.linkColor};
     opacity: 0.8;
     transition: opacity 0.35s ease-in-out;
-    @media (prefers-color-scheme: dark) {
-      color: #fff;
-    }
+
     @media (max-width: 700px) {
       padding: 10px 8px;
     }
@@ -238,12 +236,9 @@ const NavStyles = css`
     bottom: 8px;
     left: 12px;
     height: 1px;
-    background: #000;
+    background: ${theme.nav.linkColor};
     opacity: 0.25;
     transition: all 0.35s ease-in-out;
-    @media (prefers-color-scheme: dark) {
-      background: #fff;
-    }
   }
 
   li a:hover:before {
@@ -270,38 +265,37 @@ const SiteNavRight = styled.div`
   justify-content: flex-end;
   padding: 10px 0;
   height: 64px;
-
-  @media (max-width: 700px) {
-    /* display: none; */
-  }
 `;
 
 const SocialLinks = styled.div`
   flex-shrink: 0;
   display: flex;
   align-items: center;
+
+  @media (max-width: 700px) {
+    .not-mobile {
+      display: none;
+    }
+  }
 `;
 
 const NavPostTitle = styled.span`
   visibility: hidden;
   position: absolute;
   top: 9px;
-  color: #000;
+  color: ${({ theme }) => theme.nav.linkColor};
   font-size: 1.7rem;
   font-weight: 400;
   text-transform: none;
   opacity: 0;
   transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
   transform: translateY(175%);
-  @media (prefers-color-scheme: dark) {
-    color: #fff;
-  }
 
   @media (max-width: 700px) {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: calc(100vw - 172px);
+    max-width: calc(100vw - 110px);
   }
 
   .dash {

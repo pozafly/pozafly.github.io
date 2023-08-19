@@ -2,11 +2,10 @@ import { format } from 'date-fns';
 import { graphql, Link } from 'gatsby';
 import { GatsbyImage, getSrc, getImage } from 'gatsby-plugin-image';
 import { kebabCase } from 'lodash-es';
-import { lighten, setLightness } from 'polished';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 
-import { css } from '@emotion/react';
+import { css, Theme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { Footer } from '../components/Footer';
@@ -296,17 +295,11 @@ const GiscusStyle = css`
   margin-right: auto;
 `;
 
-const PostTemplate = css`
+const PostTemplate = (theme: Theme) => css`
   .site-main {
     margin-top: 64px;
-    background: #fff;
+    background: ${theme.global.body.backgroundColor};
     padding-bottom: 4vw;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .site-main {
-      background: ${colors.darkmode};
-    }
   }
 `;
 
@@ -369,7 +362,7 @@ export const AuthorListUl = styled.ul`
 
 const PostFullCustomExcerpt = styled.p`
   margin: 20px 0 0;
-  color: var(--midgrey);
+  color: ${({ theme }: { theme: Theme }) => theme.post.excerptColor};
   font-size: 2rem;
   line-height: 1.4em;
   font-weight: 360;
@@ -378,10 +371,6 @@ const PostFullCustomExcerpt = styled.p`
     font-size: 1.9rem;
     line-height: 1.5em;
   }
-
-  @media (prefers-color-scheme: dark) {
-    color: #768086;
-  }
 `;
 
 const PostFullByline = styled.div`
@@ -389,7 +378,8 @@ const PostFullByline = styled.div`
   justify-content: space-between;
   margin: 35px 0 0;
   padding-top: 15px;
-  border-top: 1px solid ${lighten('0.1', colors.lightgrey)};
+  border-top: 1px solid
+    ${({ theme }: { theme: Theme }) => theme.post.postFullBorderColor};
 
   .post-full-byline-content {
     flex-grow: 1;
@@ -419,11 +409,11 @@ const PostFullByline = styled.div`
 
   .post-full-byline-meta h4 a {
     font-size: 13px;
-    color: ${lighten('0.1', colors.darkgrey)};
+    color: ${({ theme }: { theme: Theme }) => theme.post.postFullMetaLink};
   }
 
   .post-full-byline-meta h4 a:hover {
-    color: ${colors.darkgrey};
+    color: ${({ theme }: { theme: Theme }) => theme.post.postFullMetaLinkHover};
   }
 
   .post-full-byline-meta .byline-reading-time,
@@ -436,30 +426,14 @@ const PostFullByline = styled.div`
     margin: 0 4px;
     opacity: 0.6;
   }
-
-  @media (prefers-color-scheme: dark) {
-    border-top-color: ${lighten('0.15', colors.darkmode)};
-
-    .post-full-byline-meta h4 a {
-      color: rgba(255, 255, 255, 0.75);
-    }
-
-    .post-full-byline-meta h4 a:hover {
-      color: #fff;
-    }
-  }
 `;
 
 export const PostFullTitle = styled.h1`
   margin: 0 0 0.2em;
-  color: ${setLightness('0.05', colors.darkgrey)};
+  color: ${({ theme }: { theme: Theme }) => theme.post.postFullTitleColor};
   @media (max-width: 500px) {
     margin-top: 0.2em;
     font-size: 3.3rem;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    color: rgba(255, 255, 255, 0.9);
   }
 `;
 
@@ -485,10 +459,9 @@ const PostFullImage = styled.figure`
   @media (max-width: 500px) {
     margin-bottom: 4vw;
   }
-  border: 1px solid hsl(230deg 25% 94%);
-  @media (prefers-color-scheme: dark) {
-    border: 1px solid hsl(230deg 6% 23%);
-  }
+  border: 1px solid
+    ${({ theme }: { theme: Theme }) =>
+      theme.global.postCard.PostCardImageBorderColor};
 `;
 
 export const query = graphql`

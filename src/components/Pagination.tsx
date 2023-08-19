@@ -1,9 +1,6 @@
 import { Link } from 'gatsby';
 import React from 'react';
-import { darken } from 'polished';
 import { css } from '@emotion/react';
-
-import { colors } from '../styles/colors';
 
 export type PaginationProps = {
   currentPage: number;
@@ -15,14 +12,15 @@ function Pagination({ currentPage, numPages }: PaginationProps) {
   const isLast = currentPage === numPages;
   const isEndFirst = currentPage > 3;
   const isEndLast = currentPage <= numPages - 3;
-  const prevPage = currentPage - 1 === 1 ? '/' : `../${(currentPage - 1).toString()}`;
+  const prevPage =
+    currentPage - 1 === 1 ? '/' : `../${(currentPage - 1).toString()}`;
   const nextPage = `../${(currentPage + 1).toString()}`;
 
   return (
     <nav css={navCss}>
       <div>
         {isEndFirst && (
-          <Link to='/' rel="prev">
+          <Link to="/" rel="prev">
             {/* << symbol */}
             {String.fromCharCode(171)}
           </Link>
@@ -34,15 +32,20 @@ function Pagination({ currentPage, numPages }: PaginationProps) {
           </Link>
         )}
 
-        {Array.from({ length: numPages }, (_, i) => (
-          (i > currentPage - 4 && i < currentPage + 2) && <Link
-            key={`pagination-number${i + 1}`}
-            className={i + 1 === currentPage ? 'active' : ''}
-            to={`/${i === 0 ? '' : i + 1}`}
-          >
-            {i + 1}
-          </Link>
-        ))}
+        {Array.from(
+          { length: numPages },
+          (_, i) =>
+            i > currentPage - 4 &&
+            i < currentPage + 2 && (
+              <Link
+                key={`pagination-number${i + 1}`}
+                className={i + 1 === currentPage ? 'active' : ''}
+                to={`/${i === 0 ? '' : i + 1}`}
+              >
+                {i + 1}
+              </Link>
+            )
+        )}
 
         {!isLast && (
           <Link to={nextPage} rel="next">
@@ -72,7 +75,8 @@ const navCss = css`
   }
 
   a {
-    font-family: -apple-system, BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans','Ubuntu','Droid Sans','Helvetica Neue',sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+      'Noto Sans', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', sans-serif;
     font-size: 1.5rem;
     background: #fff;
     color: black;
@@ -80,7 +84,8 @@ const navCss = css`
     text-decoration: none;
     transition: background-color 0.3s;
     margin: 0 4px;
-    box-shadow: rgba(39, 44, 49, 0.06) 8px 14px 38px, rgba(39, 44, 49, 0.03) 1px 3px 8px;
+    box-shadow: rgba(39, 44, 49, 0.06) 8px 14px 38px,
+      rgba(39, 44, 49, 0.03) 1px 3px 8px;
     border-radius: 100px;
     width: 40px;
     height: 40px;
@@ -108,7 +113,7 @@ const navCss = css`
     a {
       background: #000;
       color: #fff;
-      
+
       &.active {
         background-color: #626262;
       }
@@ -118,7 +123,7 @@ const navCss = css`
     }
   }
 
-  @media (max-width:650px) {
+  @media (max-width: 650px) {
     a {
       margin: 0 2px;
       width: 32px;

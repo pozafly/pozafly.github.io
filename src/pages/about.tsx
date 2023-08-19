@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 
-import { css } from '@emotion/react';
+import { css, Theme } from '@emotion/react';
 
 import { Footer } from '../components/Footer';
 import SiteNav from '../components/header/SiteNav';
@@ -16,23 +16,20 @@ import {
   SiteMain,
   SiteNavMain,
 } from '../styles/shared';
-import { NoImage, PostFull, PostFullHeader, PostFullTitle } from '../templates/post';
-import { colors } from '../styles/colors';
+import {
+  NoImage,
+  PostFull,
+  PostFullHeader,
+  PostFullTitle,
+} from '../templates/post';
 import styled from '@emotion/styled';
 import ResumeFrame from '../components/ResumeFrame';
 
-const PageTemplate = css`
+const PageTemplate = (theme: Theme) => css`
   .site-main {
     margin-top: 64px;
     padding-bottom: 4vw;
-    background: #fff;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .site-main {
-      /* background: var(--darkmode); */
-      background: ${colors.darkmode};
-    }
+    background: ${theme.global.body.backgroundColor};
   }
 `;
 
@@ -42,7 +39,9 @@ const MovePicture = styled.img`
   transition: 0.2s ease-in-out;
 
   &:hover {
-    box-shadow: rgba(0, 0, 33, 0.07) 0px 16px 22.4px 4.8px, rgba(0, 0, 33, 0.05) 0px 3.2px 16px 0px, rgba(0, 0, 33, 0.07) 0px 0px 1px 0px;
+    box-shadow: rgba(0, 0, 33, 0.07) 0px 16px 22.4px 4.8px,
+      rgba(0, 0, 33, 0.05) 0px 3.2px 16px 0px,
+      rgba(0, 0, 33, 0.07) 0px 0px 1px 0px;
     -webkit-transform: translate3D(0, -3%, 0);
     -moz-transform: translate3D(0, -3%, 0);
     -ms-transform: translate3D(0, -3%, 0);
@@ -57,7 +56,10 @@ function About() {
         <title>About</title>
       </Helmet>
       <Wrapper css={PageTemplate}>
-        <header className="site-archive-header no-image" css={[SiteHeader, SiteArchiveHeader]}>
+        <header
+          className="site-archive-header no-image"
+          css={[SiteHeader, SiteArchiveHeader]}
+        >
           <div css={[outer, SiteNavMain]}>
             <div css={inner}>
               <SiteNav isHome={false} />
@@ -77,19 +79,29 @@ function About() {
                   <br />
                   <br />
                   <p>
-                    안녕하세요. Frontend 개발자를 꿈꾸는 황선태입니다.
-                    블로그일 뿐, 포트폴리오가 아닌데 각 잡고 About 페이지를 쓰려니 도무지 답이 나오지 않네요. 다만, 그냥 즐겁게 개발하고 싶습니다.
+                    안녕하세요. Frontend 개발자를 꿈꾸는 황선태입니다. 블로그일
+                    뿐, 포트폴리오가 아닌데 각 잡고 About 페이지를 쓰려니 도무지
+                    답이 나오지 않네요. 다만, 그냥 즐겁게 개발하고 싶습니다.
                   </p>
                   <p>
-                    Frontend는 Vue와 React, Backend는 SpringBoot, SQL을 다룰 줄 압니다. 이 페이지를 작성하고 있는 시점엔 React를 배우고 있습니다.
-                    비교적 피드백이 바로 나타나는 Frontend 개발에 집중하려고 합니다. 무언가 딱 맞아떨어질 때의 쾌감, 유의미한 것을 만들었다는 쾌감이
-                    개발의 즐거움인 듯합니다.
-                    깔끔하고 정갈한 코드를 작성하는 개발자가 되고 싶습니다.
+                    Frontend는 Vue와 React, Backend는 SpringBoot, SQL을 다룰 줄
+                    압니다. 이 페이지를 작성하고 있는 시점엔 React를 배우고
+                    있습니다. 비교적 피드백이 바로 나타나는 Frontend 개발에
+                    집중하려고 합니다. 무언가 딱 맞아떨어질 때의 쾌감, 유의미한
+                    것을 만들었다는 쾌감이 개발의 즐거움인 듯합니다. 깔끔하고
+                    정갈한 코드를 작성하는 개발자가 되고 싶습니다.
                   </p>
                   <p>
-                    이 블로그는 기술을 사용하고 적용한 내용 위주, 기술에 대한 생각이나 회고로 채우고, static 한 공부 내용은 {' '}
-                    <a href="https://github.com/pozafly/TIL" target="_blank" rel="noreferrer">TIL</a>에 채워갈 생각입니다.
-                    들러주셔서 감사합니다.
+                    이 블로그는 기술을 사용하고 적용한 내용 위주, 기술에 대한
+                    생각이나 회고로 채우고, static 한 공부 내용은{' '}
+                    <a
+                      href="https://github.com/pozafly/TIL"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      TIL
+                    </a>
+                    에 채워갈 생각입니다. 들러주셔서 감사합니다.
                     <br />
                   </p>
                   <div style={{ textAlign: 'right' }}>2021/3/30</div>
@@ -99,24 +111,39 @@ function About() {
                   <h2>Toy Project</h2>
                   <br />
                   <h5>Tripllo</h5>
-                  <a href="https://github.com/pozafly/tripllo_vue" target="_blank" rel="noreferrer">
-                    <MovePicture src='https://user-images.githubusercontent.com/59427983/112918486-f25bc600-913f-11eb-8c9d-ea4221141754.png' alt="Tripllo" />
+                  <a
+                    href="https://github.com/pozafly/tripllo_vue"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <MovePicture
+                      src="https://user-images.githubusercontent.com/59427983/112918486-f25bc600-913f-11eb-8c9d-ea4221141754.png"
+                      alt="Tripllo"
+                    />
                   </a>
                   <ul>
                     <li>평소 즐겨 사용하던 Trello를 만들었습니다.</li>
                     <li>
-                      Github:
+                      GitHub:
                       <ul>
                         <li>
-                          Frontend: {' '}
-                          <a href="https://github.com/pozafly/tripllo_vue" target="_blank" rel="noreferrer">
+                          Frontend:{' '}
+                          <a
+                            href="https://github.com/pozafly/tripllo_vue"
+                            target="_blank"
+                            rel="noreferrer"
+                          >
                             https://github.com/pozafly/tripllo_vue
                           </a>{' '}
                           <small>(이곳에 README가 있습니다.)</small>
                         </li>
                         <li>
-                          Backend: {' '}
-                          <a href="https://github.com/pozafly/tripllo_springBoot" target="_blank" rel="noreferrer">
+                          Backend:{' '}
+                          <a
+                            href="https://github.com/pozafly/tripllo_springBoot"
+                            target="_blank"
+                            rel="noreferrer"
+                          >
                             https://github.com/pozafly/tripllo_springBoot
                           </a>
                         </li>
@@ -128,14 +155,23 @@ function About() {
                   <br />
                   <h2>Contact Me</h2>
                   <ul>
-                    <li>Email: {' '}
-                      <a href="mailto:pozafly@gmail.com" target="_blank" rel="noreferrer">
+                    <li>
+                      Email:{' '}
+                      <a
+                        href="mailto:pozafly@gmail.com"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
                         pozafly@gmail.com
                       </a>
                     </li>
                     <li>
-                      Github: {' '}
-                      <a href="https://github.com/pozafly" target="_blank" rel="noreferrer">
+                      GitHub:{' '}
+                      <a
+                        href="https://github.com/pozafly"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
                         https://github.com/pozafly
                       </a>
                     </li>
