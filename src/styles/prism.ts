@@ -3,9 +3,9 @@ import { Theme, css } from '@emotion/react';
 export default (theme: Theme) => css`
   *:not(pre) > code[class*='language-'] {
     border-radius: 0.3em;
-    background: ${theme.prism.highlightBackground};
-    border: 1px solid ${theme.prism.small.borderColor};
-    color: ${theme.global.body.backgroundColor};
+    background: var(--highlight-background);
+    border: 1px solid var(--little-code-border);
+    color: var(--main-color);
     padding: 0.15em 0.5em;
     white-space: normal;
     font-size: 13px;
@@ -21,8 +21,8 @@ export default (theme: Theme) => css`
     margin-left: -1.3125rem;
     padding-right: 1em;
     padding-left: 1.25em;
-    background-color: ${theme.prism.background};
-    border-left: 0.25em solid ${theme.prism.borderLeft};
+    background-color: var(--prism-background);
+    border-left: 0.25em solid var(--prism-border-left);
     font-size: 1.4rem;
   }
 
@@ -31,9 +31,8 @@ export default (theme: Theme) => css`
     margin-left: -1.3125rem;
     margin-right: -1.3125rem;
     border-radius: 10px;
-    background: ${theme.prism.highlightBackground};
-    border: 1px solid ${theme.prism.highlightBorder};
-
+    background: var(--highlight-background);
+    border: 1px solid var(--highlight-border);
     -webkit-overflow-scrolling: touch;
     overflow: auto;
   }
@@ -47,7 +46,7 @@ export default (theme: Theme) => css`
 
   pre[class*='language-'],
   code[class*='language-'] {
-    color: ${theme.prism.preCodeColor};
+    color: var(--pre-code-color);
     text-shadow: none;
     font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
     direction: ltr;

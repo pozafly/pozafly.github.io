@@ -1,4 +1,4 @@
-import { Theme, css } from '@emotion/react';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { colors } from './colors';
@@ -15,19 +15,19 @@ export const inner = css`
   width: 100%;
 `;
 
-export const SiteNavMain = (theme: Theme) => css`
+export const SiteNavMain = css`
   position: fixed;
   top: 0;
   right: 0;
   left: 0;
   z-index: 1000;
   backdrop-filter: blur(8px);
-  background: ${theme.global.main.navMainBackground};
+  background: var(--nav-background);
 `;
 
-export const SiteMain = (theme: Theme) => css`
+export const SiteMain = css`
   flex-grow: 1;
-  background: ${theme.global.main.siteMainBackground};
+  background: var(--background-color);
 `;
 
 export const SiteTitle = styled.h1`
@@ -61,28 +61,27 @@ export const Posts = css`
   overflow-x: hidden;
 `;
 
-export const PostFeed = (theme: Theme) =>
-  css`
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0 -20px;
-    padding: 50px 0 0;
-    background: ${theme.global.body.backgroundColor};
+export const PostFeed = css`
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -20px;
+  padding: 50px 0 0;
+  background: var(--background-color);
 
-    padding: 120px 0 40px;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
+  padding: 120px 0 40px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
 
-    @media (max-width: 780px) {
-      padding: 80px 0 40px;
-    }
-    @media (max-width: 500px) {
-      padding: 40px 0;
-    }
-  `;
+  @media (max-width: 780px) {
+    padding: 80px 0 40px;
+  }
+  @media (max-width: 500px) {
+    padding: 40px 0;
+  }
+`;
 
-export const SocialLink = (theme: Theme) => css`
+export const SocialLink = css`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -97,7 +96,7 @@ export const SocialLink = (theme: Theme) => css`
 
   svg {
     height: 1.8rem;
-    fill: ${theme.global.main.mainColor};
+    fill: var(--main-color);
   }
 
   &.is-home {
@@ -125,11 +124,11 @@ export const SiteHeaderContent = styled.div`
   max-height: 340px;
 `;
 
-export const SiteHeaderStyles = (theme: Theme) => css`
+export const SiteHeaderStyles = css`
   position: relative;
   padding-bottom: 12px;
   color: #fff;
-  background: ${theme.global.main.siteHeaderStyles};
+  background: var(--header-color) no-repeat center center;
   background-size: cover;
   height: 35rem;
   @media (max-width: 780px) {
@@ -148,7 +147,7 @@ export const SiteHeaderStyles = (theme: Theme) => css`
     left: 0;
     z-index: 10;
     display: block;
-    background: ${theme.global.main.siteHeaderStylesBefore};
+    background: var(--header-before);
   }
   :after {
     content: '';
@@ -160,10 +159,7 @@ export const SiteHeaderStyles = (theme: Theme) => css`
     z-index: 10;
     display: block;
     height: 100%;
-    background: linear-gradient(
-      rgba(0, 0, 0, 0) 50%,
-      ${theme.global.main.siteHeaderStylesAfter}
-    );
+    background: linear-gradient(rgba(0, 0, 0, 0) 50%, var(--header-after));
   }
 `;
 
@@ -184,7 +180,7 @@ export const SiteHeaderBackground = css`
 export const ResponsiveHeaderBackground = styled.div<{
   backgroundImage?: string;
 }>`
-  ${({ backgroundImage, theme }) =>
+  ${({ backgroundImage }) =>
     backgroundImage &&
     `
     position: relative;
@@ -204,7 +200,7 @@ export const ResponsiveHeaderBackground = styled.div<{
       left: 0;
       z-index: 10;
       display: block;
-      background: ${theme.global.main.siteHeaderStylesBefore};
+      background: var(--header-before);
     }
 
     :after {
@@ -221,13 +217,13 @@ export const ResponsiveHeaderBackground = styled.div<{
     }
   `}
 
-  ${({ backgroundImage, theme }) =>
+  ${({ backgroundImage }) =>
     !backgroundImage &&
     `
     padding-top: 0;
     padding-bottom: 0;
-    color: ${theme.global.main.headerColor};
-    background: ${theme.global.body.backgroundColor};
+    color: var(--home-header-color);
+    background: var(--background-color);
     opacity: 1;
 
 
@@ -237,7 +233,7 @@ export const ResponsiveHeaderBackground = styled.div<{
   }
 
   .site-header-content {
-    border-bottom: 1px solid ${theme.global.main.responsiveHeaderBorderBottomColor};
+    border-bottom: 1px solid var(--body-color);
   }
 
   .author-bio {
@@ -251,7 +247,7 @@ export const ResponsiveHeaderBackground = styled.div<{
   }
 
   .author-social-link a {
-    color: ${theme.global.main.responsiveHeaderAuthorLinkColor};
+    color: var(--header-author-link);
   }
 
   .author-social-link a:before {
@@ -287,12 +283,12 @@ export const ResponsiveHeaderBackground = styled.div<{
   `}
 `;
 
-export const NoImage = (theme: Theme) => css`
+export const NoImage = css`
   .no-image {
     padding-top: 0;
     padding-bottom: 0;
-    color: ${theme.global.main.headerColor};
-    background: ${theme.global.body.backgroundColor};
+    color: var(--home-header-color);
+    background: var(--background-color);
     opacity: 1;
   }
 
@@ -302,7 +298,7 @@ export const NoImage = (theme: Theme) => css`
   }
 
   .no-image .site-header-content {
-    border-bottom: 1px solid ${theme.global.main.noImageBorderBottomColor};
+    border-bottom: 1px solid var(--no-image-border);
   }
 
   .no-image .author-bio {
@@ -316,7 +312,7 @@ export const NoImage = (theme: Theme) => css`
   }
 
   .no-image .author-social-link a {
-    color: ${theme.global.main.responsiveHeaderAuthorLinkColor};
+    color: var(--header-author-link);
   }
 
   .no-image .author-social-link a:before {

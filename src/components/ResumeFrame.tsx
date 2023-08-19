@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
-import { Theme } from '@emotion/react';
 
 const FrameWrapper = styled.div`
   display: flex;
@@ -27,15 +26,11 @@ const Loading = styled.div`
     position: relative;
     text-indent: -9999em;
     // outer
-    border-top: 2px solid
-      ${({ theme }: { theme: Theme }) => theme.global.main.loaderColor};
-    border-right: 2px solid
-      ${({ theme }: { theme: Theme }) => theme.global.main.loaderColor};
-    border-bottom: 2px solid
-      ${({ theme }: { theme: Theme }) => theme.global.main.loaderColor};
+    border-top: 2px solid var(--loader-color);
+    border-right: 2px solid var(--loader-color);
+    border-bottom: 2px solid var(--loader-color);
     // inner
-    border-left: 2px solid
-      ${({ theme }: { theme: Theme }) => theme.global.main.loaderColor2};
+    border-left: 2px solid var(--loader-color2);
 
     -webkit-transform: translateZ(0);
     -ms-transform: translateZ(0);

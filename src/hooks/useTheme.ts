@@ -7,7 +7,7 @@ export const themeNames = {
 } as const;
 
 const useTheme = () => {
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState<Ttheme>('dark');
 
   const themeToggler = useCallback(() => {
     const nextTheme =

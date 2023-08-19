@@ -5,7 +5,7 @@ import { kebabCase } from 'lodash-es';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 
-import { css, Theme } from '@emotion/react';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { Footer } from '../components/Footer';
@@ -295,10 +295,10 @@ const GiscusStyle = css`
   margin-right: auto;
 `;
 
-const PostTemplate = (theme: Theme) => css`
+const PostTemplate = css`
   .site-main {
     margin-top: 64px;
-    background: ${theme.global.body.backgroundColor};
+    background: var(--background-color);
     padding-bottom: 4vw;
   }
 `;
@@ -362,7 +362,7 @@ export const AuthorListUl = styled.ul`
 
 const PostFullCustomExcerpt = styled.p`
   margin: 20px 0 0;
-  color: ${({ theme }: { theme: Theme }) => theme.post.excerptColor};
+  color: var(--post-card-description);
   font-size: 2rem;
   line-height: 1.4em;
   font-weight: 360;
@@ -378,8 +378,7 @@ const PostFullByline = styled.div`
   justify-content: space-between;
   margin: 35px 0 0;
   padding-top: 15px;
-  border-top: 1px solid
-    ${({ theme }: { theme: Theme }) => theme.post.postFullBorderColor};
+  border-top: 1px solid var(--post-full-border);
 
   .post-full-byline-content {
     flex-grow: 1;
@@ -409,11 +408,11 @@ const PostFullByline = styled.div`
 
   .post-full-byline-meta h4 a {
     font-size: 13px;
-    color: ${({ theme }: { theme: Theme }) => theme.post.postFullMetaLink};
+    color: var(--post-full-meta-link);
   }
 
   .post-full-byline-meta h4 a:hover {
-    color: ${({ theme }: { theme: Theme }) => theme.post.postFullMetaLinkHover};
+    color: var(--post-full-meta-link-hover);
   }
 
   .post-full-byline-meta .byline-reading-time,
@@ -430,7 +429,7 @@ const PostFullByline = styled.div`
 
 export const PostFullTitle = styled.h1`
   margin: 0 0 0.2em;
-  color: ${({ theme }: { theme: Theme }) => theme.post.postFullTitleColor};
+  color: var(--post-full-title);
   @media (max-width: 500px) {
     margin-top: 0.2em;
     font-size: 3.3rem;
@@ -459,8 +458,7 @@ const PostFullImage = styled.figure`
   @media (max-width: 500px) {
     margin-bottom: 4vw;
   }
-  border: 1px solid
-    ${({ theme }: { theme: Theme }) => theme.global.main.imageBorderColor};
+  border: 1px solid var(--image-border-color);
 `;
 
 export const query = graphql`

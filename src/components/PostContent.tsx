@@ -4,7 +4,6 @@ import RehypeReact from 'rehype-react';
 
 import { colors } from '../styles/colors';
 import prism from '../styles/prism';
-import { Theme } from '@emotion/react';
 
 const renderAst = new RehypeReact({
   createElement: React.createElement,
@@ -22,6 +21,7 @@ export type PostContentProps = {
 
 function PostContent({ htmlAst }: PostContentProps) {
   return (
+    // <PostFullContent className="post-full-content" css={prism}>
     <PostFullContent className="post-full-content" css={prism}>
       <Ast className="post-content" ast={htmlAst} />
     </PostFullContent>
@@ -35,8 +35,7 @@ export const PostFullContent = styled.section`
   min-height: 230px;
   font-size: 2rem;
   line-height: 1.6em;
-  background: ${({ theme }: { theme: Theme }) =>
-    theme.global.body.backgroundColor};
+  background: var(--background-color);
   border-radius: 6px;
 
   @media (max-width: 1170px) {
@@ -111,8 +110,7 @@ export const PostFullContent = styled.section`
 
   strong,
   em {
-    color: ${({ theme }: { theme: Theme }) =>
-      theme.global.postContent.strongColor};
+    color: var(--strong-color);
   }
 
   small {
@@ -127,8 +125,7 @@ export const PostFullContent = styled.section`
     max-width: 840px;
     height: auto;
     border-radius: 6px;
-    border: 1px solid
-      ${({ theme }: { theme: Theme }) => theme.global.main.imageBorderColor};
+    border: 1px solid var(--image-border-color);
   }
   @media (max-width: 1040px) {
     img,
@@ -156,8 +153,7 @@ export const PostFullContent = styled.section`
   blockquote {
     margin: 0 0 1.5em;
     padding: 0 1.5em;
-    border-left: 3px solid
-      ${({ theme }: { theme: Theme }) => theme.global.main.imageBorderColor};
+    border-left: 3px solid var(--image-border-color);
   }
   @media (max-width: 500px) {
     blockquote {
@@ -182,11 +178,7 @@ export const PostFullContent = styled.section`
     font-size: 0.8em;
     line-height: 1em;
     font-weight: 400 !important;
-    background: ${({ theme }: { theme: Theme }) =>
-      theme.global.postContent.codeColor};
     border-radius: 3px;
-    color: ${({ theme }: { theme: Theme }) =>
-      theme.global.postContent.codeColor};
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
       'Noto Sans', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', sans-serif;
   }
@@ -234,7 +226,7 @@ export const PostFullContent = styled.section`
   h4,
   h5,
   h6 {
-    color: ${({ theme }: { theme: Theme }) => theme.global.main.headerColor};
+    color: var(--home-header-color);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
       'Noto Sans', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', sans-serif;
   }
@@ -380,43 +372,36 @@ export const PostFullContent = styled.section`
   }
 
   table td:first-of-type {
-    background-image: ${({ theme }: { theme: Theme }) =>
-      theme.global.postContent.tableFirstOfTypeColor};
+    background-image: var(--table-first-of-type);
     background-size: 20px 100%;
     background-repeat: no-repeat;
   }
 
   table td:last-child {
-    background-image: ${({ theme }: { theme: Theme }) =>
-      theme.global.postContent.tableLastOfTypeColor};
+    background-image: var(--table-last-of-type);
     background-position: 100% 0;
     background-size: 20px 100%;
     background-repeat: no-repeat;
   }
 
   table th {
-    color: ${({ theme }: { theme: Theme }) =>
-      theme.global.postContent.tableThColor};
+    color: var(--home-header-color);
     font-size: 1.2rem;
     font-weight: 700;
     letter-spacing: 0.2px;
     text-align: left;
     text-transform: uppercase;
-    background-color: ${({ theme }: { theme: Theme }) =>
-      theme.global.postContent.tableThBackground};
+    background-color: var(--table-th-background);
   }
 
   table th,
   table td {
     padding: 6px 12px;
-    border: ${({ theme }: { theme: Theme }) =>
-        theme.global.postContent.tableThBorderColor}
-      1px solid;
+    border: var(--table-th-border) 1px solid;
   }
 
   figcaption {
-    color: ${({ theme }: { theme: Theme }) =>
-      theme.global.postContent.figcaptionColor};
+    color: var(--figcaption-color);
   }
 `;
 

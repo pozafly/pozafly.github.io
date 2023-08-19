@@ -6,7 +6,7 @@ import { lighten } from 'polished';
 import React from 'react';
 import _ from 'lodash';
 
-import { Theme, css } from '@emotion/react';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { colors } from '../styles/colors';
@@ -179,10 +179,8 @@ const PostCardImage = styled.div`
   height: 200px;
   background-size: cover;
   border-radius: 12px;
-  border: 1px solid
-    ${({ theme }: { theme: Theme }) => theme.global.main.imageBorderColor};
-  background: ${({ theme }: { theme: Theme }) =>
-    theme.global.postCard.PostCardImageBackground};
+  border: 1px solid var(--image-border-color);
+  background: var(--background-color);
   img {
     border-radius: 12px;
   }
@@ -221,15 +219,12 @@ const PostCardPrimaryTag = styled.div`
 const PostCardTitle = styled.h2`
   margin: 0 0 0.4em;
   line-height: 1.15em;
-  transition: color 0.2s ease-in-out;
-  color: ${({ theme }: { theme: Theme }) =>
-    theme.global.postCard.postCardTitleColor};
+  color: var(--post-card-title);
 `;
 
 const PostCardExcerpt = styled.section`
   font-size: 1.6rem;
-  color: ${({ theme }: { theme: Theme }) =>
-    theme.global.postCard.postCardExcerptColor};
+  color: var(--post-card-description);
   p {
     width: 100%;
     overflow: hidden;
@@ -266,20 +261,19 @@ const PostCardBylineContent = styled.div`
   }
 
   a {
-    color: ${({ theme }: { theme: Theme }) =>
-      theme.global.postCard.postCardBylineContentColor};
+    color: var(--post-card-by-line);
     font-weight: 600;
   }
 `;
 
-export const AuthorProfileImage = (theme: Theme) => css`
+export const AuthorProfileImage = css`
   display: block;
   width: 100%;
   height: 100%;
   background: ${lighten('0.1', colors.lightgrey)};
   border-radius: 100%;
   object-fit: cover;
-  background: ${theme.global.main.authorProfileImage};
+  background: var(--background-color);
   img {
     border-radius: 100%;
   }

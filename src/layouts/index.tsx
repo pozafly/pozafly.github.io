@@ -1,11 +1,9 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { ThemeProvider } from '@emotion/react';
+import { Theme, ThemeProvider } from '@emotion/react';
 
 import favicon from '../content/img/common/alien.png';
 import useTheme from '../hooks/useTheme';
-import lightTheme from '../styles/theme/lightTheme';
-import darkTheme from '../styles/theme/darkTheme';
 import { ThemeToggleContext } from './ThemeToggleContext';
 import GlobalStyles from '../styles/GlobalStyles';
 
@@ -16,7 +14,7 @@ type IndexProps = {
 
 function IndexLayout(props: IndexProps) {
   const { theme, themeToggler } = useTheme();
-  const themeObject = theme === 'light' ? lightTheme : darkTheme;
+  const themeObject: Theme = { mode: theme };
 
   return (
     <div className={props.className}>
@@ -26,7 +24,7 @@ function IndexLayout(props: IndexProps) {
 
       <ThemeToggleContext.Provider value={{ theme, themeToggler }}>
         <ThemeProvider theme={themeObject}>
-          <GlobalStyles theme={themeObject} />
+          <GlobalStyles />
           {props.children}
         </ThemeProvider>
       </ThemeToggleContext.Provider>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { graphql, Link } from 'gatsby';
-import { css, Theme } from '@emotion/react';
+import { css } from '@emotion/react';
 import kebabCase from 'lodash/kebabCase';
 
 import { Footer } from '../components/Footer';
@@ -24,38 +24,38 @@ import {
   PostFullTitle,
 } from '../templates/post';
 
-const PageTemplate = (theme: Theme) => css`
+const PageTemplate = css`
   .site-main {
     margin-top: 64px;
     padding-bottom: 4vw;
-    background: ${theme.global.body.backgroundColor};
+    background: var(--background-color);
   }
 `;
 
-const TagArea = (theme: Theme) => css`
+const TagArea = css`
   ul {
     padding-left: initial;
     li {
       display: inline-block;
       list-style: none;
-      background: ${theme.tag.tagBackground};
-      border: 1px solid ${theme.global.main.imageBorderColor};
+      background: var(--tag-background);
+      border: 1px solid var(--image-border-color);
       border-radius: 6px;
       margin-right: 12px;
-      color: #000;
+      color: var(--main-color);
       padding: 2px 4px;
       transform: translateY(0);
       transition: all 0.4s ease;
 
       &:hover {
-        box-shadow: 0px 8px 20px ${theme.tag.tagHoverBoxShadow};
+        box-shadow: 0px 8px 20px var(--tag-boxshadow);
         transform: translateY(-3px);
       }
 
       a {
         padding: 6px;
         text-decoration: none;
-        color: ${theme.global.main.mainColor};
+        color: var(--main-color);
         box-shadow: none;
         &:hover {
           box-shadow: none;

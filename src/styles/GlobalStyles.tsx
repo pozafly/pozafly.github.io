@@ -1,7 +1,8 @@
-import { Global, Theme, css } from '@emotion/react';
+import { Global, css } from '@emotion/react';
 import { colors } from './colors';
+import { lighten, setLightness } from 'polished';
 
-export default function GlobalStyles({ theme }: { theme: Theme }) {
+export default function GlobalStyles() {
   return (
     <Global
       styles={css`
@@ -93,6 +94,110 @@ export default function GlobalStyles({ theme }: { theme: Theme }) {
           line-height: 1;
           word-break: keep-all;
         }
+
+        body {
+          &.light {
+            --body-color: ${lighten('-0.3', colors.midgrey)};
+            --background-color: #fff;
+            --main-color: #000;
+            --link-color: #0a0b0c;
+            --border-top-color: ${lighten('0.1', colors.lightgrey)};
+            --nav-background: rgba(255, 255, 255, 0.4);
+            --header-color: var(--background-color);
+            --header-after: var(--background-color);
+            --header-before: rgba(0, 0, 0, 0.18);
+            --author-border: #fff;
+            --home-header-color: ${colors.darkgrey};
+            --home-header-border-bottom: ${lighten('0.12', colors.lightgrey)};
+            --header-author-link: ${colors.darkgrey};
+            --no-image-border: ${lighten('0.12', colors.lightgrey)};
+            --strong-font-weight: 600;
+            --anchor-color: #768086;
+            --loader-color: hsla(230, 40%, 10%, 0.8);
+            --loader-color2: hsla(230, 40%, 10%, 0.2);
+            --image-border-color: hsl(230, 25%, 94%);
+            --post-card-title: rgb(21, 23, 26);
+            --post-card-description: rgb(48, 58, 62);
+            --post-card-by-line: ${lighten('0.2', colors.darkgrey)};
+            --strong-color: ${lighten('-0.05', colors.darkgrey)};
+            --figcaption-color: #000;
+            --table-first-of-type: linear-gradient(
+              to right,
+              rgba(255, 255, 255, 1) 50%,
+              rgba(255, 255, 255, 0) 100%
+            );
+            --table-last-of-type: linear-gradient(
+              to left,
+              rgba(255, 255, 255, 1) 50%,
+              rgba(255, 255, 255, 0) 100%
+            );
+            --table-th-background: ${lighten('0.04', colors.whitegrey)};
+            --table-th-border: ${lighten('-0.01', colors.whitegrey)};
+            --tag-boxshadow: hsla(218, 53%, 10%, 12%);
+            --tag-background: #f5f5f5;
+            --post-full-border: ${lighten('0.1', colors.lightgrey)};
+            --post-full-meta-link: ${lighten('0.1', colors.darkgrey)};
+            --post-full-meta-link-hover: ${colors.darkgrey};
+            --post-full-title: ${setLightness('0.05', colors.darkgrey)};
+            --highlight-background: #fafafa;
+            --highlight-border: #d1d1d1;
+            --pre-code-color: #000;
+            --little-code-border: #d1d1d1;
+            --prism-background: hsl(0, 0%, 90.66%);
+            --prism-border-left: hsl(0, 0%, 82.88%);
+          }
+          &.dark {
+            --body-color: rgba(255, 255, 255, 0.75);
+            --background-color: ${colors.darkmode};
+            --main-color: #fff;
+            --link-color: rgba(255, 255, 255, 0.9);
+            --border-top-color: ${lighten('0.08', colors.darkmode)};
+            --nav-background: rgba(25, 27, 31, 0.4);
+            --header-color: ${lighten('-0.05', colors.darkgrey)};
+            --header-after: #191b1f;
+            --header-before: rgba(0, 0, 0, 0.6);
+            --author-border: ${lighten('0.02', colors.darkgrey)};
+            --home-header-color: rgba(255, 255, 255, 0.9);
+            --home-header-border-bottom: #272a30;
+            --header-author-link: rgba(255, 255, 255, 0.75);
+            --no-image-border: ${lighten('0.15', colors.darkmode)};
+            --strong-font-weight: 500;
+            --anchor-color: ${lighten('0.1', colors.midgrey)};
+            --loader-color: hsla(230, 40%, 90%, 0.8);
+            --loader-color2: hsla(230, 40%, 90%, 0.2);
+            --image-border-color: hsl(230, 6%, 23%);
+            --post-card-title: rgba(255, 255, 255, 0.85);
+            --post-card-description: #768086;
+            --post-card-by-line: rgba(255, 255, 255, 0.75);
+            --strong-color: ${lighten('-0.05', '#fff')};
+            --figcaption-color: rgba(255, 255, 255, 0.6);
+            --table-first-of-type: linear-gradient(
+              to right,
+              ${colors.darkmode} 50%,
+              ${colors.darkmode} 100%
+            );
+            --table-last-of-type: linear-gradient(
+              270deg,
+              #191b1f 50%,
+              rgba(25, 27, 31, 0)
+            );
+            --table-th-background: ${lighten('0.08', colors.darkmode)};
+            --table-th-border: var(--table-th-background);
+            --tag-boxshadow: #090f1a;
+            --tag-background: #282b31;
+            --post-full-border: ${lighten('0.15', colors.darkmode)};
+            --post-full-meta-link: rgba(255, 255, 255, 0.75);
+            --post-full-meta-link-hover: #fff;
+            --post-full-title: rgba(255, 255, 255, 0.9);
+            --highlight-background: rgb(32 36 39);
+            --highlight-border: none;
+            --pre-code-color: #c9d1d9;
+            --little-code-border: #515151;
+            --prism-background: rgb(0 0 0 / 40%);
+            --prism-border-left: #818181;
+          }
+        }
+
         ol,
         ul {
           list-style: none;
@@ -135,7 +240,7 @@ export default function GlobalStyles({ theme }: { theme: Theme }) {
         }
         b,
         strong {
-          font-weight: ${theme.global.main.strongFontWeight};
+          font-weight: var(--strong-font-weight);
         }
         i,
         em,
@@ -267,8 +372,8 @@ export default function GlobalStyles({ theme }: { theme: Theme }) {
           font-style: normal;
           letter-spacing: 0;
           text-rendering: optimizeLegibility;
-          background: ${theme.global.body.backgroundColor};
-          color: ${theme.global.body.color};
+          background: var(--background-color);
+          color: var(--body-color);
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
           -moz-font-feature-settings: 'liga' on;
@@ -292,7 +397,7 @@ export default function GlobalStyles({ theme }: { theme: Theme }) {
           padding: 0;
           height: 1px;
           border: 0;
-          border-top: 1px solid ${theme.global.main.borderTopColor};
+          border-top: 1px solid var(--border-top-color);
         }
 
         audio,
@@ -394,7 +499,7 @@ export default function GlobalStyles({ theme }: { theme: Theme }) {
         }
 
         a {
-          color: ${theme.global.main.anchorColor};
+          color: var(--anchor-color);
           text-decoration: none;
         }
 
@@ -487,7 +592,7 @@ export default function GlobalStyles({ theme }: { theme: Theme }) {
             box-shadow: none !important;
           }
           svg {
-            fill: ${theme.global.body.autoLinkSvg} !important;
+            fill: var(--link-color) !important;
           }
         }
 

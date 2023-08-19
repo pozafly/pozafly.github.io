@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 
-import { css, Theme } from '@emotion/react';
+import { css } from '@emotion/react';
 
 import { Footer } from '../components/Footer';
 import SiteNav from '../components/header/SiteNav';
@@ -25,11 +25,11 @@ import {
 import styled from '@emotion/styled';
 import ResumeFrame from '../components/ResumeFrame';
 
-const PageTemplate = (theme: Theme) => css`
+const PageTemplate = css`
   .site-main {
     margin-top: 64px;
     padding-bottom: 4vw;
-    background: ${theme.global.body.backgroundColor};
+    background: var(--background-color);
   }
 `;
 

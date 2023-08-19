@@ -2,7 +2,7 @@ import { Link } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import React from 'react';
 
-import { Theme, css } from '@emotion/react';
+import { css } from '@emotion/react';
 
 import type { Author } from '../templates/post';
 import { AuthorProfileImage } from './PostCard';
@@ -39,13 +39,13 @@ const AuthorItemLi = styled.li`
   }
 `;
 
-const AuthorAvatar = (theme: Theme) => css`
+const AuthorAvatar = css`
   display: block;
   overflow: hidden;
   margin: 0 -4px;
   width: 40px;
   height: 40px;
-  border: 2px solid ${theme.global.main.authorBorderColor};
+  border: 2px solid var(--author-border);
   border-radius: 100%;
 
   @media (max-width: 500px) {
