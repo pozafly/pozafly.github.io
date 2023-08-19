@@ -268,7 +268,7 @@ function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
               <PostContent htmlAst={post.htmlAst} />
             </article>
             <div css={GiscusStyle}>
-              <Giscus repo="pozafly/blog-comments" />
+              <Giscus />
             </div>
           </div>
         </main>

@@ -1,64 +1,61 @@
-import React, {
-  createRef,
-  useContext,
-  useEffect,
-  useLayoutEffect,
-} from 'react';
+import React, { createRef, useContext, useEffect } from 'react';
 import { ThemeToggleContext } from '../layouts/ThemeToggleContext';
 
 const src = 'https://giscus.app/client.js';
+const repo = 'pozafly/blog-comments';
 
-export interface IGiscusProps {
-  repo: string;
-}
-
-const Giscus: React.FC<IGiscusProps> = React.memo(({ repo }) => {
+const Giscus: React.FC = React.memo(() => {
   const containerRef = createRef<HTMLDivElement>();
   const { theme } = useContext(ThemeToggleContext);
 
-  useLayoutEffect(() => {
-    const giscus = document.createElement('script');
+  useEffect(() => {
+    const createIframe = () => {
+      const giscus = document.createElement('script');
 
-    const attributes = {
-      src,
-      'data-repo': repo,
-      'data-repo-id': 'MDEwOlJlcG9zaXRvcnkyNjU3MTk2NDk=',
-      'data-category': 'Comments',
-      'data-category-id': 'DIC_kwDOD9aPYc4CX-sv',
-      'data-mapping': 'pathname',
-      'data-strict': '0',
-      'data-reactions-enabled': '1',
-      'data-emit-metadata': '0',
-      'data-input-position': 'top',
-      'data-theme': theme === 'light' ? 'light' : 'dark',
-      crossorigin: 'anonymous',
+      const attributes = {
+        src,
+        'data-repo': repo,
+        'data-repo-id': 'MDEwOlJlcG9zaXRvcnkyNjU3MTk2NDk=',
+        'data-category': 'Comments',
+        'data-category-id': 'DIC_kwDOD9aPYc4CX-sv',
+        'data-mapping': 'pathname',
+        'data-strict': '0',
+        'data-reactions-enabled': '1',
+        'data-emit-metadata': '0',
+        'data-input-position': 'top',
+        'data-theme': theme === 'light' ? 'light' : 'dark',
+        crossorigin: 'anonymous',
+        async: 'true',
+      };
+
+      Object.entries(attributes).forEach(([key, value]) => {
+        giscus.setAttribute(key, value);
+      });
+
+      containerRef.current?.appendChild(giscus);
     };
 
-    Object.entries(attributes).forEach(([key, value]) => {
-      giscus.setAttribute(key, value);
-    });
+    const postMessage = () => {
+      if (!iFrameEl) return;
 
-    containerRef.current?.appendChild(giscus);
-  }, [repo]);
+      iFrameEl.contentWindow?.postMessage(
+        {
+          giscus: {
+            setConfig: {
+              theme,
+            },
+          },
+        },
+        'https://giscus.app'
+      );
+    };
 
-  useEffect(() => {
     const iFrameEl = containerRef.current?.querySelector(
       'iframe.giscus-frame'
     ) as HTMLIFrameElement;
-    if (!iFrameEl) return;
 
-    iFrameEl.contentWindow?.postMessage(
-      {
-        giscus: {
-          setConfig: {
-            theme,
-          },
-        },
-      },
-      'https://giscus.app'
-    );
+    iFrameEl ? postMessage() : createIframe();
   }, [theme]);
-
   return <div ref={containerRef} />;
 });
 

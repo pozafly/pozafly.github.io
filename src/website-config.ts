@@ -48,7 +48,7 @@ const config: WebsiteConfig = {
   instagram: 'https://www.instagram.com/pozafly_/',
   github: 'https://github.com/pozafly',
   googleSiteVerification: 'GoogleCode',
-  footer: 'is based on Gatsby Casper',
+  footer: 'is based on Gatsby',
   showAllTags: true,
 };
 
