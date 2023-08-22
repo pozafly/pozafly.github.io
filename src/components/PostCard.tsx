@@ -113,7 +113,7 @@ const PostCardStyles = css`
 
   img {
     transform: scale(1) !important;
-    transition: opacity 0.25s linear, transform 0.5s ease !important;
+    transition: transform 0.25s ease !important;
   }
 
   &:hover {
@@ -191,7 +191,7 @@ const PostCardImage = styled.div`
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid var(--image-border-color);
-  background: var(--background-color);
+  /* background: var(--background-color); */
 
   &:after {
     content: '';
