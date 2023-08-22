@@ -24,8 +24,11 @@ jobs:
             ${{ runner.os }}
       - if: ${{ steps.npm-cache.outputs.cache-hit != 'true' }}
         run: npm install
-      - run: |
-          # token: ${{ secrets.GH_TOKEN }}
-          git config --global user.email ${{ secrets.GIT_EMAIL }}
-          git config --global user.name ${{ secrets.GIT_NAME }}
-      - run: npm run deploy
+      - run: gatsby build
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
+          publish_dir: ./public
+          publish_branch: master
+          # user_name: 'github-actions[bot]'
+          # user_email: 'github-actions[bot]@users.noreply.github.com'
