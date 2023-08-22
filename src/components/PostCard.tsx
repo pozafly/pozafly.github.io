@@ -113,7 +113,7 @@ const PostCardStyles = css`
 
   img {
     transform: scale(1) !important;
-    transition: opacity 0.5s ease-out 0s, transform 0.5s ease 0s !important;
+    transition: opacity 0.25s linear, transform 0.5s ease !important;
   }
 
   &:hover {
