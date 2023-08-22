@@ -110,21 +110,7 @@ const PostCardStyles = css`
   margin: 0 20px 60px;
   min-height: 220px;
   background-size: cover;
-  transition: 0.4s ease;
-
-  img {
-    transform: scale(1) !important;
-    transition: opacity 1s ease-out 0s, transform 0.5s ease 0s !important;
-  }
-
-  &:hover {
-    .post-card-image:after {
-      opacity: 1;
-    }
-    img {
-      transform: scale(1.03) !important;
-    }
-  }
+  /* transition: 0.4s ease; */
 `;
 
 const PostCardLarge = css`
@@ -203,13 +189,15 @@ const PostCardImage = styled.div`
     width: 100%;
     height: 100%;
     opacity: 0;
-    /* background-color: var(--color-dimmed); */
-    background-color: rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease 0s;
+    background-color: rgba(0, 0, 0, 0.2);
+    transition: opacity 0.3s ease 0s;
   }
 
   img {
     border-radius: 12px;
+  }
+  &:hover:after {
+    opacity: 1;
   }
   &.is-next {
     border: 1px solid hsl(230deg 6% 23%);
