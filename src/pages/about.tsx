@@ -98,11 +98,11 @@ function About() {
                   </p>
                   <p>
                     조금은 예민한 성격 탓에 소수와 깊은 관계를 맺는 것을
-                    좋아해서, 마음이 맞는 분들과 만나는 것을 좋아했습니다.
-                    그래서 말을 함부로 하는 사람을 힘들어합니다. 사람이 많은
-                    공간을 힘들어하지만, 새로운 공간 자체를 경험하는 것은
-                    좋아합니다. 지금은 수영을 취미로 가지고 있습니다. 또 여느
-                    개발자분들도 그렇듯, 키보드를 좋아하는 편입니다.
+                    좋아해서, 소수의 마음이 맞는 분들과 만나는 것을
+                    좋아했습니다. 반대로 말을 함부로 하는 사람을 힘들어합니다.
+                    사람이 많은 공간을 힘들어하지만, 새로운 공간 자체를 경험하는
+                    것은 좋아합니다. 지금은 수영을 취미로 가지고 있습니다. 또
+                    여느 개발자분들도 그렇듯, 키보드를 좋아하는 편입니다.
                   </p>
                   <p>
                     저는 개발을 잘하고 싶습니다. 어떤 분이 왜 개발을 잘하고
@@ -125,23 +125,31 @@ function About() {
                   </p>
                   <ul>
                     <li>
-                      Email:{' '}
                       <a
                         href="mailto:pozafly@gmail.com"
                         target="_blank"
                         rel="noreferrer"
                       >
-                        pozafly@gmail.com
-                      </a>
+                        Email
+                      </a>{' '}
+                      (pozafly@gmail.com)
                     </li>
                     <li>
-                      GitHub:{' '}
                       <a
                         href="https://github.com/pozafly"
                         target="_blank"
                         rel="noreferrer"
                       >
-                        https://github.com/pozafly
+                        GitHub
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="https://www.linkedin.com/in/%EC%84%A0%ED%83%9C-%ED%99%A9-43719920a"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        LinkedIn
                       </a>
                     </li>
                   </ul>
