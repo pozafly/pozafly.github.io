@@ -153,6 +153,10 @@
     <span class="token key atrule">runs-on</span><span class="token punctuation">:</span> ubuntu<span class="token punctuation">-</span>latest
     <span class="token key atrule">steps</span><span class="token punctuation">:</span>
       <span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v3 <span class="token comment"># repository에서 소스 파일을 러너의 디렉토리에 가져  온다.</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/setup<span class="token punctuation">-</span>node@v3 <span class="token comment"># 버전에 맞게 node.js 설치</span>
+        <span class="token key atrule">with</span><span class="token punctuation">:</span>
+          <span class="token key atrule">node-version-file</span><span class="token punctuation">:</span> <span class="token string">&#x27;.nvmrc&#x27;</span> <span class="token comment"># .nvmrc 파일을 기준으로 삼는다.</span>
+          <span class="token key atrule">cache</span><span class="token punctuation">:</span> npm
       <span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/cache@v3
         <span class="token key atrule">with</span><span class="token punctuation">:</span> <span class="token comment"># actions/cache에 넘겨줄 변수 사용 키워드</span>
           <span class="token key atrule">path</span><span class="token punctuation">:</span> ~/.npm <span class="token comment"># 경로에 있는 파일이 캐시가 된다</span>
@@ -371,13 +375,34 @@
 <p>위와 같은 주의점이 있을 수 있지만, 나는 문제가 발생하기 전까지는 <code class="language-text">~/.npm</code>, <code class="language-text">node_modules</code> 를 캐시에 저장하고, <code class="language-text">npm install</code> 명령어로 패키지를 설치하는 방법을 선택할 것 같다.</p>
 <br/>
 <h2 id="정리" style="position:relative">정리<a href="#%EC%A0%95%EB%A6%AC" aria-label="정리 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
+<div class="gatsby-highlight" data-language="yml"><pre class="language-yml"><code class="language-yml"><span class="token key atrule">name</span><span class="token punctuation">:</span> Cache Test
+<span class="token key atrule">on</span><span class="token punctuation">:</span> push
+<span class="token key atrule">jobs</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cache</span><span class="token punctuation">:</span>
+    <span class="token key atrule">runs-on</span><span class="token punctuation">:</span> ubuntu<span class="token punctuation">-</span>latest
+    <span class="token key atrule">steps</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v3
+      <span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/cache@v3
+        <span class="token key atrule">id</span><span class="token punctuation">:</span> npm<span class="token punctuation">-</span>cache
+        <span class="token key atrule">with</span><span class="token punctuation">:</span>
+          <span class="token key atrule">path</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
+            &#x27;**/node_modules&#x27;
+            ~/.npm</span>
+          <span class="token key atrule">key</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> runner.os <span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">-</span>node<span class="token punctuation">-</span>$<span class="token punctuation">{</span><span class="token punctuation">{</span> hashFiles(&#x27;<span class="token important">**/package-lock.json&#x27;)</span> <span class="token punctuation">}</span><span class="token punctuation">}</span>
+          <span class="token key atrule">restore-keys</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
+            ${{ runner.os }}-node-
+            ${{ runner.os }}</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">if</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> steps.npm<span class="token punctuation">-</span>cache.outputs.cache<span class="token punctuation">-</span>hit <span class="token tag">!=</span> &#x27;true&#x27; <span class="token punctuation">}</span><span class="token punctuation">}</span>
+        <span class="token key atrule">run</span><span class="token punctuation">:</span> npm install
+      <span class="token punctuation">-</span> <span class="token key atrule">run</span><span class="token punctuation">:</span> npm run build</code></pre></div>
 <ul>
 <li><code class="language-text">~/.npm</code> 데이터와, <code class="language-text">node_modules</code> 데이터 모두를 GitHub Actions에 캐시 한다.</li>
 <li>워크플로우가 트리거 되면 두 데이터 모두 러너 환경에 복원된다.</li>
 <li>만약 의존성이 변경되었다면 <code class="language-text">npm install</code> 명령어로 의존성 설치가 시작된다.</li>
-<li>node_modules가 러너 환경 에 존재하기 때문에 <code class="language-text">npm ci</code> 명령어보다 <code class="language-text">npm install</code> 명령어가 빠르게 패키지를 설치한다.</li>
+<li>node_modules가 러너 환경에 존재하기 때문에 <code class="language-text">npm ci</code> 명령어보다 <code class="language-text">npm install</code> 명령어가 빠르게 패키지를 설치한다.</li>
 <li>추가로 <code class="language-text">~/.npm</code> 데이터가 있기 때문에 <code class="language-text">npm install</code> 로 의존성을 설치하면 npm 캐시로 인해 더 빠르게 패키지를 설치한다.</li>
 </ul>
+<p>결과: CRA와 가벼운 몇몇 패키지 설치 시 27s에서 10s로 줄임. <strong>62%</strong> 가량의 효율성 확보.</p>
 <br/>
 <h3 id="번외---GitHub-Actions의-캐시-매커니즘" style="position:relative">번외 - GitHub Actions의 캐시 매커니즘<a href="#%EB%B2%88%EC%99%B8---GitHub-Actions%EC%9D%98-%EC%BA%90%EC%8B%9C-%EB%A7%A4%EC%BB%A4%EB%8B%88%EC%A6%98" aria-label="번외   GitHub Actions의 캐시 매커니즘 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
 <p>GitHub에서 워크플로우가 실행될 때 사진의 파란색 부분은 러너에서 실제로 CLI로 실행되는 명령어의 log를 나타내고 있다. 마지막 Post cache actions step의 명령어를 보자.</p>
@@ -399,4 +424,4 @@
           >
             window.___chunkMapping="{\"app\":[\"/app-0a3805017c2c0ea7a466.js\"],\"component---src-pages-404-tsx\":[\"/component---src-pages-404-tsx-e6ff7ea58158b6abbdd8.js\"],\"component---src-pages-about-tsx\":[\"/component---src-pages-about-tsx-c74d448e7f9fcf20a428.js\"],\"component---src-pages-tags-tsx\":[\"/component---src-pages-tags-tsx-e18dfbfe659a147f70f2.js\"],\"component---src-templates-index-tsx\":[\"/component---src-templates-index-tsx-c7070cb34d89300bec40.js\"],\"component---src-templates-post-tsx\":[],\"component---src-templates-tags-tsx\":[\"/component---src-templates-tags-tsx-cb2f8f779b3cf2c2ad52.js\"]}";
           </script>
-        <script>window.___webpackCompilationHash="59d550dab3d44e17d11b";</script><script src="/webpack-runtime-c2adbb79c04154bc0523.js" async></script><script src="/framework-52661bed68a218a99879.js" async></script><script src="/app-0a3805017c2c0ea7a466.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
+        <script>window.___webpackCompilationHash="99e2dafba52db3ef5e07";</script><script src="/webpack-runtime-33500020e8d66cb62f1f.js" async></script><script src="/framework-52661bed68a218a99879.js" async></script><script src="/app-0a3805017c2c0ea7a466.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
