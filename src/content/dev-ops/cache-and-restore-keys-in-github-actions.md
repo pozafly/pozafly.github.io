@@ -389,6 +389,36 @@ jobs:
 
 <br/>
 
+## Gatsby 블로그 Github Actions로 배포하기
+
+```yml
+- uses: actions/cache@v3
+  id: npm-cache
+  with:
+    path: |
+      **/node_modules
+      **/.cache
+      **/public
+    key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+    restore-keys: |
+      ${{ runner.os }}-node-
+      ${{ runner.os }}
+- if: ${{ steps.npm-cache.outputs.cache-hit != 'true' }}
+  run: npm install
+- run: npm run build
+- uses: peaceiris/actions-gh-pages@v3
+  with:
+    github_token: ${{ secrets.GH_TOKEN }}
+    publish_dir: ./public
+    publish_branch: master
+```
+
+GitHub Actions를 사용하면서, Gatsby로 만든 블로그도 로컬에서 빌드하지 않고 GitHub Actions로 배포해보기로 했다. 몇 번의 실험 결과 path에 `.cache` 파일과 `public` 파일을 추가해주면 빌드속도가 비약적으로 상승한다. `.cache` 파일과 `public` 파일은 `gatsby build` 명령어로 빌드할 때의 캐시 파일이기 때문이다. 빌드 시간이 5분에서 28초가 되었다.
+
+`~/.npm` 을 제외시킨 이유는 Gatsby는 패키지 설치 명령어가 실행되는 경우가 드물기 때문이다. 빌드할 때, node_modules는 빌드시 필요하기 때문에 포함시켰다.
+
+<br/>
+
 ### 번외 - GitHub Actions의 캐시 매커니즘
 
 GitHub에서 워크플로우가 실행될 때 사진의 파란색 부분은 러너에서 실제로 CLI로 실행되는 명령어의 log를 나타내고 있다. 마지막 Post cache actions step의 명령어를 보자.
