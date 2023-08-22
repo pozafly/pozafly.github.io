@@ -182,9 +182,8 @@ if 문을 사용하기 위해 9번째 라인에는 `id`를 명시 해주었다. 
 
 ```yml
 restore-keys: |
-  npm-feature-${{ hashFiles('package-lock.json') }}
-  npm-feature-
-  npm-
+  ${{ runner.os }}-node-
+  ${{ runner.os }}
 ```
 
 1. 캐시 미스가 발생하면 restore-keys에 해당하는 캐시를 찾는다. 정확히 일치하는 항목이 있으면 이 작업은 캐시에 있는 파일을 path 디렉터리로 가져온다. 정확히 일치하는 항목이 없으면 작업은 복원 키의 부분 일치 항목을 검색한다.
@@ -364,9 +363,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3 # 버전에 맞게 node.js 설치
+      - uses: actions/setup-node@v3
         with:
-          node-version-file: '.nvmrc' # .nvmrc 파일을 기준으로 삼는다.
+          node-version-file: '.nvmrc'
           cache: npm
       - uses: actions/cache@v3
         id: npm-cache
@@ -395,7 +394,7 @@ jobs:
 
 ## Gatsby 블로그 GitHub Actions로 배포하기
 
-```yml
+```yml{6-7}
 - uses: actions/cache@v3
   id: npm-cache
   with:

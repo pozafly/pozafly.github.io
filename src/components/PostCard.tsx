@@ -180,7 +180,7 @@ const PostCardImage = styled.div`
   border: 1px solid var(--image-border-color);
   background: var(--background-color);
 
-  &:after {
+  img:after {
     content: '';
     display: block;
     position: absolute;
@@ -196,8 +196,10 @@ const PostCardImage = styled.div`
   img {
     border-radius: 12px;
   }
-  &:hover:after {
-    opacity: 1;
+  &:hover {
+    img {
+      opacity: 1;
+    }
   }
   &.is-next {
     border: 1px solid hsl(230deg 6% 23%);
