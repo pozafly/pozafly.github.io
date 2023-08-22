@@ -22,6 +22,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
             ${{ runner.os }}
+      - run: ls -al
       - if: ${{ steps.npm-cache.outputs.cache-hit != 'true' }}
         run: |
           npm install
