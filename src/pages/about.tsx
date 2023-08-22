@@ -23,7 +23,8 @@ import {
   PostFullTitle,
 } from '../templates/post';
 import styled from '@emotion/styled';
-import ResumeFrame from '../components/ResumeFrame';
+// import ResumeFrame from '../components/ResumeFrame';
+import pozafly from '../content/img/common/pozafly.png';
 
 const PageTemplate = css`
   .site-main {
@@ -73,87 +74,55 @@ function About() {
                 <PostFullTitle className="post-full-title">About</PostFullTitle>
               </PostFullHeader>
               <PostFullContent className="post-full-content">
-                <ResumeFrame />
+                {/* <ResumeFrame /> */}
+                <ProfileImage src={pozafly} alt="pozafly" />
                 <div className="post-content">
-                  {/* <h5>황선태(Pozafly)</h5> */}
                   <br />
                   <br />
+                  <p>안녕하세요. 프론트엔드 개발자 황선태입니다.</p>
                   <p>
-                    안녕하세요. Frontend 개발자를 꿈꾸는 황선태입니다. 블로그일
-                    뿐, 포트폴리오가 아닌데 각 잡고 About 페이지를 쓰려니 도무지
-                    답이 나오지 않네요. 다만, 그냥 즐겁게 개발하고 싶습니다.
+                    예전부터 자기 어필을 잘 못한다는 이야기를 들어서 요즘은 자기
+                    어필을 잘해보려고 노력 중입니다. 그래도 이 페이지까지 자기
+                    어필 공간으로 사용하는 것은 조금은 아쉽다는 마음이 들어,
+                    그냥 자기소개 글을 적으면 어떨까 생각해 이렇게 적고
+                    있습니다.
                   </p>
                   <p>
-                    Frontend는 Vue와 React, Backend는 SpringBoot, SQL을 다룰 줄
-                    압니다. 이 페이지를 작성하고 있는 시점엔 React를 배우고
-                    있습니다. 비교적 피드백이 바로 나타나는 Frontend 개발에
-                    집중하려고 합니다. 무언가 딱 맞아떨어질 때의 쾌감, 유의미한
-                    것을 만들었다는 쾌감이 개발의 즐거움인 듯합니다. 깔끔하고
-                    정갈한 코드를 작성하는 개발자가 되고 싶습니다.
+                    이 블로그는 제가 애정을 가지고 지속적으로 유지보수하고 있고,
+                    다른 이들에게 도움이 될 만한 글을 적는 공간으로 사용하고
+                    있습니다. 글을 잘 적는 사람이 되고 싶어 열심히 적어보고
+                    있습니다만, 방문하시는 분들께 조금이나마 도움이 되셨으면
+                    좋겠다고 생각해 봅니다. 그리고 저는 글을 읽는 것도
+                    좋아합니다. 특히 정갈하게 잘 작성된 글을 읽는 것을 좋아하고,
+                    그렇게 작성하는 분들을 닮고 싶어 합니다.
                   </p>
                   <p>
-                    이 블로그는 기술을 사용하고 적용한 내용 위주, 기술에 대한
-                    생각이나 회고로 채우고, static 한 공부 내용은{' '}
-                    <a
-                      href="https://github.com/pozafly/TIL"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      TIL
-                    </a>
-                    에 채워갈 생각입니다. 들러주셔서 감사합니다.
-                    <br />
+                    조금은 예민한 성격 탓에 소수와 깊은 관계를 맺는 것을
+                    좋아해서, 마음이 맞는 분들과 만나는 것을 좋아했습니다.
+                    그래서 말을 함부로 하는 사람을 힘들어합니다. 사람이 많은
+                    공간을 힘들어하지만, 새로운 공간 자체를 경험하는 것은
+                    좋아합니다. 지금은 수영을 취미로 가지고 있습니다. 또 여느
+                    개발자분들도 그렇듯, 키보드를 좋아하는 편입니다.
                   </p>
-                  <div style={{ textAlign: 'right' }}>2021/3/30</div>
+                  <p>
+                    저는 개발을 잘하고 싶습니다. 어떤 분이, 왜 개발을 잘하고
+                    싶다고 생각하냐고 물었던 적이 있었습니다. 비즈니스와 개발의
+                    상관관계에 대해 말씀하시는 것이었습니다. 부끄럽게도 그에
+                    대한 답을 그때도 그렇고 지금도 명확히 내리고 있지는
+                    못합니다. 개발하면서 아직 그 답을 찾아가는 중입니다. 읽어
+                    주셔서 감사합니다.
+                  </p>
                   <br />
-                  <br />
-                  <br />
-                  <h2>Toy Project</h2>
-                  <br />
-                  <h5>Tripllo</h5>
-                  <a
-                    href="https://github.com/pozafly/tripllo_vue"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <MovePicture
-                      src="https://user-images.githubusercontent.com/59427983/112918486-f25bc600-913f-11eb-8c9d-ea4221141754.png"
-                      alt="Tripllo"
-                    />
-                  </a>
-                  <ul>
-                    <li>평소 즐겨 사용하던 Trello를 만들었습니다.</li>
-                    <li>
-                      GitHub:
-                      <ul>
-                        <li>
-                          Frontend:{' '}
-                          <a
-                            href="https://github.com/pozafly/tripllo_vue"
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            https://github.com/pozafly/tripllo_vue
-                          </a>{' '}
-                          <small>(이곳에 README가 있습니다.)</small>
-                        </li>
-                        <li>
-                          Backend:{' '}
-                          <a
-                            href="https://github.com/pozafly/tripllo_springBoot"
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            https://github.com/pozafly/tripllo_springBoot
-                          </a>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-                  <br />
+                  <div style={{ textAlign: 'right' }}>
+                    Last Update: 2023 / 08 / 22
+                  </div>
                   <br />
                   <br />
                   <h2>Contact Me</h2>
+                  <p>
+                    저와 대화를 나누고 싶으시다면 언제든 연락 주세요. 기다리고
+                    있겠습니다.
+                  </p>
                   <ul>
                     <li>
                       Email:{' '}
@@ -176,7 +145,6 @@ function About() {
                       </a>
                     </li>
                   </ul>
-                  <br />
                 </div>
               </PostFullContent>
             </article>
@@ -189,3 +157,16 @@ function About() {
 }
 
 export default About;
+
+export const ProfileImage = styled.img`
+  width: 120px;
+  height: 120px;
+  border: none !important;
+  box-shadow: 0px 14px 24px hsla(218, 53%, 10%, 12%);
+  box-shadow: var(--about-box-shadow);
+
+  @media (max-width: 1040px) {
+    width: 120px !important;
+    height: 120px !important;
+  }
+`;

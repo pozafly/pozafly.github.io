@@ -57,7 +57,7 @@ npm의 `node_modules` 의존성 파일을 캐시 해두고 CI 환경에서 다�
 - npm ci 설치
 - build
 
-```yaml
+```yaml{14}
 name: Cache Test
 on: push
 jobs:
@@ -103,7 +103,7 @@ workflow에서 생성된 캐시 key와 동일한 네이밍을 가지고 있는 �
 
 하지만 캐시가 존재하지만, 다시 `Run npm ci` step이 실행되었다. 총 17s가 소요되었다. 캐시를 적용하든 하지 않든 거의 동일한 결과라고 볼 수 있다. 이유는 캐시가 있다고 해도 `run` 명령어가 조건 없이 실행되도록 yml 파일에 설정되어 있기 때문이다. 그러면, 조건에 따라 npm ci를 건너뛰어도 되지 않을까? 그러면, step에 `if`를 사용해 캐시가 존재하면 패키지를 설치하지 않도록 해보자.
 
-```yml
+```yaml{6}
 - uses: actions/cache@v3
   id: npm-cache
   with:
@@ -157,7 +157,7 @@ if 문을 사용하기 위해 9번째 라인에는 `id`를 명시 해주었다. 
 
 그러면, path에 명시된 `~/.npm` 파일 말고, `node_modules` 자체를 캐시 하면 어떨까? Gtihub Actions에 cache 탭에 들어가서 휴지통 아이콘을 클릭하고 캐시를 지웠다. 그리고 아래와 같이 yml 파일을 수정하고 적용했다.
 
-```yml
+```yml{4}
 - uses: actions/cache@v3
   id: npm-cache
   with:
@@ -210,7 +210,7 @@ restore-keys: |
 
 ### restore-keys 적용
 
-```yaml
+```yaml{6-8}
 - uses: actions/cache@v3
   id: npm-cache
   with:
@@ -267,7 +267,7 @@ restore-keys 옵션을 사용하기 위해, key를 새롭게 생성해주어야 
 
 이번에도 다른 패키지를 설치한 다음 push 해보자.
 
-```yml
+```yml{10}
 - uses: actions/cache@v3
   id: npm-cache
   with:
@@ -287,11 +287,11 @@ restore-keys 옵션을 사용하기 위해, key를 새롭게 생성해주어야 
 
 <br/>
 
-## path 2개
+## 여러 개의 path
 
 마지막으로 `~/.npm` 캐시와 `**/node_modules` 모두를 캐시 해서 사용하면 어떻게 될까?
 
-```yml
+```yml{4-6}
 - uses: actions/cache@v3
   id: npm-cache
   with:
@@ -364,6 +364,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3 # 버전에 맞게 node.js 설치
+        with:
+          node-version-file: '.nvmrc' # .nvmrc 파일을 기준으로 삼는다.
+          cache: npm
       - uses: actions/cache@v3
         id: npm-cache
         with:

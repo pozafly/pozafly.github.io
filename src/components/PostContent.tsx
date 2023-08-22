@@ -21,7 +21,6 @@ export type PostContentProps = {
 
 function PostContent({ htmlAst }: PostContentProps) {
   return (
-    // <PostFullContent className="post-full-content" css={prism}>
     <PostFullContent className="post-full-content" css={prism}>
       <Ast className="post-content" ast={htmlAst} />
     </PostFullContent>
@@ -124,7 +123,7 @@ export const PostFullContent = styled.section`
     margin: 2em auto;
     max-width: 840px;
     height: auto;
-    border-radius: 6px;
+    border-radius: 8px;
     border: 1px solid var(--image-border-color);
   }
   @media (max-width: 1040px) {
