@@ -178,7 +178,8 @@ const PostCardImage = styled.div`
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid var(--image-border-color);
-  background: var(--background-color);
+  background: var(--background-color) no-repeat center center;
+  /* background: #fff no-repeat center center; */
 
   /* &:after {
     content: '';
