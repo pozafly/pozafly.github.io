@@ -23,4 +23,7 @@ jobs:
             ${{ runner.os }}
       - if: ${{ steps.npm-cache.outputs.cache-hit != 'true' }}
         run: npm install
+      - run: |
+          git config --global user.email "${{ secrets.GIT_EMAIL }}"
+          git config --global user.name "${{ secrets.GIT_NAME }}"
       - run: npm run deploy
