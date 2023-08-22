@@ -1,4 +1,486 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[Pozafly Blog]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 19 Aug 2023 12:50:59 GMT</lastBuildDate><item><title><![CDATA[Next.js의 API Routes 코드 모듈화에 대해서]]></title><description><![CDATA[메타 프레임워크 Next.js는 react…]]></description><link>https://pozafly.github.io/nextjs/about-modularizing-api-routes-code-in-nextjs/</link><guid isPermaLink="false">https://pozafly.github.io/nextjs/about-modularizing-api-routes-code-in-nextjs/</guid><pubDate>Wed, 26 Jul 2023 00:00:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;메타-프레임워크&quot; style=&quot;position:relative;&quot;&gt;메타 프레임워크&lt;a href=&quot;#%EB%A9%94%ED%83%80-%ED%94%84%EB%A0%88%EC%9E%84%EC%9B%8C%ED%81%AC&quot; aria-label=&quot;메타 프레임워크 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[Pozafly Blog]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Tue, 22 Aug 2023 01:51:31 GMT</lastBuildDate><item><title><![CDATA[GitHub Actions의 캐시 조금 더 다뤄보기 (feat. restore-keys)]]></title><description><![CDATA[…]]></description><link>https://pozafly.github.io/dev-ops/cache-and-restore-keys-in-github-actions/</link><guid isPermaLink="false">https://pozafly.github.io/dev-ops/cache-and-restore-keys-in-github-actions/</guid><pubDate>Tue, 22 Aug 2023 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;컴퓨터는 캐시를 활용해 가까운 곳에서 데이터를 전달 받거나, 이미 생산된 데이터를 만들기 위해 똑같은 작업을 반복하지 않아도 만들어둔 데이터를 캐시에서 꺼내 쓸 수 있다. 캐시에 저장된 데이터를 사용해 반복 작업으로부터 벗어나면 그만큼 기다려야 하는 시간을 벌 수 있다.&lt;/p&gt;
+&lt;p&gt;캐시란, &lt;strong&gt;데이터나 값을 미리 복사해 놓는 임시 장소&lt;/strong&gt;를 가리킨다. 캐시는 로컬 컴퓨터에도 물리적으로 있고, 네트워크 상에도 CDN과 같은 플랫폼에 존재한다. CI 환경에서도 캐시를 지원하고 있고. 또, 캐시라는 단어는 임시 장소를 가리키기도 하지만, 장소에 저장된 데이터 자체를 말하기도 한다.&lt;/p&gt;
+&lt;p&gt;예전에 Travis CI를 사용해보면서 가상 환경에서 프로젝트를 빌드하고 서빙하는 과정을 겪어본 적이 있다. CI 환경에서 캐시란, 주로 프로젝트에 필요한 의존성 파일을 캐시에 저장 후, 빌드할 때 꺼내쓰는 것을 말한다. 이번에 GitHub Actions로 CI 환경을 만들어보면서, 캐시 설정 중 &lt;code class=&quot;language-text&quot;&gt;restore-keys&lt;/code&gt; 라는 옵션이 있는데, 이 옵션이 존재하는 이유가 궁금했다.&lt;/p&gt;
+&lt;p&gt;캐시에서 가장 중요하게 생각되는 부분은 무효화(invalidate)다. 몇몇 회사에서 캐시 무효화가 되지 않아 개인정보가 노출되는 사건이 있기도 했고, 배포가 제대로 반영되지 않는 현상도 있었기 때문이다. &lt;code class=&quot;language-text&quot;&gt;restore-keys&lt;/code&gt; 는 복원 키라고도 말하는데, 의존성 파일이 변경 되었음에도 불구하고 restore-keys 옵션을 통해 기존 캐시를 불러오는 기능이다. 그렇다면, restore-keys를 사용하면, 무효화 되지 않은 캐시를 가져오게 되는 것일까?&lt;/p&gt;
+&lt;p&gt;오늘 글은, GitHub Actions에서 의존성과 관련된 캐시를 어떻게 다루고 있고, 이를 어떻게 더 성능이 좋게 관리할 수있는지에 대한 이야기다. 패키지 매니저는 npm을 기준으로 설명한다. GitHub Actions의 기본적인 문법은 자세하게 이야기 하지 않는다.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;알아야-할-배경&quot; style=&quot;position:relative;&quot;&gt;알아야 할 배경&lt;a href=&quot;#%EC%95%8C%EC%95%84%EC%95%BC-%ED%95%A0-%EB%B0%B0%EA%B2%BD&quot; aria-label=&quot;알아야 할 배경 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;우선 GitHub Actions에서 돌아가는 워크플로우는 가상 환경임을 알아야 한다. 이 환경을 runner(러너)라고 한다. 러너는 몇 가지 OS를 선택할 수 있으며 주로 CI 환경에 적합한 것은 Linux다. GitHub Actions는 yml 파일로 이루어진 명령어 조합으로 동작하며, 워크플로우 안에 있는 Job(작업) 단위로 러너가 각각 만들어지고, 각 러너에서 새롭게 시작한다. 따라서, 의존성 파일은 Job 별로 새로 만들어져야 한다.&lt;/p&gt;
+&lt;p&gt;npm 패키지 설치 시 생성되는 &lt;strong&gt;npm 캐시&lt;/strong&gt;는 Linux 기준으로 &lt;code class=&quot;language-text&quot;&gt;~/.npm&lt;/code&gt; 디렉토리에 전역으로 존재하며, GitHub Actions의 캐시와는 다른 npm 만의 캐시다. 이 캐시는 &lt;code class=&quot;language-text&quot;&gt;npm install, npm ci&lt;/code&gt; 등의 명령어로 패키지를 설치 할 때 속도를 더 빠르게 해준다. 이 npm 캐시 자체를 GitHub Actions 환경의 캐시로도 저장할 수 있다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;GitHub-Actions-Cache&quot; style=&quot;position:relative;&quot;&gt;GitHub Actions Cache&lt;a href=&quot;#GitHub-Actions-Cache&quot; aria-label=&quot;GitHub Actions Cache permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;GitHub Actions에서 캐시를 사용하려면, GitHub에서 만들어 둔 &lt;a href=&quot;actions/cache&quot;&gt;actions/cache&lt;/a&gt; 액션을 사용하면 간편하게 사용할 수 있다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yml&quot;&gt;&lt;pre class=&quot;language-yml&quot;&gt;&lt;code class=&quot;language-yml&quot;&gt;&lt;span class=&quot;token key atrule&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; actions/cache@v3
+    &lt;span class=&quot;token key atrule&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; ~/.something
+      &lt;span class=&quot;token key atrule&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; something&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;steps에서 &lt;code class=&quot;language-text&quot;&gt;uses&lt;/code&gt; 키워드를 사용해 액션을 가져오고, 액션에 필요한 인자를 &lt;code class=&quot;language-text&quot;&gt;with&lt;/code&gt; 키워드로 넘겨줄 수 있다.&lt;/p&gt;
+&lt;p&gt;npm의 &lt;code class=&quot;language-text&quot;&gt;node_modules&lt;/code&gt; 의존성 파일을 캐시해두고 CI 환경에서 다시 설치하지 않고 빠르게 사용하는 것이 GitHub Actions 캐시 사용의 목적이다. 이 캐시는 저장될 때, key가 생성되고, 다시 Github Actions가 동작하면 이전 워크플로우가 돌 때 설치 되었던 node_modules가 캐시가 되어있다면 그것을 사용한다. 따라서 key는 매우 중요한 역할이라고 볼 수 있다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;캐시-적용&quot; style=&quot;position:relative;&quot;&gt;캐시 적용&lt;a href=&quot;#%EC%BA%90%EC%8B%9C-%EC%A0%81%EC%9A%A9&quot; aria-label=&quot;캐시 적용 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;우선에는 테스트 하고자 하는 디렉토리에서 CRA를 사용해 react를 설치하고 &lt;code class=&quot;language-text&quot;&gt;.github/workflow&lt;/code&gt; 디렉토리에 &lt;code class=&quot;language-text&quot;&gt;cache-test.yml&lt;/code&gt; 파일을 생성했다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;local 파일에 react 패키지 설치&lt;/li&gt;
+&lt;li&gt;캐싱 경로는 &lt;code class=&quot;language-text&quot;&gt;~/.npm&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;key는 &lt;code class=&quot;language-text&quot;&gt;package-lock.json&lt;/code&gt; 파일 기준으로 생성&lt;/li&gt;
+&lt;li&gt;npm ci 설치&lt;/li&gt;
+&lt;li&gt;build&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yaml&quot;&gt;&lt;pre class=&quot;language-yaml&quot;&gt;&lt;code class=&quot;language-yaml&quot;&gt;&lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Cache Test
+&lt;span class=&quot;token key atrule&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; push
+&lt;span class=&quot;token key atrule&quot;&gt;jobs&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;cache&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;runs-on&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; ubuntu&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;latest
+    &lt;span class=&quot;token key atrule&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; actions/checkout@v3 &lt;span class=&quot;token comment&quot;&gt;# repository에서 소스 파일을 러너의 디렉토리에 가져온다.&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; actions/cache@v3
+        &lt;span class=&quot;token key atrule&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;# actions/cache에 넘겨줄 변수 사용 키워드&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; ~/.npm &lt;span class=&quot;token comment&quot;&gt;# 경로에 있는 파일이 캐시가 된다&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; $&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; runner.os &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;node&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;$&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; hashFiles(&apos;&lt;span class=&quot;token important&quot;&gt;**/package-lock.json&apos;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;# 캐시 키 이름&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; npm ci &lt;span class=&quot;token comment&quot;&gt;# node clean install&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; npm run build&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;actions/cache 액션에서 알아야 할 키워드는 &lt;code class=&quot;language-text&quot;&gt;path&lt;/code&gt; 다. &lt;a href=&quot;https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#example-using-the-cache-action&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;GitHub Actions의 공식 문서&lt;/a&gt;에서는 위 코드와 같이 &lt;code class=&quot;language-text&quot;&gt;path: ~/.npm&lt;/code&gt; 이라고 예시에 명시되어 있다. 이 의미가 처음에는 node.js의 의존성인 node_modules 디렉토리가, 러너의 &lt;code class=&quot;language-text&quot;&gt;~/.npm&lt;/code&gt; 경로에 캐싱이 되는 줄 알았다. 하지만 그렇지 않다. &lt;strong&gt;path에 명시되어 있는 경로에 있는 파일&lt;/strong&gt;이 캐싱이 되고, 캐싱된 파일을 재사용할 경우 path에 명시되어 있는 경로에 다시 옮겨져 실행된다.&lt;/p&gt;
+&lt;p&gt;그도 그럴 것이 사용하는 도구가 npm이기 때문에 node_modules를 알고 있는 것이지, java개발자가 gradle 같은 빌드 툴을 이용한다면 node_modules와는 상관 없을 것이기 때문에 당연한 것이다.&lt;/p&gt;
+&lt;p&gt;어쨌든, node_modules 자체가 캐싱이 되는 것이 아닌, path에 명시한 경로에 해당하는 파일이 캐시에 저장된다는 사실을 기억하자.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 2000px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 32.800000000000004%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAABEElEQVQoz23K107DQBRF0esk4zZ2priMC46jFCTg/79vo9gGEeBhaZ+HI9P1nenyxun2gW0nCt9TVj2l79e99T+Pn6mHVdXjw4ScfcO1arjVLbP1jEXJVBpOxnG2ntm4lXU/tufiPK0ukUPGTuWLvcoRU3ryrETtk0V8SBeJykhUvvW3nDTOUYcUiWJklywNaYbUwxnXvmCbEW1bEu0W8R/2j8cvLTbacbQNMpzuDPMr43yn7k5o06JNs3XdhQ0UtnuibXiSm0DhOiTSgV05siuGpZHukCwgelwlFaKOSGwRZbcaJHFE3yxR6hFVIHM7cO5emB/CyOAaOlvTu4ZgqrVHR2e++KWZSpF9QrRZd8onO+akRf79qwkAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;first-github-action-result&quot;
+        title=&quot;first-github-action-result&quot;
+        src=&quot;/static/2d1a39a608748c3d95792ef732398e84/f97d7/first-github-action-result.png&quot;
+        srcset=&quot;/static/2d1a39a608748c3d95792ef732398e84/0eb09/first-github-action-result.png 500w,
+/static/2d1a39a608748c3d95792ef732398e84/1263b/first-github-action-result.png 1000w,
+/static/2d1a39a608748c3d95792ef732398e84/f97d7/first-github-action-result.png 2000w,
+/static/2d1a39a608748c3d95792ef732398e84/e058c/first-github-action-result.png 2166w&quot;
+        sizes=&quot;(max-width: 2000px) 100vw, 2000px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;의존성 설치에 16s가 소요 되었다. Post cache actions step은, GitHub Actions의 step이 종료 되면 &lt;code class=&quot;language-text&quot;&gt;actions/cache&lt;/code&gt; 패키지가 워크플로우를 종료하면서 추가적으로 마무리하는 action이다. 이 step에서, 캐시가 저장되었음을 캐시 key와 함께 알려주고 있다. 그러면 캐시가 실제로 GitHub에 저장되어 있는지 확인해보자. GitHub Repository의 Actions -&gt; Caches 탭을 통해 캐시 저장소로 들어가본다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 830px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 85.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAARCAYAAADdRIy+AAAACXBIWXMAABYlAAAWJQFJUiTwAAACqElEQVQ4y42T61PTQBTFM44CTdu832lImldftJQ+oFRAURnQUb+o//+f8nN22wjjIOOHM5u9u/fsuefeKG+Ouuh2QFYMOVR1Wh0LwwlJ8wGa6SHONcvHj1LitCTJKsK0wmy1GVk2RZSwGp9w2i/IVBXloKXT1h2CXp+jjsmBqtMxXKKkQDN9Xh91ZdywA5wgIUxyrOAYQ9U49102xwm3g5qPVUmhaSiHksTg1UGHo65N2/BoaQ4HbVOuYi9jXVueH3as3T3Tx/cifNvHMV1c06Vreig3n77w8P0n999+kJZjVN2lawV0BExfkg2nKy5v7lhdvufqw2dO11eYXo/Drk2vGLG9vWd+cc32/R1KnFUESUGc1ZLgjWr8UdXAi/skxYg4G9DrD4nSCs0O6ZiezC3Hc8rRnKw6QfHLFfP1htlqy/nVLcvLG6Kswuv18ZNcwo0z7PAYJ0px9uuO0KdrhdJTO0ylaiUsl4xnCyZnF0wXG04WG8K0lEmCSEAoFA88RUOo2ZG0qKlG6ZjuH3YBEdy9vPPwJYg7uhMxW27ZXH/i6vYBxfQSqayenDE6XWMHx9LHpuPCp789bZuPjxpuTJpPyOsZxfAURQQqYep4TlpN5LcoW+ybLj+nrr0nFKXrUYTuR9hBuiMshjOJfn1CVk3kt+jkv8iah6SPmo//rqR+u+DL118oosTx/Jx8MJVlT5eX0oJefyAHu0l+Do1CMbtulNGvp6IpuwQRbC4K3/63KVLlPl/8XYrmxKTlRA5sko+wwhT1hVKflixmUJA6YSaHfnFxjTL0AlZZziovWZc1syDEMlxUmej9s9ynhGJS8uGMD/ffUc7CkPN6xHY653qxZhn38AyH1p7wZYWPHspuOzGKYbjEhk0koFt45l6dVOH/F+FTv38D1Hm4h/MiwowAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;github-actions-tab&quot;
+        title=&quot;github-actions-tab&quot;
+        src=&quot;/static/d03fedc6626c277b814e953996be2b7a/026af/github-actions-tab.png&quot;
+        srcset=&quot;/static/d03fedc6626c277b814e953996be2b7a/0eb09/github-actions-tab.png 500w,
+/static/d03fedc6626c277b814e953996be2b7a/026af/github-actions-tab.png 830w&quot;
+        sizes=&quot;(max-width: 830px) 100vw, 830px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;그러면 방금 설치한 의존성 파일이 캐시된 것을 확인할 수 있다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 2000px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 16.799999999999997%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAh0lEQVQI132OywrCMBBFszeWpLF5mQchsdLiQrpx5f9/1pVMRRDBxeHOzOLOYT7PcKlB6oDRpL8o+8ZlKJtxokwwoRKTL2BtvWN7PFHmG0K5IrcVqS5f9FtuC6SO4CqASwMuLWUX6fR5UA7MxIrd8kIfPhY/RAzK74VCU8FBaIjpTPT9ODq8ACoMTgQPRf4IAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;cache-ui&quot;
+        title=&quot;cache-ui&quot;
+        src=&quot;/static/8d35330702837546ad6fdbd0d57f6504/f97d7/cache-ui.png&quot;
+        srcset=&quot;/static/8d35330702837546ad6fdbd0d57f6504/0eb09/cache-ui.png 500w,
+/static/8d35330702837546ad6fdbd0d57f6504/1263b/cache-ui.png 1000w,
+/static/8d35330702837546ad6fdbd0d57f6504/f97d7/cache-ui.png 2000w,
+/static/8d35330702837546ad6fdbd0d57f6504/d5be6/cache-ui.png 2242w&quot;
+        sizes=&quot;(max-width: 2000px) 100vw, 2000px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;workflow에서 생성된 캐시 key와 동일한 네이밍을 가지고 있는 것을 볼 수 있다. 그리고 오른쪽에 휴지통 아이콘이 있는 것으로 봤을 때 직접 UI에서 캐시를 삭제해줄 수 있다는 것을 알 수 있다. (물론 CLI로 삭제도 가능하다)&lt;/p&gt;
+&lt;p&gt;이번에는 저장된 캐시가 잘 동작하는지 보기 위해 &lt;code class=&quot;language-text&quot;&gt;src&lt;/code&gt; 파일 내부의 소스 코드를 하나 수정하고 push 한다. yml 파일은 수정하지 않았다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 2000px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 46.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAABTklEQVQoz5WS267bIBBFie2Yi8EYg93EcW7qUVr1//9vVeAk5+EcVerD0oYxsz0zIHw8cro9WC4frLdf5L3pE52fvvCK22H+Qo7nXCFqhTQDnU8oG9grV2ike68/6anbDlFLct637BpNIy1+PBDSggszpo/FoNWeVvdvpPHl7K5W5LzvKIbSjqXcYTrhxgPKRWrpaJRDNAaxaxGV3CiV6DfFJJs9fyKqRjMMC2H6SUg30uFBHy50fTa/48IV6890dqazE8ZEtPJ0JlLrRG0StY5FhQyIPJNzSFzCxDpETn5kcUPR85BYfSzx1QfWPmyav7meqlFbdQWFbjUiz8b4xN54dnuDqNrPAb/arP5xCW8ks+4Q8ceZ68cfluuD9f6babnR5Wfwn5j8bKY1t2w5DpF7nLmMqbS7OM/R+qKnZ4ubbrxi63M8+ezReZS0/AWJTM79oiVlRAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;apply-cache&quot;
+        title=&quot;apply-cache&quot;
+        src=&quot;/static/61b44358d59a1293160eddc6d0831f5c/f97d7/apply-cache.png&quot;
+        srcset=&quot;/static/61b44358d59a1293160eddc6d0831f5c/0eb09/apply-cache.png 500w,
+/static/61b44358d59a1293160eddc6d0831f5c/1263b/apply-cache.png 1000w,
+/static/61b44358d59a1293160eddc6d0831f5c/f97d7/apply-cache.png 2000w,
+/static/61b44358d59a1293160eddc6d0831f5c/5f4ca/apply-cache.png 2178w&quot;
+        sizes=&quot;(max-width: 2000px) 100vw, 2000px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;상단의 Run actions/cache@v3에 따르면 캐시가 정상적으로 복원되었다고 명시되어 있다. 이유는, 첫 번째 GitHub Actions가 동작할 때 만들어둔 캐시가 있기 때문이고, 그를 복원시켰기 때문이다.&lt;/p&gt;
+&lt;p&gt;하지만 캐시가 존재함에도 불구하고, 다시 &lt;code class=&quot;language-text&quot;&gt;Run npm ci&lt;/code&gt; step이 실행되었다. 총 17s가 소요되었다. 캐시를 적용하든 하지 않든 거의 동일한 결과라고 볼 수 있다. 이유는 캐시가 있다고 해도 &lt;code class=&quot;language-text&quot;&gt;run&lt;/code&gt; 명령어가 조건 없이 실행되도록 yml 파일에 설정되어 있기 때문이다. 그러면, 조건에 따라 npm ci를 건너뛰어도 되지 않을까? 그러면, step에 &lt;code class=&quot;language-text&quot;&gt;if&lt;/code&gt;를 사용해 캐시가 존재하면 패키지를 설치하지 않도록 해보자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yml&quot;&gt;&lt;pre class=&quot;language-yml&quot;&gt;&lt;code class=&quot;language-yml&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; actions/cache@v3
+  &lt;span class=&quot;token key atrule&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; npm&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;cache
+  &lt;span class=&quot;token key atrule&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; ~/.npm
+    &lt;span class=&quot;token key atrule&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; $&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; runner.os &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;node&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;$&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; hashFiles(&apos;&lt;span class=&quot;token important&quot;&gt;**/package-lock.json&apos;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; $&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; steps.npm&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;cache.outputs.cache&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;hit &lt;span class=&quot;token tag&quot;&gt;!=&lt;/span&gt; &apos;true&apos; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; npm ci
+&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; npm run build&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;if 문을 사용하기 위해 9번째 라인에는 &lt;code class=&quot;language-text&quot;&gt;id&lt;/code&gt;를 명시해주었다. id는 if 문에 &lt;code class=&quot;language-text&quot;&gt;steps.npm-cache&lt;/code&gt;로 사용되며, step의 결과물로 cache-hit를 얻기 위해 사용되었다.&lt;/p&gt;
+&lt;p&gt;그리고, if 문으로 &lt;code class=&quot;language-text&quot;&gt;cache-hit&lt;/code&gt; 이 false일 경우에만, &lt;code class=&quot;language-text&quot;&gt;npm ci&lt;/code&gt;를 실행하도록 변경했다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 2000px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 26.400000000000002%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAFCAYAAABFA8wzAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAlElEQVQY053PQQ6CMBSE4QpoaV+hr0CLiUoMifH+J/wNXEBx8WUWM5sx3gr3mLh1Eec6TOMwdXtcZanOgsmp8F5W1ueLcl3wMRO0ENJMl+Y9v9l3WhjmB6a+CK4b8VqQmGklcfGRxgZqG/b81bY3p8ZhfUT6EYkTVnQv/7q9aa0wBWXoBwbNJM1oP9IHRdqAs4I/4ANaVG/OSZF/ggAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;fail-workflow&quot;
+        title=&quot;fail-workflow&quot;
+        src=&quot;/static/05e2001fb46dc9e34908648bf8ad90b0/f97d7/fail-workflow.png&quot;
+        srcset=&quot;/static/05e2001fb46dc9e34908648bf8ad90b0/0eb09/fail-workflow.png 500w,
+/static/05e2001fb46dc9e34908648bf8ad90b0/1263b/fail-workflow.png 1000w,
+/static/05e2001fb46dc9e34908648bf8ad90b0/f97d7/fail-workflow.png 2000w,
+/static/05e2001fb46dc9e34908648bf8ad90b0/38915/fail-workflow.png 2182w&quot;
+        sizes=&quot;(max-width: 2000px) 100vw, 2000px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;워크플로우가 실패했다. 패키지를 설치하지 않도록 if 문을 사용한 부분은 의도대로 되었지만, build 부분에서 실패한 것이다. 이유는, &lt;code class=&quot;language-text&quot;&gt;node_modules&lt;/code&gt;가 없기 때문이다. GitHub Actions 러너는 Job이 실행될 때마다 새로운 러너 환경을 가진다. 즉, 컴퓨터가 새롭게 세팅되는 것이다.&lt;/p&gt;
+&lt;p&gt;위에서 살펴봤던 &lt;code class=&quot;language-text&quot;&gt;path&lt;/code&gt; 옵션을 떠올려보자. &lt;code class=&quot;language-text&quot;&gt;path&lt;/code&gt; 옵션은, node_modules가 저장될 경로를 명시하는 것이 아니라, 캐시 할 파일의 경로를 주는 옵션이다. 지금 path는 &lt;code class=&quot;language-text&quot;&gt;~/.npm&lt;/code&gt; 이다. &lt;code class=&quot;language-text&quot;&gt;~/.npm&lt;/code&gt; 경로에는 무엇이 있을까?&lt;/p&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;npm&quot; style=&quot;position:relative;&quot;&gt;~/.npm&lt;a href=&quot;#npm&quot; aria-label=&quot;npm permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;로컬 컴퓨터의 &lt;code class=&quot;language-text&quot;&gt;~/.npm&lt;/code&gt; 디렉토리에 들어가보았다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1280px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 34.800000000000004%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAABbklEQVQoz0WQyXLiQBBE9TVetDAgodaC1taOkAAJA7bn4PBhDvP/9zdB47EPGVkRGfWisrRlVGIEBY/mmidLoC88dMvnwRA8WS7Pi5sExsrj+ZatYnQnx1hLTLfAEoVyU9ylhWmF7acKZtk+lh3waN2XFWDpY6589GWAYSdfy+U3yBI/sNusNbsjWbVjKRK8KGc/X/DjirwecIKMvO4Js5aoPJB3L4TtGfn7L6KaMJwc6wt+c/MOnEjLHY6f4Uclh9OVWDYU7R4vklT9kaydFawersS7V5LTJ6Yrv0E/KtDSslcX/VrHrERC2Y0ESUEsO9abiqSeCIs9cT2RdzOb7QXRXVmEraqsO1L98/9ftU3WqMtsL8INM7rxRJA2ZM0RJ+rYFAdV9waW3QtJe2J7/iQfXonrWWUqb2Z8OaLJZiQtt9hegtiUHC4fxNVEPb7hZQNFf0Zu76qGK/Xpg+7tD/n+HZH0BHLETXsFs/yKf/+58mBeiBUcAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;npm-path&quot;
+        title=&quot;npm-path&quot;
+        src=&quot;/static/6163f2c8829ea6b7d7f0afa2e7d3acf6/bbbf7/npm-path.png&quot;
+        srcset=&quot;/static/6163f2c8829ea6b7d7f0afa2e7d3acf6/0eb09/npm-path.png 500w,
+/static/6163f2c8829ea6b7d7f0afa2e7d3acf6/1263b/npm-path.png 1000w,
+/static/6163f2c8829ea6b7d7f0afa2e7d3acf6/bbbf7/npm-path.png 1280w&quot;
+        sizes=&quot;(max-width: 1280px) 100vw, 1280px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://docs.npmjs.com/cli/v9/commands/npm-cache&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;npm-cache&lt;/a&gt;에 설명 되어 있듯, &lt;code class=&quot;language-text&quot;&gt;~/.npm&lt;/code&gt; 에는 npm 자체에서 사용하는 캐시 파일이 들어있다. 이는 &lt;code class=&quot;language-text&quot;&gt;npm install&lt;/code&gt; 혹은 &lt;code class=&quot;language-text&quot;&gt;npm ci&lt;/code&gt; 명령어를 사용해 패키지를 설치할 때 사용할 캐시된 파일이 들어있는 곳이다. npm 패키지를 설치할 때 해당 경로에 있는 캐시를 가져와 설치를 돕는다. 단, &lt;code class=&quot;language-text&quot;&gt;~/.npm&lt;/code&gt; 경로는 OS 별로 저장 경로가 다르다.&lt;/p&gt;
+&lt;p&gt;그러면 GitHub Actions의 공식 문서에서 권장하는 것처럼 &lt;code class=&quot;language-text&quot;&gt;key: ${{ runner.os }}&lt;/code&gt; 부분에 &lt;code class=&quot;language-text&quot;&gt;runner.os&lt;/code&gt; 가 명시되어 있는 이유도, 러너를 다른 환경에서 돌리게 된다면 key가 무효화 되어야 하기 때문임을 알 수 있다. &lt;a href=&quot;https://github.com/actions/cache/blob/main/examples.md#node---npm&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;참고&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;결론적으로 &lt;code class=&quot;language-text&quot;&gt;~/.npm&lt;/code&gt; 경로에는 node_modules가 존재하는 것이 아니라 패키지 설치 시 더 빠르게 도와주는 npm의 캐시된 파일이 캐시되어 있었다. &lt;a href=&quot;https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#example-using-the-cache-action&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;공식 문서&lt;/a&gt;에서도 아래 코드와 같이 예제가 존재한다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yml&quot;&gt;&lt;pre class=&quot;language-yml&quot;&gt;&lt;code class=&quot;language-yml&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; $&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; steps.cache&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;npm.outputs.cache&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;hit &lt;span class=&quot;token tag&quot;&gt;!=&lt;/span&gt; &apos;true&apos; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; List the state of node modules
+  &lt;span class=&quot;token key atrule&quot;&gt;continue-on-error&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean important&quot;&gt;true&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; npm list
+
+&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Install dependencies
+  &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; npm install
+
+&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Build
+  &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; npm run build&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;npm install&lt;/code&gt; 명령어는 캐시 히트와 상관 없이 실행된다. 새롭게 node_modules가 존재해야만 build를 할 수 있기 때문이다.&lt;/p&gt;
+&lt;p&gt;캐시를 적용하기 위해 다시 if 문을 제거하고 반드시 패키지를 설치하도록 해봤다. 정상적으로 빌드까지 완료되었다. 하지만, 패키지를 설치하는 과정이 포함되어 있기 때문에 캐시를 사용하지 않고 워크플로우를 사용하는 시간과 거의 동일한 시간이 걸리는 것을 볼 수 있다. 따라서 캐시를 사용하는 이유가 없어 보인다.&lt;/p&gt;
+&lt;p&gt;그러면, path에 명시된 &lt;code class=&quot;language-text&quot;&gt;~/.npm&lt;/code&gt; 파일 말고, &lt;code class=&quot;language-text&quot;&gt;node_modules&lt;/code&gt; 자체를 캐시하면 어떨까? Gtihub Actions에 cache 탭에 들어가서 휴지통 아이콘틀 클릭하고 캐시를 지웠다. 그리고 아래와 같이 yml 파일을 수정하고 적용했다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yml&quot;&gt;&lt;pre class=&quot;language-yml&quot;&gt;&lt;code class=&quot;language-yml&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; actions/cache@v3
+  &lt;span class=&quot;token key atrule&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; npm&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;cache
+  &lt;span class=&quot;token key atrule&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;**/node_modules&apos;&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; $&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; runner.os &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;node&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;$&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; hashFiles(&apos;&lt;span class=&quot;token important&quot;&gt;**/package-lock.json&apos;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; $&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; steps.npm&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;cache.outputs.cache&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;hit &lt;span class=&quot;token tag&quot;&gt;!=&lt;/span&gt; &apos;true&apos; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; npm ci
+&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; npm run build&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;path&lt;/code&gt;를 node_modules로 변경했고, if 문을 추가 했다. push 해서 캐시를 만들고, 한번 더 push해서 캐시가 잘 사용되는지 확인했다. 즉, node_modules가 복원되어 설치 하지 않는지 확인하기 위해 src 아래의 코드를 수정하고 push를 한번 더 했다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 2000px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 46.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAABQklEQVQoz42S227CMBBEDQmJ73cScmkKglJUqar6/x83lR0aqsIDD8e7Wo1XY42JjT2G1zP66YRxf4b2O3AdIcz2jt+5tM0daW5CB0IKippbCBMzTHqUtcps6H80ikqAFDXSvYesSo6yljBhB78dYEMHrkJeUDGDiumFmpusXRUUq5I9hKSjlh4m9hnpWlDpUVCFkiqQLKpA1vVMdsKupMU3d3nhesNh3QC3PcHFPeLuHdpNEGaE8gdIO0GaEUK2Gc4DGDW5FjzOsLkS6pJDil47DDai0w6dcmiFRqcseuPzrNcenTILvbbohLy5vsKS25SOa0aktFMo6blMhafhV1K/Dw1IN53w9vGNw/kTx8sXxsMFvp0Q2inXZ5i1L2jGI8i6EmDKQ9r0z8KSbPoiqa+FBRVuqVTYP73LmqTdMI2Uxw+ewtDhMv0BUAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;not-execute-ci&quot;
+        title=&quot;not-execute-ci&quot;
+        src=&quot;/static/29de0aeb143b0105140392eb90c61a4d/f97d7/not-execute-ci.png&quot;
+        srcset=&quot;/static/29de0aeb143b0105140392eb90c61a4d/0eb09/not-execute-ci.png 500w,
+/static/29de0aeb143b0105140392eb90c61a4d/1263b/not-execute-ci.png 1000w,
+/static/29de0aeb143b0105140392eb90c61a4d/f97d7/not-execute-ci.png 2000w,
+/static/29de0aeb143b0105140392eb90c61a4d/9a26f/not-execute-ci.png 2176w&quot;
+        sizes=&quot;(max-width: 2000px) 100vw, 2000px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;정상적으로 &lt;code class=&quot;language-text&quot;&gt;node_modules&lt;/code&gt;가 패키지 내로 들어왔으며 cache-hit이 true가 되면서 npm ci가 실행되지않았다. 캐시 덕분에 시간을 아낄 수 있었다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;restore-keys&quot; style=&quot;position:relative;&quot;&gt;restore-keys&lt;a href=&quot;#restore-keys&quot; aria-label=&quot;restore keys permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;드디어 restore-keys 옵션이다. restore-keys 옵션은 기본 키와 일치하는 캐시를 찾을 수 없는 경우, restore-key를 사용해 최근에 생성된 가장 가까운 일치하는 캐시를 다운로드할 수 있다. 이렇게 하면 빌드/설치 단계에서 최신 의존성 몇 개만 추가로 가져오면 되므로 빌드 시간을 절약할 수 있는 기능이다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yml&quot;&gt;&lt;pre class=&quot;language-yml&quot;&gt;&lt;code class=&quot;language-yml&quot;&gt;&lt;span class=&quot;token key atrule&quot;&gt;restore-keys&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;token scalar string&quot;&gt;
+  npm-feature-${{ hashFiles(&apos;package-lock.json&apos;) }}
+  npm-feature-
+  npm-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ol&gt;
+&lt;li&gt;캐시 미스가 발생하면 restore-keys에 해당하는 캐시를 찾는다. 정확히 일치하는 항목이 있으면 이 작업은 캐시에 있는 파일을 path 디렉터리로 가져온다. 정확히 일치하는 항목이 없으면 작업은 복원 키의 부분 일치 항목을 검색한다.
+작업이 부분적으로 일치하는 항목을 찾으면 가장 최근 캐시가 경로 디렉터리에 복원된다.&lt;/li&gt;
+&lt;li&gt;캐시 작업이 완료되고 작업의 다음 단계가 실행된다.&lt;/li&gt;
+&lt;li&gt;작업이 완료되면 이 작업은 경로 디렉토리의 내용으로 새 캐시를 자동으로 생성한다.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;p&gt;일반적으로 생각할 때 캐시 미스가 발생하면 기존의 캐시는 버리고 새로 의존성을 다운받아 새로운 캐시로 설정하는 것을 생각하기 쉽다. 위에서 작업했던 결과물은 key가 일치하지 않으면 새로운 의존성를 다운 받고 다운 받은 의존성을 캐시에 저장했다. 이것이 일반적으로 생각하는 캐시 형태다. 그렇다면 restore-keys 속성은 도대체 어떨 때 사용하는 것일까? 테스트 해보자.&lt;/p&gt;
+&lt;h3 id=&quot;캐시-무효화&quot; style=&quot;position:relative;&quot;&gt;캐시 무효화&lt;a href=&quot;#%EC%BA%90%EC%8B%9C-%EB%AC%B4%ED%9A%A8%ED%99%94&quot; aria-label=&quot;캐시 무효화 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;캐시 무효화는 중요하다. 의존성를 새로 설치하면 캐시에 저장되어 있는 기존 의존성을 무시하고 다시 설치해야 한다. &lt;code class=&quot;language-text&quot;&gt;key&lt;/code&gt; 라는 설정으로 이미 캐시 무효화 설정이 되어 있다.&lt;/p&gt;
+&lt;p&gt;이제, 하나의 모듈을 설치해서 다시 액션을 실행시켜보자. 나는 &lt;code class=&quot;language-text&quot;&gt;lodash&lt;/code&gt; 패키지를 그냥 하나 설치하고 push 했다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 2000px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB3UlEQVQ4y42T6XabMBCFZWSzCaGFfYnBzknj93/B286ggNPjk/bH5xlhdJlVtOOKef3EvP7Ccn/AVgNK1/2Dnq0m6zfIt80EEecGS93ho+3x3nRYXIVZG1yNw2I9n1dXY3XV7l+t53OnLWRS4BxI0gKiGRYs908M0w3W93DVcFATI/wXzXT49cjvFLZltG3x3vQQQqbIy4rDzXWFvKyZTHtk4ZwWjolzi1SR7/lM/1+yEpdUc4RCJhCncwbje/TzHVX3hnZY0U03pumvbOm5CbVKleXLMlbM+Sll0mJB7Vr4dt5D1yENVdYobLMXnkSzwiPOyh2KjqKkXtAHBP1QeoVp2FLaWeG4DARFRCKMJjGzRSLT11CoX4KK61ch1z6kphFdcogoOQgXSfQVLEjhZqHQJMihPwm8vPj0/JtPgtQ5FlRbFxNlObUkN3ux/xcRXRQXl9ImARI9Xsh/rtffUEbURVNtq0R+Erol4zAa+1ioH5GJ4sx4U+bbA9P64J2uhwXaDdC0n/6wZTVBP+PH71QjXDNDUJgyqxGbGRc9QaoeMm8R5T2iYmQrEgcRG4jY4pRY9slGqUOU+mAdxFltNaShdbSn7Rt/ZZvFYw332dQuzKWDjMM4yYPTnzr+BoIfWD1V3zoXAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;not-found-cache&quot;
+        title=&quot;not-found-cache&quot;
+        src=&quot;/static/6aad3accc0fe45bc3c8beffa0a925b0b/f97d7/not-found-cache.png&quot;
+        srcset=&quot;/static/6aad3accc0fe45bc3c8beffa0a925b0b/0eb09/not-found-cache.png 500w,
+/static/6aad3accc0fe45bc3c8beffa0a925b0b/1263b/not-found-cache.png 1000w,
+/static/6aad3accc0fe45bc3c8beffa0a925b0b/f97d7/not-found-cache.png 2000w,
+/static/6aad3accc0fe45bc3c8beffa0a925b0b/93333/not-found-cache.png 2174w&quot;
+        sizes=&quot;(max-width: 2000px) 100vw, 2000px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;결과를 보면, 로컬에 있는 package-lock.json이 npm 패키지를 설치하면서 변경 되었고, 캐시 key가 변경되었기 때문에 GitHub Actions에서는 캐시 키를 찾을 수 없다는 것을 말해주고 있다. 마찬가지로 GitHub 러너에서 npm 패키지를 새롭게 다운 받는다. 총 20s가 소요된 것을 볼 수 있다.&lt;/p&gt;
+&lt;p&gt;이 마저도 조금 더 빠르게 만들 수 없을까? restore-keys 옵션을 사용해보자.&lt;/p&gt;
+&lt;h3 id=&quot;restore-keys-적용&quot; style=&quot;position:relative;&quot;&gt;restore-keys 적용&lt;a href=&quot;#restore-keys-%EC%A0%81%EC%9A%A9&quot; aria-label=&quot;restore keys 적용 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yaml&quot;&gt;&lt;pre class=&quot;language-yaml&quot;&gt;&lt;code class=&quot;language-yaml&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; actions/cache@v3
+  &lt;span class=&quot;token key atrule&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; npm&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;cache
+  &lt;span class=&quot;token key atrule&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;**/node_modules&apos;&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; $&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; runner.os &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;node&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;$&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; hashFiles(&apos;&lt;span class=&quot;token important&quot;&gt;**/package-lock.json&apos;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;restore-keys&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;token scalar string&quot;&gt;
+      ${{ runner.os }}-node-
+      ${{ runner.os }}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; $&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; steps.npm&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;cache.outputs.cache&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;hit &lt;span class=&quot;token tag&quot;&gt;!=&lt;/span&gt; &apos;true&apos; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; npm ci&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;restore-keys 옵션은, list 형식으로 여러 prefix를 붙여줄 수 있다. 그러면 prefix 기준으로 단계별로 cache에 저장된 key의 prefix를 포함하는 단어가 있는지 찾고, 이 단어 기준 포함하는 key가 있다면 가장 최근의 해당 캐시를 가져온다.&lt;/p&gt;
+&lt;p&gt;restore-keys 옵션을 사용하기 위해, key를 새롭게 생성해주어야 하기 때문에 npm 패키지를 아무거나 새로 설치해준다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;emotion npm 패키지 설치&lt;/li&gt;
+&lt;li&gt;yml 파일에 restore-keys 추가&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 2000px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 103.60000000000001%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAVCAYAAABG1c6oAAAACXBIWXMAABYlAAAWJQFJUiTwAAAC9ElEQVQ4y52UW4/bNhCFaVsiKd4pibraa2s3SJDXAEGBti/9/z/qFDNaYw1n04c+fOAF5JkheThiWG44b9+w3r4yvp1h0wCXx98S2gkhT/BP0Lw4Sgsfe+Q8MMZEKOWgtYNWD2jH8ydpIU4NRLVzeELQZDIBb/2ArSt47QecQ8TZR6yEC8ziAjYf8NVZxFoj1BrHSkOcnjjWBpX20DZDmgjZxD3SQUIcFMRRvS/UqE8andTopUaRGtUnWYqTdGhsQjusyGWBTwXaJtTaQzUBR1p4Uow4qYdM7uNHNARl57sVob9wm8YrbF6g/IAmTTjqCFEHCBkhZICoPURtcZABR0XEj1Z6CLoHHxeE7obUXRG7DSYssPEMm29w7ZUxrsD4gsa0aEzmlgOoxOIHClg5iLas+P6y4du84m2Y8VZGvJYRW5nwcxzw91Tw51jw19hz+8dY8M9U8KN0eA0R15hhQsfMqYNwacCwbkhlhTQJ0mYom1GbhMYkWLvjXGasa+F8C+87xNjD2ARlEpRNSD5D0GvGdsIw3/hh+ullZ7ygHc7ophfEboZvJ5jYczDaLN9F6A2quz/poeipU7+wCG2kfjeckcvKfRKlloKGdkTjWnYAiex4Fq112EVJMHYTC7hY4NMAGwvoKmhsQ4+QR/g8sKjxLW9mIfUhTEHI04IG2mU0vmVz0zGovY/34zxidwMf1dMvuftQORjfcUaUDUHGps0f7v/1ix0++ce8lgTplShLyojE9wLw+033IJ8Las/3Qj7aj0k2iHx0CkQB/0v4F8FjbfmSqSjwfSm338//pcxXrNcvmM4bJjJ4N7E1OOsHmifMJ5AbBFkjTxva+QvyeINtV+gwoUkzmrSiiTN0oEKxcJ/naS4tkHGGigsUzy9oQoGgNLUfodMZDZEvqG3ByY6o3ITKTlxJDtJxNSEO0qOWDlFaBHIJWal275W8NrjmDq9th7eu4JZbXHzA2XtcQuD+hSs49SP3iUE3KFJheKeqdh/+Cz4J4AmdqXJhAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;restore-test&quot;
+        title=&quot;restore-test&quot;
+        src=&quot;/static/d2f937ea762d48e1dda730f638431bcc/f97d7/restore-test.png&quot;
+        srcset=&quot;/static/d2f937ea762d48e1dda730f638431bcc/0eb09/restore-test.png 500w,
+/static/d2f937ea762d48e1dda730f638431bcc/1263b/restore-test.png 1000w,
+/static/d2f937ea762d48e1dda730f638431bcc/f97d7/restore-test.png 2000w,
+/static/d2f937ea762d48e1dda730f638431bcc/38915/restore-test.png 2182w&quot;
+        sizes=&quot;(max-width: 2000px) 100vw, 2000px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;재미있는 현상이 발생한다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;cache action step&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;package-lock.json 파일이 수정되었기 때문에 새로운 key가 생성됨. 따라서 캐시 &lt;strong&gt;미스&lt;/strong&gt; 상태.&lt;/li&gt;
+&lt;li&gt;restore-keys에 따라 기존 GitHub Actions를 통해 생성했던 캐시를 prefix 기준, 가장 최신 캐시를 복원(restore)한다. 즉, node_modules를 복원한다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Run npm ci step&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;패키지를 설치한다. -&gt; package.json.lock 파일이 변경 되었고 새로운 패키지가 설치 되어야 하기 때문이다.&lt;/li&gt;
+&lt;li&gt;25s가 소요 되었다. (생각보다 오래걸림)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Post cache actions step&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;기존 cache size는 42MB로, 이번에 npm 패키지를 추가하면서 43MB로 변경 되었다.&lt;/li&gt;
+&lt;li&gt;새로 만든 key로 캐시를 저장한다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;캐시에서 node_modules를 복원했지만, 패키지를 다시 설치하면서 25s가 소요 되었다. 우리가 원한 것은, 캐시에서 node_modules를 가져왔고, &lt;code class=&quot;language-text&quot;&gt;npm install&lt;/code&gt; 명령어로 패키지를 설치하면 빠르게 설치 될 것을 예상했지만, 그렇지 않았다. 이유는 &lt;code class=&quot;language-text&quot;&gt;npm ci&lt;/code&gt; 때문이다.&lt;/p&gt;
+&lt;h3 id=&quot;npm-ci---npm-install&quot; style=&quot;position:relative;&quot;&gt;npm ci -&gt; npm install&lt;a href=&quot;#npm-ci---npm-install&quot; aria-label=&quot;npm ci   npm install permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://docs.npmjs.com/cli/v9/commands/npm-ci&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;npm ci&lt;/a&gt;는 clean 설치로, &lt;code class=&quot;language-text&quot;&gt;node_modules&lt;/code&gt; 디렉토리를 삭제한 뒤 &lt;code class=&quot;language-text&quot;&gt;package-lock.json&lt;/code&gt; 파일 기준으로 모든 의존성을 새롭게 설치한다. npm 공식 문서에 따르면 npm ci를 사용하는 이유는 2가지다. ( &lt;code class=&quot;language-text&quot;&gt;npm ci&lt;/code&gt;는 Continuous Integration이 아닌, clean install 줄임말임)&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;속도&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;npm install&lt;/code&gt; 명령어와 비슷하지만, npm install 보다 2배 정도 빠르며 이를 통해 CI / CD에서 유용하게 사용된다. 하지만, 공식 문서 예전 버전 &lt;code class=&quot;language-text&quot;&gt;npm ci&lt;/code&gt; 설명에서 속도에 관련한 이야기가 존재했지만, 최근 버전에서는 그 말이 사라졌다. 즉, &lt;code class=&quot;language-text&quot;&gt;npm install&lt;/code&gt; 또한 마찬가지로 &lt;code class=&quot;language-text&quot;&gt;npm ci&lt;/code&gt;에 비해 큰 차이를 보이지는 않는다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;안정성&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;npm install&lt;/code&gt; 명령은, 시멘틱 버전에 따라 package.json 파일에 명시된 버전 범위에 따라 &lt;a href=&quot;https://docs.npmjs.com/downloading-and-installing-packages-locally#installing-an-unscoped-package&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;다른 버전이 설치&lt;/a&gt;된다. 물론 버저닝 기호에 따라 큰 범위를 벗어나지는 않지만, 레지스트리에 업로드된 npm 패키지가 업데이트 된 경우 GitHub Actions 러너에 다른 버전이 깔릴 가능성이 있다. 하지만, npm ci는 package-lock.json 파일을 바라보고 있기 때문에 정확한 버전을 설치해준다. 또한, node_modules 디렉토리가 기존에 존재하면 지우고 새롭게 다운 받아주기 때문에 안정성이 높다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;마지막 결과에서 보듯 복원된 캐시인 node_modules가 디렉토리에 존재해도, 오랜 시간만큼 걸리기 때문에 여전히 우리가 원하는 결과를 가져오지 못했다. 그렇다면, &lt;code class=&quot;language-text&quot;&gt;npm install&lt;/code&gt; 명령어로 바꿔보자. 그래야 restore-keys를 사용해 기존 캐시를 가져오고, npm install로 node_modules를 제거하지 않으면서 이번에 추가된 패키지만을 추가로 설치할 수 있을 것 같다.&lt;/p&gt;
+&lt;p&gt;이번에도 다른 패키지를 설치한 다음 push 해보자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yml&quot;&gt;&lt;pre class=&quot;language-yml&quot;&gt;&lt;code class=&quot;language-yml&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; actions/cache@v3
+  &lt;span class=&quot;token key atrule&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; npm&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;cache
+  &lt;span class=&quot;token key atrule&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;**/node_modules&apos;&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; $&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; runner.os &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;node&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;$&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; hashFiles(&apos;&lt;span class=&quot;token important&quot;&gt;**/package-lock.json&apos;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;restore-keys&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;token scalar string&quot;&gt;
+      ${{ runner.os }}-node-
+      ${{ runner.os }}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; $&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; steps.npm&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;cache.outputs.cache&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;hit &lt;span class=&quot;token tag&quot;&gt;!=&lt;/span&gt; &apos;true&apos; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; npm install
+&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; npm run build&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 2000px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 42.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAABUUlEQVQoz33S6Y7bIBSGYfDKYsA23hNPZjRTqe39399b4SxNNFV/POIcW0KcD8Tl8zfb5Qf7x0+68YTrZny/PoS4EeL6Xz6utMOG7xdEN2zE6cS47LhuRDctyrYoE6i0Iys0eWW/yZLyzjy+C93tmOEL3V/w6y9M/KBwJ8r2nTK8kfudTI9IFZGqR1T+kKlIpnsyHcnUdZXpnw0zTbdh2wXTLtRNpG4GlJswYUb7CeUiqulfFLVDlgZZ2kM6aV4ahPHxGPFoZInMFbJ4cvT6G5HXiKx6yPOaSWnE9vZFP50P6UJU091O0f2j7lD2b61vUm1cjwsjIt3wfP5kTRvPO9qPmCSkkW91O2OfpCheTdfI0oalW6jbnSqcqcJO0axIPZHZ7SBURJQBUb2SdfekPVaRa0R6O+n93d+b9QPGRYwfsGG89reR7lLmKdsjxycp8z9sGc8GxJbn/QAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;npm-install-test&quot;
+        title=&quot;npm-install-test&quot;
+        src=&quot;/static/0aa849b19fcfaf8195ba83961f1af8ea/f97d7/npm-install-test.png&quot;
+        srcset=&quot;/static/0aa849b19fcfaf8195ba83961f1af8ea/0eb09/npm-install-test.png 500w,
+/static/0aa849b19fcfaf8195ba83961f1af8ea/1263b/npm-install-test.png 1000w,
+/static/0aa849b19fcfaf8195ba83961f1af8ea/f97d7/npm-install-test.png 2000w,
+/static/0aa849b19fcfaf8195ba83961f1af8ea/38915/npm-install-test.png 2182w&quot;
+        sizes=&quot;(max-width: 2000px) 100vw, 2000px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;패키지 설치가 17s로 약간은 줄긴 했지만, 큰 효과는 아니다. local에서 node_modules 디렉토리가 있는 상태로 패키지를 따로 추가하지 않고 npm install을 하면 2s 밖에 걸리지 않는다. 왜냐하면 새로 설치할 패키지가 없기 때문이다. 그 정도 효과를 기대했지만 측정 값은 그렇지 않다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;path-2개&quot; style=&quot;position:relative;&quot;&gt;path 2개&lt;a href=&quot;#path-2%EA%B0%9C&quot; aria-label=&quot;path 2개 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;마지막으로 &lt;code class=&quot;language-text&quot;&gt;~/.npm&lt;/code&gt; 캐시와 &lt;code class=&quot;language-text&quot;&gt;**/node_modules&lt;/code&gt; 모두를 캐시해서 사용하면 어떻게 될까?&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yml&quot;&gt;&lt;pre class=&quot;language-yml&quot;&gt;&lt;code class=&quot;language-yml&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; actions/cache@v3
+  &lt;span class=&quot;token key atrule&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; npm&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;cache
+  &lt;span class=&quot;token key atrule&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;token scalar string&quot;&gt;
+      &apos;**/node_modules&apos;
+      ~/.npm&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; $&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; runner.os &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;node&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;$&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; hashFiles(&apos;&lt;span class=&quot;token important&quot;&gt;**/package-lock.json&apos;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;restore-keys&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;token scalar string&quot;&gt;
+      ${{ runner.os }}-node-
+      ${{ runner.os }}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; $&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; steps.npm&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;cache.outputs.cache&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;hit &lt;span class=&quot;token tag&quot;&gt;!=&lt;/span&gt; &apos;true&apos; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; npm install
+&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; npm run build&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;path에 node_modules와 npm 캐시 두 경로 모두 포함 시켰다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 2000px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 64.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAABYlAAAWJQFJUiTwAAABpklEQVQ4y5XT7ZKbIBgFYEBBvhQEP6JJzO5MM+393+Dp8GrSnd1sO/3xDIK+CnJg0/qG6/svnG93EvKCLp3+W6lr+xmsbjxCLoMz2n6C1C14bSCkBX9B/ANjlYYyHZG6tOGvBeVjpeZb5YHGBpg2wfgEH0ZoF2mM2gcbqV8pR4Wl7hUmpKOZuW6AaTMV0g2uwETzchbfvWyfvfJwXcYwX5DGFSHN0C6gMS2U9uUBsKoBf9KkjH2l901phw1+uMHnK/rlDpeu0PECkzZUboawI4QZIEwGbyK4aiF0QmWKfFxncNWVJVuYsMCmDT5vsP0Vqp2hwwrTX6lv4orGZ6JJgjQRXDpw6f+oLZiygZZsfI9aOfBaE/GZNIdjt8vyhHqqhcKgLVgcFozLDf24Uha171E+8oV52KNVxpqDOhLh2wSWpjMubz+xbHcs2w/E8QwbJrhYzHBhb31/enJF/KjcX2C7AaxEQ/oZsjsTFS7gZgC3Jwi3gpsJTAYw2YGpAKYi9WlzPmHVkcNwnMU4rHQuSx5dN9LPNz5T4I3bg/0gKHMf49TQv/8N6tIkTL3kYRUAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;2path&quot;
+        title=&quot;2path&quot;
+        src=&quot;/static/80dd66177e34a7d79c25180e9906a1bb/f97d7/2path.png&quot;
+        srcset=&quot;/static/80dd66177e34a7d79c25180e9906a1bb/0eb09/2path.png 500w,
+/static/80dd66177e34a7d79c25180e9906a1bb/1263b/2path.png 1000w,
+/static/80dd66177e34a7d79c25180e9906a1bb/f97d7/2path.png 2000w,
+/static/80dd66177e34a7d79c25180e9906a1bb/8077d/2path.png 2190w&quot;
+        sizes=&quot;(max-width: 2000px) 100vw, 2000px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;가장 효과가 좋았다. 패키지 설치가 10s만 소요되었다. GitHub Actions 공식 예제에서 &lt;code class=&quot;language-text&quot;&gt;~/.npm&lt;/code&gt; path만 캐시에 저장한 것을 미루어 봤을 때, npm install 및 npm ci 명령어는 &lt;code class=&quot;language-text&quot;&gt;~/.npm&lt;/code&gt; 캐시를 참조하고 있음을 알 수 있으며, node_modules가 존재하면 npm install 명령어는 node_modules에 존재하지 않는 새로운 패키지만 추가로 설치한다는 가설이 검증 되었다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;※ &lt;a href=&quot;https://github.com/actions/cache/blob/main/examples.md#node---npm&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;actions/cache&lt;/a&gt;에 따르면 node_modules를 캐시하는 것은 권장되지 않는다고 한다. 노드 버전에 따라 중단될 수 있고, &lt;code class=&quot;language-text&quot;&gt;npm ci&lt;/code&gt; 에서 동작하지 않기 때문이라고 한다. (npm ci는 node_modules를 제거하고 다시 설치하기 때문)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;결론적으로 새로운 패키지를 설치하고 GitHub Actions의 워크플로우를 실행시켰을 때,&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;node_modules&lt;/code&gt; 디렉토리와, &lt;code class=&quot;language-text&quot;&gt;~/.npm&lt;/code&gt; 디렉토리 모두를 캐시&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;npm install&lt;/code&gt; 명령어로 패키지 설치&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;조건을 만족했을 경우 패키지 설치 속도가 가장 빨랐다. 따라서, restore-keys 옵션을 사용할 때, restore-keys로 복원된 캐시 데이터는 그 캐시 데이터 만으로 작업하는 것이 아니라, 캐시 기반 추가적인 작업이 존재해야 원하는 효과를 얻을 수 있다.&lt;/p&gt;
+&lt;p&gt;하지만, 이렇게 설정할 경우에도 주의점(단점)은 존재한다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;주의점&quot; style=&quot;position:relative;&quot;&gt;주의점&lt;a href=&quot;#%EC%A3%BC%EC%9D%98%EC%A0%90&quot; aria-label=&quot;주의점 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id=&quot;안정성&quot; style=&quot;position:relative;&quot;&gt;안정성&lt;a href=&quot;#%EC%95%88%EC%A0%95%EC%84%B1&quot; aria-label=&quot;안정성 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;npm install&lt;/code&gt; 명령어를 사용했기 때문에 네트워크를 통해 npm 레지스트리의 버전이 변경되었을 경우, 원하지 않는 버전이 설치되어 오류가 발생할 가능성이 있다. 이 부분은 npm 버저닝을 틸트(~) 및 캐럿(^)을 사용하지 않도록 함으로 예방할 수 있다. 그렇지 않더라도 주로 캐럿을 사용할 것이고, 이는 하위 호환성이 보장되기 때문에 크게 걱정할 필요는 없다.&lt;/p&gt;
+&lt;h3 id=&quot;권장-방식-아님&quot; style=&quot;position:relative;&quot;&gt;권장 방식 아님&lt;a href=&quot;#%EA%B6%8C%EC%9E%A5-%EB%B0%A9%EC%8B%9D-%EC%95%84%EB%8B%98&quot; aria-label=&quot;권장 방식 아님 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;위에서 봤듯이 &lt;code class=&quot;language-text&quot;&gt;node_modules&lt;/code&gt; 캐싱은 actions/cache 액션을 만든 메인테이너가 권장하는 방식은 아니다.&lt;/p&gt;
+&lt;h3 id=&quot;스노우-볼&quot; style=&quot;position:relative;&quot;&gt;스노우 볼&lt;a href=&quot;#%EC%8A%A4%EB%85%B8%EC%9A%B0-%EB%B3%BC&quot; aria-label=&quot;스노우 볼 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;캐시 설정을 할 때, 가장 주의해야 하는 경우이다. &lt;code class=&quot;language-text&quot;&gt;~/.npm&lt;/code&gt; 경로에 있는 npm 캐시는, 패키지를 삭제해도 용량이 줄지 않는다. 즉, &lt;code class=&quot;language-text&quot;&gt;npm uninstall [패키지명]&lt;/code&gt; 명령어로 패키지를 삭제해도 &lt;code class=&quot;language-text&quot;&gt;~/.npm&lt;/code&gt; 캐시의 용량은 줄어들지 않고 누적된다. 이는 npm이 캐시를 다루는 방식이기 때문이다. &lt;a href=&quot;https://glebbahmutov.com/blog/do-not-let-npm-cache-snowball/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;링크&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;따라서, GitHub Actions 워크플로우가 실행될 때마다 큰 용량의 &lt;code class=&quot;language-text&quot;&gt;~/.npm&lt;/code&gt; 캐시를 다시 러너로 가져온다. 프로젝트가 노후화 될 수록 빌드 시간이 늘어날 상황이 생길 수 있다.&lt;/p&gt;
+&lt;p&gt;만약, 스노우 볼을 방지하기 위해서는 &lt;code class=&quot;language-text&quot;&gt;restore-keys&lt;/code&gt; 옵션을 사용하지 않는다면 해결할 수 있다. 캐싱은 &lt;code class=&quot;language-text&quot;&gt;key&lt;/code&gt;로 하되 &lt;code class=&quot;language-text&quot;&gt;key&lt;/code&gt;에 맞지 않는다면, restore-keys로 복원하지 않고 마음 편안하게 &lt;code class=&quot;language-text&quot;&gt;npm ci&lt;/code&gt; 로 clean 설치 해주면 그만이기 때문이다.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;위와 같은 주의점이 있을 수 있지만, 나는 문제가 발생하기 전까지는 &lt;code class=&quot;language-text&quot;&gt;~/.npm&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;node_modules&lt;/code&gt; 를 캐시에 저장하고, &lt;code class=&quot;language-text&quot;&gt;npm install&lt;/code&gt; 명령어로 패키지를 설치하는 방법을 선택할 것 같다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;정리&quot; style=&quot;position:relative;&quot;&gt;정리&lt;a href=&quot;#%EC%A0%95%EB%A6%AC&quot; aria-label=&quot;정리 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;~/.npm&lt;/code&gt; 데이터와, &lt;code class=&quot;language-text&quot;&gt;node_modules&lt;/code&gt; 데이터 모두를 GitHub Actions에 캐시한다.&lt;/li&gt;
+&lt;li&gt;워크플로우가 트리거 되면 두 데이터 모두 러너 환경에 복원된다.&lt;/li&gt;
+&lt;li&gt;만약 의존성이 변경되었다면 &lt;code class=&quot;language-text&quot;&gt;npm install&lt;/code&gt; 명령어로 의존성 설치가 시작된다.&lt;/li&gt;
+&lt;li&gt;node_modules가 러너 환경에 존재하기 때문에 &lt;code class=&quot;language-text&quot;&gt;npm ci&lt;/code&gt; 명령어보다 &lt;code class=&quot;language-text&quot;&gt;npm install&lt;/code&gt; 명령어가 빠르게 패키지를 설치한다.&lt;/li&gt;
+&lt;li&gt;추가로 &lt;code class=&quot;language-text&quot;&gt;~/.npm&lt;/code&gt; 데이터가 있기 때문에 &lt;code class=&quot;language-text&quot;&gt;npm install&lt;/code&gt; 로 의존성을 설치하면 npm 캐시로 인해 더 빠르게 패키지를 설치한다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;br/&gt;
+&lt;h3 id=&quot;번외---GitHub-Actions의-캐시-매커니즘&quot; style=&quot;position:relative;&quot;&gt;번외 - GitHub Actions의 캐시 매커니즘&lt;a href=&quot;#%EB%B2%88%EC%99%B8---GitHub-Actions%EC%9D%98-%EC%BA%90%EC%8B%9C-%EB%A7%A4%EC%BB%A4%EB%8B%88%EC%A6%98&quot; aria-label=&quot;번외   GitHub Actions의 캐시 매커니즘 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;GitHub에서 워크플로우가 실행될 때 사진의 파란색 부분은 러너에서 실제로 CLI로 실행되는 명령어의 log를 나타내고 있다. 마지막 Post cache actions step의 명령어를 보자.&lt;/p&gt;
+&lt;p&gt;첫번째 step인 cache action이 실행될 때 restore-keys에 명시된 캐시를 찾았을 때 &lt;code class=&quot;language-text&quot;&gt;unzstd&lt;/code&gt; 명령어를 통해 압축된 파일을 푼다. 그리고 마지막 Post cache action step에서는 &lt;code class=&quot;language-text&quot;&gt;zstdmt&lt;/code&gt; 라는 명령어를 통해 다시 압축한다.&lt;/p&gt;
+&lt;p&gt;두 명령어 모두 Zstandard라는 압축 프로그램이다. Facebook에서 개발한 고속 압축 알고리즘으로, 다양한 응용 분야에서 데이터 압축을 효율적으로 수행할 수 있도록 설계되었다. 따라서, 캐시를 사용할 때, node_modules 디렉토리를 직접 캐싱을 하는 것이 아니라, 위 명령어로 압축 한 파일을 풀고 다시 저장한다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;blockquote&gt;
+&lt;p&gt;참고&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.travis-ci.com/user/caching/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;https://docs.travis-ci.com/user/caching/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/orgs/community/discussions/25027&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;https://github.com/orgs/community/discussions/25027&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://glebbahmutov.com/blog/do-not-let-npm-cache-snowball/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;https://glebbahmutov.com/blog/do-not-let-npm-cache-snowball/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://fe-developers.kakaoent.com/2022/220106-github-actions/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;https://fe-developers.kakaoent.com/2022/220106-github-actions/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.banksalad.com/tech/github-action-npm-cache/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;https://blog.banksalad.com/tech/github-action-npm-cache/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;</content:encoded></item><item><title><![CDATA[Next.js의 API Routes 코드 모듈화에 대해서]]></title><description><![CDATA[메타 프레임워크 Next.js는 react…]]></description><link>https://pozafly.github.io/nextjs/about-modularizing-api-routes-code-in-nextjs/</link><guid isPermaLink="false">https://pozafly.github.io/nextjs/about-modularizing-api-routes-code-in-nextjs/</guid><pubDate>Wed, 26 Jul 2023 00:00:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;메타-프레임워크&quot; style=&quot;position:relative;&quot;&gt;메타 프레임워크&lt;a href=&quot;#%EB%A9%94%ED%83%80-%ED%94%84%EB%A0%88%EC%9E%84%EC%9B%8C%ED%81%AC&quot; aria-label=&quot;메타 프레임워크 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Next.js는 react의 메타 프레임워크다. 메타 프레임워크는 프레임워크의 프레임워크라고도 말할 수 있는데, 프레임워크를 사용하기 위해 기본적으로 세팅해야 하는 환경이나, 필요한 기능을 추상화 한 코드 모듈을 제공해줘서 프레임워크를 더 쉽게 사용할 수 있도록 도와준다.&lt;/p&gt;
 &lt;p&gt;특히 react의 경우, &lt;a href=&quot;https://pozafly.github.io/react/declarative-meaning-of-react-rendering-process/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;라이브러리의 정체성&lt;/a&gt;을 어느정도 가지고 있기 때문에, 사용자에 따라 코드 스타일이나 환경 등이 제각각인 경우가 많았다. 메타 프레임워크는 Best Practice를 모아두어, 개발자가 시행착오를 거치지 않고 여러 통합 환경 및 기능을 사용할 수 있도록 한다. react의 메타 프레임워크로 &lt;strong&gt;Next.js&lt;/strong&gt;, &lt;strong&gt;Remix&lt;/strong&gt;, &lt;strong&gt;Gatsby&lt;/strong&gt; 등의 프레임워크가 존재하며, Vue.js 같은 경우는 &lt;strong&gt;Nuxt.js&lt;/strong&gt;라는 메타 프레임워크가 있다.&lt;/p&gt;
 &lt;p&gt;Next.js는 SSR 뿐 아니라 다양한 기능을 제공하고 있다. 번들링과 컴파일 같은 도구를 기본으로 제공한다. 또한, 리소스를 최적화 기능, 파일 시스템 기반 라우팅, 레이아웃, 배포 등 기능을 내장하고 있다.&lt;/p&gt;
