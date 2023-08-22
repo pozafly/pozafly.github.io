@@ -23,8 +23,11 @@ jobs:
             ${{ runner.os }}-node-
             ${{ runner.os }}
       - if: ${{ steps.npm-cache.outputs.cache-hit != 'true' }}
-        run: npm install
-      - run: npm run build
+        run: |
+          npm install
+          npm run gatsby
+      - if: ${{ steps.npm-cache.outputs.cache-hit == 'true' }}
+        run: npx gatsby build
       - uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GH_TOKEN }}
