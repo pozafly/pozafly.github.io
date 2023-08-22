@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'GitHub Actions의 캐시 조금 더 다뤄보기 (feat. restore-keys)'
+title: 'GitHub Actions 캐시 조금 더 다뤄보기 (feat. restore-keys)'
 author: [Pozafly]
 tags: [DevOps, GitHub Actions, Automation]
 image: ../img/dev-ops/cache-and-restore-keys-in-github-actions/main.webp
