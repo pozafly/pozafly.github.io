@@ -161,7 +161,7 @@ if 문을 사용하기 위해 9번째 라인에는 `id`를 명시 해주었다. 
 - uses: actions/cache@v3
   id: npm-cache
   with:
-    path: '**/node_modules'
+    path: **/node_modules
     key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 - if: ${{ steps.npm-cache.outputs.cache-hit != 'true' }}
   run: npm ci
@@ -214,7 +214,7 @@ restore-keys: |
 - uses: actions/cache@v3
   id: npm-cache
   with:
-    path: '**/node_modules'
+    path: **/node_modules
     key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
     restore-keys: |
       ${{ runner.os }}-node-
@@ -234,17 +234,17 @@ restore-keys 옵션을 사용하기 위해, key를 새롭게 생성해주어야 
 
 재미있는 현상이 발생한다.
 
-**cache action step**
+#### cache action step
 
 - package-lock.json 파일이 수정되었기 때문에 새로운 key가 생성됨. 따라서 캐시 **미스** 상태.
 - restore-keys에 따라 기존 GitHub Actions를 통해 생성했던 캐시를 prefix 기준, 가장 최신 캐시를 복원(restore)한다. 즉, node_modules를 복원한다.
 
-**Run npm ci step**
+#### Run npm ci step
 
 - 패키지를 설치한다. -> package.json.lock 파일이 변경 되었고 새로운 패키지가 설치되어야 하기 때문이다.
 - 25s가 소요 되었다. (생각보다 오래 걸림)
 
-**Post cache actions step**
+#### Post cache actions step
 
 - 기존 cache size는 42MB로, 이번에 npm 패키지를 추가하면서 43MB로 변경되었다.
 - 새로 만든 key로 캐시를 저장한다.
@@ -271,7 +271,7 @@ restore-keys 옵션을 사용하기 위해, key를 새롭게 생성해주어야 
 - uses: actions/cache@v3
   id: npm-cache
   with:
-    path: '**/node_modules'
+    path: **/node_modules
     key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
     restore-keys: |
       ${{ runner.os }}-node-
@@ -296,7 +296,7 @@ restore-keys 옵션을 사용하기 위해, key를 새롭게 생성해주어야 
   id: npm-cache
   with:
     path: |
-      '**/node_modules'
+      **/node_modules
       ~/.npm
     key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
     restore-keys: |
@@ -311,7 +311,11 @@ path에 node_modules와 npm 캐시 두 경로 모두 포함시켰다.
 
 ![2path](../img/dev-ops/cache-and-restore-keys-in-github-actions/2path.png)
 
-가장 효과가 좋았다. 패키지 설치가 10s만 소요되었다. GitHub Actions 공식 예제에서 `~/.npm` path만 캐시에 저장한 것을 미루어 봤을 때, npm install 및 npm ci 명령어는 `~/.npm` 캐시를 참조하고 있음을 알 수 있으며, node_modules가 존재하면 npm install 명령어는 node_modules에 존재하지 않는 새로운 패키지만 추가로 설치한다는 가설이 검증되었다.
+가장 효과가 좋았다. 패키지 설치가 놀랍게도 4s만 소요되었다. GitHub Actions 공식 예제에서 `~/.npm` path만 캐시에 저장한 것을 미루어 봤을 때, npm install 및 npm ci 명령어는 `~/.npm` 캐시를 참조하고 있음을 알 수 있으며, node_modules가 존재하면 npm install 명령어는 node_modules에 존재하지 않는 새로운 패키지만 추가로 설치한다는 가설이 검증되었다.
+
+그리고, path가 1개일 때 캐시 사이즈는 43MB 정도였지만, 사진에는 그 두배인 87MB로 표기되고 있다.
+
+이 때, `node_modules` path를 사용할 때, 공식 문서 예제에는 `'` 로 `'node_modules'` 와 같이 되어 있지만, path를 2개 이상 적어줄 경우 `'` 를 빼고 적어주어야 한다.
 
 > ※ [actions/cache](https://github.com/actions/cache/blob/main/examples.md#node---npm)에 따르면 node_modules를 캐시하는 것은 권장되지 않는다고 한다. 노드 버전에 따라 중단될 수 있고, `npm ci` 에서 동작하지 않기 때문이라고 한다. (npm ci는 node_modules를 제거하고 다시 설치하기 때문)
 
@@ -364,7 +368,7 @@ jobs:
         id: npm-cache
         with:
           path: |
-            '**/node_modules'
+            **/node_modules
             ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
