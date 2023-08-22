@@ -21,7 +21,6 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-            ${{ runner.os }}
       - run: ls -al
       - if: ${{ steps.npm-cache.outputs.cache-hit != 'true' }}
         run: |
