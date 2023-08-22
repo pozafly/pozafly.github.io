@@ -2,7 +2,7 @@
 layout: post
 title: 'GitHub Actions의 캐시 조금 더 다뤄보기 (feat. restore-keys)'
 author: [Pozafly]
-tags: [DevOps, Github Actions, Automation]
+tags: [DevOps, GitHub Actions, Automation]
 image: ../img/dev-ops/cache-and-restore-keys-in-github-actions/main.webp
 date: '2023-08-22'
 draft: false
@@ -43,7 +43,7 @@ steps:
 
 steps에서 `uses` 키워드를 사용해 액션을 가져오고, 액션에 필요한 인자를 `with` 키워드로 넘겨줄 수 있다.
 
-npm의 `node_modules` 의존성 파일을 캐시 해두고 CI 환경에서 다시 설치하지 않고 빠르게 사용하는 것이 GitHub Actions 캐시 사용의 목적이다. 이 캐시는 저장될 때, key가 생성되고, 다시 Github Actions가 동작하면 이전 워크플로우가 돌 때 설치되었던 node_modules가 캐시가 되어있다면 그것을 사용한다. 따라서 key는 매우 중요한 역할이라고 볼 수 있다.
+npm의 `node_modules` 의존성 파일을 캐시 해두고 CI 환경에서 다시 설치하지 않고 빠르게 사용하는 것이 GitHub Actions 캐시 사용의 목적이다. 이 캐시는 저장될 때, key가 생성되고, 다시 GitHub Actions가 동작하면 이전 워크플로우가 돌 때 설치되었던 node_modules가 캐시가 되어있다면 그것을 사용한다. 따라서 key는 매우 중요한 역할이라고 볼 수 있다.
 
 <br/>
 
@@ -389,7 +389,7 @@ jobs:
 
 <br/>
 
-## Gatsby 블로그 Github Actions로 배포하기
+## Gatsby 블로그 GitHub Actions로 배포하기
 
 ```yml
 - uses: actions/cache@v3
