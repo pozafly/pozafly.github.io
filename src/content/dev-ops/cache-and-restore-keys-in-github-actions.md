@@ -65,6 +65,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3 # repository에서 소스 파일을 러너의 디렉토리에 가져온다.
+      - uses: actions/setup-node@v3 # 버전에 맞게 node.js 설치
+        with:
+          node-version-file: '.nvmrc' # .nvmrc 파일을 기준으로 삼는다.
+          cache: npm
       - uses: actions/cache@v3
         with: # actions/cache에 넘겨줄 변수 사용 키워드
           path: ~/.npm # 경로에 있는 파일이 캐시가 된다
@@ -348,11 +352,36 @@ path에 node_modules와 npm 캐시 두 경로 모두 포함시켰다.
 
 ## 정리
 
+```yml
+name: Cache Test
+on: push
+jobs:
+  cache:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v3
+        id: npm-cache
+        with:
+          path: |
+            '**/node_modules'
+            ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+            ${{ runner.os }}
+      - if: ${{ steps.npm-cache.outputs.cache-hit != 'true' }}
+        run: npm install
+      - run: npm run build
+```
+
 - `~/.npm` 데이터와, `node_modules` 데이터 모두를 GitHub Actions에 캐시 한다.
 - 워크플로우가 트리거 되면 두 데이터 모두 러너 환경에 복원된다.
 - 만약 의존성이 변경되었다면 `npm install` 명령어로 의존성 설치가 시작된다.
 - node_modules가 러너 환경에 존재하기 때문에 `npm ci` 명령어보다 `npm install` 명령어가 빠르게 패키지를 설치한다.
 - 추가로 `~/.npm` 데이터가 있기 때문에 `npm install` 로 의존성을 설치하면 npm 캐시로 인해 더 빠르게 패키지를 설치한다.
+
+결과: CRA와 가벼운 몇몇 패키지 설치 시 27s에서 10s로 줄임. **62%** 가량의 효율성 확보.
 
 <br/>
 
