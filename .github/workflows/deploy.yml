@@ -18,6 +18,7 @@ jobs:
           path: |
             **/node_modules
             ~/.npm
+            **/.cache
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
