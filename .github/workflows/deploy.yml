@@ -5,8 +5,11 @@ on:
 jobs:
   cache:
     runs-on: ubuntu-latest
+    # if: ${{ !contains(github.event.head_commit.message, '[ci skip]') }}
     steps:
       - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_TOKEN }}
       - uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
