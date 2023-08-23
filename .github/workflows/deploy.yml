@@ -7,6 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ !contains(github.event.head_commit.message, '[ci skip]') }}
     steps:
+      - uses: szenius/set-timezone@v1.2
+        with:
+          timezoneLinux: 'Asia/Seoul'
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
