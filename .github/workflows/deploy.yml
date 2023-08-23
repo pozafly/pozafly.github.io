@@ -10,7 +10,7 @@ jobs:
       # time zone이 세팅 되지 않으면 배포 시 ReactDOM 관련 Error 발생.
       # GitHub Actions linux 환경에서 Gatsby 빌드 시 time zone 맞추는 작업 필요.
       - name: Time zone setting
-        run: timedatectl set-timezone Asia/Seoul
+        run: sudo timedatectl set-timezone Asia/Seoul
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
