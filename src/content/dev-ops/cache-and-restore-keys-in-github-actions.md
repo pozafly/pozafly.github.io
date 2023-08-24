@@ -394,6 +394,8 @@ jobs:
 
 ## Gatsby 블로그 GitHub Actions로 배포하기
 
+내 블로그는 [gh-pages](https://github.com/tschaub/gh-pages)라는 npm 패키지로 GitHub Pages에 배포한다. gh-pages를 사용하기 전 빌드를 로컬 컴퓨터에서 돌리는데, GitHub Actions를 사용하면 내 컴퓨터의 컴퓨팅 파워를 조금이라도 아낄 수 있겠다고 생각했다. (19년도 인텔 맥북이라 빌드 돌리면 팬 돌아감...)
+
 ```yml{9,14,25-26}
 name: Gatsby Deployment
 on:
