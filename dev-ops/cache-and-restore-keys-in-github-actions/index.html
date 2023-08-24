@@ -400,6 +400,7 @@
 <p>결과: CRA와 가벼운 몇몇 패키지 설치 시 27s에서 4s로 줄임. <strong>85%</strong> 가량의 효율성 확보.</p>
 <br/>
 <h2 id="Gatsby-블로그-GitHub-Actions로-배포하기" style="position:relative">Gatsby 블로그 GitHub Actions로 배포하기<a href="#Gatsby-%EB%B8%94%EB%A1%9C%EA%B7%B8-GitHub-Actions%EB%A1%9C-%EB%B0%B0%ED%8F%AC%ED%95%98%EA%B8%B0" aria-label="Gatsby 블로그 GitHub Actions로 배포하기 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
+<p>내 블로그는 <a href="https://github.com/tschaub/gh-pages" target="_blank" rel="nofollow">gh-pages</a>라는 npm 패키지로 GitHub Pages에 배포한다. gh-pages를 사용하기 전 빌드를 로컬 컴퓨터에서 돌리는데, GitHub Actions를 사용하면 내 컴퓨터의 컴퓨팅 파워를 조금이라도 아낄 수 있겠다고 생각했다. (19년도 인텔 맥북이라 빌드 돌리면 팬 돌아감…)</p>
 <div class="gatsby-highlight has-highlighted-lines" data-language="yml"><pre class="language-yml"><code class="language-yml"><span class="token key atrule">name</span><span class="token punctuation">:</span> Gatsby Deployment
 <span class="token key atrule">on</span><span class="token punctuation">:</span>
   <span class="token key atrule">push</span><span class="token punctuation">:</span>
@@ -435,7 +436,7 @@
           <span class="token key atrule">publish_dir</span><span class="token punctuation">:</span> ./public
           <span class="token key atrule">publish_branch</span><span class="token punctuation">:</span> master
 </code></pre></div>
-<p>GitHub Actions를 사용하면서, Gatsby로 만든 블로그도 로컬에서 빌드하지 않고 GitHub Actions로 배포해보기로 했다. 몇 번의 실험 결과 path에 <code class="language-text">.cache</code> 파일과 <code class="language-text">public</code> 파일을 추가해주면 빌드속도가 비약적으로 상승한다. <code class="language-text">.cache</code> 파일과 <code class="language-text">public</code> 파일은 <code class="language-text">gatsby build</code> 명령어로 빌드할 때의 캐시 파  일이기 때문이다. 빌드 시간이 5분 가까이 걸리던 것이, 28초가 되었다.</p>
+<p>GitHub Actions를 사용하면서, Gatsby로 만든 블로그도 로컬에서 빌드하지 않고 GitHub Actions로 배포해보기로 했다. 몇 번의 실험 결과 path에 <code class="language-text">.cache</code> 파일과 <code class="language-text">public</code> 파일을 추가해주면 빌드속도가 비약적으로 상승한다. <code class="language-text">.cache</code> 파일과 <code class="language-text">public</code> 파일은 <code class="language-text">gatsby build</code> 명령어로 빌드할 때의 캐시 파일이기 때문이다. 빌드 시간이 5분 가까이 걸리던 것이, 28초가 되었다.</p>
 <p><code class="language-text">~/.npm</code> 을 제외시킨 이유는 Gatsby는 패키지 설치 명령어가 실행되는 경우가 드물기 때문이다. 빌드할 때, node_modules는 빌드시 필요하기 때문에 포함시켰다.</p>
 <p>또한, <a href="https://blog.outsider.ne.kr/1513" target="_blank" rel="nofollow">커밋 메시지로 GitHub Actions 실행 취소하기</a>를 참고해 커밋 메시지에 해당 문구가 포함되어 있다면 배포하지 않도록 처리했다.</p>
 <p>한 가지 눈여겨봐야 할 부분은 Time Zone setting 부분이다. Time Zone setting을 하지 않고 GitHub Actions으로 블로그를 배포했을 경우, 메인 페이지가 오류 때문에 카드 부분이 2번 렌더링 되는 이슈가 생겼다. GitHub Actions의 러너가 npm 모듈을 다운받을 때, <a href="https://pozafly.github.io/dev-ops/cache-and-restore-keys-in-github-actions/#%EC%A3%BC%EC%9D%98%EC%A0%90" target="_blank" rel="nofollow">주의점</a>에서 살펴봤던 <strong>안정성</strong> 문제 때문에 Gatsby에서 이미지를 다루는 모듈이 호환성 문제가 생긴 줄 알았다. GitHub Actions로 배포하지 않고 기존처럼 local에서 빌드해서 배포했을 때는 문제가 없었다.</p>
@@ -447,7 +448,7 @@
 <h3 id="번외---GitHub-Actions의-캐시-매커니즘" style="position:relative">번외 - GitHub Actions의 캐시 매커니즘<a href="#%EB%B2%88%EC%99%B8---GitHub-Actions%EC%9D%98-%EC%BA%90%EC%8B%9C-%EB%A7%A4%EC%BB%A4%EB%8B%88%EC%A6%98" aria-label="번외   GitHub Actions의 캐시 매커니즘 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
 <p>GitHub에서 워크플로우가 실행될 때 사진의 파란색 부분은 러너에서 실제로 CLI로 실행되는 명령어의 log를 나타내고 있다. 마지막 Post cache actions step의 명령어를 보자.</p>
 <p>첫 번째 step인 cache action이 실행될 때 restore-keys에 명시된 캐시를 찾았을 때 <code class="language-text">unzstd</code> 명령어를 통해 압축된 파일을 푼다. 그리고 마지막 Post cache action step에서는 <code class="language-text">zstdmt</code> 라는 명령어를 통해 다시 압축한다.</p>
-<p>두 명령어 모두 Zstandard라는 압축 프로그램이다. Facebook에서 개발한 고속 압축 알고리즘으로, 다양한 응용 분야에서 데이터 압축을 효율적으로 수행할 수 있도록 설계되었다. 따라서, 캐시를 사용할 때, node_modules 디렉토리를 직접 캐싱하는 것이 아니라, 위 명령어로 압축한 파일을 풀고 다시 저장한다.</p>
+<p>두 명령어 모두 Zstandard라는 압 축 프로그램이다. Facebook에서 개발한 고속 압축 알고리즘으로, 다양한 응용 분야에서 데이터 압축을 효율적으로 수행할 수 있도록 설계되었다. 따라서, 캐시를 사용할 때, node_modules 디렉토리를 직접 캐싱하는 것이 아니라, 위 명령어로 압축한 파일을 풀고 다시 저장한다.</p>
 <br/>
 <blockquote>
 <p>참고</p>
