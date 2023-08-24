@@ -196,7 +196,7 @@ export default function GlobalStyles() {
             --little-code-border: #515151;
             --prism-background: rgb(0 0 0 / 40%);
             --prism-border-left: #818181;
-            --about-box-shadow: none;
+            --about-box-shadow: 10px 20px 20px hsla(230, 4%, 8%, 30%);
           }
         }
 

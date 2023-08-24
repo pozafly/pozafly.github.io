@@ -22,9 +22,8 @@ import {
   PostFullHeader,
   PostFullTitle,
 } from '../templates/post';
-import styled from '@emotion/styled';
 // import ResumeFrame from '../components/ResumeFrame';
-import pozafly from '../content/img/common/pozafly.png';
+import { StaticImage } from 'gatsby-plugin-image';
 
 const PageTemplate = css`
   .site-main {
@@ -59,7 +58,14 @@ function About() {
               </PostFullHeader>
               <PostFullContent className="post-full-content">
                 {/* <ResumeFrame /> */}
-                <ProfileImage src={pozafly} alt="pozafly" />
+                <StaticImage
+                  src="../content/img/common/pozafly.png"
+                  alt="pozafly icon"
+                  placeholder="blurred"
+                  css={ProfileImage}
+                  width={120}
+                  height={120}
+                />
                 <div className="post-content">
                   <br />
                   <br />
@@ -141,12 +147,19 @@ function About() {
 
 export default About;
 
-export const ProfileImage = styled.img`
+export const ProfileImage = css`
+  margin: 0 auto;
+  display: block;
   width: 120px;
   height: 120px;
-  border: none !important;
-  box-shadow: 0px 14px 24px hsla(218, 53%, 10%, 12%);
-  box-shadow: var(--about-box-shadow);
+  overflow: initial;
+  border-radius: 8px;
+
+  img {
+    box-shadow: var(--about-box-shadow);
+    margin: 0;
+    border: initial;
+  }
 
   @media (max-width: 1040px) {
     width: 120px !important;
