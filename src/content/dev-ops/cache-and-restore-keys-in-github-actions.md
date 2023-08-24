@@ -442,11 +442,11 @@ GitHub Actions를 사용하면서, Gatsby로 만든 블로그도 로컬에서 �
 
 또한, [커밋 메시지로 GitHub Actions 실행 취소하기](https://blog.outsider.ne.kr/1513)를 참고해 커밋 메시지에 해당 문구가 포함되어 있다면 배포하지 않도록 처리했다.
 
-한 가지 눈여겨 봐야할 부분은 Time Zone setting 부분이다. Time Zone setting을 하지 않고 GitHub Actions으로 블로그를 배포했을 경우, 메인 페이지가 오류 때문에 카드 부분이 2번 렌더링 되는 이슈가 생겼다. GitHub Actions의 러너가 npm 모듈을 다운 받을 때, 주의 점에서 살펴봤던 **안정성** 문제 때문에 Gatsby에서 이미지를 다루는 모듈이 호환성 문제가 생긴 줄 알았다. GitHub Actions로 배포하지 않고 기존처럼 local에서 빌드해서 배포했을 때는 문제가 없었다.
+한 가지 눈여겨봐야 할 부분은 Time Zone setting 부분이다. Time Zone setting을 하지 않고 GitHub Actions으로 블로그를 배포했을 경우, 메인 페이지가 오류 때문에 카드 부분이 2번 렌더링 되는 이슈가 생겼다. GitHub Actions의 러너가 npm 모듈을 다운받을 때, [주의점](https://pozafly.github.io/dev-ops/cache-and-restore-keys-in-github-actions/#%EC%A3%BC%EC%9D%98%EC%A0%90)에서 살펴봤던 **안정성** 문제 때문에 Gatsby에서 이미지를 다루는 모듈이 호환성 문제가 생긴 줄 알았다. GitHub Actions로 배포하지 않고 기존처럼 local에서 빌드해서 배포했을 때는 문제가 없었다.
 
-또한 오류 메시지를 추적해보니, 서버에서 렌더링 된 HTML과 클라이언트에서 렌더링 된 HTML이 달라 생기는 오류였고, 이는 날짜와 연관이 깊다는 사실을 알아냈다. 즉, Node.js가 HTML을 생성하기 위해 Gatsby 엔진을 빌드할 환경의 Time Zone을 참조하게 되어 있었기 때문에 생기는 오류였다.
+또한 오류 메시지를 추적해 보니, 서버에서 렌더링 된 HTML과 클라이언트에서 렌더링 된 HTML이 달라 생기는 오류였고, 이는 날짜와 연관이 깊다는 사실을 알아냈다. 즉, Node.js가 HTML을 생성하기 위해 Gatsby 엔진을 빌드할 환경의 Time Zone을 참조하게 되어 있었기 때문에 생기는 오류였다.
 
-따라서, Linux가 한국의 시간에 맞게 Time Zone 세팅을 해주게 되었다.
+따라서, Linux 환경이 한국의 시간에 맞게 Time Zone 세팅을 해주게 되었다.
 
 ```yaml
 - name: Time Zone Setting
