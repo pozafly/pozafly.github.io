@@ -310,6 +310,7 @@ export const PostFull = css`
 export const NoImage = css`
   .post-full-content {
     padding-top: 0;
+    padding-bottom: 0;
   }
 
   .post-full-content:before,
