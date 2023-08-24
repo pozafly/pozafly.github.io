@@ -394,31 +394,64 @@ jobs:
 
 ## Gatsby 블로그 GitHub Actions로 배포하기
 
-```yml{6-7}
-- uses: actions/cache@v3
-  id: npm-cache
-  with:
-    path: |
-      **/node_modules
-      **/.cache
-      **/public
-    key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-    restore-keys: |
-      ${{ runner.os }}-node-
-      ${{ runner.os }}
-- if: ${{ steps.npm-cache.outputs.cache-hit != 'true' }}
-  run: npm install
-- run: npm run build
-- uses: peaceiris/actions-gh-pages@v3
-  with:
-    github_token: ${{ secrets.GH_TOKEN }}
-    publish_dir: ./public
-    publish_branch: master
+```yml{9,14,25-26}
+name: Gatsby Deployment
+on:
+  push:
+    branches: source
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    # ci 과정을 하고 싶지 않을 때, commit message에 아래 문구를 포함.
+    if: ${{ !contains(github.event.head_commit.message, '[ci skip]') }}
+    steps:
+      # time zone이 세팅 되지 않으면 배포 시 ReactDOM 관련 Error 발생.
+      # GitHub Actions linux 환경에서 Gatsby 빌드 시 time zone 맞추는 작업 필요.
+      - name: Time Zone Setting
+        run: sudo timedatectl set-timezone Asia/Seoul
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+      - uses: actions/cache@v3
+        id: npm-cache
+        with:
+          path: |
+            **/node_modules
+            **/.cache
+            **/public
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+            ${{ runner.os }}
+      - if: ${{ steps.npm-cache.outputs.cache-hit != 'true' }}
+        run: npm install
+      - run: npm run build
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
+          publish_dir: ./public
+          publish_branch: master
+
 ```
 
-GitHub Actions를 사용하면서, Gatsby로 만든 블로그도 로컬에서 빌드하지 않고 GitHub Actions로 배포해보기로 했다. 몇 번의 실험 결과 path에 `.cache` 파일과 `public` 파일을 추가해주면 빌드속도가 비약적으로 상승한다. `.cache` 파일과 `public` 파일은 `gatsby build` 명령어로 빌드할 때의 캐시 파일이기 때문이다. 빌드 시간이 5분에서 28초가 되었다.
+GitHub Actions를 사용하면서, Gatsby로 만든 블로그도 로컬에서 빌드하지 않고 GitHub Actions로 배포해보기로 했다. 몇 번의 실험 결과 path에 `.cache` 파일과 `public` 파일을 추가해주면 빌드속도가 비약적으로 상승한다. `.cache` 파일과 `public` 파일은 `gatsby build` 명령어로 빌드할 때의 캐시 파일이기 때문이다. 빌드 시간이 5분 가까이 걸리던 것이, 28초가 되었다.
 
 `~/.npm` 을 제외시킨 이유는 Gatsby는 패키지 설치 명령어가 실행되는 경우가 드물기 때문이다. 빌드할 때, node_modules는 빌드시 필요하기 때문에 포함시켰다.
+
+또한, [커밋 메시지로 GitHub Actions 실행 취소하기](https://blog.outsider.ne.kr/1513)를 참고해 커밋 메시지에 해당 문구가 포함되어 있다면 배포하지 않도록 처리했다.
+
+한 가지 눈여겨 봐야할 부분은 Time Zone setting 부분이다. Time Zone setting을 하지 않고 GitHub Actions으로 블로그를 배포했을 경우, 메인 페이지가 오류 때문에 카드 부분이 2번 렌더링 되는 이슈가 생겼다. GitHub Actions의 러너가 npm 모듈을 다운 받을 때, 주의 점에서 살펴봤던 **안정성** 문제 때문에 Gatsby에서 이미지를 다루는 모듈이 호환성 문제가 생긴 줄 알았다. GitHub Actions로 배포하지 않고 기존처럼 local에서 빌드해서 배포했을 때는 문제가 없었다.
+
+또한 오류 메시지를 추적해보니, 서버에서 렌더링 된 HTML과 클라이언트에서 렌더링 된 HTML이 달라 생기는 오류였고, 이는 날짜와 연관이 깊다는 사실을 알아냈다. 즉, Node.js가 HTML을 생성하기 위해 Gatsby 엔진을 빌드할 환경의 Time Zone을 참조하게 되어 있었기 때문에 생기는 오류였다.
+
+따라서, Linux가 한국의 시간에 맞게 Time Zone 세팅을 해주게 되었다.
+
+```yaml
+- name: Time Zone Setting
+  run: sudo timedatectl set-timezone Asia/Seoul
+```
 
 <br/>
 
