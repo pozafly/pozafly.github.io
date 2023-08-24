@@ -63,7 +63,7 @@ function About() {
                 <div className="post-content">
                   <br />
                   <br />
-                  <p>안녕하세요. 프론트엔드 개발자 Pozafly입니다.</p>
+                  <p>안녕하세요. 프론트엔드 개발자 pozafly입니다.</p>
                   <p>
                     예전부터 자기 어필을 잘 못한다는 이야기를 들어서 요즘은 자기
                     어필을 잘해보려고 노력 중입니다. 그래도 이 페이지까지 자기
