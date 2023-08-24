@@ -1,4 +1,4 @@
-name: Cache Test
+name: Gatsby Deploy
 on:
   push:
     branches: source
