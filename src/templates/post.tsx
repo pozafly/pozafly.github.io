@@ -103,6 +103,7 @@ function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
   const date = new Date(post.frontmatter.date);
   const datetime = format(date, 'yyyy-MM-dd');
   const displayDatetime = format(date, 'yyyy-MM-dd');
+  const publishedTime = date.toISOString();
 
   return (
     <IndexLayout className="post-template">
@@ -128,10 +129,7 @@ function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
             content={`${config.siteUrl}${getSrc(post.frontmatter.image)}`}
           />
         )}
-        <meta
-          property="article:published_time"
-          content={post.frontmatter.date}
-        />
+        <meta property="article:published_time" content={publishedTime} />
         {/* not sure if modified time possible */}
         {/* <meta property="article:modified_time" content="2018-08-20T15:12:00.000Z" /> */}
         {post.frontmatter.tags && (
@@ -231,17 +229,13 @@ function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
                     </AuthorListUl>
 
                     <section className="post-full-byline-meta">
-                      <h4 className="author-name">
+                      <div className="author-name">
                         {post.frontmatter.author.map((author) => (
-                          <Link
-                            key={author.name}
-                            to={'/about'}
-                            // to={`/author/${kebabCase(author.name)}/`}
-                          >
+                          <Link key={author.name} to={'/about'}>
                             {author.name}
                           </Link>
                         ))}
-                      </h4>
+                      </div>
                       <div className="byline-meta-content">
                         <time className="byline-meta-date" dateTime={datetime}>
                           {displayDatetime}

@@ -9,6 +9,7 @@ export default function ThemeModeSwitch({ isHome }: { isHome: boolean }) {
     <SwitchContainer
       onClick={themeToggler}
       className={`${theme === 'dark' ? 'dark' : ''} ${isHome ? 'is-home' : ''}`}
+      aria-label="theme toggle button"
     >
       <div id="switch">
         <div className="mode"></div>

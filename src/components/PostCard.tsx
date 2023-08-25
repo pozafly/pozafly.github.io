@@ -32,7 +32,7 @@ export function PostCard({
     <article
       className={`post-card ${post.frontmatter.image ? '' : 'no-image'} ${
         isLarge ? 'post-card-large' : ''
-      }`}
+      } ${isNext ? 'is-next' : ''}`}
       css={[PostCardStyles, isLarge && PostCardLarge]}
     >
       {post.frontmatter.image && (
@@ -41,9 +41,7 @@ export function PostCard({
           css={PostCardImageLink}
           to={post.fields.slug}
         >
-          <PostCardImage
-            className={`post-card-image ${isNext ? 'is-next' : ''}`}
-          >
+          <PostCardImage className="post-card-image">
             {post.frontmatter?.image && (
               <GatsbyImage
                 image={getImage(post.frontmatter.image)!}
@@ -123,6 +121,24 @@ const PostCardStyles = css`
     }
     img {
       transform: scale(1.03) !important;
+    }
+  }
+
+  &.is-next {
+    .post-card-image {
+      background: #191b1f;
+      border: 1px solid hsl(230deg 6% 23%);
+    }
+    .post-card-primary-tag {
+      a {
+        color: #90a2aa;
+      }
+    }
+    .post-card-excerpt {
+      color: #768086;
+    }
+    .post-card-byline-content {
+      color: #90a2aa;
     }
   }
 `;
@@ -209,9 +225,6 @@ const PostCardImage = styled.div`
 
   img {
     border-radius: 12px;
-  }
-  &.is-next {
-    border: 1px solid hsl(230deg 6% 23%);
   }
 `;
 

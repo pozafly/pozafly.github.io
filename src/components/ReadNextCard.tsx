@@ -47,10 +47,9 @@ export function ReadNextCard(props: ReadNextProps) {
         <ul>
           {relatedPosts.map((n) => {
             const date = new Date(n.node.frontmatter.date);
-            // 2018-08-20
             const datetime = format(date, 'yyyy-MM-dd');
-            // 20 AUG 2018
             const displayDatetime = format(date, 'yyyy-MM-dd');
+
             return (
               <li key={n.node.frontmatter.title}>
                 <h4>
