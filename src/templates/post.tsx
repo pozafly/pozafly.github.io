@@ -394,19 +394,19 @@ const PostFullByline = styled.div`
     letter-spacing: 0.2px;
   }
 
-  .post-full-byline-meta h4 {
+  .post-full-byline-meta .author-name {
     margin: 0 0 3px;
     font-size: 1.4rem;
     line-height: 1.3em;
     font-weight: 500;
   }
 
-  .post-full-byline-meta h4 a {
+  .post-full-byline-meta .author-name a {
     font-size: 13px;
     color: var(--post-full-meta-link);
   }
 
-  .post-full-byline-meta h4 a:hover {
+  .post-full-byline-meta .author-name a:hover {
     color: var(--post-full-meta-link-hover);
   }
 
