@@ -30,12 +30,6 @@ jobs:
       - if: ${{ steps.npm-cache.outputs.cache-hit != 'true' }}
         run: npm install
       - run: npm run build
-      - uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GH_TOKEN }}
-          publish_dir: ./public
-          publish_branch: master
-
       # 빌드 성공 메세지 발송
       - name: Send Build Success Message
         uses: appleboy/telegram-action@master
@@ -52,7 +46,6 @@ jobs:
             Commit message: ${{ github.event.head_commit.message }}
 
             [See changes](https://github.com/${{ github.repository }}/commit/${{github.sha}})
-
       # 빌드 실패 메세지 발송
       - name: Send Build Success Message
         uses: appleboy/telegram-action@master
@@ -69,3 +62,9 @@ jobs:
             Commit message: ${{ github.event.head_commit.message }}
 
             [link](https://github.com/${{ github.repository }}/actions)
+      # gh-pages 배포
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
+          publish_dir: ./public
+          publish_branch: master
