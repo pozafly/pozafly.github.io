@@ -35,3 +35,37 @@ jobs:
           github_token: ${{ secrets.GH_TOKEN }}
           publish_dir: ./public
           publish_branch: master
+
+      # 빌드 성공 메세지 발송
+      - name: Send Build Success Message
+        uses: appleboy/telegram-action@master
+        if: success()
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: markdown
+          message: |
+            Author: ${{github.actor}}
+
+            Status: 😚 **Success**
+
+            Commit message: ${{ github.event.head_commit.message }}
+
+            [See changes](https://github.com/${{ github.repository }}/commit/${{github.sha}})
+
+      # 빌드 실패 메세지 발송
+      - name: Send Build Success Message
+        uses: appleboy/telegram-action@master
+        if: failure()
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: markdown
+          message: |
+            Author: ${{github.actor}}
+
+            Status: 😱 **Failure**
+
+            Commit message: ${{ github.event.head_commit.message }}
+
+            [link](https://github.com/${{ github.repository }}/actions)
