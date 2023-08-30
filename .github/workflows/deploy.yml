@@ -30,38 +30,13 @@ jobs:
       - if: ${{ steps.npm-cache.outputs.cache-hit != 'true' }}
         run: npm install
       - run: npm run build
-      # 빌드 성공 메세지 발송
-      - name: Send Build Success Message
-        uses: appleboy/telegram-action@master
-        if: success()
+      - uses: 8398a7/action-slack@v3
         with:
-          to: ${{ secrets.TELEGRAM_CHAT_ID }}
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          format: markdown
-          message: |
-            Author: ${{github.actor}}
-
-            Status: 😚 **Success**
-
-            Commit message: ${{ github.event.head_commit.message }}
-
-            [See changes](https://github.com/${{ github.repository }}/commit/${{github.sha}})
-      # 빌드 실패 메세지 발송
-      - name: Send Build Failure Message
-        uses: appleboy/telegram-action@master
-        if: failure()
-        with:
-          to: ${{ secrets.TELEGRAM_CHAT_ID }}
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          format: markdown
-          message: |
-            Author: ${{github.actor}}
-
-            Status: 😱 **Failure**
-
-            Commit message: ${{ github.event.head_commit.message }}
-
-            [link](https://github.com/${{ github.repository }}/actions)
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,eventName,workflow,job,took
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
       # gh-pages 배포
       - uses: peaceiris/actions-gh-pages@v3
         with:
