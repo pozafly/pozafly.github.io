@@ -2,7 +2,7 @@
 layout: post
 title: '(10) Frontend -travis 배포 자동화'
 author: [Pozafly]
-tags: [Tripllo 제작기, Travis CI, Automation]
+tags: [Tripllo 제작기, DevOps, Automation]
 image: ../img/tripllo/(10)vue-travis-automation/main.png
 date: '2021-04-06T17:13:47.149Z'
 draft: false
