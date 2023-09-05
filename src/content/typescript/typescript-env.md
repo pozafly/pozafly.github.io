@@ -251,12 +251,14 @@ CommonJS와 같은 기존의 모듈 시스템에서 ESM 모듈을 사용하기 �
 
 ### allowImportingTsExtensions (TypeScript version 5 부터)
 
+allowImportingTsExtensions 옵션을 사용하기 위해서는 2가지 환경에서 `.ts` 확장자가 어떻게 동작하는지 알아야 한다. 함께 알아볼 환경은 `tsc` 환경과, `webpack` 환경이다.
+
 #### tsc
 
-TypeScript에서는 import 구분에 `./app` 과 같이 `.ts` 확장자가 없어야만 해당 파일을 가져올 수 있다. `.ts` 확장자가 붙는다면 tsc로 컴파일 했을 때 error를 뿜는다. 또, 확장자가 없이 사용하거나 `.js` 확장자를 붙여주어야 정상적으로 컴파일 된다.
+TypeScript에서는 import 구분에 `./app` 과 같이 `.ts` 확장자가 없어야만 해당 파일을 가져올 수 있었다. `.ts` 확장자가 붙는다면 tsc로 컴파일 했을 때 error를 뿜는다. 또, 확장자가 없이 사용하거나 `.js` 확장자를 붙여주어야 정상적으로 컴파일 된다.
 
-```ts
-import { some } from './index.ts'; // 오류
+```ts{1}
+import { some } from './index.ts'; // 👾 오류
 import { some } from './index'; // 성공
 import { some } from './index.js'; // 성공
 ```
@@ -264,11 +266,16 @@ import { some } from './index.js'; // 성공
 타입스크립트 파일에서 다른 타입스크립트 파일(.ts)을 가져오는데 왜 에러가 날까? [typescript-issues](https://github.com/microsoft/TypeScript/issues/27481#issuecomment-426026215) 페이지에서 그 이유를 찾을 수 있다.
 
 ```ts
-a.ts: import * as b from "./b.ts";
-b.ts: export const b: number = 0;
+// b.ts
+export const b: number = 0;
 ```
 
-a, b 두 ts 파일이 있고, b라는 변수를 export 하고 있다. a.ts를 컴파일 할 때 `import` 구문은 변경하지 않는다. 즉, ts 파일이 컴파일 되면, js 파일이 되는데, import 구문은 변경하지 않기 때문에 `a.js` 파일에서 `b.ts` 파일을 가져오려고 시도할 것이다.
+```ts
+// a.ts
+import * as b from './b.ts';
+```
+
+`a.ts`, `b.ts` 두 TypeScript 파일이 있고, b.ts에서는 b라는 변수를 export 하고 있다. a.ts를 컴파일 할 때 `import` 구문은 변경하지 않는다. 즉, ts 파일이 컴파일 되면, js 파일이 되는데, import 구문은 변경하지 않기 때문에 `a.js` 파일에서 `b.ts` 파일을 가져오려고 시도할 것이다.
 
 하지만 `b.ts` 파일도 `b.js` 파일로 이미 변환 되었기 때문에 `b.ts` 파일이 없으므로 에러가 나는 것이다. 따라서, `./b` 또는 `./b.js` 로 명시를 해주어야 한다. `./b` 와 같은 확장자가 없는 파일 경로를 TypeScript가 알 수 있는 이유는, Node.js의 CommonJS에서 경로가 없어도 모듈을 가져올 수 있는 특징 때문이다. tsc는 Node.js 위에서 동작한다.
 
