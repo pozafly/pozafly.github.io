@@ -156,6 +156,7 @@
 <p>Node.js 창시자인 Ryan Dahl도 <a href="https://www.youtube.com/watch?v=M3BM9TB-8yA&amp;t=835s" target="_blank" rel="nofollow">해당 동영상</a>에서 <code class="language-text">require</code>을 사용해 모듈을 불러올 때 확장자를 생략해도 불러오는 것을 후회한다고 했다. 이는 ESM을 사용하는 브라우저에서는 동작하지 않기 때문이다. 점차 ESM이 활성화 되어감에 따라 TypeScript에서도 <code class="language-text">ts</code> 확장자를 사용할 수 있게 만든 컴파일 옵션이 바로 <code class="language-text">allowImportingTsExtensions</code> 였다.</p>
 <p>IDE 상의 프로젝트에서는 확장자를 사용하지 않아도 webpack으로 빌드도 되고 tsc로 타입 체킹도 된다. <code class="language-text">allowImportingTsExtensions</code> 옵션은 확장자를 사용할 수 있게 만들어주는 TypeScript의 옵션이었기 때문이다. (강제하지 않는다)</p>
 <p>따라서, TypeScript가 <code class="language-text">allowImportingTsExtensions</code> 옵션을 추가해 준 것 같이 앞으로 ESM 방식으로 확장자를 붙일 것인데 이를 eslint-plugin-import를 사용해 강제할 수 있다. <a href="https://github.com/import-js/eslint-plugin-import/blob/v2.28.1/docs/rules/extensions.md" target="_blank" rel="nofollow">(공식 문서)</a></p>
+<p>아래부터 ESLint를 설정하는 파일은 <code class="language-text">.eslintrc.json</code> 파일의 rules에 작성할 것이다.</p>
 <div class="gatsby-highlight" data-language="json"><pre class="language-json"><code class="language-json"><span class="token property">&quot;rules&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
   <span class="token property">&quot;import/extensions&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>&lt;severity&gt;<span class="token punctuation">,</span> <span class="token string">&quot;never&quot;</span> | <span class="token string">&quot;always&quot;</span> | <span class="token string">&quot;ignorePackages&quot;</span><span class="token punctuation">]</span>
 <span class="token punctuation">}</span></code></pre></div>
@@ -193,7 +194,8 @@
 <h2 id="상대-경로-대신-절대-경로모듈-별칭-사용하기" style="position:relative">상대 경로 대신 절대 경로(모듈 별칭) 사용하기<a href="#%EC%83%81%EB%8C%80-%EA%B2%BD%EB%A1%9C-%EB%8C%80%EC%8B%A0-%EC%A0%88%EB%8C%80-%EA%B2%BD%EB%A1%9C%EB%AA%A8%EB%93%88-%EB%B3%84%EC%B9%AD-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0" aria-label="상대 경로 대신 절대 경로모듈 별칭 사용하기 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
 <p>프론트엔드 프레임워크에서 모듈 별칭(module-aliases)를 사용하면 상대 경로 대신, 절대 경로를 사용할 수 있다. 상대 경로를 사용하면 import 할 때 <code class="language-text">../../</code> 와 같은 prefix가 매우 길어질 수 있으며, 가져오고자 하는 모듈 import 구문을 복사해 다른 파일에 붙여넣기 할 때 상대 경로로 다시 지정해 주어야 하기 때문에 번거롭다. 따라서 절대 경로를 사용하는 것이 좋은 방법이다. 또, 주로 코드를 <code class="language-text">src</code> 파일 밑에서 작업하기 때문에 절대 경로 상 앞부분을 제외하고 <code class="language-text">@</code> 와 같은 것으로 alias를 지정해서 사용하곤 한다.</p>
 <p>예를 들면 Next.js 같은 경우 <code class="language-text">create-next-app</code> 을 통해 프로젝트를 생성할 때, 모듈 별칭을 사용하면 절대 경로를 처음에 지정해 줄 수 있다. 만약, 처음에 지정하지 않았다면 <code class="language-text">tsconfig.json</code> 파일에서 아래와 같이 지정해 줄 수 있다.</p>
-<div class="gatsby-highlight" data-language="json"><pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+<div class="gatsby-highlight" data-language="json"><pre class="language-json"><code class="language-json"><span class="token comment">// tsconfig.json</span>
+<span class="token punctuation">{</span>
   <span class="token property">&quot;compilerOptions&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
     <span class="token property">&quot;paths&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
       <span class="token property">&quot;@/*&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">&quot;./src/*&quot;</span><span class="token punctuation">]</span>
@@ -286,11 +288,6 @@
         <span class="token punctuation">{</span>
           <span class="token property">&quot;pattern&quot;</span><span class="token operator">:</span> <span class="token string">&quot;@/core/**&quot;</span><span class="token punctuation">,</span>
           <span class="token property">&quot;group&quot;</span><span class="token operator">:</span> <span class="token string">&quot;unknown&quot;</span>
-        <span class="token punctuation">}</span><span class="token punctuation">,</span>
-        <span class="token punctuation">{</span>
-          <span class="token property">&quot;pattern&quot;</span><span class="token operator">:</span> <span class="token string">&quot;@/feature/**&quot;</span><span class="token punctuation">,</span>
-          <span class="token property">&quot;group&quot;</span><span class="token operator">:</span> <span class="token string">&quot;unknown&quot;</span><span class="token punctuation">,</span>
-          <span class="token property">&quot;position&quot;</span><span class="token operator">:</span> <span class="token string">&quot;after&quot;</span>
         <span class="token punctuation">}</span><span class="token punctuation">,</span>
         <span class="token punctuation">{</span>
           <span class="token property">&quot;pattern&quot;</span><span class="token operator">:</span> <span class="token string">&quot;**/*.css.ts&quot;</span><span class="token punctuation">,</span>
