@@ -215,7 +215,9 @@
 </ul>
 <p><span class="gatsby-resp-image-wrapper" style="position:relative;display:block;margin-left:auto;margin-right:auto;max-width:1150px">
       <span class="gatsby-resp-image-background-image" style="padding-bottom:7.8%;position:relative;bottom:0;left:0;background-image:url(&#x27;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAeElEQVR42j2NbQvCMAyE9/9/njL7Xm2btIJSHCKb6Di7wvwQ7u5JyA3eXxBiglQGQmpo6zAK2b1QGofjCG0snD/j1Fgk6lwbh1ornq8Z90BYrMJcMgbmjEQZm8bEbahl7iXUd/zX3Yd2k8u1P3x/VkzlhrUwvtMDP8cXklzXt7GMAAAAAElFTkSuQmCC&#x27;);background-size:cover;display:block"></span>
-  <img class="gatsby-resp-image-image" alt="invalidate-queries" title="" src="/static/9ceee71599b575d6aa9812980bf61059/26e62/invalidate-queries.png" srcSet="/static/9ceee71599b575d6aa9812980bf61059/0eb09/invalidate-queries.png 500w /static/9ceee71599b575d6aa9812980bf61059/1263b/invalidate-queries.png 1000w /static/9ceee71599b575d6aa9812980bf61059/26e62/invalidate-queries.png 1150w" sizes="(max-width: 1150px) 100vw, 1150px" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0" loading="lazy" decoding="async"/>
+  <img class="gatsby-resp-image-image" alt="invalidate-queries" title="" src="/static/9ceee71599b575d6aa9812980bf61059/26e62/invalidate-queries.png" srcSet="/static/9ceee71599b575d6aa9812980bf61059/0eb09/invalidate-queries.png 500w,
+/static/9ceee71599b575d6aa9812980bf61059/1263b/invalidate-queries.png 1000w,
+/static/9ceee71599b575d6aa9812980bf61059/26e62/invalidate-queries.png 1150w" sizes="(max-width: 1150px) 100vw, 1150px" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0" loading="lazy" decoding="async"/>
     </span></p>
 <p>네트워크 탭을 보면, 삭제 요청이 완료된 즉시 조회 요청이 간 것을 볼 수 있다. 이 방식을 사용할 경우, 서버 데이터가 새롭게 조회되어 클라이언트의 데이터가 변경되고 화면이 새롭게 그려진다.</p>
 <p>하지만, 만약 서버에 여러 시스템이 연동되어 있을 경우 혹은 서버에서 데이터 변경에 딜레이가 걸린 경우에, 변경 내용이 반영되지 않은 채 변경 전 데이터가 조회될 가능성이 있다. 서버가 비동기로 동작하거나 적용 되는데 시간이 걸리는 경우이다.</p>
@@ -229,7 +231,7 @@
 <hr/>
 <p>2가지 중 서버 데이터로 클라이언트 데이터를 변경하는 방법을 알아봤다. Best Case는 서버에서 변경된 데이터를 정확하게 response에 담아 내려준다면 클라이언트에서 받아 화면을 새롭게 그려주는 <code class="language-text">setQueryData</code> 메서드를 사용한 방법이다. 하지만 서버에서 데이터를 내려주지 못하는 상황이라면, 클라이언트에서 요청을 보낸 데이터를 기반으로 화면을 그려주는 방법도 존재한다.</p>
 <br/>
-<h2 id="2-요청-데이터로- 클라이언트-데이터-변경" style="position:relative">2. 요청 데이터로 클라이언트 데이터 변경<a href="#2-%EC%9A%94%EC%B2%AD-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%A1%9C-%ED%81%B4%EB%9D%BC%EC%9D%B4%EC%96%B8%ED%8A%B8-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%B3%80%EA%B2%BD" aria-label="2 요청 데이터로 클라이언트 데이터 변경 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
+<h2 id="2-요청-데이터로-클라이언트-데이터-변경" style="position:relative">2. 요청 데이터로 클라이언트 데이터 변경<a href="#2-%EC%9A%94%EC%B2%AD-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%A1%9C-%ED%81%B4%EB%9D%BC%EC%9D%B4%EC%96%B8%ED%8A%B8-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%B3%80%EA%B2%BD" aria-label="2 요청 데이터로 클라이언트 데이터 변경 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
 <p>요청 할 때 보내는 클라이언트의 데이터 기반으로 스스로의 데이터를 변경할 수 있다.</p>
 <ol>
 <li>직접 가공 (getQueryData &amp; setQueryData 또는 setQueryData &amp; Updater 메서드)</li>
@@ -245,7 +247,7 @@
 <span class="token punctuation">}</span></code></pre></div>
 <p><code class="language-text">getQueryData</code>를 통해 변경되기 전 데이터를 캐시에서 조회한다. 그리고, <code class="language-text">filter</code>와 같은 메서드로 캐시 데이터를 가공한다. 이후에, 가공한 데이터를 불변성을 지켜서 <code class="language-text">setQueryData</code> 메서드의 인자로 넣어준다. 그러면, 클라이언트의 데이터가 변경되며, query를 선언한 컴포넌트가 리렌더링 되면서 화면이 새롭게 그려진다.</p>
 <p>📌 주의점은 반드시 불변성을 지켜서 넣어주어야 한다. 불변성을 지켜주지 않으면 화면이 변경되지 않는다.</p>
-<p>데이터 흐름 은 아래와 같다.</p>
+<p>데이터 흐름은 아래와 같다.</p>
 <ul>
 <li><code class="language-text">클라이언트 -&gt; 서버</code> : 데이터 변경 요청</li>
 <li><code class="language-text">서버 -&gt; 클라이언트</code> : 성공 message 반환</li>
@@ -331,4 +333,4 @@
           >
             window.___chunkMapping="{\"app\":[\"/app-21f5ec984098bafec8cf.js\"],\"component---src-pages-404-tsx\":[\"/component---src-pages-404-tsx-e6ff7ea58158b6abbdd8.js\"],\"component---src-pages-about-tsx\":[\"/component---src-pages-about-tsx-1f6a2b1b10f94192125d.js\"],\"component---src-pages-tags-tsx\":[\"/component---src-pages-tags-tsx-e18dfbfe659a147f70f2.js\"],\"component---src-templates-index-tsx\":[\"/component---src-templates-index-tsx-c2c22021eff9309636cb.js\"],\"component---src-templates-post-tsx\":[],\"component---src-templates-tags-tsx\":[\"/component---src-templates-tags-tsx-9b124370a10edcc3984a.js\"]}";
           </script>
-        <script>window.___webpackCompilationHash="d8ca4a610a142d2b3d44";</script><script src="/webpack-runtime-981399150dbdf2d34eb9.js" async></script><script src="/framework-52661bed68a218a99879.js" async></script><script src="/app-21f5ec984098bafec8cf.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
+        <script>window.___webpackCompilationHash="651254217a2016e479e2";</script><script src="/webpack-runtime-2a88b81b41d5a5634103.js" async></script><script src="/framework-52661bed68a218a99879.js" async></script><script src="/app-21f5ec984098bafec8cf.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>

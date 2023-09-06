@@ -510,7 +510,9 @@ instance<span class="token punctuation">.</span>interceptors<span class="token p
 <p>이렇게 작성해주면 vscode상에</p>
 <p><span class="gatsby-resp-image-wrapper" style="position:relative;display:block;margin-left:auto;margin-right:auto;max-width:1802px">
       <span class="gatsby-resp-image-background-image" style="padding-bottom:13%;position:relative;bottom:0;left:0;background-image:url(&#x27;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAoElEQVR42kWO0Q6CIBSGfY/WhoKpm5ogNGDpReqy2rqq93+UvyO4dfHtOwf4zyFppi+a8Q1jVwxuxTKSlxfk7Y7KWLBagTU6kJ01eGfIBkJewHen7XbfBxJGh1lnkSoPRnDtkQccSuWgrzNqN+BQ1DhWLQptUfSRynjCIaehJ+pLqhNOoYiF2Cxjn6ktNGJ4fKDnZ1j6fxsRvY/1bkEf+gHzGV605UE3ZgAAAABJRU5ErkJggg==&#x27;);background-size:cover;display:block"></span>
-  <img class="gatsby-resp-image-image" alt="vscode-auto-complete" title="" src="/static/e69b94de3d298798310d750e24ff0381/794cd/vscode-auto-complete.png" srcSet="/static/e69b94de3d298798310d750e24ff0381/0eb09/vscode-auto-complete.png 500w /static/e69b94de3d298798310d750e24ff0381/1263b/vscode-auto-complete.png 1000w /static/e69b94de3d298798310d750e24ff0381/794cd/vscode-auto-complete.png 1802w" sizes="(max-width: 1802px) 100vw, 1802px" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0" loading="lazy" decoding="async"/>
+  <img class="gatsby-resp-image-image" alt="vscode-auto-complete" title="" src="/static/e69b94de3d298798310d750e24ff0381/794cd/vscode-auto-complete.png" srcSet="/static/e69b94de3d298798310d750e24ff0381/0eb09/vscode-auto-complete.png 500w,
+/static/e69b94de3d298798310d750e24ff0381/1263b/vscode-auto-complete.png 1000w,
+/static/e69b94de3d298798310d750e24ff0381/794cd/vscode-auto-complete.png 1802w" sizes="(max-width: 1802px) 100vw, 1802px" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0" loading="lazy" decoding="async"/>
     </span></p>
 <p>이렇게 api 함수에 <code class="language-text">.</code> 을 찍어주면, @returns가 Promise 이므로, Promise에 체이닝 되는 메서드들이 자동 완성된다. 또한 JSDoc을 적어주는 것은 협업할 때, api가 어떤 것을 return 하는지, 파라미터로 무엇을 넘기는지 알 수 있게 도와준다. JSDoc이 언어 레벨로 표현된 것이 typescript 라고 한다.</p>
 <br/>
@@ -557,7 +559,7 @@ instance<span class="token punctuation">.</span>interceptors<span class="token p
 <li>es6 화살표 함수 안 되어있었던 것 모두 처리.</li>
 <li>v-show가 붙은 template 태그를 div 태그로 수정
 <ul>
-<li>v-if는 렌더링 자 체를 막는 것이라 <code class="language-text">&lt;template&gt;</code> 에 사용 가능. 하지만, v-show는 <code class="language-text">&lt;template&gt;</code> 에 사용 불가. div or span 태그로 해줘야 함. 첫 렌더링은 되어야 하는데 template은 vue에서 사용하는 태그라 그런 듯?</li>
+<li>v-if는 렌더링   자체를 막는 것이라 <code class="language-text">&lt;template&gt;</code> 에 사용 가능. 하지만, v-show는 <code class="language-text">&lt;template&gt;</code> 에 사용 불가. div or span 태그로 해줘야 함. 첫 렌더링은 되어야 하는데 template은 vue에서 사용하는 태그라 그런 듯?</li>
 <li>이 작업은 로그인 폼 input 단어를 입력했을 때 소셜 로그인 창이 보여지지 않게 작업을 해놨었는데, <a href="https://github.com/daep93" target="_blank" rel="nofollow">daep93</a> 님께서 github issues로 동작하지 않는다고 알려주신 내용 때문에 알게 된 내용이다.</li>
 </ul>
 </li>
@@ -567,11 +569,15 @@ instance<span class="token punctuation">.</span>interceptors<span class="token p
 <h2 id="21-Process-정리" style="position:relative">21. Process 정리<a href="#21-Process-%EC%A0%95%EB%A6%AC" aria-label="21 Process 정리 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
 <p><span class="gatsby-resp-image-wrapper" style="position:relative;display:block;margin-left:auto;margin-right:auto;max-width:1684px">
       <span class="gatsby-resp-image-background-image" style="padding-bottom:56.199999999999996%;position:relative;bottom:0;left:0;background-image:url(&#x27;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAAsSAAALEgHS3X78AAABZElEQVR42p1SUUvDMBDu/8dH/4aI4IMvE/cwxDk25qSjrEqHU0tpu65t1qRJ+pkca5myTfQg5Evu7svdl3MqViKKIiRJQnscx+Cc47/m8GKDIAjgv/hYrVZYLBbIsoycTdP8nfCY4xiVUA3UiYecthKqZrfrvQR7llJCCAFuVpQx5KxCbXBd19Ba0yrLkmKdXRZtoTtH+DrB1hw/wwjjqWtcmhK7R9F0WClFK01T9Ho9ivvW8iYrsSnWhN8N4ZPr/dDhcKtVVcH3faq0I7Qt2QtrpVCImITSirTUB3haiVpsK+00tId+v4/lctl9yGTQw8XtFYQJZlyhNhq552fgSUwxH4M7rMePhHmeIr6/pEwitJV5nkcz2Np8+IDRdNQ9IM1s+jfXEGVBd8FoiPB5RpgVOd5mD1ByT0PGGP1ma9J0X8mmGyArSWFIhRHetrrmErmRxuLadBhvayORPjGHvw71Yf8XaXpYz/zpXxMAAAAASUVORK5CYII=&#x27;);background-size:cover;display:block"></span>
-  <img class="gatsby-resp-image-image" alt="frontend-deploy-process" title="" src="/static/54b33a49c30961baf9a22a15fdcedc13/171ca/frontend-deploy-process.png" srcSet="/static/54b33a49c30961baf9a22a15fdcedc13/0eb09/frontend-deploy-process.png 500w /static/54b33a49c30961baf9a22a15fdcedc13/1263b/frontend-deploy-process.png 1000w /static/54b33a49c30961baf9a22a15fdcedc13/171ca/frontend-deploy-process.png 1684w" sizes="(max-width: 1684px) 100vw, 1684px" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0" loading="lazy" decoding="async"/>
+  <img class="gatsby-resp-image-image" alt="frontend-deploy-process" title="" src="/static/54b33a49c30961baf9a22a15fdcedc13/171ca/frontend-deploy-process.png" srcSet="/static/54b33a49c30961baf9a22a15fdcedc13/0eb09/frontend-deploy-process.png 500w,
+/static/54b33a49c30961baf9a22a15fdcedc13/1263b/frontend-deploy-process.png 1000w,
+/static/54b33a49c30961baf9a22a15fdcedc13/171ca/frontend-deploy-process.png 1684w" sizes="(max-width: 1684px) 100vw, 1684px" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0" loading="lazy" decoding="async"/>
     </span></p>
 <p><span class="gatsby-resp-image-wrapper" style="position:relative;display:block;margin-left:auto;margin-right:auto;max-width:1684px">
       <span class="gatsby-resp-image-background-image" style="padding-bottom:56.199999999999996%;position:relative;bottom:0;left:0;background-image:url(&#x27;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAAsSAAALEgHS3X78AAABrklEQVR42pVSwU7bQBD1/9/6A70gVT30UIQqERAHAihqIC0gDokd2wq0UbBr4jjZ9a7t3deZdQipQpEYa63Z3dk3b+aNlz0+YjgcIY5jhGGIKIoghACbtRbvNU+XAln2hDzPURQF5vM5qqrCGvHNx0opitXOb5oGxhh4rwU2dY2ybtyqyf+fxZMVwnjl/G63i2A8bgG3S7OUhSEeemcY7X+Bpj2fvQRYx4bf5LlG+ke543EQIE2SFtBsPTAUzPb08wq/jr5tytkYtUOVJUopIBYrKCFhqWyuytLaKVkTtuAfMWAWK1WhNtv9YHbtwffJBW5+/2jzMCAl8zj7Zb+/UTYaD+BPLwm0BmFhMvVxG5w70MpYLK+PoJPYxd7NzuCnA+f7qY9kMSWVtUan0yGlM3dx+PkjjgefUDMLau318AKHvb2WRWMxO/gAGV25/XQRYracOP80PEcwG8Fj6XlUpJTuYlFIFKJttKGSS1lCUp+e1ZZKE9tmDfIV/fuT9p3UFKt3VWZa/G3v/zEGpjY1WiFJc2TzJYlRsZpUgn59Dt80Tu6mwqyTWZ41N1q8/gKOLFLAV0e1AAAAAABJRU5ErkJggg==&#x27;);background-size:cover;display:block"></span>
-  <img class="gatsby-resp-image-image" alt="backend-deploy-process" title="" src="/static/7a0d6ae46b520b6fc6fa85736c283a1e/171ca/backend-deploy-process.png" srcSet="/static/7a0d6ae46b520b6fc6fa85736c283a1e/0eb09/backend-deploy-process.png 500w /static/7a0d6ae46b520b6fc6fa85736c283a1e/1263b/backend-deploy-process.png 1000w /static/7a0d6ae46b520b6fc6fa85736c283a1e/171ca/backend-deploy-process.png 1684w" sizes="(max-width: 1684px) 100vw, 1684px" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0" loading="lazy" decoding="async"/>
+  <img class="gatsby-resp-image-image" alt="backend-deploy-process" title="" src="/static/7a0d6ae46b520b6fc6fa85736c283a1e/171ca/backend-deploy-process.png" srcSet="/static/7a0d6ae46b520b6fc6fa85736c283a1e/0eb09/backend-deploy-process.png 500w,
+/static/7a0d6ae46b520b6fc6fa85736c283a1e/1263b/backend-deploy-process.png 1000w,
+/static/7a0d6ae46b520b6fc6fa85736c283a1e/171ca/backend-deploy-process.png 1684w" sizes="(max-width: 1684px) 100vw, 1684px" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0" loading="lazy" decoding="async"/>
     </span></p>
 <br/>
 <br/>
@@ -580,7 +586,7 @@ instance<span class="token punctuation">.</span>interceptors<span class="token p
 <li>코드의 역할을 모르고 짜지말자($nextTick, vue의 동작원리-반응형 등). 코드를 사용했다면 왜 사용했는지 타당한 이유가 있어야 한다. 그래야 불필요한 코드 복잡도가 증가하지 않고 완성도가 높은 코드를 만들게 된다. 물론 지식 나눔은 덤.</li>
 <li>최대한 안정성 있게 짜자. if 문 같은 것은 블록 처리하는게 안전하게 작성하는 것.</li>
 <li>store에서 처리하지 않아도 되는 것은 컴포넌트 단에서 처리하자. store가 반드시 필요한지, store에 넣었다면 그럴만한 타당한 이유가 있는지 생각하고 넣기.</li>
-<li>협업을 위해 변수 명이나 컴포넌트 명, 규칙을 가지고 만들자. 다른 사람이 봤을 때 이해하기 쉽도  록.</li>
+<li>협업을 위해 변수 명이나 컴포넌트 명, 규칙을 가지고 만들자. 다른 사람이 봤을 때 이해하기 쉽도록.</li>
 <li>무언가 반복되는 것이 있다면 잘못 코딩한 것이다. 함수화, 모듈화 하자.</li>
 <li>오류 처리를 반드시 하자. 프론트엔드 개발자가 가장 많이 하는 것이 백엔드에서 api를 받아 화면에 표현하는 것인데 이곳에 오류처리가 없다면 사용자 경험이 떨어진다.</li>
 <li>라이프사이클 함수에서나, sideEffect가 있는 곳에서는 의미 단위로 함수로 뽑아서 사용하자.</li>
@@ -599,4 +605,4 @@ instance<span class="token punctuation">.</span>interceptors<span class="token p
           >
             window.___chunkMapping="{\"app\":[\"/app-21f5ec984098bafec8cf.js\"],\"component---src-pages-404-tsx\":[\"/component---src-pages-404-tsx-e6ff7ea58158b6abbdd8.js\"],\"component---src-pages-about-tsx\":[\"/component---src-pages-about-tsx-1f6a2b1b10f94192125d.js\"],\"component---src-pages-tags-tsx\":[\"/component---src-pages-tags-tsx-e18dfbfe659a147f70f2.js\"],\"component---src-templates-index-tsx\":[\"/component---src-templates-index-tsx-c2c22021eff9309636cb.js\"],\"component---src-templates-post-tsx\":[],\"component---src-templates-tags-tsx\":[\"/component---src-templates-tags-tsx-9b124370a10edcc3984a.js\"]}";
           </script>
-        <script>window.___webpackCompilationHash="d8ca4a610a142d2b3d44";</script><script src="/webpack-runtime-981399150dbdf2d34eb9.js" async></script><script src="/framework-52661bed68a218a99879.js" async></script><script src="/app-21f5ec984098bafec8cf.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
+        <script>window.___webpackCompilationHash="651254217a2016e479e2";</script><script src="/webpack-runtime-2a88b81b41d5a5634103.js" async></script><script src="/framework-52661bed68a218a99879.js" async></script><script src="/app-21f5ec984098bafec8cf.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>

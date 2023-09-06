@@ -160,12 +160,14 @@ console<span class="token punctuation">.</span><span class="token function">dir<
 console<span class="token punctuation">.</span><span class="token function">dir</span><span class="token punctuation">(</span>emptyObj<span class="token punctuation">.</span>__proto__<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
 <p><span class="gatsby-resp-image-wrapper" style="position:relative;display:block;margin-left:auto;margin-right:auto;max-width:1516px">
       <span class="gatsby-resp-image-background-image" style="padding-bottom:36.6%;position:relative;bottom:0;left:0;background-image:url(&#x27;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABcSAAAXEgFnn9JSAAABe0lEQVR42lVRW26cQBDkqCS3yA+5DVor14giJV+7zge2Izn7wGN2ec6D6QEaKg2RJbuk0kgz1aWqnshccth9hv7hD+z9byytxjwD4zhiGAZM04QVC8D9i9LNIdPhdNbT5SxC1vL0gdE6RF2AyS28JvSio6PF3+MRh8MBeZ5v5ivCrQI9FzBPZ7T7J9QvBWzvsCwL3hCtYt8SfE0IHcHlBuX5huJ6RVmWMMZI4nkT88RYBhmmBbOeoaWN9x7vEY3DCBJDagJ84xFee9Sqwul42tI565Y1gVTviIZvTocdKdpdVbVrjd6JxwdGRMS2dOxuju3FcHOquHhWXOQFq1fFdV1PRmuEcaxDWd25H/u0+XWfVt9/plPTp22rhW0qLTZGPM2Yg9QYxL8HJjPC6v8112Tv97OwVCYGnNyTfNZafz3kH0II20wUfEhc5RJXuEQqJ6PySVd0iSpUopRKZMeJeH0VfiHmz9rxJ9Ici2/scids4+zxMc6yLJak8T8QOwg2Eqp0RgAAAABJRU5ErkJggg==&#x27;);background-size:cover;display:block"></span>
-  <img class="gatsby-resp-image-image" alt="devtool-prototype" title="" src="/static/760578e25d8c33340fbffb5e8e295b4b/f8d80/devtool-prototype.png" srcSet="/static/760578e25d8c33340fbffb5e8e295b4b/0eb09/devtool-prototype.png 500w /static/760578e25d8c33340fbffb5e8e295b4b/1263b/devtool-prototype.png 1000w /static/760578e25d8c33340fbffb5e8e295b4b/f8d80/devtool-prototype.png 1516w" sizes="(max-width: 1516px) 100vw, 1516px" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0" loading="lazy" decoding="async"/>
+  <img class="gatsby-resp-image-image" alt="devtool-prototype" title="" src="/static/760578e25d8c33340fbffb5e8e295b4b/f8d80/devtool-prototype.png" srcSet="/static/760578e25d8c33340fbffb5e8e295b4b/0eb09/devtool-prototype.png 500w,
+/static/760578e25d8c33340fbffb5e8e295b4b/1263b/devtool-prototype.png 1000w,
+/static/760578e25d8c33340fbffb5e8e295b4b/f8d80/devtool-prototype.png 1516w" sizes="(max-width: 1516px) 100vw, 1516px" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0" loading="lazy" decoding="async"/>
     </span>따라서, 배열은 인덱스를 키로 갖고 있고, length 프로퍼티를 갖는 특수한 객체이다. 또한 자바스크립트의 배열은 일반적인 배열의 동작을 흉내 낸 특수한 객체다.</p>
 <br/>
 <p>일반적인 배열과 자바스크립트 배열의 장단점</p>
 <ul>
-<li>일반적인 배열은 인덱스로 요소에 빠르게 접근할 수 있다. 하지만 특정 요소를 검색하거나 요소를 삽입 또는 삭제하는 경우에는 효율적이지 않다.</li>
+<li>일반적인 배열은 인덱스로 요소에 빠르게 접 근할 수 있다. 하지만 특정 요소를 검색하거나 요소를 삽입 또는 삭제하는 경우에는 효율적이지 않다.</li>
 <li>자바스크립트 배열은 해시 테이블로 구현된 객체이므로 인덱스로 요소에 접근하는 경우 일반 배열보다 성능적인 면에서 느리다. 하지만 특정 요소를 검색하거나 요소를 삽입 또는 삭제하는 겨우, 일반적인 배열보다 빠른 성능을 기대할 수 있다.</li>
 </ul>
 <p>하지만, 인덱스로 접근할 때 일반적인 배열보다 느릴 수밖에 없는 구조 개선을 위해 모던 자바스크립트 엔진은 일반 객체와 구별하여 좀 더 배열처럼 동작하도록 최적화 해서 구현되었다.</p>
@@ -247,4 +249,4 @@ newObj<span class="token punctuation">.</span><span class="token function">forEa
           >
             window.___chunkMapping="{\"app\":[\"/app-21f5ec984098bafec8cf.js\"],\"component---src-pages-404-tsx\":[\"/component---src-pages-404-tsx-e6ff7ea58158b6abbdd8.js\"],\"component---src-pages-about-tsx\":[\"/component---src-pages-about-tsx-1f6a2b1b10f94192125d.js\"],\"component---src-pages-tags-tsx\":[\"/component---src-pages-tags-tsx-e18dfbfe659a147f70f2.js\"],\"component---src-templates-index-tsx\":[\"/component---src-templates-index-tsx-c2c22021eff9309636cb.js\"],\"component---src-templates-post-tsx\":[],\"component---src-templates-tags-tsx\":[\"/component---src-templates-tags-tsx-9b124370a10edcc3984a.js\"]}";
           </script>
-        <script>window.___webpackCompilationHash="d8ca4a610a142d2b3d44";</script><script src="/webpack-runtime-981399150dbdf2d34eb9.js" async></script><script src="/framework-52661bed68a218a99879.js" async></script><script src="/app-21f5ec984098bafec8cf.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
+        <script>window.___webpackCompilationHash="651254217a2016e479e2";</script><script src="/webpack-runtime-2a88b81b41d5a5634103.js" async></script><script src="/framework-52661bed68a218a99879.js" async></script><script src="/app-21f5ec984098bafec8cf.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>

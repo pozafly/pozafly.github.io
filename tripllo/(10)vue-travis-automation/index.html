@@ -138,7 +138,8 @@
 <p><a href="https://travis-ci.com/" target="_blank" rel="nofollow">https://travis-ci.com/</a> 이곳에 먼저 들어가서 github ID로 로그인을 해주자. 우측 상단에 내 아이콘을 선택하고 Setting -&gt; Repositories에 가면 무슨 프로젝트를 설정할 것인지 페이지가 나온다. 여기서 어떤 프로젝트를 CI 할 것인지 설정해 줄 수 있다. Manage repositories on GitHub 을 클릭하고, github 페이지에 들어가면,</p>
 <p><span class="gatsby-resp-image-wrapper" style="position:relative;display:block;margin-left:auto;margin-right:auto;max-width:764px">
       <span class="gatsby-resp-image-background-image" style="padding-bottom:45.4%;position:relative;bottom:0;left:0;background-image:url(&#x27;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAAsTAAALEwEAmpwYAAABNUlEQVR42pWR3VLCMBBG+yhIf5M2m6YNBdoCUhAUxisVff8X+dwUnAEGR7w4s7ttcrKz65lqjqbbo2qfYOsO08UWqZlgEGYYxvRvvFAWSLWFVAZxVkIoi1Aa+AkhEBpBciTiPJKn+JNf1e6858cZdFGinMywaBQema4lzjXmNaGb6T43RsHk6jJefXNSz+fXpdLIyICIGAXFkOLIuJo0Ic3+JhQnoaBRPz9br5DQGMPEIEwtAlkyBQYR4eEOnMvzRY5YjSDzMcsqCF1xzTLhZmoR8VzvXchRmOQoubP17g0rZvN6wHr/DrINBkHKL/O2I3WG2776XeguCD1Fu/nA7PmA+csnFrsvFO0OAdUIdYOQztCzvvtb0l7ofkR8SVYbxMUSiaPs+lxwvGTJ57Y8Bsud3xZ+A5/wFGbH2oViAAAAAElFTkSuQmCC&#x27;);background-size:cover;display:block"></span>
-  <img class="gatsby-resp-image-image" alt="travis-repo-register" title="" src="/static/676786a962ff7a95a82ec594a8d7f868/2cbcd/travis-repo-register.png" srcSet="/static/676786a962ff7a95a82ec594a8d7f868/0eb09/travis-repo-register.png 500w /static/676786a962ff7a95a82ec594a8d7f868/2cbcd/travis-repo-register.png 764w" sizes="(max-width: 764px) 100vw, 764px" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0" loading="lazy" decoding="async"/>
+  <img class="gatsby-resp-image-image" alt="travis-repo-register" title="" src="/static/676786a962ff7a95a82ec594a8d7f868/2cbcd/travis-repo-register.png" srcSet="/static/676786a962ff7a95a82ec594a8d7f868/0eb09/travis-repo-register.png 500w,
+/static/676786a962ff7a95a82ec594a8d7f868/2cbcd/travis-repo-register.png 764w" sizes="(max-width: 764px) 100vw, 764px" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0" loading="lazy" decoding="async"/>
     </span></p>
 <p>이곳에서 자신의 프로젝트를 선택해서 연동시킬 수 있다.</p>
 <br/>
@@ -160,7 +161,7 @@
       <span class="token punctuation">-</span> pozafly@kakao.com</code></pre></div>
 <ul>
 <li>language : vue 프로젝트를 설정할 것이므로, language는 node_js 형태로 빌드 한다.</li>
-<li>node_js : 버전은 자신이 설정한 것 대로 해주 면 됨</li>
+<li>node_js : 버전은 자신이 설정한 것 대로 해주면 됨</li>
 <li>branches : master 브랜치에 push 되었을 때 자동으로 돌아가게 해줌.</li>
 <li>cache : 빌드 시, node_modules가 계속 install 될 필요는 없으므로 해당 폴더를 캐시화 시켜주겠다는 말이다.</li>
 <li>script : 빌드 명령어</li>
@@ -224,7 +225,8 @@ Template execution failed: ReferenceError: VUE_APP_GOOGLE_CLIENT_ID is not defin
 <p>—pro를 붙여주자. 붙여주지 않으면,</p>
 <p><span class="gatsby-resp-image-wrapper" style="position:relative;display:block;margin-left:auto;margin-right:auto;max-width:754px">
       <span class="gatsby-resp-image-background-image" style="padding-bottom:14.2%;position:relative;bottom:0;left:0;background-image:url(&#x27;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAtUlEQVR42j2MUW6DMBBEuUoqRSqNlNjGJjiAqiAnhdooUHP/q7xu+ejH6O3OjKZY15XX8mIRfsfIPM/knMnbxk/eSGnmaxwJj4fciSidKEzSG6eJ+zDQdh0hhD0vtmUhSdB7T9s0dL6hvd3oRH+eM4a6qkQGqzVGKZzQGU1jK7y1/5lSF4rkr0y1I1Sa/nLmU8y7Vvs/GCXSxGu9d56uoldngjU8ZcyUJfXphC7f+TgeeTsc+AWKs2bN0PjGkQAAAABJRU5ErkJggg==&#x27;);background-size:cover;display:block"></span>
-  <img class="gatsby-resp-image-image" alt="travis-error-log" title="" src="/static/d63bd3b884b43d05a76c0da6013cdf92/a0d62/travis-error-log.png" srcSet="/static/d63bd3b884b43d05a76c0da6013cdf92/0eb09/travis-error-log.png 500w /static/d63bd3b884b43d05a76c0da6013cdf92/a0d62/travis-error-log.png 754w" sizes="(max-width: 754px) 100vw, 754px" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0" loading="lazy" decoding="async"/>
+  <img class="gatsby-resp-image-image" alt="travis-error-log" title="" src="/static/d63bd3b884b43d05a76c0da6013cdf92/a0d62/travis-error-log.png" srcSet="/static/d63bd3b884b43d05a76c0da6013cdf92/0eb09/travis-error-log.png 500w,
+/static/d63bd3b884b43d05a76c0da6013cdf92/a0d62/travis-error-log.png 754w" sizes="(max-width: 754px) 100vw, 754px" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0" loading="lazy" decoding="async"/>
     </span></p>
 <p>push 후 build 때, <code class="language-text">iv undefined</code> 오류가 계속 뜰 것임.</p>
 <p>그리고 —add 옵션을 붙여주면 .travis.yml 파일에 자동으로 <code class="language-text">before_install</code> 란이 생기도록 할 수 있다. build 때 install 전에 암호화한 파일을 복호화 해서 travis가 알아먹을 수 있도록 해주는 작업이다. 따라서 최종적으로는</p>
@@ -251,7 +253,9 @@ Template execution failed: ReferenceError: VUE_APP_GOOGLE_CLIENT_ID is not defin
 <p>aws s3에 접근할 수 있는 엑세스키와 비밀키는 <strong>절대절대절대절대</strong> github 에 올라가서는 안된다. 따라서 travis 상에 키를 등록해놓고 .traivs.yml에서 불러다 쓰는 형태로 진행해야 한다. (만약 github에 올라가면 aws로부터 이메일이 겁나 많이 오고 aws에 설정했던 인스턴스를 모두 삭제해야 하는 상황이 발생할 수도 있다. 한번 더 확인하세요… 아니 다섯 번) 이 방법이 아까 환경 변수 설정 방법 3가지 중 3번째 방법을 사용하는 것이라 볼 수 있다. travis.com에 가서, Settings 화면에 가자. 해당 프로젝트 우측에 Settings 를 눌러서 key를 등록할 수 있다.</p>
 <p><span class="gatsby-resp-image-wrapper" style="position:relative;display:block;margin-left:auto;margin-right:auto;max-width:1254px">
       <span class="gatsby-resp-image-background-image" style="padding-bottom:31.2%;position:relative;bottom:0;left:0;background-image:url(&#x27;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAAAsTAAALEwEAmpwYAAABAElEQVR42l2P6W6DMBCEef+36p8+QPqnCSkUQxUOcYjD+ACmnkWK0iJ9snc9OztEfd+jbVssyyJorVFVFdI0RZ7nKIpCzqZp0HWdMM/zU//KNE2IhmEQw3Ecn8KyLJEkCZRSQpZlqOsaXE5DDlL7HzGkiAZMxSYTsr7HsZgxnVKZvDMleU1I/Z+E1jkYa2GMhbUOrPW6YpqXc3MQkjX0jDFyEiszZ+3CjN82ITLzBKcXuGWGDZiwZZ1G+FVLn6cNKTjovRcTpqIJ70y27zuO8ObNikh/XuC+45PsDn+9YLt+4FAJjuwLR3rD9sjlL2TwOMBvC2loSrbQ048CP+9v+AW6/8q9T0aD7gAAAABJRU5ErkJggg==&#x27;);background-size:cover;display:block"></span>
-  <img class="gatsby-resp-image-image" alt="travis-key-register" title="" src="/static/17e17113002e6d4bbc61aebde11d2f7b/a4588/travis-key-register.png" srcSet="/static/17e17113002e6d4bbc61aebde11d2f7b/0eb09/travis-key-register.png 500w /static/17e17113002e6d4bbc61aebde11d2f7b/1263b/travis-key-register.png 1000w /static/17e17113002e6d4bbc61aebde11d2f7b/a4588/travis-key-register.png 1254w" sizes="(max-width: 1254px) 100vw, 1254px" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0" loading="lazy" decoding="async"/>
+  <img class="gatsby-resp-image-image" alt="travis-key-register" title="" src="/static/17e17113002e6d4bbc61aebde11d2f7b/a4588/travis-key-register.png" srcSet="/static/17e17113002e6d4bbc61aebde11d2f7b/0eb09/travis-key-register.png 500w,
+/static/17e17113002e6d4bbc61aebde11d2f7b/1263b/travis-key-register.png 1000w,
+/static/17e17113002e6d4bbc61aebde11d2f7b/a4588/travis-key-register.png 1254w" sizes="(max-width: 1254px) 100vw, 1254px" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0" loading="lazy" decoding="async"/>
     </span></p>
 <ul>
 <li>name : AWS_ACCESS_KEY, AWS_SECRET_KEY 두 개</li>
@@ -310,7 +314,8 @@ Template execution failed: ReferenceError: VUE_APP_GOOGLE_CLIENT_ID is not defin
 <p>이제 git push 해주면,</p>
 <p><span class="gatsby-resp-image-wrapper" style="position:relative;display:block;margin-left:auto;margin-right:auto;max-width:934px">
       <span class="gatsby-resp-image-background-image" style="padding-bottom:29.2%;position:relative;bottom:0;left:0;background-image:url(&#x27;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAAAsTAAALEwEAmpwYAAABQUlEQVR42jVR2U7DMBDM/38FDzwh/gCJShWIB4SgVKiAczhpGtu5k6ZNnKPDxiWWRrs7Hq93bCutOySVRtP2uFwmjONI8YJpmgyWfI5LPo4Tzl0P3V+185lFY6UyRH+uEIsQvu+Dc444jiGEMHWe54ab6yiKTJ6kObbfLmx+oP3C6LXWpql19/CG+9UGq9cdHPYLxhhsl8P2JZwwwT4UcB0bnuvCJTiOA+55UEqirioUZWkaLcu6XXPcrDw8bhWOVYGSBEVRoDmdydJsa4AmS3oYrrXu0LUtuq7DQNxAXEt5S9wMK44CcLZDtOd0q4KQgiCNvWi26XOwzTtC9gMRBFeOIIQ09j2aVkr1/yQClspKJFmOvKxQHxtkVQNVNohn5DWSry3cl2ewpzXizw/6wBNUcTRxrzIwHsI7KAINkZb4A9rAwZ82inDSAAAAAElFTkSuQmCC&#x27;);background-size:cover;display:block"></span>
-  <img class="gatsby-resp-image-image" alt="aws-cache-invalidation" title="" src="/static/27a660a09eef9344d4f6c8aceac5d8de/e7956/aws-cache-invalidation.png" srcSet="/static/27a660a09eef9344d4f6c8aceac5d8de/0eb09/aws-cache-invalidation.png 500w /static/27a660a09eef9344d4f6c8aceac5d8de/e7956/aws-cache-invalidation.png 934w" sizes="(max-width: 934px) 100vw, 934px" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0" loading="lazy" decoding="async"/>
+  <img class="gatsby-resp-image-image" alt="aws-cache-invalidation" title="" src="/static/27a660a09eef9344d4f6c8aceac5d8de/e7956/aws-cache-invalidation.png" srcSet="/static/27a660a09eef9344d4f6c8aceac5d8de/0eb09/aws-cache-invalidation.png 500w,
+/static/27a660a09eef9344d4f6c8aceac5d8de/e7956/aws-cache-invalidation.png 934w" sizes="(max-width: 934px) 100vw, 934px" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0" loading="lazy" decoding="async"/>
     </span></p>
 <p>요런식으로 도는걸 볼 수 있다. 완료!!</p>
 <p>.travis.yml 완성본</p>
@@ -378,4 +383,4 @@ Template execution failed: ReferenceError: VUE_APP_GOOGLE_CLIENT_ID is not defin
           >
             window.___chunkMapping="{\"app\":[\"/app-21f5ec984098bafec8cf.js\"],\"component---src-pages-404-tsx\":[\"/component---src-pages-404-tsx-e6ff7ea58158b6abbdd8.js\"],\"component---src-pages-about-tsx\":[\"/component---src-pages-about-tsx-1f6a2b1b10f94192125d.js\"],\"component---src-pages-tags-tsx\":[\"/component---src-pages-tags-tsx-e18dfbfe659a147f70f2.js\"],\"component---src-templates-index-tsx\":[\"/component---src-templates-index-tsx-c2c22021eff9309636cb.js\"],\"component---src-templates-post-tsx\":[],\"component---src-templates-tags-tsx\":[\"/component---src-templates-tags-tsx-9b124370a10edcc3984a.js\"]}";
           </script>
-        <script>window.___webpackCompilationHash="d8ca4a610a142d2b3d44";</script><script src="/webpack-runtime-981399150dbdf2d34eb9.js" async></script><script src="/framework-52661bed68a218a99879.js" async></script><script src="/app-21f5ec984098bafec8cf.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
+        <script>window.___webpackCompilationHash="651254217a2016e479e2";</script><script src="/webpack-runtime-2a88b81b41d5a5634103.js" async></script><script src="/framework-52661bed68a218a99879.js" async></script><script src="/app-21f5ec984098bafec8cf.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>

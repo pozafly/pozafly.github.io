@@ -147,7 +147,10 @@
 <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre></div>
 <p><span class="gatsby-resp-image-wrapper" style="position:relative;display:block;margin-left:auto;margin-right:auto;max-width:2000px">
       <span class="gatsby-resp-image-background-image" style="padding-bottom:75.99999999999999%;position:relative;bottom:0;left:0;background-image:url(&#x27;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAABYlAAAWJQFJUiTwAAACmklEQVR42o1US2sUQRCeg9486NXTIh48iEf/iUEP5qyCP8OAeIkgRoVAVPAkEhMJGsSIYKJIwER3k91NdjeP2d3M7mTe0z2v/qyaZF9E0Iaerprq/qa+r6pHA41U8VPhgw6Mf0lxZ7GD8U8C01vAUeT/h5ZlGUIZI3VNTK5HOPtC4uJUBeemLdxeUTlcpgbAwxN/8bUkSeD7PnRdh5QSrtlGo7qB9m4dSRyDP/jvMeCg5e6x33ASvFzVMfO1gpnvO1gzJGQY5rEoBX50gRUjw7Kh8PMQqDjAapdsU9EKdCUBpmmaU4awcW8tg/ZM4MyDIrQnPq4tUXaxyAGrdPj0DMXvV2k2cOE1cHmWAB52cGriF7THEpMl8pmm47po7u2ianh4t3mIxYqJhYqNoiH6dMI4w9J+hPlNE/MUW27FWNYF3mxYeFvqYG7Lxw4x1Hrck4QyDXyY7X0cHjThdNqIpOhrw1qmSQzLaJHOBtlJrjnvszstCM9BQmy1YWmTNENCCdmeD8sN4IWSfIWUNaRSh3GKKKYiBiFiSoABQiEhCDilOMunKTqglBqplhAhvcugsggqDeh1Mqgn7Q2CoH+Gs4yiaLTKvcZe2FMY+5xhfMHAjY8hJn4Dd78pXH9v4+aig1srwIHgOgXUm0eAnJUQA2k07sE9vQXvYB+P1kOcfxXh0lQZhecmxqjKV+diFKabKDyt48pshrpLWsqwD8iZhsetlQNyupZlodvt5gHXtlAsldBuNYkK9SHRr9dqKJfLuc0XYRggpuZn2iOU+0Ha3Gy2sL29jUajkYttOw75NdQI1KNiSRmNaMZ0T2iohtLv2fxlFp/Xnk6e58GlnmWfJwPxnpGfw4lbOQTKa48SAzJVtns+r4MOORp/AHBBZB8V6FmPAAAAAElFTkSuQmCC&#x27;);background-size:cover;display:block"></span>
-  <img class="gatsby-resp-image-image" alt="variable-address" title="" src="/static/d774763549443ce8a41c5da91484cc5b/f97d7/variable-address.png" srcSet="/static/d774763549443ce8a41c5da91484cc5b/0eb09/variable-address.png 500w /static/d774763549443ce8a41c5da91484cc5b/1263b/variable-address.png 1000w /static/d774763549443ce8a41c5da91484cc5b/f97d7/variable-address.png 2000w /static/d774763549443ce8a41c5da91484cc5b/42d3e/variable-address.png 2314w" sizes="(max-width: 2000px) 100vw, 2000px" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0" loading="lazy" decoding="async"/>
+  <img class="gatsby-resp-image-image" alt="variable-address" title="" src="/static/d774763549443ce8a41c5da91484cc5b/f97d7/variable-address.png" srcSet="/static/d774763549443ce8a41c5da91484cc5b/0eb09/variable-address.png 500w,
+/static/d774763549443ce8a41c5da91484cc5b/1263b/variable-address.png 1000w,
+/static/d774763549443ce8a41c5da91484cc5b/f97d7/variable-address.png 2000w,
+/static/d774763549443ce8a41c5da91484cc5b/42d3e/variable-address.png 2314w" sizes="(max-width: 2000px) 100vw, 2000px" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0" loading="lazy" decoding="async"/>
     </span></p>
 <p>(Note : 코어 자바스크립트 책의 그림을 다시 그렸습니다.)</p>
 <ol>
@@ -171,7 +174,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <li>이후, 20을 재할당할 때, 10이 저장되어 있는 메모리 공간을 그대로 두고, 20을 저장하는 메모리 공간을 추가로 확보 후 저장한다.</li>
 <li>그리고 그 공간의 주소를 a가 저장한다.</li>
 </ul>
-<p>흔히 사람의   입장에서는 10이 저장되어 있는 메모리 공간에 10을 삭제하고 20을 집어 넣는 것을 생각한다. 하지만 자바스크립트는 값을 새로 생성하고 주소를 수정해주었다. 즉, 기본형 타입은 새로 생성 되었고 변경되지 않았다. (10이라는 값은 추후 GC가 수집하여 없어질 것임.)</p>
+<p>흔히 사람의 입장에서는 10이 저장되어 있는 메모리 공간에 10을 삭제하고 20을 집어 넣는 것을 생각한다. 하지만 자바스크립트는 값을 새로 생성하고 주소를 수정해주었다. 즉, 기본형 타입은 새로 생성 되었고 변경되지 않았다. (10이라는 값은 추후 GC가 수집하여 없어질 것임.)</p>
 <p>하지만 레퍼런스 타입은 다르다.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span>
    <span class="token literal-property property">a</span><span class="token operator">:</span> <span class="token number">10</span><span class="token punctuation">,</span>
@@ -334,7 +337,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
     </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span><span class="token plain-text">
   </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
 <span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
-<p>b.c 프로퍼티에 ‘def’를 재할당했다. 하지만 setState를 사용했음에도 화면은 변하지 않는다. 이유는 react에서 상태값을 비교할 때 ‘얕은 비교’ 를 사용하기 때문이다. obj는 새로 만들어진 객체가 아니라, 상태값을 선언할 때 이미 만들어져있었던 obj를 다시 setState 함수에 넣어주었고, obj와 b.c프로퍼티가 변경된 obj는 서로 같은 주소를 가지고 있기 때문에 react 입장에서 동일한 객체라 인식하고 업데이트 하지 않은 것이다.</p>
+<p>b.c 프로퍼티에 ‘def’를 재할당했다. 하지만 setState를 사용했음에도 화면은 변하지 않는다. 이유는 react에서   상태값을 비교할 때 ‘얕은 비교’ 를 사용하기 때문이다. obj는 새로 만들어진 객체가 아니라, 상태값을 선언할 때 이미 만들어져있었던 obj를 다시 setState 함수에 넣어주었고, obj와 b.c프로퍼티가 변경된 obj는 서로 같은 주소를 가지고 있기 때문에 react 입장에서 동일한 객체라 인식하고 업데이트 하지 않은 것이다.</p>
 <p>react는 상태를 비교할 때 <code class="language-text">Object.is()</code> 를 사용한다. Object.is 메서드는 동등 비교(<code class="language-text">===</code>) 연산자와 비슷한 역할을 하는데, 0의 부호가 다른 것을 구분하며, Number.NaN과 NaN을 같지 않은 것으로 판단하는 것 외에는 동일하다. <a href="https://blog.logrocket.com/a-guide-to-usestate-in-react-ecb9952e406c/" target="_blank" rel="nofollow">useState in React: A complete guide</a></p>
 <p>그렇다면 주소를 변경한 Object를 넣어주자.</p>
 <div class="gatsby-highlight" data-language="jsx"><pre class="language-jsx"><code class="language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span>
@@ -425,4 +428,4 @@ Vue도 react와 마찬가지로 props와 상태값(data)을 변경하면 DOM을 
           >
             window.___chunkMapping="{\"app\":[\"/app-21f5ec984098bafec8cf.js\"],\"component---src-pages-404-tsx\":[\"/component---src-pages-404-tsx-e6ff7ea58158b6abbdd8.js\"],\"component---src-pages-about-tsx\":[\"/component---src-pages-about-tsx-1f6a2b1b10f94192125d.js\"],\"component---src-pages-tags-tsx\":[\"/component---src-pages-tags-tsx-e18dfbfe659a147f70f2.js\"],\"component---src-templates-index-tsx\":[\"/component---src-templates-index-tsx-c2c22021eff9309636cb.js\"],\"component---src-templates-post-tsx\":[],\"component---src-templates-tags-tsx\":[\"/component---src-templates-tags-tsx-9b124370a10edcc3984a.js\"]}";
           </script>
-        <script>window.___webpackCompilationHash="d8ca4a610a142d2b3d44";</script><script src="/webpack-runtime-981399150dbdf2d34eb9.js" async></script><script src="/framework-52661bed68a218a99879.js" async></script><script src="/app-21f5ec984098bafec8cf.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
+        <script>window.___webpackCompilationHash="651254217a2016e479e2";</script><script src="/webpack-runtime-2a88b81b41d5a5634103.js" async></script><script src="/framework-52661bed68a218a99879.js" async></script><script src="/app-21f5ec984098bafec8cf.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
