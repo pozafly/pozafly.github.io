@@ -129,6 +129,12 @@
 <p>그렇다면 import 모듈 대상을 종류별로 묶어 순서를 맞춰줄 수도 있고, 개행 규칙 등을 정해서 좀 더 깔끔하게 만들 수 있다. 규칙을 가지고 import 구문이 정리된다면, 해당 파일에서는 어떤 종속성을 가지고 있고 어떤 기능을 사용하는지 한 눈에 파악하기 쉬울 것이다. 하지만, 이런 규칙을 만들었다고 해서 문제가 해결된 것은 아니다. 개발자가 일일이 import 구문을 타이핑한다면 규칙 문서를 확인하고 규칙에 맞게 정렬 및 수정을 따로 해주어야 해서 생산성에 문제가 생길 가능성이 농후하다.</p>
 <p>이를 개발자가 타이핑하여 관리하지 않고 자동화한다면, 생산성 면에서 그리고 코드 가독성 면에서 좋을 것이다. 그 부분을 ESLint를 통해 자동화할 수 있다. 자동화한다면 얻게 되는 이점이 하나 더 있다. 협업을 할 경우 특정 규칙이 강제 되어 있다면 코드 리뷰 시, Git Diff가 생기지 않는 효과도 함께 가져갈 수 있다. 예를 들어, 특정 라이브러리에서 가져온 변수가 필요 없다고 생각해서 지우고, 다시 생각해 봤더니 필요해서 import 한 경우다. 이런 경우 import 구문의 순서가 바뀔 수 있으며, 순서가 바뀌어도 Diff가 생기게 되는데 순서 규칙이 존재하면 순서에 따라 변수가 정렬되기 때문에 Diff가 생기지 않도록 방지할 수 있다.</p>
 <p>따라서, 이번 포스팅은 ESLint 규칙 및 ESLint 플러그인을 사용해 import 문을 사용하는 데 몇 가지 규칙을 지정해 볼 것이다.</p>
+<p>아래의 글을 읽으면 import 문에 아래의 규칙을 지정할 수 있게 된다. 그리고 VSCode의 자동완성과, ESLint의 cli에서 <code class="language-text">--fix</code> 옵션을 사용해 규칙을 자동화 할 수 있게 된다.</p>
+<ul>
+<li>확장자를 반드시 포함시키기</li>
+<li>상대 경로 대신 절대 경로(모듈 별칭) 사용하기</li>
+<li>그룹에 맞게 순서 맞추기</li>
+</ul>
 <br/>
 <h2 id="eslint-plugin-import" style="position:relative">eslint-plugin-import<a href="#eslint-plugin-import" aria-label="eslint plugin import permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
 <p><a href="https://github.com/import-js/eslint-plugin-import" target="_blank" rel="nofollow">eslint-plugin-import</a>는 JavaScript 프로젝트에서 모듈과 <code class="language-text">import</code> 문에 관련된 다양한 규칙을 검사하는 ESLint 플러그인이다. 주로 모듈 시스템과 <code class="language-text">import/export</code> 문을 사용하는 환경에서 코드 품질과 가독성을 향상시키기 위해 사용된다.</p>
@@ -168,8 +174,8 @@
   <img class="gatsby-resp-image-image" alt="extension-error" title="" src="/static/55a4d4f7fcdd3afe84bc436c9baa6f2e/51f47/extension-error.png" srcSet="/static/55a4d4f7fcdd3afe84bc436c9baa6f2e/0eb09/extension-error.png 500w,
 /static/55a4d4f7fcdd3afe84bc436c9baa6f2e/51f47/extension-error.png 892w" sizes="(max-width: 892px) 100vw, 892px" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0" loading="lazy" decoding="async"/>
     </span></p>
-<p>확장자를 명시하지 않은 import 구문에 에러가 발생한다. 확장자를 붙여 에러를 없애주면 성공이다. 아쉽지만 <code class="language-text">import/extensions</code>는 fix 옵션이 존재하지 않기 때문에 수동으로 고쳐줄 수밖에 없다. 폴더에 <code class="language-text">a.js</code>, <code class="language-text">a.json</code> 과같이 확장자가 여러 개일 가능성이 있기 때문에 fix 옵션이 존재하지 않는 듯하다.</p>
-<p>VSCode를 사용하는 경우, import 대상에서 자동완성을 해주고 있는데, 자동완성을 통해 import 하면 확장자가 포함되지 않는 경우가 있을 수 있다.</p>
+<p>확장자를 명시하지 않은 import 구문에 에러가 발생한다. 확장자를 붙여 에러를 없애주면 성공이다. 아쉽지만 <code class="language-text">import/extensions</code>는 fix 옵션이 존재하지 않기 때문에 수동으로 고쳐줄 수밖에 없다. 폴더에 <code class="language-text">a.js</code>, <code class="language-text">a.json</code> 과같이 확장자가 여러 개일 가능성이 있기 때문에 fix 옵션이 존재하지 않는다.</p>
+<p>VSCode를 사용하는 경우, import 대상에서 자동완성을 해주고 있는데, 자동완성을 통해 import 하면 확장자가 포함되지 않는 경우가 있을 수 있다. (따로 설정하지 않았다면 자동완성 단축키는 맥에서 <code class="language-text">⌘(command) + I</code> 이다)</p>
 <p><span class="gatsby-resp-image-wrapper" style="position:relative;display:block;margin-left:auto;margin-right:auto;max-width:1998px">
       <span class="gatsby-resp-image-background-image" style="padding-bottom:14.399999999999999%;position:relative;bottom:0;left:0;background-image:url(&#x27;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAq0lEQVR42j2NWQ6CQBBEOYhRws7MsM2wgxoRFGMMfhnvf5GymRg+Xqoqnbw2puGFrp+h2htYUkBkFSJZU5Y6Y9VspGkB/oclOcJYadYeRBJOGMOoqhPy+xf1+IakztIKnKSCZEV3QdkPmvY8oZQ5eKKInB4WJJMkyjQui2EHAoZqZkTHJ8blg+tjgcMz7EwHe9uH7XNYHtMSWbbwRAqPJ5vEovvBCWC6oWbdP2zdXr5jln3CAAAAAElFTkSuQmCC&#x27;);background-size:cover;display:block"></span>
   <img class="gatsby-resp-image-image" alt="not-extension" title="" src="/static/dc98b0ee099caa60c1bc4edfd0fe888c/725bf/not-extension.png" srcSet="/static/dc98b0ee099caa60c1bc4edfd0fe888c/0eb09/not-extension.png 500w,
