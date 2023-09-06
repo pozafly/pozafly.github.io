@@ -150,7 +150,6 @@ const PostCardLarge = css`
   @media (min-width: 795px) {
     flex: 1 1 100%;
     flex-direction: row;
-    padding-bottom: 40px;
     min-height: 280px;
     border-top: 0;
 

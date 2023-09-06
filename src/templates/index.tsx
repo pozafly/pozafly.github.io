@@ -213,7 +213,7 @@ const HomePosts = css`
     .post-card-large {
       flex: 1 1 100%;
       flex-direction: row;
-      padding-bottom: 40px;
+      margin-bottom: 100px;
       min-height: 280px;
       border-top: 0;
     }
