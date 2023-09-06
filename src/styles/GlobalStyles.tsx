@@ -146,6 +146,8 @@ export default function GlobalStyles() {
             --prism-background: hsl(0, 0%, 90.66%);
             --prism-border-left: hsl(0, 0%, 82.88%);
             --about-box-shadow: 10px 10px 30px #bebebe, -10px -10px 30px #ffffff;
+            --post-card-opacity: 0;
+            --post-card-background: rgba(0, 0, 0, 0.1);
           }
           &.dark {
             --body-color: rgba(255, 255, 255, 0.75);
@@ -197,6 +199,8 @@ export default function GlobalStyles() {
             --prism-background: rgb(0 0 0 / 40%);
             --prism-border-left: #818181;
             --about-box-shadow: 10px 20px 20px hsla(230, 4%, 8%, 30%);
+            --post-card-opacity: 0.6;
+            --post-card-background: rgba(0, 0, 0, 0.3);
           }
         }
 
