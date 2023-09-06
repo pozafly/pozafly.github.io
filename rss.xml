@@ -1,4 +1,377 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[Pozafly Blog]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 06 Sep 2023 01:20:24 GMT</lastBuildDate><item><title><![CDATA[GitHub Actions 캐시 조금 더 다뤄보기 (feat. restore-keys)]]></title><description><![CDATA[…]]></description><link>https://pozafly.github.io/dev-ops/cache-and-restore-keys-in-github-actions/</link><guid isPermaLink="false">https://pozafly.github.io/dev-ops/cache-and-restore-keys-in-github-actions/</guid><pubDate>Tue, 22 Aug 2023 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;컴퓨터는 캐시를 활용해 가까운 곳에서 데이터를 전달받거나, 이미 생산된 데이터를 만들기 위해 똑같은 작업을 반복하지 않아도 만들어둔 데이터를 캐시에서 꺼내 쓸 수 있다. 캐시에 저장된 데이터를 사용해 반복 작업으로부터 벗어나면 그만큼 기다려야 하는 시간을 벌 수 있다.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[Pozafly Blog]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 06 Sep 2023 02:15:08 GMT</lastBuildDate><item><title><![CDATA[ESLint로 import 구문에 규칙 넣기]]></title><description><![CDATA[프로젝트를 진행하다 보면 하나의 파일에 import 대상이 많아질 때가 있다. import문이 많으면 어떤 모듈이 import 되었는지 파악하기가 쉽지 않고 지저분해보인다.  위의 사진은 Next.js 프로젝트의  파일의 import…]]></description><link>https://pozafly.github.io/environment/putting-rules-into-import-syntax-with-eslint/</link><guid isPermaLink="false">https://pozafly.github.io/environment/putting-rules-into-import-syntax-with-eslint/</guid><pubDate>Wed, 06 Sep 2023 00:00:00 GMT</pubDate><content:encoded>&lt;br/&gt;
+&lt;p&gt;프로젝트를 진행하다 보면 하나의 파일에 import 대상이 많아질 때가 있다. import문이 많으면 어떤 모듈이 import 되었는지 파악하기가 쉽지 않고 지저분해보인다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1594px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 49%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB6ElEQVR42l1S6XKbMBjkWWrHmENCgISEuA9jjBPX42ba93+S7Qdp3KY/djRCYr895JxkgSKr0I0L5rcH6n5GU49ouhl5f0UxXBGlBspU4MoiClNEwiCUFdxQwE8TMC0RZCm8JIHTJgbZSnhaULYTcl3BlgNUMYClFgEReFzBjTJ4QmPvRzjwiPYRjiKGywX2HsfuwLA7MiKMDYS0kKRAyxxp3kHVE9Kih8hq+IEgQklkGXxSdqD9SuLFyUZ4jGK8BNFGusLpyh551W8Xvx0CmsKfh9vkFTR5T9i57O/Z8fP71/tO2Z8xvz5QDRdI25JNQ7YEXsja3qcf/JAUcNrTD8EHyc4Nn2S7P4O2YcdVIZViyxH99R3j8kBz/g473pDIEsoWUMOEbBghihqirBFSrkzV8CK9WfZl8lEIlbNG4XRUSlkPGC5vKCnHwrRQ7YKsWWC6G/LpHap5Bc8aQovIdOC6RZBYuEzgQNhWanzN0qljDalr6G6hMmaockJsR8JAKhRlS8FTKZ9Ym3ZpdVn6T5b8maUzUsOMnkRazUR6gxnuyMY7NK3C9Js9Rm2v6phcrRpSVxCxIdLkSyEb4VlRTqah/O5o6FEX9AYtqczJcj79QDH/RHn5haQ8QVCmPNfg1oAZvdn8n/A3xjBBDTHBc+kAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;first-import&quot;
+        title=&quot;&quot;
+        src=&quot;/static/2b19521db7d830bee317ffe39e510533/dc4d2/first-import.png&quot;
+        srcset=&quot;/static/2b19521db7d830bee317ffe39e510533/0eb09/first-import.png 500w,
+/static/2b19521db7d830bee317ffe39e510533/1263b/first-import.png 1000w,
+/static/2b19521db7d830bee317ffe39e510533/dc4d2/first-import.png 1594w&quot;
+        sizes=&quot;(max-width: 1594px) 100vw, 1594px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;위의 사진은 Next.js 프로젝트의 &lt;code class=&quot;language-text&quot;&gt;_app.tsx&lt;/code&gt; 파일의 import 구문이다. 어떤 부분은 상대 경로를 사용했고, 어떤 부분은 절대 경로를 사용했다. 어떤 부분은 확장자를 사용하지 않았다. 어떤 기준에 의해 순서도 맞춰지지 않아서, import 구문이 이렇게 길 경우 어떤 종속성이 생기는지 한 눈에 파악하기 쉽지 않다.&lt;/p&gt;
+&lt;p&gt;그렇다면 import 모듈 대상을 종류 별로 묶어 순서를 맞춰줄 수도 있고, 개행 규칙 등을 정해서 좀 더 깔끔하게 만들 수 있다. 규칙을 가지고 import 구문이 정리 된다면, 해당 파일에서는 어떤 종속성을 가지고 있고 어떤 기능을 사용하는지 한 눈에 파악하기 쉬울 것이다. 하지만, 이런 규칙을 만들었다고 해서 문제가 해결된 것은 아니다. 개발자가 일일이 import 구문을 타이핑 한다면 규칙 문서를 확인하고 규칙에 맞게 정렬 및 수정을 따로 해주어야 해서 생산성에 문제가 생길 가능성이 농후하다.&lt;/p&gt;
+&lt;p&gt;이를 개발자가 타이핑하여 관리하지 않고 자동화 시킨다면, 생산성 면에서 그리고 코드 가독성 면에서 좋을 것이다. 그 부분을 ESLint를 통해 자동화 할 수 있다. 자동화 한다면 얻게되는 이점이 하나 더 있다. 협업을 할 경우 특정 규칙이 강제 되어 있다면 코드 리뷰 시, Git Diff가 생기지 않는 효과도 함께 가져갈 수 있다. 예를 들어, 특정 라이브러리에서 가져온 변수가 필요 없다고 생각해서 지우고, 다시 생각해봤더니 필요해서 import 한 경우다. 이런 경우 import 구문의 순서가 바뀔 수 있으며, 순서가 바뀌어도 Diff가 생기게 되는데 순서 규칙이 존재하면 순서에 따라 변수가 정렬되기 때문에 Diff가 생기지 않도록 방지할 수 있다.&lt;/p&gt;
+&lt;p&gt;따라서, 이번 포스팅은 ESLint 규칙 및 ESLint 플러그인을 사용해 import문을 사용하는데 몇 가지 규칙을 지정해볼 것이다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;eslint-plugin-import&quot; style=&quot;position:relative;&quot;&gt;eslint-plugin-import&lt;a href=&quot;#eslint-plugin-import&quot; aria-label=&quot;eslint plugin import permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/import-js/eslint-plugin-import&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;eslint-plugin-import&lt;/a&gt;는 JavaScript 프로젝트에서 모듈과 &lt;code class=&quot;language-text&quot;&gt;import&lt;/code&gt; 문에 관련된 다양한 규칙을 검사하는 ESLint 플러그인이다. 주로 모듈 시스템과 &lt;code class=&quot;language-text&quot;&gt;import/export&lt;/code&gt; 문을 사용하는 환경에서 코드 품질과 가독성을 향상시키기 위해 사용된다.&lt;/p&gt;
+&lt;p&gt;플러그인을 사용하면 코드베이스에서 모듈과 &lt;code class=&quot;language-text&quot;&gt;import&lt;/code&gt; 문을 더 통일된 규칙을 강제하여 작성하도록 도와준다. 코드의 가독성을 향상시키고 잠재적인 오류를 사전에 방지하는 데 도움이 된다.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://eslint.org/blog/2022/02/paying-contributors-sponsoring-projects/#supporting-the-community&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;ESLint의 공식 블로그&lt;/a&gt;에 따르면, &lt;code class=&quot;language-text&quot;&gt;typescript-eslint&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;eslint-plugin-import&lt;/code&gt; 등 ESLint 관련 플러그인을 후원하고 있는 것을 볼 수 있다. 이는 커뮤니티 플러그인인데, ESLint에서 공식적으로 만든 플러그인이 아니라 커뮤니티 플러그인이다. eslint-plugin-import 또한 마찬가지로 ESLint의 공식 플러그인이 아니지만, ESLint 팀에서 인정한 플러그인이라는 뜻으로 볼 수 있다.&lt;/p&gt;
+&lt;p&gt;아래에서 알아볼 규칙은, &lt;code class=&quot;language-text&quot;&gt;eslint-plugin-import&lt;/code&gt;에서 가져와 사용하는 것도 있으며, &lt;a href=&quot;https://eslint.org/docs/latest/rules/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;ESLint 공식 규칙&lt;/a&gt;에서 사용하는 것도 있다. &lt;code class=&quot;language-text&quot;&gt;eslint-plugin-import&lt;/code&gt;는 단순히 공식 규칙에서 제공하지 않는 규칙을 추가할 플러그인일 뿐이다.&lt;/p&gt;
+&lt;p&gt;설치는 아래와 같다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; i &lt;span class=&quot;token parameter variable&quot;&gt;-D&lt;/span&gt; eslint-plugin-import&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// .eslintrc.json&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token string-property property&quot;&gt;&quot;plugins&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;import&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;확장자를-반드시-포함시키기&quot; style=&quot;position:relative;&quot;&gt;확장자를 반드시 포함시키기&lt;a href=&quot;#%ED%99%95%EC%9E%A5%EC%9E%90%EB%A5%BC-%EB%B0%98%EB%93%9C%EC%8B%9C-%ED%8F%AC%ED%95%A8%EC%8B%9C%ED%82%A4%EA%B8%B0&quot; aria-label=&quot;확장자를 반드시 포함시키기 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;TypeScript 5버전부터 확장자 명시를 권장하고 있다. &lt;a href=&quot;https://pozafly.github.io/typescript/typescript-env/#allowImportingTsExtensions-TypeScript-version-5-%EB%B6%80%ED%84%B0&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;TypeScript-allowImportingTsExtensions&lt;/a&gt;에서 자세히 설명했지만, 이는 Node.js의 모듈 관련 히스토리와 연관이 있다.&lt;/p&gt;
+&lt;p&gt;가볍게 짚고 넘어가보자. TypeScript 컴파일러인 &lt;code class=&quot;language-text&quot;&gt;tsc&lt;/code&gt; 는 Node.js 환경에서 동작하며, Node.js는 CommonJS 모듈을 사용한다. CommonJS는 모듈을 불러올 때 확장자를 생략해도 불러올 수 있다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; some &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;./some&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Node.js 창시자인 Ryan Dahl도 &lt;a href=&quot;https://www.youtube.com/watch?v=M3BM9TB-8yA&amp;#x26;t=835s&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;해당 동영상&lt;/a&gt;에서 &lt;code class=&quot;language-text&quot;&gt;require&lt;/code&gt;을 사용해 모듈을 불러올 때 확장자를 생략해도 불러오는 것을 후회한다고 했다. 이는 ESM을 사용하는 브라우저에서는 동작하지 않기 때문이다. 점차 ESM이 활성화 되어감에 따라 TypeScript에서도 &lt;code class=&quot;language-text&quot;&gt;ts&lt;/code&gt; 확장자를 사용할 수 있게 만든 컴파일 옵션이 바로 &lt;code class=&quot;language-text&quot;&gt;allowImportingTsExtensions&lt;/code&gt; 였다.&lt;/p&gt;
+&lt;p&gt;IDE 상의 프로젝트에서는 확장자를 사용하지 않아도 webpack으로 빌드도 되고 tsc로 타입 체킹도 된다. &lt;code class=&quot;language-text&quot;&gt;allowImportingTsExtensions&lt;/code&gt; 옵션은 확장자를 사용할 수 있게 만들어주는 TypeScript의 옵션이었기 때문이다. (강제하지 않는다)&lt;/p&gt;
+&lt;p&gt;따라서, TypeScript가 &lt;code class=&quot;language-text&quot;&gt;allowImportingTsExtensions&lt;/code&gt; 옵션을 추가해준 것 같이 앞으로 ESM 방식으로 확장자를 붙일 것인데 이를 eslint-plugin-import를 사용해 강제할 수 있다. &lt;a href=&quot;https://github.com/import-js/eslint-plugin-import/blob/v2.28.1/docs/rules/extensions.md&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;(공식 문서)&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token property&quot;&gt;&quot;rules&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;import/extensions&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&amp;lt;severity&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;never&quot;&lt;/span&gt; | &lt;span class=&quot;token string&quot;&gt;&quot;always&quot;&lt;/span&gt; | &lt;span class=&quot;token string&quot;&gt;&quot;ignorePackages&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;severity&lt;/code&gt;에는 &lt;code class=&quot;language-text&quot;&gt;error&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;warn&lt;/code&gt; 등의 엄격도가 들어간다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;never : 확장자 사용을 금지한다. 확장자가 붙어 &lt;strong&gt;있다면&lt;/strong&gt; 에러.&lt;/li&gt;
+&lt;li&gt;always : 모든 구문에 확장자를 사용해야 한다. 확장자가 붙어있지 &lt;strong&gt;않다면&lt;/strong&gt; 에러.&lt;/li&gt;
+&lt;li&gt;ignorePackages : &lt;strong&gt;라이브러리 패키지 구문을 제외하고&lt;/strong&gt; 확장자를 사용해야 한다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;우리의 목적은 확장자를 반드시 명시하기 위해 플러그인을 사용할 것이기 때문에, &lt;code class=&quot;language-text&quot;&gt;ignorePackages&lt;/code&gt; 를 사용하도록 한다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token property&quot;&gt;&quot;rules&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;import/extensions&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;error&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;ignorePackages&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 892px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 16%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAt0lEQVR42h2O25KCMBBE+ZndB1lFMCHcA0FI1lJWUf//U86OPEz19Ez1qY5Uogi6QR9zmmFm+l1w4YYRb1NDUo7o4UbWBrJ6RtmL+IXc/aH6K8X83H57YXzHR6JP8FFaiqzgoNsNeFlWDllFpyqqU0k3rQwStOc7/bxuOvo3Y3jj5O78i8YKNM2JdKK5mk4aakzd0zqPUSWttCtMT5DQJIDgn9v48wOta3Y/GfH+JJoSy/7xX7uEf8ZYZtbnYvPlAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;extension-error&quot;
+        title=&quot;&quot;
+        src=&quot;/static/55a4d4f7fcdd3afe84bc436c9baa6f2e/51f47/extension-error.png&quot;
+        srcset=&quot;/static/55a4d4f7fcdd3afe84bc436c9baa6f2e/0eb09/extension-error.png 500w,
+/static/55a4d4f7fcdd3afe84bc436c9baa6f2e/51f47/extension-error.png 892w&quot;
+        sizes=&quot;(max-width: 892px) 100vw, 892px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;확장자를 명시하지 않은 import 구문에 에러가 발생한다. 확장자를 붙여 에러를 없애주면 성공이다. 아쉽지만 &lt;code class=&quot;language-text&quot;&gt;import/extensions&lt;/code&gt;는 fix 옵션이 존재하지 않기 때문에 수동으로 고쳐줄 수 밖에 없다. 폴더에 &lt;code class=&quot;language-text&quot;&gt;a.js&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;a.json&lt;/code&gt; 과 같이 확장자가 여러 개일 가능성이 있기 때문에 fix 옵션이 존재하지 않는 듯 하다.&lt;/p&gt;
+&lt;p&gt;VSCode를 사용하는 경우, import 대상에서 자동완성을 해주고 있는데, 자동완성을 통해 import 하면 확장자가 포함되지 않는 경우가 있을 수 있다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1998px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 14.399999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAq0lEQVR42j2NWQ6CQBBEOYhRws7MsM2wgxoRFGMMfhnvf5GymRg+Xqoqnbw2puGFrp+h2htYUkBkFSJZU5Y6Y9VspGkB/oclOcJYadYeRBJOGMOoqhPy+xf1+IakztIKnKSCZEV3QdkPmvY8oZQ5eKKInB4WJJMkyjQui2EHAoZqZkTHJ8blg+tjgcMz7EwHe9uH7XNYHtMSWbbwRAqPJ5vEovvBCWC6oWbdP2zdXr5jln3CAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;not-extension&quot;
+        title=&quot;&quot;
+        src=&quot;/static/dc98b0ee099caa60c1bc4edfd0fe888c/725bf/not-extension.png&quot;
+        srcset=&quot;/static/dc98b0ee099caa60c1bc4edfd0fe888c/0eb09/not-extension.png 500w,
+/static/dc98b0ee099caa60c1bc4edfd0fe888c/1263b/not-extension.png 1000w,
+/static/dc98b0ee099caa60c1bc4edfd0fe888c/725bf/not-extension.png 1998w&quot;
+        sizes=&quot;(max-width: 1998px) 100vw, 1998px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;그러면, VSCode 설정에서 이를 바꿔줄 수 있다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 962px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 60.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAABYlAAAWJQFJUiTwAAACKElEQVR42oWS13LbQAxF+SF5iCyqsJNa1mXvokQX2ZZTJjOZyf//ww0IO47f/HAGwBKLBYGr2CJGVvVIyw5J0cILU2T1AElxnDcIZImiGTmnHs5oxxlVf0JNtMdblN2R7Mx3dqYHZSlwnC9oxjPDCXSpo+SGCiwXp9tHDOd75M1AF3vIomG7NBFlFVtJzeytAxTTiyDigjrL2ErqJMwaiKSAn5SI8hZBWiMkdCfAamdB1RysP7K3GO5wfyjQPfyGKGZoQcvoQQc9fEX74JvxACsZmSW25QQj6rA1PO6OC+68HHJ4huZXWNspthRv3IzI2X+N/5G9E1QzyunK31XNfkfZuzFyGmiYZNgbNtY7Here+BRHRIhkDs2L4QQp3CAhJJSNmyBpJsh6xNpwaUYmzeNzVlsDX75u4CUNLeyC6e6Rl6dEhxh/LlfcNz06ESI8RDD9DJaQRPoG+X76PybffstxkxZpNdC2a960UlOBX+MJL6Slb02HOpRwKMmXLb9+IOunHfk1BPlLfKBzN6743PBL3vpGd15nuLVCHAcSal5iosKLDjsqHuc16fDEmrNpXnU/wY8zhCT0Zebn+yckeYWvmsfSUTWSDhekGY4P39HSHNrThX9jawmsdRc724eqe+yrJI2tKfibRnp0goztjRFgQ7NfOlxQ7DDH8eEHuvmK5vQEkXVo52f0dy+Q7Rn97ZUee8Lp8SfHN6aPlS64s5UhoFLMBd/4Cx9cixLv0IaUAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;vscode-extension-setting&quot;
+        title=&quot;&quot;
+        src=&quot;/static/bc4e1bf18901eb1de4475c02e9e1192f/ef0cc/vscode-extension-setting.png&quot;
+        srcset=&quot;/static/bc4e1bf18901eb1de4475c02e9e1192f/0eb09/vscode-extension-setting.png 500w,
+/static/bc4e1bf18901eb1de4475c02e9e1192f/ef0cc/vscode-extension-setting.png 962w&quot;
+        sizes=&quot;(max-width: 962px) 100vw, 962px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Import Module Specifier Ending 옵션에서 &lt;code class=&quot;language-text&quot;&gt;.js / .ts&lt;/code&gt;를 선택하면 자동완성으로 import 할 경우 자동으로 확장자를 붙여준다. JavaScript, TypeScript 설정 모두 있으니 잘 보고 설정하자.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;no-restricted-imports절대-경로-막기&quot; style=&quot;position:relative;&quot;&gt;no-restricted-imports(절대 경로 막기)&lt;a href=&quot;#no-restricted-imports%EC%A0%88%EB%8C%80-%EA%B2%BD%EB%A1%9C-%EB%A7%89%EA%B8%B0&quot; aria-label=&quot;no restricted imports절대 경로 막기 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;프론트엔드 프레임워크에서 모듈 별칭(module-aliases)를 사용하면 상대 경로 대신, 절대 경로를 사용할 수 있다. 상대 경로를 사용하면 import 할 때 &lt;code class=&quot;language-text&quot;&gt;../../&lt;/code&gt; 와 같은 prefix가 매우 길어질 수 있으며, 가져오고자 하는 모듈 import 구문을 복사해 다른 파일에 붙여넣기 할 때 상대 경로로 다시 지정해주어야 하기 때문에 번거롭다. 따라서 절대 경로를 사용하는 것이 좋은 방법이다. 또, 주로 코드를 &lt;code class=&quot;language-text&quot;&gt;src&lt;/code&gt; 파일 밑에서 작업하기 때문에 절대 경로 상 앞부분을 제외 하고 &lt;code class=&quot;language-text&quot;&gt;@&lt;/code&gt; 와 같은 것으로 alias를 지정해서 사용하곤 한다.&lt;/p&gt;
+&lt;p&gt;예를 들면 Next.js 같은 경우 &lt;code class=&quot;language-text&quot;&gt;create-next-app&lt;/code&gt; 을 통해 프로젝트를 생성할 때, 모듈 별칭을 사용하면 절대 경로를 처음에 지정해줄 수 있다. 만약, 처음에 지정하지 않았다면 &lt;code class=&quot;language-text&quot;&gt;tsconfig.json&lt;/code&gt; 파일에서 아래와 같이 지정해줄 수 있다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;compilerOptions&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;paths&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token property&quot;&gt;&quot;@/*&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;./src/*&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;하지만, 이렇게 지정해준다고 해도, 여전히 상대 경로를 사용할 수 있다. 이 부분도 모두 절대 경로가 아니면 ESLint 오류가 나도록 설정해줄 수 있다. 이번에는 &lt;code class=&quot;language-text&quot;&gt;eslint-plugin-import&lt;/code&gt; 플러그인에 있는 기능은 아니다. 해당 플러그인에는 이 기능이 없고, &lt;a href=&quot;https://eslint.org/docs/latest/rules/no-restricted-imports&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;ESLint 공식 rule&lt;/a&gt;에 존재한다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token property&quot;&gt;&quot;rules&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;no-restricted-imports&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;token string&quot;&gt;&quot;error&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token property&quot;&gt;&quot;patterns&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;.*&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;사실, no-restricted-imports 규칙은, 특정 경로를 막는 방법이다. 상대 경로와는 상관 없는 규칙이다. 하지만, &lt;a href=&quot;https://stackoverflow.com/questions/65670432/eslint-only-allow-absolute-import-paths-not-relative&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;stackoverflow&lt;/a&gt;에서 말하길, patterns에서 경로 전체를 막고 모듈 별칭을 사용하면 막히지 않도록 설정할 수 있다.&lt;/p&gt;
+&lt;p&gt;no-restricted-imports을 patterns를 통해 사용하고 싶지 않다면, &lt;a href=&quot;https://www.npmjs.com/package/eslint-plugin-absolute-imports&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;eslint-plugin-absolute-imports&lt;/a&gt;를 사용해도 된다. 해당 플러그인은 fix 기능까지 존재한다. 하지만, 하나의 패키지를 더 설치하는데 부담스럽기 때문에 위의 방법을 사용하겠다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1558px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 21.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAYAAACOXx+WAAAACXBIWXMAABYlAAAWJQFJUiTwAAAA2klEQVR42jWQW27CMBBFs5YCaRzbeflFnAChEJDan+5/M6cTUD+Oju6VRpqZwrSOlM+E40yaL8T5is8LLkl3uhMF3TmU7bFD5FO31DKjO49qB4zY9uHlLRe+j0SfKU1PqTsOxlHawMF6yiYKgZ1q+KjsG/X21v33O/XO+7qhqIcJm64od6L2Z8z4hYkLVX8UElUrW7VBSC+rre8StctoJ7PhhPYTTbqgh5FizivT+ZvL+su0/JDzE5cfhFk83vDT+iJMD8l38VNesuKONzl1ZFdp9tuGleFQW/4AehB/AZ7FGvgAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;no-restricted-imports&quot;
+        title=&quot;&quot;
+        src=&quot;/static/6102d38c97efcd4d8070e01162b477db/3a95e/no-restricted-imports.png&quot;
+        srcset=&quot;/static/6102d38c97efcd4d8070e01162b477db/0eb09/no-restricted-imports.png 500w,
+/static/6102d38c97efcd4d8070e01162b477db/1263b/no-restricted-imports.png 1000w,
+/static/6102d38c97efcd4d8070e01162b477db/3a95e/no-restricted-imports.png 1558w&quot;
+        sizes=&quot;(max-width: 1558px) 100vw, 1558px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;사진과 같이 상대 경로를 사용한 곳에서 error가 발생했다. 이제 고쳐보자.&lt;/p&gt;
+&lt;p&gt;마찬가지로 VSCode를 사용하는 경우, import 대상에서 자동완성을 해주고 있는데, 자동완성에서 상대 경로로 경로가 잡히는 경우가 있다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1234px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 10%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAg0lEQVR42iWJ0QqCMABF/SSzdDbdZmsLbZpQhBREBb70/x9wWvZwOJdzE9XdMKcZM8744xXbWGQ7oS8f6uFN00+osiLNtqwKxVpESk2aV2Rx/9GLfy0phKOUgVwccN0ZOTzY9C9EeFKYwE577lrjbIe0Ae17lIt20fuA8cNCHb+qafkCUqNG8dL0ZaQAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;relative-path&quot;
+        title=&quot;&quot;
+        src=&quot;/static/e531bfa3d7cea5d0a63ddc65bfeda1ce/649dd/relative-path.png&quot;
+        srcset=&quot;/static/e531bfa3d7cea5d0a63ddc65bfeda1ce/0eb09/relative-path.png 500w,
+/static/e531bfa3d7cea5d0a63ddc65bfeda1ce/1263b/relative-path.png 1000w,
+/static/e531bfa3d7cea5d0a63ddc65bfeda1ce/649dd/relative-path.png 1234w&quot;
+        sizes=&quot;(max-width: 1234px) 100vw, 1234px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;이를 고치려면 Import Module Specifier에서 &lt;code class=&quot;language-text&quot;&gt;non-relative&lt;/code&gt; 를 선택해주자. tsconfig.json 또는 jsconfig.json의 path 또는 baseUrl을 기반으로 한 절대 경로(모듈 별칭)을 자동완성 해줄 것이다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 830px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 72.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAABYlAAAWJQFJUiTwAAACmklEQVR42o1T13LbMBDkn9jqYpdYxU6xk6KqFckZT8o4L/H/f8DmAEWezORFDzuLKwAOh1vB8hI4QQo3XMPxE+iWx5nZlhdzMB+zV1EGjxCuS3hxBj8u4Cc3BIS5akAI8h794YyyO6Duj5SYIy07NNsTynbPfVFWo9u94HR5Q9HssD1dsDl8QdXtsT9/RUu5LcUl3YLgpQ3CNIftx4izim7KqeIEEVXBbMbMzqoN0qLhcWVp43k8x2gmYzARMZhKHDN5AUFZ1bCjGku/gOamkMwIshVBsWMoFsFOIJsRZ9VJuF8mP8u75zJbdVLMNAeCmV+wu76jPf+AGXdQ3BzqqiQU/8O9r8tPyE4O0UxgxBvMliEENejhrHfwihM0v8ZA9THUw4cw0ALoQYvy+B2LuMdQcSFoXoakbBFRfyTqzRP1gvXmEQwpV9YNhEmGhe1jIJkQcurfz77HtapRGgZcRaNeWJip5kOYKgZGooaxYmIg0y9/qw+4HK+4Hl/x+9cHPrZ7mrkKq/UG3oPws57ye/4xQkOO9/0eb90Wr2WN78cXrKse8tKlQTUh6jZEqnj+F6J+Y1bd/B//TLPp0A7ClH5p4fhQTA9z2qzaATTDxXiuYjhT8DyROA/ZzE3lT3tMz2Q84jEFg5lGo5dDkOjAtKgRkhrWNLwuyZCxF+U08BXyukdGYOphsqs2B66QMC25OqxVdLtAWuJJJOm59OTd6colFq7pgGaLpGi5zeS2pf7GeUPrMz+saHdo+hNndkm9OXJdaxaNm0SfwhRStlsKHEheHef9yyuvzHAC6p9xAwl/KumkV5Ov5+qSQzNdzhN5iaFsQxhrPpcTk5XK5EXyW3g0/UaAiebiWaRxoJsZ2Ib7+o7PuOxgJJv4A/wX81WcPUiEAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;import-module-specifier&quot;
+        title=&quot;&quot;
+        src=&quot;/static/661afb81fb8089e1932930e5343bd88c/026af/import-module-specifier.png&quot;
+        srcset=&quot;/static/661afb81fb8089e1932930e5343bd88c/0eb09/import-module-specifier.png 500w,
+/static/661afb81fb8089e1932930e5343bd88c/026af/import-module-specifier.png 830w&quot;
+        sizes=&quot;(max-width: 830px) 100vw, 830px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;한가지 팁은, React가 17 버전으로 업데이트 되면서, &lt;code class=&quot;language-text&quot;&gt;import React from &apos;react&apos;;&lt;/code&gt; 구문을 사용하지 않아도 동작하게끔 &lt;a href=&quot;https://pozafly.github.io/react/declarative-meaning-of-react-rendering-process/#Rendering&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;변경&lt;/a&gt;되었다. 이 부분도 &lt;code class=&quot;language-text&quot;&gt;no-restricted-imports&lt;/code&gt; 규칙을 통해 막을 수 있다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight has-highlighted-lines&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token property&quot;&gt;&quot;rules&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;no-restricted-imports&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;token string&quot;&gt;&quot;error&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token property&quot;&gt;&quot;patterns&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;.*&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;gatsby-highlight-code-line&quot;&gt;      &lt;span class=&quot;token property&quot;&gt;&quot;paths&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;gatsby-highlight-code-line&quot;&gt;        &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;gatsby-highlight-code-line&quot;&gt;          &lt;span class=&quot;token property&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;react&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;gatsby-highlight-code-line&quot;&gt;          &lt;span class=&quot;token property&quot;&gt;&quot;importNames&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;default&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;gatsby-highlight-code-line&quot;&gt;          &lt;span class=&quot;token property&quot;&gt;&quot;message&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;import React from &apos;react&apos; makes bundle size larger.&quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;gatsby-highlight-code-line&quot;&gt;        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;gatsby-highlight-code-line&quot;&gt;      &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;gatsby-highlight-code-line&quot;&gt;    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;  &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;order&quot; style=&quot;position:relative;&quot;&gt;order&lt;a href=&quot;#order&quot; aria-label=&quot;order permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;가장 중요한 import 구문의 순서(order)에 대해서 알아보자. ESLint에서 공식적으로 사용하는 &lt;code class=&quot;language-text&quot;&gt;sort-imports&lt;/code&gt;로 순서 규칙을 걸 수 있고, &lt;code class=&quot;language-text&quot;&gt;eslint-plugin-import&lt;/code&gt; 플러그인에서 제공하는 &lt;code class=&quot;language-text&quot;&gt;import/order&lt;/code&gt; 규칙을 사용해 순서 규칙을 걸 수 있다. 즉, 2가지 방법 모두 순서 규칙을 사용할 수 있다. 또한, 두 규칙 모두 fix를 지원하기 때문에 자동 저장 혹은 cli를 통해 코드를 자동으로 변경할 수 있다.&lt;/p&gt;
+&lt;p&gt;ESLint 공식 규칙인 &lt;a href=&quot;https://eslint.org/docs/latest/rules/sort-imports&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;sort-imports&lt;/a&gt;를 사용해 순서 규칙을 지정해보자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token property&quot;&gt;&quot;rules&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;sort-imports&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;token string&quot;&gt;&quot;error&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token property&quot;&gt;&quot;ignoreCase&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token property&quot;&gt;&quot;ignoreDeclarationSort&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token property&quot;&gt;&quot;ignoreMemberSort&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token property&quot;&gt;&quot;memberSyntaxSortOrder&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;none&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;all&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;multiple&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;single&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token property&quot;&gt;&quot;allowSeparatedGroups&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;아주 많은 파일에서 에러가 나기 시작했고, 이를 고치기 위해 cli를 사용했다. fix가 가능하니, 코드가 자동으로 변경되길 원했다. 따라서, cli에 &lt;code class=&quot;language-text&quot;&gt;--fix&lt;/code&gt; 옵션을 붙인 명령어를 사용했다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1344px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 60.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAABYlAAAWJQFJUiTwAAACIElEQVR42m1T2XLaQBDUd8TcEkL3yeoWIIEAgw+qUvn/T+n0LsaFU3mYmmF21dvdM2iLpIaRd3DEAZboMPMrzMMGcy9nXWLpJXCCGE6YwI1S2H4My4vUb1mvWM9NBxN9halhQdNdD06SIF7n6kPDcnlgqsMf8fXBc0z0e54t7e/QgiRH2fQQ1QZBmpPFGr+mBkbzJV5m9/xcP/eeQzKUoZmkbqYCZduhYCR5rcDzZodqu0e56VVd7w7fWZT3c3kvq7dYl60i4ycZNFGu0Q8Njtcbrrc/zJ84vt0wXD6wP7+hP13RdANO7G36Iy4fvxWo7HXDBbvhFd3xosAlGc3yQnhhCpcG+5GAwyxjaXkYU96YcqYL84eH0qt/s877uuVDGy9djJwQLwQe2QFGEsiNGCEmnOAkSDBx2Cfg/7wb87GHt7LW0jpDnTfoOJj69R3t+R1Zf0J7+UR+OCPbn1BTUkW5UpL0VdAz6WFaNByioI/S74HrFFNyEFJugoAHrqjgZSVsGuxlFXMBO7lP3iZTk6wftUOb5A5KmbInB6IkO2KtXk6rLSKyCDnVkKbHZOm3PeLdAD/jedGqe14ssKAtDkHCdaHApNyXqX5fG1HEaOhZF6Rotj3aDdeHUjYEzghQcnoN68e0ZcRknzcdKj4csZZsXT4kB6MZMamTgc19snjJIoBJj1bcyRV7quZHhu1jsXKx5IAeYRBgbrrKisdf8C9bDHgci0DBRAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;sort-imports&quot;
+        title=&quot;&quot;
+        src=&quot;/static/86e40fc5268f808fbd8d9b2eb7ab996c/e76f9/sort-imports.png&quot;
+        srcset=&quot;/static/86e40fc5268f808fbd8d9b2eb7ab996c/0eb09/sort-imports.png 500w,
+/static/86e40fc5268f808fbd8d9b2eb7ab996c/1263b/sort-imports.png 1000w,
+/static/86e40fc5268f808fbd8d9b2eb7ab996c/e76f9/sort-imports.png 1344w&quot;
+        sizes=&quot;(max-width: 1344px) 100vw, 1344px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;고쳐지지 않는다. Rule Details에 보면 아래와 같이 적혀있다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The &lt;code class=&quot;language-text&quot;&gt;--fix&lt;/code&gt; option on the command line automatically fixes some problems reported by this rule: multiple members on a single line are automatically sorted (e.g. &lt;code class=&quot;language-text&quot;&gt;import { b, a } from &apos;foo.js&apos;&lt;/code&gt; is corrected to &lt;code class=&quot;language-text&quot;&gt;import { a, b } from &apos;foo.js&apos;&lt;/code&gt;), but multiple lines are not reordered.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;한 줄에 있는 멤버 변수(&lt;code class=&quot;language-text&quot;&gt;{b, a}&lt;/code&gt;)는 자동으로 고쳐지지만, 여러 줄의 순서 규칙은 자동으로 지정되지 않는다는 뜻이다. sort-imports도 수정하면, 역할을 계속 하고 있기 때문에 그대로 두고 &lt;code class=&quot;language-text&quot;&gt;eslint-plugin-import&lt;/code&gt; 플러그인에 있는 &lt;code class=&quot;language-text&quot;&gt;import/sort&lt;/code&gt; 규칙을 추가로 사용해보자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token property&quot;&gt;&quot;rules&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;import/order&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;error&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;그리고 cli를 실행하면 문제없이 import 문이 자동으로 고쳐진다.&lt;/p&gt;
+&lt;p&gt;이제 상세하게 설정해보자. 주요 개념은 &lt;code class=&quot;language-text&quot;&gt;groups&lt;/code&gt;이다. &lt;code class=&quot;language-text&quot;&gt;groups&lt;/code&gt;로 묶인 종류는 종류 별로 묶인다.&lt;/p&gt;
+&lt;p&gt;전체 코드는 &lt;a href=&quot;https://github.com/pozafly/jiary/blob/d294374c4b2f2a5accf2ad5da284cf42738a5d7e/.eslintrc.json#L25C22-L25C22&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;GitHub&lt;/a&gt;에 있다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token property&quot;&gt;&quot;rules&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;import/order&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;token string&quot;&gt;&quot;error&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token property&quot;&gt;&quot;groups&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;builtin&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;external&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;internal&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;parent&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;sibling&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;index&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;object&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;type&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;unknown&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token property&quot;&gt;&quot;pathGroups&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;token property&quot;&gt;&quot;pattern&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;next&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;token property&quot;&gt;&quot;group&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;builtin&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;token property&quot;&gt;&quot;position&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;before&quot;&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;token property&quot;&gt;&quot;pattern&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;react&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;token property&quot;&gt;&quot;group&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;builtin&quot;&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;token property&quot;&gt;&quot;pattern&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;@tanstack/**&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;token property&quot;&gt;&quot;group&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;builtin&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;token property&quot;&gt;&quot;pattern&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;@/libs/**&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;token property&quot;&gt;&quot;group&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;unknown&quot;&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;token property&quot;&gt;&quot;pattern&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;@/core/**&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;token property&quot;&gt;&quot;group&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;unknown&quot;&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;token property&quot;&gt;&quot;pattern&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;@/store/**&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;token property&quot;&gt;&quot;group&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;unknown&quot;&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;token property&quot;&gt;&quot;pattern&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;**/*.css.ts&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;token property&quot;&gt;&quot;group&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;unknown&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;token property&quot;&gt;&quot;position&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;after&quot;&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token property&quot;&gt;&quot;newlines-between&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;always&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token property&quot;&gt;&quot;alphabetize&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;order&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;asc&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;caseInsensitive&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;groups : 그룹을 정의하는 방법 및 순서.&lt;/li&gt;
+&lt;li&gt;pathGroups : 주로 필요한 경로별로 그룹화하려면 별칭 pathGroups를 정의할 수 있음.
+&lt;ul&gt;
+&lt;li&gt;pattern : 이 그룹에 포함될 경로에 대한 최소 일치 패턴.&lt;/li&gt;
+&lt;li&gt;group : &lt;code class=&quot;language-text&quot;&gt;groups&lt;/code&gt; 중 하나를 선택하면 해당 그룹을 기준으로 배치됨.&lt;/li&gt;
+&lt;li&gt;position: 그룹 주위에 위치할 위치를 정의하며, &lt;code class=&quot;language-text&quot;&gt;after&lt;/code&gt; 또는 &lt;code class=&quot;language-text&quot;&gt;before&lt;/code&gt;를 선택할 수 있음.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;newlines-between : 가져오기 그룹 간에 새 줄을 적용하거나 금지함.&lt;/li&gt;
+&lt;li&gt;alphabetize : 각 그룹 내 순서를 알파벳 순으로 정렬함.
+&lt;ul&gt;
+&lt;li&gt;order(asc | desc) : 정렬 차순&lt;/li&gt;
+&lt;li&gt;caseInsensitive : 대소문자 정렬 여부&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;이처럼 가독성이 좋게, 또 코드 리뷰에서 Diff가 생기지 않도록 잘 수정 되었다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1622px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 58.80000000000001%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAABYlAAAWJQFJUiTwAAAB8klEQVR42p1S2XKjMBD0ryQ+uEFCIBACAT5ix46r8v8/09vCzlYesrtV+zA1GiR6uqdnte9nWHfELhF42SVYhxk2Uf7fsWrdAcfLHXY6QeoeUVFhvVwWzB48fTZhhP78Fb7Ol7wOeA4e9aopWzRmhtl/oD/cYKYLVH9CLhvkdY3C9hC9Rd52yLRBmGtEokGQKgS5QCgkQikRFALbpMBqJqDSAw5k6Y5X2G5CywZSO6QEzZoZuR4R8ZzWBqm2zB3CQmGXFsxiAdwRfBMT8FJb6HbC28cnzrdPuPkNp8MF8/kOM79jIuvGndFxJNUwotIV1NCjdI5NJBsoRoWoLJd61RaU5WUPez62qCsDTZN0v4fgTJUyKJoRynLG7QEp33qmeWsWkLgi04xyyW6RXOYKpaJs4yAIVuQVEtkhrQb+6Ch54rlHUnZIlOUcR8S8jzjL34Z8dzlLS2SxQJxIMuJ8CBrHOWt+I0DEBi+bEK+7GK9BssSX0z+uzcBh1+1AQ96hKaciKzl4p8+c1QV6vjOfydAssvw6/XUPJ4LUTY9umNF6wHZG5a4LmOyOdNghptxYtk/Afyy2lRqiHiDtg5EarxDmsABtucyv24hyH1I3yzI/I8r+zLDkoGtKq8fbt7gi86bwzu9hQXN87Q1KK7sw/gnwFwDlezNYDjMyAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;order-after&quot;
+        title=&quot;&quot;
+        src=&quot;/static/49edf9a4db96e6eac13bb76c81451153/79f3a/order-after.png&quot;
+        srcset=&quot;/static/49edf9a4db96e6eac13bb76c81451153/0eb09/order-after.png 500w,
+/static/49edf9a4db96e6eac13bb76c81451153/1263b/order-after.png 1000w,
+/static/49edf9a4db96e6eac13bb76c81451153/79f3a/order-after.png 1622w&quot;
+        sizes=&quot;(max-width: 1622px) 100vw, 1622px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;전체 코드는 &lt;a href=&quot;https://github.com/pozafly/jiary/blob/d294374c4b2f2a5accf2ad5da284cf42738a5d7e/.eslintrc.json#L25C22-L25C22&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;GitHub&lt;/a&gt;에서 확인할 수 있다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;blockquote&gt;
+&lt;p&gt;참고&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://seohyun0120.tistory.com/entry/ESLint-importsexports-%EA%B5%AC%EB%AC%B8%EC%9D%98-%EC%88%9C%EC%84%9C-%EC%9E%90%EB%8F%99-%EC%A0%95%EB%A0%AC%ED%95%98%EA%B8%B0&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;https://seohyun0120.tistory.com/entry/ESLint-importsexports-%EA%B5%AC%EB%AC%B8%EC%9D%98-%EC%88%9C%EC%84%9C-%EC%9E%90%EB%8F%99-%EC%A0%95%EB%A0%AC%ED%95%98%EA%B8%B0&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.kimcoder.io/blog/eslint-import-order&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;https://www.kimcoder.io/blog/eslint-import-order&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://yceffort.kr/2022/06/how-to-write-my-own-eslint-rules&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;https://yceffort.kr/2022/06/how-to-write-my-own-eslint-rules&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://dev.to/otamnitram/sorting-your-imports-correctly-in-react-213m&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;https://dev.to/otamnitram/sorting-your-imports-correctly-in-react-213m&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;</content:encoded></item><item><title><![CDATA[GitHub Actions 캐시 조금 더 다뤄보기 (feat. restore-keys)]]></title><description><![CDATA[…]]></description><link>https://pozafly.github.io/dev-ops/cache-and-restore-keys-in-github-actions/</link><guid isPermaLink="false">https://pozafly.github.io/dev-ops/cache-and-restore-keys-in-github-actions/</guid><pubDate>Tue, 22 Aug 2023 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;컴퓨터는 캐시를 활용해 가까운 곳에서 데이터를 전달받거나, 이미 생산된 데이터를 만들기 위해 똑같은 작업을 반복하지 않아도 만들어둔 데이터를 캐시에서 꺼내 쓸 수 있다. 캐시에 저장된 데이터를 사용해 반복 작업으로부터 벗어나면 그만큼 기다려야 하는 시간을 벌 수 있다.&lt;/p&gt;
 &lt;p&gt;캐시란, &lt;strong&gt;데이터나 값을 미리 복사해 놓는 임시 장소&lt;/strong&gt;를 가리킨다. 캐시는 로컬 컴퓨터에도 물리적으로 있고, 네트워크상에도 CDN과 같은 플랫폼에 존재한다. CI 환경에서도 캐시를 지원하고 있고. 또, 캐시라는 단어는 임시 장소를 가리키기도 하지만, 장소에 저장된 데이터 자체를 말하기도 한다.&lt;/p&gt;
 &lt;p&gt;예전에 Travis CI를 사용해 보면서 가상 환경에서 프로젝트를 빌드하고 서빙하는 과정을 겪어본 적이 있다. CI 환경에서 캐시란, 주로 프로젝트에 필요한 의존성 파일을 캐시에 저장 후, 빌드할 때 꺼내쓰는 것을 말한다. 이번에 GitHub Actions로 CI 환경을 만들어 보면서, 캐시 설정 중 &lt;code class=&quot;language-text&quot;&gt;restore-keys&lt;/code&gt; 라는 옵션이 있는데, 이 옵션이 존재하는 이유가 궁금했다.&lt;/p&gt;
 &lt;p&gt;캐시에서 가장 중요하게 생각되는 부분은 무효화(invalidate)다. 캐시 무효화가 되지 않아 개인정보가 노출되는 사건이 있을 수 있고, 배포가 제대로 반영되지 않는 현상도 있을 수 있기 때문이다. &lt;code class=&quot;language-text&quot;&gt;restore-keys&lt;/code&gt; 는 복원 키라고도 말하는데, 캐시에 변동 사항이 생겨 캐싱 된 의존성 파일이 쓸모없어졌고, 새로운 캐시를 생성해야 하는 상황에서 기존 캐시를 불러오는 기능이다. 그렇다면, 무효화 되지 않은 캐시를 어디에 사용해야 하는 것일까?&lt;/p&gt;
