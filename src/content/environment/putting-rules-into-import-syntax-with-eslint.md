@@ -23,6 +23,12 @@ excerpt: 규칙을 가지고 import 구문이 정리된다면, 해당 파일에�
 
 따라서, 이번 포스팅은 ESLint 규칙 및 ESLint 플러그인을 사용해 import 문을 사용하는 데 몇 가지 규칙을 지정해 볼 것이다.
 
+아래의 글을 읽으면 import 문에 아래의 규칙을 지정할 수 있게 된다. 그리고 VSCode의 자동완성과, ESLint의 cli에서 `--fix` 옵션을 사용해 규칙을 자동화 할 수 있게 된다.
+
+- 확장자를 반드시 포함시키기
+- 상대 경로 대신 절대 경로(모듈 별칭) 사용하기
+- 그룹에 맞게 순서 맞추기
+
 <br/>
 
 ## eslint-plugin-import
@@ -89,9 +95,9 @@ IDE 상의 프로젝트에서는 확장자를 사용하지 않아도 webpack으�
 
 ![extension-error](../img/environment/putting-rules-into-import-syntax-with-eslint/extension-error.png)
 
-확장자를 명시하지 않은 import 구문에 에러가 발생한다. 확장자를 붙여 에러를 없애주면 성공이다. 아쉽지만 `import/extensions`는 fix 옵션이 존재하지 않기 때문에 수동으로 고쳐줄 수밖에 없다. 폴더에 `a.js`, `a.json` 과같이 확장자가 여러 개일 가능성이 있기 때문에 fix 옵션이 존재하지 않는 듯하다.
+확장자를 명시하지 않은 import 구문에 에러가 발생한다. 확장자를 붙여 에러를 없애주면 성공이다. 아쉽지만 `import/extensions`는 fix 옵션이 존재하지 않기 때문에 수동으로 고쳐줄 수밖에 없다. 폴더에 `a.js`, `a.json` 과같이 확장자가 여러 개일 가능성이 있기 때문에 fix 옵션이 존재하지 않는다.
 
-VSCode를 사용하는 경우, import 대상에서 자동완성을 해주고 있는데, 자동완성을 통해 import 하면 확장자가 포함되지 않는 경우가 있을 수 있다.
+VSCode를 사용하는 경우, import 대상에서 자동완성을 해주고 있는데, 자동완성을 통해 import 하면 확장자가 포함되지 않는 경우가 있을 수 있다. (따로 설정하지 않았다면 자동완성 단축키는 맥에서 `⌘(command) + I` 이다)
 
 ![not-extension](../img/environment/putting-rules-into-import-syntax-with-eslint/not-extension.png)
 
