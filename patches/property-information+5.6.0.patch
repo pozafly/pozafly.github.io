@@ -1,0 +1,22 @@
+diff --git a/node_modules/property-information/lib/html.js b/node_modules/property-information/lib/html.js
+index 1db1ef9..b2df2ea 100644
+--- a/node_modules/property-information/lib/html.js
++++ b/node_modules/property-information/lib/html.js
+@@ -80,7 +80,7 @@ module.exports = create({
+     httpEquiv: spaceSeparated,
+     id: null,
+     imageSizes: null,
+-    imageSrcSet: commaSeparated,
++    imageSrcSet: null,
+     inputMode: null,
+     integrity: null,
+     is: null,
+@@ -223,7 +223,7 @@ module.exports = create({
+     src: null,
+     srcDoc: null,
+     srcLang: null,
+-    srcSet: commaSeparated,
++    srcSet: null,
+     start: number,
+     step: null,
+     style: null,
