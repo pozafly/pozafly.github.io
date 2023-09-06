@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[Pozafly Blog]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 06 Sep 2023 12:07:36 GMT</lastBuildDate><item><title><![CDATA[ESLint로 import 구문에 규칙 넣기]]></title><description><![CDATA[프로젝트를 진행하다 보면 하나의 파일에 import 대상이 많아질 때가 있다. import 문이 많으면 어떤 모듈이 import 되었는지 파악하기가 쉽지 않고 지저분해 보인다.  위의 이미지는 Next.js 프로젝트의  파일의 import…]]></description><link>https://pozafly.github.io/environment/putting-rules-into-import-syntax-with-eslint/</link><guid isPermaLink="false">https://pozafly.github.io/environment/putting-rules-into-import-syntax-with-eslint/</guid><pubDate>Wed, 06 Sep 2023 00:00:00 GMT</pubDate><content:encoded>&lt;br/&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[Pozafly Blog]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 06 Sep 2023 12:36:45 GMT</lastBuildDate><item><title><![CDATA[ESLint로 import 구문에 규칙 넣기]]></title><description><![CDATA[프로젝트를 진행하다 보면 하나의 파일에 import 대상이 많아질 때가 있다. import 문이 많으면 어떤 모듈이 import 되었는지 파악하기가 쉽지 않고 지저분해 보인다.  위의 이미지는 Next.js 프로젝트의  파일의 import…]]></description><link>https://pozafly.github.io/environment/putting-rules-into-import-syntax-with-eslint/</link><guid isPermaLink="false">https://pozafly.github.io/environment/putting-rules-into-import-syntax-with-eslint/</guid><pubDate>Wed, 06 Sep 2023 00:00:00 GMT</pubDate><content:encoded>&lt;br/&gt;
 &lt;p&gt;프로젝트를 진행하다 보면 하나의 파일에 import 대상이 많아질 때가 있다. import 문이 많으면 어떤 모듈이 import 되었는지 파악하기가 쉽지 않고 지저분해 보인다.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
@@ -293,30 +293,20 @@
           &lt;span class=&quot;token property&quot;&gt;&quot;position&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;before&quot;&lt;/span&gt;
         &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
         &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-          &lt;span class=&quot;token property&quot;&gt;&quot;pattern&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;react&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-          &lt;span class=&quot;token property&quot;&gt;&quot;group&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;builtin&quot;&lt;/span&gt;
-        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-          &lt;span class=&quot;token property&quot;&gt;&quot;pattern&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;@tanstack/**&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-          &lt;span class=&quot;token property&quot;&gt;&quot;group&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;builtin&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-          &lt;span class=&quot;token property&quot;&gt;&quot;pattern&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;@/libs/**&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-          &lt;span class=&quot;token property&quot;&gt;&quot;group&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;unknown&quot;&lt;/span&gt;
-        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
           &lt;span class=&quot;token property&quot;&gt;&quot;pattern&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;@/core/**&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
           &lt;span class=&quot;token property&quot;&gt;&quot;group&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;unknown&quot;&lt;/span&gt;
         &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
         &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-          &lt;span class=&quot;token property&quot;&gt;&quot;pattern&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;@/store/**&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-          &lt;span class=&quot;token property&quot;&gt;&quot;group&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;unknown&quot;&lt;/span&gt;
+          &lt;span class=&quot;token property&quot;&gt;&quot;pattern&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;@/feature/**&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;token property&quot;&gt;&quot;group&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;unknown&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;token property&quot;&gt;&quot;position&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;after&quot;&lt;/span&gt;
         &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
         &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
           &lt;span class=&quot;token property&quot;&gt;&quot;pattern&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;**/*.css.ts&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
           &lt;span class=&quot;token property&quot;&gt;&quot;group&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;unknown&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
           &lt;span class=&quot;token property&quot;&gt;&quot;position&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;after&quot;&lt;/span&gt;
-        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        (...)
       &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
       &lt;span class=&quot;token property&quot;&gt;&quot;newlines-between&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;always&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
       &lt;span class=&quot;token property&quot;&gt;&quot;alphabetize&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
@@ -346,27 +336,27 @@
 &lt;p&gt;이처럼 가독성이 좋게, 또 코드 리뷰에서 Diff가 생기지 않도록 잘 수정되었다.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1622px; &quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1598px; &quot;
     &gt;
       &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 58.80000000000001%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAABYlAAAWJQFJUiTwAAAB8klEQVR42p1S2XKjMBD0ryQ+uEFCIBACAT5ix46r8v8/09vCzlYesrtV+zA1GiR6uqdnte9nWHfELhF42SVYhxk2Uf7fsWrdAcfLHXY6QeoeUVFhvVwWzB48fTZhhP78Fb7Ol7wOeA4e9aopWzRmhtl/oD/cYKYLVH9CLhvkdY3C9hC9Rd52yLRBmGtEokGQKgS5QCgkQikRFALbpMBqJqDSAw5k6Y5X2G5CywZSO6QEzZoZuR4R8ZzWBqm2zB3CQmGXFsxiAdwRfBMT8FJb6HbC28cnzrdPuPkNp8MF8/kOM79jIuvGndFxJNUwotIV1NCjdI5NJBsoRoWoLJd61RaU5WUPez62qCsDTZN0v4fgTJUyKJoRynLG7QEp33qmeWsWkLgi04xyyW6RXOYKpaJs4yAIVuQVEtkhrQb+6Ch54rlHUnZIlOUcR8S8jzjL34Z8dzlLS2SxQJxIMuJ8CBrHOWt+I0DEBi+bEK+7GK9BssSX0z+uzcBh1+1AQ96hKaciKzl4p8+c1QV6vjOfydAssvw6/XUPJ4LUTY9umNF6wHZG5a4LmOyOdNghptxYtk/Afyy2lRqiHiDtg5EarxDmsABtucyv24hyH1I3yzI/I8r+zLDkoGtKq8fbt7gi86bwzu9hQXN87Q1KK7sw/gnwFwDlezNYDjMyAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 46.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAABrElEQVR42n1SV3LbMBDlWaxCSkQlCgGwilSzLCdj3/8uLxtK8Tj5yMebncUM9pXdrEsDhumKnTB42ZZ4yRlWBcd6J7AuxF91tXv2/0FmmxHX+we6+QbfzpAuYVNqrPcKayax2XNsmHhUwqogwifpioiWmvMvEVlTBdS+R3v5iYHQTjfE6Q3KNtDOQ3UjzDhBpR6q6cFsC+56cuRQKI1dVWFvDXZaY1tKZLOJqAnD4YzxfENKIyIRVH6AsD1K0yJnBltWIedUCYWw1NMAcpBzha1Q5EI+FE40LBJrP10wX+9I4xnRtYhpgp/ekeZ32OYI5SK499C1g4wBzAeKQBKBQk4Dl0rI+qqG1AGRFHbDEZEyHY6v6Kj3tDBPhDYeUPcnmGYGExoqBMimAQsWPDmUziz2C6mRabIglUcVWgjKU5AVTvlxUl1WiRDBzCM3UY+kcgBzDb3XZFk9tv9nKbSkrJYOxpLt8QhjAipS+/ujDAfoRG/dFbo5LYNzbik/RxbtkunXWX0/mwupSWGghbyhr3skyiucPuEPd9TTDxp4oQ0fl4HbUj1P5tut/oNfVCIeh4ZHDlwAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;order-after&quot;
         title=&quot;&quot;
-        src=&quot;/static/49edf9a4db96e6eac13bb76c81451153/79f3a/order-after.png&quot;
-        srcset=&quot;/static/49edf9a4db96e6eac13bb76c81451153/0eb09/order-after.png 500w,
-/static/49edf9a4db96e6eac13bb76c81451153/1263b/order-after.png 1000w,
-/static/49edf9a4db96e6eac13bb76c81451153/79f3a/order-after.png 1622w&quot;
-        sizes=&quot;(max-width: 1622px) 100vw, 1622px&quot;
+        src=&quot;/static/43ee98b26aee3cc6d242df3e443d7cfc/d4fa6/order-after.png&quot;
+        srcset=&quot;/static/43ee98b26aee3cc6d242df3e443d7cfc/0eb09/order-after.png 500w,
+/static/43ee98b26aee3cc6d242df3e443d7cfc/1263b/order-after.png 1000w,
+/static/43ee98b26aee3cc6d242df3e443d7cfc/d4fa6/order-after.png 1598w&quot;
+        sizes=&quot;(max-width: 1598px) 100vw, 1598px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
     &lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;전체 코드는 &lt;a href=&quot;https://github.com/pozafly/jiary/blob/d294374c4b2f2a5accf2ad5da284cf42738a5d7e/.eslintrc.json#L25C22-L25C22&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;GitHub&lt;/a&gt;에서 확인할 수 있다.&lt;/p&gt;
+&lt;p&gt;전체 코드는 &lt;a href=&quot;https://github.com/pozafly/jiary/blob/6f8ac45f201248ec097f102690e09888514261e2/.eslintrc.json#L34&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;GitHub&lt;/a&gt;에서 확인할 수 있다.&lt;/p&gt;
 &lt;br/&gt;
 &lt;blockquote&gt;
 &lt;p&gt;참고&lt;/p&gt;

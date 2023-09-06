@@ -284,30 +284,20 @@
           <span class="token property">&quot;position&quot;</span><span class="token operator">:</span> <span class="token string">&quot;before&quot;</span>
         <span class="token punctuation">}</span><span class="token punctuation">,</span>
         <span class="token punctuation">{</span>
-          <span class="token property">&quot;pattern&quot;</span><span class="token operator">:</span> <span class="token string">&quot;react&quot;</span><span class="token punctuation">,</span>
-          <span class="token property">&quot;group&quot;</span><span class="token operator">:</span> <span class="token string">&quot;builtin&quot;</span>
-        <span class="token punctuation">}</span><span class="token punctuation">,</span>
-        <span class="token punctuation">{</span>
-          <span class="token property">&quot;pattern&quot;</span><span class="token operator">:</span> <span class="token string">&quot;@tanstack/**&quot;</span><span class="token punctuation">,</span>
-          <span class="token property">&quot;group&quot;</span><span class="token operator">:</span> <span class="token string">&quot;builtin&quot;</span><span class="token punctuation">,</span>
-        <span class="token punctuation">}</span><span class="token punctuation">,</span>
-        <span class="token punctuation">{</span>
-          <span class="token property">&quot;pattern&quot;</span><span class="token operator">:</span> <span class="token string">&quot;@/libs/**&quot;</span><span class="token punctuation">,</span>
-          <span class="token property">&quot;group&quot;</span><span class="token operator">:</span> <span class="token string">&quot;unknown&quot;</span>
-        <span class="token punctuation">}</span><span class="token punctuation">,</span>
-        <span class="token punctuation">{</span>
           <span class="token property">&quot;pattern&quot;</span><span class="token operator">:</span> <span class="token string">&quot;@/core/**&quot;</span><span class="token punctuation">,</span>
           <span class="token property">&quot;group&quot;</span><span class="token operator">:</span> <span class="token string">&quot;unknown&quot;</span>
         <span class="token punctuation">}</span><span class="token punctuation">,</span>
         <span class="token punctuation">{</span>
-          <span class="token property">&quot;pattern&quot;</span><span class="token operator">:</span> <span class="token string">&quot;@/store/**&quot;</span><span class="token punctuation">,</span>
-          <span class="token property">&quot;group&quot;</span><span class="token operator">:</span> <span class="token string">&quot;unknown&quot;</span>
+          <span class="token property">&quot;pattern&quot;</span><span class="token operator">:</span> <span class="token string">&quot;@/feature/**&quot;</span><span class="token punctuation">,</span>
+          <span class="token property">&quot;group&quot;</span><span class="token operator">:</span> <span class="token string">&quot;unknown&quot;</span><span class="token punctuation">,</span>
+          <span class="token property">&quot;position&quot;</span><span class="token operator">:</span> <span class="token string">&quot;after&quot;</span>
         <span class="token punctuation">}</span><span class="token punctuation">,</span>
         <span class="token punctuation">{</span>
           <span class="token property">&quot;pattern&quot;</span><span class="token operator">:</span> <span class="token string">&quot;**/*.css.ts&quot;</span><span class="token punctuation">,</span>
           <span class="token property">&quot;group&quot;</span><span class="token operator">:</span> <span class="token string">&quot;unknown&quot;</span><span class="token punctuation">,</span>
           <span class="token property">&quot;position&quot;</span><span class="token operator">:</span> <span class="token string">&quot;after&quot;</span>
-        <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        (...)
       <span class="token punctuation">]</span><span class="token punctuation">,</span>
       <span class="token property">&quot;newlines-between&quot;</span><span class="token operator">:</span> <span class="token string">&quot;always&quot;</span><span class="token punctuation">,</span>
       <span class="token property">&quot;alphabetize&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
@@ -335,13 +325,13 @@
 </li>
 </ul>
 <p>이처럼 가독성이 좋게, 또 코드 리뷰에서 Diff가 생기지 않도록 잘 수정되었다.</p>
-<p><span class="gatsby-resp-image-wrapper" style="position:relative;display:block;margin-left:auto;margin-right:auto;max-width:1622px">
-      <span class="gatsby-resp-image-background-image" style="padding-bottom:58.80000000000001%;position:relative;bottom:0;left:0;background-image:url(&#x27;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAABYlAAAWJQFJUiTwAAAB8klEQVR42p1S2XKjMBD0ryQ+uEFCIBACAT5ix46r8v8/09vCzlYesrtV+zA1GiR6uqdnte9nWHfELhF42SVYhxk2Uf7fsWrdAcfLHXY6QeoeUVFhvVwWzB48fTZhhP78Fb7Ol7wOeA4e9aopWzRmhtl/oD/cYKYLVH9CLhvkdY3C9hC9Rd52yLRBmGtEokGQKgS5QCgkQikRFALbpMBqJqDSAw5k6Y5X2G5CywZSO6QEzZoZuR4R8ZzWBqm2zB3CQmGXFsxiAdwRfBMT8FJb6HbC28cnzrdPuPkNp8MF8/kOM79jIuvGndFxJNUwotIV1NCjdI5NJBsoRoWoLJd61RaU5WUPez62qCsDTZN0v4fgTJUyKJoRynLG7QEp33qmeWsWkLgi04xyyW6RXOYKpaJs4yAIVuQVEtkhrQb+6Ch54rlHUnZIlOUcR8S8jzjL34Z8dzlLS2SxQJxIMuJ8CBrHOWt+I0DEBi+bEK+7GK9BssSX0z+uzcBh1+1AQ96hKaciKzl4p8+c1QV6vjOfydAssvw6/XUPJ4LUTY9umNF6wHZG5a4LmOyOdNghptxYtk/Afyy2lRqiHiDtg5EarxDmsABtucyv24hyH1I3yzI/I8r+zLDkoGtKq8fbt7gi86bwzu9hQXN87Q1KK7sw/gnwFwDlezNYDjMyAAAAAElFTkSuQmCC&#x27;);background-size:cover;display:block"></span>
-  <img class="gatsby-resp-image-image" alt="order-after" title="" src="/static/49edf9a4db96e6eac13bb76c81451153/79f3a/order-after.png" srcSet="/static/49edf9a4db96e6eac13bb76c81451153/0eb09/order-after.png 500w,
-/static/49edf9a4db96e6eac13bb76c81451153/1263b/order-after.png 1000w,
-/static/49edf9a4db96e6eac13bb76c81451153/79f3a/order-after.png 1622w" sizes="(max-width: 1622px) 100vw, 1622px" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0" loading="lazy" decoding="async"/>
+<p><span class="gatsby-resp-image-wrapper" style="position:relative;display:block;margin-left:auto;margin-right:auto;max-width:1598px">
+      <span class="gatsby-resp-image-background-image" style="padding-bottom:46.2%;position:relative;bottom:0;left:0;background-image:url(&#x27;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAABrElEQVR42n1SV3LbMBDlWaxCSkQlCgGwilSzLCdj3/8uLxtK8Tj5yMebncUM9pXdrEsDhumKnTB42ZZ4yRlWBcd6J7AuxF91tXv2/0FmmxHX+we6+QbfzpAuYVNqrPcKayax2XNsmHhUwqogwifpioiWmvMvEVlTBdS+R3v5iYHQTjfE6Q3KNtDOQ3UjzDhBpR6q6cFsC+56cuRQKI1dVWFvDXZaY1tKZLOJqAnD4YzxfENKIyIRVH6AsD1K0yJnBltWIedUCYWw1NMAcpBzha1Q5EI+FE40LBJrP10wX+9I4xnRtYhpgp/ekeZ32OYI5SK499C1g4wBzAeKQBKBQk4Dl0rI+qqG1AGRFHbDEZEyHY6v6Kj3tDBPhDYeUPcnmGYGExoqBMimAQsWPDmUziz2C6mRabIglUcVWgjKU5AVTvlxUl1WiRDBzCM3UY+kcgBzDb3XZFk9tv9nKbSkrJYOxpLt8QhjAipS+/ujDAfoRG/dFbo5LYNzbik/RxbtkunXWX0/mwupSWGghbyhr3skyiucPuEPd9TTDxp4oQ0fl4HbUj1P5tut/oNfVCIeh4ZHDlwAAAAASUVORK5CYII=&#x27;);background-size:cover;display:block"></span>
+  <img class="gatsby-resp-image-image" alt="order-after" title="" src="/static/43ee98b26aee3cc6d242df3e443d7cfc/d4fa6/order-after.png" srcSet="/static/43ee98b26aee3cc6d242df3e443d7cfc/0eb09/order-after.png 500w,
+/static/43ee98b26aee3cc6d242df3e443d7cfc/1263b/order-after.png 1000w,
+/static/43ee98b26aee3cc6d242df3e443d7cfc/d4fa6/order-after.png 1598w" sizes="(max-width: 1598px) 100vw, 1598px" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0" loading="lazy" decoding="async"/>
     </span></p>
-<p>전체 코드는 <a href="https://github.com/pozafly/jiary/blob/d294374c4b2f2a5accf2ad5da284cf42738a5d7e/.eslintrc.json#L25C22-L25C22" target="_blank" rel="nofollow">GitHub</a>에서 확인할 수 있다.</p>
+<p>전체 코드는 <a href="https://github.com/pozafly/jiary/blob/6f8ac45f201248ec097f102690e09888514261e2/.eslintrc.json#L34" target="_blank" rel="nofollow">GitHub</a>에서 확인할 수 있다.</p>
 <br/>
 <blockquote>
 <p>참고</p>
