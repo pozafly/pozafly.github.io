@@ -13,7 +13,8 @@
     "lint:fix": "eslint --fix --ext .js,.ts,.tsx .",
     "start": "npm run dev",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "gatsby build && gh-pages -d public -b master"
+    "deploy": "gatsby build && gh-pages -d public -b master",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@emotion/react": "11.10.5",
@@ -75,6 +76,7 @@
     "eslint-plugin-react-hooks": "4.6.0",
     "gatsby-remark-images-medium-zoom": "^1.7.0",
     "gh-pages": "^5.0.0",
+    "patch-package": "^8.0.0",
     "typescript": "4.8.4"
   },
   "browserslist": [
