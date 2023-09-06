@@ -7,6 +7,7 @@
   "license": "MIT",
   "homepage": "https://pozafly.github.io",
   "scripts": {
+    "clean": "gatsby clean",
     "build": "gatsby build",
     "dev": "gatsby develop",
     "lint": "eslint --ext .js,.ts,.tsx .",
