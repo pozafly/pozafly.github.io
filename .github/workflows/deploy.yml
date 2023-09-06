@@ -29,9 +29,6 @@ jobs:
             ${{ runner.os }}
       - if: ${{ steps.npm-cache.outputs.cache-hit != 'true' }}
         run: npm install
-      # cache invalidate
-      - if: ${{ !contains(github.event.head_commit.message, '[cache skip]') }}
-        run: npm run clean
       - run: npm run build
       - uses: 8398a7/action-slack@v3
         with:
