@@ -73,6 +73,8 @@ IDE 상의 프로젝트에서는 확장자를 사용하지 않아도 webpack으�
 
 따라서, TypeScript가 `allowImportingTsExtensions` 옵션을 추가해 준 것 같이 앞으로 ESM 방식으로 확장자를 붙일 것인데 이를 eslint-plugin-import를 사용해 강제할 수 있다. [(공식 문서)](https://github.com/import-js/eslint-plugin-import/blob/v2.28.1/docs/rules/extensions.md)
 
+아래부터 ESLint를 설정하는 파일은 `.eslintrc.json` 파일의 rules에 작성할 것이다.
+
 ```json
 "rules": {
   "import/extensions": [<severity>, "never" | "always" | "ignorePackages"]
@@ -116,6 +118,7 @@ Import Module Specifier Ending 옵션에서 `.js / .ts`를 선택하면 자동�
 예를 들면 Next.js 같은 경우 `create-next-app` 을 통해 프로젝트를 생성할 때, 모듈 별칭을 사용하면 절대 경로를 처음에 지정해 줄 수 있다. 만약, 처음에 지정하지 않았다면 `tsconfig.json` 파일에서 아래와 같이 지정해 줄 수 있다.
 
 ```json
+// tsconfig.json
 {
   "compilerOptions": {
     "paths": {
@@ -232,11 +235,6 @@ ESLint 공식 규칙인 [sort-imports](https://eslint.org/docs/latest/rules/sort
         {
           "pattern": "@/core/**",
           "group": "unknown"
-        },
-        {
-          "pattern": "@/feature/**",
-          "group": "unknown",
-          "position": "after"
         },
         {
           "pattern": "**/*.css.ts",
