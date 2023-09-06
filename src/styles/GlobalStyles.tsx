@@ -605,9 +605,10 @@ export default function GlobalStyles() {
           border-radius: 6px;
         }
         .gatsby-resp-image-wrapper {
-          width: 80%;
+          margin: 40px 0;
           @media (max-width: 800px) {
             width: 100%;
+            margin: initial;
           }
         }
         .medium-zoom-image {
