@@ -230,30 +230,20 @@ ESLint 공식 규칙인 [sort-imports](https://eslint.org/docs/latest/rules/sort
           "position": "before"
         },
         {
-          "pattern": "react",
-          "group": "builtin"
-        },
-        {
-          "pattern": "@tanstack/**",
-          "group": "builtin",
-        },
-        {
-          "pattern": "@/libs/**",
-          "group": "unknown"
-        },
-        {
           "pattern": "@/core/**",
           "group": "unknown"
         },
         {
-          "pattern": "@/store/**",
-          "group": "unknown"
+          "pattern": "@/feature/**",
+          "group": "unknown",
+          "position": "after"
         },
         {
           "pattern": "**/*.css.ts",
           "group": "unknown",
           "position": "after"
-        }
+        },
+        (...)
       ],
       "newlines-between": "always",
       "alphabetize": {
@@ -279,7 +269,7 @@ ESLint 공식 규칙인 [sort-imports](https://eslint.org/docs/latest/rules/sort
 
 ![order-after](../img/environment/putting-rules-into-import-syntax-with-eslint/order-after.png)
 
-전체 코드는 [GitHub](https://github.com/pozafly/jiary/blob/d294374c4b2f2a5accf2ad5da284cf42738a5d7e/.eslintrc.json#L25C22-L25C22)에서 확인할 수 있다.
+전체 코드는 [GitHub](https://github.com/pozafly/jiary/blob/6f8ac45f201248ec097f102690e09888514261e2/.eslintrc.json#L34)에서 확인할 수 있다.
 
 <br/>
 
