@@ -6,22 +6,22 @@ tags: [Environment, ESLint]
 image: ../img/environment/putting-rules-into-import-syntax-with-eslint/main.jpg
 date: '2023-09-06'
 draft: false
-excerpt: 규칙을 가지고 import 구문이 정리 된다면, 해당 파일에서는 어떤 종속성을 가지고 있고 어떤 기능을 사용하는지 한 눈에 파악하기 쉬울 것이다.
+excerpt: 규칙을 가지고 import 구문이 정리된다면, 해당 파일에서는 어떤 종속성을 가지고 있고 어떤 기능을 사용하는지 한 눈에 파악하기 쉬울 것이다.
 ---
 
 <br/>
 
-프로젝트를 진행하다 보면 하나의 파일에 import 대상이 많아질 때가 있다. import문이 많으면 어떤 모듈이 import 되었는지 파악하기가 쉽지 않고 지저분해보인다.
+프로젝트를 진행하다 보면 하나의 파일에 import 대상이 많아질 때가 있다. import 문이 많으면 어떤 모듈이 import 되었는지 파악하기가 쉽지 않고 지저분해 보인다.
 
 ![first-import](../img/environment/putting-rules-into-import-syntax-with-eslint/first-import.png)
 
-위의 사진은 Next.js 프로젝트의 `_app.tsx` 파일의 import 구문이다. 어떤 부분은 상대 경로를 사용했고, 어떤 부분은 절대 경로를 사용했다. 어떤 부분은 확장자를 사용하지 않았다. 어떤 기준에 의해 순서도 맞춰지지 않아서, import 구문이 이렇게 길 경우 어떤 종속성이 생기는지 한 눈에 파악하기 쉽지 않다.
+위의 이미지는 Next.js 프로젝트의 `_app.tsx` 파일의 import 구문이다. 어떤 부분은 상대 경로를 사용했고, 어떤 부분은 절대 경로를 사용했다. 어떤 부분은 확장자를 사용하지 않았다. 어떤 기준에 의해 순서도 맞춰지지 않아서, import 구문이 이렇게 길 경우 어떤 종속성이 생기는지 한눈에 파악하기 쉽지 않다.
 
-그렇다면 import 모듈 대상을 종류 별로 묶어 순서를 맞춰줄 수도 있고, 개행 규칙 등을 정해서 좀 더 깔끔하게 만들 수 있다. 규칙을 가지고 import 구문이 정리 된다면, 해당 파일에서는 어떤 종속성을 가지고 있고 어떤 기능을 사용하는지 한 눈에 파악하기 쉬울 것이다. 하지만, 이런 규칙을 만들었다고 해서 문제가 해결된 것은 아니다. 개발자가 일일이 import 구문을 타이핑 한다면 규칙 문서를 확인하고 규칙에 맞게 정렬 및 수정을 따로 해주어야 해서 생산성에 문제가 생길 가능성이 농후하다.
+그렇다면 import 모듈 대상을 종류별로 묶어 순서를 맞춰줄 수도 있고, 개행 규칙 등을 정해서 좀 더 깔끔하게 만들 수 있다. 규칙을 가지고 import 구문이 정리된다면, 해당 파일에서는 어떤 종속성을 가지고 있고 어떤 기능을 사용하는지 한 눈에 파악하기 쉬울 것이다. 하지만, 이런 규칙을 만들었다고 해서 문제가 해결된 것은 아니다. 개발자가 일일이 import 구문을 타이핑한다면 규칙 문서를 확인하고 규칙에 맞게 정렬 및 수정을 따로 해주어야 해서 생산성에 문제가 생길 가능성이 농후하다.
 
-이를 개발자가 타이핑하여 관리하지 않고 자동화 시킨다면, 생산성 면에서 그리고 코드 가독성 면에서 좋을 것이다. 그 부분을 ESLint를 통해 자동화 할 수 있다. 자동화 한다면 얻게되는 이점이 하나 더 있다. 협업을 할 경우 특정 규칙이 강제 되어 있다면 코드 리뷰 시, Git Diff가 생기지 않는 효과도 함께 가져갈 수 있다. 예를 들어, 특정 라이브러리에서 가져온 변수가 필요 없다고 생각해서 지우고, 다시 생각해봤더니 필요해서 import 한 경우다. 이런 경우 import 구문의 순서가 바뀔 수 있으며, 순서가 바뀌어도 Diff가 생기게 되는데 순서 규칙이 존재하면 순서에 따라 변수가 정렬되기 때문에 Diff가 생기지 않도록 방지할 수 있다.
+이를 개발자가 타이핑하여 관리하지 않고 자동화한다면, 생산성 면에서 그리고 코드 가독성 면에서 좋을 것이다. 그 부분을 ESLint를 통해 자동화할 수 있다. 자동화한다면 얻게 되는 이점이 하나 더 있다. 협업을 할 경우 특정 규칙이 강제 되어 있다면 코드 리뷰 시, Git Diff가 생기지 않는 효과도 함께 가져갈 수 있다. 예를 들어, 특정 라이브러리에서 가져온 변수가 필요 없다고 생각해서 지우고, 다시 생각해 봤더니 필요해서 import 한 경우다. 이런 경우 import 구문의 순서가 바뀔 수 있으며, 순서가 바뀌어도 Diff가 생기게 되는데 순서 규칙이 존재하면 순서에 따라 변수가 정렬되기 때문에 Diff가 생기지 않도록 방지할 수 있다.
 
-따라서, 이번 포스팅은 ESLint 규칙 및 ESLint 플러그인을 사용해 import문을 사용하는데 몇 가지 규칙을 지정해볼 것이다.
+따라서, 이번 포스팅은 ESLint 규칙 및 ESLint 플러그인을 사용해 import 문을 사용하는 데 몇 가지 규칙을 지정해 볼 것이다.
 
 <br/>
 
@@ -29,7 +29,7 @@ excerpt: 규칙을 가지고 import 구문이 정리 된다면, 해당 파일에
 
 [eslint-plugin-import](https://github.com/import-js/eslint-plugin-import)는 JavaScript 프로젝트에서 모듈과 `import` 문에 관련된 다양한 규칙을 검사하는 ESLint 플러그인이다. 주로 모듈 시스템과 `import/export` 문을 사용하는 환경에서 코드 품질과 가독성을 향상시키기 위해 사용된다.
 
-플러그인을 사용하면 코드베이스에서 모듈과 `import` 문을 더 통일된 규칙을 강제하여 작성하도록 도와준다. 코드의 가독성을 향상시키고 잠재적인 오류를 사전에 방지하는 데 도움이 된다.
+플러그인을 사용하면 코드 베이스에서 모듈과 `import` 문을 더 통일된 규칙을 강제하여 작성하도록 도와준다. 코드의 가독성을 향상시키고 잠재적인 오류를 사전에 방지하는 데 도움이 된다.
 
 [ESLint의 공식 블로그](https://eslint.org/blog/2022/02/paying-contributors-sponsoring-projects/#supporting-the-community)에 따르면, `typescript-eslint`, `eslint-plugin-import` 등 ESLint 관련 플러그인을 후원하고 있는 것을 볼 수 있다. 이는 커뮤니티 플러그인인데, ESLint에서 공식적으로 만든 플러그인이 아니라 커뮤니티 플러그인이다. eslint-plugin-import 또한 마찬가지로 ESLint의 공식 플러그인이 아니지만, ESLint 팀에서 인정한 플러그인이라는 뜻으로 볼 수 있다.
 
@@ -55,7 +55,7 @@ $ npm i -D eslint-plugin-import
 
 TypeScript 5버전부터 확장자 명시를 권장하고 있다. [TypeScript-allowImportingTsExtensions](https://pozafly.github.io/typescript/typescript-env/#allowImportingTsExtensions-TypeScript-version-5-%EB%B6%80%ED%84%B0)에서 자세히 설명했지만, 이는 Node.js의 모듈 관련 히스토리와 연관이 있다.
 
-가볍게 짚고 넘어가보자. TypeScript 컴파일러인 `tsc` 는 Node.js 환경에서 동작하며, Node.js는 CommonJS 모듈을 사용한다. CommonJS는 모듈을 불러올 때 확장자를 생략해도 불러올 수 있다.
+가볍게 짚고 넘어가 보자. TypeScript 컴파일러인 `tsc` 는 Node.js 환경에서 동작하며, Node.js는 CommonJS 모듈을 사용한다. CommonJS는 모듈을 불러올 때 확장자를 생략해도 불러올 수 있다.
 
 ```js
 const some = require('./some');
@@ -65,7 +65,7 @@ Node.js 창시자인 Ryan Dahl도 [해당 동영상](https://www.youtube.com/wat
 
 IDE 상의 프로젝트에서는 확장자를 사용하지 않아도 webpack으로 빌드도 되고 tsc로 타입 체킹도 된다. `allowImportingTsExtensions` 옵션은 확장자를 사용할 수 있게 만들어주는 TypeScript의 옵션이었기 때문이다. (강제하지 않는다)
 
-따라서, TypeScript가 `allowImportingTsExtensions` 옵션을 추가해준 것 같이 앞으로 ESM 방식으로 확장자를 붙일 것인데 이를 eslint-plugin-import를 사용해 강제할 수 있다. [(공식 문서)](https://github.com/import-js/eslint-plugin-import/blob/v2.28.1/docs/rules/extensions.md)
+따라서, TypeScript가 `allowImportingTsExtensions` 옵션을 추가해 준 것 같이 앞으로 ESM 방식으로 확장자를 붙일 것인데 이를 eslint-plugin-import를 사용해 강제할 수 있다. [(공식 문서)](https://github.com/import-js/eslint-plugin-import/blob/v2.28.1/docs/rules/extensions.md)
 
 ```json
 "rules": {
@@ -89,7 +89,7 @@ IDE 상의 프로젝트에서는 확장자를 사용하지 않아도 webpack으�
 
 ![extension-error](../img/environment/putting-rules-into-import-syntax-with-eslint/extension-error.png)
 
-확장자를 명시하지 않은 import 구문에 에러가 발생한다. 확장자를 붙여 에러를 없애주면 성공이다. 아쉽지만 `import/extensions`는 fix 옵션이 존재하지 않기 때문에 수동으로 고쳐줄 수 밖에 없다. 폴더에 `a.js`, `a.json` 과 같이 확장자가 여러 개일 가능성이 있기 때문에 fix 옵션이 존재하지 않는 듯 하다.
+확장자를 명시하지 않은 import 구문에 에러가 발생한다. 확장자를 붙여 에러를 없애주면 성공이다. 아쉽지만 `import/extensions`는 fix 옵션이 존재하지 않기 때문에 수동으로 고쳐줄 수밖에 없다. 폴더에 `a.js`, `a.json` 과같이 확장자가 여러 개일 가능성이 있기 때문에 fix 옵션이 존재하지 않는 듯하다.
 
 VSCode를 사용하는 경우, import 대상에서 자동완성을 해주고 있는데, 자동완성을 통해 import 하면 확장자가 포함되지 않는 경우가 있을 수 있다.
 
@@ -103,11 +103,11 @@ Import Module Specifier Ending 옵션에서 `.js / .ts`를 선택하면 자동�
 
 <br/>
 
-## no-restricted-imports(절대 경로 막기)
+## 상대 경로 대신 절대 경로(모듈 별칭) 사용하기
 
-프론트엔드 프레임워크에서 모듈 별칭(module-aliases)를 사용하면 상대 경로 대신, 절대 경로를 사용할 수 있다. 상대 경로를 사용하면 import 할 때 `../../` 와 같은 prefix가 매우 길어질 수 있으며, 가져오고자 하는 모듈 import 구문을 복사해 다른 파일에 붙여넣기 할 때 상대 경로로 다시 지정해주어야 하기 때문에 번거롭다. 따라서 절대 경로를 사용하는 것이 좋은 방법이다. 또, 주로 코드를 `src` 파일 밑에서 작업하기 때문에 절대 경로 상 앞부분을 제외 하고 `@` 와 같은 것으로 alias를 지정해서 사용하곤 한다.
+프론트엔드 프레임워크에서 모듈 별칭(module-aliases)를 사용하면 상대 경로 대신, 절대 경로를 사용할 수 있다. 상대 경로를 사용하면 import 할 때 `../../` 와 같은 prefix가 매우 길어질 수 있으며, 가져오고자 하는 모듈 import 구문을 복사해 다른 파일에 붙여넣기 할 때 상대 경로로 다시 지정해 주어야 하기 때문에 번거롭다. 따라서 절대 경로를 사용하는 것이 좋은 방법이다. 또, 주로 코드를 `src` 파일 밑에서 작업하기 때문에 절대 경로 상 앞부분을 제외하고 `@` 와 같은 것으로 alias를 지정해서 사용하곤 한다.
 
-예를 들면 Next.js 같은 경우 `create-next-app` 을 통해 프로젝트를 생성할 때, 모듈 별칭을 사용하면 절대 경로를 처음에 지정해줄 수 있다. 만약, 처음에 지정하지 않았다면 `tsconfig.json` 파일에서 아래와 같이 지정해줄 수 있다.
+예를 들면 Next.js 같은 경우 `create-next-app` 을 통해 프로젝트를 생성할 때, 모듈 별칭을 사용하면 절대 경로를 처음에 지정해 줄 수 있다. 만약, 처음에 지정하지 않았다면 `tsconfig.json` 파일에서 아래와 같이 지정해 줄 수 있다.
 
 ```json
 {
@@ -119,7 +119,7 @@ Import Module Specifier Ending 옵션에서 `.js / .ts`를 선택하면 자동�
 }
 ```
 
-하지만, 이렇게 지정해준다고 해도, 여전히 상대 경로를 사용할 수 있다. 이 부분도 모두 절대 경로가 아니면 ESLint 오류가 나도록 설정해줄 수 있다. 이번에는 `eslint-plugin-import` 플러그인에 있는 기능은 아니다. 해당 플러그인에는 이 기능이 없고, [ESLint 공식 rule](https://eslint.org/docs/latest/rules/no-restricted-imports)에 존재한다.
+하지만, 이렇게 지정해 준다고 해도, 여전히 상대 경로를 사용할 수 있다. 이 부분도 모두 절대 경로가 아니면 ESLint 오류가 나도록 설정해 줄 수 있다. 이번에는 `eslint-plugin-import` 플러그인에 있는 기능은 아니다. 해당 플러그인에는 이 기능이 없고, [ESLint 공식 rule](https://eslint.org/docs/latest/rules/no-restricted-imports)에 존재한다.
 
 ```json
 "rules": {
@@ -132,7 +132,7 @@ Import Module Specifier Ending 옵션에서 `.js / .ts`를 선택하면 자동�
 }
 ```
 
-사실, no-restricted-imports 규칙은, 특정 경로를 막는 방법이다. 상대 경로와는 상관 없는 규칙이다. 하지만, [stackoverflow](https://stackoverflow.com/questions/65670432/eslint-only-allow-absolute-import-paths-not-relative)에서 말하길, patterns에서 경로 전체를 막고 모듈 별칭을 사용하면 막히지 않도록 설정할 수 있다.
+사실, no-restricted-imports 규칙은, 특정 경로를 막는 방법이다. 상대 경로와는 상관없는 규칙이다. 하지만, [stackoverflow](https://stackoverflow.com/questions/65670432/eslint-only-allow-absolute-import-paths-not-relative)에서 말하길, patterns에서 경로 전체를 막고 모듈 별칭을 사용하면 막히지 않도록 설정할 수 있다.
 
 no-restricted-imports을 patterns를 통해 사용하고 싶지 않다면, [eslint-plugin-absolute-imports](https://www.npmjs.com/package/eslint-plugin-absolute-imports)를 사용해도 된다. 해당 플러그인은 fix 기능까지 존재한다. 하지만, 하나의 패키지를 더 설치하는데 부담스럽기 때문에 위의 방법을 사용하겠다.
 
@@ -144,11 +144,11 @@ no-restricted-imports을 patterns를 통해 사용하고 싶지 않다면, [esli
 
 ![relative-path](../img/environment/putting-rules-into-import-syntax-with-eslint/relative-path.png)
 
-이를 고치려면 Import Module Specifier에서 `non-relative` 를 선택해주자. tsconfig.json 또는 jsconfig.json의 path 또는 baseUrl을 기반으로 한 절대 경로(모듈 별칭)을 자동완성 해줄 것이다.
+이를 고치려면 Import Module Specifier에서 `non-relative` 를 선택해 주자. tsconfig.json 또는 jsconfig.json의 path 또는 baseUrl을 기반으로 한 절대 경로(모듈 별칭)를 자동완성 해줄 것이다.
 
 ![import-module-specifier](../img/environment/putting-rules-into-import-syntax-with-eslint/import-module-specifier.png)
 
-한가지 팁은, React가 17 버전으로 업데이트 되면서, `import React from 'react';` 구문을 사용하지 않아도 동작하게끔 [변경](https://pozafly.github.io/react/declarative-meaning-of-react-rendering-process/#Rendering)되었다. 이 부분도 `no-restricted-imports` 규칙을 통해 막을 수 있다.
+한 가지 팁은, React가 17 버전으로 업데이트되면서, `import React from 'react';` 구문을 사용하지 않아도 동작하게끔 [변경](https://pozafly.github.io/react/declarative-meaning-of-react-rendering-process/#Rendering)되었다. 이 부분도 `no-restricted-imports` 규칙을 통해 막을 수 있다.
 
 ```json{6-13}
 "rules": {
@@ -170,11 +170,11 @@ no-restricted-imports을 patterns를 통해 사용하고 싶지 않다면, [esli
 
 <br/>
 
-## order
+## 그룹에 맞게 순서 맞추기
 
 가장 중요한 import 구문의 순서(order)에 대해서 알아보자. ESLint에서 공식적으로 사용하는 `sort-imports`로 순서 규칙을 걸 수 있고, `eslint-plugin-import` 플러그인에서 제공하는 `import/order` 규칙을 사용해 순서 규칙을 걸 수 있다. 즉, 2가지 방법 모두 순서 규칙을 사용할 수 있다. 또한, 두 규칙 모두 fix를 지원하기 때문에 자동 저장 혹은 cli를 통해 코드를 자동으로 변경할 수 있다.
 
-ESLint 공식 규칙인 [sort-imports](https://eslint.org/docs/latest/rules/sort-imports)를 사용해 순서 규칙을 지정해보자.
+ESLint 공식 규칙인 [sort-imports](https://eslint.org/docs/latest/rules/sort-imports)를 사용해 순서 규칙을 지정해 보자.
 
 ```json
 "rules": {
@@ -199,7 +199,7 @@ ESLint 공식 규칙인 [sort-imports](https://eslint.org/docs/latest/rules/sort
 
 > The `--fix` option on the command line automatically fixes some problems reported by this rule: multiple members on a single line are automatically sorted (e.g. `import { b, a } from 'foo.js'` is corrected to `import { a, b } from 'foo.js'`), but multiple lines are not reordered.
 
-한 줄에 있는 멤버 변수(`{b, a}`)는 자동으로 고쳐지지만, 여러 줄의 순서 규칙은 자동으로 지정되지 않는다는 뜻이다. sort-imports도 수정하면, 역할을 계속 하고 있기 때문에 그대로 두고 `eslint-plugin-import` 플러그인에 있는 `import/sort` 규칙을 추가로 사용해보자.
+한 줄에 있는 멤버 변수(`{b, a}`)는 자동으로 고쳐지지만, 여러 줄의 순서 규칙은 자동으로 지정되지 않는다는 뜻이다. sort-imports도 수정하면, 역할을 계속하고 있기 때문에 그대로 두고 `eslint-plugin-import` 플러그인에 있는 `import/sort` 규칙을 추가로 사용해 보자.
 
 ```json
 "rules": {
@@ -209,9 +209,7 @@ ESLint 공식 규칙인 [sort-imports](https://eslint.org/docs/latest/rules/sort
 
 그리고 cli를 실행하면 문제없이 import 문이 자동으로 고쳐진다.
 
-이제 상세하게 설정해보자. 주요 개념은 `groups`이다. `groups`로 묶인 종류는 종류 별로 묶인다.
-
-전체 코드는 [GitHub](https://github.com/pozafly/jiary/blob/d294374c4b2f2a5accf2ad5da284cf42738a5d7e/.eslintrc.json#L25C22-L25C22)에 있다.
+이제 상세하게 설정해 보자. 주요 개념은 `groups`이다. `groups`로 묶인 종류는 종류 별로 묶인다.
 
 ```json
 "rules": {
@@ -271,7 +269,7 @@ ESLint 공식 규칙인 [sort-imports](https://eslint.org/docs/latest/rules/sort
   - order(asc | desc) : 정렬 차순
   - caseInsensitive : 대소문자 정렬 여부
 
-이처럼 가독성이 좋게, 또 코드 리뷰에서 Diff가 생기지 않도록 잘 수정 되었다.
+이처럼 가독성이 좋게, 또 코드 리뷰에서 Diff가 생기지 않도록 잘 수정되었다.
 
 ![order-after](../img/environment/putting-rules-into-import-syntax-with-eslint/order-after.png)
 
