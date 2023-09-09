@@ -20,7 +20,7 @@
   "dependencies": {
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
-    "cssnano": "5.1.14",
+    "cssnano": "5.1.15",
     "date-fns": "2.29.3",
     "emotion": "11.0.0",
     "emotion-server": "11.0.0",
