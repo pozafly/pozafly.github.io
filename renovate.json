@@ -1,6 +1,16 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:base"
+  "extends": ["config:base"],
+  "labels": ["renovate"],
+  "packageRules": [
+    {
+      "packagePatterns": ["^@types/"],
+      "automerge": true,
+      "automergeType": "pr-comment",
+      "automergeComment": "types: auto merge",
+      "major": {
+        "automerge": false
+      }
+    }
   ]
 }
