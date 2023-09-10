@@ -1,11 +1,12 @@
-import { lighten } from 'polished';
 import styled from '@emotion/styled';
+import { lighten } from 'polished';
 
-import { colors } from '../styles/colors';
-import { inner, outer } from '../styles/shared';
-import type { PageContext } from '../templates/post';
 import { PostCard } from './PostCard';
 import { ReadNextCard } from './ReadNextCard';
+import { colors } from '../styles/colors';
+import { inner, outer } from '../styles/shared';
+
+import type { PageContext } from '../templates/post';
 
 type ReadNextProps = {
   tags: string[];

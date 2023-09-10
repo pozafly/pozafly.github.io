@@ -1,16 +1,18 @@
-import { format } from 'date-fns';
+import { Fragment } from 'react';
+
 import { Link } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
-import { kebabCase } from 'lodash';
-import { lighten } from 'polished';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { format } from 'date-fns';
+import { kebabCase } from 'lodash';
+import { lighten } from 'polished';
 
 import { colors } from '../styles/colors';
-import type { PageContext } from '../templates/post';
 import config from '../website-config';
-import { Fragment } from 'react';
+
+import type { PageContext } from '../templates/post';
 
 export type PostCardProps = {
   post: PageContext;

@@ -1,7 +1,8 @@
-import { Helmet } from 'react-helmet';
 import { graphql, Link } from 'gatsby';
+
 import { css } from '@emotion/react';
 import kebabCase from 'lodash/kebabCase';
+import { Helmet } from 'react-helmet';
 
 import { Footer } from '../components/Footer';
 import SiteNav from '../components/header/SiteNav';

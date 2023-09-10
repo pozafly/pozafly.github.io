@@ -1,9 +1,9 @@
-import { Helmet } from 'react-helmet';
 import { Theme, ThemeProvider } from '@emotion/react';
+import { Helmet } from 'react-helmet';
 
+import { ThemeToggleContext } from './ThemeToggleContext';
 import favicon from '../content/img/common/alien.png';
 import useTheme from '../hooks/useTheme';
-import { ThemeToggleContext } from './ThemeToggleContext';
 import GlobalStyles from '../styles/GlobalStyles';
 
 type IndexProps = {

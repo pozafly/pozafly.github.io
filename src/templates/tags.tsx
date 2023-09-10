@@ -1,5 +1,9 @@
+import { Fragment } from 'react';
+
 import { graphql } from 'gatsby';
-import { ImageDataLike, getSrc } from 'gatsby-plugin-image';
+import { getSrc, ImageDataLike } from 'gatsby-plugin-image';
+
+import { Helmet } from 'react-helmet';
 
 import { Footer } from '../components/Footer';
 import SiteNav from '../components/header/SiteNav';
@@ -10,20 +14,19 @@ import {
   inner,
   outer,
   PostFeed,
+  ResponsiveHeaderBackground,
+  SiteArchiveHeader,
   SiteDescription,
   SiteHeader,
+  SiteHeaderBackground,
   SiteHeaderContent,
   SiteMain,
-  SiteTitle,
   SiteNavMain,
-  SiteArchiveHeader,
-  ResponsiveHeaderBackground,
-  SiteHeaderBackground,
+  SiteTitle,
 } from '../styles/shared';
-import type { PageContext } from './post';
-import { Helmet } from 'react-helmet';
 import config from '../website-config';
-import { Fragment } from 'react';
+
+import type { PageContext } from './post';
 
 type TagTemplateProps = {
   location: Location;

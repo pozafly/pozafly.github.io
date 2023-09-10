@@ -1,8 +1,9 @@
 import { graphql } from 'gatsby';
-import { getSrc, getImage, ImageDataLike } from 'gatsby-plugin-image';
-import { Helmet } from 'react-helmet';
+import { getImage, getSrc, ImageDataLike } from 'gatsby-plugin-image';
 
 import { css } from '@emotion/react';
+import { Helmet } from 'react-helmet';
+
 
 import { Footer } from '../components/Footer';
 import SiteNav from '../components/header/SiteNav';
@@ -18,11 +19,12 @@ import {
   SiteDescription,
   SiteHeader,
   SiteHeaderContent,
+  SiteHeaderStyles,
   SiteMain,
   SiteTitle,
-  SiteHeaderStyles,
 } from '../styles/shared';
 import config from '../website-config';
+
 import type { PageContext } from './post';
 
 export type IndexProps = {

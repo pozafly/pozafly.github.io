@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands, @typescript-eslint/no-var-requires */
 const path = require('path');
+
 const _ = require('lodash');
 const readingTime = require('reading-time');
 

@@ -1,4 +1,5 @@
 import { Link } from 'gatsby';
+
 import { css } from '@emotion/react';
 
 export type PaginationProps = {

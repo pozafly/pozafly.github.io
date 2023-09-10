@@ -1,6 +1,8 @@
-import { Helmet } from 'react-helmet';
+import { StaticImage } from 'gatsby-plugin-image';
 
 import { css } from '@emotion/react';
+import { Helmet } from 'react-helmet';
+
 
 import { Footer } from '../components/Footer';
 import SiteNav from '../components/header/SiteNav';
@@ -16,8 +18,8 @@ import {
   SiteNavMain,
 } from '../styles/shared';
 import { NoImage, PostFull, PostFullHeader, PostFullTitle } from '../templates/post';
+
 // import ResumeFrame from '../components/ResumeFrame';
-import { StaticImage } from 'gatsby-plugin-image';
 
 const PageTemplate = css`
   .site-main {

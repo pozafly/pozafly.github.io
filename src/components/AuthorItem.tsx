@@ -2,10 +2,11 @@ import { Link } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+
+import { AuthorProfileImage } from './PostCard';
 
 import type { Author } from '../templates/post';
-import { AuthorProfileImage } from './PostCard';
-import styled from '@emotion/styled';
 
 type AuthorItemProps = {
   author: Author;

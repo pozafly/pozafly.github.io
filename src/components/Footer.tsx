@@ -1,12 +1,14 @@
+import { Fragment } from 'react';
+
 import { Link } from 'gatsby';
-import { setLightness } from 'polished';
-import styled from '@emotion/styled';
+
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { setLightness } from 'polished';
 
 import { colors } from '../styles/colors';
-import { outer, inner } from '../styles/shared';
+import { inner, outer } from '../styles/shared';
 import config from '../website-config';
-import { Fragment } from 'react';
 
 export function Footer() {
   return (

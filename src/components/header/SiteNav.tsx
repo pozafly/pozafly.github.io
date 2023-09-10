@@ -1,17 +1,18 @@
+import { createRef, Fragment, PureComponent } from 'react';
+
 import { Link } from 'gatsby';
+import { ImageDataLike } from 'gatsby-plugin-image';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { SocialLink, SocialLinkFb } from '../../styles/shared';
-import config from '../../website-config';
-import { Instagram } from '../icons/instagram';
-import { Github } from '../icons/github';
 import { SiteNavLogo } from './SiteNavLogo';
 import ThemeModeSwitch from './ThemeModeSwitch';
-import { ImageDataLike } from 'gatsby-plugin-image';
+import { SocialLink, SocialLinkFb } from '../../styles/shared';
 import { Author } from '../../templates/post.jsx';
-import { Fragment, PureComponent, createRef } from 'react';
+import config from '../../website-config';
+import { Github } from '../icons/github';
+import { Instagram } from '../icons/instagram';
 
 type SiteNavProps = {
   isHome?: boolean;

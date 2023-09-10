@@ -1,5 +1,7 @@
-import styled from '@emotion/styled';
 import { useContext } from 'react';
+
+import styled from '@emotion/styled';
+
 import { ThemeToggleContext } from '../../layouts/ThemeToggleContext';
 
 export default function ThemeModeSwitch({ isHome }: { isHome: boolean }) {

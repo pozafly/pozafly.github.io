@@ -1,13 +1,17 @@
-import { format } from 'date-fns';
+import { Fragment } from 'react';
+
 import { graphql, Link } from 'gatsby';
-import { GatsbyImage, getSrc, getImage, ImageDataLike } from 'gatsby-plugin-image';
-import { kebabCase } from 'lodash-es';
-import { Helmet } from 'react-helmet';
+import { GatsbyImage, getImage, getSrc, ImageDataLike } from 'gatsby-plugin-image';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { format } from 'date-fns';
+import { kebabCase } from 'lodash-es';
+import { Helmet } from 'react-helmet';
 
+import { AuthorItem } from '../components/AuthorItem';
 import { Footer } from '../components/Footer';
+import Giscus from '../components/Giscus';
 import SiteNav from '../components/header/SiteNav';
 import PostContent from '../components/PostContent';
 import { ReadNext } from '../components/ReadNext';
@@ -16,9 +20,6 @@ import IndexLayout from '../layouts';
 import { colors } from '../styles/colors';
 import { inner, outer, SiteMain, SiteNavMain } from '../styles/shared';
 import config from '../website-config';
-import Giscus from '../components/Giscus';
-import { AuthorItem } from '../components/AuthorItem';
-import { Fragment } from 'react';
 
 export type Author = {
   name: string;

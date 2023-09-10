@@ -1,10 +1,11 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
+import { createElement } from 'react';
+
 import styled from '@emotion/styled';
 import RehypeReact from 'rehype-react';
 
 import { colors } from '../styles/colors';
 import prism from '../styles/prism';
-import { createElement } from 'react';
 
 const renderAst = new RehypeReact({
   createElement: createElement,
