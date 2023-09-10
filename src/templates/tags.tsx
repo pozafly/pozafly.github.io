@@ -56,7 +56,7 @@ function Tags({ pageContext, data, location }: TagTemplateProps) {
   const tag = pageContext.tag ? pageContext.tag : '';
   const { edges, totalCount } = data.allMarkdownRemark;
   const tagData = data.allTagYaml.edges.find(
-    (n) => n.node.yamlId.toLowerCase() === tag.toLowerCase()
+    (n) => n.node.yamlId.toLowerCase() === tag.toLowerCase(),
   );
 
   const tagForImage = tagData?.node.image;

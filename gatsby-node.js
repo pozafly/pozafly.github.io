@@ -168,9 +168,9 @@ exports.createPages = async ({ graphql, actions }) => {
   const tags = _.uniq(
     _.flatten(
       result.data.allMarkdownRemark.edges.map((edge) =>
-        _.castArray(_.get(edge, 'node.frontmatter.tags', []))
-      )
-    )
+        _.castArray(_.get(edge, 'node.frontmatter.tags', [])),
+      ),
+    ),
   );
   tags.forEach((tag) => {
     createPage({

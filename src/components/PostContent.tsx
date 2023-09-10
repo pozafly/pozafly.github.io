@@ -355,11 +355,13 @@ export const PostFullContent = styled.section`
 
   table {
     -webkit-overflow-scrolling: touch;
-    background: radial-gradient(ellipse at left, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 75%) 0
-        center,
+    background:
+      radial-gradient(ellipse at left, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 75%) 0 center,
       radial-gradient(ellipse at right, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 75%) 100% center;
     background-attachment: scroll, scroll;
-    background-size: 10px 100%, 10px 100%;
+    background-size:
+      10px 100%,
+      10px 100%;
     background-repeat: no-repeat;
   }
 

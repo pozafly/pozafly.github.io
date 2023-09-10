@@ -43,7 +43,7 @@ function Pagination({ currentPage, numPages }: PaginationProps) {
               >
                 {i + 1}
               </Link>
-            )
+            ),
         )}
 
         {!isLast && (
@@ -83,7 +83,9 @@ const navCss = css`
     text-decoration: none;
     transition: background-color 0.3s;
     margin: 0 4px;
-    box-shadow: rgba(39, 44, 49, 0.06) 8px 14px 38px, rgba(39, 44, 49, 0.03) 1px 3px 8px;
+    box-shadow:
+      rgba(39, 44, 49, 0.06) 8px 14px 38px,
+      rgba(39, 44, 49, 0.03) 1px 3px 8px;
     border-radius: 100px;
     width: 40px;
     height: 40px;

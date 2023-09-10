@@ -10,8 +10,7 @@ const useTheme = () => {
   const [theme, setTheme] = useState<Ttheme>('dark');
 
   const themeToggler = useCallback(() => {
-    const nextTheme =
-      theme === themeNames.LIGHT ? themeNames.DARK : themeNames.LIGHT;
+    const nextTheme = theme === themeNames.LIGHT ? themeNames.DARK : themeNames.LIGHT;
 
     setTheme(nextTheme);
     window.__setPreferredTheme(nextTheme);

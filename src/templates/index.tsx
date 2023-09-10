@@ -4,7 +4,6 @@ import { getImage, getSrc, ImageDataLike } from 'gatsby-plugin-image';
 import { css } from '@emotion/react';
 import { Helmet } from 'react-helmet';
 
-
 import { Footer } from '../components/Footer';
 import SiteNav from '../components/header/SiteNav';
 import Pagination from '../components/Pagination';
@@ -115,7 +114,7 @@ function IndexPage(props: IndexProps) {
                     (post.node.frontmatter.tags[0] !== 'Diary' &&
                       process.env.NODE_ENV !== 'production')) && (
                     <PostCard key={post.node.fields.slug} post={post.node} isLarge={index === 0} />
-                  )
+                  ),
               )}
             </div>
           </div>

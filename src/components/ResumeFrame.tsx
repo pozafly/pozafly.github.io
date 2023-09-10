@@ -67,7 +67,9 @@ const Frame = styled.iframe`
   border-radius: 10px;
   opacity: 0;
   transform: translateY(3px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
   box-shadow: 0 8px 18px 0 hsla(218, 53%, 10%, 0.05);
 
   &.frame-loaded {

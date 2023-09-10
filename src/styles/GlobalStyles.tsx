@@ -180,11 +180,7 @@ export default function GlobalStyles() {
               ${colors.darkmode} 50%,
               ${colors.darkmode} 100%
             );
-            --table-last-of-type: linear-gradient(
-              270deg,
-              #191b1f 50%,
-              rgba(25, 27, 31, 0)
-            );
+            --table-last-of-type: linear-gradient(270deg, #191b1f 50%, rgba(25, 27, 31, 0));
             --table-th-background: ${lighten('0.08', colors.darkmode)};
             --table-th-border: var(--table-th-background);
             --tag-boxshadow: #090f1a;
@@ -371,8 +367,8 @@ export default function GlobalStyles() {
         }
         body {
           overflow-x: hidden;
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-            'Noto Sans', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', sans-serif;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', 'Ubuntu',
+            'Droid Sans', 'Helvetica Neue', sans-serif;
           font-size: 1.6rem;
           line-height: 1.6em;
           font-weight: 400;
