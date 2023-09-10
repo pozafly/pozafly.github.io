@@ -1,4 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 /// <reference types="@emotion/react/types/css-prop" />
 
 type CSSModule = Record<string, string>;

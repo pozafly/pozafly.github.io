@@ -75,7 +75,7 @@ const Frame = styled.iframe`
   }
 `;
 
-const ResumeFrame: React.FC<any> = React.memo(() => {
+const ResumeFrame = React.memo(() => {
   const [isIframeLoad, setIsIframeLoad] = useState(false);
   const loaded = () => {
     setIsIframeLoad(true);

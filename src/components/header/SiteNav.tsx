@@ -1,7 +1,7 @@
 import { Link } from 'gatsby';
 import React from 'react';
 
-import { Theme, css } from '@emotion/react';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { SocialLink, SocialLinkFb } from '../../styles/shared';
@@ -10,11 +10,21 @@ import { Instagram } from '../icons/instagram';
 import { Github } from '../icons/github';
 import { SiteNavLogo } from './SiteNavLogo';
 import ThemeModeSwitch from './ThemeModeSwitch';
+import { ImageDataLike } from 'gatsby-plugin-image';
+import { Author } from '../../templates/post.jsx';
 
 type SiteNavProps = {
   isHome?: boolean;
   isPost?: boolean;
-  post?: any;
+  post?: {
+    title: string;
+    date: string;
+    userDate: string;
+    image: ImageDataLike;
+    excerpt: string;
+    tags: string[];
+    author: Author[];
+  };
 };
 
 type SiteNavState = {
@@ -71,7 +81,7 @@ class SiteNav extends React.PureComponent<SiteNavProps, SiteNavState> {
   };
 
   render() {
-    const { isHome = false, isPost = false, post = {} } = this.props;
+    const { isHome = false, isPost = false, post } = this.props;
     return (
       <>
         <nav css={SiteNavStyles}>
@@ -118,7 +128,7 @@ class SiteNav extends React.PureComponent<SiteNavProps, SiteNavState> {
               </ul>
               {isPost && (
                 <NavPostTitle ref={this.titleRef} className="nav-post-title">
-                  {post.title}
+                  {post?.title || ''}
                 </NavPostTitle>
               )}
             </SiteNavContent>
@@ -195,7 +205,7 @@ const SiteNavContent = styled.div`
   align-self: flex-start;
 `;
 
-const NavStyles = (theme: Theme) => css`
+const NavStyles = css`
   position: absolute;
   z-index: 1000;
   display: flex;
@@ -303,7 +313,7 @@ const NavPostTitle = styled.span`
   }
 
   .dash:before {
-    content: '– ';
+    content: '- ';
     opacity: 0.5;
   }
 `;

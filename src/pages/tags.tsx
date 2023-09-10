@@ -65,7 +65,18 @@ const TagArea = css`
   }
 `;
 
-const Tags: React.FC = ({ data }: any) => {
+type Props = {
+  data: {
+    allMarkdownRemark: {
+      group: Array<{
+        fieldValue: string;
+        totalCount: number | string;
+      }>;
+    };
+  };
+};
+
+const Tags = ({ data }: Props) => {
   return (
     <IndexLayout>
       <Helmet>
@@ -93,7 +104,7 @@ const Tags: React.FC = ({ data }: any) => {
                 <div className="post-content">
                   <div css={TagArea}>
                     <ul>
-                      {data.allMarkdownRemark.group.map((tag: any) => (
+                      {data.allMarkdownRemark.group.map((tag) => (
                         <li key={tag.fieldValue}>
                           <Link to={`/tags/${kebabCase(tag.fieldValue)}/`}>
                             {tag.fieldValue} ({tag.totalCount})

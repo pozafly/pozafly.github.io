@@ -1,5 +1,5 @@
 import { graphql } from 'gatsby';
-import { getSrc, getImage } from 'gatsby-plugin-image';
+import { getSrc, getImage, ImageDataLike } from 'gatsby-plugin-image';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 
@@ -33,8 +33,8 @@ export type IndexProps = {
     numPages: number;
   };
   data: {
-    logo: any;
-    header: any;
+    logo: ImageDataLike;
+    header: ImageDataLike;
     allMarkdownRemark: {
       edges: Array<{
         node: PageContext;

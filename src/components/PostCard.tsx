@@ -4,7 +4,6 @@ import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import { kebabCase } from 'lodash';
 import { lighten } from 'polished';
 import React from 'react';
-import _ from 'lodash';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -28,23 +27,26 @@ export function PostCard({
   const datetime = format(date, 'yyyy-MM-dd');
   const displayDatetime = format(date, 'yyyy-MM-dd');
 
+  const imageData = post.frontmatter.image;
+  const imageSource = getImage(imageData);
+
   return (
     <article
-      className={`post-card ${post.frontmatter.image ? '' : 'no-image'} ${
+      className={`post-card ${imageData ? '' : 'no-image'} ${
         isLarge ? 'post-card-large' : ''
       } ${isNext ? 'is-next' : ''}`}
       css={[PostCardStyles, isLarge && PostCardLarge]}
     >
-      {post.frontmatter.image && (
+      {imageData && (
         <Link
           className="post-card-image-link"
           css={PostCardImageLink}
           to={post.fields.slug}
         >
           <PostCardImage className="post-card-image">
-            {post.frontmatter?.image && (
+            {imageSource && (
               <GatsbyImage
-                image={getImage(post.frontmatter.image)!}
+                image={imageSource}
                 alt={`${post.frontmatter.title} cover image`}
                 style={{ height: '100%' }}
                 loading={isLarge ? 'eager' : 'lazy'}

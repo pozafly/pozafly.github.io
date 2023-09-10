@@ -1,6 +1,11 @@
 import { format } from 'date-fns';
 import { graphql, Link } from 'gatsby';
-import { GatsbyImage, getSrc, getImage } from 'gatsby-plugin-image';
+import {
+  GatsbyImage,
+  getSrc,
+  getImage,
+  ImageDataLike,
+} from 'gatsby-plugin-image';
 import { kebabCase } from 'lodash-es';
 import React from 'react';
 import { Helmet } from 'react-helmet';
@@ -23,7 +28,7 @@ import { AuthorItem } from '../components/AuthorItem';
 export type Author = {
   name: string;
   bio: string;
-  avatar: any;
+  avatar: ImageDataLike;
 };
 
 type PageTemplateProps = {
@@ -31,13 +36,13 @@ type PageTemplateProps = {
   data: {
     markdownRemark: {
       html: string;
-      htmlAst: any;
+      htmlAst: unknown;
       excerpt: string;
       frontmatter: {
         title: string;
         date: string;
         userDate: string;
-        image: any;
+        image: ImageDataLike;
         excerpt: string;
         tags: string[];
         author: Author[];
@@ -81,7 +86,7 @@ export type PageContext = {
     };
   };
   frontmatter: {
-    image: any;
+    image: ImageDataLike;
     excerpt: string;
     title: string;
     date: string;
@@ -93,12 +98,15 @@ export type PageContext = {
 
 function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
   const post = data.markdownRemark;
+
+  const imageData = post.frontmatter.image;
   let width: number | undefined;
   let height: number | undefined;
-  if (post.frontmatter.image) {
-    width = getImage(post.frontmatter.image)?.width;
-    height = getImage(post.frontmatter.image)?.height;
+  if (imageData) {
+    width = getImage(imageData)?.width;
+    height = getImage(imageData)?.height;
   }
+  const imageSource = getImage(imageData);
 
   const date = new Date(post.frontmatter.date);
   const datetime = format(date, 'yyyy-MM-dd');
@@ -123,10 +131,10 @@ function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
           content={post.frontmatter.excerpt || post.excerpt}
         />
         <meta property="og:url" content={config.siteUrl + location.pathname} />
-        {post.frontmatter.image && (
+        {imageData && (
           <meta
             property="og:image"
-            content={`${config.siteUrl}${getSrc(post.frontmatter.image)}`}
+            content={`${config.siteUrl}${getSrc(imageData)}`}
           />
         )}
         <meta property="article:published_time" content={publishedTime} />
@@ -149,10 +157,10 @@ function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
           content={post.frontmatter.excerpt || post.excerpt}
         />
         <meta name="github:url" content={config.siteUrl + location.pathname} />
-        {post.frontmatter.image && (
+        {imageData && (
           <meta
             name="github:image"
-            content={`${config.siteUrl}${getSrc(post.frontmatter.image)}`}
+            content={`${config.siteUrl}${getSrc(imageData)}`}
           />
         )}
         <meta name="github:label1" content="Written by" />
@@ -191,7 +199,7 @@ function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
         <main id="site-main" className="site-main" css={[SiteMain, outer]}>
           <div css={inner}>
             {/* TODO: no-image css tag? */}
-            <article css={[PostFull, !post.frontmatter.image && NoImage]}>
+            <article css={[PostFull, !imageData && NoImage]}>
               <PostFullHeader className="post-full-header">
                 <PostFullTags className="post-full-tags">
                   {post.frontmatter.tags &&
@@ -250,10 +258,10 @@ function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
                 </PostFullByline>
               </PostFullHeader>
 
-              {post.frontmatter.image && (
+              {imageSource && (
                 <PostFullImage>
                   <GatsbyImage
-                    image={getImage(post.frontmatter.image)!}
+                    image={imageSource}
                     style={{ height: '100%' }}
                     alt={post.frontmatter.title}
                   />

@@ -1,3 +1,4 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 import React from 'react';
 import styled from '@emotion/styled';
 import RehypeReact from 'rehype-react';

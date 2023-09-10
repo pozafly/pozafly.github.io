@@ -1,6 +1,6 @@
 import { graphql } from 'gatsby';
 import React from 'react';
-import { getSrc } from 'gatsby-plugin-image';
+import { ImageDataLike, getSrc } from 'gatsby-plugin-image';
 
 import { Footer } from '../components/Footer';
 import SiteNav from '../components/header/SiteNav';
@@ -36,7 +36,7 @@ type TagTemplateProps = {
         node: {
           yamlId: string;
           description: string;
-          image?: any;
+          image?: ImageDataLike;
         };
       }>;
     };
@@ -53,8 +53,12 @@ function Tags({ pageContext, data, location }: TagTemplateProps) {
   const tag = pageContext.tag ? pageContext.tag : '';
   const { edges, totalCount } = data.allMarkdownRemark;
   const tagData = data.allTagYaml.edges.find(
-    n => n.node.yamlId.toLowerCase() === tag.toLowerCase(),
+    (n) => n.node.yamlId.toLowerCase() === tag.toLowerCase()
   );
+
+  const tagForImage = tagData?.node.image;
+  /* eslint-disable  @typescript-eslint/no-non-null-assertion */
+  const backgroundImageData = getSrc(tagForImage!);
 
   return (
     <IndexLayout>
@@ -63,12 +67,17 @@ function Tags({ pageContext, data, location }: TagTemplateProps) {
         <title>
           {tag} - {config.title}
         </title>
-        <meta name="description" content={tagData?.node ? tagData.node.description : ''} />
+        <meta
+          name="description"
+          content={tagData?.node ? tagData.node.description : ''}
+        />
         <meta property="og:site_name" content={config.title} />
         <meta property="og:type" content="website" />
         <meta property="og:title" content={`${tag} - ${config.title}`} />
         <meta property="og:url" content={config.siteUrl + location.pathname} />
-        {config.instagram && <meta property="article:publisher" content={config.instagram} />}
+        {config.instagram && (
+          <meta property="article:publisher" content={config.instagram} />
+        )}
         <meta name="github:card" content="summary_large_image" />
         <meta name="github:title" content={`${tag} - ${config.title}`} />
         <meta name="github:url" content={config.siteUrl + location.pathname} />
@@ -80,7 +89,10 @@ function Tags({ pageContext, data, location }: TagTemplateProps) {
         )}
       </Helmet>
       <Wrapper>
-        <header className="site-archive-header" css={[SiteHeader, SiteArchiveHeader]}>
+        <header
+          className="site-archive-header"
+          css={[SiteHeader, SiteArchiveHeader]}
+        >
           <div css={[outer, SiteNavMain]}>
             <div css={inner}>
               <SiteNav isHome={false} />
@@ -88,7 +100,7 @@ function Tags({ pageContext, data, location }: TagTemplateProps) {
           </div>
           <ResponsiveHeaderBackground
             css={[outer, SiteHeaderBackground]}
-            backgroundImage={getSrc(tagData?.node?.image)}
+            backgroundImage={backgroundImageData}
             className="site-header-background"
           >
             <SiteHeaderContent css={inner} className="site-header-content">
@@ -163,7 +175,10 @@ export const pageQuery = graphql`
               bio
               avatar {
                 childImageSharp {
-                  gatsbyImageData(layout: FULL_WIDTH, breakpoints: [40, 80, 120])
+                  gatsbyImageData(
+                    layout: FULL_WIDTH
+                    breakpoints: [40, 80, 120]
+                  )
                 }
               }
             }

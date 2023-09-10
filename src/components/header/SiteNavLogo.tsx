@@ -1,12 +1,12 @@
 import { graphql, Link, StaticQuery } from 'gatsby';
 import React from 'react';
 import { css } from '@emotion/react';
-import { getSrc } from 'gatsby-plugin-image';
+import { getSrc, ImageDataLike } from 'gatsby-plugin-image';
 
 import config from '../../website-config';
 
 type SiteNavLogoProps = {
-  logo?: any;
+  logo?: ImageDataLike;
 };
 
 export function SiteNavLogo() {

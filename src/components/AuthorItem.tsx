@@ -13,15 +13,19 @@ type AuthorItemProps = {
 };
 
 export function AuthorItem({ author }: AuthorItemProps) {
+  const imageSrc = getImage(author.avatar);
+
   return (
     <AuthorItemLi className="author-list-item">
       <Link css={AuthorAvatar} className="author-avatar" to={'/about'}>
-        <GatsbyImage
-          image={getImage(author.avatar)!}
-          css={AuthorProfileImage}
-          className="author-profile-image"
-          alt={author.name}
-        />
+        {imageSrc && (
+          <GatsbyImage
+            image={imageSrc}
+            css={AuthorProfileImage}
+            className="author-profile-image"
+            alt={author.name}
+          />
+        )}
       </Link>
     </AuthorItemLi>
   );

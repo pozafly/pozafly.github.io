@@ -4,7 +4,7 @@ import { ThemeToggleContext } from '../layouts/ThemeToggleContext';
 const src = 'https://giscus.app/client.js';
 const repo = 'pozafly/blog-comments';
 
-const Giscus: React.FC = React.memo(() => {
+const Giscus = React.memo(() => {
   const containerRef = createRef<HTMLDivElement>();
   const { theme } = useContext(ThemeToggleContext);
 

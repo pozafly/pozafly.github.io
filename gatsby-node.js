@@ -109,6 +109,7 @@ exports.createPages = async ({ graphql, actions }) => {
   `);
 
   if (result.errors) {
+    // eslint-disable-next-line no-console
     console.error(result.errors);
     throw new Error(result.errors);
   }
