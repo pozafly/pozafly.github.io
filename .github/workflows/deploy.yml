@@ -5,10 +5,15 @@ on:
 jobs:
   deployment:
     runs-on: ubuntu-latest
-    if: ${{ !contains(github.event.head_commit.message, '[ci skip]') || !contains(github.event.head_commit.message, 'pozafly/renovate') || github.event.pusher.name == 'renovate[bot]' }}
+    if: ${{ !contains(github.event.head_commit.message, '[ci skip]') || !contains(github.event.head_commit.message, 'pozafly/renovate') || github.event.pusher.name != 'renovate[bot]' }}
     steps:
       # time zone이 세팅 되지 않으면 배포 시 ReactDOM 관련 Error 발생.
       # GitHub Actions linux 환경에서 Gatsby 빌드 시 time zone 맞추는 작업 필요.
+      - name: echo-test
+        run: |
+          head_commit.message : ${{ github.event.head_commit.message }}
+          head_commit.message contains : ${{ contains(github.event.head_commit.message, 'pozafly/renovate') }}
+          github.event.pusher.name : ${{ github.event.pusher.name }}
       - name: Time Zone Setting
         run: sudo timedatectl set-timezone Asia/Seoul
       - uses: actions/checkout@v3
