@@ -62,7 +62,7 @@
   },
   "devDependencies": {
     "@types/lodash-es": "4.17.9",
-    "@types/node": "18.11.9",
+    "@types/node": "18.17.15",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.8",
     "@types/react-helmet": "6.1.6",
@@ -85,6 +85,6 @@
     "node": ">=18.12.0"
   },
   "volta": {
-    "node": "18.12.0"
+    "node": "18.17.1"
   }
 }
