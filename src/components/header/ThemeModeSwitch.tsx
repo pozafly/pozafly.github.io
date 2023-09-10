@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { ThemeToggleContext } from '../../layouts/ThemeToggleContext';
 
 export default function ThemeModeSwitch({ isHome }: { isHome: boolean }) {
@@ -109,9 +109,8 @@ const SwitchContainer = styled.button`
 
       &::before {
         opacity: 1;
-        box-shadow: 0 -16px 0 0 white, 0 16px 0 0 white, -16px 0 0 0 white,
-          16px 0 0 0 white, 12px 12px 0 0 white, 12px -12px 0 0 white,
-          -12px 12px 0 0 white, -12px -12px 0 0 white;
+        box-shadow: 0 -16px 0 0 white, 0 16px 0 0 white, -16px 0 0 0 white, 16px 0 0 0 white,
+          12px 12px 0 0 white, 12px -12px 0 0 white, -12px 12px 0 0 white, -12px -12px 0 0 white;
       }
 
       &::after {
@@ -132,9 +131,8 @@ const SwitchContainer = styled.button`
     &.dark {
       .mode {
         &::before {
-          box-shadow: 0 -16px 0 0 white, 0 16px 0 0 white, -16px 0 0 0 white,
-            16px 0 0 0 white, 12px 12px 0 0 white, 12px -12px 0 0 white,
-            -12px 12px 0 0 white, -12px -12px 0 0 white;
+          box-shadow: 0 -16px 0 0 white, 0 16px 0 0 white, -16px 0 0 0 white, 16px 0 0 0 white,
+            12px 12px 0 0 white, 12px -12px 0 0 white, -12px 12px 0 0 white, -12px -12px 0 0 white;
         }
         &::after {
           background: rgba(46, 64, 79);

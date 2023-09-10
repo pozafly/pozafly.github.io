@@ -1,5 +1,4 @@
 import { Link } from 'gatsby';
-import React from 'react';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -12,6 +11,7 @@ import { SiteNavLogo } from './SiteNavLogo';
 import ThemeModeSwitch from './ThemeModeSwitch';
 import { ImageDataLike } from 'gatsby-plugin-image';
 import { Author } from '../../templates/post.jsx';
+import { Fragment, PureComponent, createRef } from 'react';
 
 type SiteNavProps = {
   isHome?: boolean;
@@ -31,8 +31,8 @@ type SiteNavState = {
   showTitle: boolean;
 };
 
-class SiteNav extends React.PureComponent<SiteNavProps, SiteNavState> {
-  titleRef = React.createRef<HTMLSpanElement>();
+class SiteNav extends PureComponent<SiteNavProps, SiteNavState> {
+  titleRef = createRef<HTMLSpanElement>();
   lastScrollY = 0;
   ticking = false;
   state = { showTitle: false };
@@ -83,7 +83,7 @@ class SiteNav extends React.PureComponent<SiteNavProps, SiteNavState> {
   render() {
     const { isHome = false, isPost = false, post } = this.props;
     return (
-      <>
+      <Fragment>
         <nav css={SiteNavStyles}>
           <SiteNavLeft className={`site-nav-left ${isHome ? 'is-home' : ''}`}>
             <SiteNavLogo />
@@ -163,7 +163,7 @@ class SiteNav extends React.PureComponent<SiteNavProps, SiteNavState> {
             </SocialLinks>
           </SiteNavRight>
         </nav>
-      </>
+      </Fragment>
     );
   }
 }

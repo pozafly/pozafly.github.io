@@ -1,5 +1,4 @@
 import { Link } from 'gatsby';
-import React from 'react';
 import { lighten } from 'polished';
 import styled from '@emotion/styled';
 import { kebabCase } from 'lodash-es';
@@ -53,9 +52,7 @@ export function ReadNextCard(props: ReadNextProps) {
             return (
               <li key={n.node.frontmatter.title}>
                 <h4>
-                  <Link to={n.node.fields.slug}>
-                    {n.node.frontmatter.title}
-                  </Link>
+                  <Link to={n.node.fields.slug}>{n.node.frontmatter.title}</Link>
                 </h4>
                 <ReadNextCardMeta className="read-next-card-meta">
                   <p>
@@ -70,8 +67,7 @@ export function ReadNextCard(props: ReadNextProps) {
       </ReadNextCardContent>
       <ReadNextCardFooter className="read-next-card-footer">
         <Link to={`/tags/${kebabCase(props.tags[0])}/`}>
-          {props.relatedPosts.totalCount > 1 &&
-            `See all ${props.relatedPosts.totalCount} posts`}
+          {props.relatedPosts.totalCount > 1 && `See all ${props.relatedPosts.totalCount} posts`}
           {props.relatedPosts.totalCount === 1 && '1 post'}
           {props.relatedPosts.totalCount === 0 && 'No posts'} →
         </Link>

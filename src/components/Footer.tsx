@@ -1,12 +1,12 @@
 import { Link } from 'gatsby';
 import { setLightness } from 'polished';
-import React from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
 import { colors } from '../styles/colors';
 import { outer, inner } from '../styles/shared';
 import config from '../website-config';
+import { Fragment } from 'react';
 
 export function Footer() {
   return (
@@ -15,12 +15,12 @@ export function Footer() {
         <section className="copyright">
           &copy; {new Date().getFullYear()}{' '}
           {config.footer && (
-            <>
+            <Fragment>
               <span>| &nbsp;</span>
               <a href="https://www.gatsbyjs.com/" target="_blank" rel="nofollow">
                 {config.title} {config.footer}
               </a>
-            </>
+            </Fragment>
           )}
         </section>
         <SiteFooterNav>

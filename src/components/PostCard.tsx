@@ -3,7 +3,6 @@ import { Link } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import { kebabCase } from 'lodash';
 import { lighten } from 'polished';
-import React from 'react';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -11,6 +10,7 @@ import styled from '@emotion/styled';
 import { colors } from '../styles/colors';
 import type { PageContext } from '../templates/post';
 import config from '../website-config';
+import { Fragment } from 'react';
 
 export type PostCardProps = {
   post: PageContext;
@@ -18,11 +18,7 @@ export type PostCardProps = {
   isNext?: boolean;
 };
 
-export function PostCard({
-  post,
-  isLarge = false,
-  isNext = false,
-}: PostCardProps) {
+export function PostCard({ post, isLarge = false, isNext = false }: PostCardProps) {
   const date = new Date(post.frontmatter.date);
   const datetime = format(date, 'yyyy-MM-dd');
   const displayDatetime = format(date, 'yyyy-MM-dd');
@@ -32,17 +28,13 @@ export function PostCard({
 
   return (
     <article
-      className={`post-card ${imageData ? '' : 'no-image'} ${
-        isLarge ? 'post-card-large' : ''
-      } ${isNext ? 'is-next' : ''}`}
+      className={`post-card ${imageData ? '' : 'no-image'} ${isLarge ? 'post-card-large' : ''} ${
+        isNext ? 'is-next' : ''
+      }`}
       css={[PostCardStyles, isLarge && PostCardLarge]}
     >
       {imageData && (
-        <Link
-          className="post-card-image-link"
-          css={PostCardImageLink}
-          to={post.fields.slug}
-        >
+        <Link className="post-card-image-link" css={PostCardImageLink} to={post.fields.slug}>
           <PostCardImage className="post-card-image">
             {imageSource && (
               <GatsbyImage
@@ -59,10 +51,10 @@ export function PostCard({
         {post.frontmatter.tags && config.showAllTags && (
           <PostCardPrimaryTag className="post-card-primary-tag">
             {post.frontmatter.tags.map((tag, idx) => (
-              <React.Fragment key={tag}>
-                {idx > 0 && <>, &nbsp;</>}
+              <Fragment key={tag}>
+                {idx > 0 && <Fragment>, &nbsp;</Fragment>}
                 <Link to={`/tags/${kebabCase(tag)}/`}>{tag}</Link>
-              </React.Fragment>
+              </Fragment>
             ))}
           </PostCardPrimaryTag>
         )}
@@ -73,15 +65,9 @@ export function PostCard({
             </Link>
           </PostCardPrimaryTag>
         )}
-        <Link
-          className="post-card-content-link"
-          css={PostCardContentLink}
-          to={post.fields.slug}
-        >
+        <Link className="post-card-content-link" css={PostCardContentLink} to={post.fields.slug}>
           <header>
-            <PostCardTitle className="post-card-title">
-              {post.frontmatter.title}
-            </PostCardTitle>
+            <PostCardTitle className="post-card-title">{post.frontmatter.title}</PostCardTitle>
           </header>
           <PostCardExcerpt className="post-card-excerpt">
             <p>{post.frontmatter.excerpt || post.excerpt}</p>
@@ -91,8 +77,7 @@ export function PostCard({
           <PostCardBylineContent className="post-card-byline-content">
             <span className="post-card-byline-date">
               <time dateTime={datetime}>{displayDatetime}</time>{' '}
-              <span className="bull">&bull;</span>{' '}
-              <span>{post.fields.readingTime.text}</span>
+              <span className="bull">&bull;</span> <span>{post.fields.readingTime.text}</span>
             </span>
           </PostCardBylineContent>
         </PostCardMeta>

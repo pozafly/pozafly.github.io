@@ -1,5 +1,4 @@
 import { Link } from 'gatsby';
-import React from 'react';
 import { css } from '@emotion/react';
 
 export type PaginationProps = {
@@ -12,8 +11,7 @@ function Pagination({ currentPage, numPages }: PaginationProps) {
   const isLast = currentPage === numPages;
   const isEndFirst = currentPage > 3;
   const isEndLast = currentPage <= numPages - 3;
-  const prevPage =
-    currentPage - 1 === 1 ? '/' : `../${(currentPage - 1).toString()}`;
+  const prevPage = currentPage - 1 === 1 ? '/' : `../${(currentPage - 1).toString()}`;
   const nextPage = `../${(currentPage + 1).toString()}`;
 
   return (
@@ -75,8 +73,8 @@ const navCss = css`
   }
 
   a {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-      'Noto Sans', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', 'Ubuntu',
+      'Droid Sans', 'Helvetica Neue', sans-serif;
     font-size: 1.5rem;
     background: #fff;
     color: black;
@@ -84,8 +82,7 @@ const navCss = css`
     text-decoration: none;
     transition: background-color 0.3s;
     margin: 0 4px;
-    box-shadow: rgba(39, 44, 49, 0.06) 8px 14px 38px,
-      rgba(39, 44, 49, 0.03) 1px 3px 8px;
+    box-shadow: rgba(39, 44, 49, 0.06) 8px 14px 38px, rgba(39, 44, 49, 0.03) 1px 3px 8px;
     border-radius: 100px;
     width: 40px;
     height: 40px;

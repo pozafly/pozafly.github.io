@@ -1,6 +1,5 @@
 import { graphql } from 'gatsby';
 import { getSrc, getImage, ImageDataLike } from 'gatsby-plugin-image';
-import React from 'react';
 import { Helmet } from 'react-helmet';
 
 import { css } from '@emotion/react';
@@ -58,32 +57,18 @@ function IndexPage(props: IndexProps) {
         <meta property="og:title" content={config.title} />
         <meta property="og:description" content={config.description} />
         <meta property="og:url" content={config.siteUrl} />
-        <meta
-          property="og:image"
-          content={`${config.siteUrl}${getSrc(props.data.header)}`}
-        />
-        {config.instagram && (
-          <meta property="article:publisher" content={config.instagram} />
-        )}
+        <meta property="og:image" content={`${config.siteUrl}${getSrc(props.data.header)}`} />
+        {config.instagram && <meta property="article:publisher" content={config.instagram} />}
         {config.googleSiteVerification && (
-          <meta
-            name="google-site-verification"
-            content={config.googleSiteVerification}
-          />
+          <meta name="google-site-verification" content={config.googleSiteVerification} />
         )}
         <meta name="github:card" content="summary_large_image" />
         <meta name="github:title" content={config.title} />
         <meta name="github:description" content={config.description} />
         <meta name="github:url" content={config.siteUrl} />
-        <meta
-          name="github:image"
-          content={`${config.siteUrl}${getSrc(props.data.header)}`}
-        />
+        <meta name="github:image" content={`${config.siteUrl}${getSrc(props.data.header)}`} />
         {config.github && (
-          <meta
-            name="github:site"
-            content={`@${config.github.split('https://github.com/')[1]}`}
-          />
+          <meta name="github:site" content={`@${config.github.split('https://github.com/')[1]}`} />
         )}
         <meta property="og:image:width" content={width?.toString()} />
         <meta property="og:image:height" content={height?.toString()} />
@@ -127,11 +112,7 @@ function IndexPage(props: IndexProps) {
                   (post.node.frontmatter.draft !== true ||
                     (post.node.frontmatter.tags[0] !== 'Diary' &&
                       process.env.NODE_ENV !== 'production')) && (
-                    <PostCard
-                      key={post.node.fields.slug}
-                      post={post.node}
-                      isLarge={index === 0}
-                    />
+                    <PostCard key={post.node.fields.slug} post={post.node} isLarge={index === 0} />
                   )
               )}
             </div>
@@ -154,12 +135,7 @@ export const pageQuery = graphql`
   query blogPageQuery($skip: Int!, $limit: Int!) {
     header: file(relativePath: { eq: "img/common/back3.png" }) {
       childImageSharp {
-        gatsbyImageData(
-          width: 2000
-          quality: 100
-          layout: FIXED
-          formats: [AUTO, WEBP, AVIF]
-        )
+        gatsbyImageData(width: 2000, quality: 100, layout: FIXED, formats: [AUTO, WEBP, AVIF])
       }
     }
     allMarkdownRemark(
@@ -186,10 +162,7 @@ export const pageQuery = graphql`
               bio
               avatar {
                 childImageSharp {
-                  gatsbyImageData(
-                    layout: FULL_WIDTH
-                    breakpoints: [40, 80, 120]
-                  )
+                  gatsbyImageData(layout: FULL_WIDTH, breakpoints: [40, 80, 120])
                 }
               }
             }

@@ -1,5 +1,4 @@
 import { graphql, Link, StaticQuery } from 'gatsby';
-import React from 'react';
 import { css } from '@emotion/react';
 import { getSrc, ImageDataLike } from 'gatsby-plugin-image';
 
@@ -24,12 +23,7 @@ export function SiteNavLogo() {
       render={(data: SiteNavLogoProps) => (
         <Link className="site-nav-logo" css={SiteNavLogoStyles} to="/">
           {data.logo ? (
-            <img
-              src={getSrc(data.logo)}
-              alt={config.title}
-              width="21"
-              height="21"
-            />
+            <img src={getSrc(data.logo)} alt={config.title} width="21" height="21" />
           ) : (
             config.title
           )}

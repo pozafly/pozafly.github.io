@@ -1,5 +1,4 @@
 import { graphql } from 'gatsby';
-import React from 'react';
 import { ImageDataLike, getSrc } from 'gatsby-plugin-image';
 
 import { Footer } from '../components/Footer';
@@ -24,6 +23,7 @@ import {
 import type { PageContext } from './post';
 import { Helmet } from 'react-helmet';
 import config from '../website-config';
+import { Fragment } from 'react';
 
 type TagTemplateProps = {
   location: Location;
@@ -67,32 +67,21 @@ function Tags({ pageContext, data, location }: TagTemplateProps) {
         <title>
           {tag} - {config.title}
         </title>
-        <meta
-          name="description"
-          content={tagData?.node ? tagData.node.description : ''}
-        />
+        <meta name="description" content={tagData?.node ? tagData.node.description : ''} />
         <meta property="og:site_name" content={config.title} />
         <meta property="og:type" content="website" />
         <meta property="og:title" content={`${tag} - ${config.title}`} />
         <meta property="og:url" content={config.siteUrl + location.pathname} />
-        {config.instagram && (
-          <meta property="article:publisher" content={config.instagram} />
-        )}
+        {config.instagram && <meta property="article:publisher" content={config.instagram} />}
         <meta name="github:card" content="summary_large_image" />
         <meta name="github:title" content={`${tag} - ${config.title}`} />
         <meta name="github:url" content={config.siteUrl + location.pathname} />
         {config.github && (
-          <meta
-            name="github:site"
-            content={`@${config.github.split('https://github.com/')[1]}`}
-          />
+          <meta name="github:site" content={`@${config.github.split('https://github.com/')[1]}`} />
         )}
       </Helmet>
       <Wrapper>
-        <header
-          className="site-archive-header"
-          css={[SiteHeader, SiteArchiveHeader]}
-        >
+        <header className="site-archive-header" css={[SiteHeader, SiteArchiveHeader]}>
           <div css={[outer, SiteNavMain]}>
             <div css={inner}>
               <SiteNav isHome={false} />
@@ -109,11 +98,11 @@ function Tags({ pageContext, data, location }: TagTemplateProps) {
                 {tagData?.node.description ? (
                   tagData.node.description
                 ) : (
-                  <>
+                  <Fragment>
                     A collection of {totalCount > 1 && `${totalCount} posts`}
                     {totalCount === 1 && '1 post'}
                     {totalCount === 0 && 'No posts'}
-                  </>
+                  </Fragment>
                 )}
               </SiteDescription>
             </SiteHeaderContent>
@@ -175,10 +164,7 @@ export const pageQuery = graphql`
               bio
               avatar {
                 childImageSharp {
-                  gatsbyImageData(
-                    layout: FULL_WIDTH
-                    breakpoints: [40, 80, 120]
-                  )
+                  gatsbyImageData(layout: FULL_WIDTH, breakpoints: [40, 80, 120])
                 }
               }
             }

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
+import { memo, useState } from 'react';
 
 const FrameWrapper = styled.div`
   display: flex;
@@ -75,7 +75,7 @@ const Frame = styled.iframe`
   }
 `;
 
-const ResumeFrame = React.memo(() => {
+const ResumeFrame = memo(() => {
   const [isIframeLoad, setIsIframeLoad] = useState(false);
   const loaded = () => {
     setIsIframeLoad(true);

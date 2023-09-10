@@ -1,13 +1,13 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
-import React from 'react';
 import styled from '@emotion/styled';
 import RehypeReact from 'rehype-react';
 
 import { colors } from '../styles/colors';
 import prism from '../styles/prism';
+import { createElement } from 'react';
 
 const renderAst = new RehypeReact({
-  createElement: React.createElement,
+  createElement: createElement,
   components: {},
 }).Compiler;
 
@@ -179,8 +179,8 @@ export const PostFullContent = styled.section`
     line-height: 1em;
     font-weight: 400 !important;
     border-radius: 3px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-      'Noto Sans', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', 'Ubuntu',
+      'Droid Sans', 'Helvetica Neue', sans-serif;
   }
 
   p code {
@@ -227,8 +227,8 @@ export const PostFullContent = styled.section`
   h5,
   h6 {
     color: var(--home-header-color);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-      'Noto Sans', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', 'Ubuntu',
+      'Droid Sans', 'Helvetica Neue', sans-serif;
   }
 
   h1 {
@@ -345,8 +345,8 @@ export const PostFullContent = styled.section`
     width: auto;
     border-spacing: 0;
     border-collapse: collapse;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-      'Noto Sans', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', 'Ubuntu',
+      'Droid Sans', 'Helvetica Neue', sans-serif;
     font-size: 1.6rem;
     white-space: nowrap;
     vertical-align: top;
@@ -354,18 +354,9 @@ export const PostFullContent = styled.section`
 
   table {
     -webkit-overflow-scrolling: touch;
-    background: radial-gradient(
-          ellipse at left,
-          rgba(0, 0, 0, 0.2) 0%,
-          rgba(0, 0, 0, 0) 75%
-        )
-        0 center,
-      radial-gradient(
-          ellipse at right,
-          rgba(0, 0, 0, 0.2) 0%,
-          rgba(0, 0, 0, 0) 75%
-        )
-        100% center;
+    background: radial-gradient(ellipse at left, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 75%) 0
+        center,
+      radial-gradient(ellipse at right, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 75%) 100% center;
     background-attachment: scroll, scroll;
     background-size: 10px 100%, 10px 100%;
     background-repeat: no-repeat;

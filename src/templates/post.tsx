@@ -1,13 +1,7 @@
 import { format } from 'date-fns';
 import { graphql, Link } from 'gatsby';
-import {
-  GatsbyImage,
-  getSrc,
-  getImage,
-  ImageDataLike,
-} from 'gatsby-plugin-image';
+import { GatsbyImage, getSrc, getImage, ImageDataLike } from 'gatsby-plugin-image';
 import { kebabCase } from 'lodash-es';
-import React from 'react';
 import { Helmet } from 'react-helmet';
 
 import { css } from '@emotion/react';
@@ -24,6 +18,7 @@ import { inner, outer, SiteMain, SiteNavMain } from '../styles/shared';
 import config from '../website-config';
 import Giscus from '../components/Giscus';
 import { AuthorItem } from '../components/AuthorItem';
+import { Fragment } from 'react';
 
 export type Author = {
   name: string;
@@ -119,23 +114,14 @@ function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
         <html lang={config.lang} />
         <title>{post.frontmatter.title}</title>
 
-        <meta
-          name="description"
-          content={post.frontmatter.excerpt || post.excerpt}
-        />
+        <meta name="description" content={post.frontmatter.excerpt || post.excerpt} />
         <meta property="og:site_name" content={config.title} />
         <meta property="og:type" content="article" />
         <meta property="og:title" content={post.frontmatter.title} />
-        <meta
-          property="og:description"
-          content={post.frontmatter.excerpt || post.excerpt}
-        />
+        <meta property="og:description" content={post.frontmatter.excerpt || post.excerpt} />
         <meta property="og:url" content={config.siteUrl + location.pathname} />
         {imageData && (
-          <meta
-            property="og:image"
-            content={`${config.siteUrl}${getSrc(imageData)}`}
-          />
+          <meta property="og:image" content={`${config.siteUrl}${getSrc(imageData)}`} />
         )}
         <meta property="article:published_time" content={publishedTime} />
         {/* not sure if modified time possible */}
@@ -144,36 +130,21 @@ function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
           <meta property="article:tag" content={post.frontmatter.tags[0]} />
         )}
 
-        {config.instagram && (
-          <meta property="article:publisher" content={config.instagram} />
-        )}
-        {config.instagram && (
-          <meta property="article:author" content={config.instagram} />
-        )}
+        {config.instagram && <meta property="article:publisher" content={config.instagram} />}
+        {config.instagram && <meta property="article:author" content={config.instagram} />}
         <meta name="github:card" content="summary_large_image" />
         <meta name="github:title" content={post.frontmatter.title} />
-        <meta
-          name="github:description"
-          content={post.frontmatter.excerpt || post.excerpt}
-        />
+        <meta name="github:description" content={post.frontmatter.excerpt || post.excerpt} />
         <meta name="github:url" content={config.siteUrl + location.pathname} />
         {imageData && (
-          <meta
-            name="github:image"
-            content={`${config.siteUrl}${getSrc(imageData)}`}
-          />
+          <meta name="github:image" content={`${config.siteUrl}${getSrc(imageData)}`} />
         )}
         <meta name="github:label1" content="Written by" />
         <meta name="github:data1" content={post.frontmatter.author[0].name} />
         <meta name="github:label2" content="Filed under" />
-        {post.frontmatter.tags && (
-          <meta name="github:data2" content={post.frontmatter.tags[0]} />
-        )}
+        {post.frontmatter.tags && <meta name="github:data2" content={post.frontmatter.tags[0]} />}
         {config.github && (
-          <meta
-            name="github:site"
-            content={`@${config.github.split('https://github.com/')[1]}`}
-          />
+          <meta name="github:site" content={`@${config.github.split('https://github.com/')[1]}`} />
         )}
         {config.github && (
           <meta
@@ -181,12 +152,8 @@ function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
             content={`@${config.github.split('https://github.com/')[1]}`}
           />
         )}
-        {width && (
-          <meta property="og:image:width" content={width?.toString()} />
-        )}
-        {height && (
-          <meta property="og:image:height" content={height?.toString()} />
-        )}
+        {width && <meta property="og:image:width" content={width?.toString()} />}
+        {height && <meta property="og:image:height" content={height?.toString()} />}
       </Helmet>
       <Wrapper css={PostTemplate}>
         <header className="site-header">
@@ -206,24 +173,20 @@ function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
                     post.frontmatter.tags.length > 0 &&
                     config.showAllTags &&
                     post.frontmatter.tags.map((tag, idx) => (
-                      <React.Fragment key={tag}>
-                        {idx > 0 && <>, &nbsp;</>}
+                      <Fragment key={tag}>
+                        {idx > 0 && <Fragment>, &nbsp;</Fragment>}
                         <Link to={`/tags/${kebabCase(tag)}/`}>{tag}</Link>
-                      </React.Fragment>
+                      </Fragment>
                     ))}
                   {post.frontmatter.tags &&
                     post.frontmatter.tags.length > 0 &&
                     !config.showAllTags && (
-                      <Link
-                        to={`/tags/${kebabCase(post.frontmatter.tags[0])}/`}
-                      >
+                      <Link to={`/tags/${kebabCase(post.frontmatter.tags[0])}/`}>
                         {post.frontmatter.tags[0]}
                       </Link>
                     )}
                 </PostFullTags>
-                <PostFullTitle className="post-full-title">
-                  {post.frontmatter.title}
-                </PostFullTitle>
+                <PostFullTitle className="post-full-title">{post.frontmatter.title}</PostFullTitle>
                 <PostFullCustomExcerpt className="post-full-custom-excerpt">
                   {post.frontmatter.excerpt}
                 </PostFullCustomExcerpt>
@@ -483,11 +446,7 @@ export const query = graphql`
         excerpt
         image {
           childImageSharp {
-            gatsbyImageData(
-              layout: FULL_WIDTH
-              placeholder: BLURRED
-              formats: [AUTO, WEBP, AVIF]
-            )
+            gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
           }
         }
         author {
@@ -502,9 +461,7 @@ export const query = graphql`
       }
     }
     relatedPosts: allMarkdownRemark(
-      filter: {
-        frontmatter: { tags: { in: [$primaryTag] }, draft: { ne: true } }
-      }
+      filter: { frontmatter: { tags: { in: [$primaryTag] }, draft: { ne: true } } }
       limit: 5
       sort: { frontmatter: { date: DESC } }
     ) {

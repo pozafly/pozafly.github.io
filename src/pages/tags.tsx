@@ -1,4 +1,3 @@
-import React from 'react';
 import { Helmet } from 'react-helmet';
 import { graphql, Link } from 'gatsby';
 import { css } from '@emotion/react';
@@ -17,12 +16,7 @@ import {
   SiteMain,
   SiteNavMain,
 } from '../styles/shared';
-import {
-  NoImage,
-  PostFull,
-  PostFullHeader,
-  PostFullTitle,
-} from '../templates/post';
+import { NoImage, PostFull, PostFullHeader, PostFullTitle } from '../templates/post';
 
 const PageTemplate = css`
   .site-main {
@@ -83,10 +77,7 @@ const Tags = ({ data }: Props) => {
         <title>Tags</title>
       </Helmet>
       <Wrapper css={PageTemplate}>
-        <header
-          className="site-archive-header no-image"
-          css={[SiteHeader, SiteArchiveHeader]}
-        >
+        <header className="site-archive-header no-image" css={[SiteHeader, SiteArchiveHeader]}>
           <div css={[outer, SiteNavMain]}>
             <div css={inner}>
               <SiteNav isHome={false} />
