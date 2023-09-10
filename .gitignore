@@ -6,6 +6,7 @@ node_modules/
 
 .cache/
 public
+.eslintcache
 
 src/gatsby-types.d.ts
 
