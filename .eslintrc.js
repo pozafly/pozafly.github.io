@@ -19,7 +19,7 @@ module.exports = {
     sourceType: 'module',
     jsx: true,
   },
-  plugins: ['import', 'react', 'react-hooks'],
+  plugins: ['import', 'react', 'react-hooks', '@emotion'],
   rules: {
     'no-restricted-imports': [
       'error',
@@ -80,5 +80,8 @@ module.exports = {
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
     'react/no-unknown-property': 'off',
+    '@emotion/styled-import': 'error',
+    '@emotion/import-from-emotion': 'error',
+    '@emotion/syntax-preference': [2, 'string'],
   },
 };
