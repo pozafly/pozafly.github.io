@@ -78,7 +78,7 @@ const Frame = styled.iframe`
   }
 `;
 
-const ResumeFrame = memo(() => {
+const ResumeFrame = () => {
   const [isIframeLoad, setIsIframeLoad] = useState(false);
   const loaded = () => {
     setIsIframeLoad(true);
@@ -96,6 +96,6 @@ const ResumeFrame = memo(() => {
       />
     </FrameWrapper>
   );
-});
+};
 
-export default ResumeFrame;
+export default memo(ResumeFrame);

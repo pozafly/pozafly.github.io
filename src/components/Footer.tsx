@@ -19,7 +19,7 @@ export function Footer() {
           {config.footer && (
             <Fragment>
               <span>| &nbsp;</span>
-              <a href="https://www.gatsbyjs.com/" target="_blank" rel="nofollow">
+              <a href="https://www.gatsbyjs.com/" target="_blank" rel="nofollow noreferrer">
                 {config.title} {config.footer}
               </a>
             </Fragment>

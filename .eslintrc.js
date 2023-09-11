@@ -5,13 +5,20 @@ module.exports = {
     node: true,
   },
   parser: '@typescript-eslint/parser',
-  extends: ['eslint:recommended', 'prettier', 'plugin:@typescript-eslint/recommended'],
+  extends: [
+    'eslint:recommended',
+    'prettier',
+    'plugin:react/recommended',
+    'plugin:react/jsx-runtime',
+    'plugin:@typescript-eslint/recommended',
+  ],
   overrides: [],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
+    jsx: true,
   },
-  plugins: ['import'],
+  plugins: ['import', 'react'],
   rules: {
     'no-restricted-imports': [
       'error',
@@ -71,5 +78,6 @@ module.exports = {
     'no-console': 'warn',
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
+    'react/no-unknown-property': 'off',
   },
 };
