@@ -6,7 +6,7 @@ import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { format } from 'date-fns';
-import { kebabCase } from 'lodash';
+import { kebabCase } from 'lodash-es';
 import { lighten } from 'polished';
 
 import { colors } from '../styles/colors';

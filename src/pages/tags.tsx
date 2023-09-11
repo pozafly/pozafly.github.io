@@ -1,7 +1,7 @@
 import { graphql, Link } from 'gatsby';
 
 import { css } from '@emotion/react';
-import kebabCase from 'lodash/kebabCase';
+import { kebabCase } from 'lodash-es';
 import { Helmet } from 'react-helmet';
 
 import { Footer } from '../components/Footer';
