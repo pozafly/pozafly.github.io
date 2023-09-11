@@ -2,7 +2,6 @@ import { graphql, Link } from 'gatsby';
 
 import { css } from '@emotion/react';
 import { kebabCase } from 'lodash-es';
-import { Helmet } from 'react-helmet';
 
 import { Footer } from '../components/Footer';
 import SiteNav from '../components/header/SiteNav';
@@ -71,12 +70,11 @@ type Props = {
   };
 };
 
+export const Head = () => <title>Tags</title>;
+
 const Tags = ({ data }: Props) => {
   return (
     <IndexLayout>
-      <Helmet>
-        <title>Tags</title>
-      </Helmet>
       <Wrapper css={PageTemplate}>
         <header className="site-archive-header no-image" css={[SiteHeader, SiteArchiveHeader]}>
           <div css={[outer, SiteNavMain]}>

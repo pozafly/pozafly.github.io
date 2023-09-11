@@ -3,8 +3,6 @@ import { Fragment } from 'react';
 import { graphql } from 'gatsby';
 import { getSrc, ImageDataLike } from 'gatsby-plugin-image';
 
-import { Helmet } from 'react-helmet';
-
 import { Footer } from '../components/Footer';
 import SiteNav from '../components/header/SiteNav';
 import { PostCard } from '../components/PostCard';
@@ -28,31 +26,65 @@ import config from '../website-config';
 
 import type { PageContext } from './post';
 
-type TagTemplateProps = {
-  location: Location;
-  pageContext: {
-    tag: string;
+type TagData = {
+  allTagYaml: {
+    edges: Array<{
+      node: {
+        yamlId: string;
+        description: string;
+        image?: ImageDataLike;
+      };
+    }>;
   };
-  data: {
-    allTagYaml: {
-      edges: Array<{
-        node: {
-          yamlId: string;
-          description: string;
-          image?: ImageDataLike;
-        };
-      }>;
-    };
-    allMarkdownRemark: {
-      totalCount: number;
-      edges: Array<{
-        node: PageContext;
-      }>;
-    };
+  allMarkdownRemark: {
+    totalCount: number;
+    edges: Array<{
+      node: PageContext;
+    }>;
   };
 };
 
-function Tags({ pageContext, data, location }: TagTemplateProps) {
+type TagTemplateProps = {
+  pageContext: {
+    tag: string;
+  };
+  data: TagData;
+};
+
+type TagHeadTemplateProps = {
+  location: Location;
+  data: TagData;
+  pageContext: {
+    tag: string;
+  };
+};
+
+export const Head = ({ data, pageContext, location }: TagHeadTemplateProps) => {
+  const tag = pageContext.tag ? pageContext.tag : '';
+  const tagData = data.allTagYaml.edges.find(
+    (n) => n.node.yamlId.toLowerCase() === tag.toLowerCase(),
+  );
+
+  return (
+    <Fragment>
+      <title>{tag}</title>
+      <meta name="description" content={tagData?.node ? tagData.node.description : ''} />
+      <meta property="og:site_name" content={config.title} />
+      <meta property="og:type" content="website" />
+      <meta property="og:title" content={`${tag} - ${config.title}`} />
+      <meta property="og:url" content={config.siteUrl + location.pathname} />
+      {config.instagram && <meta property="article:publisher" content={config.instagram} />}
+      <meta name="github:card" content="summary_large_image" />
+      <meta name="github:title" content={`${tag} - ${config.title}`} />
+      <meta name="github:url" content={config.siteUrl + location.pathname} />
+      {config.github && (
+        <meta name="github:site" content={`@${config.github.split('https://github.com/')[1]}`} />
+      )}
+    </Fragment>
+  );
+};
+
+function Tags({ pageContext, data }: TagTemplateProps) {
   const tag = pageContext.tag ? pageContext.tag : '';
   const { edges, totalCount } = data.allMarkdownRemark;
   const tagData = data.allTagYaml.edges.find(
@@ -65,24 +97,6 @@ function Tags({ pageContext, data, location }: TagTemplateProps) {
 
   return (
     <IndexLayout>
-      <Helmet>
-        <html lang={config.lang} />
-        <title>
-          {tag} - {config.title}
-        </title>
-        <meta name="description" content={tagData?.node ? tagData.node.description : ''} />
-        <meta property="og:site_name" content={config.title} />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content={`${tag} - ${config.title}`} />
-        <meta property="og:url" content={config.siteUrl + location.pathname} />
-        {config.instagram && <meta property="article:publisher" content={config.instagram} />}
-        <meta name="github:card" content="summary_large_image" />
-        <meta name="github:title" content={`${tag} - ${config.title}`} />
-        <meta name="github:url" content={config.siteUrl + location.pathname} />
-        {config.github && (
-          <meta name="github:site" content={`@${config.github.split('https://github.com/')[1]}`} />
-        )}
-      </Helmet>
       <Wrapper>
         <header className="site-archive-header" css={[SiteHeader, SiteArchiveHeader]}>
           <div css={[outer, SiteNavMain]}>

@@ -1,7 +1,6 @@
 import { StaticImage } from 'gatsby-plugin-image';
 
 import { css } from '@emotion/react';
-import { Helmet } from 'react-helmet';
 
 import { Footer } from '../components/Footer';
 import SiteNav from '../components/header/SiteNav';
@@ -28,12 +27,11 @@ const PageTemplate = css`
   }
 `;
 
+export const Head = () => <title>About</title>;
+
 function About() {
   return (
     <IndexLayout>
-      <Helmet>
-        <title>About</title>
-      </Helmet>
       <Wrapper css={PageTemplate}>
         <header className="site-archive-header no-image" css={[SiteHeader, SiteArchiveHeader]}>
           <div css={[outer, SiteNavMain]}>

@@ -1,8 +1,9 @@
+import { Fragment } from 'react';
+
 import { graphql } from 'gatsby';
 import { getImage, getSrc, ImageDataLike } from 'gatsby-plugin-image';
 
 import { css } from '@emotion/react';
-import { Helmet } from 'react-helmet';
 
 import { Footer } from '../components/Footer';
 import SiteNav from '../components/header/SiteNav';
@@ -43,41 +44,43 @@ export type IndexProps = {
   };
 };
 
-function IndexPage(props: IndexProps) {
-  const width = getImage(props.data.header)?.width;
-  const height = getImage(props.data.header)?.height;
+export const Head = ({ data }: IndexProps) => {
+  const width = getImage(data.header)?.width;
+  const height = getImage(data.header)?.height;
 
   return (
+    <Fragment>
+      <title>{config.title}</title>
+      <meta name="description" content={config.description} />
+      <meta property="og:site_name" content={config.title} />
+      <meta property="og:type" content="website" />
+      <meta property="og:title" content={config.title} />
+      <meta property="og:description" content={config.description} />
+      <meta property="og:url" content={config.siteUrl} />
+      <meta property="og:image" content={`${config.siteUrl}${getSrc(data.header)}`} />
+      {config.instagram && <meta property="article:publisher" content={config.instagram} />}
+      {config.googleSiteVerification && (
+        <meta name="google-site-verification" content={config.googleSiteVerification} />
+      )}
+      <meta name="github:card" content="summary_large_image" />
+      <meta name="github:title" content={config.title} />
+      <meta name="github:description" content={config.description} />
+      <meta name="github:url" content={config.siteUrl} />
+      <meta name="github:image" content={`${config.siteUrl}${getSrc(data.header)}`} />
+      {config.github && (
+        <meta name="github:site" content={`@${config.github.split('https://github.com/')[1]}`} />
+      )}
+      <meta property="og:image:width" content={width?.toString()} />
+      <meta property="og:image:height" content={height?.toString()} />
+      <meta name="google-site-verification" content="X7fnDr_T5GGmrn97A919fAd2I_t2ghdL_ZkDjcR1Y8Q" />
+    </Fragment>
+  );
+};
+
+function IndexPage(props: IndexProps) {
+  return (
     <IndexLayout css={HomePosts}>
-      <Helmet>
-        <html lang={config.lang} />
-        <title>{config.title}</title>
-        <meta name="description" content={config.description} />
-        <meta property="og:site_name" content={config.title} />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content={config.title} />
-        <meta property="og:description" content={config.description} />
-        <meta property="og:url" content={config.siteUrl} />
-        <meta property="og:image" content={`${config.siteUrl}${getSrc(props.data.header)}`} />
-        {config.instagram && <meta property="article:publisher" content={config.instagram} />}
-        {config.googleSiteVerification && (
-          <meta name="google-site-verification" content={config.googleSiteVerification} />
-        )}
-        <meta name="github:card" content="summary_large_image" />
-        <meta name="github:title" content={config.title} />
-        <meta name="github:description" content={config.description} />
-        <meta name="github:url" content={config.siteUrl} />
-        <meta name="github:image" content={`${config.siteUrl}${getSrc(props.data.header)}`} />
-        {config.github && (
-          <meta name="github:site" content={`@${config.github.split('https://github.com/')[1]}`} />
-        )}
-        <meta property="og:image:width" content={width?.toString()} />
-        <meta property="og:image:height" content={height?.toString()} />
-        <meta
-          name="google-site-verification"
-          content="X7fnDr_T5GGmrn97A919fAd2I_t2ghdL_ZkDjcR1Y8Q"
-        />
-      </Helmet>
+      {/* <Helmet></Helmet> */}
       <Wrapper>
         <div
           css={[outer, SiteHeader, SiteHeaderStyles]}

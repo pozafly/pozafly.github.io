@@ -7,7 +7,6 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { format } from 'date-fns';
 import { kebabCase } from 'lodash-es';
-import { Helmet } from 'react-helmet';
 
 import { AuthorItem } from '../components/AuthorItem';
 import { Footer } from '../components/Footer';
@@ -92,9 +91,8 @@ export type PageContext = {
   };
 };
 
-function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
+export const Head = ({ data, location }: PageTemplateProps) => {
   const post = data.markdownRemark;
-
   const imageData = post.frontmatter.image;
   let width: number | undefined;
   let height: number | undefined;
@@ -102,60 +100,61 @@ function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
     width = getImage(imageData)?.width;
     height = getImage(imageData)?.height;
   }
+
+  const date = new Date(post.frontmatter.date);
+  const publishedTime = date.toISOString();
+
+  return (
+    <Fragment>
+      <title>{post.frontmatter.title}</title>
+
+      <meta name="description" content={post.frontmatter.excerpt || post.excerpt} />
+      <meta property="og:site_name" content={config.title} />
+      <meta property="og:type" content="article" />
+      <meta property="og:title" content={post.frontmatter.title} />
+      <meta property="og:description" content={post.frontmatter.excerpt || post.excerpt} />
+      <meta property="og:url" content={config.siteUrl + location.pathname} />
+      {imageData && <meta property="og:image" content={`${config.siteUrl}${getSrc(imageData)}`} />}
+      <meta property="article:published_time" content={publishedTime} />
+      {/* not sure if modified time possible */}
+      {/* <meta property="article:modified_time" content="2018-08-20T15:12:00.000Z" /> */}
+      {post.frontmatter.tags && <meta property="article:tag" content={post.frontmatter.tags[0]} />}
+
+      {config.instagram && <meta property="article:publisher" content={config.instagram} />}
+      {config.instagram && <meta property="article:author" content={config.instagram} />}
+      <meta name="github:card" content="summary_large_image" />
+      <meta name="github:title" content={post.frontmatter.title} />
+      <meta name="github:description" content={post.frontmatter.excerpt || post.excerpt} />
+      <meta name="github:url" content={config.siteUrl + location.pathname} />
+      {imageData && <meta name="github:image" content={`${config.siteUrl}${getSrc(imageData)}`} />}
+      <meta name="github:label1" content="Written by" />
+      <meta name="github:data1" content={post.frontmatter.author[0].name} />
+      <meta name="github:label2" content="Filed under" />
+      {post.frontmatter.tags && <meta name="github:data2" content={post.frontmatter.tags[0]} />}
+      {config.github && (
+        <meta name="github:site" content={`@${config.github.split('https://github.com/')[1]}`} />
+      )}
+      {config.github && (
+        <meta name="github:creator" content={`@${config.github.split('https://github.com/')[1]}`} />
+      )}
+      {width && <meta property="og:image:width" content={width?.toString()} />}
+      {height && <meta property="og:image:height" content={height?.toString()} />}
+    </Fragment>
+  );
+};
+
+function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
+  const post = data.markdownRemark;
+
+  const imageData = post.frontmatter.image;
   const imageSource = getImage(imageData);
 
   const date = new Date(post.frontmatter.date);
   const datetime = format(date, 'yyyy-MM-dd');
   const displayDatetime = format(date, 'yyyy-MM-dd');
-  const publishedTime = date.toISOString();
 
   return (
     <IndexLayout className="post-template">
-      <Helmet>
-        <html lang={config.lang} />
-        <title>{post.frontmatter.title}</title>
-
-        <meta name="description" content={post.frontmatter.excerpt || post.excerpt} />
-        <meta property="og:site_name" content={config.title} />
-        <meta property="og:type" content="article" />
-        <meta property="og:title" content={post.frontmatter.title} />
-        <meta property="og:description" content={post.frontmatter.excerpt || post.excerpt} />
-        <meta property="og:url" content={config.siteUrl + location.pathname} />
-        {imageData && (
-          <meta property="og:image" content={`${config.siteUrl}${getSrc(imageData)}`} />
-        )}
-        <meta property="article:published_time" content={publishedTime} />
-        {/* not sure if modified time possible */}
-        {/* <meta property="article:modified_time" content="2018-08-20T15:12:00.000Z" /> */}
-        {post.frontmatter.tags && (
-          <meta property="article:tag" content={post.frontmatter.tags[0]} />
-        )}
-
-        {config.instagram && <meta property="article:publisher" content={config.instagram} />}
-        {config.instagram && <meta property="article:author" content={config.instagram} />}
-        <meta name="github:card" content="summary_large_image" />
-        <meta name="github:title" content={post.frontmatter.title} />
-        <meta name="github:description" content={post.frontmatter.excerpt || post.excerpt} />
-        <meta name="github:url" content={config.siteUrl + location.pathname} />
-        {imageData && (
-          <meta name="github:image" content={`${config.siteUrl}${getSrc(imageData)}`} />
-        )}
-        <meta name="github:label1" content="Written by" />
-        <meta name="github:data1" content={post.frontmatter.author[0].name} />
-        <meta name="github:label2" content="Filed under" />
-        {post.frontmatter.tags && <meta name="github:data2" content={post.frontmatter.tags[0]} />}
-        {config.github && (
-          <meta name="github:site" content={`@${config.github.split('https://github.com/')[1]}`} />
-        )}
-        {config.github && (
-          <meta
-            name="github:creator"
-            content={`@${config.github.split('https://github.com/')[1]}`}
-          />
-        )}
-        {width && <meta property="og:image:width" content={width?.toString()} />}
-        {height && <meta property="og:image:height" content={height?.toString()} />}
-      </Helmet>
       <Wrapper css={PostTemplate}>
         <header className="site-header">
           <div css={[outer, SiteNavMain]}>
