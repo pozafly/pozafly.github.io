@@ -27,6 +27,7 @@ const Giscus = () => {
     scriptElement.setAttribute('data-theme', document.body.className === 'dark' ? 'dark' : 'light');
 
     containerRef.current?.appendChild(scriptElement);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
