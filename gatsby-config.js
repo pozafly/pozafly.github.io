@@ -11,6 +11,16 @@ module.exports = {
     'MarkdownRemark.frontmatter.author': 'AuthorYaml.name',
   },
   plugins: [
+    {
+      resolve: 'gatsby-plugin-manifest',
+      options: {
+        name: 'Pozafly Blog',
+        short_name: 'Pozafly Blog',
+        start_url: '/',
+        display: 'minimal-ui',
+        icon: 'src/content/img/common/alien.png',
+      },
+    },
     'gatsby-plugin-sitemap',
     'gatsby-plugin-image',
     {
