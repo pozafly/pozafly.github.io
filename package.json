@@ -23,8 +23,6 @@
     "@emotion/styled": "11.10.5",
     "cssnano": "5.1.15",
     "date-fns": "2.30.0",
-    "emotion": "11.0.0",
-    "emotion-server": "11.0.0",
     "gatsby": "5.5.0",
     "gatsby-plugin-canonical-urls": "5.0.0",
     "gatsby-plugin-emotion": "8.0.0",
