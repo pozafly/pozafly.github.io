@@ -310,14 +310,25 @@ module.exports = {
 
 그리고 husky에 설정한 pre-commit의 명령어를 lint-staged를 실행시키도록 변경해보자. .husky/pre-commit 파일을 아래와 같이 수정한다.
 
-```
+```sh
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npx lint-staged
+npm run lint-staged
+```
+
+`lint-staged`라는 명령어를 pacakge.json에서 실행할 수 있도록 추가해주어야 한다.
+
+```json
+"scripts": {
+  (...)
+  "lint-staged": "lint-staged",
+}
 ```
 
 이제 commit을 하면 lint-staged가 실행되고, lint-staged가 완료 되어야만 정상적으로 commit이 이루어질 것이다.
+
+만약 패키지 설치를 하고 싶지 않다면 install 과정을 건너뛰고 husky.sh 파일에 `npx lint-staged` 명령을 사용할 수 있다.
 
 <br/>
 
@@ -327,7 +338,7 @@ Github Template은 issue나, PR을 할 때 템플릿을 설정해준다. 소스 
 
 `ISSUE_TEMPLATE.md` 을 만들자.
 
-```
+```md
 ## 이슈 목적
 
 - 이슈를 생성한 목적을 적는다.
@@ -351,7 +362,7 @@ Github Template은 issue나, PR을 할 때 템플릿을 설정해준다. 소스 
 
 `PULL_REQUEST_TEMPLATE.md`은 아래와 같다.
 
-```
+```md
 ## 주제
 
 - PR 주제에 대한 간략한 설명을 적는다.
