@@ -12,7 +12,7 @@
     "dev": "gatsby develop",
     "lint": "eslint --cache --fix .",
     "format": "prettier --write --cache .",
-    "start": "npm run dev",
+    "lint-staged": "lint-staged",
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "gatsby build && gh-pages -d public -b static",
     "postinstall": "patch-package",
@@ -71,6 +71,7 @@
     "gatsby-remark-images-medium-zoom": "^1.7.0",
     "gh-pages": "^5.0.0",
     "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
     "patch-package": "^8.0.0",
     "prettier": "^3.0.3",
     "typescript": "5.2.2"
