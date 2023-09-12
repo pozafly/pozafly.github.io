@@ -21,7 +21,7 @@
   "dependencies": {
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
-    "cssnano": "5.1.15",
+    "cssnano": "6.0.1",
     "date-fns": "2.30.0",
     "gatsby": "5.5.0",
     "gatsby-plugin-canonical-urls": "5.0.0",
