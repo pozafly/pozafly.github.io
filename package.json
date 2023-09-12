@@ -19,8 +19,8 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@emotion/react": "11.10.5",
-    "@emotion/styled": "11.10.5",
+    "@emotion/react": "11.11.1",
+    "@emotion/styled": "11.11.0",
     "cssnano": "6.0.1",
     "date-fns": "2.30.0",
     "gatsby": "5.12.4",
