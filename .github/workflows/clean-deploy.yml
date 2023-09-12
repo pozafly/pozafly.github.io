@@ -11,7 +11,7 @@ jobs:
       # GitHub Actions linux 환경에서 Gatsby 빌드 시 time zone 맞추는 작업 필요.
       - name: Time Zone Setting
         run: sudo timedatectl set-timezone Asia/Seoul
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
