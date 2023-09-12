@@ -20,6 +20,11 @@ module.exports = {
     jsx: true,
   },
   plugins: ['import', 'react', 'react-hooks', '@emotion'],
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
   rules: {
     'no-restricted-imports': [
       'error',
