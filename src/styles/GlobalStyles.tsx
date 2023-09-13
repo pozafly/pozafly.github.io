@@ -149,6 +149,7 @@ export default function GlobalStyles() {
             --about-box-shadow: 10px 10px 30px #bebebe, -10px -10px 30px #ffffff;
             --post-card-opacity: 0;
             --post-card-background: rgba(0, 0, 0, 0.1);
+            --post-card-after-opacity: 1;
           }
           &.dark {
             --body-color: rgba(255, 255, 255, 0.75);
@@ -198,6 +199,7 @@ export default function GlobalStyles() {
             --about-box-shadow: 10px 20px 20px hsla(230, 4%, 8%, 30%);
             --post-card-opacity: 0.6;
             --post-card-background: rgba(0, 0, 0, 0.3);
+            --post-card-after-opacity: 0.1;
           }
         }
 

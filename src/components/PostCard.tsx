@@ -107,7 +107,7 @@ const PostCardStyles = css`
 
   &:hover {
     .post-card-image:after {
-      opacity: 1;
+      opacity: var(--post-card-after-opacity);
     }
     img {
       transform: scale(1.03) !important;
