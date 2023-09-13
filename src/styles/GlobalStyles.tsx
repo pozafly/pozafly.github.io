@@ -144,6 +144,7 @@ export default function GlobalStyles() {
             --highlight-background: #fafafa;
             --highlight-border: #d1d1d1;
             --pre-code-color: #000;
+            --little-code-background: var(--highlight-background);
             --little-code-border: #d1d1d1;
             --prism-background: hsl(0, 0%, 90.66%);
             --prism-border-left: hsl(0, 0%, 82.88%);
@@ -195,7 +196,8 @@ export default function GlobalStyles() {
             --highlight-background: rgb(32 36 39);
             --highlight-border: none;
             --pre-code-color: #c9d1d9;
-            --little-code-border: #515151;
+            --little-code-background: rgba(96, 98, 100, 0.4);
+            --little-code-border: none;
             --prism-background: rgb(0 0 0 / 40%);
             --prism-border-left: #818181;
             --about-box-shadow: 10px 20px 20px hsla(230, 4%, 8%, 30%);

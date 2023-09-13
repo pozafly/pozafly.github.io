@@ -3,7 +3,8 @@ import { css, Theme } from '@emotion/react';
 export default (theme: Theme) => css`
   *:not(pre) > code[class*='language-'] {
     border-radius: 0.3em;
-    background: var(--highlight-background);
+    /* background: var(--highlight-background); */
+    background: var(--little-code-background);
     border: 1px solid var(--little-code-border);
     color: var(--main-color);
     padding: 0.15em 0.5em;
