@@ -104,6 +104,7 @@ export default function GlobalStyles() {
             --link-color: #0a0b0c;
             --border-top-color: ${lighten('0.1', colors.lightgrey)};
             --nav-background: rgba(255, 255, 255, 0.4);
+            --nav-border-color: rgba(0, 0, 0, 0.1);
             --header-color: var(--background-color);
             --header-after: var(--background-color);
             --header-before: rgba(0, 0, 0, 0.18);
@@ -158,6 +159,7 @@ export default function GlobalStyles() {
             --link-color: rgba(255, 255, 255, 0.9);
             --border-top-color: ${lighten('0.08', colors.darkmode)};
             --nav-background: rgba(25, 27, 31, 0.4);
+            --nav-border-color: rgba(255, 255, 255, 0.24);
             --header-color: ${lighten('-0.05', colors.darkgrey)};
             --header-after: #191b1f;
             --header-before: rgba(0, 0, 0, 0.6);

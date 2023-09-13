@@ -174,9 +174,9 @@ const SiteNavStyles = css`
   z-index: 100;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   overflow-y: hidden;
-  height: 64px;
+  height: 52px;
   font-size: 1.3rem;
 `;
 
@@ -188,7 +188,6 @@ const SiteNavLeft = styled.div`
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   margin-right: 10px;
-  padding: 10px 0 80px;
   font-weight: 500;
   letter-spacing: 0.2px;
   text-transform: uppercase;
@@ -227,8 +226,8 @@ const NavStyles = css`
     display: block;
     padding: 10px 12px;
     color: var(--main-color);
-    opacity: 0.8;
-    transition: opacity 0.35s ease-in-out;
+    opacity: 0.7;
+    transition: opacity 0.2s ease-in-out;
 
     @media (max-width: 700px) {
       padding: 10px 8px;
@@ -238,23 +237,6 @@ const NavStyles = css`
   li a:hover {
     text-decoration: none;
     opacity: 1;
-  }
-
-  li a:before {
-    content: '';
-    position: absolute;
-    right: 100%;
-    bottom: 8px;
-    left: 12px;
-    height: 1px;
-    background: var(--main-color);
-    opacity: 0.25;
-    transition: all 0.35s ease-in-out;
-  }
-
-  li a:hover:before {
-    right: 12px;
-    opacity: 0.5;
   }
 
   li a.is-home {
@@ -274,8 +256,6 @@ const SiteNavRight = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 10px 0;
-  height: 64px;
 `;
 
 const SocialLinks = styled.div`

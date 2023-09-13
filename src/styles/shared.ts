@@ -22,7 +22,9 @@ export const SiteNavMain = css`
   left: 0;
   z-index: 1000;
   backdrop-filter: blur(8px);
+  backdrop-filter: saturate(180%) blur(20px);
   background: var(--nav-background);
+  border-bottom: 1px solid var(--nav-border-color);
 `;
 
 export const SiteMain = css`
