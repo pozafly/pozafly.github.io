@@ -80,7 +80,6 @@ export const Head = ({ data }: IndexProps) => {
 function IndexPage(props: IndexProps) {
   return (
     <IndexLayout css={HomePosts}>
-      {/* <Helmet></Helmet> */}
       <Wrapper>
         <div
           css={[outer, SiteHeader, SiteHeaderStyles]}
@@ -139,7 +138,13 @@ export const pageQuery = graphql`
   query blogPageQuery($skip: Int!, $limit: Int!) {
     header: file(relativePath: { eq: "img/common/back3.png" }) {
       childImageSharp {
-        gatsbyImageData(width: 2000, quality: 100, layout: FIXED, formats: [AUTO, WEBP, AVIF])
+        gatsbyImageData(
+          width: 2000
+          quality: 100
+          layout: FIXED
+          formats: [AUTO, WEBP, AVIF]
+          placeholder: BLURRED
+        )
       }
     }
     allMarkdownRemark(
@@ -158,16 +163,11 @@ export const pageQuery = graphql`
             excerpt
             image {
               childImageSharp {
-                gatsbyImageData(layout: FULL_WIDTH, formats: [AUTO, WEBP, AVIF])
-              }
-            }
-            author {
-              name
-              bio
-              avatar {
-                childImageSharp {
-                  gatsbyImageData(layout: FULL_WIDTH, breakpoints: [40, 80, 120])
-                }
+                gatsbyImageData(
+                  layout: FULL_WIDTH
+                  formats: [AUTO, WEBP, AVIF]
+                  placeholder: BLURRED
+                )
               }
             }
           }

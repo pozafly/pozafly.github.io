@@ -78,15 +78,6 @@ exports.createPages = async ({ graphql, actions }) => {
                   gatsbyImageData(placeholder: BLURRED, layout: FULL_WIDTH)
                 }
               }
-              author {
-                name
-                bio
-                avatar {
-                  childImageSharp {
-                    gatsbyImageData(placeholder: BLURRED, layout: FULL_WIDTH)
-                  }
-                }
-              }
             }
             fields {
               readingTime {

@@ -69,18 +69,7 @@ export const pageQuery = graphql`
             tags
             image {
               childImageSharp {
-                gatsbyImageData(layout: FULL_WIDTH)
-              }
-            }
-            author {
-              name
-              bio
-              avatar {
-                children {
-                  ... on ImageSharp {
-                    gatsbyImageData(layout: FULL_WIDTH, breakpoints: [40, 80, 120])
-                  }
-                }
+                gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED)
               }
             }
           }

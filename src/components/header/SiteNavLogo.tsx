@@ -16,7 +16,7 @@ export function SiteNavLogo() {
         query HeadingQuery {
           logo: file(relativePath: { eq: "img/common/alien.png" }) {
             childImageSharp {
-              gatsbyImageData(quality: 100, width: 500, layout: FIXED)
+              gatsbyImageData(quality: 100, width: 500, layout: FIXED, placeholder: BLURRED)
             }
           }
         }
