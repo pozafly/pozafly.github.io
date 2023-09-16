@@ -77,7 +77,7 @@ export const PostFullContent = styled.section`
   blockquote,
   .post-full-comments,
   .footnotes {
-    margin: 0 0 1.5em 0;
+    margin: 0 0 1.5em;
     min-width: 100%;
   }
 
@@ -174,7 +174,7 @@ export const PostFullContent = styled.section`
   }
 
   blockquote p {
-    margin: 0 0 1em 0;
+    margin: 0 0 1em;
     color: inherit;
     font-size: inherit;
     line-height: inherit;
@@ -345,7 +345,7 @@ export const PostFullContent = styled.section`
   }
 
   h6 {
-    margin: 0.5em 0 0.2em 0;
+    margin: 0.5em 0 0.2em;
     font-size: 2rem;
     font-weight: 700;
   }
@@ -372,8 +372,8 @@ export const PostFullContent = styled.section`
     vertical-align: top;
     -webkit-overflow-scrolling: touch;
     background:
-      radial-gradient(ellipse at left, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 75%) 0 center,
-      radial-gradient(ellipse at right, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 75%) 100% center;
+      radial-gradient(ellipse at left, rgb(0 0 0 / 0.2) 0%, rgb(0 0 0 / 0) 75%) 0 center,
+      radial-gradient(ellipse at right, rgb(0 0 0 / 0.2) 0%, rgb(0 0 0 / 0) 75%) 100% center;
     background-attachment: scroll, scroll;
     background-size:
       10px 100%,

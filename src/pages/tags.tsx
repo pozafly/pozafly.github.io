@@ -36,7 +36,7 @@ const TagArea = css`
       transition: all 0.4s ease;
 
       &:hover {
-        box-shadow: 0px 8px 20px var(--tag-boxshadow);
+        box-shadow: 0 8px 20px var(--tag-boxshadow);
         transform: translateY(-3px);
       }
 

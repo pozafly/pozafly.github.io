@@ -116,7 +116,7 @@ const ReadNextCardArticle = styled.article`
 
 const ReadNextCardHeaderTitle = styled.h3`
   margin: 0;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgb(255 255 255 / 0.6);
   font-size: 1.3rem;
   line-height: 1em;
   font-weight: 300;
@@ -156,7 +156,7 @@ const ReadNextCardContent = styled.div`
     align-items: flex-start;
     margin: 0;
     padding: 20px 0;
-    border-bottom: rgba(255, 255, 255, 0.1);
+    border-bottom: rgb(255 255 255 / 0.1);
   }
 
   li:last-of-type {
@@ -192,7 +192,7 @@ const ReadNextCardMeta = styled.div`
   p {
     font-size: inherit;
     margin: 0;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgb(255 255 255 / 0.6);
 
     time {
       font-size: inherit;
@@ -206,15 +206,14 @@ const ReadNextCardFooter = styled.footer`
 
   a {
     padding: 7px 12px 8px 14px;
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    color: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgb(255 255 255 / 0.6);
+    color: rgb(255 255 255 / 0.6);
     font-size: 1.3rem;
     border-radius: 999px;
     transition: all 0.35s ease-in-out;
   }
 
   a:hover {
-    /* border-color: var(--yellow); */
     border-color: ${colors.yellow};
     color: ${colors.yellow};
     text-decoration: none;

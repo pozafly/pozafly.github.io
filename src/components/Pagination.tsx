@@ -70,7 +70,7 @@ const navCss = css`
   div {
     display: inline-block;
     padding: 10px;
-    background: rgba(25, 27, 31, 0.1);
+    background: rgb(25 27 31 / 0.1);
     border-radius: 100px;
   }
 
@@ -85,8 +85,8 @@ const navCss = css`
     transition: background-color 0.3s;
     margin: 0 4px;
     box-shadow:
-      rgba(39, 44, 49, 0.06) 8px 14px 38px,
-      rgba(39, 44, 49, 0.03) 1px 3px 8px;
+      rgb(39 44 49 / 0.06) 8px 14px 38px,
+      rgb(39 44 49 / 0.03) 1px 3px 8px;
     border-radius: 100px;
     width: 40px;
     height: 40px;
@@ -109,7 +109,7 @@ const navCss = css`
 
   @media (prefers-color-scheme: dark) {
     div {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgb(255 255 255 / 0.1);
     }
 
     a {

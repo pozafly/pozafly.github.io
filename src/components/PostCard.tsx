@@ -118,7 +118,7 @@ const PostCardStyles = css`
   &.is-next {
     .post-card-image {
       background: #191b1f;
-      border: 1px solid hsl(230deg 6% 23%);
+      border: 1px solid hsl(230 6% 23%);
     }
 
     .post-card-primary-tag {
@@ -204,8 +204,8 @@ const PostCardImage = styled.div`
     content: '';
     display: block;
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     opacity: var(--post-card-opacity);

@@ -142,10 +142,7 @@ export const SiteHeaderStyles = css`
   :before {
     content: '';
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
     z-index: 10;
     display: block;
     background: var(--header-before);
@@ -154,14 +151,11 @@ export const SiteHeaderStyles = css`
   :after {
     content: '';
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: auto;
-    left: 0;
+    inset: 0 0 auto;
     z-index: 10;
     display: block;
     height: 100%;
-    background: linear-gradient(rgba(0, 0, 0, 0) 50%, var(--header-after));
+    background: linear-gradient(rgb(0 0 0 / 0) 50%, var(--header-after));
   }
 `;
 

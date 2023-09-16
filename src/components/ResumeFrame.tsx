@@ -28,10 +28,12 @@ const Loading = styled.div`
     margin: 4px;
     position: relative;
     text-indent: -9999em;
+
     /* outer */
     border-top: 2px solid var(--loader-color);
     border-right: 2px solid var(--loader-color);
     border-bottom: 2px solid var(--loader-color);
+
     /* inner */
     border-left: 2px solid var(--loader-color2);
 
@@ -43,24 +45,24 @@ const Loading = styled.div`
   }
 
   @-webkit-keyframes loader {
-    0% {
+    from {
       -webkit-transform: rotate(0deg);
       transform: rotate(0deg);
     }
 
-    100% {
+    to {
       -webkit-transform: rotate(360deg);
       transform: rotate(360deg);
     }
   }
 
   @keyframes loader {
-    0% {
+    from {
       -webkit-transform: rotate(0deg);
       transform: rotate(0deg);
     }
 
-    100% {
+    to {
       -webkit-transform: rotate(360deg);
       transform: rotate(360deg);
     }
@@ -76,7 +78,7 @@ const Frame = styled.iframe`
   transition:
     opacity 0.7s ease,
     transform 0.7s ease;
-  box-shadow: 0 8px 18px 0 hsla(218, 53%, 10%, 0.05);
+  box-shadow: 0 8px 18px 0 hsl(218 53% 10% / 0.05);
 
   &.frame-loaded {
     opacity: 1;

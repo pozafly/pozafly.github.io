@@ -128,7 +128,7 @@ const ErrorDescription = styled.p`
   font-weight: 400;
 
   @media (max-width: 800px) {
-    margin: 5px 0 0 0;
+    margin: 5px 0 0;
     font-size: 1.8rem;
   }
 `;

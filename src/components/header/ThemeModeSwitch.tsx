@@ -25,7 +25,7 @@ const SwitchContainer = styled.button`
   padding: 2px;
   border-radius: 50%;
   overflow: hidden;
-  background: rgba(215, 215, 215, 0.6);
+  background: rgb(215 215 215 / 0.6);
   transition: all 0.3s ease;
 
   #switch {
@@ -52,7 +52,7 @@ const SwitchContainer = styled.button`
     opacity: 0.8;
     overflow: hidden;
 
-    &::before {
+    &:before {
       /* sun */
       content: '';
       position: absolute;
@@ -72,7 +72,7 @@ const SwitchContainer = styled.button`
       transition: box-shadow 0.4s 0s ease;
     }
 
-    &::after {
+    &:after {
       /* moon */
       content: '';
       position: absolute;
@@ -83,7 +83,7 @@ const SwitchContainer = styled.button`
       left: 30%;
 
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.9);
+      background: rgb(255 255 255 / 0.9);
 
       transition: transform 0.45s ease;
     }
@@ -94,14 +94,14 @@ const SwitchContainer = styled.button`
   }
 
   &:hover {
-    background: rgba(215, 215, 215, 0.9);
+    background: rgb(215 215 215 / 0.9);
   }
 
   &.dark {
     background: transparent;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgb(255 255 255 / 0.1);
     }
 
     .mode {
@@ -110,7 +110,7 @@ const SwitchContainer = styled.button`
       opacity: 0.8;
       overflow: initial;
 
-      &::before {
+      &:before {
         opacity: 1;
         box-shadow:
           0 -16px 0 0 white,
@@ -123,7 +123,7 @@ const SwitchContainer = styled.button`
           -12px -12px 0 0 white;
       }
 
-      &::after {
+      &:after {
         opacity: 0;
         transition: background 0.45s ease;
         transform: translateX(50%) translateY(-50%);
@@ -135,14 +135,14 @@ const SwitchContainer = styled.button`
     .mode {
       background: #fff;
 
-      &::after {
-        background: rgba(95, 131, 162);
+      &:after {
+        background: rgb(95 131 162);
       }
     }
 
     &.dark {
       .mode {
-        &::before {
+        &:before {
           box-shadow:
             0 -16px 0 0 white,
             0 16px 0 0 white,
@@ -154,8 +154,8 @@ const SwitchContainer = styled.button`
             -12px -12px 0 0 white;
         }
 
-        &::after {
-          background: rgba(46, 64, 79);
+        &:after {
+          background: rgb(46 64 79);
         }
       }
     }

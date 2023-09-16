@@ -58,15 +58,15 @@ const SiteFooterContent = css`
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgb(255 255 255 / 0.7);
   font-size: 1.3rem;
 
   a {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgb(255 255 255 / 0.7);
   }
 
   a:hover {
-    color: rgba(255, 255, 255, 1);
+    color: rgb(255 255 255 / 1);
     text-decoration: none;
   }
 

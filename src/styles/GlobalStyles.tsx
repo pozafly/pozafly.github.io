@@ -96,6 +96,8 @@ export default function GlobalStyles() {
           font-weight: 400;
           font-style: normal;
           letter-spacing: 0;
+
+          /* stylelint-disable-next-line */
           text-rendering: optimizeLegibility;
           background: var(--background-color);
           color: var(--body-color);
@@ -110,7 +112,7 @@ export default function GlobalStyles() {
 
           &::-webkit-scrollbar-thumb {
             border-radius: 8px;
-            background-color: hsla(230, 5%, 35%, 1);
+            background-color: hsl(230 5% 35%);
           }
 
           &.light {
@@ -119,11 +121,11 @@ export default function GlobalStyles() {
             --main-color: #000;
             --link-color: #0a0b0c;
             --border-top-color: ${lighten('0.1', colors.lightgrey)};
-            --nav-background: rgba(255, 255, 255, 0.4);
-            --nav-border-color: rgba(0, 0, 0, 0.1);
+            --nav-background: rgb(255 255 255 / 0.4);
+            --nav-border-color: rgb(0 0 0 / 0.1);
             --header-color: var(--background-color);
             --header-after: var(--background-color);
-            --header-before: rgba(0, 0, 0, 0.18);
+            --header-before: rgb(0 0 0 / 0.18);
             --author-border: #fff;
             --home-header-color: ${colors.darkgrey};
             --home-header-border-bottom: ${lighten('0.12', colors.lightgrey)};
@@ -131,27 +133,27 @@ export default function GlobalStyles() {
             --no-image-border: ${lighten('0.12', colors.lightgrey)};
             --strong-font-weight: 600;
             --anchor-color: #768086;
-            --loader-color: hsla(230, 40%, 10%, 0.8);
-            --loader-color2: hsla(230, 40%, 10%, 0.2);
-            --image-border-color: hsl(230, 25%, 94%);
-            --post-card-title: rgb(21, 23, 26);
-            --post-card-description: rgb(48, 58, 62);
+            --loader-color: hsla(230 40% 10% / 0.8);
+            --loader-color2: hsla(230 40% 10% / 0.2);
+            --image-border-color: hsl(230 25% 94%);
+            --post-card-title: rgb(21 23 26);
+            --post-card-description: rgb(48 58 62);
             --post-card-by-line: ${lighten('0.2', colors.darkgrey)};
             --strong-color: ${lighten('-0.05', colors.darkgrey)};
             --figcaption-color: #000;
             --table-first-of-type: linear-gradient(
               to right,
-              rgba(255, 255, 255, 1) 50%,
-              rgba(255, 255, 255, 0) 100%
+              rgb(255 255 255) 50%,
+              rgb(255 255 255 / 0) 100%
             );
             --table-last-of-type: linear-gradient(
               to left,
-              rgba(255, 255, 255, 1) 50%,
-              rgba(255, 255, 255, 0) 100%
+              rgb(255 255 255) 50%,
+              rgb(255 255 255 / 0) 100%
             );
             --table-th-background: ${lighten('0.04', colors.whitegrey)};
             --table-th-border: ${lighten('-0.01', colors.whitegrey)};
-            --tag-boxshadow: hsla(218, 53%, 10%, 12%);
+            --tag-boxshadow: hsl(218 53% 10% / 0.12);
             --tag-background: #f5f5f5;
             --post-full-border: ${lighten('0.1', colors.lightgrey)};
             --post-full-meta-link: ${lighten('0.1', colors.darkgrey)};
@@ -162,64 +164,64 @@ export default function GlobalStyles() {
             --pre-code-color: #000;
             --little-code-background: var(--highlight-background);
             --little-code-border: #d1d1d1;
-            --prism-background: hsl(0, 0%, 90.66%);
-            --prism-border-left: hsl(0, 0%, 82.88%);
-            --about-box-shadow: 10px 10px 30px #bebebe, -10px -10px 30px #ffffff;
+            --prism-background: hsl(0 0% 90.66%);
+            --prism-border-left: hsl(0 0% 82.88%);
+            --about-box-shadow: 10px 10px 30px #bebebe, -10px -10px 30px #fff;
             --post-card-opacity: 0;
-            --post-card-background: rgba(0, 0, 0, 0.1);
+            --post-card-background: rgb(0 0 0 / 0.1);
             --post-card-after-opacity: 1;
           }
 
           &.dark {
-            --body-color: rgba(255, 255, 255, 0.75);
+            --body-color: rgba(255 255 255 / 0.75);
             --background-color: ${colors.darkmode};
             --main-color: #fff;
-            --link-color: rgba(255, 255, 255, 0.9);
+            --link-color: rgba(255 255 255 / 0.9);
             --border-top-color: ${lighten('0.08', colors.darkmode)};
-            --nav-background: rgba(25, 27, 31, 0.4);
-            --nav-border-color: rgba(255, 255, 255, 0.24);
+            --nav-background: rgba(25 27 31 / 0.4);
+            --nav-border-color: rgba(255 255 255 / 0.24);
             --header-color: ${lighten('-0.05', colors.darkgrey)};
             --header-after: #191b1f;
-            --header-before: rgba(0, 0, 0, 0.6);
+            --header-before: rgba(0 0 0 / 0.6);
             --author-border: ${lighten('0.02', colors.darkgrey)};
-            --home-header-color: rgba(255, 255, 255, 0.9);
+            --home-header-color: rgba(255 255 255 / 0.9);
             --home-header-border-bottom: #272a30;
-            --header-author-link: rgba(255, 255, 255, 0.75);
+            --header-author-link: rgba(255 255 255 / 0.75);
             --no-image-border: ${lighten('0.15', colors.darkmode)};
             --strong-font-weight: 500;
             --anchor-color: ${lighten('0.1', colors.midgrey)};
-            --loader-color: hsla(230, 40%, 90%, 0.8);
-            --loader-color2: hsla(230, 40%, 90%, 0.2);
-            --image-border-color: hsl(230, 6%, 23%);
-            --post-card-title: rgba(255, 255, 255, 0.85);
+            --loader-color: hsl(230 40% 90% / 0.8);
+            --loader-color2: hsl(230 40% 90% / 0.2);
+            --image-border-color: hsl(230 6% 23%);
+            --post-card-title: rgba(255 255 255 / 0.85);
             --post-card-description: #768086;
-            --post-card-by-line: rgba(255, 255, 255, 0.75);
+            --post-card-by-line: rgba(255 255 255 / 0.75);
             --strong-color: ${lighten('-0.05', '#fff')};
-            --figcaption-color: rgba(255, 255, 255, 0.6);
+            --figcaption-color: rgba(255 255 255 / 0.6);
             --table-first-of-type: linear-gradient(
               to right,
               ${colors.darkmode} 50%,
               ${colors.darkmode} 100%
             );
-            --table-last-of-type: linear-gradient(270deg, #191b1f 50%, rgba(25, 27, 31, 0));
+            --table-last-of-type: linear-gradient(270deg, #191b1f 50%, rgb(25 27 31));
             --table-th-background: ${lighten('0.08', colors.darkmode)};
             --table-th-border: var(--table-th-background);
             --tag-boxshadow: #090f1a;
             --tag-background: #282b31;
             --post-full-border: ${lighten('0.15', colors.darkmode)};
-            --post-full-meta-link: rgba(255, 255, 255, 0.75);
+            --post-full-meta-link: rgb(255 255 255 / 0.75);
             --post-full-meta-link-hover: #fff;
-            --post-full-title: rgba(255, 255, 255, 0.9);
+            --post-full-title: rgb(255 255 255 / 0.9);
             --highlight-background: rgb(32 36 39);
             --highlight-border: none;
             --pre-code-color: #c9d1d9;
-            --little-code-background: rgba(96, 98, 100, 0.4);
+            --little-code-background: rgb(96 98 100 / 0.4);
             --little-code-border: none;
-            --prism-background: rgb(0 0 0 / 40%);
+            --prism-background: rgb(0 0 0 / 0.4);
             --prism-border-left: #818181;
-            --about-box-shadow: 10px 20px 20px hsla(230, 4%, 8%, 30%);
+            --about-box-shadow: 10px 20px 20px hsl(230 4% 8% / 0.3);
             --post-card-opacity: 0.6;
-            --post-card-background: rgba(0, 0, 0, 0.3);
+            --post-card-background: rgb(0 0 0 / 0.3);
             --post-card-after-opacity: 0.1;
           }
         }
@@ -277,7 +279,7 @@ export default function GlobalStyles() {
           overflow-y: scroll;
           font-size: 62.5%;
 
-          -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+          -webkit-tap-highlight-color: rgb(0 0 0);
         }
 
         *,
@@ -447,7 +449,7 @@ export default function GlobalStyles() {
         ol,
         dl,
         blockquote {
-          margin: 0 0 1.5em 0;
+          margin: 0 0 1.5em;
         }
 
         ul {
@@ -481,13 +483,13 @@ export default function GlobalStyles() {
         }
 
         dd {
-          margin: 0 0 5px 0;
+          margin: 0 0 5px;
           text-align: left;
         }
 
         blockquote {
           margin: 1.5em 0;
-          padding: 0 1.6em 0 1.6em;
+          padding: 0 1.6em;
           border-left: ${colors.whitegrey} 0.5em solid;
         }
 
@@ -505,11 +507,11 @@ export default function GlobalStyles() {
         }
 
         blockquote cite {
-          font-weight: bold;
+          font-weight: 700;
 
           /* stylelint-disable-next-line */
           a {
-            font-weight: normal;
+            font-weight: 400;
           }
         }
 
@@ -522,6 +524,8 @@ export default function GlobalStyles() {
           margin-top: 0;
           line-height: 1.15;
           font-weight: 600;
+
+          /* stylelint-disable-next-line */
           text-rendering: optimizeLegibility;
 
           a.auto-link {
@@ -547,7 +551,7 @@ export default function GlobalStyles() {
 
         /* stylelint-disable-next-line */
         h1 {
-          margin: 0 0 0.5em 0;
+          margin: 0 0 0.5em;
           font-size: 5.5rem;
           font-weight: 600;
 
@@ -558,7 +562,7 @@ export default function GlobalStyles() {
 
         /* stylelint-disable-next-line */
         h2 {
-          margin: 1.5em 0 0.5em 0;
+          margin: 1.5em 0 0.5em;
           font-size: 2.2rem;
 
           @media (max-width: 500px) {
@@ -568,7 +572,7 @@ export default function GlobalStyles() {
 
         /* stylelint-disable-next-line */
         h3 {
-          margin: 1.5em 0 0.5em 0;
+          margin: 1.5em 0 0.5em;
           font-size: 1.8rem;
           font-weight: 500;
 
@@ -579,21 +583,21 @@ export default function GlobalStyles() {
 
         /* stylelint-disable-next-line */
         h4 {
-          margin: 1.5em 0 0.5em 0;
+          margin: 1.5em 0 0.5em;
           font-size: 1.6rem;
           font-weight: 500;
         }
 
         /* stylelint-disable-next-line */
         h5 {
-          margin: 1.5em 0 0.5em 0;
+          margin: 1.5em 0 0.5em;
           font-size: 1.4rem;
           font-weight: 500;
         }
 
         /* stylelint-disable-next-line */
         h6 {
-          margin: 1.5em 0 0.5em 0;
+          margin: 1.5em 0 0.5em;
           font-size: 1.4rem;
           font-weight: 500;
         }

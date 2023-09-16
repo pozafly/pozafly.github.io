@@ -221,14 +221,6 @@ const HomePosts = css`
       justify-content: center;
     }
 
-    .post-card-large .post-card-content-link {
-      /* padding: 0 0 0 40px; */
-    }
-
-    .post-card-large .post-card-meta {
-      /* padding: 0 0 0 40px; */
-    }
-
     .post-card-large .post-card-excerpt p {
       display: block;
       margin-bottom: 1.5em;

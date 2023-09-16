@@ -44,7 +44,7 @@ const SiteNavLogoStyles = css`
   color: #fff;
   font-size: 1.7rem;
   line-height: 1.8rem;
-  font-weight: bold;
+  font-weight: 700;
   letter-spacing: -0.5px;
   text-transform: none;
 

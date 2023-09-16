@@ -85,7 +85,7 @@ const ReadNextAside = styled.aside`
   }
 
   .post-card-excerpt {
-    color: rgba(255, 255, 255, 0.6);
+    color: rgb(255 255 255 / 0.6);
   }
 
   .static-avatar {
@@ -93,11 +93,11 @@ const ReadNextAside = styled.aside`
   }
 
   .post-card-byline-content {
-    color: rgba(255, 255, 255, 0.6);
+    color: rgb(255 255 255 / 0.6);
   }
 
   .post-card-byline-content a {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgb(255 255 255 / 0.8);
   }
 
   .author-avatar {
@@ -121,5 +121,5 @@ const ReadNextFeed = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin: 0 -25px;
-  padding: 60px 0 0 0;
+  padding: 60px 0 0;
 `;
