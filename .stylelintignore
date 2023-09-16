@@ -1,0 +1,11 @@
+node_modules
+**.d.ts
+package**
+**.json
+patches
+
+public
+.cache
+*.md
+src/content/**
+**/*prism.ts
