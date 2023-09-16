@@ -64,36 +64,46 @@ const ReadNextAside = styled.aside`
     padding-bottom: 0;
     border-bottom: none;
   }
+
   .post-card:after {
     display: none;
   }
+
   .post-card-primary-tag {
     color: #fff;
     opacity: 0.6;
   }
+
   .post-card-title {
     color: #fff;
     opacity: 0.8;
     transition: all 0.2s ease-in-out;
   }
+
   .post-card:hover .post-card-image {
     opacity: 1;
   }
+
   .post-card-excerpt {
     color: rgba(255, 255, 255, 0.6);
   }
+
   .static-avatar {
     border-color: #000;
   }
+
   .post-card-byline-content {
     color: rgba(255, 255, 255, 0.6);
   }
+
   .post-card-byline-content a {
     color: rgba(255, 255, 255, 0.8);
   }
+
   .author-avatar {
     border-color: ${lighten('-0.05', colors.darkgrey)};
   }
+
   .author-profile-image {
     background: ${lighten('-0.05', colors.darkgrey)};
   }

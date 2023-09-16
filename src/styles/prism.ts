@@ -3,7 +3,6 @@ import { css, Theme } from '@emotion/react';
 export default (theme: Theme) => css`
   *:not(pre) > code[class*='language-'] {
     border-radius: 0.3em;
-    /* background: var(--highlight-background); */
     background: var(--little-code-background);
     border: 1px solid var(--little-code-border);
     color: var(--main-color);
@@ -73,6 +72,7 @@ export default (theme: Theme) => css`
       border-radius: 8px;
       background-color: hsla(230, 5%, 35%, 1);
     }
+
     @media (max-width: 800px) {
       display: inline-block;
     }
@@ -97,11 +97,13 @@ export default (theme: Theme) => css`
       text-shadow: none;
     }
   }
+
   pre[class*='language-'] {
     padding: 1em;
     overflow: auto;
     margin: 0;
   }
+
   :not(pre) > code[class*='language-'] {
     padding: 0.1em 0.3em;
     border-radius: 0.3em;
@@ -109,13 +111,16 @@ export default (theme: Theme) => css`
     background: #343942;
   }
   /* Line highlighting */
+
   pre[data-line] {
     position: relative;
   }
+
   pre[class*='language-'] > code[class*='language-'] {
     position: relative;
     z-index: 1;
   }
+
   .line-highlight {
     position: absolute;
     left: 0;
@@ -129,19 +134,22 @@ export default (theme: Theme) => css`
     line-height: inherit;
     white-space: pre;
   }
-  /* Tokens */
+
   .namespace {
     opacity: 0.7;
   }
+
   .token.comment,
   .token.prolog,
   .token.doctype,
   .token.cdata {
     color: #8b949e;
   }
+
   .token.punctuation {
     color: #c9d1d9;
   }
+
   .token.property,
   .token.tag,
   .token.boolean,
@@ -151,6 +159,7 @@ export default (theme: Theme) => css`
   .token.deleted {
     color: #79c0ff;
   }
+
   .token.selector,
   .token.attr-name,
   .token.string,
@@ -159,38 +168,43 @@ export default (theme: Theme) => css`
   .token.inserted {
     color: #a5d6ff;
   }
+
   .token.operator,
   .token.entity,
   .token.url,
   .language-css .token.string,
   .style .token.string {
     color: #a5d6ff;
-    /* background: #161b22; */
   }
+
   .token.atrule,
   .token.attr-value,
   .token.keyword {
     color: #a5d6ff;
   }
+
   .token.function {
     color: #d2a8ff;
   }
+
   .token.regex,
   .token.important,
   .token.variable {
     color: #a8daff;
   }
+
   .token.important,
   .token.bold {
     font-weight: bold;
   }
+
   .token.italic {
     font-style: italic;
   }
+
   .token.entity {
     cursor: help;
   }
-  /* End Syntax Highlighting */
 
   ${theme.mode === 'light'
     ? `
@@ -248,13 +262,11 @@ export default (theme: Theme) => css`
     color: hsl(198, 99%, 37%);
   }
 
-  /* HTML overrides */
   .token.attr-value > .token.punctuation.attr-equals,
   .token.special-attr > .token.attr-value > .token.value.css {
     color: hsl(230, 8%, 24%);
   }
 
-  /* CSS overrides */
   .language-css .token.selector {
     color: hsl(5, 74%, 59%);
   }
@@ -277,7 +289,6 @@ export default (theme: Theme) => css`
     color: hsl(301, 63%, 40%);
   }
 
-  /* JS overrides */
   .language-javascript .token.operator {
     color: hsl(301, 63%, 40%);
   }
@@ -289,7 +300,6 @@ export default (theme: Theme) => css`
     color: hsl(344, 84%, 43%);
   }
 
-  /* JSON overrides */
   .language-json .token.operator {
     color: hsl(230, 8%, 24%);
   }
@@ -298,7 +308,6 @@ export default (theme: Theme) => css`
     color: hsl(35, 99%, 36%);
   }
 
-  /* MD overrides */
   .language-markdown .token.url,
   .language-markdown .token.url > .token.operator,
   .language-markdown .token.url-reference.url > .token.string {
@@ -317,7 +326,6 @@ export default (theme: Theme) => css`
   .language-markdown .token.blockquote.punctuation,
   .language-markdown .token.hr.punctuation {
     color: hsl(230, 4%, 64%);
-    /* font-style: italic; */
   }
 
   .language-markdown .token.code-snippet {
@@ -339,7 +347,6 @@ export default (theme: Theme) => css`
     color: hsl(5, 74%, 59%);
   }
 
-  /* General */
   .token.bold {
     font-weight: bold;
   }
@@ -349,14 +356,9 @@ export default (theme: Theme) => css`
   }
 
   .token.namespace {
-    /* opacity: 0.8; */
     color: rgb(75 117 133);
   }
 
-  /* Plugin overrides */
-  /* Selectors should have higher specificity than those in the plugins' default stylesheets */
-
-  /* Show Invisibles plugin overrides */
   .token.token.tab:not(:empty):before,
   .token.token.cr:before,
   .token.token.lf:before,
@@ -382,13 +384,10 @@ export default (theme: Theme) => css`
     color: hsl(230, 8%, 24%);
   }
 
-  /* Line Highlight plugin overrides */
-  /* The highlighted line itself */
   .line-highlight.line-highlight {
     background: hsla(230, 8%, 24%, 0.05);
   }
 
-  /* Default line numbers in Line Highlight plugin */
   .line-highlight.line-highlight:before,
   .line-highlight.line-highlight[data-end]:after {
     background: hsl(230, 1%, 90%);
@@ -398,29 +397,22 @@ export default (theme: Theme) => css`
     box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.2); /* same as Toolbar plugin default */
   }
 
-  /* Hovering over a linkable line number (in the gutter area) */
-  /* Requires Line Numbers plugin as well */
   pre[id].linkable-line-numbers.linkable-line-numbers
     span.line-numbers-rows
     > span:hover:before {
     background-color: hsla(230, 8%, 24%, 0.05);
   }
 
-  /* Line Numbers and Command Line plugins overrides */
-  /* Line separating gutter from coding area */
   .line-numbers.line-numbers .line-numbers-rows,
   .command-line .command-line-prompt {
     border-right-color: hsla(230, 8%, 24%, 0.2);
   }
 
-  /* Stuff in the gutter */
   .line-numbers .line-numbers-rows > span:before,
   .command-line .command-line-prompt > span:before {
     color: hsl(230, 1%, 62%);
   }
 
-  /* Match Braces plugin overrides */
-  /* Note: Outline colour is inherited from the braces */
   .rainbow-braces .token.token.punctuation.brace-level-1,
   .rainbow-braces .token.token.punctuation.brace-level-5,
   .rainbow-braces .token.token.punctuation.brace-level-9 {
@@ -445,8 +437,6 @@ export default (theme: Theme) => css`
     color: hsl(301, 63%, 40%);
   }
 
-  /* Diff Highlight plugin overrides */
-  /* Taken from https://github.com/atom/github/blob/master/styles/variables.less */
   pre.diff-highlight > code .token.token.deleted:not(.prefix),
   pre > code.diff-highlight .token.token.deleted:not(.prefix) {
     background-color: hsla(353, 100%, 66%, 0.15);
@@ -457,9 +447,6 @@ export default (theme: Theme) => css`
     background-color: hsla(137, 100%, 55%, 0.15);
   }
 
-  /* Previewers plugin overrides */
-  /* Based on https://github.com/atom-community/atom-ide-datatip/blob/master/styles/atom-ide-datatips.less and https://github.com/atom/atom/blob/master/packages/one-light-ui */
-  /* Border around popup */
   .prism-previewer.prism-previewer:before,
   .prism-previewer-gradient.prism-previewer-gradient div {
     border-color: hsl(0, 0, 95%);
@@ -472,29 +459,24 @@ export default (theme: Theme) => css`
     border-bottom-color: hsl(0, 0, 95%);
   }
 
-  /* Background colour within the popup */
   .prism-previewer-angle.prism-previewer-angle:before,
   .prism-previewer-time.prism-previewer-time:before,
   .prism-previewer-easing.prism-previewer-easing {
     background: hsl(0, 0%, 100%);
   }
 
-  /* For angle, this is the positive area (eg. 90deg will display one quadrant in this colour) */
-  /* For time, this is the alternate colour */
   .prism-previewer-angle.prism-previewer-angle circle,
   .prism-previewer-time.prism-previewer-time circle {
     stroke: hsl(230, 8%, 24%);
     stroke-opacity: 1;
   }
 
-  /* Stroke colours of the handle, direction point, and vector itself */
   .prism-previewer-easing.prism-previewer-easing circle,
   .prism-previewer-easing.prism-previewer-easing path,
   .prism-previewer-easing.prism-previewer-easing line {
     stroke: hsl(230, 8%, 24%);
   }
 
-  /* Fill colour of the handle */
   .prism-previewer-easing.prism-previewer-easing circle {
     fill: transparent;
   }

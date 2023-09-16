@@ -193,6 +193,7 @@ const ReadNextCardMeta = styled.div`
     font-size: inherit;
     margin: 0;
     color: rgba(255, 255, 255, 0.6);
+
     time {
       font-size: inherit;
     }

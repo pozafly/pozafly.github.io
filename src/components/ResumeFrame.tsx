@@ -12,6 +12,7 @@ const FrameWrapper = styled.div`
 const Loading = styled.div`
   display: inline-block;
   position: absolute;
+
   &.loaded {
     display: none;
   }
@@ -22,15 +23,16 @@ const Loading = styled.div`
     width: 24px;
     height: 24px;
   }
+
   .loader {
     margin: 4px;
     position: relative;
     text-indent: -9999em;
-    // outer
+    /* outer */
     border-top: 2px solid var(--loader-color);
     border-right: 2px solid var(--loader-color);
     border-bottom: 2px solid var(--loader-color);
-    // inner
+    /* inner */
     border-left: 2px solid var(--loader-color2);
 
     -webkit-transform: translateZ(0);
@@ -39,21 +41,25 @@ const Loading = styled.div`
     -webkit-animation: loader 1.1s infinite linear;
     animation: loader 1.1s infinite linear;
   }
+
   @-webkit-keyframes loader {
     0% {
       -webkit-transform: rotate(0deg);
       transform: rotate(0deg);
     }
+
     100% {
       -webkit-transform: rotate(360deg);
       transform: rotate(360deg);
     }
   }
+
   @keyframes loader {
     0% {
       -webkit-transform: rotate(0deg);
       transform: rotate(0deg);
     }
+
     100% {
       -webkit-transform: rotate(360deg);
       transform: rotate(360deg);

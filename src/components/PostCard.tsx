@@ -109,6 +109,7 @@ const PostCardStyles = css`
     .post-card-image:after {
       opacity: var(--post-card-after-opacity);
     }
+
     img {
       transform: scale(1.03) !important;
     }
@@ -119,14 +120,17 @@ const PostCardStyles = css`
       background: #191b1f;
       border: 1px solid hsl(230deg 6% 23%);
     }
+
     .post-card-primary-tag {
       a {
         color: #90a2aa;
       }
     }
+
     .post-card-excerpt {
       color: #768086;
     }
+
     .post-card-byline-content {
       color: #90a2aa;
     }
@@ -137,6 +141,7 @@ const PostCardLarge = css`
   p {
     display: block;
   }
+
   @media (min-width: 795px) {
     flex: 1 1 100%;
     flex-direction: row;
@@ -171,9 +176,6 @@ const PostCardLarge = css`
       font-size: 3.2rem;
     }
 
-    .post-card-content-link {
-    }
-
     .post-card-excerpt p {
       margin-bottom: 1.5em;
       font-size: 1.8rem;
@@ -185,7 +187,6 @@ const PostCardLarge = css`
 const PostCardImageLink = css`
   position: relative;
   display: block;
-  overflow: hidden;
   border-radius: 12px;
   overflow: hidden;
 `;
@@ -197,7 +198,7 @@ const PostCardImage = styled.div`
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid var(--image-border-color);
-  background: var(--background-color);
+  background-color: var(--background-color);
 
   &:after {
     content: '';
@@ -239,6 +240,7 @@ const PostCardPrimaryTag = styled.div`
   font-size: 1.2rem;
   font-weight: 500;
   letter-spacing: 0.2px;
+
   a {
     font-size: 1.2rem;
   }
@@ -253,6 +255,7 @@ const PostCardTitle = styled.h2`
 const PostCardExcerpt = styled.section`
   font-size: 1.6rem;
   color: var(--post-card-description);
+
   p {
     width: 100%;
     overflow: hidden;
@@ -283,6 +286,7 @@ const PostCardBylineContent = styled.div`
   time {
     font-size: 1.3rem;
   }
+
   span {
     margin: 0;
     font-size: 1.3rem;
@@ -298,10 +302,10 @@ export const AuthorProfileImage = css`
   display: block;
   width: 100%;
   height: 100%;
-  background: ${lighten('0.1', colors.lightgrey)};
   border-radius: 100%;
   object-fit: cover;
   background: var(--background-color);
+
   img {
     border-radius: 100%;
   }

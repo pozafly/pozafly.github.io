@@ -21,7 +21,6 @@ export const SiteNavMain = css`
   right: 0;
   left: 0;
   z-index: 1000;
-  backdrop-filter: blur(8px);
   backdrop-filter: saturate(180%) blur(20px);
   background: var(--nav-background);
   border-bottom: 1px solid var(--nav-border-color);
@@ -68,7 +67,6 @@ export const PostFeed = css`
   display: flex;
   flex-wrap: wrap;
   margin: 0 -20px;
-  padding: 50px 0 0;
   background: var(--background-color);
 
   padding: 120px 0 40px;
@@ -78,6 +76,7 @@ export const PostFeed = css`
   @media (max-width: 780px) {
     padding: 80px 0 40px;
   }
+
   @media (max-width: 500px) {
     padding: 40px 0;
   }
@@ -114,8 +113,6 @@ export const SocialLinkFb = css`
   }
 `;
 
-export const SiteHeader = css``;
-
 export const SiteHeaderContent = styled.div`
   z-index: 100;
   display: flex;
@@ -133,9 +130,11 @@ export const SiteHeaderStyles = css`
   background: var(--header-color) no-repeat center center;
   background-size: cover;
   height: 35rem;
+
   @media (max-width: 780px) {
     height: 28rem;
   }
+
   @media (max-width: 500px) {
     height: 25rem;
   }
@@ -151,6 +150,7 @@ export const SiteHeaderStyles = css`
     display: block;
     background: var(--header-before);
   }
+
   :after {
     content: '';
     position: absolute;

@@ -25,7 +25,6 @@ const SwitchContainer = styled.button`
   padding: 2px;
   border-radius: 50%;
   overflow: hidden;
-  background: transparent;
   background: rgba(215, 215, 215, 0.6);
   transition: all 0.3s ease;
 
@@ -54,7 +53,7 @@ const SwitchContainer = styled.button`
     overflow: hidden;
 
     &::before {
-      // sun
+      /* sun */
       content: '';
       position: absolute;
 
@@ -72,8 +71,9 @@ const SwitchContainer = styled.button`
 
       transition: box-shadow 0.4s 0s ease;
     }
+
     &::after {
-      // moon
+      /* moon */
       content: '';
       position: absolute;
       width: 90%;
@@ -99,13 +99,14 @@ const SwitchContainer = styled.button`
 
   &.dark {
     background: transparent;
+
     &:hover {
       background: rgba(255, 255, 255, 0.1);
     }
+
     .mode {
       transform: scale(0.5);
       background: white;
-      opacity: 1;
       opacity: 0.8;
       overflow: initial;
 
@@ -133,10 +134,12 @@ const SwitchContainer = styled.button`
   &.is-home {
     .mode {
       background: #fff;
+
       &::after {
         background: rgba(95, 131, 162);
       }
     }
+
     &.dark {
       .mode {
         &::before {
@@ -150,6 +153,7 @@ const SwitchContainer = styled.button`
             -12px 12px 0 0 white,
             -12px -12px 0 0 white;
         }
+
         &::after {
           background: rgba(46, 64, 79);
         }

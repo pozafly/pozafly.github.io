@@ -241,6 +241,7 @@ const NavStyles = css`
 
   li a.is-home {
     color: #fff;
+
     &:before {
       background: #fff;
     }
@@ -305,6 +306,7 @@ const HideNav = css`
     opacity: 0;
     transform: translateY(-175%);
   }
+
   .nav-post-title {
     visibility: visible;
     opacity: 1;

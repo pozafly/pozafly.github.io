@@ -7,14 +7,7 @@ import SiteNav from '../components/header/SiteNav';
 import { PostFullContent } from '../components/PostContent';
 import { Wrapper } from '../components/Wrapper';
 import IndexLayout from '../layouts';
-import {
-  inner,
-  outer,
-  SiteArchiveHeader,
-  SiteHeader,
-  SiteMain,
-  SiteNavMain,
-} from '../styles/shared';
+import { inner, outer, SiteArchiveHeader, SiteMain, SiteNavMain } from '../styles/shared';
 import { NoImage, PostFull, PostFullHeader, PostFullTitle } from '../templates/post';
 
 // import ResumeFrame from '../components/ResumeFrame';
@@ -33,7 +26,7 @@ function About() {
   return (
     <IndexLayout>
       <Wrapper css={PageTemplate}>
-        <header className="site-archive-header no-image" css={[SiteHeader, SiteArchiveHeader]}>
+        <header className="site-archive-header no-image" css={[SiteArchiveHeader]}>
           <div css={[outer, SiteNavMain]}>
             <div css={inner}>
               <SiteNav isHome={false} />

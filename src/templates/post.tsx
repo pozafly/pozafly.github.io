@@ -313,6 +313,7 @@ const PostFullTags = styled.section`
   font-size: 1.2rem;
   line-height: 1.4em;
   font-weight: 600;
+
   a {
     font-size: 1.2rem;
   }
@@ -396,6 +397,7 @@ const PostFullByline = styled.div`
 export const PostFullTitle = styled.h1`
   margin: 0 0 0.2em;
   color: var(--post-full-title);
+
   @media (max-width: 500px) {
     margin-top: 0.2em;
     font-size: 3.3rem;
@@ -408,6 +410,7 @@ const PostFullImage = styled.figure`
   background-size: cover;
   width: 80%;
   border-radius: 8px;
+
   img {
     border-radius: 8px;
   }
@@ -421,6 +424,7 @@ const PostFullImage = styled.figure`
   @media (max-width: 800px) {
     width: 100%;
   }
+
   @media (max-width: 500px) {
     margin-bottom: 4vw;
   }

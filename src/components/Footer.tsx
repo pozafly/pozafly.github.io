@@ -60,13 +60,16 @@ const SiteFooterContent = css`
   align-items: center;
   color: rgba(255, 255, 255, 0.7);
   font-size: 1.3rem;
+
   a {
     color: rgba(255, 255, 255, 0.7);
   }
+
   a:hover {
     color: rgba(255, 255, 255, 1);
     text-decoration: none;
   }
+
   @media (max-width: 650px) {
     flex-direction: column;
   }
@@ -96,6 +99,7 @@ const SiteFooterNav = styled.nav`
   a:first-of-type:before {
     display: none;
   }
+
   @media (max-width: 650px) {
     a:first-of-type {
       margin-left: 0;

@@ -8,14 +8,7 @@ import SiteNav from '../components/header/SiteNav';
 import { PostFullContent } from '../components/PostContent';
 import { Wrapper } from '../components/Wrapper';
 import IndexLayout from '../layouts';
-import {
-  inner,
-  outer,
-  SiteArchiveHeader,
-  SiteHeader,
-  SiteMain,
-  SiteNavMain,
-} from '../styles/shared';
+import { inner, outer, SiteArchiveHeader, SiteMain, SiteNavMain } from '../styles/shared';
 import { NoImage, PostFull, PostFullHeader, PostFullTitle } from '../templates/post';
 
 const PageTemplate = css`
@@ -29,6 +22,7 @@ const PageTemplate = css`
 const TagArea = css`
   ul {
     padding-left: initial;
+
     li {
       display: inline-block;
       list-style: none;
@@ -51,6 +45,7 @@ const TagArea = css`
         text-decoration: none;
         color: var(--main-color);
         box-shadow: none;
+
         &:hover {
           box-shadow: none;
         }
@@ -76,7 +71,7 @@ const Tags = ({ data }: Props) => {
   return (
     <IndexLayout>
       <Wrapper css={PageTemplate}>
-        <header className="site-archive-header no-image" css={[SiteHeader, SiteArchiveHeader]}>
+        <header className="site-archive-header no-image" css={[SiteArchiveHeader]}>
           <div css={[outer, SiteNavMain]}>
             <div css={inner}>
               <SiteNav isHome={false} />

@@ -66,6 +66,7 @@ function Pagination({ currentPage, numPages }: PaginationProps) {
 const navCss = css`
   text-align: center;
   margin-bottom: 32px;
+
   div {
     display: inline-block;
     padding: 10px;
@@ -97,12 +98,12 @@ const navCss = css`
       background-color: #b3b3b3;
     }
 
-    &:hover:not(.active) {
-      background-color: #ddd;
-    }
-
     &:hover {
       text-decoration: none;
+    }
+
+    &:hover:not(.active) {
+      background-color: #ddd;
     }
   }
 
@@ -110,6 +111,7 @@ const navCss = css`
     div {
       background: rgba(255, 255, 255, 0.1);
     }
+
     a {
       background: #000;
       color: #fff;
@@ -117,6 +119,7 @@ const navCss = css`
       &.active {
         background-color: #626262;
       }
+
       &:hover:not(.active) {
         background-color: #272727;
       }

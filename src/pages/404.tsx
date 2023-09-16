@@ -8,7 +8,7 @@ import { PostCard } from '../components/PostCard';
 import { Wrapper } from '../components/Wrapper';
 import IndexLayout from '../layouts';
 import { colors } from '../styles/colors';
-import { inner, outer, PostFeed, SiteHeader, SiteNavMain } from '../styles/shared';
+import { inner, outer, PostFeed, SiteNavMain } from '../styles/shared';
 
 import type { PageContext } from '../templates/post';
 
@@ -29,7 +29,7 @@ function NotFoundPage(props: NotFoundTemplateProps) {
   return (
     <IndexLayout>
       <Wrapper>
-        <header css={[SiteHeader, outer]}>
+        <header css={[outer]}>
           <div css={[outer, SiteNavMain]}>
             <div css={inner}>
               <SiteNav isHome={false} />
@@ -109,7 +109,6 @@ const ErrorContent = css`
 
 const ErrorCode = styled.h1`
   margin: 0;
-  /* color: var(--lightgrey); */
   color: ${colors.lightgrey};
   font-size: 12vw;
   line-height: 1em;
@@ -123,7 +122,6 @@ const ErrorCode = styled.h1`
 
 const ErrorDescription = styled.p`
   margin: 0;
-  /* color: var(--midgrey); */
   color: ${colors.midgrey};
   font-size: 3rem;
   line-height: 1.3em;

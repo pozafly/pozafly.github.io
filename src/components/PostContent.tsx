@@ -42,13 +42,16 @@ export const PostFullContent = styled.section`
   @media (max-width: 1170px) {
     padding: 0 11vw;
   }
+
   @media (max-width: 800px) {
     padding: 0 5vw;
     font-size: 1.8rem;
   }
+
   @media (max-width: 500px) {
     padding: 0;
   }
+
   @media (max-width: 500px) {
     .post-full-custom-excerpt {
       font-size: 1.9rem;
@@ -77,6 +80,7 @@ export const PostFullContent = styled.section`
     margin: 0 0 1.5em 0;
     min-width: 100%;
   }
+
   @media (max-width: 500px) {
     p,
     ul,
@@ -104,6 +108,7 @@ export const PostFullContent = styled.section`
   a[class*='image'],
   a[class*='image']:hover {
     box-shadow: none;
+
     span[class*='image'] {
       border-radius: 6px;
     }
@@ -128,6 +133,11 @@ export const PostFullContent = styled.section`
     border-radius: 8px;
     border: 1px solid var(--image-border-color);
   }
+
+  hr + p {
+    margin-top: 1.2em;
+  }
+
   @media (max-width: 1040px) {
     img,
     video {
@@ -156,6 +166,7 @@ export const PostFullContent = styled.section`
     padding: 0 1.5em;
     border-left: 3px solid var(--image-border-color);
   }
+
   @media (max-width: 500px) {
     blockquote {
       padding: 0 1.3em;
@@ -217,10 +228,6 @@ export const PostFullContent = styled.section`
     margin: 2em 0;
   }
 
-  hr + p {
-    margin-top: 1.2em;
-  }
-
   h1,
   h2,
   h3,
@@ -238,9 +245,11 @@ export const PostFullContent = styled.section`
     line-height: 1.25em;
     font-weight: 600;
   }
+
   p + h1 {
     margin-top: 0.8em;
   }
+
   @media (max-width: 800px) {
     h1 {
       font-size: 3.2rem;
@@ -254,9 +263,11 @@ export const PostFullContent = styled.section`
     line-height: 1.25em;
     font-weight: 600;
   }
+
   p + h2 {
     margin-top: 0.8em;
   }
+
   @media (max-width: 800px) {
     h2 {
       margin-bottom: 0.3em;
@@ -271,9 +282,11 @@ export const PostFullContent = styled.section`
     line-height: 1.3em;
     font-weight: 600;
   }
+
   h2 + h3 {
     margin-top: 0.7em;
   }
+
   @media (max-width: 800px) {
     h3 {
       margin-bottom: 0.3em;
@@ -287,12 +300,15 @@ export const PostFullContent = styled.section`
     font-size: 1.8rem;
     font-weight: 600;
   }
+
   h2 + h4 {
     margin-top: 0.7em;
   }
+
   h3 + h4 {
     margin-top: 0;
   }
+
   @media (max-width: 800px) {
     h4 {
       margin-bottom: 0.3em;
@@ -311,11 +327,13 @@ export const PostFullContent = styled.section`
     line-height: 1.35em;
     text-align: center;
   }
+
   @media (min-width: 1180px) {
     h5 {
       max-width: 1060px;
     }
   }
+
   @media (max-width: 800px) {
     h5 {
       margin-bottom: 1em;
@@ -331,6 +349,7 @@ export const PostFullContent = styled.section`
     font-size: 2rem;
     font-weight: 700;
   }
+
   @media (max-width: 800px) {
     h6 {
       font-size: 1.8rem;
@@ -351,9 +370,6 @@ export const PostFullContent = styled.section`
     font-size: 1.6rem;
     white-space: nowrap;
     vertical-align: top;
-  }
-
-  table {
     -webkit-overflow-scrolling: touch;
     background:
       radial-gradient(ellipse at left, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 75%) 0 center,
@@ -362,19 +378,6 @@ export const PostFullContent = styled.section`
     background-size:
       10px 100%,
       10px 100%;
-    background-repeat: no-repeat;
-  }
-
-  table td:first-of-type {
-    background-image: var(--table-first-of-type);
-    background-size: 20px 100%;
-    background-repeat: no-repeat;
-  }
-
-  table td:last-child {
-    background-image: var(--table-last-of-type);
-    background-position: 100% 0;
-    background-size: 20px 100%;
     background-repeat: no-repeat;
   }
 
@@ -392,6 +395,19 @@ export const PostFullContent = styled.section`
   table td {
     padding: 6px 12px;
     border: var(--table-th-border) 1px solid;
+  }
+
+  table td:first-of-type {
+    background-image: var(--table-first-of-type);
+    background-size: 20px 100%;
+    background-repeat: no-repeat;
+  }
+
+  table td:last-child {
+    background-image: var(--table-last-of-type);
+    background-position: 100% 0;
+    background-size: 20px 100%;
+    background-repeat: no-repeat;
   }
 
   figcaption {

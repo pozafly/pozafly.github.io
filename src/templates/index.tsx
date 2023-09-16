@@ -17,7 +17,6 @@ import {
   PostFeed,
   Posts,
   SiteDescription,
-  SiteHeader,
   SiteHeaderContent,
   SiteHeaderStyles,
   SiteMain,
@@ -82,7 +81,7 @@ function IndexPage(props: IndexProps) {
     <IndexLayout css={HomePosts}>
       <Wrapper>
         <div
-          css={[outer, SiteHeader, SiteHeaderStyles]}
+          css={[outer, SiteHeaderStyles]}
           className="site-header-background"
           style={{
             backgroundImage: `url('${getSrc(props.data.header)}')`,
@@ -220,11 +219,6 @@ const HomePosts = css`
     .post-card-large .post-card-content {
       flex: 0 1 361px;
       justify-content: center;
-    }
-
-    .post-card-large .post-card-title {
-      margin-top: 0;
-      font-size: 3.2rem;
     }
 
     .post-card-large .post-card-content-link {

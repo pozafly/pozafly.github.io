@@ -15,7 +15,6 @@ import {
   ResponsiveHeaderBackground,
   SiteArchiveHeader,
   SiteDescription,
-  SiteHeader,
   SiteHeaderBackground,
   SiteHeaderContent,
   SiteMain,
@@ -98,7 +97,7 @@ function Tags({ pageContext, data }: TagTemplateProps) {
   return (
     <IndexLayout>
       <Wrapper>
-        <header className="site-archive-header" css={[SiteHeader, SiteArchiveHeader]}>
+        <header className="site-archive-header" css={[SiteArchiveHeader]}>
           <div css={[outer, SiteNavMain]}>
             <div css={inner}>
               <SiteNav isHome={false} />
