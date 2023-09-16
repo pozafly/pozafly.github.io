@@ -49,15 +49,15 @@ const SiteFooter = css`
   position: relative;
   padding-top: 20px;
   padding-bottom: 22px;
-  color: #fff;
   background: ${setLightness('0.0015', colors.darkgrey)};
+  color: #fff;
 `;
 
 const SiteFooterContent = css`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   color: rgb(255 255 255 / 0.7);
   font-size: 1.3rem;
 
@@ -86,14 +86,14 @@ const SiteFooterNav = styled.nav`
 
   a:before {
     content: '';
+    display: block;
     position: absolute;
     top: 11px;
     left: -11px;
-    display: block;
     width: 2px;
     height: 2px;
-    background: #fff;
     border-radius: 100%;
+    background: #fff;
   }
 
   a:first-of-type:before {

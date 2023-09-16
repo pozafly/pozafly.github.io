@@ -23,69 +23,78 @@ export default function ThemeModeSwitch({ isHome }: { isHome: boolean }) {
 const SwitchContainer = styled.button`
   margin: 6px;
   padding: 2px;
-  border-radius: 50%;
   overflow: hidden;
-  background: rgb(215 215 215 / 0.6);
+
   transition: all 0.3s ease;
+  border-radius: 50%;
+
+  background: rgb(215 215 215 / 0.6);
 
   #switch {
+    display: flex;
     position: relative;
-    background: transparent;
-    border: 0;
+    align-items: center;
+    justify-content: center;
+
     width: 21px;
     height: 21px;
     padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
     overflow: hidden;
+    border: 0;
+
+    background: transparent;
   }
 
   .mode {
     position: relative;
+
     width: 18px;
     height: 18px;
 
+    overflow: hidden;
+
     transition: all 0.45s ease;
     border-radius: 50%;
-    background: #000;
+
     opacity: 0.8;
-    overflow: hidden;
+    background: #000;
 
     &:before {
       /* sun */
       content: '';
+
       position: absolute;
+      z-index: -1;
+      top: 50%;
+      left: 50%;
 
       width: 5px;
       height: 5px;
-      left: 50%;
-      top: 50%;
       transform: translateX(-50%) translateY(-50%);
-      border-radius: 50%;
-
-      background: inherit;
-
-      z-index: -1;
-      opacity: 0;
 
       transition: box-shadow 0.4s 0s ease;
+      border-radius: 50%;
+
+      opacity: 0;
+      background: inherit;
     }
 
     &:after {
       /* moon */
       content: '';
-      position: absolute;
-      width: 90%;
-      height: 90%;
 
+      position: absolute;
       top: -20%;
       left: 30%;
 
-      border-radius: 50%;
-      background: rgb(255 255 255 / 0.9);
+      width: 90%;
+      height: 90%;
 
       transition: transform 0.45s ease;
+      border-radius: 50%;
+
+      background: rgb(255 255 255 / 0.9);
     }
 
     &:hover {
@@ -105,10 +114,10 @@ const SwitchContainer = styled.button`
     }
 
     .mode {
-      transform: scale(0.5);
-      background: white;
-      opacity: 0.8;
       overflow: initial;
+      transform: scale(0.5);
+      opacity: 0.8;
+      background: white;
 
       &:before {
         opacity: 1;
@@ -124,9 +133,9 @@ const SwitchContainer = styled.button`
       }
 
       &:after {
-        opacity: 0;
-        transition: background 0.45s ease;
         transform: translateX(50%) translateY(-50%);
+        transition: background 0.45s ease;
+        opacity: 0;
       }
     }
   }

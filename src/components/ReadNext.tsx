@@ -70,14 +70,14 @@ const ReadNextAside = styled.aside`
   }
 
   .post-card-primary-tag {
-    color: #fff;
     opacity: 0.6;
+    color: #fff;
   }
 
   .post-card-title {
-    color: #fff;
-    opacity: 0.8;
     transition: all 0.2s ease-in-out;
+    opacity: 0.8;
+    color: #fff;
   }
 
   .post-card:hover .post-card-image {

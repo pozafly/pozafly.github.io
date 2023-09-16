@@ -4,8 +4,8 @@ import styled from '@emotion/styled';
 
 const FrameWrapper = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   height: 58vh;
 `;
 
@@ -19,15 +19,20 @@ const Loading = styled.div`
 
   .loader,
   .loader:after {
-    border-radius: 50%;
     width: 24px;
     height: 24px;
+    border-radius: 50%;
   }
 
   .loader {
-    margin: 4px;
     position: relative;
-    text-indent: -9999em;
+    margin: 4px;
+
+    -webkit-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-animation: loader 1.1s infinite linear;
+    animation: loader 1.1s infinite linear;
 
     /* outer */
     border-top: 2px solid var(--loader-color);
@@ -36,12 +41,7 @@ const Loading = styled.div`
 
     /* inner */
     border-left: 2px solid var(--loader-color2);
-
-    -webkit-transform: translateZ(0);
-    -ms-transform: translateZ(0);
-    transform: translateZ(0);
-    -webkit-animation: loader 1.1s infinite linear;
-    animation: loader 1.1s infinite linear;
+    text-indent: -9999em;
   }
 
   @-webkit-keyframes loader {
@@ -72,17 +72,17 @@ const Loading = styled.div`
 const Frame = styled.iframe`
   width: 100%;
   height: 58vh;
-  border-radius: 10px;
-  opacity: 0;
   transform: translateY(3px);
   transition:
     opacity 0.7s ease,
     transform 0.7s ease;
+  border-radius: 10px;
+  opacity: 0;
   box-shadow: 0 8px 18px 0 hsl(218 53% 10% / 0.05);
 
   &.frame-loaded {
-    opacity: 1;
     transform: translateY(0);
+    opacity: 1;
   }
 `;
 

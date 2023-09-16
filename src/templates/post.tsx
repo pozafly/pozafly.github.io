@@ -256,15 +256,15 @@ const GiscusStyle = css`
   box-sizing: border-box;
   width: 100%;
   max-width: 760px;
-  margin-left: auto;
   margin-right: auto;
+  margin-left: auto;
 `;
 
 const PostTemplate = css`
   .site-main {
     margin-top: 64px;
-    background: var(--background-color);
     padding-bottom: 4vw;
+    background: var(--background-color);
   }
 `;
 
@@ -307,12 +307,12 @@ export const PostFullHeader = styled.header`
 
 const PostFullTags = styled.section`
   display: flex;
-  justify-content: flex-start;
   align-items: center;
+  justify-content: flex-start;
   color: ${colors.midgrey};
   font-size: 1.2rem;
-  line-height: 1.4em;
   font-weight: 600;
+  line-height: 1.4em;
 
   a {
     font-size: 1.2rem;
@@ -331,8 +331,8 @@ const PostFullCustomExcerpt = styled.p`
   margin: 20px 0 0;
   color: var(--post-card-description);
   font-size: 2rem;
-  line-height: 1.4em;
   font-weight: 360;
+  line-height: 1.4em;
 
   @media (max-width: 500px) {
     font-size: 1.9rem;
@@ -348,8 +348,8 @@ const PostFullByline = styled.div`
   border-top: 1px solid var(--post-full-border);
 
   .post-full-byline-content {
-    flex-grow: 1;
     display: flex;
+    flex-grow: 1;
     align-items: flex-start;
   }
 
@@ -362,20 +362,20 @@ const PostFullByline = styled.div`
     margin: 2px 0 0;
     color: #768086;
     font-size: 1.4rem;
-    line-height: 1.2em;
     letter-spacing: 0.2px;
+    line-height: 1.2em;
   }
 
   .post-full-byline-meta .author-name {
     margin: 0 0 3px;
     font-size: 1.4rem;
-    line-height: 1.3em;
     font-weight: 500;
+    line-height: 1.3em;
   }
 
   .post-full-byline-meta .author-name a {
-    font-size: 13px;
     color: var(--post-full-meta-link);
+    font-size: 13px;
   }
 
   .post-full-byline-meta .author-name a:hover {
@@ -405,11 +405,12 @@ export const PostFullTitle = styled.h1`
 `;
 
 const PostFullImage = styled.figure`
-  margin: 25px auto 50px;
-  max-height: 800px;
-  background-size: cover;
   width: 80%;
+  max-height: 800px;
+  margin: 25px auto 50px;
+  border: 1px solid var(--image-border-color);
   border-radius: 8px;
+  background-size: cover;
 
   img {
     border-radius: 8px;
@@ -428,7 +429,6 @@ const PostFullImage = styled.figure`
   @media (max-width: 500px) {
     margin-bottom: 4vw;
   }
-  border: 1px solid var(--image-border-color);
 `;
 
 export const query = graphql`

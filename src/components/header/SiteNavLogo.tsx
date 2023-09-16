@@ -35,17 +35,17 @@ export function SiteNavLogo() {
 }
 
 const SiteNavLogoStyles = css`
+  display: inline-block;
   position: relative;
   z-index: 100;
   flex-shrink: 0;
-  display: inline-block;
   margin-right: 32px;
   padding: 12px 0;
   color: #fff;
   font-size: 1.7rem;
-  line-height: 1.8rem;
   font-weight: 700;
   letter-spacing: -0.5px;
+  line-height: 1.8rem;
   text-transform: none;
 
   @media (max-width: 700px) {

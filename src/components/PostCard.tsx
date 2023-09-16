@@ -89,13 +89,13 @@ export function PostCard({ post, isLarge = false, isNext = false }: PostCardProp
 }
 
 const PostCardStyles = css`
+  display: flex;
   position: relative;
   flex: 1 1 301px;
-  display: flex;
   flex-direction: column;
-  overflow: hidden;
-  margin: 0 20px 60px;
   min-height: 220px;
+  margin: 0 20px 60px;
+  overflow: hidden;
   background-size: cover;
 
   img {
@@ -117,8 +117,8 @@ const PostCardStyles = css`
 
   &.is-next {
     .post-card-image {
-      background: #191b1f;
       border: 1px solid hsl(230 6% 23%);
+      background: #191b1f;
     }
 
     .post-card-primary-tag {
@@ -155,8 +155,8 @@ const PostCardLarge = css`
     .post-card-image-link {
       position: relative;
       flex: 1 1 auto;
-      margin-bottom: 0;
       min-height: 380px;
+      margin-bottom: 0;
     }
 
     .post-card-image {
@@ -185,20 +185,20 @@ const PostCardLarge = css`
 `;
 
 const PostCardImageLink = css`
-  position: relative;
   display: block;
-  border-radius: 12px;
+  position: relative;
   overflow: hidden;
+  border-radius: 12px;
 `;
 
 const PostCardImage = styled.div`
   width: auto;
   height: 200px;
-  background-size: cover;
-  border-radius: 12px;
   overflow: hidden;
   border: 1px solid var(--image-border-color);
+  border-radius: 12px;
   background-color: var(--background-color);
+  background-size: cover;
 
   &:after {
     content: '';
@@ -208,9 +208,9 @@ const PostCardImage = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
+    transition: all 0.3s ease 0s;
     opacity: var(--post-card-opacity);
     background-color: var(--post-card-background);
-    transition: all 0.3s ease 0s;
   }
 
   img {
@@ -219,14 +219,14 @@ const PostCardImage = styled.div`
 `;
 
 const PostCardContent = styled.div`
-  flex-grow: 1;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 `;
 
 const PostCardContentLink = css`
-  position: relative;
   display: block;
+  position: relative;
   color: ${colors.darkgrey};
 
   :hover {
@@ -248,23 +248,23 @@ const PostCardPrimaryTag = styled.div`
 
 const PostCardTitle = styled.h2`
   margin: 0 0 0.4em;
-  line-height: 1.15em;
   color: var(--post-card-title);
+  line-height: 1.15em;
 `;
 
 const PostCardExcerpt = styled.section`
-  font-size: 1.6rem;
   color: var(--post-card-description);
+  font-size: 1.6rem;
 
   p {
-    width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
     display: -webkit-box;
+    width: 100%;
+    margin-bottom: 0.4em;
+    overflow: hidden;
+    font-size: 1.4rem;
+    text-overflow: ellipsis;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    margin-bottom: 0.4em;
-    font-size: 1.4rem;
   }
 `;
 
@@ -275,13 +275,13 @@ const PostCardMeta = styled.footer`
 `;
 
 const PostCardBylineContent = styled.div`
-  flex: 1 1 50%;
   display: flex;
+  flex: 1 1 50%;
   flex-direction: column;
   color: ${lighten('0.1', colors.midgrey)};
-  line-height: 1.4em;
   font-weight: 400;
   letter-spacing: 0.2px;
+  line-height: 1.4em;
 
   time {
     font-size: 1.3rem;

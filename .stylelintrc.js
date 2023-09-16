@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['stylelint-config-recommended-scss'],
+  extends: ['stylelint-config-recommended-scss', 'stylelint-config-property-sort-order-smacss'],
   overrides: [
     {
       files: ['**/*.js', '**/*.cjs', '**/*.mjs', '**/*.jsx', '**/*.ts', '**/*.tsx'],

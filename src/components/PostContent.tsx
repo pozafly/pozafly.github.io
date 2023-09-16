@@ -31,13 +31,13 @@ function PostContent({ htmlAst }: PostContentProps) {
 
 export const PostFullContent = styled.section`
   position: relative;
+  min-height: 230px;
   margin: 0 auto;
   padding: 0 100px 6vw;
-  min-height: 230px;
+  border-radius: 6px;
+  background: var(--background-color);
   font-size: 2rem;
   line-height: 1.6em;
-  background: var(--background-color);
-  border-radius: 6px;
 
   @media (max-width: 1170px) {
     padding: 0 11vw;
@@ -77,8 +77,8 @@ export const PostFullContent = styled.section`
   blockquote,
   .post-full-comments,
   .footnotes {
-    margin: 0 0 1.5em;
     min-width: 100%;
+    margin: 0 0 1.5em;
   }
 
   @media (max-width: 500px) {
@@ -127,11 +127,11 @@ export const PostFullContent = styled.section`
   img,
   video {
     display: block;
-    margin: 2em auto;
     max-width: 840px;
     height: auto;
-    border-radius: 8px;
+    margin: 2em auto;
     border: 1px solid var(--image-border-color);
+    border-radius: 8px;
   }
 
   hr + p {
@@ -146,8 +146,8 @@ export const PostFullContent = styled.section`
   }
 
   img[src$='#full'] {
-    max-width: none;
     width: 100vw;
+    max-width: none;
   }
 
   img + br + small {
@@ -177,8 +177,8 @@ export const PostFullContent = styled.section`
     margin: 0 0 1em;
     color: inherit;
     font-size: inherit;
-    line-height: inherit;
     font-style: italic;
+    line-height: inherit;
   }
 
   blockquote p:last-child {
@@ -187,12 +187,12 @@ export const PostFullContent = styled.section`
 
   code {
     padding: 0 5px 2px;
-    font-size: 0.8em;
-    line-height: 1em;
-    font-weight: 400 !important;
     border-radius: 3px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', 'Ubuntu',
       'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-size: 0.8em;
+    font-weight: 400 !important;
+    line-height: 1em;
   }
 
   p code {
@@ -200,20 +200,20 @@ export const PostFullContent = styled.section`
   }
 
   pre {
-    overflow-x: auto;
-    padding: 20px;
     max-width: 100%;
+    padding: 20px;
+    overflow-x: auto;
+    border-radius: 5px;
     color: ${colors.whitegrey};
     font-size: 1.4rem;
     line-height: 1.5em;
-    border-radius: 5px;
   }
 
   pre code {
     padding: 0;
+    background: transparent;
     font-size: inherit;
     line-height: inherit;
-    background: transparent;
   }
 
   pre code :not(span) {
@@ -242,8 +242,8 @@ export const PostFullContent = styled.section`
   h1 {
     margin: 0.5em 0 0.4em;
     font-size: 4.2rem;
-    line-height: 1.25em;
     font-weight: 600;
+    line-height: 1.25em;
   }
 
   p + h1 {
@@ -260,8 +260,8 @@ export const PostFullContent = styled.section`
   h2 {
     margin: 0.5em 0 0.4em;
     font-size: 3.2rem;
-    line-height: 1.25em;
     font-weight: 600;
+    line-height: 1.25em;
   }
 
   p + h2 {
@@ -279,8 +279,8 @@ export const PostFullContent = styled.section`
   h3 {
     margin: 0.5em 0 0.2em;
     font-size: 2.5rem;
-    line-height: 1.3em;
     font-weight: 600;
+    line-height: 1.3em;
   }
 
   h2 + h3 {
@@ -359,36 +359,36 @@ export const PostFullContent = styled.section`
 
   table {
     display: inline-block;
-    overflow-x: auto;
-    margin: 0.5em 0 2.5em;
-    max-width: 100%;
     width: auto;
+    max-width: 100%;
+    margin: 0.5em 0 2.5em;
+    overflow-x: auto;
     border-spacing: 0;
     border-collapse: collapse;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', 'Ubuntu',
-      'Droid Sans', 'Helvetica Neue', sans-serif;
-    font-size: 1.6rem;
-    white-space: nowrap;
-    vertical-align: top;
-    -webkit-overflow-scrolling: touch;
     background:
       radial-gradient(ellipse at left, rgb(0 0 0 / 0.2) 0%, rgb(0 0 0 / 0) 75%) 0 center,
       radial-gradient(ellipse at right, rgb(0 0 0 / 0.2) 0%, rgb(0 0 0 / 0) 75%) 100% center;
     background-attachment: scroll, scroll;
+    background-repeat: no-repeat;
     background-size:
       10px 100%,
       10px 100%;
-    background-repeat: no-repeat;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', 'Ubuntu',
+      'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-size: 1.6rem;
+    vertical-align: top;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
   }
 
   table th {
+    background-color: var(--table-th-background);
     color: var(--home-header-color);
     font-size: 1.2rem;
     font-weight: 700;
     letter-spacing: 0.2px;
     text-align: left;
     text-transform: uppercase;
-    background-color: var(--table-th-background);
   }
 
   table th,
@@ -399,15 +399,15 @@ export const PostFullContent = styled.section`
 
   table td:first-of-type {
     background-image: var(--table-first-of-type);
-    background-size: 20px 100%;
     background-repeat: no-repeat;
+    background-size: 20px 100%;
   }
 
   table td:last-child {
     background-image: var(--table-last-of-type);
+    background-repeat: no-repeat;
     background-position: 100% 0;
     background-size: 20px 100%;
-    background-repeat: no-repeat;
   }
 
   figcaption {

@@ -38,17 +38,17 @@ const AuthorItemLi = styled.li`
   padding: 0;
 
   :hover .author-name-tooltip {
-    opacity: 1;
     transform: translate(-10px, -2px);
+    opacity: 1;
   }
 `;
 
 const AuthorAvatar = css`
   display: block;
-  overflow: hidden;
-  margin: 0 -4px;
   width: 40px;
   height: 40px;
+  margin: 0 -4px;
+  overflow: hidden;
   border: 2px solid var(--author-border);
   border-radius: 100%;
 

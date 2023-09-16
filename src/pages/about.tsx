@@ -116,17 +116,17 @@ function About() {
 export default About;
 
 export const ProfileImage = css`
-  margin: 0 auto;
   display: block;
   width: 120px;
   height: 120px;
+  margin: 0 auto;
   overflow: initial;
   border-radius: 8px;
 
   img {
-    box-shadow: var(--about-box-shadow);
     margin: 0;
     border: initial;
+    box-shadow: var(--about-box-shadow);
   }
 
   @media (max-width: 1040px) {

@@ -25,26 +25,26 @@ const TagArea = css`
 
     li {
       display: inline-block;
-      list-style: none;
-      background: var(--tag-background);
-      border: 1px solid var(--image-border-color);
-      border-radius: 6px;
       margin-right: 12px;
-      color: var(--main-color);
       padding: 2px 4px;
       transform: translateY(0);
       transition: all 0.4s ease;
+      border: 1px solid var(--image-border-color);
+      border-radius: 6px;
+      background: var(--tag-background);
+      color: var(--main-color);
+      list-style: none;
 
       &:hover {
-        box-shadow: 0 8px 20px var(--tag-boxshadow);
         transform: translateY(-3px);
+        box-shadow: 0 8px 20px var(--tag-boxshadow);
       }
 
       a {
         padding: 6px;
-        text-decoration: none;
-        color: var(--main-color);
         box-shadow: none;
+        color: var(--main-color);
+        text-decoration: none;
 
         &:hover {
           box-shadow: none;

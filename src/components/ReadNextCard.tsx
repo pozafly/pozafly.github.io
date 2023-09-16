@@ -78,18 +78,18 @@ export function ReadNextCard(props: ReadNextProps) {
 }
 
 const ReadNextCardArticle = styled.article`
+  display: flex;
   position: relative;
   flex: 0 1 326px;
-  display: flex;
   flex-direction: column;
-  overflow: hidden;
   margin: 0 25px 50px;
   padding: 25px;
+  overflow: hidden;
+  border-radius: 3px;
   background: linear-gradient(
     ${lighten('0.02', colors.darkgrey)},
     ${lighten('-0.05', colors.darkgrey)}
   );
-  border-radius: 3px;
 
   a {
     transition: all 0.2s ease-in-out;
@@ -118,9 +118,9 @@ const ReadNextCardHeaderTitle = styled.h3`
   margin: 0;
   color: rgb(255 255 255 / 0.6);
   font-size: 1.3rem;
-  line-height: 1em;
   font-weight: 300;
   letter-spacing: 0.4px;
+  line-height: 1em;
 
   span,
   a {
@@ -128,10 +128,10 @@ const ReadNextCardHeaderTitle = styled.h3`
   }
 
   a {
+    opacity: 0.8;
     color: #fff;
     font-weight: 500;
     text-decoration: none;
-    opacity: 0.8;
   }
 
   a:hover {
@@ -167,15 +167,15 @@ const ReadNextCardContent = styled.div`
   h4 {
     margin: 0;
     font-size: 1.3rem;
-    line-height: 1.6em;
     font-weight: 600;
+    line-height: 1.6em;
   }
 
   li a {
-    font-size: inherit;
     display: block;
-    color: #fff;
     opacity: 0.8;
+    color: #fff;
+    font-size: inherit;
   }
 
   li a:hover {
@@ -186,13 +186,13 @@ const ReadNextCardContent = styled.div`
 const ReadNextCardMeta = styled.div`
   margin-top: 2px;
   font-size: 1.2rem;
-  line-height: 1.4em;
   font-weight: 400;
+  line-height: 1.4em;
 
   p {
-    font-size: inherit;
     margin: 0;
     color: rgb(255 255 255 / 0.6);
+    font-size: inherit;
 
     time {
       font-size: inherit;
@@ -206,11 +206,11 @@ const ReadNextCardFooter = styled.footer`
 
   a {
     padding: 7px 12px 8px 14px;
+    transition: all 0.35s ease-in-out;
     border: 1px solid rgb(255 255 255 / 0.6);
+    border-radius: 999px;
     color: rgb(255 255 255 / 0.6);
     font-size: 1.3rem;
-    border-radius: 999px;
-    transition: all 0.35s ease-in-out;
   }
 
   a:hover {

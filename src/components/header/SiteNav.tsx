@@ -170,28 +170,28 @@ class SiteNav extends PureComponent<SiteNavProps, SiteNavState> {
 }
 
 const SiteNavStyles = css`
+  display: flex;
   position: relative;
   z-index: 100;
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  overflow-y: hidden;
+  justify-content: space-between;
   height: 52px;
+  overflow-y: hidden;
   font-size: 1.3rem;
 `;
 
 const SiteNavLeft = styled.div`
-  flex: 1 0 auto;
   display: flex;
+  flex: 1 0 auto;
   align-items: center;
+  margin-right: 10px;
   overflow-x: auto;
   overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  margin-right: 10px;
   font-weight: 500;
   letter-spacing: 0.2px;
   text-transform: uppercase;
   white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
 
   -ms-overflow-scrolling: touch;
 
@@ -206,13 +206,13 @@ const SiteNavContent = styled.div`
 `;
 
 const NavStyles = css`
+  display: flex;
   position: absolute;
   z-index: 1000;
-  display: flex;
   margin: 0 0 0 -12px;
   padding: 0;
-  list-style: none;
   transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+  list-style: none;
 
   li {
     display: block;
@@ -221,13 +221,13 @@ const NavStyles = css`
   }
 
   li a {
-    font-size: 1.2rem;
-    position: relative;
     display: block;
+    position: relative;
     padding: 10px 12px;
-    color: var(--main-color);
-    opacity: 0.7;
     transition: opacity 0.2s ease-in-out;
+    opacity: 0.7;
+    color: var(--main-color);
+    font-size: 1.2rem;
 
     @media (max-width: 700px) {
       padding: 10px 8px;
@@ -235,8 +235,8 @@ const NavStyles = css`
   }
 
   li a:hover {
-    text-decoration: none;
     opacity: 1;
+    text-decoration: none;
   }
 
   li a.is-home {
@@ -253,15 +253,15 @@ const NavStyles = css`
 `;
 
 const SiteNavRight = styled.div`
-  flex: 0 1 auto;
   display: flex;
+  flex: 0 1 auto;
   align-items: center;
   justify-content: flex-end;
 `;
 
 const SocialLinks = styled.div`
-  flex-shrink: 0;
   display: flex;
+  flex-shrink: 0;
   align-items: center;
 
   @media (max-width: 700px) {
@@ -275,19 +275,19 @@ const NavPostTitle = styled.span`
   visibility: hidden;
   position: absolute;
   top: 9px;
+  transform: translateY(175%);
+  transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+  opacity: 0;
   color: var(--main-color);
   font-size: 1.7rem;
   font-weight: 400;
   text-transform: none;
-  opacity: 0;
-  transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
-  transform: translateY(175%);
 
   @media (max-width: 700px) {
+    max-width: calc(100vw - 126px);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: calc(100vw - 126px);
   }
 
   .dash {
@@ -303,14 +303,14 @@ const NavPostTitle = styled.span`
 const HideNav = css`
   ul {
     visibility: hidden;
-    opacity: 0;
     transform: translateY(-175%);
+    opacity: 0;
   }
 
   .nav-post-title {
     visibility: visible;
-    opacity: 1;
     transform: translateY(0);
+    opacity: 1;
   }
 `;
 

@@ -64,35 +64,35 @@ function Pagination({ currentPage, numPages }: PaginationProps) {
 }
 
 const navCss = css`
-  text-align: center;
   margin-bottom: 32px;
+  text-align: center;
 
   div {
     display: inline-block;
     padding: 10px;
-    background: rgb(25 27 31 / 0.1);
     border-radius: 100px;
+    background: rgb(25 27 31 / 0.1);
   }
 
   a {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', 'Ubuntu',
-      'Droid Sans', 'Helvetica Neue', sans-serif;
-    font-size: 1.5rem;
-    background: #fff;
-    color: black;
-    float: left;
-    text-decoration: none;
-    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
     margin: 0 4px;
+    float: left;
+    transition: background-color 0.3s;
+    border-radius: 100px;
+    background: #fff;
     box-shadow:
       rgb(39 44 49 / 0.06) 8px 14px 38px,
       rgb(39 44 49 / 0.03) 1px 3px 8px;
-    border-radius: 100px;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    color: black;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', 'Ubuntu',
+      'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-size: 1.5rem;
+    text-decoration: none;
 
     &.active {
       background-color: #b3b3b3;
@@ -128,9 +128,9 @@ const navCss = css`
 
   @media (max-width: 650px) {
     a {
-      margin: 0 2px;
       width: 32px;
       height: 32px;
+      margin: 0 2px;
     }
   }
 `;

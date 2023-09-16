@@ -87,27 +87,27 @@ export default function GlobalStyles() {
         }
 
         body {
-          word-break: keep-all;
           overflow-x: hidden;
+          background: var(--background-color);
+          color: var(--body-color);
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', 'Ubuntu',
             'Droid Sans', 'Helvetica Neue', sans-serif;
           font-size: 1.6rem;
-          line-height: 1.6em;
-          font-weight: 400;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
           font-style: normal;
+          -moz-font-feature-settings: 'liga' on;
+          font-weight: 400;
           letter-spacing: 0;
+          line-height: 1.6em;
 
           /* stylelint-disable-next-line */
           text-rendering: optimizeLegibility;
-          background: var(--background-color);
-          color: var(--body-color);
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-          -moz-font-feature-settings: 'liga' on;
+          word-break: keep-all;
 
           &::-webkit-scrollbar {
-            background-color: transparent;
             width: 6px;
+            background-color: transparent;
           }
 
           &::-webkit-scrollbar-thumb {
@@ -243,9 +243,9 @@ export default function GlobalStyles() {
 
         ol,
         ul {
-          list-style: none;
-          padding-left: 1.3em;
           max-width: 100%;
+          padding-left: 1.3em;
+          list-style: none;
         }
 
         blockquote,
@@ -272,11 +272,11 @@ export default function GlobalStyles() {
 
         html {
           box-sizing: border-box;
+          overflow-x: hidden;
+          overflow-y: scroll;
           font-family: sans-serif;
           -ms-text-size-adjust: 100%;
           -webkit-text-size-adjust: 100%;
-          overflow-x: hidden;
-          overflow-y: scroll;
           font-size: 62.5%;
 
           -webkit-tap-highlight-color: rgb(0 0 0);
@@ -415,12 +415,12 @@ export default function GlobalStyles() {
         }
 
         hr {
-          position: relative;
           display: block;
+          position: relative;
           width: 100%;
+          height: 1px;
           margin: 2.5em 0 3.5em;
           padding: 0;
-          height: 1px;
           border: 0;
           border-top: 1px solid var(--border-top-color);
         }
@@ -474,9 +474,9 @@ export default function GlobalStyles() {
         }
 
         dt {
-          float: left;
-          margin: 0 20px 0 0;
           width: 120px;
+          margin: 0 20px 0 0;
+          float: left;
           color: ${colors.darkgrey};
           font-weight: 500;
           text-align: right;
@@ -502,8 +502,8 @@ export default function GlobalStyles() {
         blockquote small {
           display: inline-block;
           margin: 0.8em 0 0.8em 1.5em;
-          font-size: 0.9em;
           opacity: 0.8;
+          font-size: 0.9em;
         }
 
         blockquote cite {
@@ -522,8 +522,8 @@ export default function GlobalStyles() {
         h5,
         h6 {
           margin-top: 0;
-          line-height: 1.15;
           font-weight: 600;
+          line-height: 1.15;
 
           /* stylelint-disable-next-line */
           text-rendering: optimizeLegibility;
@@ -536,8 +536,8 @@ export default function GlobalStyles() {
             }
 
             svg {
-              opacity: 0;
               transition: 0.25s ease;
+              opacity: 0;
               fill: var(--link-color) !important;
             }
           }

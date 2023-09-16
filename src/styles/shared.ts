@@ -10,20 +10,20 @@ export const outer = css`
 
 // Centered content container blocks
 export const inner = css`
-  margin: 0 auto;
-  max-width: 1040px;
   width: 100%;
+  max-width: 1040px;
+  margin: 0 auto;
 `;
 
 export const SiteNavMain = css`
   position: fixed;
+  z-index: 1000;
   top: 0;
   right: 0;
   left: 0;
-  z-index: 1000;
-  backdrop-filter: saturate(180%) blur(20px);
-  background: var(--nav-background);
   border-bottom: 1px solid var(--nav-border-color);
+  background: var(--nav-background);
+  backdrop-filter: saturate(180%) blur(20px);
 `;
 
 export const SiteMain = css`
@@ -36,8 +36,8 @@ export const SiteTitle = styled.h1`
   margin: 0 0 0 -2px;
   padding: 0;
   font-size: 5rem;
-  line-height: 1em;
   font-weight: 600;
+  line-height: 1em;
 
   @media (max-width: 500px) {
     font-size: 4.2rem;
@@ -48,10 +48,10 @@ export const SiteDescription = styled.h2`
   z-index: 140;
   margin: 0;
   padding: 15px 0;
-  font-size: 2.1rem;
-  line-height: 1.4em;
-  font-weight: 400;
   opacity: 0.8;
+  font-size: 2.1rem;
+  font-weight: 400;
+  line-height: 1.4em;
 
   @media (max-width: 500px) {
     font-size: 1.8rem;
@@ -63,15 +63,15 @@ export const Posts = css`
 `;
 
 export const PostFeed = css`
-  position: relative;
   display: flex;
+  position: relative;
   flex-wrap: wrap;
   margin: 0 -20px;
-  background: var(--background-color);
 
   padding: 120px 0 40px;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
+  background: var(--background-color);
 
   @media (max-width: 780px) {
     padding: 80px 0 40px;
@@ -88,8 +88,8 @@ export const SocialLink = css`
   justify-content: center;
   margin: 0;
   padding: 10px;
-  opacity: 0.8;
   transition: opacity 0.35s ease;
+  opacity: 0.8;
 
   :hover {
     opacity: 1;
@@ -114,22 +114,22 @@ export const SocialLinkFb = css`
 `;
 
 export const SiteHeaderContent = styled.div`
-  z-index: 100;
   display: flex;
+  z-index: 100;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   min-height: 200px;
   max-height: 340px;
 `;
 
 export const SiteHeaderStyles = css`
   position: relative;
+  height: 35rem;
   padding-bottom: 12px;
-  color: #fff;
   background: var(--header-color) no-repeat center center;
   background-size: cover;
-  height: 35rem;
+  color: #fff;
 
   @media (max-width: 780px) {
     height: 28rem;
@@ -141,21 +141,21 @@ export const SiteHeaderStyles = css`
 
   :before {
     content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 10;
     display: block;
+    position: absolute;
+    z-index: 10;
     background: var(--header-before);
+    inset: 0;
   }
 
   :after {
     content: '';
-    position: absolute;
-    inset: 0 0 auto;
-    z-index: 10;
     display: block;
+    position: absolute;
+    z-index: 10;
     height: 100%;
     background: linear-gradient(rgb(0 0 0 / 0) 50%, var(--header-after));
+    inset: 0 0 auto;
   }
 `;
 
@@ -283,14 +283,14 @@ export const NoImage = css`
   .no-image {
     padding-top: 0;
     padding-bottom: 0;
-    color: var(--home-header-color);
-    background: var(--background-color);
     opacity: 1;
+    background: var(--background-color);
+    color: var(--home-header-color);
   }
 
   .no-image .site-description {
-    color: ${colors.midgrey};
     opacity: 1;
+    color: ${colors.midgrey};
   }
 
   .no-image .site-header-content {
@@ -298,13 +298,13 @@ export const NoImage = css`
   }
 
   .no-image .author-bio {
-    color: ${colors.midgrey};
     opacity: 1;
+    color: ${colors.midgrey};
   }
 
   .no-image .author-meta {
-    color: ${colors.midgrey};
     opacity: 1;
+    color: ${colors.midgrey};
   }
 
   .no-image .author-social-link a {
