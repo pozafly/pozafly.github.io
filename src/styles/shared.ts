@@ -263,6 +263,7 @@ export const ResponsiveHeaderBackground = styled.div<{
       flex-direction: column;
       align-items: center;
       min-height: unset;
+      margin-top: 80px;
     }
 
     .site-title {
