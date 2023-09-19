@@ -5,7 +5,7 @@ on:
 jobs:
   deployment:
     runs-on: ubuntu-latest
-    if: ${{ !contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[ci clean]') && !contains(github.event.head_commit.message, 'pozafly/renovate') }}
+    if: ${{ !contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, 'pozafly/renovate') }}
     steps:
       # time zone이 세팅 되지 않으면 배포 시 ReactDOM 관련 Error 발생.
       # GitHub Actions linux 환경에서 Gatsby 빌드 시 time zone 맞추는 작업 필요.
