@@ -28,7 +28,6 @@ export const SiteNavMain = css`
 
 export const SiteMain = css`
   flex-grow: 1;
-  background: var(--background-color);
 `;
 
 export const SiteTitle = styled.h1`
@@ -71,7 +70,6 @@ export const PostFeed = css`
   padding: 120px 0 40px;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
-  background: var(--background-color);
 
   @media (max-width: 780px) {
     padding: 80px 0 40px;

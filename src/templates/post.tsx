@@ -262,7 +262,7 @@ const GiscusStyle = css`
 
 const PostTemplate = css`
   .site-main {
-    margin-top: 64px;
+    margin-top: 52px;
     padding-bottom: 4vw;
     background: var(--background-color);
   }
