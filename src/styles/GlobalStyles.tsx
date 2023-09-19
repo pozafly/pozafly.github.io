@@ -278,8 +278,7 @@ export default function GlobalStyles() {
           -ms-text-size-adjust: 100%;
           -webkit-text-size-adjust: 100%;
           font-size: 62.5%;
-
-          -webkit-tap-highlight-color: rgb(0 0 0);
+          -webkit-tap-highlight-color: rgb(0 0 0 / 0);
         }
 
         *,
