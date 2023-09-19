@@ -4,13 +4,21 @@
   "labels": ["renovate"],
   "packageRules": [
     {
-      "packagePatterns": ["^@types/"],
+      "groupName": "@types",
+      "matchPackagePatterns": ["^@types/"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
       "automerge": true,
       "automergeType": "pr-comment",
-      "automergeComment": "types: auto merge",
-      "major": {
-        "automerge": false
-      }
+      "automergeComment": "@types: auto merge"
+    },
+    {
+      "groupName": "lints",
+      "matchPackagePatterns": ["^eslint", "^prettier", "^stylelint"],
+      "labels": ["lint"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true,
+      "automergeType": "pr-comment",
+      "automergeComment": "lint: auto merge"
     }
   ]
 }
