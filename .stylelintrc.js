@@ -1,5 +1,13 @@
+const { propertyGroups } = require('stylelint-config-clean-order');
+
+const propertiesOrder = propertyGroups.map((properties) => ({
+  noEmptyLineBetween: true,
+  emptyLineBefore: 'never',
+  properties,
+}));
+
 module.exports = {
-  extends: ['stylelint-config-recommended-scss', 'stylelint-config-property-sort-order-smacss'],
+  extends: ['stylelint-config-recommended-scss', 'stylelint-config-clean-order/error'],
   overrides: [
     {
       files: ['**/*.js', '**/*.cjs', '**/*.mjs', '**/*.jsx', '**/*.ts', '**/*.tsx'],
@@ -7,6 +15,13 @@ module.exports = {
     },
   ],
   rules: {
+    'order/properties-order': [
+      propertiesOrder,
+      {
+        severity: 'error',
+        unspecified: 'bottomAlphabetical',
+      },
+    ],
     'declaration-property-value-no-unknown': true,
     'function-no-unknown': true,
     'unit-no-unknown': true,
