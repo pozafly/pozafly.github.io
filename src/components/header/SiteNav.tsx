@@ -170,26 +170,26 @@ class SiteNav extends PureComponent<SiteNavProps, SiteNavState> {
 }
 
 const SiteNavStyles = css`
-  display: flex;
   position: relative;
   z-index: 100;
+  overflow-y: hidden;
+  display: flex;
   align-items: center;
   justify-content: space-between;
   height: 52px;
-  overflow-y: hidden;
   font-size: 1.3rem;
 `;
 
 const SiteNavLeft = styled.div`
+  overflow-x: auto;
+  overflow-y: hidden;
   display: flex;
   flex: 1 0 auto;
   align-items: center;
   margin-right: 10px;
-  overflow-x: auto;
-  overflow-y: hidden;
   font-weight: 500;
-  letter-spacing: 0.2px;
   text-transform: uppercase;
+  letter-spacing: 0.2px;
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;
 
@@ -206,13 +206,13 @@ const SiteNavContent = styled.div`
 `;
 
 const NavStyles = css`
-  display: flex;
   position: absolute;
   z-index: 1000;
+  display: flex;
   margin: 0 0 0 -12px;
   padding: 0;
-  transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
   list-style: none;
+  transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
 
   li {
     display: block;
@@ -221,13 +221,13 @@ const NavStyles = css`
   }
 
   li a {
-    display: block;
     position: relative;
+    display: block;
     padding: 10px 12px;
-    transition: opacity 0.2s ease-in-out;
-    opacity: 0.7;
-    color: var(--main-color);
     font-size: 1.2rem;
+    color: var(--main-color);
+    opacity: 0.7;
+    transition: opacity 0.2s ease-in-out;
 
     @media (max-width: 700px) {
       padding: 10px 8px;
@@ -235,8 +235,8 @@ const NavStyles = css`
   }
 
   li a:hover {
-    opacity: 1;
     text-decoration: none;
+    opacity: 1;
   }
 
   li a.is-home {
@@ -272,23 +272,16 @@ const SocialLinks = styled.div`
 `;
 
 const NavPostTitle = styled.span`
-  visibility: hidden;
   position: absolute;
   top: 9px;
   transform: translateY(175%);
-  transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
-  opacity: 0;
-  color: var(--main-color);
   font-size: 1.7rem;
   font-weight: 400;
+  color: var(--main-color);
   text-transform: none;
-
-  @media (max-width: 700px) {
-    max-width: calc(100vw - 126px);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+  visibility: hidden;
+  opacity: 0;
+  transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
 
   .dash {
     left: -25px;
@@ -298,18 +291,25 @@ const NavPostTitle = styled.span`
     content: '- ';
     opacity: 0.5;
   }
+
+  @media (max-width: 700px) {
+    overflow: hidden;
+    max-width: calc(100vw - 126px);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 `;
 
 const HideNav = css`
   ul {
-    visibility: hidden;
     transform: translateY(-175%);
+    visibility: hidden;
     opacity: 0;
   }
 
   .nav-post-title {
-    visibility: visible;
     transform: translateY(0);
+    visibility: visible;
     opacity: 1;
   }
 `;

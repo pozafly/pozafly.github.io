@@ -309,10 +309,10 @@ const PostFullTags = styled.section`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  color: ${colors.midgrey};
   font-size: 1.2rem;
   font-weight: 600;
   line-height: 1.4em;
+  color: ${colors.midgrey};
 
   a {
     font-size: 1.2rem;
@@ -329,10 +329,10 @@ export const AuthorListUl = styled.ul`
 
 const PostFullCustomExcerpt = styled.p`
   margin: 20px 0 0;
-  color: var(--post-card-description);
   font-size: 2rem;
   font-weight: 360;
   line-height: 1.4em;
+  color: var(--post-card-description);
 
   @media (max-width: 500px) {
     font-size: 1.9rem;
@@ -360,10 +360,10 @@ const PostFullByline = styled.div`
 
   .post-full-byline-meta {
     margin: 2px 0 0;
-    color: #768086;
     font-size: 1.4rem;
-    letter-spacing: 0.2px;
     line-height: 1.2em;
+    color: #768086;
+    letter-spacing: 0.2px;
   }
 
   .post-full-byline-meta .author-name {
@@ -374,8 +374,8 @@ const PostFullByline = styled.div`
   }
 
   .post-full-byline-meta .author-name a {
-    color: var(--post-full-meta-link);
     font-size: 13px;
+    color: var(--post-full-meta-link);
   }
 
   .post-full-byline-meta .author-name a:hover {
@@ -408,9 +408,9 @@ const PostFullImage = styled.figure`
   width: 80%;
   max-height: 800px;
   margin: 25px auto 50px;
+  background-size: cover;
   border: 1px solid var(--image-border-color);
   border-radius: 8px;
-  background-size: cover;
 
   img {
     border-radius: 8px;

@@ -23,16 +23,16 @@ const TagArea = css`
     padding-left: initial;
 
     li {
+      transform: translateY(0);
       display: inline-block;
       margin-right: 12px;
       padding: 2px 4px;
-      transform: translateY(0);
-      transition: all 0.4s ease;
-      border: 1px solid var(--image-border-color);
-      border-radius: 6px;
-      background: var(--tag-background);
       color: var(--main-color);
       list-style: none;
+      background: var(--tag-background);
+      border: 1px solid var(--image-border-color);
+      border-radius: 6px;
+      transition: all 0.4s ease;
 
       &:hover {
         transform: translateY(-3px);
@@ -41,9 +41,9 @@ const TagArea = css`
 
       a {
         padding: 6px;
-        box-shadow: none;
         color: var(--main-color);
         text-decoration: none;
+        box-shadow: none;
 
         &:hover {
           box-shadow: none;

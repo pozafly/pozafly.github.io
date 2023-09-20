@@ -21,80 +21,63 @@ export default function ThemeModeSwitch({ isHome }: { isHome: boolean }) {
 }
 
 const SwitchContainer = styled.button`
+  overflow: hidden;
   margin: 6px;
   padding: 2px;
-  overflow: hidden;
-
-  transition: all 0.3s ease;
-  border-radius: 50%;
-
   background: rgb(215 215 215 / 0.6);
+  border-radius: 50%;
+  transition: all 0.3s ease;
 
   #switch {
-    display: flex;
     position: relative;
+    overflow: hidden;
+    display: flex;
     align-items: center;
     justify-content: center;
-
     width: 21px;
     height: 21px;
     padding: 0;
-
-    overflow: hidden;
-    border: 0;
-
     background: transparent;
+    border: 0;
   }
 
   .mode {
     position: relative;
-
+    overflow: hidden;
     width: 18px;
     height: 18px;
-
-    overflow: hidden;
-
-    transition: all 0.45s ease;
-    border-radius: 50%;
-
     opacity: 0.8;
     background: #000;
+    border-radius: 50%;
+    transition: all 0.45s ease;
 
     &:before {
       /* sun */
       content: '';
-
       position: absolute;
       z-index: -1;
       top: 50%;
       left: 50%;
-
+      transform: translateX(-50%) translateY(-50%);
       width: 5px;
       height: 5px;
-      transform: translateX(-50%) translateY(-50%);
-
-      transition: box-shadow 0.4s 0s ease;
-      border-radius: 50%;
-
       opacity: 0;
       background: inherit;
+      border-radius: 50%;
+      transition: box-shadow 0.4s 0s ease;
     }
 
     &:after {
       /* moon */
       content: '';
-
       position: absolute;
       top: -20%;
       left: 30%;
-
       width: 90%;
       height: 90%;
-
-      transition: transform 0.45s ease;
-      border-radius: 50%;
-
       background: rgb(255 255 255 / 0.9);
+      border-radius: 50%;
+      transition: transform 0.45s ease;
     }
 
     &:hover {
@@ -114,8 +97,8 @@ const SwitchContainer = styled.button`
     }
 
     .mode {
-      overflow: initial;
       transform: scale(0.5);
+      overflow: initial;
       opacity: 0.8;
       background: white;
 
@@ -134,8 +117,8 @@ const SwitchContainer = styled.button`
 
       &:after {
         transform: translateX(50%) translateY(-50%);
-        transition: background 0.45s ease;
         opacity: 0;
+        transition: background 0.45s ease;
       }
     }
   }

@@ -44,11 +44,11 @@ const AuthorItemLi = styled.li`
 `;
 
 const AuthorAvatar = css`
+  overflow: hidden;
   display: block;
   width: 40px;
   height: 40px;
   margin: 0 -4px;
-  overflow: hidden;
   border: 2px solid var(--author-border);
   border-radius: 100%;
 

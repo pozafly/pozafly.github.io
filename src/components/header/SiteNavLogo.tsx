@@ -35,22 +35,18 @@ export function SiteNavLogo() {
 }
 
 const SiteNavLogoStyles = css`
-  display: inline-block;
   position: relative;
   z-index: 100;
+  display: inline-block;
   flex-shrink: 0;
   margin-right: 32px;
   padding: 12px 0;
-  color: #fff;
   font-size: 1.7rem;
   font-weight: 700;
-  letter-spacing: -0.5px;
   line-height: 1.8rem;
+  color: #fff;
   text-transform: none;
-
-  @media (max-width: 700px) {
-    margin-right: 18px;
-  }
+  letter-spacing: -0.5px;
 
   :hover {
     text-decoration: none;
@@ -60,5 +56,9 @@ const SiteNavLogoStyles = css`
     display: block;
     width: auto;
     height: 21px;
+  }
+
+  @media (max-width: 700px) {
+    margin-right: 18px;
   }
 `;

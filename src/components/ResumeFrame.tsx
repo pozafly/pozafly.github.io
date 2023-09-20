@@ -10,8 +10,8 @@ const FrameWrapper = styled.div`
 `;
 
 const Loading = styled.div`
-  display: inline-block;
   position: absolute;
+  display: inline-block;
 
   &.loaded {
     display: none;
@@ -26,13 +26,11 @@ const Loading = styled.div`
 
   .loader {
     position: relative;
-    margin: 4px;
-
     -webkit-transform: translateZ(0);
     -ms-transform: translateZ(0);
     transform: translateZ(0);
-    -webkit-animation: loader 1.1s infinite linear;
-    animation: loader 1.1s infinite linear;
+    margin: 4px;
+    text-indent: -9999em;
 
     /* outer */
     border-top: 2px solid var(--loader-color);
@@ -41,7 +39,8 @@ const Loading = styled.div`
 
     /* inner */
     border-left: 2px solid var(--loader-color2);
-    text-indent: -9999em;
+    -webkit-animation: loader 1.1s infinite linear;
+    animation: loader 1.1s infinite linear;
   }
 
   @-webkit-keyframes loader {
@@ -70,15 +69,15 @@ const Loading = styled.div`
 `;
 
 const Frame = styled.iframe`
+  transform: translateY(3px);
   width: 100%;
   height: 58vh;
-  transform: translateY(3px);
+  opacity: 0;
+  border-radius: 10px;
+  box-shadow: 0 8px 18px 0 hsl(218 53% 10% / 0.05);
   transition:
     opacity 0.7s ease,
     transform 0.7s ease;
-  border-radius: 10px;
-  opacity: 0;
-  box-shadow: 0 8px 18px 0 hsl(218 53% 10% / 0.05);
 
   &.frame-loaded {
     transform: translateY(0);

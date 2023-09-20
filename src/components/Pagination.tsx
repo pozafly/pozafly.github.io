@@ -70,29 +70,29 @@ const navCss = css`
   div {
     display: inline-block;
     padding: 10px;
-    border-radius: 100px;
     background: rgb(25 27 31 / 0.1);
+    border-radius: 100px;
   }
 
   a {
+    float: left;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 40px;
     height: 40px;
     margin: 0 4px;
-    float: left;
-    transition: background-color 0.3s;
-    border-radius: 100px;
-    background: #fff;
-    box-shadow:
-      rgb(39 44 49 / 0.06) 8px 14px 38px,
-      rgb(39 44 49 / 0.03) 1px 3px 8px;
-    color: black;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', 'Ubuntu',
       'Droid Sans', 'Helvetica Neue', sans-serif;
     font-size: 1.5rem;
+    color: black;
     text-decoration: none;
+    background: #fff;
+    border-radius: 100px;
+    box-shadow:
+      rgb(39 44 49 / 0.06) 8px 14px 38px,
+      rgb(39 44 49 / 0.03) 1px 3px 8px;
+    transition: background-color 0.3s;
 
     &.active {
       background-color: #b3b3b3;
@@ -113,8 +113,8 @@ const navCss = css`
     }
 
     a {
-      background: #000;
       color: #fff;
+      background: #000;
 
       &.active {
         background-color: #626262;

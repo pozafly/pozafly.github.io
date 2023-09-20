@@ -89,13 +89,13 @@ export function PostCard({ post, isLarge = false, isNext = false }: PostCardProp
 }
 
 const PostCardStyles = css`
-  display: flex;
   position: relative;
+  overflow: hidden;
+  display: flex;
   flex: 1 1 301px;
   flex-direction: column;
   min-height: 220px;
   margin: 0 20px 60px;
-  overflow: hidden;
   background-size: cover;
 
   img {
@@ -117,8 +117,8 @@ const PostCardStyles = css`
 
   &.is-next {
     .post-card-image {
-      border: 1px solid hsl(230 6% 23%);
       background: #191b1f;
+      border: 1px solid hsl(230 6% 23%);
     }
 
     .post-card-primary-tag {
@@ -185,32 +185,32 @@ const PostCardLarge = css`
 `;
 
 const PostCardImageLink = css`
-  display: block;
   position: relative;
   overflow: hidden;
+  display: block;
   border-radius: 12px;
 `;
 
 const PostCardImage = styled.div`
+  overflow: hidden;
   width: auto;
   height: 200px;
-  overflow: hidden;
-  border: 1px solid var(--image-border-color);
-  border-radius: 12px;
   background-color: var(--background-color);
   background-size: cover;
+  border: 1px solid var(--image-border-color);
+  border-radius: 12px;
 
   &:after {
     content: '';
-    display: block;
     position: absolute;
     top: 0;
     left: 0;
+    display: block;
     width: 100%;
     height: 100%;
-    transition: all 0.3s ease 0s;
     opacity: var(--post-card-opacity);
     background-color: var(--post-card-background);
+    transition: all 0.3s ease 0s;
   }
 
   img {
@@ -225,8 +225,8 @@ const PostCardContent = styled.div`
 `;
 
 const PostCardContentLink = css`
-  display: block;
   position: relative;
+  display: block;
   color: ${colors.darkgrey};
 
   :hover {
@@ -236,9 +236,9 @@ const PostCardContentLink = css`
 
 const PostCardPrimaryTag = styled.div`
   margin: 15px 0 0.2em;
-  color: ${lighten('0.1', colors.midgrey)};
   font-size: 1.2rem;
   font-weight: 500;
+  color: ${lighten('0.1', colors.midgrey)};
   letter-spacing: 0.2px;
 
   a {
@@ -248,23 +248,23 @@ const PostCardPrimaryTag = styled.div`
 
 const PostCardTitle = styled.h2`
   margin: 0 0 0.4em;
-  color: var(--post-card-title);
   line-height: 1.15em;
+  color: var(--post-card-title);
 `;
 
 const PostCardExcerpt = styled.section`
-  color: var(--post-card-description);
   font-size: 1.6rem;
+  color: var(--post-card-description);
 
   p {
+    overflow: hidden;
     display: -webkit-box;
     width: 100%;
     margin-bottom: 0.4em;
-    overflow: hidden;
     font-size: 1.4rem;
     text-overflow: ellipsis;
-    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
   }
 `;
 
@@ -278,10 +278,10 @@ const PostCardBylineContent = styled.div`
   display: flex;
   flex: 1 1 50%;
   flex-direction: column;
-  color: ${lighten('0.1', colors.midgrey)};
   font-weight: 400;
-  letter-spacing: 0.2px;
   line-height: 1.4em;
+  color: ${lighten('0.1', colors.midgrey)};
+  letter-spacing: 0.2px;
 
   time {
     font-size: 1.3rem;
@@ -293,8 +293,8 @@ const PostCardBylineContent = styled.div`
   }
 
   a {
-    color: var(--post-card-by-line);
     font-weight: 600;
+    color: var(--post-card-by-line);
   }
 `;
 
@@ -302,9 +302,9 @@ export const AuthorProfileImage = css`
   display: block;
   width: 100%;
   height: 100%;
-  border-radius: 100%;
   object-fit: cover;
   background: var(--background-color);
+  border-radius: 100%;
 
   img {
     border-radius: 100%;

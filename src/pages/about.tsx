@@ -115,11 +115,11 @@ function About() {
 export default About;
 
 export const ProfileImage = css`
+  overflow: initial;
   display: block;
   width: 120px;
   height: 120px;
   margin: 0 auto;
-  overflow: initial;
   border-radius: 8px;
 
   img {

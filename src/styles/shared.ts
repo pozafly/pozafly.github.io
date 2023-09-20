@@ -21,9 +21,9 @@ export const SiteNavMain = css`
   top: 0;
   right: 0;
   left: 0;
-  border-bottom: 1px solid var(--nav-border-color);
   background: var(--nav-background);
   backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--nav-border-color);
 `;
 
 export const SiteMain = css`
@@ -47,10 +47,10 @@ export const SiteDescription = styled.h2`
   z-index: 140;
   margin: 0;
   padding: 15px 0;
-  opacity: 0.8;
   font-size: 2.1rem;
   font-weight: 400;
   line-height: 1.4em;
+  opacity: 0.8;
 
   @media (max-width: 500px) {
     font-size: 1.8rem;
@@ -62,11 +62,10 @@ export const Posts = css`
 `;
 
 export const PostFeed = css`
-  display: flex;
   position: relative;
+  display: flex;
   flex-wrap: wrap;
   margin: 0 -20px;
-
   padding: 120px 0 40px;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
@@ -86,8 +85,8 @@ export const SocialLink = css`
   justify-content: center;
   margin: 0;
   padding: 10px;
-  transition: opacity 0.35s ease;
   opacity: 0.8;
+  transition: opacity 0.35s ease;
 
   :hover {
     opacity: 1;
@@ -112,8 +111,8 @@ export const SocialLinkFb = css`
 `;
 
 export const SiteHeaderContent = styled.div`
-  display: flex;
   z-index: 100;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -125,9 +124,28 @@ export const SiteHeaderStyles = css`
   position: relative;
   height: 35rem;
   padding-bottom: 12px;
+  color: #fff;
   background: var(--header-color) no-repeat center center;
   background-size: cover;
-  color: #fff;
+
+  :before {
+    content: '';
+    position: absolute;
+    z-index: 10;
+    inset: 0;
+    display: block;
+    background: var(--header-before);
+  }
+
+  :after {
+    content: '';
+    position: absolute;
+    z-index: 10;
+    inset: 0 0 auto;
+    display: block;
+    height: 100%;
+    background: linear-gradient(rgb(0 0 0 / 0) 50%, var(--header-after));
+  }
 
   @media (max-width: 780px) {
     height: 28rem;
@@ -135,25 +153,6 @@ export const SiteHeaderStyles = css`
 
   @media (max-width: 500px) {
     height: 25rem;
-  }
-
-  :before {
-    content: '';
-    display: block;
-    position: absolute;
-    z-index: 10;
-    background: var(--header-before);
-    inset: 0;
-  }
-
-  :after {
-    content: '';
-    display: block;
-    position: absolute;
-    z-index: 10;
-    height: 100%;
-    background: linear-gradient(rgb(0 0 0 / 0) 50%, var(--header-after));
-    inset: 0 0 auto;
   }
 `;
 
@@ -282,14 +281,14 @@ export const NoImage = css`
   .no-image {
     padding-top: 0;
     padding-bottom: 0;
+    color: var(--home-header-color);
     opacity: 1;
     background: var(--background-color);
-    color: var(--home-header-color);
   }
 
   .no-image .site-description {
-    opacity: 1;
     color: ${colors.midgrey};
+    opacity: 1;
   }
 
   .no-image .site-header-content {
@@ -297,13 +296,13 @@ export const NoImage = css`
   }
 
   .no-image .author-bio {
-    opacity: 1;
     color: ${colors.midgrey};
+    opacity: 1;
   }
 
   .no-image .author-meta {
-    opacity: 1;
     color: ${colors.midgrey};
+    opacity: 1;
   }
 
   .no-image .author-social-link a {

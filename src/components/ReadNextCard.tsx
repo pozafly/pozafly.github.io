@@ -78,18 +78,18 @@ export function ReadNextCard(props: ReadNextProps) {
 }
 
 const ReadNextCardArticle = styled.article`
-  display: flex;
   position: relative;
+  overflow: hidden;
+  display: flex;
   flex: 0 1 326px;
   flex-direction: column;
   margin: 0 25px 50px;
   padding: 25px;
-  overflow: hidden;
-  border-radius: 3px;
   background: linear-gradient(
     ${lighten('0.02', colors.darkgrey)},
     ${lighten('-0.05', colors.darkgrey)}
   );
+  border-radius: 3px;
 
   a {
     transition: all 0.2s ease-in-out;
@@ -106,7 +106,6 @@ const ReadNextCardArticle = styled.article`
 
   @media (max-width: 650px) {
     display: none;
-
     flex: 1 1 auto;
     margin: 0 25px;
     padding: 0;
@@ -116,11 +115,11 @@ const ReadNextCardArticle = styled.article`
 
 const ReadNextCardHeaderTitle = styled.h3`
   margin: 0;
-  color: rgb(255 255 255 / 0.6);
   font-size: 1.3rem;
   font-weight: 300;
-  letter-spacing: 0.4px;
   line-height: 1em;
+  color: rgb(255 255 255 / 0.6);
+  letter-spacing: 0.4px;
 
   span,
   a {
@@ -128,10 +127,10 @@ const ReadNextCardHeaderTitle = styled.h3`
   }
 
   a {
-    opacity: 0.8;
-    color: #fff;
     font-weight: 500;
+    color: #fff;
     text-decoration: none;
+    opacity: 0.8;
   }
 
   a:hover {
@@ -173,9 +172,9 @@ const ReadNextCardContent = styled.div`
 
   li a {
     display: block;
-    opacity: 0.8;
-    color: #fff;
     font-size: inherit;
+    color: #fff;
+    opacity: 0.8;
   }
 
   li a:hover {
@@ -191,8 +190,8 @@ const ReadNextCardMeta = styled.div`
 
   p {
     margin: 0;
-    color: rgb(255 255 255 / 0.6);
     font-size: inherit;
+    color: rgb(255 255 255 / 0.6);
 
     time {
       font-size: inherit;
@@ -206,16 +205,16 @@ const ReadNextCardFooter = styled.footer`
 
   a {
     padding: 7px 12px 8px 14px;
-    transition: all 0.35s ease-in-out;
+    font-size: 1.3rem;
+    color: rgb(255 255 255 / 0.6);
     border: 1px solid rgb(255 255 255 / 0.6);
     border-radius: 999px;
-    color: rgb(255 255 255 / 0.6);
-    font-size: 1.3rem;
+    transition: all 0.35s ease-in-out;
   }
 
   a:hover {
-    border-color: ${colors.yellow};
     color: ${colors.yellow};
     text-decoration: none;
+    border-color: ${colors.yellow};
   }
 `;

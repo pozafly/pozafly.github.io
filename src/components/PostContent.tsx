@@ -34,30 +34,10 @@ export const PostFullContent = styled.section`
   min-height: 230px;
   margin: 0 auto;
   padding: 0 100px 6vw;
-  border-radius: 6px;
-  background: var(--background-color);
   font-size: 2rem;
   line-height: 1.6em;
-
-  @media (max-width: 1170px) {
-    padding: 0 11vw;
-  }
-
-  @media (max-width: 800px) {
-    padding: 0 5vw;
-    font-size: 1.8rem;
-  }
-
-  @media (max-width: 500px) {
-    padding: 0;
-  }
-
-  @media (max-width: 500px) {
-    .post-full-custom-excerpt {
-      font-size: 1.9rem;
-      line-height: 1.5em;
-    }
-  }
+  background: var(--background-color);
+  border-radius: 6px;
 
   .no-image {
     padding-top: 0;
@@ -79,18 +59,6 @@ export const PostFullContent = styled.section`
   .footnotes {
     min-width: 100%;
     margin: 0 0 1.5em;
-  }
-
-  @media (max-width: 500px) {
-    p,
-    ul,
-    ol,
-    dl,
-    pre,
-    .post-full-comments,
-    .footnotes {
-      margin-bottom: 1.28em;
-    }
   }
 
   li {
@@ -138,13 +106,6 @@ export const PostFullContent = styled.section`
     margin-top: 1.2em;
   }
 
-  @media (max-width: 1040px) {
-    img,
-    video {
-      width: 100%;
-    }
-  }
-
   img[src$='#full'] {
     width: 100vw;
     max-width: none;
@@ -167,18 +128,12 @@ export const PostFullContent = styled.section`
     border-left: 3px solid var(--image-border-color);
   }
 
-  @media (max-width: 500px) {
-    blockquote {
-      padding: 0 1.3em;
-    }
-  }
-
   blockquote p {
     margin: 0 0 1em;
-    color: inherit;
     font-size: inherit;
     font-style: italic;
     line-height: inherit;
+    color: inherit;
   }
 
   blockquote p:last-child {
@@ -187,12 +142,12 @@ export const PostFullContent = styled.section`
 
   code {
     padding: 0 5px 2px;
-    border-radius: 3px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', 'Ubuntu',
       'Droid Sans', 'Helvetica Neue', sans-serif;
     font-size: 0.8em;
     font-weight: 400 !important;
     line-height: 1em;
+    border-radius: 3px;
   }
 
   p code {
@@ -200,20 +155,20 @@ export const PostFullContent = styled.section`
   }
 
   pre {
+    overflow-x: auto;
     max-width: 100%;
     padding: 20px;
-    overflow-x: auto;
-    border-radius: 5px;
-    color: ${colors.whitegrey};
     font-size: 1.4rem;
     line-height: 1.5em;
+    color: ${colors.whitegrey};
+    border-radius: 5px;
   }
 
   pre code {
     padding: 0;
-    background: transparent;
     font-size: inherit;
     line-height: inherit;
+    background: transparent;
   }
 
   pre code :not(span) {
@@ -234,9 +189,9 @@ export const PostFullContent = styled.section`
   h4,
   h5,
   h6 {
-    color: var(--home-header-color);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', 'Ubuntu',
       'Droid Sans', 'Helvetica Neue', sans-serif;
+    color: var(--home-header-color);
   }
 
   h1 {
@@ -250,13 +205,6 @@ export const PostFullContent = styled.section`
     margin-top: 0.8em;
   }
 
-  @media (max-width: 800px) {
-    h1 {
-      font-size: 3.2rem;
-      line-height: 1.25em;
-    }
-  }
-
   h2 {
     margin: 0.5em 0 0.4em;
     font-size: 3.2rem;
@@ -268,14 +216,6 @@ export const PostFullContent = styled.section`
     margin-top: 0.8em;
   }
 
-  @media (max-width: 800px) {
-    h2 {
-      margin-bottom: 0.3em;
-      font-size: 2.8rem;
-      line-height: 1.25em;
-    }
-  }
-
   h3 {
     margin: 0.5em 0 0.2em;
     font-size: 2.5rem;
@@ -285,14 +225,6 @@ export const PostFullContent = styled.section`
 
   h2 + h3 {
     margin-top: 0.7em;
-  }
-
-  @media (max-width: 800px) {
-    h3 {
-      margin-bottom: 0.3em;
-      font-size: 2.4rem;
-      line-height: 1.3em;
-    }
   }
 
   h4 {
@@ -309,39 +241,15 @@ export const PostFullContent = styled.section`
     margin-top: 0;
   }
 
-  @media (max-width: 800px) {
-    h4 {
-      margin-bottom: 0.3em;
-      font-size: 1.8rem;
-      line-height: 1.3em;
-    }
-  }
-
   h5 {
     display: block;
     margin: 0.5em 0;
     padding: 0.4em 1em 0.9em;
-    border: 0;
-    color: ${colors.blue};
     font-size: 3.2rem;
     line-height: 1.35em;
+    color: ${colors.blue};
     text-align: center;
-  }
-
-  @media (min-width: 1180px) {
-    h5 {
-      max-width: 1060px;
-    }
-  }
-
-  @media (max-width: 800px) {
-    h5 {
-      margin-bottom: 1em;
-      margin-left: 1.3em;
-      padding: 0 0 0.5em;
-      font-size: 2.4rem;
-      text-align: initial;
-    }
+    border: 0;
   }
 
   h6 {
@@ -350,45 +258,38 @@ export const PostFullContent = styled.section`
     font-weight: 700;
   }
 
-  @media (max-width: 800px) {
-    h6 {
-      font-size: 1.8rem;
-      line-height: 1.4em;
-    }
-  }
-
   table {
+    overflow-x: auto;
     display: inline-block;
+    border-spacing: 0;
+    border-collapse: collapse;
     width: auto;
     max-width: 100%;
     margin: 0.5em 0 2.5em;
-    overflow-x: auto;
-    border-spacing: 0;
-    border-collapse: collapse;
-    background:
-      radial-gradient(ellipse at left, rgb(0 0 0 / 0.2) 0%, rgb(0 0 0 / 0) 75%) 0 center,
-      radial-gradient(ellipse at right, rgb(0 0 0 / 0.2) 0%, rgb(0 0 0 / 0) 75%) 100% center;
-    background-attachment: scroll, scroll;
-    background-repeat: no-repeat;
-    background-size:
-      10px 100%,
-      10px 100%;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', 'Ubuntu',
       'Droid Sans', 'Helvetica Neue', sans-serif;
     font-size: 1.6rem;
-    vertical-align: top;
     white-space: nowrap;
+    vertical-align: top;
+    background:
+      radial-gradient(ellipse at left, rgb(0 0 0 / 0.2) 0%, rgb(0 0 0 / 0) 75%) 0 center,
+      radial-gradient(ellipse at right, rgb(0 0 0 / 0.2) 0%, rgb(0 0 0 / 0) 75%) 100% center;
+    background-repeat: no-repeat;
+    background-attachment: scroll, scroll;
+    background-size:
+      10px 100%,
+      10px 100%;
     -webkit-overflow-scrolling: touch;
   }
 
   table th {
-    background-color: var(--table-th-background);
-    color: var(--home-header-color);
     font-size: 1.2rem;
     font-weight: 700;
-    letter-spacing: 0.2px;
+    color: var(--home-header-color);
     text-align: left;
     text-transform: uppercase;
+    letter-spacing: 0.2px;
+    background-color: var(--table-th-background);
   }
 
   table th,
@@ -412,6 +313,105 @@ export const PostFullContent = styled.section`
 
   figcaption {
     color: var(--figcaption-color);
+  }
+
+  @media (max-width: 1170px) {
+    padding: 0 11vw;
+  }
+
+  @media (max-width: 800px) {
+    padding: 0 5vw;
+    font-size: 1.8rem;
+  }
+
+  @media (max-width: 500px) {
+    padding: 0;
+  }
+
+  @media (max-width: 500px) {
+    .post-full-custom-excerpt {
+      font-size: 1.9rem;
+      line-height: 1.5em;
+    }
+  }
+
+  @media (max-width: 500px) {
+    p,
+    ul,
+    ol,
+    dl,
+    pre,
+    .post-full-comments,
+    .footnotes {
+      margin-bottom: 1.28em;
+    }
+  }
+
+  @media (max-width: 1040px) {
+    img,
+    video {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 500px) {
+    blockquote {
+      padding: 0 1.3em;
+    }
+  }
+
+  @media (max-width: 800px) {
+    h1 {
+      font-size: 3.2rem;
+      line-height: 1.25em;
+    }
+  }
+
+  @media (max-width: 800px) {
+    h2 {
+      margin-bottom: 0.3em;
+      font-size: 2.8rem;
+      line-height: 1.25em;
+    }
+  }
+
+  @media (max-width: 800px) {
+    h3 {
+      margin-bottom: 0.3em;
+      font-size: 2.4rem;
+      line-height: 1.3em;
+    }
+  }
+
+  @media (max-width: 800px) {
+    h4 {
+      margin-bottom: 0.3em;
+      font-size: 1.8rem;
+      line-height: 1.3em;
+    }
+  }
+
+  @media (min-width: 1180px) {
+    h5 {
+      max-width: 1060px;
+    }
+  }
+
+  @media (max-width: 800px) {
+    h5 {
+      margin-bottom: 1em;
+      margin-left: 1.3em;
+      padding: 0 0 0.5em;
+      font-size: 2.4rem;
+      text-align: initial;
+    }
+  }
+
+  @media (max-width: 800px) {
+    h6 {
+      font-size: 1.8rem;
+      line-height: 1.4em;
+    }
   }
 `;
 

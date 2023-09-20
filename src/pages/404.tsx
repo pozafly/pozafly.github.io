@@ -109,11 +109,11 @@ const ErrorContent = css`
 
 const ErrorCode = styled.h1`
   margin: 0;
-  opacity: 0.75;
-  color: ${colors.lightgrey};
   font-size: 12vw;
-  letter-spacing: -5px;
   line-height: 1em;
+  color: ${colors.lightgrey};
+  letter-spacing: -5px;
+  opacity: 0.75;
 
   @media (max-width: 800px) {
     font-size: 11.2rem;
@@ -122,10 +122,10 @@ const ErrorCode = styled.h1`
 
 const ErrorDescription = styled.p`
   margin: 0;
-  color: ${colors.midgrey};
   font-size: 3rem;
   font-weight: 400;
   line-height: 1.3em;
+  color: ${colors.midgrey};
 
   @media (max-width: 800px) {
     margin: 5px 0 0;
