@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { Theme, ThemeProvider } from '@emotion/react';
 
 import { ThemeToggleContext } from './ThemeToggleContext';
@@ -12,10 +14,17 @@ type IndexProps = {
 function IndexLayout(props: IndexProps) {
   const { theme, themeToggler } = useTheme();
   const themeObject: Theme = { mode: theme };
+  const memorizedValue = useMemo(
+    () => ({
+      theme,
+      themeToggler,
+    }),
+    [theme, themeToggler],
+  );
 
   return (
     <div className={props.className}>
-      <ThemeToggleContext.Provider value={{ theme, themeToggler }}>
+      <ThemeToggleContext.Provider value={memorizedValue}>
         <ThemeProvider theme={themeObject}>
           <GlobalStyles />
           {props.children}
