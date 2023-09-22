@@ -57,6 +57,8 @@
     "rehype-react": "^7.2.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.7.1",
+    "@commitlint/config-conventional": "^17.7.0",
     "@emotion/eslint-plugin": "^11.11.0",
     "@types/lodash-es": "4.17.9",
     "@types/node": "18.17.18",
