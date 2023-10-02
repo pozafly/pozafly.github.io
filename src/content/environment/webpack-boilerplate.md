@@ -550,7 +550,7 @@ Plugin은, 번들링된 결과물을 바꾸는 역할을 하고 있다. Loader�
 $ npm i -D html-webpack-plugin
 ```
 
-```json
+```js
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -563,7 +563,7 @@ build를 해보면, 이번에는 dist 폴더에 없던 index.html 파일이 생�
 
 프로젝트 루트에 index.html 파일을 생성하고, plugin 설정을 바꾸어주자.
 
-```json
+```js
 module.exports = {
   (...)
   plugins: [new HtmlWebpackPlugin(
@@ -625,6 +625,12 @@ module.exports = {
       },
     ],
   },
+  // plugin도 반드시 필요하다.
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: 'assets/css/[name]_[contenthash:8].css',
+    }),
+  ],
 };
 ```
 
@@ -662,9 +668,9 @@ url-loader 같은 경우 주로 크기가 작은 svg 파일을 사용한다.
 
 asset 로더 같은 경우는 기본으로 `8kb`이하는 inline(Data Uri Scheme)으로, 이상은 resource(외부 파일)로 처리한다. webpack4 사용 당시 file-loader, url-loader를 섞어 사용할 때와 같은 모습이다.
 
-```json
+```js
 module.exports = {
-	module: {
+  module: {
     rules: [
       {
         test: /\.(png|svg|jpe?g|gif|webp)$/i,
@@ -750,6 +756,7 @@ module.exports = {
       },
     ],
   },
+  // MiniCssExtractPlugin은 dev 환경에서 사용하지 않을 것이므로 제거
   (...)
 };
 ```
@@ -773,7 +780,12 @@ module.exports = {
       },
     ],
   },
-  (...)
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: 'assets/css/[name]_[contenthash:8].css',
+    }),
+    (...)
+  ],
 };
 ```
 
@@ -921,7 +933,7 @@ Webpack에서 권장하는 대로 위와 같이 설정해주었다.
 
 stats는 번들링을 진행하면 터미널에 어떤 번들된 정보를 표시할지 지정하는 옵션이다. 이 옵션을 설정하지 않으면 번들 정보가 꽤 많이 나타나는데, 옵션을 통해 번들 정보를 아예 보이지 않게 만들어줄 수도 있고, 가볍게 나타내보일 수도 있다. [공식 홈피](https://webpack.kr/configuration/stats/)에 나와 있는대로 preset을 설정해보면서 맞는 옵션을 찾아보면 좋다.
 
-```json
+```js
 // webpack.common.js
 module.exports = {
   (...)
@@ -1039,7 +1051,7 @@ module.exports = {
 
 [browswerlist](https://github.com/browserslist/browserslist)는 [caniuse](https://caniuse.com/)의 데이터를 참고한다. 웹 개발에 호환성 확인으로 빠질 수 없는 페이지다. 아래에서 postcss 설정을 할 것이기 때문에 .babelrc 파일의 target을 제거하고 package.json 파일에 담아보자.
 
-```json
+```js
 {
   (...)
   "browserslist": [
@@ -1071,7 +1083,7 @@ postcss와 postcss-preset-env를 설치했다.
 
 webpack.common.js 파일에 아래와 같이 작성하자.
 
-```json
+```js
 const postcssPresetEnv = require('postcss-preset-env');
 
 (...)
