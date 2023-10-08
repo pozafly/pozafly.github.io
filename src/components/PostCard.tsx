@@ -110,7 +110,7 @@ const PostCardStyles = css`
       opacity: var(--post-card-after-opacity);
     }
 
-    img {
+    img[data-main-image] {
       transform: scale(1.03) !important;
     }
   }
