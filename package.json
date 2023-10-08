@@ -9,6 +9,7 @@
   "scripts": {
     "clean": "gatsby clean",
     "build": "gatsby build",
+    "serve": "gatsby serve",
     "dev": "gatsby develop",
     "lint": "eslint --cache --fix .",
     "lint:style": "stylelint --cache --fix .",
