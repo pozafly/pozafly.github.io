@@ -61,6 +61,11 @@ export const PostFullContent = styled.section`
     margin: 0 0 1.5em;
   }
 
+  li > ul,
+  li > ol {
+    margin: 0;
+  }
+
   li {
     word-break: break-word;
   }
