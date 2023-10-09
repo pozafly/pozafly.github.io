@@ -235,8 +235,8 @@ export const PostFullContent = styled.section`
 
   h4 {
     margin: 1em 0 0.2em;
-    font-size: 1.8rem;
-    font-weight: 600;
+    font-size: 2rem;
+    font-weight: 800;
   }
 
   h2 + h4 {
@@ -250,8 +250,8 @@ export const PostFullContent = styled.section`
   h5 {
     display: block;
     margin: 0.5em 0;
-    padding: 0.4em 1em 0.9em;
-    font-size: 1.4rem;
+    font-size: 1.8rem;
+    font-weight: 600;
     line-height: 1.35em;
 
     /* color: ${colors.blue}; */
