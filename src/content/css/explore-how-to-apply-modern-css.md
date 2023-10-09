@@ -1,6 +1,6 @@
 ---
 layout: post
-title: '모던 CSS 적용방법 둘러보기(CSS-in-JS with zero-runtime)'
+title: '모던 CSS 적용 방법 둘러보기(CSS-in-JS with zero-runtime)'
 author: [Pozafly]
 tags: [CSS, Performance]
 date: '2023-10-08'
@@ -102,24 +102,22 @@ CSS 파일을 외부 리소스로 빼는 방법이다. Internal CSS 같은 경�
 
 ![Critical-CSS](../img/css/explore-how-to-apply-modern-css/Critical-CSS.avif)
 
-출처 : web.dev
-
 웹페이지는 스크롤 없이 볼 수 있는 영역과 스크롤 해야 볼 수 있는 부분으로 나눌 수 있다. Critical CSS에서는 스크롤 없이 볼 수 있는 영역을 `above-the-fold`라는 용어를 사용한다. 브라우저에서 URL을 입력하고 접속하면, 눈에 바로 보이는 영역이 스크롤 없이 볼 수 있는 영역이고, 스크롤 아래는 스크롤을 내리지 않는 한 아직은 보이지 않는다.
 
 Critical CSS는 눈에 보이는 스크롤 없이 볼 수 있는 영역에 대한 CSS만 미리 추출해서 렌더링하는 것을 말한다. 사용자가 웹페이지에 접속할 때, 웹페이지끼리 전부 연결된 Global 한 CSS를 모두 가지고 있을 필요가 없고, 가시적인 부분의 CSS만 가지고 저 부분을 그릴 수 있다면 성능이 좋다고 말할 수 있을 것이다.
 
 처음에 알아봤듯, 기본적으로 CSS는 [렌더링 차단 리소스](https://developer.chrome.com/docs/lighthouse/performance/render-blocking-resources/)다. Render Tree가 만들어져야 브라우저에서 Paint 과정으로 이어지기 때문이다. Critical CSS를 사용하면, [FCP(First Contentful Paint)](https://web.dev/fcp/) 지표를 올릴 수 있다.
 
-그렇다면, 위에서 알아본 CSS를 브라우저에 적용하는 3가지 방법 중 어떤 방법을 통해 Critical CSS를 웹페이지에 적용할 수 있을까? 구현하기에 따라 다르겠지만, 일반적으로는 **Internal CSS** 방법을 사용한다.
+그렇다면, 위에서 알아본 CSS를 브라우저에 적용하는 3가지 방법 중 어떤 방법을 통해 Critical CSS를 웹페이지에 적용할 수 있을까? 구현하기에 따라 다르겠지만, 일반적으로는 **Internal(내부) CSS** 방법을 사용한다.
 
 - Inline CSS는 우선 코드 중복이 많거나 HTML과 CSS 코드 덩어리가 함께 있기 때문에 가독성이 좋지 않다.
 - External CSS는 외부 리소스 파일이므로, 브라우저가 HTML을 다운로드한 후, 또다시 네트워크로 CSS 파일을 다운로드해야 하므로 적합하지 않다.
 
-Internal CSS는 HTML 파일에 이미 속해있기 때문에 HTML이 다운로드되는 즉시 사용할 수 있다. 물론 눈에 보이는 부분의 CSS만 Internal CSS로 작성되기 때문에 크기가 크면 안 된다. web.dev에 따르면 14kb 미만의 CSS를 권장한다고 한다.
+Internal CSS는 HTML 파일에 이미 속해있기 때문에 HTML이 다운로드되는 즉시 사용할 수 있다. 물론 눈에 보이는 부분의 CSS만 Internal CSS로 작성되기 때문에 크기가 크면 안 된다. web.dev에 따르면 14kB 미만의 CSS를 권장한다고 한다.
 
 ### 최적화
 
-눈에 보이는 부분 외, 스크롤을 내려야만 보이는 영역의 CSS는 어떻게 가져올 수 있을까? 여러 방법이 있겠지만, 일반적으로는 External CSS를 통해 비동기적으로 CSS 파일을 가져와 적용할 수 있다.
+눈에 보이는 부분 외, 스크롤을 내려야만 보이는 영역의 CSS는 어떻게 가져올 수 있을까? 여러 방법이 있겠지만, 일반적으로는 External CSS를 통해 비동기로 CSS 파일을 가져와 적용할 수 있다.
 
 ```html
 <link href="styles.css">
@@ -141,7 +139,7 @@ link 태그에 다른 attribute 없이 css 파일을 가져오면, FCP(First Con
 `<style>` 내부는 Internal CSS로서 바로 적용된다. `<link>` 의 attribute로 `rel="preload"`가 사용되었다.
 
 - `rel="preload"`와 `as="style"` 속성은 CSS 파일을 비동기적으로 요청한다.
-  - preload : CRP에 필요한 리소스를 미리 로드한다. as와 묶여서 사용된다.
+  - preload : CRP(Critical Rendering Path)에 필요한 리소스를 미리 로드한다. as와 묶여서 사용된다.
   - as : style, media, fetch, font 등의 리소스 종류를 넣을 수 있으며 중요도를 브라우저가 판단하게 한다. style은 최우선 순위이다. 종류는 [mdn](https://developer.mozilla.org/ko/docs/Web/HTML/Element/link#%ED%8A%B9%EC%84%B1)에서 확인할 수 있고, as의 중요도는 [Chrome의 Preload, Prefetch 우선순위 블로그](https://medium.com/reloading/preload-prefetch-and-priorities-in-chrome-776165961bbf)에서 확인할 수 있다.
   - 또한, CSS를 적용하기 위해서는 `rel="preload"`가 아닌, `rel="stylesheet"`가 되어야 한다. 따라서, 초기에는 stylesheet로 인식하지 않기 때문에 로드해 와도 CSS로서 역할을 하지 못한다.
 - `onload` : 외부 CSS 파일이 다운로드가 끝나면 실행된다
@@ -244,7 +242,9 @@ PostCSS는 우리가 모르게 아주 많이 사용되고 있다. 특히 [CRA/po
 
 CSS-Module 같은 경우 PostCSS를 Plugin으로 사용하지만, nesting 문법이 존재하지 않는 순수 CSS를 이용한다. 즉, 모듈 개념만 포함된 CSS를 사용한다. 전처리 과정이 없는 것이다. 이렇듯 전처리를 사용할 수도 있고, 사용하지 않을 수도 있다. 또 후처리 하나만 사용할 수도 있으며 아예 사용하지 않을 수도 있다. 이 과정을 포함하는 것은 번들 사이즈 및 브라우저에 전달되는 파일 사이즈와 관련이 있으며 빌드 타임도 상관이 있기 때문에 잘 고려해 선택해야 할 것이다.
 
-전처리기, 후처리기 모두 빌드시 CSS 형태로 추출되기 때문에 webpack과 같은 빌드 툴에 물려 사용할 수 있다. 빌드 툴에서 처리기 설정을 통해 외부 CSS 파일로 생성할지, HTML의 `<style>` 태그에 CSS를 넣을지 선택할 수 있다.
+전처리기, 후처리기 모두 빌드시 CSS 형태로 추출되기 때문에 webpack과 같은 빌드 툴에 물려 사용할 수 있다. 빌드 툴에서 처리기 설정을 통해 외부 CSS 파일로 생성할지, HTML의 `<style>` 태그에 CSS를 넣을지 선택할 수 있다. webpack의 경우 [MiniCssExtractPlugin](https://webpack.js.org/plugins/mini-css-extract-plugin/)은 외부 CSS 파일로 만들어주며, [style-loader](https://webpack.kr/loaders/style-loader/)는 `<style>` 태그로 만들어준다.
+
+참고로 PostCSS 경우 후처리기이지만 종종 전처리기라고 불리기도 한다.
 
 <br/>
 
@@ -264,6 +264,10 @@ src
  ┗ components
    ┣ some
    ┣ some
+   ┣ some
+   ┣ some
+   ┣ some
+   ┣ some
    ┗ some
      ┣ some
      ┗ Component.jsx // CSS를 적용할 컴포넌트
@@ -273,7 +277,7 @@ src
 
 vue는 SFC(Single File Component)로 묶어 `.vue` 파일 내 `<style>` 태그를 두고 Sass 문법을 통해 CSS를 사용할 수 있는 형태를 취했다. `.vue` 파일은 vue-loader를 통해 JavaScript로 변환되기 때문에 마찬가지로 JavaScript에서 CSS 파일이 번들링 된다. 따라서 한 파일에서 컴포넌트를 정의하고, 해당 컴포넌트의 스타일은 컴포넌트 파일 하나에 속하도록 했다.
 
-react는 라이브러리의 정체성을 가지고 있기 때문에 다양한 CSS 방법을 적용할 수 있었다. react와 함께 사용할 수 있는 대중적인 CSS-in-JS 라이브러리로는 [styled-components](https://styled-components.com/) 또는 [Emotion](https://emotion.sh/docs/introduction)이 존재한다. styled-components는 컴포넌트 자체를 스타일만 입힐 수 있는 컴포넌트로 만들어 컴포넌트 상위에 감싸서 사용한다. 이는 한 파일 안에 `const`로 컴포넌트를 정의해 적용할 수 있고, 스타일 컴포넌트만 따로 파일로 분리해 적용할 수도 있다.
+react는 라이브러리의 정체성을 가지고 있기 때문에 다양한 CSS 방법을 적용할 수 있었다. react와 함께 사용할 수 있는 대중적인 CSS-in-JS 라이브러리로는 [styled-components](https://styled-components.com/) 또는 [Emotion](https://emotion.sh/docs/introduction)이 존재한다. styled-components는 컴포넌트 자체를 스타일만 입힐 수 있는 컴포넌트로 만들어 적용하고자 하는 컴포넌트 상위에 감싸서 사용한다. 이는 한 파일 안에 컴포넌트를 정의해 적용할 수 있고, 스타일 컴포넌트만 따로 파일로 분리해 적용할 수도 있다.
 
 ### CSS-in-JS 브라우저 적용 방법
 
@@ -296,7 +300,7 @@ CSS-in-JS는 번들링 된 JavaScript 파일이 브라우저에서 실행되면�
 ##### `<style>` 태그를 추가한 후, Element에 스타일을 집어넣는 방식
 
 ```js
-const css = 'h1 { background: red; }',
+const css = 'body { border: 20px solid red; }',
 const head = document.head || document.getElementsByTagName('head')[0],
 const style = document.createElement('style');
 
@@ -332,7 +336,7 @@ CSSOM에 rule을 추가하는 방법은, `<style>` 태그를 조작하는 방법
 
 런타임 스타일시트는 SSR 환경에서는 중복된 스타일 코드를 가질 수 있다. 우리는 CSS-in-JS 환경에서 최적화를 위해 Critical CSS를 사용하는 방법을 짚었고, CSS-in-JS의 Critical CSS의 Critical CSS는 페이지 전체의 CSS를 가져온다고 했다. 그렇다면, CSS-in-JS에 Critical CSS가 HTML을 통해 전달되었고, 런타임 스타일시트는 JavaScript 파일로 인해 두 번 생성된다. 아래 그림과 같다.
 
-![styles-shipped-twice](../img/css/explore-how-to-apply-modern-css/styles-shipped-twice.webp)
+![styles-skipped-twice](../img/css/explore-how-to-apply-modern-css/styles-skipped-twice.webp)
 
 #### 정적 CSS 추출
 
@@ -382,7 +386,6 @@ vanilla-extract 같은 경우를 보자.
 
 ```ts
 // some.css.ts
-
 import { createVar, style } from '@vanilla-extract/css';
 
 export const accentVar = createVar();
@@ -415,7 +418,6 @@ export const pink = style({
 
 ```tsx
 // some.css.ts
-
 import { createVar, style } from '@vanilla-extract/css';
 
 export const wrapperWidth = createVar();
@@ -430,7 +432,6 @@ export const wrapper = style({
 
 ```tsx
 // Some.tsx
-
 import { assignInlineVars } from '@vanilla-extract/dynamic';
 
 export default function Some({
@@ -484,7 +485,34 @@ Atomic CSS 중 유명한 프레임워크는 [TailwindCSS](https://tailwindcss.co
 
 ### 성능
 
-TailwindCSS는 사용하지 않는 CSS를 `purge` 옵션을 통해 제거한다. 따라서 대규모 프로젝트의 경우 CSS 파일 크기 자체라 10kB 미만이 된다고 한다. 이렇게 작은 크기의 CSS만을 남겨둘 수 있는 이유는 className을 연속으로 중첩해서 다양한 CSS 속성을 결합하는데, 이 CSS가 연속해서 코드에 들어가지 않기 때문에 가능한 것이다. 빌드 툴의 Tree Shaking 개념과 동일하다고 생각하면 된다.
+TailwindCSS 빌드 결과를 보면 성능이 좋은 이유를 단숨에 이해할 수 있다.
+
+```css
+.p-24 {
+  padding: 6rem;
+}
+.p-8 {
+  padding: 2rem;
+}
+.px-5 {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+.py-4 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+.pb-6 {
+  padding-bottom: 1.5rem;
+}
+.pt-8 {
+  padding-top: 2rem;
+}
+```
+
+이렇게 미리 정의된 CSS 파일을 통해 className만 잘 적어주면 적용이 되는 형태이기 때문에 실제 CSS 코드양이 얼마 되지 않는다. 계속해서 className으로 재사용하기 때문이다. 따라서 class 의미론적 이름짓기가 아닌, 시각적 기능 기반 이름 짓기 방식으로 정의해 둔 CSS 파일 자체 사이즈를 줄임으로써 성능이 좋을 수밖에 없다.
+
+TailwindCSS는 사용하지 않는 CSS를 `purge` 옵션을 통해 제거한다. (TailwindCSS가 3버전으로 올라오면서 purge 옵션은 `content` 옵션으로 [변경](https://tailwindcss.com/docs/upgrade-guide#configure-content-sources)되었다.) 따라서 대규모 프로젝트의 경우 CSS 파일 크기 자체라 10kB 미만이 된다고 한다. 이렇게 작은 크기의 CSS만을 남겨둘 수 있는 이유는 className을 연속으로 중첩해서 다양한 CSS 속성을 결합하는데, 이 CSS가 연속해서 코드에 들어가지 않기 때문에 가능한 것이다. 빌드 툴의 Tree Shaking 개념과 동일하다고 생각하면 된다.
 
 TailwindCSS는 [just in time mode](https://v2.tailwindcss.com/docs/just-in-time-mode)(JIT 모드)를 사용한다. 2.1 버전 이상부터는 이 모드를 사용하는데, default로 이 모드가 사용된다. 빠른 빌드 시간을 갖고, 개발 모드에서 성능이 향상된다고 한다.
 
@@ -534,17 +562,21 @@ TailwindCSS는 런타임에 동적 값을 계산할 수 없다. JIT 모드에서
   - 따라서 비교적 복잡한 런타임에서 오버헤드가 발생한다.
   - 정적 CSS 추출은 **빌드 타임**에 스타일을 완성해 브라우저로 전송하기 때문에 런타임 오버헤드가 존재하지 않는다.
   - 따라서, SSR 환경에서 런타임 스타일시트 방식보다는 zero-runtime 방식이 효율이 높다.
-- AtomicCSS는 CSS를 잘게 쪼개어 재사용할 수 있게 해 파일 사이즈 자체를 줄여 사용하기 때문에 성능이 좋다.
+- Atomic CSS는 CSS를 잘게 쪼개어 재사용할 수 있게 해 파일 사이즈 자체를 줄여 사용하기 때문에 성능이 좋다.
 
 <br/>
 
 ## 마치며
 
-Sass부터 AtomicCSS까지 알아보며 모던 웹 어플리케이션에서 어떻게 CSS를 효율적으로 다루기 위해 노력해 왔는지 알아보았다. 생각보다 방대한 내용 때문에 알아야 할 지식이 많았다. 많은 기업에서 여전히 styled-components 또는 Emotion을 통해 스타일을 입히고 있다. 나 또한 vue를 사용했었을 때 [vue-styled-components](https://github.com/styled-components/vue-styled-components)를 사용해 런타임에서 스타일을 입히는 방식으로 개발했었다. 점차 느려지는 어플리케이션에서 zero-runtime 개념을 통해 CSS-in-JS의 빌드 타임에 CSS를 추출할 방법을 적용하면 성능적으로 좋은 서비스를 제공할 수 있겠다고 생각했다.
+Sass부터 Atomic CSS까지 알아보며 모던 웹 어플리케이션에서 어떻게 CSS를 효율적으로 다루기 위해 노력해 왔는지 알아보았다. 생각보다 방대한 내용 때문에 알아야 할 지식이 많았다. 많은 기업에서 여전히 styled-components 또는 Emotion을 통해 스타일을 입히고 있다. 나 또한 vue를 사용했었을 때 [vue-styled-components](https://github.com/styled-components/vue-styled-components)를 사용해 런타임에서 스타일을 입히는 방식으로 개발했었다. 점차 느려지는 어플리케이션에서 zero-runtime 개념을 통해 CSS-in-JS의 빌드 타임에 CSS를 추출할 방법을 적용하면 성능적으로 좋은 서비스를 제공할 수 있겠다고 생각했다.
 
 누군가는 Sass도 빌드 타임에 CSS를 생성하고, zero-runtime 또한 빌드 타임에 CSS를 생성하는데 이전 방식으로 회귀하는 모습이 오버 엔지니어링 같다고 했다. 하지만, 템플릿 엔진을 사용하던 모습에서 SSR 방식으로 이어져 온 것처럼 CSS-in-JS는 DX 자체를 올려주는 좋은 도구라고 생각한다.
 
-추가로 zero-runtime인 vanilla-extract는 떠오르는 zero-runtime 라이브러리다. TypeScript를 활용해 CSS Property에 타입으로 자동완성을 활용할 수 있어서 버그를 예방할 수도 있다. 하지만 코로케이션을 지원하지 않고, 공통되는 요소를 선택할 때 반드시 `globalStyle()` 함수를 활용해야 한다는 점(nesting 문법 불가능)이 아쉬웠다. [panda-css](https://panda-css.com/docs/concepts/writing-styles#nested-styles)는 nesting 문법을 지원하고, inline으로 스타일을 직접 넣을 수 있는 등 조금 더 기능이 많은 라이브러리 같다. 추가로 React Server Component도 빠르게 지원했다.
+추가로 zero-runtime인 vanilla-extract는 떠오르는 zero-runtime 라이브러리다. TypeScript를 활용해 CSS Property에 타입으로 자동완성을 활용할 수 있어서 버그를 예방할 수도 있다. 하지만 코로케이션을 지원하지 않고, 공통되는 요소를 선택할 때 반드시 `globalStyle()` 함수를 활용해야 한다는 점(nesting 문법 불가능)이 아쉬웠다. [panda-css](https://panda-css.com/docs/concepts/writing-styles#nested-styles)는 nesting 문법을 지원하고, inline으로 스타일을 직접 넣을 수 있는 등 조금 더 기능이 많은 라이브러리 같다. 추가로 React Server Component도 빠르게 지원했다. 역시 빠르게 React 생태계를 잡을 수 있다면 사용자가 생길 수밖에 없는 것 같다.
+
+Atomic CSS인 TailwindCSS는 이번 글을 작성하면서 처음 접하게 된 프레임워크다. HTML 자체가 class로 더럽혀지는 것이 마음에 들지 않았고, 사용하려면 CSS에 대응된 class를 외워야 하기 때문에 거부감이 심했었는데 파일 사이즈 자체를 줄이면서 성능을 끌어올린 사례를 보니 사용해 보는 것도 나쁘지 않겠다는 생각이 든다.
+
+마지막으로 [A thorough analysis of CSS-in-TS](https://github.com/andreipfeiffer/css-in-js/blob/main/README.md) 저장소를 한번 읽어볼 것을 추천한다. CSS-in-JS 라이브러리들을 서로 잘 비교해 두었다. 어떤 것을 지원하는지, 가벼운지, SSR 및 TypeScript를 지원하는지 등 라이브러리를 선택할 때 도움이 될 것이다.
 
 <br/>
 
