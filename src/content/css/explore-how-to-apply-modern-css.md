@@ -19,7 +19,7 @@ CSS-in-JS에서 어떤 방식으로 런타임에 스타일을 입히는지 알�
 
 ## CRP (Critical Rendering Path)
 
-CSS 적용 방법을 알아보기 전에 브라우저에 대해 짚고 넘어가자. 브라우저는 **HTML**, **CSS**, **JS** 파일을 통해 화면을 그린다. 따라서, HTML, CSS, JS 파일 외 다른 파일은 알지 못한다. HTML 파일을 파싱하여 DOM Tree를 그리고, CSS 파일을 파싱하여 CSSOM(또는 CSSOM Tree)를 그린다. 그러면 DOM과 CSSOM를 합쳐 Render Tree를 그리고, layout, paint 과정이 끝난 후에 실제 눈으로 볼 수 있는 화면이 그려지는 것이다.
+CSS 적용 방법을 알아보기 전에 브라우저에 대해 짚고 넘어가자. 브라우저는 **HTML**, **CSS**, **JS** 파일을 통해 화면을 그린다. 따라서, HTML, CSS, JS 파일 외 다른 파일은 알지 못한다. 아래 이미지를 보자.
 
 ![CRP](../img/css/explore-how-to-apply-modern-css/CRP.png)
 
@@ -340,7 +340,7 @@ CSSOM에 rule을 추가하는 방법은, `<style>` 태그를 조작하는 방법
 
 런타임 스타일시트는 어쨌든 JavaScript가 모두 로드된 후 런타임 환경에서 스타일을 생성해 내기 때문에 번들링 된 JavaScript 파일이 브라우저에서 실행 이후에 스타일 생성이 된다. 따라서 스타일을 생성하는 **런타임 스타일 코드**가 필요하며, 이는 번들 파일에 포함이 된다.
 
-런타임 스타일시트는 SSR 환경에서는 중복된 스타일 코드를 가질 수 있다. 우리는 CSS-in-JS 환경에서 최적화를 위해 Critical CSS를 사용하는 방법을 짚었고, CSS-in-JS의 Critical CSS의 Critical CSS는 페이지 전체의 CSS를 가져온다고 했다. 그렇다면, CSS-in-JS에 Critical CSS가 HTML을 통해 전달되었고, 런타임 스타일시트는 JavaScript 파일로 인해 두 번 생성된다. 아래 그림과 같다.
+런타임 스타일시트는 SSR 환경에서는 중복된 스타일 코드를 가질 수 있다. 우리는 CSS-in-JS 환경에서 최적화를 위해 Critical CSS를 사용하는 방법을 짚었고, CSS-in-JS의 Critical CSS의 Critical CSS는 페이지 전체의 CSS를 가져온다고 했다. 그렇다면, CSS-in-JS에 Critical CSS가 HTML을 통해 전달되었고, 런타임 스타일시트는 JavaScript 파일로 인해 두 번 생성된다. 아래 이미지와 같다.
 
 ![styles-skipped-twice](../img/css/explore-how-to-apply-modern-css/styles-skipped-twice.webp)
 
