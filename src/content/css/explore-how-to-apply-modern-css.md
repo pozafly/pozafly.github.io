@@ -152,24 +152,7 @@ link 태그에 다른 attribute 없이 css 파일을 가져오면, FCP(First Con
 
 FCP와 동시에 외부 CSS 파일 로딩이 시작되는 것을 볼 수 있다.
 
-### SSR 환경에서 CSS-in-JS의 Critical CSS
-
-CSS-in-JS의 자세한 부분은 하단에서 설명할 것이다. 웹 어플리케이션을 만들 때 흔히 사용하는 CSS-in-JS에서는 Critical CSS를 어떻게 사용하고 있을까? [andreipfeiffer/css-in-js](https://github.com/andreipfeiffer/css-in-js/blob/main/README.md#-critical-css-extraction)에 따르면, CSS-in-JS에서 말하는 Critical CSS는 바로 위에서 사용되고 있는 Critical CSS와는 조금 다르게 사용되고 있다.
-
-- SSR에서는, 웹페이지 전체의 가시적인 부분(visible)의 CSS를 생성한다.
-- 동적 렌더링 또는 지연 로딩(lazy loaded)되는 element에 CSS를 생성하지 않는다.
-
-위 두 개념으로 사용된다. 즉, 스크롤 없이 볼 수 있는 영역(above-the-fold)을 고려하지 않고 static한 전체 페이지 자체의 CSS만을 생성한다는 뜻이다. 대부분의 CSS-in-JS 라이브러리에서 개발 모드에서는 `<style>` 태그를 통해 스타일을 주입하고 있으며(Internal CSS), 프로덕션 모드에서는 라이브러리마다 다른 전략으로 스타일을 생성한다. `<style>` 태그를 사용해 스타일을 입히기도 하고, 외부 CSS 파일을 네트워크 요청으로 가져오는 방법(External CSS)을 사용하기도 한다.
-
-> 📍 번들러 환경에서 개발 모드에서 `<style>` 태그를 사용하는 이유는 무엇일까?
->
-> [Webpack5 JavaScript 보일러플레이트 만들기](https://pozafly.github.io/environment/webpack-boilerplate/#Mode%ED%99%98%EA%B2%BD-%EB%B6%84%EB%A6%AC)에서 살펴봤듯, webpack의 production 모드에서는 `MiniCssExtractPlugin`을 사용해 외부 CSS 파일로 만들어서 사용하며, dev 모드에서는 `style-loader`를 통해 `<style>` 태그를 통해 스타일을 입힌다.
->
-> 이유는 효율성에 있다. webpack과 같은 번들러는 dev 모드에서 HMR(Hot Module Replacement)를 지원한다. 소스 코드를 변경했을 때, 외부 CSS 파일을 사용한다면 브라우저에서 매번 새로고침을 해주어야 하지만, style 태그는 HTML에 적용되어 있기 때문에 HTML만 Replacement 해준다면 새로고침 하지 않아도 자동으로 변경된 화면을 볼 수 있기 때문이다.
-
-어쨌든, SSR 환경의 CSS-in-JS에서는, 구글의 web.dev에서 말하는 Critical CSS 개념을 사용하지는 않고(above-the-fold 영역 고려하지 않음) 현재 웹 페이지에서 사용될 스타일 전체를 Critical CSS로 말하고 있다.
-
-CSS가 브라우저에 적용되는 과정을 알아보았다. 이제 어떤 도구로 CSS를 만들 수 있는지 알아보자.
+위 내용은, 아래 내용을 더욱 쉽게 이해하기 위한 기본 지식이었다. 그렇다면 이제 CSS 관련 라이브러리 및 도구가 어떤 방식으로 CSS를 적용하는지 알아보자.
 
 <br/>
 
@@ -278,6 +261,23 @@ src
 vue는 SFC(Single File Component)로 묶어 `.vue` 파일 내 `<style>` 태그를 두고 Sass 문법을 통해 CSS를 사용할 수 있는 형태를 취했다. `.vue` 파일은 vue-loader를 통해 JavaScript로 변환되기 때문에 마찬가지로 JavaScript에서 CSS 파일이 번들링 된다. 따라서 한 파일에서 컴포넌트를 정의하고, 해당 컴포넌트의 스타일은 컴포넌트 파일 하나에 속하도록 했다.
 
 react는 라이브러리의 정체성을 가지고 있기 때문에 다양한 CSS 방법을 적용할 수 있었다. react와 함께 사용할 수 있는 대중적인 CSS-in-JS 라이브러리로는 [styled-components](https://styled-components.com/) 또는 [Emotion](https://emotion.sh/docs/introduction)이 존재한다. styled-components는 컴포넌트 자체를 스타일만 입힐 수 있는 컴포넌트로 만들어 적용하고자 하는 컴포넌트 상위에 감싸서 사용한다. 이는 한 파일 안에 컴포넌트를 정의해 적용할 수 있고, 스타일 컴포넌트만 따로 파일로 분리해 적용할 수도 있다.
+
+### SSR 환경에서 CSS-in-JS의 Critical CSS
+
+웹 어플리케이션을 만들 때 흔히 사용하는 CSS-in-JS에서는 Critical CSS를 어떻게 사용하고 있을까? [andreipfeiffer/css-in-js](https://github.com/andreipfeiffer/css-in-js/blob/main/README.md#-critical-css-extraction)에 따르면, CSS-in-JS에서 말하는 Critical CSS는 처음 알아봤던 Critical CSS와는 조금 다르게 사용되고 있다.
+
+- SSR에서는, 웹페이지 전체의 가시적인 부분(visible)의 CSS를 생성한다.
+- 동적 렌더링 또는 지연 로딩(lazy loaded)되는 element에 CSS를 생성하지 않는다.
+
+위 두 개념으로 사용된다. 즉, 스크롤 없이 볼 수 있는 영역(above-the-fold)을 고려하지 않고 static한 전체 페이지 자체의 CSS만을 생성한다는 뜻이다. 대부분의 CSS-in-JS 라이브러리에서 개발 모드에서는 `<style>` 태그를 통해 스타일을 주입하고 있으며(Internal CSS), 프로덕션 모드에서는 라이브러리마다 다른 전략으로 스타일을 생성한다. `<style>` 태그를 사용해 스타일을 입히기도 하고, 외부 CSS 파일을 네트워크 요청으로 가져오는 방법(External CSS)을 사용하기도 한다.
+
+> 📍 번들러 환경에서 개발 모드에서 `<style>` 태그를 사용하는 이유는 무엇일까?
+>
+> [Webpack5 JavaScript 보일러플레이트 만들기](https://pozafly.github.io/environment/webpack-boilerplate/#Mode%ED%99%98%EA%B2%BD-%EB%B6%84%EB%A6%AC)에서 살펴봤듯, webpack의 production 모드에서는 `MiniCssExtractPlugin`을 사용해 외부 CSS 파일로 만들어서 사용하며, dev 모드에서는 `style-loader`를 통해 `<style>` 태그를 통해 스타일을 입힌다.
+>
+> 이유는 효율성에 있다. webpack과 같은 번들러는 dev 모드에서 HMR(Hot Module Replacement)를 지원한다. 소스 코드를 변경했을 때, 외부 CSS 파일을 사용한다면 브라우저에서 매번 새로고침을 해주어야 하지만, style 태그는 HTML에 적용되어 있기 때문에 HTML만 Replacement 해준다면 새로고침 하지 않아도 자동으로 변경된 화면을 볼 수 있기 때문이다.
+
+어쨌든, SSR 환경의 CSS-in-JS에서는, 구글의 web.dev에서 말하는 Critical CSS 개념을 사용하지는 않고(above-the-fold 영역 고려하지 않음) 현재 웹 페이지에서 사용될 스타일 전체를 Critical CSS로 말하고 있다.
 
 ### CSS-in-JS 브라우저 적용 방법
 
