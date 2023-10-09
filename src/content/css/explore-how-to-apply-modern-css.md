@@ -98,34 +98,38 @@ CSS 파일을 외부 리소스로 빼는 방법이다. Internal CSS 같은 경�
 
 ## Critical CSS
 
+CSS 파일이 커지면 당연히 브라우저에서 다운로드 받아야 할 파일 크기가 커지고, 파일 크기가 커지면 CSS 파일을 다운로드 받는 시간이 늘어나며 브라우저가 CSSOM을 만들기 위해 소모되는 시간도 늘어난다. 그렇다면 어떻게 효율적으로 CSS를 적용할 수 있을까?
+
 [Critical CSS](https://web.dev/i18n/ko/extract-critical-css/)란, 사용자에게 가능한 한 빠르게 콘텐츠를 렌더링하기 위해 스크롤 없이 볼 수 있는 콘텐츠에 대한 CSS를 추출하는 것을 말한다.
 
 ![Critical-CSS](../img/css/explore-how-to-apply-modern-css/Critical-CSS.avif)
 
 웹페이지는 스크롤 없이 볼 수 있는 영역과 스크롤 해야 볼 수 있는 부분으로 나눌 수 있다. Critical CSS에서는 스크롤 없이 볼 수 있는 영역을 `above-the-fold`라는 용어를 사용한다. 브라우저에서 URL을 입력하고 접속하면, 눈에 바로 보이는 영역이 스크롤 없이 볼 수 있는 영역이고, 스크롤 아래는 스크롤을 내리지 않는 한 아직은 보이지 않는다.
 
-Critical CSS는 눈에 보이는 스크롤 없이 볼 수 있는 영역에 대한 CSS만 미리 추출해서 렌더링하는 것을 말한다. 사용자가 웹페이지에 접속할 때, 웹페이지끼리 전부 연결된 Global 한 CSS를 모두 가지고 있을 필요가 없고, 가시적인 부분의 CSS만 가지고 저 부분을 그릴 수 있다면 성능이 좋다고 말할 수 있을 것이다.
+Critical CSS는 눈에 보이는 **스크롤 없이 볼 수 있는 영역에 대한 CSS만 미리 추출해서 렌더링**하는 것을 말한다. 사용자가 웹페이지에 접속할 때, 웹페이지끼리 전부 연결된 Global 한 CSS를 모두 가지고 있을 필요가 없고, 가시적인 부분의 CSS만 가지고 저 부분을 그릴 수 있다면 성능이 좋다고 말할 수 있을 것이다.
 
 처음에 알아봤듯, 기본적으로 CSS는 [렌더링 차단 리소스](https://developer.chrome.com/docs/lighthouse/performance/render-blocking-resources/)다. Render Tree가 만들어져야 브라우저에서 Paint 과정으로 이어지기 때문이다. Critical CSS를 사용하면, [FCP(First Contentful Paint)](https://web.dev/fcp/) 지표를 올릴 수 있다.
 
 그렇다면, 위에서 알아본 CSS를 브라우저에 적용하는 3가지 방법 중 어떤 방법을 통해 Critical CSS를 웹페이지에 적용할 수 있을까? 구현하기에 따라 다르겠지만, 일반적으로는 **Internal(내부) CSS** 방법을 사용한다.
 
-- Inline CSS는 우선 코드 중복이 많거나 HTML과 CSS 코드 덩어리가 함께 있기 때문에 가독성이 좋지 않다.
-- External CSS는 외부 리소스 파일이므로, 브라우저가 HTML을 다운로드한 후, 또다시 네트워크로 CSS 파일을 다운로드해야 하므로 적합하지 않다.
+- Inline(인라인) CSS는 HTML 인라인에 일일이 CSS를 작성해주어야 하므로 코드 중복이 많거나, HTML과 CSS 코드 덩어리가 함께 있기 때문에 가독성이 좋지 않기 때문에 Critical CSS에 어울리지 않는다.
+- External(외부) CSS는 외부 리소스 파일이므로, 브라우저가 HTML을 다운로드한 후, 또다시 네트워크로 CSS 파일을 다운로드해야 하므로 Critical CSS에 적합하지 않다.
 
-Internal CSS는 HTML 파일에 이미 속해있기 때문에 HTML이 다운로드되는 즉시 사용할 수 있다. 물론 눈에 보이는 부분의 CSS만 Internal CSS로 작성되기 때문에 크기가 크면 안 된다. web.dev에 따르면 14kB 미만의 CSS를 권장한다고 한다.
+Internal CSS는 HTML 파일의 `<style>` 태그에 이미 속해있기 때문에 HTML이 다운로드되는 즉시 사용할 수 있다. 물론 눈에 보이는 부분의 CSS만 Internal CSS로 작성되기 때문에 크기가 크면 안 된다. web.dev에 따르면 14kB 미만의 CSS를 권장한다고 한다.
 
 ### 최적화
 
-눈에 보이는 부분 외, 스크롤을 내려야만 보이는 영역의 CSS는 어떻게 가져올 수 있을까? 여러 방법이 있겠지만, 일반적으로는 External CSS를 통해 비동기로 CSS 파일을 가져와 적용할 수 있다.
+눈에 보이는 부분 외, 스크롤을 내려야만 보이는 영역(below-the-fold)의 CSS는 어떻게 가져올 수 있을까? 여러 방법이 있겠지만, 일반적으로는 External CSS를 통해 비동기로 CSS 파일을 가져와 적용할 수 있다.
 
 ```html
 <link href="styles.css">
 ```
 
+위 코드를 적용하면 브라우저는 아래 이미지와 같은 결과를 보여준다. link 태그에 **다른 attribute 없이** css 파일을 가져오면, FCP(First Contentful Paint)가 외부 CSS 파일을 다운로드한 뒤 발생한다.
+
 ![non-critical-css](../img/css/explore-how-to-apply-modern-css/non-critical-css.avif)
 
-link 태그에 다른 attribute 없이 css 파일을 가져오면, FCP(First Contentful Paint)가 외부 CSS 파일을 다운로드한 뒤 발생한다. 하지만, Critical CSS를 Internal CSS로 넣은 후, External CSS를 사용해 비동기로 CSS 파일을 가져오면 FCP 이후에 외부 CSS 파일을 다운로드할 수 있다.
+하지만, Critical CSS를 Internal CSS로 넣은 후, External CSS를 사용해 비동기로 CSS 파일을 가져오면 FCP 이후에 외부 CSS 파일을 다운로드할 수 있다.
 
 ```html
 <style type="text/css">
@@ -136,13 +140,13 @@ link 태그에 다른 attribute 없이 css 파일을 가져오면, FCP(First Con
 <noscript><link rel="stylesheet" href="styles.css"></noscript>
 ```
 
-`<style>` 내부는 Internal CSS로서 바로 적용된다. `<link>` 의 attribute로 `rel="preload"`가 사용되었다.
+`<style>` 내부는 above-the-fold 영역의 CSS이고, Internal CSS로서 바로 적용된다. `<link>`의 href로 걸린 부분은 Critical CSS를 제외한 영역인 below-the-fold 부분의 CSS다. `<link>` 의 attribute로 `rel="preload"`가 사용되었다. 조금 더 자세히 보자.
 
 - `rel="preload"`와 `as="style"` 속성은 CSS 파일을 비동기적으로 요청한다.
   - preload : CRP(Critical Rendering Path)에 필요한 리소스를 미리 로드한다. as와 묶여서 사용된다.
   - as : style, media, fetch, font 등의 리소스 종류를 넣을 수 있으며 중요도를 브라우저가 판단하게 한다. style은 최우선 순위이다. 종류는 [mdn](https://developer.mozilla.org/ko/docs/Web/HTML/Element/link#%ED%8A%B9%EC%84%B1)에서 확인할 수 있고, as의 중요도는 [Chrome의 Preload, Prefetch 우선순위 블로그](https://medium.com/reloading/preload-prefetch-and-priorities-in-chrome-776165961bbf)에서 확인할 수 있다.
   - 또한, CSS를 적용하기 위해서는 `rel="preload"`가 아닌, `rel="stylesheet"`가 되어야 한다. 따라서, 초기에는 stylesheet로 인식하지 않기 때문에 로드해 와도 CSS로서 역할을 하지 못한다.
-- `onload` : 외부 CSS 파일이 다운로드가 끝나면 실행된다
+- `onload` : 외부 CSS 파일이 다운로드가 끝나면 실행되는 이벤트다. JavaScript 구문이 실행된다.
   - 이때, `rel="preload"` attribute를 `rel="stylesheet"`로 바꿔주어 CSS로서 동작할 수 있게 한다.
   - 또한, `onload=null`로 바꾸어 버리는데, `rel="stylesheet"` attribute가 바뀌면서 다시 onload 함수가 실행될 수 있기 때문에 `null`로 치환해 주는 과정이다.
 
@@ -172,7 +176,9 @@ CSS에는 중첩(nesting) 구문을 사용할 수 없다. 하지만, Sass는 중
 
 ### 언어
 
-Sass는 **전처리기**(pre-processor)다. 브라우저는 CSS 파일밖에 알지 못하기 때문에 `.sass` 또는, `.scss` 확장자를 가진 파일 자체를 브라우저가 해석할 수 있도록 `.css` 파일로 만들어 주어야 한다. 전처리기가 그 역할을 하고 있다.
+언어로써의 의미는, 트랜스파일(혹은 컴파일) 되는 언어라는 뜻이다. TypeScript가 JavaScript로 트랜스파일링 되듯, Sass는 CSS로 트랜스파일링 된다. Sass는 **전처리기**(pre-processor)다. 브라우저는 CSS 파일밖에 알지 못하기 때문에 `.sass` 또는, `.scss` 확장자를 가진 파일 자체를 브라우저가 해석할 수 있도록 `.css` 파일로 만들어 주어야 한다. 전처리기가 그 역할을 하고 있다.
+
+브라우저는 HTML, CSS, JS 밖에 알지 못하므로 Sass에 확장 구문을 사용해 DX를 높이고 이를 브라우저가 이해할 수 있도록 전처리(트랜스파일) 하는 것이다.
 
 처음 Sass가 등장했을 때는, Ruby 언어로 웹을 만드는 일이 많았기 때문에 [Ruby Sass](https://github.com/sass/ruby-sass) 라이브러리를 통해 Ruby 언어를 통해 SCSS를 CSS로 변환하여 브라우저에 전달했다. 후에 [LibSass](https://github.com/sass/libsass)가 나오게 된다. LibSass는 C/C++로 SCSS를 CSS 파일로 변환시키는 라이브러리다. LibSass는 JavaScript나, Go, Python, Java 등의 언어로 한번 감싸서 다양한 환경에서 컴파일 할 수 있는 core 로직이다.
 
@@ -215,7 +221,7 @@ PostCSS는 우리가 모르게 아주 많이 사용되고 있다. 특히 [CRA/po
 
 한가지 짚고 넘어가야 할 부분이 있다. 바로 전처리기(pre-processor)와 후처리기(post-processor)이다. 이전에 전처리기와 후처리기에 대한 개념이 매우 헷갈렸던 적이 있었다. 전처리기는 `.scss` 및 `.less` 파일을 빌드 타임에 `.css` 파일로 바꾸는 것인데 그렇다면 후처리기는 빌드된 파일이 브라우저상의 JavaScript로 클라이언트 측에서 다시 트랜스파일링 되는 것일까?
 
-답은 아니다. 후처리기도 마찬가지로 빌드 타임에 동작한다. (일반적으로 빌드 타임이라 하면, Node.js 환경일 것이다) 전처리기라는 개념이 먼저 등장했으며 나중에 후처리기 개념이 등장했다. 하지만, 전처리기가 먼저 순수 CSS 파일이 아닌 `.scss` 와 같은 파일은 `.css` 파일로 변환 후, 그다음 `.css` 파일을 다시 어떤 처리를 해서 최종적으로 브라우저에 넘겨줄 `.css` 파일을 만드는 과정이 후처리 과정이다.
+답은 **아니다**. 후처리기도 마찬가지로 **빌드 타임에 동작**한다. (일반적으로 빌드 타임이라 하면, Node.js 환경일 것이다) 전처리기라는 개념이 먼저 등장했으며 나중에 후처리기 개념이 등장했다. 하지만, 전처리기가 먼저 순수 CSS 파일이 아닌 `.scss` 와 같은 파일은 `.css` 파일로 변환 후, 그다음 `.css` 파일을 다시 어떤 처리를 해서 최종적으로 브라우저에 넘겨줄 `.css` 파일을 만드는 과정이 후처리 과정이다.
 
 후처리 과정이라는 단어가 헷갈리지만, 빌드 타임에 동작하는 프로세서(처리기)이다.
 
@@ -227,7 +233,7 @@ CSS-Module 같은 경우 PostCSS를 Plugin으로 사용하지만, nesting 문법
 
 전처리기, 후처리기 모두 빌드시 CSS 형태로 추출되기 때문에 webpack과 같은 빌드 툴에 물려 사용할 수 있다. 빌드 툴에서 처리기 설정을 통해 외부 CSS 파일로 생성할지, HTML의 `<style>` 태그에 CSS를 넣을지 선택할 수 있다. webpack의 경우 [MiniCssExtractPlugin](https://webpack.js.org/plugins/mini-css-extract-plugin/)은 외부 CSS 파일로 만들어주며, [style-loader](https://webpack.kr/loaders/style-loader/)는 `<style>` 태그로 만들어준다.
 
-참고로 PostCSS 경우 후처리기이지만 종종 전처리기라고 불리기도 한다.
+참고로 PostCSS 경우 후처리기이지만 빌드 타임에 동작하기 때문에 종종 전처리기라고 불리기도 한다.
 
 <br/>
 
