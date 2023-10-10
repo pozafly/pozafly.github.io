@@ -4,7 +4,7 @@ title: '다시 보기 위해 적어두는 URI 구조'
 author: [Pozafly]
 tags: [Network, URI]
 date: '2023-03-16'
-image: ../img/network/uri-structure/main.jpg
+image: ../img/network/uri-structure-written-down-for-replay/main.jpg
 draft: false
 excerpt: 하나의 주소 안에도 여러가지 용어가 나온다. Host, Domain, Site, Origin등이 그것이다.
 ---
@@ -21,7 +21,7 @@ URI란, Uniform Resource Identifier의 약자로 인터넷에 있는 자원을 �
 
 ※ 어떤 곳에서는 URI와 URL의 차이점에 대해 이야기 한다. 하지만, RFC3989 정의에 따라 이 둘을 구분하는 것이 무의미해졌다는 이야기가 있다. 따라서 밑의 내용은 URI와 URL을 구분하지 않고 사용하도록 한다.
 
-![URI Structure](../img/network/uri-structure/uri-structure.png)
+![URI Structure](../img/network/uri-structure-written-down-for-replay/uri-structure.png)
 
 URI의 구조이다.
 
@@ -67,7 +67,7 @@ $ vim /etc/hosts
 (※ 수정하려면 sudo를 붙여줘라)
 ```
 
-![Hosts File](../img/network/uri-structure/hosts-file.png)
+![Hosts File](../img/network/uri-structure-written-down-for-replay/hosts-file.png)
 
 이렇게 생긴 파일이다. 맥에서는 `/etc/hosts` 경로에 있다. 사진과 같이 `www.naver.com` 주소를 적어두면 브라우저로 접속했을 때 localhost로 접속한 것과 같은 효과를 가진다. 회사에서 개발 환경 세팅을 할 경우, 또는 프록시 서버를 세팅할 경우 서버를 경유하기 위해, 또 프록시 서버 주소를 외부에 노출하지 않기 위해 적기도 한다.
 
@@ -77,7 +77,7 @@ Hosts 파일에도 존재하지 않는다면 이제 Local DNS Server에 요청�
 
 각 계층을 지나오면서 찾은 IP를 캐시한다. 따라서 첫 요청때 시간이 오래걸릴 수 있지만, 한번 캐시된 곳에서 여러번 요청시 위 과정을 처음부터 다시 하는 것이 아니라 캐시된 곳에서 바로 꺼내오게 된다.
 
-![DNS Server Process](../img/network/uri-structure/dns-server-process.png)
+![DNS Server Process](../img/network/uri-structure-written-down-for-replay/dns-server-process.png)
 
 정리하자면,
 
@@ -89,7 +89,7 @@ Hosts 파일에도 존재하지 않는다면 이제 Local DNS Server에 요청�
 - TLD DNS Server
 - SLD DNS Server
 
-![Domain Structure](../img/network/uri-structure/domain-structure.png)
+![Domain Structure](../img/network/uri-structure-written-down-for-replay/domain-structure.png)
 
 사진을 보자. D(Domain)NS는 URI로 결국 IP를 찾아오는 녀석인데, 이때 사용되는 것이 Domain이다. 즉 `pozafly.com` 까지 해당된다.
 
@@ -129,7 +129,7 @@ Orgin은 CORS(Cross-Origin Resource Sharing) 개념 중 등장하는 단어이�
 
 그렇다면, 여기서 사용된 Origin은 무엇일까?
 
-![Origin](../img/network/uri-structure/origin.png)
+![Origin](../img/network/uri-structure-written-down-for-replay/origin.png)
 
 Origin은 `Scheme`, `Host`, `Port`를 모두 합친 것을 이야기한다. 사진의 `/blog?sort=desc#here` 에 해당하는 부분은 Origin이 아닌 것이다.
 
@@ -152,7 +152,7 @@ Site는 SameSite 쿠키에서 등장한다. SameSite는 쿠키의 보안과 관�
 
 만약 `https://www.pozafly.com`에서 `https://google.com`으로 어떤 요청을 했다면 google에서 response에 쿠키를 가져왔을 수 있다. 다른 브라우저 저장소인 LocalStorage, SessionStorage 같은 경우는 사이트 별로 다른 스코프를 가진다. 즉, 저장소는 사이트마다 별도의 공간에 저장된다. 하지만 쿠키는 이를 구분하지 않는다.
 
-![Domain with Cookie](../img/network/uri-structure/domain-with-cookie.png)
+![Domain with Cookie](../img/network/uri-structure-written-down-for-replay/domain-with-cookie.png)
 
 위 시진은 쿠팡의 페이지에서, 크롬 개발자 도구를 키고 Application 탭의 Cookie를 확인해본 것이다. 쿠팡 도메인의 쿠키 외 다른 사이트의 쿠키가 있는 것을 확인할 수 있다.
 
@@ -166,7 +166,7 @@ Site는 SameSite 쿠키에서 등장한다. SameSite는 쿠키의 보안과 관�
 
 SameSite는 이런 서드파티 쿠키를 허용하지 않는다고 브라우저에게 알려주는 옵션이다. 그렇다면 Site는 URI의 어디까지인지 살펴보자.
 
-![Site](../img/network/uri-structure/site.png)
+![Site](../img/network/uri-structure-written-down-for-replay/site.png)
 
 TLD는 우리가 위에서 살펴보았듯 `.com` 혹은 `.org`과 같은 최상위 레벨의 도메인이었다. 그렇다면 eTLD는 뭘까?
 
@@ -174,7 +174,7 @@ eTLD의 e는 *effective*다. 유효하다라는 뜻을 가지고 있다. 기존 
 
 **eTLD + 1** 같은 경우는 TLD의 바로 앞단계까지 포함하는 단위로 사용된다. 따라서 위의 사진에서는 `pozafly.com` 부분이 Site가 되는 것이다.
 
-![Site2](../img/network/uri-structure/site2.png)
+![Site2](../img/network/uri-structure-written-down-for-replay/site2.png)
 
 헷갈리는 `github.io` 라는 eTLD는 위와 같이 평가한다. 그리고 eTLD + 1은 한칸 앞의 pozafly까지 포함한다.
 
