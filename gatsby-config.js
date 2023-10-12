@@ -4,7 +4,7 @@ const path = require('path');
 module.exports = {
   siteMetadata: {
     title: '기록 여정',
-    description: 'Pozafly Blog',
+    description: "Pozafly's Blog",
     siteUrl: 'https://pozafly.github.io', // full path to blog - no ending slash
   },
   mapping: {
@@ -14,8 +14,8 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        name: 'Pozafly Blog',
-        short_name: 'Pozafly Blog',
+        name: "Pozafly's Blog",
+        short_name: "Pozafly's Blog",
         start_url: '/',
         display: 'minimal-ui',
         icon: 'src/content/img/common/alien.png',

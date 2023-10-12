@@ -38,7 +38,7 @@ export type WebsiteConfig = {
 };
 
 const config: WebsiteConfig = {
-  title: 'Pozafly Blog',
+  title: "Pozafly's Blog",
   description: '기록 여정',
   // NOTE: templates/index.tsx 161 line에도 변경해야 함.
   coverImage: './src/content/img/common/back3.png',
