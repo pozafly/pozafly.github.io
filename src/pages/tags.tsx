@@ -1,3 +1,5 @@
+import { Fragment } from 'react';
+
 import { graphql, Link } from 'gatsby';
 
 import { css } from '@emotion/react';
@@ -64,7 +66,12 @@ type Props = {
   };
 };
 
-export const Head = () => <title>Tags</title>;
+export const Head = () => (
+  <Fragment>
+    <title>Tags</title>
+    <meta name="robots" content="noindex" />
+  </Fragment>
+);
 
 const Tags = ({ data }: Props) => {
   return (
