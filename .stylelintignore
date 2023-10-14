@@ -9,3 +9,4 @@ public
 *.md
 src/content/**
 **/*prism.ts
+static
