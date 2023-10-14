@@ -230,7 +230,7 @@ function PageTemplate({ data, pageContext, location }: PageTemplateProps) {
                   />
                 </PostFullImage>
               )}
-              <PostContent htmlAst={post.htmlAst} />
+              <PostContent html={post.html} />
             </article>
             <div css={GiscusStyle}>
               <Giscus />

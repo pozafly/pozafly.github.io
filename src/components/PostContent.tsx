@@ -1,30 +1,12 @@
-/* eslint-disable  @typescript-eslint/no-explicit-any */
-import { createElement } from 'react';
-
 import styled from '@emotion/styled';
-import RehypeReact from 'rehype-react';
 
 import { colors } from '../styles/colors';
 import prism from '../styles/prism';
 
-const renderAst = new RehypeReact({
-  createElement: createElement,
-  components: {},
-}).Compiler;
-
-const Ast = ({ ast, ...props }: any) => {
-  ast.properties = props;
-  return renderAst(ast);
-};
-
-export type PostContentProps = {
-  htmlAst: any;
-};
-
-function PostContent({ htmlAst }: PostContentProps) {
+function PostContent({ html }: { html: string }) {
   return (
     <PostFullContent className="post-full-content" css={prism}>
-      <Ast className="post-content" ast={htmlAst} />
+      <div className="post-content" dangerouslySetInnerHTML={{ __html: html }} />
     </PostFullContent>
   );
 }
