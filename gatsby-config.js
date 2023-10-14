@@ -22,14 +22,6 @@ module.exports = {
       },
     },
     'gatsby-plugin-sitemap',
-    {
-      resolve: 'gatsby-plugin-robots-txt',
-      options: {
-        host: 'https://pozafly.github.io',
-        sitemap: 'https://pozafly.github.io/sitemap-0.xml',
-        policy: [{ userAgent: '*', allow: '/' }],
-      },
-    },
     'gatsby-plugin-image',
     {
       resolve: 'gatsby-plugin-sharp',
