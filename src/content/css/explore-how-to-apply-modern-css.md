@@ -306,8 +306,8 @@ CSS-in-JS는 번들링 된 JavaScript 파일이 브라우저에서 실행되면�
 ##### `<style>` 태그를 추가한 후, Element에 스타일을 집어넣는 방식
 
 ```js
-const css = 'body { border: 20px solid red; }',
-const head = document.head || document.getElementsByTagName('head')[0],
+const css = 'body { border: 20px solid red; }';
+const head = document.head || document.getElementsByTagName('head')[0];
 const style = document.createElement('style');
 
 head.appendChild(style);
