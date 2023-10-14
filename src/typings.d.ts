@@ -20,15 +20,3 @@ declare module '*.ico' {
   const ico: any;
   export = ico;
 }
-
-declare module 'rehype-react' {
-  type RehypeOptions = {
-    createElement: any;
-    components: any;
-  };
-  class RehypeReact {
-    Compiler: any;
-    constructor(options: RehypeOptions);
-  }
-  export default RehypeReact;
-}
