@@ -332,7 +332,7 @@ sheet.insertRule(
 
 `CSSStyleSheet.insertRule()` 메서드를 사용하면 CSSOM에 바로 스타일을 넣을 수 있다. 그러면 style 태그에 따로 추가되지는 않지만, CSS가 적용되는 것을 볼 수 있다. 즉, CSSOM 트리에 해당 규칙을 새로 생성하여 넣어준 것이다.
 
-이는 **stitches.js** 와 같은 zero-runtime 라이브러리에서 동적으로 스타일 규칙을 삽입할 때 사용하는 방법이다. 이 방법은 DOM에 transition이 걸려있다면 단순 규칙만 추가되는 것이므로 CSS-in-JS에서도 자연스럽게 잘 동작한다.
+이는 **stitches.js** 와 같은 zero-runtime 라이브러리에서 동적으로 스타일 규칙을 삽입할 때 사용하는 방법이다. 실험 결과 `CSSStyleSheet.insertRule()`는 단순 규칙만 추가되는 것이므로 DOM에 transition이 걸려있다면 transition 애니메이션이 자연스럽게 잘 동작한다.
 
 CSSOM에 rule을 추가하는 방법은, `<style>` 태그를 조작하는 방법보다 성능이 더 뛰어난 방법이다. 따라서 production 모드에서 더 선호되는 방법이다.
 
@@ -546,11 +546,18 @@ TailwindCSS는 런타임에 동적 값을 계산할 수 없다. JIT 모드에서
 위와 같이 22px, 110px은 값이 지정되어 있고, 둘 중 선택하는 것이기 때문에 build가 가능했다. 하지만 계산이 되어야 한다면 어쩔 수 없이 인라인 스타일을 사용하라고 한다.
 
 ```jsx
-// class는 동적으로 매칭 불가능. build 타임에 CSS를 생성할 수 없기 때문이다.
+// ⛔️ class는 동적으로 매칭 불가능. build 타임에 CSS를 생성할 수 없기 때문이다.
 <div class="bg-[{{ userThemeColor }}]"></div>
-// style을 사용했기 때문에 사용 가능
+```
+
+위와 같이 `class` 속성을 사용해 동적 값을 넣을 수는 없다. 빌드 시 22px, 110px과 같은 값이 나오는 것이 아니라서 빌드가 불가능하기 때문이다. 아래와 같이 `style` 속성을 사용해 넣을 수 있다.
+
+```jsx
+// ✅ style을 사용했기 때문에 사용 가능
 <div style="background-color: {{ userThemeColor }}"></div>
 ```
+
+따라서 TailwindCSS는 빌드 외 브라우저에서 동적으로 값을 계산해야 할 때는 그냥 `style` 속성을 사용해 값을 넣는 방식을 택했다.
 
 <br/>
 
