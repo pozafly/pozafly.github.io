@@ -181,8 +181,7 @@ const SiteNavStyles = css`
 `;
 
 const SiteNavLeft = styled.div`
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: auto hidden;
   display: flex;
   flex: 1 0 auto;
   align-items: center;

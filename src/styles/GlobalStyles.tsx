@@ -268,8 +268,7 @@ const globalStyle = css`
   }
 
   html {
-    overflow-x: hidden;
-    overflow-y: scroll;
+    overflow: hidden scroll;
     box-sizing: border-box;
     font-family: sans-serif;
     font-size: 62.5%;
