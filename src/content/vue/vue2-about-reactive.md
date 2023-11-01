@@ -46,7 +46,7 @@ Vue 3에서는 이제 data에 선언되지 않은 프로퍼티라 하더라도 �
 
 아래부터는 공식 홈페이지의 내용을 옮긴 내용입니다.
 
-# Vue2 반응성에 대해 깊이 알아보기
+## Vue2 반응성에 대해 깊이 알아보기
 
 > 출처 : https://kr.vuejs.org/v2/guide/reactivity.html
 
@@ -54,7 +54,7 @@ vue의 가장 두드러진 특징 중 하나는 눈에 잘 띄지 않는 반응�
 
 <br/>
 
-## 변경 내용을 추적하는 방법
+### 변경 내용을 추적하는 방법
 
 vue 인스턴스에 Javascript 객체를 `data` 옵션으로 전달하면 Vue는 모든 속성에 [Object.defineProperty](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty)를 사용하여 [getters/setters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects#Defining_getters_and_setters)로 변환한다.
 
@@ -73,7 +73,7 @@ getter/setter는 사용자에게는 보이지 않으나 속성에 액세스 하�
 
 <br/>
 
-## 변경 감지 경고
+### 변경 감지 경고
 
 최신 Javascript의 한계 (그리고 `Object.observe` 의 포기)로 인해 Vue는 **속성의 추가 제거를 감지할 수 없다.** Vue는 인스턴스 초기화 중에 getter/setter 변환 프로세스를 수행하기 때문에 `data` 객체에 속성이 있어야 Vue가 이를 변환하고 응답할 수 있다.
 
@@ -118,7 +118,7 @@ this.someObject = Object.assign({}, this.someObject, { a: 1, b: 2 });
 
 <br/>
 
-## 반응형 속성 선언하기
+### 반응형 속성 선언하기
 
 Vue는 루트 수준의 반응성 속성을 동적으로 추가할 수 없으므로 모든 루트 수준의 반응성 데이터 속성을 빈 값으로라도 초기에 선언하여 Vue 인스턴스를 초기화 해야 함.
 
@@ -142,7 +142,7 @@ data 옵션에 `message` 를 선언하지 않으면 Vue는 렌더 함수가 존�
 
 <br/>
 
-## 비동기 갱신 큐
+### 비동기 갱신 큐
 
 Vue는 DOM 업데이트를 **비동기로 한다**. 데이터 변경이 발견 될 때마다 큐를 열고 같은 이벤트 루프에서 발생하는 모든 데이터 변경을 버퍼에 담는다. 같은 Watcher가 여러 번 발생하면 대기열에서 한 번만 푸시된다. 이 버퍼링된 중복의 제거는 불필요한 계산과 DOM 조작을 피하는데 있어 중요하다. 그 다음, 이벤트 루프 "tick"에서 Vue는 대기열을 비우고 실제 (이미 중복 제거 된) 작업을 수행한다. 내부적으로 Vue는 비동기 큐를 위해 네이티브 `Promise.then` 과 `MessageChannel` 을 시도하고, `setTimeout(fn, 0)` 으로 돌아간다.
 

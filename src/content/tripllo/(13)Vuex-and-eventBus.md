@@ -9,8 +9,6 @@ draft: false
 excerpt: 데이터를 Vuex store에 저장시키지 말고 로컬 컴포넌트에서 불러와 EventBus로 통신을 하면 어떻게 될까? 라는 물음에서 시작된 삽질기.
 ---
 
-# Vuex-store와 EventBus에 대한 고찰
-
 > Tripllo 프로젝트를 리팩토링하면서, [vue 리팩토링1](<https://pozafly.github.io/tripllo/(8)vue-refactor1/>)의 `6.store에 필요 없는 state 제거` 파트를 진행하게 되었다. 해당 부분을 상세하게 한번 보면서 생각할 부분을 정리해보자.
 
 <br/>

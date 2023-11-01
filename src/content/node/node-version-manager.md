@@ -9,8 +9,6 @@ draft: false
 excerpt: nvm을 시작으로 Node.js 버전을 관리하다 fnm을 알게되었고, 추가로 Volta를 알게되어 세가지 툴의 속도 및 방식에 대해서 간략하게 알아본 정보를 정리해본다.
 ---
 
-# nvm & fnm & Volta
-
 모두 Node.js의 버전을 관리하는 툴이다. 가장 먼저 nvm을 시작으로 Node.js 버전을 관리하다 fnm을 알게되었고, 추가로 Volta를 알게되어 세가지 툴의 속도 및 방식에 대해서 간략하게 알아본 정보를 정리해본다.
 
 ## nvm

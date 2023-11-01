@@ -9,13 +9,7 @@ draft: false
 excerpt: AWS EC2 환경에서 Nginx와 Let's Encrypt로 HTTPS SSL 인증서 갱신 자동화를 해보자.
 ---
 
-# Let's Encrypt 갱신 자동화
-
-<br/>
-
 > 서비스 환경은 AWS의 EC2(Amazon linux2) + Nginx 조합으로 되어있습니다. \*amazon linux2는 apt-get 패키지 관련 명령어 대신 yum 패키지 명령어를 사용합니다.
-
-<br/>
 
 <br/>
 
