@@ -13,6 +13,7 @@ function ThemeModeSwitch({ isHome }: { isHome: boolean }) {
         onClick={themeToggler}
         className={`theme-toggler ${isHome ? 'is-home' : ''}`}
         aria-label="theme toggle button"
+        type="button"
       >
         <div id="switch">
           <div className="mode"></div>
