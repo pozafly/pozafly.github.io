@@ -67,10 +67,6 @@ module.exports = {
             group: 'builtin',
             position: 'before',
           },
-          {
-            pattern: 'gatsby**',
-            group: 'builtin',
-          },
         ],
         'newlines-between': 'always',
         alphabetize: {
@@ -84,6 +80,7 @@ module.exports = {
     'no-console': 'warn',
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
+    '@typescript-eslint/consistent-type-imports': 'error',
     'react/no-unknown-property': 'off',
     'react/prop-types': 'off',
     '@emotion/styled-import': 'error',
