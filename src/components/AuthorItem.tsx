@@ -1,8 +1,7 @@
-import { Link } from 'gatsby';
-import { GatsbyImage, getImage } from 'gatsby-plugin-image';
-
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { Link } from 'gatsby';
+import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 
 import { AuthorProfileImage } from './PostCard';
 

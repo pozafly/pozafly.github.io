@@ -1,9 +1,10 @@
-import { graphql, Link, useStaticQuery } from 'gatsby';
-import { getSrc, ImageDataLike } from 'gatsby-plugin-image';
-
 import { css } from '@emotion/react';
+import { graphql, Link, useStaticQuery } from 'gatsby';
+import { getSrc } from 'gatsby-plugin-image';
 
 import config from '../../website-config';
+
+import type { ImageDataLike } from 'gatsby-plugin-image';
 
 type SiteNavLogoProps = {
   logo?: ImageDataLike;

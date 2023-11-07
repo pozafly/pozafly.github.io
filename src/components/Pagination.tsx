@@ -1,6 +1,5 @@
-import { Link } from 'gatsby';
-
 import { css } from '@emotion/react';
+import { Link } from 'gatsby';
 
 export type PaginationProps = {
   currentPage: number;

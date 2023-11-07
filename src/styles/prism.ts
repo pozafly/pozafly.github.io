@@ -1,4 +1,6 @@
-import { css, Theme } from '@emotion/react';
+import { css } from '@emotion/react';
+
+import type { Theme } from '@emotion/react';
 
 export default (theme: Theme) => css`
   *:not(pre) > code[class*='language-'] {

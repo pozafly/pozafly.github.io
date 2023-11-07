@@ -1,11 +1,10 @@
 import { Fragment } from 'react';
 
-import { graphql, Link } from 'gatsby';
-import { GatsbyImage, getImage, getSrc, ImageDataLike } from 'gatsby-plugin-image';
-
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { format } from 'date-fns';
+import { graphql, Link } from 'gatsby';
+import { GatsbyImage, getImage, getSrc } from 'gatsby-plugin-image';
 import { kebabCase } from 'lodash-es';
 
 import { AuthorItem } from '../components/AuthorItem';
@@ -19,6 +18,8 @@ import IndexLayout from '../layouts';
 import { colors } from '../styles/colors';
 import { inner, outer, SiteMain, SiteNavMain } from '../styles/shared';
 import config from '../website-config';
+
+import type { ImageDataLike } from 'gatsby-plugin-image';
 
 export type Author = {
   name: string;

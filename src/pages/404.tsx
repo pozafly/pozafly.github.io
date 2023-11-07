@@ -1,7 +1,6 @@
-import { graphql, Link } from 'gatsby';
-
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { graphql, Link } from 'gatsby';
 
 import SiteNav from '../components/header/SiteNav';
 import { PostCard } from '../components/PostCard';

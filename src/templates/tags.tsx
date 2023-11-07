@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 
 import { graphql } from 'gatsby';
-import { getSrc, ImageDataLike } from 'gatsby-plugin-image';
+import { getSrc } from 'gatsby-plugin-image';
 
 import { Footer } from '../components/Footer';
 import SiteNav from '../components/header/SiteNav';
@@ -24,6 +24,7 @@ import {
 import config from '../website-config';
 
 import type { PageContext } from './post';
+import type { ImageDataLike } from 'gatsby-plugin-image';
 
 type TagData = {
   allTagYaml: {

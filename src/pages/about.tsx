@@ -1,6 +1,5 @@
-import { StaticImage } from 'gatsby-plugin-image';
-
 import { css } from '@emotion/react';
+import { StaticImage } from 'gatsby-plugin-image';
 
 import { Footer } from '../components/Footer';
 import SiteNav from '../components/header/SiteNav';

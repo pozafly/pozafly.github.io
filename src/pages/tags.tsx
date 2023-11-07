@@ -1,8 +1,7 @@
 import { Fragment } from 'react';
 
-import { graphql, Link } from 'gatsby';
-
 import { css } from '@emotion/react';
+import { graphql, Link } from 'gatsby';
 import { kebabCase } from 'lodash-es';
 
 import { Footer } from '../components/Footer';

@@ -1,9 +1,8 @@
 import { Fragment } from 'react';
 
-import { graphql } from 'gatsby';
-import { getImage, getSrc, ImageDataLike } from 'gatsby-plugin-image';
-
 import { css } from '@emotion/react';
+import { graphql } from 'gatsby';
+import { getImage, getSrc } from 'gatsby-plugin-image';
 
 import { Footer } from '../components/Footer';
 import SiteNav from '../components/header/SiteNav';
@@ -25,6 +24,7 @@ import {
 import config from '../website-config';
 
 import type { PageContext } from './post';
+import type { ImageDataLike } from 'gatsby-plugin-image';
 
 export type IndexProps = {
   children: React.ReactNode;

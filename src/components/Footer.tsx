@@ -1,9 +1,8 @@
 import { Fragment } from 'react';
 
-import { Link } from 'gatsby';
-
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { Link } from 'gatsby';
 import { setLightness } from 'polished';
 
 import { colors } from '../styles/colors';
