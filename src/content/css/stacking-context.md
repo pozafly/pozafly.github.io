@@ -12,11 +12,11 @@ excerpt: z-index가 때로 적용이 되지 않는 문제를 해결하기 위해
 
 ## 요약
 
-- z-index는 겹치는 요소의 쌓임 순서를 제어한다.
-- z-index는 position이 static이 아닌 값을 가진 요소에만 영향을 준다.
-- stacking context는 z-index에 영향을 주는 그룹이다.
-- stacking context가 생성된 요소의 자식부터 영향을 준다.
-- 다른 stacking context에 속한 요소는 서로 z-index의 영향을 받지 않고 stacking context가 생성된 부모의 z-index를 기준으로 평가된다.
+- z-index는 겹치는 요소의 쌓임 순서를 제어한다
+- z-index는 position이 static이 아닌 값을 가진 요소에만 영향을 준다
+- stacking context는 z-index에 영향을 주는 그룹이다
+- stacking context가 생성된 요소의 자식부터 영향을 준다
+- 다른 stacking context에 속한 요소는 서로 z-index의 영향을 받지 않고 stacking context가 생성된 부모의 z-index를 기준으로 평가된다
 
 마크업 작업을 하다 보면 다들 이런 경험이 있을 것이다. HTML, CSS로 꽤나 마음에 드는 화면을 그렸다. DOM의 구조도 잘 잡혔고 스타일도 공을 들여 마무리 하고 있다. 이제 한 요소를 위에 띄우는 상황 만이 남았다. 아마 z-index를 이용해서 z-index를 먹이지 않은 요소 위에 띄워주기만 하면 될 것 같다..! 하지만 z-index가 적용이 안되는 것 같다. 아무리 z-index 값을 높게 주거나, 아래로 깔고 싶은 요소에 z-index를 마이너스로 주어도 적용이 되지 않는다. 왜 css는 해도 자꾸만 새로워 보이는게 나오는걸까!
 
