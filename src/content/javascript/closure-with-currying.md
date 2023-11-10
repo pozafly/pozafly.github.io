@@ -5,7 +5,7 @@ author: [Pozafly]
 tags:
 	- JavaScript
 date: '2023-02-14'
-image: ../img/javascript/closure-with-curring/main.png
+image: ../img/javascript/closure-with-curring/main.jpg
 draft: false
 excerpt: JavaScript의 클로저를 통해 currying 함수를 알아보자.
 

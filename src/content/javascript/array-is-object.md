@@ -5,7 +5,7 @@ author: [Pozafly]
 tags:
 	- JavaScript
 date: '2023-02-10'
-image: ../img/javascript/array-is-object/main.png
+image: ../img/javascript/array-is-object/main.jpeg
 draft: false
 excerpt: 배열이 객체인 이유와, 유사 배열 객체와의 차이점을 알아본다.
 ---

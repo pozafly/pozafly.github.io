@@ -5,7 +5,7 @@ author: [Pozafly]
 tags:
 	- CSS
 date: '2023-02-11'
-image: ../img/css/stacking-context.png
+image: ../img/css/stacking-context/main.png
 draft: false
 excerpt: z-index가 때로 적용이 되지 않는 문제를 해결하기 위해 stacking context에 대해 정확히 알아본다.
 ---

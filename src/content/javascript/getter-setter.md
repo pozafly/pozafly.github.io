@@ -5,7 +5,7 @@ author: [Pozafly]
 tags:
 	- JavaScript
 date: '2023-02-09'
-image: ../img/javascript/getter-setter/main.png
+image: ../img/javascript/getter-setter/main.jpg
 draft: false
 excerpt: 객체의 접근자 프로퍼티인 Getter와 Setter에 대해 알아보자.
 ---
