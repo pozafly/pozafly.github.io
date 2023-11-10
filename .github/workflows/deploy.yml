@@ -11,12 +11,18 @@ jobs:
       # GitHub Actions linux 환경에서 Gatsby 빌드 시 time zone 맞추는 작업 필요.
       - name: Time Zone Setting
         run: sudo timedatectl set-timezone Asia/Seoul
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use node
+        uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: npm
-      - uses: actions/cache@v3
+
+      - name: Use cache
+        uses: actions/cache@v3
         id: npm-cache
         with:
           path: |
@@ -27,18 +33,25 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
             ${{ runner.os }}
-      - if: ${{ steps.npm-cache.outputs.cache-hit != 'true' }}
+
+      - name: Dependency install
+        if: ${{ steps.npm-cache.outputs.cache-hit != 'true' }}
         run: npm install
-      - run: npm run build
-      - uses: 8398a7/action-slack@v3
+
+      - name: Build
+        run: npm run build
+
+      - name: Slack noti
+        uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
           fields: repo,message,commit,author,eventName,workflow,job,took
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         if: always()
-      # gh-pages 배포
-      - uses: peaceiris/actions-gh-pages@v3
+
+      - name: GitHub Pages deploy
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GH_TOKEN }}
           publish_dir: ./public
