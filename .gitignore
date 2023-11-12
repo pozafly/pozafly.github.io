@@ -60,3 +60,6 @@ thumb
 sketch
 
 .stylelintcache
+
+.lighthouseci
+/lhci_reports
