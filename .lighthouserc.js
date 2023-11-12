@@ -2,8 +2,8 @@ module.exports = {
   ci: {
     collect: {
       staticDistDir: './public', // 정적 파일 경로 작성. 해당 경로의 html 파일을 통해 성능을 측정한다.
-      // startServerCommand: "npm run start", // 정적 사이트가 아닌 경우, 서버를 켜는 명령어 작성.
-      url: ['http://localhost:3000'], // 성능을 측정할 url을 배열 형태로 작성. 즉, 여러 개의 url 가능.
+      url: ['http://localhost:9000'], // 성능을 측정할 url을 배열 형태로 작성. 즉, 여러 개의 url 가능.
+      startServerCommand: 'npm run serve',
       numberOfRuns: 3, // LightHouse가 실행되는 횟수. 동일 코드 사이트라 하더라도 네트워크 등 다르게 나올 수 있음. default는 3임.
     },
     upload: {
