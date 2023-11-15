@@ -1,0 +1,11 @@
+{
+  "search.exclude": {
+    "**/**.avif": true,
+    "**/**.gif": true,
+    "**/**.jpeg": true,
+    "**/**.jpg": true,
+    "**/**.md": true,
+    "**/**.png": true,
+    "**/**.webp": true
+  }
+}
