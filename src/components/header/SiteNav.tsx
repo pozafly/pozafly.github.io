@@ -1,4 +1,4 @@
-import { createRef, Fragment, PureComponent } from 'react';
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -28,145 +28,126 @@ type SiteNavProps = {
   };
 };
 
-type SiteNavState = {
-  showTitle: boolean;
-};
+export default function SiteNav({ isHome = false, isPost, post }: SiteNavProps) {
+  const [showTitle, setShowTitle] = useState(false);
+  const titleRef = useRef<HTMLSpanElement>(null);
+  const lastScrollY = useRef<number>(0);
+  const ticking = useRef<boolean>(false);
 
-class SiteNav extends PureComponent<SiteNavProps, SiteNavState> {
-  titleRef = createRef<HTMLSpanElement>();
-  lastScrollY = 0;
-  ticking = false;
-  state = { showTitle: false };
-
-  componentDidMount(): void {
-    this.lastScrollY = window.scrollY;
-    if (this.props.isPost) {
-      window.addEventListener('scroll', this.onScroll, { passive: true });
-    }
-  }
-
-  componentWillUnmount(): void {
-    window.removeEventListener('scroll', this.onScroll);
-  }
-
-  onScroll = () => {
-    if (!this.titleRef || !this.titleRef.current) {
+  const onScroll = useCallback(() => {
+    if (!titleRef || !titleRef.current) {
       return;
     }
-
-    if (!this.ticking) {
-      requestAnimationFrame(this.update);
+    if (!ticking.current) {
+      requestAnimationFrame(update);
     }
+    ticking.current = true;
+  }, []);
 
-    this.ticking = true;
-  };
-
-  update = () => {
-    if (!this.titleRef || !this.titleRef.current) {
+  const update = () => {
+    if (!titleRef || !titleRef.current) {
       return;
     }
-
-    this.lastScrollY = window.scrollY;
-
-    const trigger = this.titleRef.current.getBoundingClientRect().top;
-    const triggerOffset = this.titleRef.current.offsetHeight + 35;
+    lastScrollY.current = window.scrollY;
+    const trigger = titleRef.current.getBoundingClientRect().top;
+    const triggerOffset = titleRef.current.offsetHeight + 35;
 
     // show/hide post title
-    if (this.lastScrollY >= trigger + triggerOffset) {
-      this.setState({ showTitle: true });
+    if (lastScrollY.current >= trigger + triggerOffset) {
+      setShowTitle(true);
     } else {
-      this.setState({ showTitle: false });
+      setShowTitle(false);
     }
-
-    this.ticking = false;
+    ticking.current = false;
   };
 
-  render() {
-    const { isHome = false, isPost = false, post } = this.props;
-    return (
-      <Fragment>
-        <nav css={SiteNavStyles}>
-          <SiteNavLeft className={`site-nav-left ${isHome ? 'is-home' : ''}`}>
-            <SiteNavLogo />
-            <SiteNavContent css={[this.state.showTitle ? HideNav : '']}>
-              <ul css={NavStyles} role="menu">
-                <li role="menuitem">
-                  <Link
-                    to="/"
-                    activeClassName="nav-current"
-                    className={`${isHome ? 'is-home' : ''}`}
-                  >
-                    Home
-                  </Link>
-                </li>
-                <li role="menuitem">
-                  <Link
-                    to="/about"
-                    activeClassName="nav-current"
-                    className={`${isHome ? 'is-home' : ''}`}
-                  >
-                    About
-                  </Link>
-                </li>
-                <li role="menuitem">
-                  <Link
-                    to="/tags"
-                    activeClassName="nav-current"
-                    className={`${isHome ? 'is-home' : ''}`}
-                  >
-                    Tags
-                  </Link>
-                </li>
-                <li role="menuitem">
-                  <Link
-                    to="/tags/diary/"
-                    activeClassName="nav-current"
-                    className={`${isHome ? 'is-home' : ''}`}
-                  >
-                    Diary
-                  </Link>
-                </li>
-              </ul>
-              {isPost && (
-                <NavPostTitle ref={this.titleRef} className="nav-post-title">
-                  {post?.title || ''}
-                </NavPostTitle>
-              )}
-            </SiteNavContent>
-          </SiteNavLeft>
-          <SiteNavRight>
-            <SocialLinks>
-              {config.instagram && (
-                <a
-                  className={`${isHome ? 'is-home' : ''} not-mobile`}
-                  css={[SocialLink, SocialLinkFb]}
-                  href={config.instagram}
-                  target="_blank"
-                  title="Instagram"
-                  rel="noopener noreferrer"
+  useEffect(() => {
+    lastScrollY.current = window.scrollY;
+    if (isPost) {
+      window.addEventListener('scroll', onScroll, { passive: true });
+    }
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [isPost, onScroll]);
+
+  return (
+    <Fragment>
+      <nav css={SiteNavStyles}>
+        <SiteNavLeft className={`site-nav-left ${isHome ? 'is-home' : ''}`}>
+          <SiteNavLogo />
+          <SiteNavContent css={[showTitle ? HideNav : '']}>
+            <ul css={NavStyles} role="menu">
+              <li role="menuitem">
+                <Link to="/" activeClassName="nav-current" className={`${isHome ? 'is-home' : ''}`}>
+                  Home
+                </Link>
+              </li>
+              <li role="menuitem">
+                <Link
+                  to="/about"
+                  activeClassName="nav-current"
+                  className={`${isHome ? 'is-home' : ''}`}
                 >
-                  <Instagram />
-                </a>
-              )}
-              {config.github && (
-                <a
-                  className={`${isHome ? 'is-home' : ''} not-mobile`}
-                  css={SocialLink}
-                  href={config.github}
-                  title="Github"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  About
+                </Link>
+              </li>
+              <li role="menuitem">
+                <Link
+                  to="/tags"
+                  activeClassName="nav-current"
+                  className={`${isHome ? 'is-home' : ''}`}
                 >
-                  <Github />
-                </a>
-              )}
-              <ThemeModeSwitch isHome={isHome} />
-            </SocialLinks>
-          </SiteNavRight>
-        </nav>
-      </Fragment>
-    );
-  }
+                  Tags
+                </Link>
+              </li>
+              <li role="menuitem">
+                <Link
+                  to="/tags/diary/"
+                  activeClassName="nav-current"
+                  className={`${isHome ? 'is-home' : ''}`}
+                >
+                  Diary
+                </Link>
+              </li>
+            </ul>
+            {isPost && (
+              <NavPostTitle ref={titleRef} className="nav-post-title">
+                {post?.title || ''}
+              </NavPostTitle>
+            )}
+          </SiteNavContent>
+        </SiteNavLeft>
+        <SiteNavRight>
+          <SocialLinks>
+            {config.instagram && (
+              <a
+                className={`${isHome ? 'is-home' : ''} not-mobile`}
+                css={[SocialLink, SocialLinkFb]}
+                href={config.instagram}
+                target="_blank"
+                title="Instagram"
+                rel="noopener noreferrer"
+              >
+                <Instagram />
+              </a>
+            )}
+            {config.github && (
+              <a
+                className={`${isHome ? 'is-home' : ''} not-mobile`}
+                css={SocialLink}
+                href={config.github}
+                title="Github"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Github />
+              </a>
+            )}
+            <ThemeModeSwitch isHome={isHome} />
+          </SocialLinks>
+        </SiteNavRight>
+      </nav>
+    </Fragment>
+  );
 }
 
 const SiteNavStyles = css`
@@ -312,5 +293,3 @@ const HideNav = css`
     opacity: 1;
   }
 `;
-
-export default SiteNav;
