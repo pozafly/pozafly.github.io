@@ -175,6 +175,15 @@ exports.createPages = async ({ graphql, actions }) => {
 };
 
 exports.onCreateWebpackConfig = ({ stage, actions }) => {
+  // path alias
+  actions.setWebpackConfig({
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, 'src/'),
+      },
+    },
+  });
+
   // adds sourcemaps for tsx in dev mode
   if (stage === 'develop' || stage === 'develop-html') {
     actions.setWebpackConfig({
