@@ -1,6 +1,6 @@
 import { createRef, memo, useContext, useEffect } from 'react';
 
-import { ThemeToggleContext } from '../layouts/ThemeToggleContext';
+import { ThemeToggleContext } from '@/layouts/ThemeToggleContext.ts';
 
 const src = 'https://giscus.app/client.js';
 const repo = 'pozafly/blog-comments';

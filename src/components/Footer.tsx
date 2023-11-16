@@ -5,9 +5,9 @@ import styled from '@emotion/styled';
 import { Link } from 'gatsby';
 import { setLightness } from 'polished';
 
-import { colors } from '../styles/colors';
-import { inner, outer } from '../styles/shared';
-import config from '../website-config';
+import { colors } from '@/styles/colors.ts';
+import { inner, outer } from '@/styles/shared.ts';
+import config from '@/website-config.ts';
 
 export function Footer() {
   return (

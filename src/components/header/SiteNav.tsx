@@ -4,15 +4,15 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Link } from 'gatsby';
 
-import { SiteNavLogo } from './SiteNavLogo';
-import ThemeModeSwitch from './ThemeModeSwitch';
-import { SocialLink, SocialLinkFb } from '../../styles/shared';
-import config from '../../website-config';
-import { Github } from '../icons/github';
-import { Instagram } from '../icons/instagram';
-
-import type { Author } from '../../templates/post.jsx';
+import type { Author } from '@/templates/post.tsx';
 import type { ImageDataLike } from 'gatsby-plugin-image';
+
+import { SiteNavLogo } from '@/components/header/SiteNavLogo.tsx';
+import ThemeModeSwitch from '@/components/header/ThemeModeSwitch.tsx';
+import { Github } from '@/components/icons/github.tsx';
+import { Instagram } from '@/components/icons/instagram.tsx';
+import { SocialLink, SocialLinkFb } from '@/styles/shared.ts';
+import config from '@/website-config.ts';
 
 type SiteNavProps = {
   isHome?: boolean;

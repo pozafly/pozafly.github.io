@@ -7,19 +7,19 @@ import { graphql, Link } from 'gatsby';
 import { GatsbyImage, getImage, getSrc } from 'gatsby-plugin-image';
 import { kebabCase } from 'lodash-es';
 
-import { AuthorItem } from '../components/AuthorItem';
-import { Footer } from '../components/Footer';
-import Giscus from '../components/Giscus';
-import SiteNav from '../components/header/SiteNav';
-import PostContent from '../components/PostContent';
-import { ReadNext } from '../components/ReadNext';
-import { Wrapper } from '../components/Wrapper';
-import IndexLayout from '../layouts';
-import { colors } from '../styles/colors';
-import { inner, outer, SiteMain, SiteNavMain } from '../styles/shared';
-import config from '../website-config';
-
 import type { ImageDataLike } from 'gatsby-plugin-image';
+
+import { AuthorItem } from '@/components/AuthorItem.tsx';
+import { Footer } from '@/components/Footer.tsx';
+import Giscus from '@/components/Giscus.tsx';
+import SiteNav from '@/components/header/SiteNav.tsx';
+import PostContent from '@/components/PostContent.tsx';
+import { ReadNext } from '@/components/ReadNext.tsx';
+import { Wrapper } from '@/components/Wrapper.tsx';
+import IndexLayout from '@/layouts/index.tsx';
+import { colors } from '@/styles/colors.ts';
+import { inner, outer, SiteMain, SiteNavMain } from '@/styles/shared.ts';
+import config from '@/website-config.ts';
 
 export type Author = {
   name: string;

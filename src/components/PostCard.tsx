@@ -8,10 +8,10 @@ import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import { kebabCase } from 'lodash-es';
 import { lighten } from 'polished';
 
-import { colors } from '../styles/colors';
-import config from '../website-config';
+import type { PageContext } from '@/templates/post.tsx';
 
-import type { PageContext } from '../templates/post';
+import { colors } from '@/styles/colors.ts';
+import config from '@/website-config.ts';
 
 export type PostCardProps = {
   post: PageContext;

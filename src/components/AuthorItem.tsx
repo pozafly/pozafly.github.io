@@ -3,9 +3,9 @@ import styled from '@emotion/styled';
 import { Link } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 
-import { AuthorProfileImage } from './PostCard';
+import type { Author } from '@/templates/post.tsx';
 
-import type { Author } from '../templates/post';
+import { AuthorProfileImage } from '@/components/PostCard.tsx';
 
 type AuthorItemProps = {
   author: Author;

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
-import { colors } from '../styles/colors';
-import prism from '../styles/prism';
+import { colors } from '@/styles/colors.ts';
+import prism from '@/styles/prism.ts';
 
 function PostContent({ html }: { html: string }) {
   return (

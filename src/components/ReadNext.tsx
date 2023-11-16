@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 import { lighten } from 'polished';
 
-import { PostCard } from './PostCard';
-import { ReadNextCard } from './ReadNextCard';
-import { colors } from '../styles/colors';
-import { inner, outer } from '../styles/shared';
+import type { PageContext } from '@/templates/post.tsx';
 
-import type { PageContext } from '../templates/post';
+import { PostCard } from '@/components/PostCard.tsx';
+import { ReadNextCard } from '@/components/ReadNextCard.tsx';
+import { colors } from '@/styles/colors.ts';
+import { inner, outer } from '@/styles/shared.ts';
 
 type ReadNextProps = {
   tags: string[];

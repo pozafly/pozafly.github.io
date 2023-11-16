@@ -2,11 +2,11 @@ import { useMemo } from 'react';
 
 import { ThemeProvider } from '@emotion/react';
 
-import { ThemeToggleContext } from './ThemeToggleContext';
-import useTheme from '../hooks/useTheme';
-import GlobalStyles from '../styles/GlobalStyles';
-
 import type { Theme } from '@emotion/react';
+
+import useTheme from '@/hooks/useTheme.ts';
+import { ThemeToggleContext } from '@/layouts/ThemeToggleContext.ts';
+import GlobalStyles from '@/styles/GlobalStyles.tsx';
 
 type IndexProps = {
   className?: string;
