@@ -1,10 +1,10 @@
+import { Link } from 'gatsby';
 import styled from '@emotion/styled';
 import { format } from 'date-fns';
-import { Link } from 'gatsby';
 import { kebabCase } from 'lodash-es';
 import { lighten } from 'polished';
 
-import { colors } from '../styles/colors';
+import { colors } from '@/styles/colors.ts';
 
 export type ReadNextProps = {
   tags: string[];

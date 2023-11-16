@@ -29,7 +29,6 @@ module.exports = {
     'no-restricted-imports': [
       'error',
       {
-        // patterns: ['.*'],
         paths: [
           {
             name: 'react',
@@ -58,17 +57,28 @@ module.exports = {
           ['parent', 'sibling'],
           'index',
           'object',
-          'type',
           'unknown',
+          'type',
         ],
         pathGroups: [
           {
             pattern: 'react',
-            group: 'builtin',
+            group: 'external',
+            position: 'before',
+          },
+          {
+            pattern: 'gatsby',
+            group: 'external',
+            position: 'before',
+          },
+          {
+            pattern: '@/',
+            group: 'internal',
             position: 'before',
           },
         ],
         'newlines-between': 'always',
+        distinctGroup: false,
         alphabetize: {
           order: 'asc',
           caseInsensitive: true,

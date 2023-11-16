@@ -1,16 +1,15 @@
 import { Fragment } from 'react';
-
-import { css } from '@emotion/react';
 import { graphql, Link } from 'gatsby';
+import { css } from '@emotion/react';
 import { kebabCase } from 'lodash-es';
 
-import { Footer } from '../components/Footer';
-import SiteNav from '../components/header/SiteNav';
-import { PostFullContent } from '../components/PostContent';
-import { Wrapper } from '../components/Wrapper';
-import IndexLayout from '../layouts';
-import { inner, outer, SiteArchiveHeader, SiteMain, SiteNavMain } from '../styles/shared';
-import { NoImage, PostFull, PostFullHeader, PostFullTitle } from '../templates/post';
+import { Footer } from '@/components/Footer.tsx';
+import SiteNav from '@/components/header/SiteNav.tsx';
+import { PostFullContent } from '@/components/PostContent.tsx';
+import { Wrapper } from '@/components/Wrapper.tsx';
+import IndexLayout from '@/layouts/index.tsx';
+import { inner, outer, SiteArchiveHeader, SiteMain, SiteNavMain } from '@/styles/shared.ts';
+import { NoImage, PostFull, PostFullHeader, PostFullTitle } from '@/templates/post.tsx';
 
 const PageTemplate = css`
   .site-main {

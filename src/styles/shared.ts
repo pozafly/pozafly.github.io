@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { colors } from './colors';
+import { colors } from '@/styles/colors.ts';
 
 export const outer = css`
   position: relative;

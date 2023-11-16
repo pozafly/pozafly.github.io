@@ -1,7 +1,7 @@
 import { css, Global } from '@emotion/react';
 import { lighten, setLightness } from 'polished';
 
-import { colors } from './colors';
+import { colors } from '@/styles/colors.ts';
 
 const globalStyle = css`
   html,

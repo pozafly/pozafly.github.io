@@ -1,15 +1,14 @@
 import { Fragment } from 'react';
-
-import { css } from '@emotion/react';
 import { graphql } from 'gatsby';
+import { css } from '@emotion/react';
 import { getImage, getSrc } from 'gatsby-plugin-image';
 
-import { Footer } from '../components/Footer';
-import SiteNav from '../components/header/SiteNav';
-import Pagination from '../components/Pagination';
-import { PostCard } from '../components/PostCard';
-import { Wrapper } from '../components/Wrapper';
-import IndexLayout from '../layouts';
+import { Footer } from '@/components/Footer.tsx';
+import SiteNav from '@/components/header/SiteNav.tsx';
+import Pagination from '@/components/Pagination.tsx';
+import { PostCard } from '@/components/PostCard.tsx';
+import { Wrapper } from '@/components/Wrapper.tsx';
+import IndexLayout from '@/layouts/index.tsx';
 import {
   inner,
   outer,
@@ -20,10 +19,10 @@ import {
   SiteHeaderStyles,
   SiteMain,
   SiteTitle,
-} from '../styles/shared';
-import config from '../website-config';
+} from '@/styles/shared.ts';
+import config from '@/website-config.ts';
 
-import type { PageContext } from './post';
+import type { PageContext } from '@/templates/post.tsx';
 import type { ImageDataLike } from 'gatsby-plugin-image';
 
 export type IndexProps = {

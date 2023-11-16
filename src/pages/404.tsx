@@ -1,15 +1,15 @@
+import { graphql, Link } from 'gatsby';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { graphql, Link } from 'gatsby';
 
-import SiteNav from '../components/header/SiteNav';
-import { PostCard } from '../components/PostCard';
-import { Wrapper } from '../components/Wrapper';
-import IndexLayout from '../layouts';
-import { colors } from '../styles/colors';
-import { inner, outer, PostFeed, SiteNavMain } from '../styles/shared';
+import SiteNav from '@/components/header/SiteNav.tsx';
+import { PostCard } from '@/components/PostCard.tsx';
+import { Wrapper } from '@/components/Wrapper.tsx';
+import IndexLayout from '@/layouts/index.tsx';
+import { colors } from '@/styles/colors.ts';
+import { inner, outer, PostFeed, SiteNavMain } from '@/styles/shared.ts';
 
-import type { PageContext } from '../templates/post';
+import type { PageContext } from '@/templates/post.tsx';
 
 type NotFoundTemplateProps = {
   data: {
