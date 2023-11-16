@@ -1,19 +1,30 @@
 {
   "compilerOptions": {
-    "typeRoots": ["./node_modules/@types", "./src/types"],
-    "module": "commonjs",
+    "baseUrl": ".",
     "target": "ESNext",
-    "jsx": "preserve",
-    "lib": ["DOM", "ES2020"],
+    "lib": ["DOM", "ESNext"],
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "allowJs": true,
+    "skipLibCheck": true,
     "strict": true,
+    "noImplicitAny": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowImportingTsExtensions": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
     "removeComments": false,
+    // "incremental": true,
+    // "tsBuildInfoFile": "node_modules/.cache/.tsbuildinfo",
+    "downlevelIteration": true,
     "preserveConstEnums": true,
-    "incremental": true,
-    "tsBuildInfoFile": "node_modules/.cache/.tsbuildinfo",
-    "skipLibCheck": true
-  }
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "exclude": ["node_modules", "public", ".cache"]
 }
