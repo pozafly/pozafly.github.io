@@ -1,10 +1,6 @@
 import { Fragment } from 'react';
-
 import { graphql } from 'gatsby';
 import { getSrc } from 'gatsby-plugin-image';
-
-import type { PageContext } from '@/templates/post.tsx';
-import type { ImageDataLike } from 'gatsby-plugin-image';
 
 import { Footer } from '@/components/Footer.tsx';
 import SiteNav from '@/components/header/SiteNav.tsx';
@@ -25,6 +21,9 @@ import {
   SiteTitle,
 } from '@/styles/shared.ts';
 import config from '@/website-config.ts';
+
+import type { PageContext } from '@/templates/post.tsx';
+import type { ImageDataLike } from 'gatsby-plugin-image';
 
 type TagData = {
   allTagYaml: {

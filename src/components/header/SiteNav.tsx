@@ -1,11 +1,7 @@
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
-
+import { Link } from 'gatsby';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Link } from 'gatsby';
-
-import type { Author } from '@/templates/post.tsx';
-import type { ImageDataLike } from 'gatsby-plugin-image';
 
 import { SiteNavLogo } from '@/components/header/SiteNavLogo.tsx';
 import ThemeModeSwitch from '@/components/header/ThemeModeSwitch.tsx';
@@ -13,6 +9,9 @@ import { Github } from '@/components/icons/github.tsx';
 import { Instagram } from '@/components/icons/instagram.tsx';
 import { SocialLink, SocialLinkFb } from '@/styles/shared.ts';
 import config from '@/website-config.ts';
+
+import type { Author } from '@/templates/post.tsx';
+import type { ImageDataLike } from 'gatsby-plugin-image';
 
 type SiteNavProps = {
   isHome?: boolean;

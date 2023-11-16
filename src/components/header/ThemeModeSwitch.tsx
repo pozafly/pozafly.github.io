@@ -1,5 +1,4 @@
 import { Fragment, memo, useContext } from 'react';
-
 import { css, Global } from '@emotion/react';
 
 import { ThemeToggleContext } from '@/layouts/ThemeToggleContext.ts';
