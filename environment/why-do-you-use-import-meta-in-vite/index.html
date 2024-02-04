@@ -132,10 +132,12 @@ $ <span class="token function">npm</span> i <span class="token parameter variabl
 TEST=ENV_TEST!</code></pre></div>
 <p>main.js 파일을 생성하고, dotenv 라이브러리를 통해 <code class="language-text">.env</code> 파일의 환경 변수 값을 가져와보자.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// src/main.js</span>
+
 <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"dotenv"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">config</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">TEST</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// ENV_TEST!</span></code></pre></div>
 <p>이제 <code class="language-text">node</code> 명령어로 Node.js 환경에서 이를 실행시켜보자.</p>
 <div class="gatsby-highlight" data-language="sh"><pre class="language-sh"><code class="language-sh">$ <span class="token function">node</span> src/main.js
+
 <span class="token operator">=</span><span class="token operator">></span> ENV_TEST<span class="token operator">!</span></code></pre></div>
 <p>어떻게 이런 결과가 나올까? dotenv 라이브러리를 살짝 까보자. 시작은 <code class="language-text">require("dotenv").config();</code> 줄이다. config 메서드를 실행한다.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">config</span> <span class="token punctuation">(</span><span class="token parameter">options</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -221,6 +223,7 @@ PORT=3000</code></pre></div>
 <p><a href="https://github.com/mrsteele/dotenv-webpack" target="_blank" rel="nofollow">dotenv-webpack</a> 플러그인은 아주 간단하게 직접 path를 지정하도록 되어 있다.</p>
 <p>먼저 사용법을 보자.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// webpack.config.js</span>
+
 <span class="token keyword">const</span> Dotenv <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'dotenv-webpack'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
@@ -280,18 +283,19 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 <p>여기서 말하는 메타 데이터란, 이미지 파일을 생각하면 조금 더 이해하기 쉽다. 휴대폰으로 사진을 찍으면 사진의 메타 데이터에 ‘날짜’, ‘사진 용량’, ‘디바이스 정보’, ‘위치 데이터’ 등의 메타 데이터가 담기게 된다. <code class="language-text">import.meta</code> 는 ‘모듈’ 자체에 대한 메타 데이터를 담고 있다.</p>
 <p>import.meta는 대표적으로 모듈 메타 데이터인 경로(URL)를 담고 있는데, 이는 호스트 환경(브라우저 혹은 Node.js)에 따라 저장되는 내용이 달라진다. 먼저 Node.js를 통해 import.meta가 가지고 있는 정보를 열어보자.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// src/main.js</span>
+
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">import</span><span class="token punctuation">.</span>meta<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
 <p>node 명령어로 main.js를 실행시키면 SyntaxError가 발생한다. 이유는, node.js는 기본적으로 CommonJS 환경에서 동작하기 때문이다. import.meta는 ESM 환경에서 동작하기 때문에 이런 에러가 발생하는 것이다.</p>
 <p>Node.js에서 import.meta를 사용하는 방법은 2가지인데, 하나는 main.js 파일을 <code class="language-text">main.mjs</code> 로 ESM에서 동작하는 JavaScript 확장자를 붙여주어 node 명령어로 다시 실행시키는 방법이고, 다른 하나는 <code class="language-text">dotenv</code> 라이브러리에서 ESM 환경으로 동작시킬 때 알아본 package.json 파일에 <code class="language-text">"type": "module"</code> 을 명시해 주는 방법이다.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// src/main.js</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">import</span><span class="token punctuation">.</span>meta<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">import</span><span class="token punctuation">.</span>meta<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment">/**
  * [Object: null prototype] {
- *   dirname: '/Users/hwangsuntae/Documents/dev/play-ground/html-exam/src',
- *   filename: '/Users/hwangsuntae/Documents/dev/play-ground/html-exam/src/main.js',
+ *   dirname: '/Users/pozafly/Documents/dev/play-ground/esm-exam/src',
+ *   filename: '/Users/pozafly/Documents/dev/play-ground/esm-exam/src/main.js',
  *   resolve: [Function: resolve],
- *   url: 'file:///Users/hwangsuntae/Documents/dev/play-ground/html-exam/src/main.js'
+ *   url: 'file:///Users/pozafly/Documents/dev/play-ground/esm-exam/src/main.js'
  * }
 */</span></code></pre></div>
 <p>위와 같은 결과를 얻었다. dirname, filename, resolve, url 등의 정보가 들어있다. 절대 경로로 내 파일(모듈)의 위치를 가리키고 있다. 그렇다면 브라우저에서는 어떻게 동작하는가?</p>
@@ -304,7 +308,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
   <span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
     <span class="token property">"dev"</span><span class="token operator">:</span> <span class="token string">"lite-server"</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  <span class="token property">"dependencies"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+  <span class="token property">"devDependencies"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
     <span class="token property">"lite-server"</span><span class="token operator">:</span> <span class="token string">"^2.6.1"</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
@@ -366,14 +370,17 @@ console<span class="token punctuation">.</span><span class="token function">log<
     </span></p>
 <p>이렇게 url의 모습이 변경된 것을 볼 수 있다. 그러면 이 url 변수를 가공해 info 값을 얻을 수가 있는데,</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// src/main.js</span>
+
 <span class="token keyword">const</span> info <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">URL</span><span class="token punctuation">(</span><span class="token keyword">import</span><span class="token punctuation">.</span>meta<span class="token punctuation">.</span>url<span class="token punctuation">)</span><span class="token punctuation">.</span>searchParams<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"info"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>info<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 5</span></code></pre></div>
 <p>이런 식으로 모듈끼리의 정보도 주고받을 수 있다. 이는 Node.js 환경에서도 마찬가지이다.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// some.js</span>
+
 <span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">callImportMeta</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">URL</span><span class="token punctuation">(</span><span class="token keyword">import</span><span class="token punctuation">.</span>meta<span class="token punctuation">.</span>url<span class="token punctuation">)</span><span class="token punctuation">.</span>searchParams<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"id"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre></div>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// main.js</span>
+
 <span class="token keyword">import</span> <span class="token punctuation">{</span> callImportMeta <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"./some.js?id=pozafly"</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">callImportMeta</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// pozafly</span></code></pre></div>
 <p>메타 정보를 쿼리 파라미터로 주고받았다.</p>
@@ -433,6 +440,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
     </span></p>
 <p>HTML head 태그에 <code class="language-text">/@vite/client</code> 를 불러오도록 명시하고 있다. 따라서 진입점은 <code class="language-text">client.ts</code> 파일이다.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// @vite/client.ts (간추린 버전)</span>
+
 <span class="token keyword">const</span> importMetaUrl <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">URL</span><span class="token punctuation">(</span><span class="token keyword">import</span><span class="token punctuation">.</span>meta<span class="token punctuation">.</span>url<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> socketProtocol <span class="token operator">=</span> importMetaUrl<span class="token punctuation">.</span>protocol <span class="token operator">===</span> <span class="token string">"https:"</span> <span class="token operator">?</span> <span class="token string">"wss"</span> <span class="token operator">:</span> <span class="token string">"ws"</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> socketHost <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>importMetaUrl<span class="token punctuation">.</span>hostname<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">:</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>importMetaUrl<span class="token punctuation">.</span>port<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span>
@@ -490,6 +498,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
     </span></p>
 <p>바로, 소스코드를 수정한 모듈에 쿼리 파라미터 <code class="language-text">t</code> 가 새롭게 붙은 파일이 브라우저로 로드되어 새롭게 대체되는 현상이다.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// @vite/client.ts (간추린 버전)</span>
+
 <span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">handleMessage</span><span class="token punctuation">(</span><span class="token parameter">payload</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">switch</span> <span class="token punctuation">(</span>payload<span class="token punctuation">.</span>type<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token comment">// ...</span>
@@ -511,6 +520,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>socket을 브라우저에 등록하는 과정에서 message 이벤트가 일어나면 실행할 handleMessage 함수를 등록했다. 바로 그 함수가 실행되는데 JavaScript 함수이므로 <code class="language-text">hmrClient.fetchUpdate()</code> 함수가 실행된다.</p>
 <p>hmrClient는 마찬가지로 Vite가 처음 브라우저로 넘어왔을 때 만들어진 인스턴스인데, 이는 아래와 같다.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// @vite/client.ts (간추린 버전)</span>
+
 <span class="token keyword">const</span> hmrClient <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HMRClient</span><span class="token punctuation">(</span><span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">importUpdatedModule</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span>
   acceptedPath<span class="token punctuation">,</span>
   timestamp<span class="token punctuation">,</span>
@@ -526,6 +536,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>이곳이 핵심이다. <code class="language-text">await import()</code> 를 사용해 어떤 다른 모듈을 동적으로 불러오는 것을 볼 수 있다. <code class="language-text">t=</code> 로 시작하는 쿼리 파라미터가 있으며, t에는 timestamp가 존재한다. dev-tools에서 봤던, <code class="language-text">App.tsx?t=xxx</code> 는 이것이다.</p>
 <p>HMRClient class를 보자.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// @vite/hmr.ts (간추린 버전)</span>
+
 <span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">HMRClient</span> <span class="token punctuation">{</span>
   <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token parameter">importUpdatedModule</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">this</span><span class="token punctuation">.</span>importUpdatedModule <span class="token operator">=</span> importUpdatedModule
@@ -643,7 +654,9 @@ console<span class="token punctuation">.</span><span class="token function">log<
     </span></p>
 <p>그래서, 소스코드를 수정할 때마다 새로운 timestamp가 쿼리 파라미터가 브라우저에 넘어오고, 쿼리 파라미터 정보를 import.meta로 읽어 새로운 모듈을 가져와야 한다는 정보를 얻어 devServer에 요청 후 갈아끼울 수 있는 매커니즘을 가질 수 있었다.</p>
 <p>그렇다면, <code class="language-text">await import()</code> 동적 가져오기를 사용해 모듈 자체(예시: <code class="language-text">Some.tsx</code>) 가져왔다면 react에서 적용은 어떻게 하는 것일까? HMRClient class의 fetchUpdate() 함수를 다시 가져왔다.</p>
-<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">public</span> <span class="token keyword">async</span> <span class="token function">fetchUpdate</span><span class="token punctuation">(</span><span class="token parameter">update</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// @vite/hmr.ts (간추린 버전)</span>
+
+<span class="token keyword">public</span> <span class="token keyword">async</span> <span class="token function">fetchUpdate</span><span class="token punctuation">(</span><span class="token parameter">update</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">const</span> <span class="token punctuation">{</span> path<span class="token punctuation">,</span> acceptedPath <span class="token punctuation">}</span> <span class="token operator">=</span> update<span class="token punctuation">;</span>
   <span class="token keyword">const</span> isSelfUpdate <span class="token operator">=</span> path <span class="token operator">===</span> acceptedPath<span class="token punctuation">;</span>
 
@@ -710,11 +723,15 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <br/>
 <h2 id="마치며" style="position:relative;">마치며<a href="#%EB%A7%88%EC%B9%98%EB%A9%B0" aria-label="마치며 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
 <p>import.meta는 모듈의 메타 데이터를 저장하고, 활용할 수 있는 도구다. 이전에 import.meta가 없었을 때는 Node.js 환경에서 아래 코드와 같이 파일의 경로를 알아내고, 파일을 읽어올 수 있었다.</p>
-<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">const</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"fs"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// Node.js 환경</span>
+
+<span class="token keyword">const</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"fs"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"path"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> bytes <span class="token operator">=</span> fs<span class="token punctuation">.</span><span class="token function">readFileSync</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">"data.bin"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
 <p>또한, 브라우저 환경에서 모듈에 대한 메타 데이터를 얻을 수 있는 방법은 아래와 같았다.</p>
-<div class="gatsby-highlight" data-language="html"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">data-option</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>value<span class="token punctuation">"</span></span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>library.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+<div class="gatsby-highlight" data-language="html"><pre class="language-html"><code class="language-html"><span class="token comment">&lt;!-- 브라우저 환경 --></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">data-option</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>value<span class="token punctuation">"</span></span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>library.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
 
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
   <span class="token keyword">const</span> theOption <span class="token operator">=</span> document<span class="token punctuation">.</span>currentScript<span class="token punctuation">.</span>dataset<span class="token punctuation">.</span>option<span class="token punctuation">;</span>
