@@ -114,7 +114,7 @@
 <p>사전 번들링은, esBuild를 통해 디펜던시를 빌드하고, 변경이 잦은 소스코드는 ESM으로 제공한다. 기존에 Webpack과 같은 번들러는 모든 파일을 빌드 및 번들링 해야만 브라우저에서 구동이 가능했다. Vite는 소스코드를 ESM으로 제공하기 때문에 브라우저에서 동적 import를 통해 원하는 JavaScript 파일만 실행시킬 수 있다. 이 매커니즘에 따라 Webpack의 Node.js에서만 가능했던 기능이 브라우저에서 동작하기 위해 어떻게 Vite가 해결했는지를 알아볼 것이다.</p>
 <br/>
 <h2 id="Nodejs-환경-변수" style="position:relative;">Node.js 환경 변수<a href="#Nodejs-%ED%99%98%EA%B2%BD-%EB%B3%80%EC%88%98" aria-label="Nodejs 환경 변수 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
-<h3 id="Nodejs" style="position:relative;">Node.js<a href="#Nodejs" aria-label="Nodejs permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
+<h3 id="processenv" style="position:relative;">process.env<a href="#processenv" aria-label="processenv permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
 <p>대부분의 bundler는 Node.js 환경 위에서 동작한다. Node.js에서는 <code class="language-text">process</code> 라는 특별한 이름의 예약어를 사용해 환경 변수에 접근할 수 있다. <code class="language-text">process</code> 예약어는 현재 실행되고 있는 Node.js 프로세스에 대한 정보를 가지고 있고 이를 제어할 수 있는 객체다.</p>
 <p>대부분의 JavaScript 프레임워크에서는 <code class="language-text">process.env</code> 변수를 통해 환경 변수에 접근한다. process.env는 런타임에 동적으로 변수를 추가 및 수정할 수 있다.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">TEST</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// undefined</span>
@@ -194,7 +194,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>위에서 <code class="language-text">processEnv = process.env</code> 로 레퍼런스 주소를 묶어주었기 때문에 key로 즉시 할당한다. 다시 우리가 작성했던 main.js 구문을 보자.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"dotenv"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">config</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">TEST</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// ENV_TEST!</span></code></pre></div>
-<p>정리하면, dotenv 라이브러리는 Node.js 환경에서 <code class="language-text">.env</code> 를 파싱 해 text 값을 통해 객체를 생성하고, process.evn에 값을 추가해 Node.js 환경의 전역에 노출된다. JavaScript 프레임워크에서는 보통 Node.js를 한 번만 실행하기 때문에 <code class="language-text">.env</code> 파일의 환경 변수 값이 변경되면 devServer를 껐다 켜주어야 값을 변경된 값으로 반영할 수 있는 이유이다.</p>
+<p>정리하면, dotenv 라이브러리는 Node.js 환경에서 <code class="language-text">.env</code> 를 파싱 해 text 값을 통해 객체를 생성하고, process.env에 값을 추가해 Node.js 환경의 전역에 노출된다. JavaScript 프레임워크에서는 보통 Node.js를 한 번만 실행하기 때문에 <code class="language-text">.env</code> 파일의 환경 변수 값이 변경되면 devServer를 껐다 켜주어야 값을 변경된 값으로 반영할 수 있는 이유이다.</p>
 <p>Vite는 바로 반영이 되는데, devServer를 순간적으로 다시 시작시켜준다. .env 파일에서 변수를 변경하면 터미널 log에 <code class="language-text">server restarted.</code>라고 알려준다. Vite는 Webpack처럼 모든 파일을 번들링 하지 않기 때문에 무척 빠르기에 가능하다.</p>
 <p>dotenv에서 ESM 환경 또한 지원한다.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// package.json</span>
@@ -209,7 +209,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>vue-cli는 @vue/cli-services 패키지 내에서 사용하고 있고, CRA 같은 경우 react-scripts 라이브러리 내부 package.json에 <code class="language-text">dotenv</code> 을 사용하고 있으며 Next.js도 내부적으로 dotenv 라이브러리를 이용해 <code class="language-text">.env</code> 파일을 가져오고 있다.</p>
 <blockquote>
 <p>※ <a href="https://nodejs.org/dist/latest-v20.x/docs/api/cli.html#--env-fileconfig" target="_blank" rel="nofollow">—env-file</a></p>
-<p>node.js 20 버전부터는 <code class="language-text">--env-file=config</code> 를 통해 <code class="language-text">.env</code> 파일을 <code class="language-text">dotenv</code> 라이브러리 없이 사용할 수 있도록 개발 중이다. 실제로 터미널에서 node 명령어로 <code class="language-text">.evn</code> 파일을 지정 해 줄 수 있다. 아직은 실험용.</p>
+<p>node.js 20 버전부터는 <code class="language-text">--env-file=config</code> 를 통해 <code class="language-text">.env</code> 파일을 <code class="language-text">dotenv</code> 라이브러리 없이 사용할 수 있도록 개발 중이다. 실제로 터미널에서 node 명령어로 <code class="language-text">.env</code> 파일을 지정 해 줄 수 있다. 아직은 실험용.</p>
 <div class="gatsby-highlight" data-language="sh"><pre class="language-sh"><code class="language-sh">$ <span class="token function">node</span> --env-file<span class="token operator">=</span>.env --env-file<span class="token operator">=</span>.development.env index.js</code></pre></div>
 <div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">// .env
 PORT=3000</code></pre></div>
@@ -217,7 +217,7 @@ PORT=3000</code></pre></div>
 </blockquote>
 <br/>
 <h2 id="모드-별-환경-변수-접근" style="position:relative;">모드 별 환경 변수 접근<a href="#%EB%AA%A8%EB%93%9C-%EB%B3%84-%ED%99%98%EA%B2%BD-%EB%B3%80%EC%88%98-%EC%A0%91%EA%B7%BC" aria-label="모드 별 환경 변수 접근 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
-<p>하지만, <code class="language-text">.env</code> 파일만 있는 것이 아니라 배포 환경에 따라 환경 변수의 값이 달라져야 환경 변수를 사용하는 의미가 있다. 즉, <code class="language-text">.env.development</code>, <code class="language-text">.env.production</code> 등의 환경 변수 파일이 추가로 필요하고 mode에 따라 지정된 값이 process.evn 값에 할당되어 build 되어야 한다.</p>
+<p>하지만, <code class="language-text">.env</code> 파일만 있는 것이 아니라 배포 환경에 따라 환경 변수의 값이 달라져야 환경 변수를 사용하는 의미가 있다. 즉, <code class="language-text">.env.development</code>, <code class="language-text">.env.production</code> 등의 환경 변수 파일이 추가로 필요하고 mode에 따라 지정된 값이 process.env 값에 할당되어 build 되어야 한다.</p>
 <p><a href="https://github.com/mrsteele/dotenv-webpack" target="_blank" rel="nofollow">dotenv-webpack</a> 플러그인은 아주 간단하게 직접 path를 지정하도록 되어 있다.</p>
 <p>먼저 사용법을 보자.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// webpack.config.js</span>
@@ -268,7 +268,7 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 <li>인스턴스를 생성할 때, 넣어준 path를 생성자에서 설정한다.</li>
 <li><code class="language-text">getEnvs()</code> 메서드 실행.</li>
 <li>config에 담긴 path를 가져와 <code class="language-text">.env*</code> 파일을 가져오고, <code class="language-text">dotenv</code> 라이브러리에 parse 메서드를 사용해 env 객체로 만들어 return.</li>
-<li><code class="language-text">vars</code> 에 새로운 객체에다가 <code class="language-text">process.evn</code> 값을 복사한다.</li>
+<li><code class="language-text">vars</code> 에 새로운 객체에다가 <code class="language-text">process.env</code> 값을 복사한다.</li>
 <li><code class="language-text">vars[key] = value</code> 를 통해 파싱 한 값을 집어넣어 return.</li>
 </ol>
 <p>즉, dotenv-webpack은 단순히 <code class="language-text">.env</code> 값을 path로 받아 파싱 한다.</p>
@@ -721,8 +721,8 @@ console<span class="token punctuation">.</span><span class="token function">log<
 </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre></div>
 <p>하지만, Node.js 환경에서는 fs와 path 라이브러리를 항상 가지고 있어야 하며, 브라우저 환경에서는 현재 실행되고 있는 스크립트가 반드시 library.js 모듈일지는 불명확했기 때문에 문제가 되었다. 따라서 TC39에 import.meta에 대한 제안이 올라왔고 구현되었다.</p>
 <p>import.meta는 비교적 최신 문법이며, 따라서 구형 브라우저에서는 동작하지 않는다. Vite는 import.meta를 사용하기 때문에 자연스럽게 <a href="https://ko.vitejs.dev/guide/#browser-support" target="_blank" rel="nofollow">구형 브라우저에서는 사용할 수 없다</a>. 하지만, <a href="https://github.com/vitejs/vite/tree/main/packages/plugin-legacy" target="_blank" rel="nofollow">@vitejs/plugin-legacy</a>를 사용한다면 가능하다.</p>
-<p>또한, Vite의 <a href="https://github.com/vitejs/vite/discussions/8132" target="_blank" rel="nofollow">discussions</a>를 보면 process.env 대신 import.meta를 사용하는 이유에 대한 답변으로 ECMAScript 모듈의 ‘새로운’ 표준이기 때문에 사용한다라는 답변이 있다. 물론  ECMAScript의 새로운 표준이기도 하지만, Vite의 번들링 과정을 돌아보면, 브라우저 자체가 모듈을 다룰 수 있도록 해, 빠른 번들링 및 모듈 교체를 위함임을 알 수 있다. 이는 Vite의 철학과도 연관되어 있다.</p>
-<p>따라서 Vite는 브라우저 환경에서 환경 변수 값을 다루고 HMR을 위해 import.meta를 활용한다. 이번에 MDN 문서도 함께 번역해 보면서 번들러가 어떻게 이를 사용하고 있는지 살펴볼 수 있는 시간이었다.</p>
+<p>또한, Vite의 <a href="https://github.com/vitejs/vite/discussions/8132" target="_blank" rel="nofollow">discussions</a>를 보면 process.env 대신 import.meta를 사용하는 이유에 대한 답변으로 ECMAScript 모듈의 ‘새로운’ 표준이기 때문에 사용한다라는 답변이 있다. 물론 import.meta는  ECMAScript의 새로운 표준이기도 하지만 Vite의 번들링 과정을 보면 브라우저 자체가 모듈을 다룰 수 있도록 해, 빠른 번들링 및 모듈 교체를 위함임을 알 수 있다. 이는 Vite의 철학과도 연관되어 있다.</p>
+<p>따라서 Vite는 브라우저 환경에서 환경 변수 값을 다루고 HMR을 위해 import.meta를 활용한다. Vite로 마이그레이션 하면서 process.env 대신, import.meta를 사용하는 이유가 궁금했다. 결과, import.meta MDN 문서도 함께 번역해 보면서 번들러가 어떻게 이를 사용하고 있는지 살펴볼 수 있는 시간이었다.</p>
 <blockquote>
 <p>참고</p>
 <ul>
