@@ -721,7 +721,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre></div>
 <p>하지만, Node.js 환경에서는 fs와 path 라이브러리를 항상 가지고 있어야 하며, 브라우저 환경에서는 현재 실행되고 있는 스크립트가 반드시 library.js 모듈일지는 불명확했기 때문에 문제가 되었다. 따라서 TC39에 import.meta에 대한 제안이 올라왔고 구현되었다.</p>
 <p>import.meta는 비교적 최신 문법이며, 따라서 구형 브라우저에서는 동작하지 않는다. Vite는 import.meta를 사용하기 때문에 자연스럽게 <a href="https://ko.vitejs.dev/guide/#browser-support" target="_blank" rel="nofollow">구형 브라우저에서는 사용할 수 없다</a>. 하지만, <a href="https://github.com/vitejs/vite/tree/main/packages/plugin-legacy" target="_blank" rel="nofollow">@vitejs/plugin-legacy</a>를 사용한다면 가능하다.</p>
-<p>또한, Vite의 <a href="https://github.com/vitejs/vite/discussions/8132" target="_blank" rel="nofollow">한 discussions</a>를 보면 process.env 대신 import.meta를 사용하는 이유에 대한 답변으로 ECMAScript 모듈의 ‘새로운’ 표준이기 때문에 사용한다라는 답변이 있다. 물론  ECMAScript의 새로운 표준이기도 하지만, Vite의 번들링 과정을 돌아보면, 브라우저 자체가 모듈을 다룰 수 있도록 해, 빠른 번들링 및 모듈 교체를 위함임을 알 수 있다. 이는 Vite의 철학과도 연관되어 있다.</p>
+<p>또한, Vite의 <a href="https://github.com/vitejs/vite/discussions/8132" target="_blank" rel="nofollow">discussions</a>를 보면 process.env 대신 import.meta를 사용하는 이유에 대한 답변으로 ECMAScript 모듈의 ‘새로운’ 표준이기 때문에 사용한다라는 답변이 있다. 물론  ECMAScript의 새로운 표준이기도 하지만, Vite의 번들링 과정을 돌아보면, 브라우저 자체가 모듈을 다룰 수 있도록 해, 빠른 번들링 및 모듈 교체를 위함임을 알 수 있다. 이는 Vite의 철학과도 연관되어 있다.</p>
 <p>따라서 Vite는 브라우저 환경에서 환경 변수 값을 다루고 HMR을 위해 import.meta를 활용한다. 이번에 MDN 문서도 함께 번역해 보면서 번들러가 어떻게 이를 사용하고 있는지 살펴볼 수 있는 시간이었다.</p>
 <blockquote>
 <p>참고</p>
