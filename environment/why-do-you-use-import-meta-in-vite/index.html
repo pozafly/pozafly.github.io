@@ -207,7 +207,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <blockquote>
 <p>※ Vite로 마이그레이션을 진행할 때도, package.json에 위와 같이 <code class="language-text">"type": "module"</code> 을 넣어주어야 하는데 Vite는 기본적으로 ESM 방식으로 동작한다.</p>
 </blockquote>
-<p>참고고, <code class="language-text">main.js</code> 파일을, <code class="language-text">main.mjs</code> 라는 확장자를 붙여주면 Node.js에서 알아서 ESM으로 동작하게 되기 때문에 package.json에 따로 붙여줄 필요는 없다.</p>
+<p>참고로, <code class="language-text">main.js</code> 파일을, <code class="language-text">main.mjs</code> 라는 확장자를 붙여주면 Node.js에서 알아서 ESM으로 동작하게 되기 때문에 package.json에 따로 붙여줄 필요는 없다.</p>
 <p>vue-cli는 @vue/cli-services 패키지 내에서 사용하고 있고, CRA 같은 경우 react-scripts 라이브러리 내부 package.json에 <code class="language-text">dotenv</code> 을 사용하고 있으며 Next.js도 내부적으로 dotenv 라이브러리를 이용해 <code class="language-text">.env</code> 파일을 가져오고 있다.</p>
 <blockquote>
 <p>※ <a href="https://nodejs.org/dist/latest-v20.x/docs/api/cli.html#--env-fileconfig" target="_blank" rel="nofollow">—env-file</a></p>
