@@ -1,16 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[Pozafly's Blog]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 15 Mar 2024 16:30:59 GMT</lastBuildDate><item><title><![CDATA[Cloudflare로 배포하는 슬랙 랜덤 추첨기 앱 만들기]]></title><description><![CDATA[재직 중인 회사에서 달에 한 번, 월간 플랫폼을 진행하고 있다. 팀에서 한 명이 무엇을 할 지 정한 뒤 기획하고, 오후…]]></description><link>https://pozafly.github.io/tools/create-a-slack-random-drawer-app-to-deploy-with-cloudflare/</link><guid isPermaLink="false">https://pozafly.github.io/tools/create-a-slack-random-drawer-app-to-deploy-with-cloudflare/</guid><pubDate>Fri, 15 Mar 2024 14:25:47 GMT</pubDate><content:encoded>&lt;p&gt;재직 중인 회사에서 달에 한 번, 월간 플랫폼을 진행하고 있다. 팀에서 한 명이 무엇을 할 지 정한 뒤 기획하고, 오후 4시부터 팀별 활동을 할 수 있는 시간이다. 항상 달마다 월간 플랫폼 기획자를 뽑아야 했다.&lt;/p&gt;
-&lt;p&gt;월간 플랫폼 기획자를 뽑아야 하는 날이 오면 당첨자 추첨 웹사이트를 찾고, 일일이 이름을 기재하고 한 명을 뽑는 일을 하고 있었다. 이 과정이 아주 번거로운 일은 아니지만, 예전부터 Slack 앱을 만들어보고 싶기도 했고 추첨 앱을 만들어두면 월간 플랫폼뿐만이 아니라 사내 다른 일을 할 때에도 활용할 수 있지 않을까 생각이 들었다.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[Pozafly's Blog]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 16 Mar 2024 02:18:34 GMT</lastBuildDate><item><title><![CDATA[Cloudflare로 배포하는 슬랙 랜덤 추첨기 앱 만들기]]></title><description><![CDATA[팀에서 달에 한 번 오후…]]></description><link>https://pozafly.github.io/tools/create-a-slack-random-drawer-app-to-deploy-with-cloudflare/</link><guid isPermaLink="false">https://pozafly.github.io/tools/create-a-slack-random-drawer-app-to-deploy-with-cloudflare/</guid><pubDate>Fri, 15 Mar 2024 14:25:47 GMT</pubDate><content:encoded>&lt;p&gt;팀에서 달에 한 번 오후 4시부터 팀별 활동을 할 수 있는 시간을 가지고 있다. 그 때마다 팀원 중 한 명을 뽑아 어떤 활동을 할지 정해야 한다. 그 한 명을 뽑는 날이 오면 당첨자 추첨 웹사이트를 찾고, 일일이 이름을 기재하고 한 명을 뽑는 일을 하고 있었다. 이 과정이 아주 번거로운 일은 아니지만, 예전부터 Slack 앱을 만들어보고 싶기도 했고 추첨 앱을 만들어두면 다른 일을 할 때에도 활용할 수 있지 않을까 생각이 들었다.&lt;/p&gt;
 &lt;p&gt;물론 Slack에는 무작위 추첨 기능이 있는 앱이 이미 존재한다. &lt;a href=&quot;https://app-luckydraw.11stcorp.com/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;lucky-draw&lt;/a&gt;라는 앱이다. 11번가에서 제작했으며, &lt;a href=&quot;https://app-luckydraw.11stcorp.com/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;AWS Lambda를 통해 배포 과정&lt;/a&gt;에 대한 글도 있다. 다만, 사용성이 조금 아쉬웠다.&lt;/p&gt;
 &lt;p&gt;추첨을 하기 위해 채널을 새로 생성해야 했고, 생성된 채널에 참여된 대상만 한정 지어 추첨할 수 있으며 매번 추첨을 위한 인원을 초대해야 한다는 점이다. 그리고, 채널을 일일이 만들지 않고, 현재 채널에서 제외하고 싶은 인원(지난주 당첨 되었던 사람)을 제외할 수 없다는 점이다.&lt;/p&gt;
 &lt;p&gt;그래서 체험 겸 Slack 앱을 만들어보기로 했다.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;※ App(앱)&lt;/p&gt;
-&lt;p&gt;앱이라는 용어는 맥락에 따라 다르게 해석할 여지가 무척 많기 때문에 아래에서 설명하는 앱에 대한 정의를 먼저 하겠다.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;데스크탑 앱 : MacOS, Windows OS, Mobile OS에 설치되는 Slack 어플리케이션 자체.&lt;/li&gt;
-&lt;li&gt;서드파티 앱 : 내가 만들 Slack 어플리케이션에 붙일 서드파티 앱. (reminder 등이 있음)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
 &lt;p&gt;코드 저장소는 아래와 같다.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://github.com/pozafly/its-you&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;main branch (Cloudflare 배포 용)&lt;/a&gt;&lt;/li&gt;
@@ -42,7 +33,7 @@
         decoding=&quot;async&quot;
       /&gt;
     &lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;위 이미지에서 보듯, 웹훅은 서로 다른 시스템 간 양방향 통신을 위한 것이다. 3가지 용어를 기억하자. (아래의 용어는 설명을 위한 용어로, 공식 용어는 아니다)&lt;/p&gt;
+&lt;p&gt;이미지에서 보듯, 웹훅은 서로 다른 시스템 간 &lt;strong&gt;양방향 통신&lt;/strong&gt;을 위한 것이다. 3가지 용어를 기억하자. (아래의 용어는 설명을 위한 용어로, 공식 용어는 아니다)&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;데스크탑 앱 (Desktop App)
 &lt;ul&gt;
@@ -54,7 +45,7 @@
 &lt;li&gt;데스크탑 앱과 우리가 만들 앱 서버를 중계해 주는 슬랙 서비스 자체 서버.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;서드파티 앱 서버 (My Third-party App Server)
+&lt;li&gt;나의 서드파티 앱 서버 (My Third-party App Server)
 &lt;ul&gt;
 &lt;li&gt;우리가 Slack 데스크탑 앱에 설치할 App 자체를 위한 서버.&lt;/li&gt;
 &lt;/ul&gt;
@@ -85,10 +76,11 @@
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;먼저 슬랙 자체 서버에 우리가 만들 서드파티 앱의 URL을 등록해야 한다. 그래야 데스크탑 앱에서 특정 이벤트가 발생하면 내가 생성한 서버로 요청을 보낼 수 있기 때문이다. 그리고, 우리가 만들 서드파티 앱을 위한 서버는 Slack 자체 서버에서 검증된 요청인지를 판단하기 위해 토큰을 생성해 등록해 두어야 한다.&lt;/p&gt;
 &lt;p&gt;데스크탑 앱에서 서드파티 앱으로 인한 이벤트가 발생하면, 슬랙 자체 서버를 거쳐 나의 서드파티 앱 서버로 이어 요청이 발생하게 되고, 나의 서버에서 token을 검증한 다음, 특정 결과를 슬랙 자체 서버로, 슬랙 자체 서버에서는 데스트탑 앱으로 다시 결과를 돌려주며 데스트탑 앱의 특정 행동을 하게끔 하는 것이다.&lt;/p&gt;
-&lt;p&gt;그렇다면 서드파티 앱을 만들기 위해 우리는 Slack 자체 서버에 웹훅을 위한 URL을 등록하고, 원하는 결과를 돌려주는 서버를 제작해서 배포하면 된다. 따라서, Slack의 서드파티 앱을 만드는 과정은 데스크탑 앱에 설치된 서드파티 앱에서 특정 이벤트가 발생하면 처리할 서버 및 serverless를 만드는 과정이다.&lt;/p&gt;
+&lt;p&gt;그렇다면 서드파티 앱을 만들기 위해 우리는 Slack 자체 서버에 웹훅을 위한 URL을 등록하고, 원하는 결과를 돌려주는 서버를 제작해서 배포하면 된다. 따라서, Slack의 서드파티 앱을 만드는 과정은 데스크탑 앱에 설치된 서드파티 앱에서 특정 이벤트가 발생하면 처리할 서버 또는 서버리스 펑션을 만드는 과정이다.&lt;/p&gt;
+&lt;blockquote&gt;
 &lt;p&gt;참고로 Slack Desktop 앱은 &lt;a href=&quot;https://slack.engineering/building-hybrid-applications-with-electron/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;Electron&lt;/a&gt;으로 만들어져있고, 크로미움 엔진으로 구동되기 때문에 개발자 도구를 켤 수 있다. 맥에서 Slack의 개발자 도구를 켜기 위해서는 아래와 같은 명령어를 터미널에 입력해 주면 된다. (&lt;a href=&quot;https://www.reddit.com/r/Slack/comments/955dro/how_do_i_open_the_chromium_developer_tools_in_the/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;출처&lt;/a&gt;)&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;token assign-left variable&quot;&gt;SLACK_DEVELOPER_MENU&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;true
-&lt;span class=&quot;token function&quot;&gt;open&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-a&lt;/span&gt; /Applications/Slack.app&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token builtin class-name&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;token assign-left variable&quot;&gt;SLACK_DEVELOPER_MENU&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;true
+$ &lt;span class=&quot;token function&quot;&gt;open&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-a&lt;/span&gt; /Applications/Slack.app&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;Command&lt;/code&gt; + &lt;code class=&quot;language-text&quot;&gt;Option&lt;/code&gt; + &lt;code class=&quot;language-text&quot;&gt;I&lt;/code&gt; 를 눌러 다음과 같이 개발자 도구를 둘러보자.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
@@ -115,6 +107,8 @@
         decoding=&quot;async&quot;
       /&gt;
     &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;개발자 도구에서 Network 탭을 보면 어떤 주소로 데스크탑 앱이 요청을 보내는지 알 수 있다.&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;br/&gt;
 &lt;h2 id=&quot;Slack-서드파티-앱-생성-및-세팅&quot; style=&quot;position:relative;&quot;&gt;Slack 서드파티 앱 생성 및 세팅&lt;a href=&quot;#Slack-%EC%84%9C%EB%93%9C%ED%8C%8C%ED%8B%B0-%EC%95%B1-%EC%83%9D%EC%84%B1-%EB%B0%8F-%EC%84%B8%ED%8C%85&quot; aria-label=&quot;Slack 서드파티 앱 생성 및 세팅 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;먼저 테스트 할 워크스페이스를 생성해 두는 것이 좋다. 나 같은 경우는 블로그 CI/CD 파이프라인 중에 빌드가 완료되면 알림을 받을 워크스페이스가 미리 생성되어 있었으므로 이곳을 활용할 것이다.&lt;/p&gt;
@@ -173,8 +167,29 @@
 &lt;p&gt;위와 같은 scope을 설정해 주었다.&lt;/p&gt;
 &lt;h3 id=&quot;Slack-Bot-Token-및-Signing-Secret&quot; style=&quot;position:relative;&quot;&gt;Slack Bot Token 및 Signing Secret&lt;a href=&quot;#Slack-Bot-Token-%EB%B0%8F-Signing-Secret&quot; aria-label=&quot;Slack Bot Token 및 Signing Secret permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Slcak Bot Token을 얻기 위해서는 먼저 데스트탑 앱에 우리 서드파티 앱을 설치해야 한다. 스크롤을 조금 올리면 ‘OAuth Tokens for Your Workspace’  란에 ‘Install to Workspace’ 버튼을 눌러준다.&lt;/p&gt;
-&lt;p&gt;![Install to Workspace](../img/tools/create-a-slack-random-drawer-app-to-deploy-with-cloudflare/Install to Workspace.png)&lt;/p&gt;
-&lt;p&gt;그러면, 아래 사진과 같이 scope에서 설정한 권한을 묻는 페이지가 나타나고, 허용을 눌러주면 데스트탑 앱에 서드파티 앱이 설치된다. 그리고 다시 웹 페이지로 돌아와 보면 ‘Bot User OAuth Token’이 생성된 것을 볼 수 있다. 이 녀석을 잘 가지고 있자.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1438px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 83.39999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAARCAYAAADdRIy+AAAACXBIWXMAABYlAAAWJQFJUiTwAAACIUlEQVR42p1TiW7iUAzk/z9tQaBKhVCuEEgg5IDcgVyzHpegUlXqsk+a+DlO/OzxvMHb2xuGwyHG4zGm71MM/wwxmUwUo9EIYRiiqiqUZYnr9forBsfjEbZt43A4IPAD0Ofedmx9n+c52rZFXdeauGkaxe12+xEDBouiUPAEJuCeQVaVZZkijmP1kyRRdF2H74u5Bjx1vV5jNpupNQwDi8UCm80Gc9mvViuY2y3m8zm2Yhk3ZoYeqhXXzVPlmtBxHFiWpUm2W0t/ZJLNxoQl/sE5YL/fa5w0MM6Dlssldrud2iAItGppuUYSRfA9TwcQxDn8uBQUcKMc16pWDvsKyCUt3/Wg/2g5Lit4eYW8FP6Eq6IgbzmSNBWuUqRi2R55JL/0id7vweo0oZddYeeNfmBJK/a9tbNUyw85AMZoUz3k2e/xSFhWDc5SSRJHD3LZFlv518Vkj4Rd18I0TUxlyj0X/7s04SuVfK3mOx4J+TifzwpOOrpcpP1YhUycw89YJJRQ+L9WWIsstjKEj+UKa9PCfLFSCqg1Cp0ip5Ap7NPppPzyFj3dYVFIVVf3hPJBJJWESQ5PtBekV/jhRX8mXNeFd/Lg+75eAN5z9+hqTDuQ6qlfTpr0DdqyQGQucVp+wDHe4S4MRLsNsuiCjLq7y+Sr/mh/av9zKJn8sDPhy5XyLBOn/Q750QbKvB/Da1Ou5KQmidAKujRW24glFa+COv4L8ucaIlxvFJEAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;install-to-workspace&quot;
+        title=&quot;&quot;
+        src=&quot;/static/b782961bb9eb8be161b251919f74e1a7/e9562/install-to-workspace.png&quot;
+        srcset=&quot;/static/b782961bb9eb8be161b251919f74e1a7/0eb09/install-to-workspace.png 500w,
+/static/b782961bb9eb8be161b251919f74e1a7/1263b/install-to-workspace.png 1000w,
+/static/b782961bb9eb8be161b251919f74e1a7/e9562/install-to-workspace.png 1438w&quot;
+        sizes=&quot;(max-width: 1438px) 100vw, 1438px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;아래와 같이 scope에서 설정한 권한을 묻는 페이지가 나타나고, 허용을 눌러주면 데스트탑 앱에 서드파티 앱이 설치된다. 그리고 다시 웹 페이지로 돌아와 보면 ‘Bot User OAuth Token’이 생성된 것을 볼 수 있다. 이 녀석을 잘 가지고 있자.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1318px; &quot;
@@ -325,7 +340,7 @@ dotenv&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span cla
       /&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;그리고 반드시 하단 우측에 ‘Save’ 버튼을 눌러 등록해 주는 것을 잊지 말자.&lt;/p&gt;
-&lt;p&gt;이제 Slack 데스크톱 앱에서 &lt;code class=&quot;language-text&quot;&gt;/random&lt;/code&gt; 을 입력하고 enter를 치면 Ngrok을 켜둔 터미널에 log가 잘 찍히는지 확인한다.&lt;/p&gt;
+&lt;p&gt;이제 Slack 데스크탑 앱에서 &lt;code class=&quot;language-text&quot;&gt;/random&lt;/code&gt; 을 입력하고 enter를 치면 Ngrok을 켜둔 터미널에 log가 잘 찍히는지 확인한다.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1810px; &quot;
@@ -348,7 +363,7 @@ dotenv&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span cla
         decoding=&quot;async&quot;
       /&gt;
     &lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;하지만, 데스크톱 앱에는 error가 찍히는데 잘 동작한 것이니 걱정하지 말자.&lt;/p&gt;
+&lt;p&gt;하지만, 데스크탑 앱에는 error가 찍히는데 잘 동작한 것이니 걱정하지 말자.&lt;/p&gt;
 &lt;br/&gt;
 &lt;h2 id=&quot;서드파티-앱-개발&quot; style=&quot;position:relative;&quot;&gt;서드파티 앱 개발&lt;a href=&quot;#%EC%84%9C%EB%93%9C%ED%8C%8C%ED%8B%B0-%EC%95%B1-%EA%B0%9C%EB%B0%9C&quot; aria-label=&quot;서드파티 앱 개발 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;먼저 서드파티 앱의 동작을 기획해 보았다.&lt;/p&gt;
@@ -755,8 +770,9 @@ app&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=
 &lt;p&gt;&lt;a href=&quot;https://github.com/seratch/slack-cloudflare-workers&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;slack-cloudflare-workers&lt;/a&gt; 라는 라이브러리이다.&lt;/p&gt;
 &lt;br/&gt;
 &lt;h3 id=&quot;Cloudflare-개발-환경-설정&quot; style=&quot;position:relative;&quot;&gt;Cloudflare 개발 환경 설정&lt;a href=&quot;#Cloudflare-%EA%B0%9C%EB%B0%9C-%ED%99%98%EA%B2%BD-%EC%84%A4%EC%A0%95&quot; aria-label=&quot;Cloudflare 개발 환경 설정 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;&lt;a href=&quot;https://developers.cloudflare.com/workers/wrangler/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;wrangler&lt;/a&gt;는 Cloudflare 제품을 개발하기 위한 CLI다. Cloudflare Workers에 올라갈 소스를 관리하고 배포하기 위해서 필요하다. npm으로 전역에 설치할 수도 있지만, 우리는 헤비 하지 않게 개발 모드 및 배포에만 사용할 것이므로 local devDependency로만 설치하도록 하자. 그리고 slack-cloudflare-workers 라이브러리도 설치하자.&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; i &lt;span class=&quot;token parameter variable&quot;&gt;-D&lt;/span&gt; wrangler@latest slack-cloudflare-workers&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;a href=&quot;https://developers.cloudflare.com/workers/wrangler/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;wrangler&lt;/a&gt;는 Cloudflare 제품을 개발하기 위한 CLI다. Cloudflare Workers에 올라갈 소스를 관리하고 배포하기 위해서 필요하다. 환경변수를 wrangler를 통해 Cloudflare에 등록해야 하는데, 그렇게 하기 위해서는 전역에 설치해야 한다. 그리고 로컬 명령어도 필요하기 때문에 wrangler와 slack-cloudflare-workers 라이브러리는 로컬에 설치하자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; i &lt;span class=&quot;token parameter variable&quot;&gt;-g&lt;/span&gt; wrangler@latest
+$ &lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; i &lt;span class=&quot;token parameter variable&quot;&gt;-D&lt;/span&gt; wrangler@latest slack-cloudflare-workers&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;package.json에 wrangler cli 명령어를 적어둔다.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// package.json&lt;/span&gt;
 &lt;span class=&quot;token property&quot;&gt;&quot;scripts&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
@@ -769,6 +785,7 @@ SLACK_SIGNING_SECRET=...&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;그리고 아래 명령어를 통해 cli에 환경 변수를 저장할 수 있도록 해주자.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ wrangler secret put SLACK_SIGNING_SECRET
 $ wrangler secret put SLACK_BOT_TOKEN&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이 명령어는 &lt;code class=&quot;language-text&quot;&gt;.dev.vars&lt;/code&gt; 파일에 있는 환경 변수를 로컬에서 wrangler 명령어로 실행한 Workers에 환경변수를 등록시켜준다.&lt;/p&gt;
 &lt;p&gt;app.ts에 가장 기본이 되는 소스를 넣고 실행시킬 것이다.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;ts&quot;&gt;&lt;pre class=&quot;language-ts&quot;&gt;&lt;code class=&quot;language-ts&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Env&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
 
@@ -804,7 +821,7 @@ $ wrangler secret put SLACK_BOT_TOKEN&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
         decoding=&quot;async&quot;
       /&gt;
     &lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;그러면 이 녀석을 Ngrok에서 터널링 해주었던 것처럼 터널링 해주어야 한다. cloudflare에서 제공하는 &lt;code class=&quot;language-text&quot;&gt;cloudflared&lt;/code&gt; 패키지를 사용해도 되지만, 우리는 이전에 Ngrok에서 고정 URL을 받았기 때문에 굳이 cloudflared를 사용하지 않아도 상관없다. 설치하고 싶다면 &lt;code class=&quot;language-text&quot;&gt;brew install cloudflare/cloudflare/cloudflared&lt;/code&gt; 로 설치하고 &lt;a href=&quot;https://developers.cloudflare.com/1.1.1.1/encryption/dns-over-https/dns-over-https-client/#cloudflared&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;공식 문서&lt;/a&gt;를 참조하여 터널링 해주면 된다. Ngrok port를 8787로 수정하여 터널링 해주자.&lt;/p&gt;
+&lt;p&gt;그러면 이 녀석을 Ngrok에서 터널링 해주었던 것처럼 터널링 해주어야 한다. cloudflare에서 제공하는 &lt;code class=&quot;language-text&quot;&gt;cloudflared&lt;/code&gt; 패키지를 사용해도 되지만, 우리는 이전에 Ngrok에서 고정 URL을 받았기 때문에 굳이 cloudflared를 사용하지 않아도 상관없다. 설치하고 싶다면 &lt;code class=&quot;language-text&quot;&gt;brew install cloudflare/cloudflare/cloudflared&lt;/code&gt; 로 설치하고 &lt;a href=&quot;https://developers.cloudflare.com/1.1.1.1/encryption/dns-over-https/dns-over-https-client/#cloudflared&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;공식 문서&lt;/a&gt;를 참고하여 터널링 해주면 된다. Ngrok port를 8787로 수정하여 터널링 해주자.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ ngrok http &lt;span class=&quot;token parameter variable&quot;&gt;--domain&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;perfect-noticeably-escargot.ngrok-free.app &lt;span class=&quot;token number&quot;&gt;8787&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;br/&gt;
 &lt;h3 id=&quot;Cloudflare-workers로-마이그레이션&quot; style=&quot;position:relative;&quot;&gt;Cloudflare workers로 마이그레이션&lt;a href=&quot;#Cloudflare-workers%EB%A1%9C-%EB%A7%88%EC%9D%B4%EA%B7%B8%EB%A0%88%EC%9D%B4%EC%85%98&quot; aria-label=&quot;Cloudflare workers로 마이그레이션 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
@@ -903,7 +920,9 @@ $ wrangler secret put SLACK_BOT_TOKEN&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token table class-name&quot;&gt;vars&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
 &lt;span class=&quot;token key property&quot;&gt;SLACK_BOT_TOKEN&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;...&quot;&lt;/span&gt;
 &lt;span class=&quot;token key property&quot;&gt;SLACK_SIGNING_SECRET&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;...&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;vars에는 Workers 내부에 코드를 참조할 수 있는 환경 변수다. 배포할 때마다 Workers의 함수는 변경되고, 빌드 시 생성될 환경 변수가 날아가므로 명시해 주면 문제없이 동작한다. Cloudflare 대시보드로 돌아가 보면 Workers가 하나 띄워져 있는 것을 볼 수 있다. Workers를 클릭하고, 상단의 Triggers 탭으로 가면 이렇게 Workers의 공식 URL을 받을 수 있다.&lt;/p&gt;
+&lt;p&gt;vars에는 Workers 내부에 코드를 참조할 수 있는 환경 변수다. 배포할 때마다 Workers의 함수는 변경되고, 빌드 시 생성될 환경 변수가 날아가므로 명시해 주면 문제없이 동작한다. 이제 아래의 배포 스크립트를 실행하면 된다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; run deployment&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Cloudflare 대시보드로 돌아가 보면 Workers가 하나 띄워져 있는 것을 볼 수 있다. Workers를 클릭하고, 상단의 Triggers 탭으로 가면 이렇게 Workers의 공식 URL을 받을 수 있다.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1212px; &quot;
