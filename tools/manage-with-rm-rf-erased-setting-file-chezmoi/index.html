@@ -568,7 +568,7 @@ defaults <span class="token parameter variable">-currentHost</span> <span class=
 <h2 id="마치며" style="position:relative;">마치며<a href="#%EB%A7%88%EC%B9%98%EB%A9%B0" aria-label="마치며 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
 <p><code class="language-text">rm -rf ~</code> 라는 명령어로 시작해 plist까지 맥 운영체제가 어떤 방식으로 설정 파일들을 관리하고 있는지 알아봤다. 맥 OS가 darwin 운영체제 위에서 돌아가는 것과, 모든 어플리케이션을 설정할 때 설정값들을 컴퓨터의 파일에 저장해두고 구동 시 설정 파일을 읽어 적용하는 사실을 알게 되었다.</p>
 <p>프로그램의 매직은 사실 뒤에서 돌아가고 있는 것이 이렇게 많다는 것을 알 수 있는 시간이었다. 그리고 컴퓨터는 단지 연산과 I/O 작업만 하는 기계라는 생각도 동시에 든다.</p>
-<p>그리고 사실 chezmoi의 공식 문서는 생각보다 읽기 어려웠다. 삽질을 많이 했고 템플릿에 적응하기도 쉽지 않았다. 특히 plist를 정석대로 관리하고, chezmoi diff 명령어에 걸리지 않게 하고 싶어 무척이나 많은 시간을 날렸다. 결국 우회한 방법을 사용하긴 했지만.. 물론 가볍게 사용하려면 add, apply 정도만 알아도 무난하게 사용할 수 있을 것이다.</p>
+<p>그리고 사실 chezmoi의 공식 문서는 생각보다 읽기 어려웠다. 삽질을 많이 했고 템플릿에 적응하기도 쉽지 않았다. 특히 plist를 정석대로 관리하고, chezmoi diff 명령어에 걸리지 않게 하고 싶어 무척이나 많은 시간을 날렸다. 결국 우회한 방법을 사용하긴 했지만.. 물론 chezmoi를 가볍게 사용하려면 <code class="language-text">$ chezmoi add</code>, <code class="language-text">$ chezmoi apply</code> 정도만 알아도 무난하게 사용할 수 있을 것이다.</p>
 <p>chezmoi를 사용하면서 회사에서 신규 입사자가 오면 chezmoi를 통해 필수 어플리케이션을 설치하고, 설정해 주면 시간을 아끼고 체크해야 하는 시간을 줄일 수 있겠다는 생각을 했다. 특히 Brewfile을 잘 이용하면 좋겠다고 생각했다.</p>
 <br/>
 <blockquote>
