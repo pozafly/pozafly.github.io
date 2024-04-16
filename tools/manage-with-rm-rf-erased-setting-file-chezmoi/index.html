@@ -114,6 +114,27 @@
 <p>튜토리얼을 따라 해보다가 잘못해서 <code class="language-text">~</code> 라는 폴더를 home에 만들게 되었다. <code class="language-text">~/~</code> 경로가 생성된 것이다. 홈 경로에서 작업하고 있었고, 쓸모없는 디렉토리가 만들어졌으니 별생각 없이 <code class="language-text">rm -rf ~</code> 라는 명령어를 쳤다.</p>
 <p><code class="language-text">rm -rf</code> 명령어는 제거하라(<code class="language-text">rm</code>)는 명령어에 재귀적으로(<code class="language-text">-rf</code>) 라는 옵션이 붙은 명령어이다. 따라서 사용자의 홈 디렉터리와 그 하위에 있는 모든 파일과 디렉터리를 강제로 삭제하게 된다. 하지만 아무것도 들어있지 않은 디렉토리를 제거하기에는 생각보다 시간이 오래걸렸고, 어떤 권한까지 물어보는 것이었다.</p>
 <p>갸우뚱하다가 실수한 것을 깨닫게 되었다. 내가 home 디렉토리를 지금 날리고 있구나. 얼른 명령어를 취소시켰다. 하지만 이미 컴퓨터의 대부분의 자료가 날아간 상태였다. 컴퓨터를 재부팅했더니 맥북을 처음 샀을 때 한껏 들뜨게 만들었던 맥 초기 화면이 나를 기다리고 있었다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 600px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 61.199999999999996%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsSAAALEgHS3X78AAACtUlEQVR42m2Ry08TURjF70xLC21nmE7oUIcytLRVWizlWYhSTRRQwyMpkUQhbSmmEMAEJVihlikgQojGx96l/hkmbnVl3BvW7llMxsXxK8+aeJOTO/fx/b5z7jBGYyA59CS7Ukb+2e5Rfm3HmF/bIunGUuFEQ+NTxvDYfWNxtWgsr64bG6WScbC/bbzZ3zI+HOwcvd0rYeLerRV2NnwdN/RISkdssmQmJh9jYHwG3aNpdE3MI5FaQHIqj4nMPLLzi1hYWsba2lO8KBawXihgr6ybH9/vITV6e/McqGq+zXC0BcFggxlotkNxM9icFggeAU1+AaE2F3riTgyS4hEZWkiDSw3D5rkCt3b1T7SzF61hf+kc2OYX9WSUR2cLM8ONDF6BwVHD4HEytHoYYhqrnKGD5rDK0OThYHfYwbh6MF42+RoPJKnhwqFfFfWYZkGnxpn9AQ7XWhmuk0Y6BNyNKxgMWJAdi+BmzI0QNbjs5dBMKQRqaLfzpuCsgyzLVUCvqLerPKJeZvaSi5EIjzshho3cLbwuPsL6QgrvXj5HYXEG48kYghJBFQ5BhSHayMxEEw9NES+AiiTqQg0PnjFTobidPopH0eMhFX3dcQz0J9Db3obhvi50aQ0IuhjaKHb0Et0hYLubhypXASVR1K08D/o0HXYGycFg5Vhl/Y/sJK+NISCSKHKEmvb4mBmldN5qhyIB+VNgNYDjOFT2T2YO7loeSh0HTz2BZQY/RY8o5FCjyGoVUJalstVqqRSalcJqVWA2m+1YisBBFTlItQR1cfA6aO3kzGbZAs0rlascuv7r8EzHLnkL6qwM9RSZ3ho2ktNCf9rKTJHeXxZPHf74/mVyd6v4OZt+8HsuM/0rl54+PNNs+uHh3OzMYX4uc6xcZuZ4L5epnJ2KajJU+2q7+Onnt6+pvz+1M4T6Q6F8AAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="mac-init"
+        title=""
+        src="/static/682e5a56a78abb147e2c73dbbb1f44d8/dface/mac-init.png"
+        srcset="/static/682e5a56a78abb147e2c73dbbb1f44d8/0eb09/mac-init.png 500w,
+/static/682e5a56a78abb147e2c73dbbb1f44d8/dface/mac-init.png 600w"
+        sizes="(max-width: 600px) 100vw, 600px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
 <br/>
 <h2 id="chezmoi" style="position:relative;">chezmoi<a href="#chezmoi" aria-label="chezmoi permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
 <p>이전에 dotfiles의 존재를 어렴풋이 알고 있었다. dotfiles는 <code class="language-text">.</code> 으로 시작하는 숨김 처리된 파일이다. <code class="language-text">.git</code> 같은 파일은 맥의 Finder를 통해 디렉토리를 살펴보면 보이지 않는 숨김 처리된 파일이다. dotfiles 중에서도 어떤 프로그램의 설정값이나, 컴퓨터 전체의 설정값을 저장하고 있는 파일을 말한다.</p>
