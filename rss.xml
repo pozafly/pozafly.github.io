@@ -1,4 +1,477 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[Pozafly's Blog]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 12 Apr 2024 12:32:07 GMT</lastBuildDate><item><title><![CDATA[Cloudflare로 배포하는 슬랙 랜덤 추첨기 앱 만들기]]></title><description><![CDATA[팀에서 달에 한 번 오후…]]></description><link>https://pozafly.github.io/tools/create-a-slack-random-drawer-app-to-deploy-with-cloudflare/</link><guid isPermaLink="false">https://pozafly.github.io/tools/create-a-slack-random-drawer-app-to-deploy-with-cloudflare/</guid><pubDate>Fri, 15 Mar 2024 14:25:47 GMT</pubDate><content:encoded>&lt;p&gt;팀에서 달에 한 번 오후 4시부터 팀별 활동을 할 수 있는 시간을 가지고 있다. 그 때마다 팀원 중 한 명을 뽑아 어떤 활동을 할지 정해야 한다. 그 한 명을 뽑는 날이 오면 당첨자 추첨 웹사이트를 찾고, 일일이 이름을 기재하고 한 명을 뽑는 일을 하고 있었다. 이 과정이 아주 번거로운 일은 아니지만, 예전부터 Slack 앱을 만들어보고 싶기도 했고 추첨 앱을 만들어두면 다른 일을 할 때에도 활용할 수 있지 않을까 생각이 들었다.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[Pozafly's Blog]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Tue, 16 Apr 2024 14:16:23 GMT</lastBuildDate><item><title><![CDATA[rm -rf로 날린 설정 파일 chezmoi로 관리하기]]></title><description><![CDATA[가 얼마나 무서운 명령어인지 아는가? 리눅스 또는 맥 OS에서 사용자의 홈 디렉토리를 삭제하는 명령어다. 얼마 전 warp라는 터미널이 좋아 보여서 맥북에 설치하고 사용해 봤다. 터미널 클라이언트로 iTerm2를 사용한 지 오래되기도 했고 warp…]]></description><link>https://pozafly.github.io/tools/manage-with-rm-rf-erased-setting-file-chezmoi/</link><guid isPermaLink="false">https://pozafly.github.io/tools/manage-with-rm-rf-erased-setting-file-chezmoi/</guid><pubDate>Tue, 16 Apr 2024 14:25:47 GMT</pubDate><content:encoded>&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;$ rm -rf ~&lt;/code&gt; 가 얼마나 무서운 명령어인지 아는가? 리눅스 또는 맥 OS에서 사용자의 홈 디렉토리를 삭제하는 명령어다.&lt;/p&gt;
+&lt;p&gt;얼마 전 &lt;a href=&quot;https://www.warp.dev/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;warp&lt;/a&gt;라는 터미널이 좋아 보여서 맥북에 설치하고 사용해 봤다. 터미널 클라이언트로 iTerm2를 사용한 지 오래되기도 했고 warp은 AI로 명령어를 추천해 주기도 한다고 해서 구미가 당겨 사용해 보고 있었다.&lt;/p&gt;
+&lt;p&gt;튜토리얼을 따라 해보다가 잘못해서 &lt;code class=&quot;language-text&quot;&gt;~&lt;/code&gt; 라는 폴더를 home에 만들게 되었다. &lt;code class=&quot;language-text&quot;&gt;~/~&lt;/code&gt; 경로가 생성된 것이다. 홈 경로에서 작업하고 있었고, 쓸모없는 디렉토리가 만들어졌으니 별생각 없이 &lt;code class=&quot;language-text&quot;&gt;rm -rf ~&lt;/code&gt; 라는 명령어를 쳤다.&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;rm -rf&lt;/code&gt; 명령어는 제거하라(&lt;code class=&quot;language-text&quot;&gt;rm&lt;/code&gt;)는 명령어에 재귀적으로(&lt;code class=&quot;language-text&quot;&gt;-rf&lt;/code&gt;) 라는 옵션이 붙은 명령어이다. 따라서 사용자의 홈 디렉터리와 그 하위에 있는 모든 파일과 디렉터리를 강제로 삭제하게 된다. 하지만 아무것도 들어있지 않은 디렉토리를 제거하기에는 생각보다 시간이 오래걸렸고, 어떤 권한까지 물어보는 것이었다.&lt;/p&gt;
+&lt;p&gt;갸우뚱하다가 실수한 것을 깨닫게 되었다. 내가 home 디렉토리를 지금 날리고 있구나. 얼른 명령어를 취소시켰다. 하지만 이미 컴퓨터의 대부분의 자료가 날아간 상태였다. 컴퓨터를 재부팅했더니 맥북을 처음 샀을 때 한껏 들뜨게 만들었던 맥 초기 화면이 나를 기다리고 있었다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;chezmoi&quot; style=&quot;position:relative;&quot;&gt;chezmoi&lt;a href=&quot;#chezmoi&quot; aria-label=&quot;chezmoi permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;이전에 dotfiles의 존재를 어렴풋이 알고 있었다. dotfiles는 &lt;code class=&quot;language-text&quot;&gt;.&lt;/code&gt; 으로 시작하는 숨김 처리된 파일이다. &lt;code class=&quot;language-text&quot;&gt;.git&lt;/code&gt; 같은 파일은 맥의 Finder를 통해 디렉토리를 살펴보면 보이지 않는 숨김 처리된 파일이다. dotfiles 중에서도 어떤 프로그램의 설정값이나, 컴퓨터 전체의 설정값을 저장하고 있는 파일을 말한다.&lt;/p&gt;
+&lt;p&gt;홈 디렉토리를 잃거나, 맥을 새로 장만했을 때 내가 자주 사용하는 어플리케이션, 설정값들을 복원할 수 있다면 빠르게 개발 환경을 만들 수 있다. 즉, dotfiles를 잘 관리해두면 처음부터 컴퓨터의 세팅을 하지 않아도 된다.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.chezmoi.io/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;chezmoi&lt;/a&gt;라는 툴은 dotfiles를 관리해 주는 툴이다. 기본적으로 Command Line Interface(CLI)를 통해 직접 명령을 내리며 내가 관리하고 싶은 dotfiles를 지정해 주면 스냅샷을 떠서 그대로 관리해 준다. 그리고 맥, 윈도우, 리눅스 운영체제 별로 실행해야 하는 스크립트나 설정 파일을 따로 지정할 수 있고 운영 체제별로 dotfiles를 관리할 수 있다. 다른 사람에게 공개되지 않아야 하는 비밀 키도 관리할 수 있다.&lt;/p&gt;
+&lt;p&gt;chezmoi는 Go라는 프로그래밍 언어로 작성되었기 때문에 무척 빠르다. chezmoi를 사용하면서 알게 된 새로운 몇몇 툴과 가벼운 지식을 이번 글에 기록해 보고자 한다. 아래는 전부 맥 OS 기준으로 작성한다.&lt;/p&gt;
+&lt;p&gt;먼저 설치부터 해보자. homebrew를 통해 설치할 수 있다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ brew &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; chezmoi&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&quot;기본-명령어&quot; style=&quot;position:relative;&quot;&gt;기본 명령어&lt;a href=&quot;#%EA%B8%B0%EB%B3%B8-%EB%AA%85%EB%A0%B9%EC%96%B4&quot; aria-label=&quot;기본 명령어 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;h3 id=&quot;init&quot; style=&quot;position:relative;&quot;&gt;init&lt;a href=&quot;#init&quot; aria-label=&quot;init permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ chezmoi init&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;~/.local/share/chezmoi&lt;/code&gt; 경로가 생성되고, git 로컬 저장소가 생성된다. 이를 chezmoi에서는 소스 디렉토리(source directory)라고 부른다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;※ 소스 디렉토리&lt;/p&gt;
+&lt;p&gt;소스 디렉토리는 마치 git의 staging area와 비슷하다. chezmoi add 명령어로 본을 뜬 녀석은 소스 디렉토리에 저장되고 후에 알아볼 &lt;code class=&quot;language-text&quot;&gt;chezmoi apply&lt;/code&gt; 를 통해 실제 파일에 저장된다. 참고로 git add를 통해 git에게 관리되는 파일은 staging area에 저장되게 되는데, 이는 &lt;code class=&quot;language-text&quot;&gt;.git/index&lt;/code&gt; 에 바이너리 파일로 저장된다.&lt;/p&gt;
+&lt;p&gt;소스 디렉토리로 이동하는 명령어는 &lt;code class=&quot;language-text&quot;&gt;$ chezmoi cd&lt;/code&gt; 다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;add&quot; style=&quot;position:relative;&quot;&gt;add&lt;a href=&quot;#add&quot; aria-label=&quot;add permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ chezmoi &lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt; ~/.zshrc&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;zsh를 사용하고 있다면 홈디렉토리에 .zshrc 파일이 있을 것이다. 이는 zsh 설정 파일이다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;# homebrew path
+export PATH=/opt/homebrew/bin:$PATH
+
+plugins=(
+  git
+  encode64
+)
+
+# oh-my-zsh path, init
+export ZSH=&quot;$HOME/.oh-my-zsh&quot;
+source $ZSH/oh-my-zsh.sh
+
+# autosuggestions, syntax-highlighting
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# pure theme
+fpath+=(&quot;$(brew --prefix)/share/zsh/site-functions&quot;)
+autoload -U promptinit; promptinit
+prompt pure
+
+# fnm
+eval &quot;$(fnm env --use-on-cd)&quot;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;보통은 이렇게 생겼다. chezmoi add 명령어로 이 파일을 관리하겠다고 하면 소스 디렉토리(&lt;code class=&quot;language-text&quot;&gt;~/.local/share/chezmoi&lt;/code&gt;)에 &lt;code class=&quot;language-text&quot;&gt;dot_zshrc&lt;/code&gt; 파일이 생성된다. 여기서 &lt;code class=&quot;language-text&quot;&gt;dot_&lt;/code&gt; 는 &lt;code class=&quot;language-text&quot;&gt;.&lt;/code&gt; 을 의미한다. 즉 파일 명이나 디렉토리 명에서 파일의 이름을 유추할 수 있다. 이는 chezmoi의 철학이다.&lt;/p&gt;
+&lt;p&gt;현재 &lt;code class=&quot;language-text&quot;&gt;.zshrc&lt;/code&gt; 파일을 스냅샷을 떠 관리를 시작했다. 모든 내용은 복사되어 소스 디렉토리에 존재한다.&lt;/p&gt;
+&lt;h3 id=&quot;edit&quot; style=&quot;position:relative;&quot;&gt;edit&lt;a href=&quot;#edit&quot; aria-label=&quot;edit permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;.zshrc 파일을 수정해야 한다면 홈 디렉토리에 있는 &lt;code class=&quot;language-text&quot;&gt;.zshrc&lt;/code&gt; 파일을 직접 수정해도 되지만, chezmoi를 사용하면 add 명령어를 쳤을 그 시점에 가지고 있는 설정값으로 원상복구될 것이다. 따라서 edit 명령어를 통해 chezmoi의 소스 디렉토리에 있는 파일을 수정 후, 적용해 주어야 한다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ chezmoi edit ~/.zshrc&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&quot;diff&quot; style=&quot;position:relative;&quot;&gt;diff&lt;a href=&quot;#diff&quot; aria-label=&quot;diff permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;chezmoi로 dotfile을 수정했으니 이제 실제 &lt;code class=&quot;language-text&quot;&gt;~/.zshrc&lt;/code&gt; 파일에 적용해 줄 차례인데, 적용하기 전에 어떤 것이 변경되었는지 명령어를 통해 볼 수 있는데 diff 명령어를 통해 알 수 있다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ chezmoi &lt;span class=&quot;token function&quot;&gt;diff&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;diff 명령어는 파일 명을 명시해 주지 않아도 관리되고 있는 dotfiles 중에서 변경된 모든 파일의 변경사항을 보여준다.&lt;/p&gt;
+&lt;h3 id=&quot;apply&quot; style=&quot;position:relative;&quot;&gt;apply&lt;a href=&quot;#apply&quot; aria-label=&quot;apply permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;이제 적용 명령이다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ chezmoi apply &lt;span class=&quot;token parameter variable&quot;&gt;-v&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;그냥 apply만 해도 되지만, &lt;code class=&quot;language-text&quot;&gt;-v&lt;/code&gt; 옵션을 주면 적용 전에 diff를 통해 어떤 겻이 변경될 것인지 알려준다. 주로 -v(verbose) 옵션을 주어 확인 후 적용하도록 하자.&lt;/p&gt;
+&lt;h3 id=&quot;cd&quot; style=&quot;position:relative;&quot;&gt;cd&lt;a href=&quot;#cd&quot; aria-label=&quot;cd permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ chezmoi &lt;span class=&quot;token builtin class-name&quot;&gt;cd&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;터미널에서 소스 디렉토리(&lt;code class=&quot;language-text&quot;&gt;~/.local/share/chezmoi&lt;/code&gt;)로 바로 이동하는 명령어다. chezmoi가 관리하는 dotfiles를 git을 통해 버전 관리할 수 있다. 물론 GitHub에도 올릴 수 있다. 컴퓨터가 초기화되었다면 GitHub에서 이전에 관리하던 dotfiles를 그대로 내려받아 똑같은 위치에 dotfiles를 원상복구할 수 있다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;내가-관리하고-있는-것들&quot; style=&quot;position:relative;&quot;&gt;내가 관리하고 있는 것들&lt;a href=&quot;#%EB%82%B4%EA%B0%80-%EA%B4%80%EB%A6%AC%ED%95%98%EA%B3%A0-%EC%9E%88%EB%8A%94-%EA%B2%83%EB%93%A4&quot; aria-label=&quot;내가 관리하고 있는 것들 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;내 저장소는 &lt;a href=&quot;https://github.com/pozafly/dotfiles&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;pozafly/dotfiles&lt;/a&gt; 이곳이다. chezmoi를 통해 관리하고 있는 파일들이다. 가볍게 git config 파일부터 살펴보자.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h3 id=&quot;git-config&quot; style=&quot;position:relative;&quot;&gt;git config&lt;a href=&quot;#git-config&quot; aria-label=&quot;git config permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;원래 &lt;code class=&quot;language-text&quot;&gt;~/.gitconfig&lt;/code&gt; 파일이 있었다. 하지만, &lt;code class=&quot;language-text&quot;&gt;~/.config/git&lt;/code&gt; 경로에 config 파일을 생성해 설정 파일을 두어도 똑같은 역할을 한다. 레파지토리를 보면 &lt;code class=&quot;language-text&quot;&gt;dot_config/git/config.tmpl&lt;/code&gt; 파일이 있다.&lt;/p&gt;
+&lt;p&gt;tmpl이란, chezmoi의 템플릿 파일이다. tmpl은 chezmoi만의 특별한 확장자로, 템플릿 파일을 만들 수 있는데 분기문을 사용해 OS 별로 실행 명령어를 다르게 하거나 설정 파일을 다르게 할 수 있다. 또한 chezmoi 설정값을 가져와 적용하게 할 수도 있다.&lt;/p&gt;
+&lt;p&gt;예를 들어 tmpl 파일 안에 &lt;code class=&quot;language-text&quot;&gt;{{ .chezmoi.sourceDir }}&lt;/code&gt; 이런 표현식이 있다면 그 자리에는 실행 시점에 소스 디렉토리 경로(&lt;code class=&quot;language-text&quot;&gt;~/.local/share/chezmoi&lt;/code&gt;)로 대체된다. 또한 분기문은&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;toml&quot;&gt;&lt;pre class=&quot;language-toml&quot;&gt;&lt;code class=&quot;language-toml&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; if eq &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;chezmoi&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;os &lt;span class=&quot;token string&quot;&gt;&quot;darwin&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# darwin&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; else if eq &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;chezmoi&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;os &lt;span class=&quot;token string&quot;&gt;&quot;linux&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# linux&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; else &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# other operating system&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; end &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이런 방식으로 사용할 수 있다. 템플릿에서 사용하는 &lt;code class=&quot;language-text&quot;&gt;.chezmoi.&lt;/code&gt; 내부의 값은 &lt;code class=&quot;language-text&quot;&gt;$ chezmoi data&lt;/code&gt; 명령어를 통해 알아볼 수 있다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;toml&quot;&gt;&lt;pre class=&quot;language-toml&quot;&gt;&lt;code class=&quot;language-toml&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token table class-name&quot;&gt;alias&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;token key property&quot;&gt;st&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; status
+
+&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token table class-name&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;token key property&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;chezmoi&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;config&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;data&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;name | quote &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token key property&quot;&gt;email&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;chezmoi&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;config&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;data&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;email | quote &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token table class-name&quot;&gt;core&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;token key property&quot;&gt;editor&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; code --wait
+  &lt;span class=&quot;token key property&quot;&gt;precomposeunicode&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;
+  &lt;span class=&quot;token key property&quot;&gt;quotepath&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;
+  &lt;span class=&quot;token key property&quot;&gt;excludesfile&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;chezmoi&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;homeDir &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;/&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;gitignore_global
+  &lt;span class=&quot;token key property&quot;&gt;autocrlf&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; input
+
+&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token table class-name&quot;&gt;pull&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;token key property&quot;&gt;rebase&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;
+
+&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token table class-name&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;token key property&quot;&gt;defaultBranch&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; main&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이렇게 되어있다. &lt;code class=&quot;language-text&quot;&gt;{{ .chezmoi.config.data.name | quote }}&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;quote&lt;/code&gt;는 Go 템플릿에서 사용할 수 있는 “파이프라인”을 사용하는 부분이다. 파이프라인을 통해 데이터를 수정하는 함수나 명령을 적용할 수 있다. 예를 들어, 사용자의 이름이 &lt;code class=&quot;language-text&quot;&gt;O&apos;Reilly&lt;/code&gt;라면, &lt;code class=&quot;language-text&quot;&gt;quote&lt;/code&gt;를 적용하지 않은 상태에서 JSON 파일에 직접 삽입하면 문제를 일으킬 수 있다 (&lt;code class=&quot;language-text&quot;&gt;&quot;name&quot;: &quot;O&apos;Reilly&quot;&lt;/code&gt;). &lt;code class=&quot;language-text&quot;&gt;quote&lt;/code&gt;를 사용하면 이 이름이 &lt;code class=&quot;language-text&quot;&gt;&quot;O&apos;Reilly&quot;&lt;/code&gt;처럼 안전하게 인용 부호 안에 포함되어 처리된다.&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;.chezmoi.config.data&lt;/code&gt; 부분은, chezmoi의 설정 파일에 있는 데이터를 가져오겠다는 말이 된다.&lt;/p&gt;
+&lt;h4 id=&quot;chezmoi-설정-파일&quot; style=&quot;position:relative;&quot;&gt;chezmoi 설정 파일&lt;a href=&quot;#chezmoi-%EC%84%A4%EC%A0%95-%ED%8C%8C%EC%9D%BC&quot; aria-label=&quot;chezmoi 설정 파일 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;chezmoi 툴의 설정 파일이 있다. &lt;code class=&quot;language-text&quot;&gt;~/.config/chezmoi/chezmoi.toml&lt;/code&gt; 으로, toml 파일로 관리된다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;toml&quot;&gt;&lt;pre class=&quot;language-toml&quot;&gt;&lt;code class=&quot;language-toml&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token table class-name&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;token key property&quot;&gt;email&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;pozafly@gmail.com&quot;&lt;/span&gt;
+  &lt;span class=&quot;token key property&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;pozafly&quot;&lt;/span&gt;
+  &lt;span class=&quot;token key property&quot;&gt;env&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;home&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token key property&quot;&gt;encryption&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;age&quot;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token table class-name&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;token key property&quot;&gt;identity&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;/Users/pozafly/age-key.txt&quot;&lt;/span&gt;
+  &lt;span class=&quot;token key property&quot;&gt;recipient&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;age1k3dd5wtylpz6um3wz2sgyr6ek0zn4mvc8mknaf9tjdjxh7n953psf8gw40&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# chezmoi를 vscode로도 관리한다.&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token table class-name&quot;&gt;edit&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;token key property&quot;&gt;command&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;code&quot;&lt;/span&gt;
+  &lt;span class=&quot;token key property&quot;&gt;args&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;--wait&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# plist diff을 보여줄 때 바이너리가 아닌, xml로 보여줌&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token table class-name&quot;&gt;textconv&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;token key property&quot;&gt;pattern&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;**/*.plist&quot;&lt;/span&gt;
+  &lt;span class=&quot;token key property&quot;&gt;command&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;plutil&quot;&lt;/span&gt;
+  &lt;span class=&quot;token key property&quot;&gt;args&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;-convert&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;xml1&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;-o&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;-&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;-&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token table class-name&quot;&gt;git&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;#  autoCommit = true&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이곳의 &lt;code class=&quot;language-text&quot;&gt;[data]&lt;/code&gt; 부분에 명시된 이름을 가져와서 git/config 파일에 템플릿으로 넣어주는 것이다.&lt;/p&gt;
+&lt;p&gt;이 설정 파일마저도 chezmoi로 관리해 줄 수 있다. 소스 디렉토리에 &lt;code class=&quot;language-text&quot;&gt;.chezmoi.toml.tmpl&lt;/code&gt; 파일을 보자. 이마저도 템플릿 파일로 이루어져 있다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;toml&quot;&gt;&lt;pre class=&quot;language-toml&quot;&gt;&lt;code class=&quot;language-toml&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;- $email :&lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; promptStringOnce &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;email&quot;&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Email address&quot;&lt;/span&gt; -&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;- $name :&lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; promptStringOnce &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;name&quot;&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Name&quot;&lt;/span&gt; -&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;- $env :&lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; promptStringOnce &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;env&quot;&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;env (예: home | work)&quot;&lt;/span&gt; -&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token table class-name&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;token key property&quot;&gt;email&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; $email | quote &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token key property&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; $name | quote &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token key property&quot;&gt;env&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; $env | quote &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;템플릿 구문을 볼 수 있는데, &lt;code class=&quot;language-text&quot;&gt;{{- $email := promptStringOnce . &quot;email&quot; &quot;Email address&quot; -}}&lt;/code&gt; 이 부분은 무엇인가? &lt;code class=&quot;language-text&quot;&gt;chezmoi init&lt;/code&gt; 명령어로 chezmoi를 초기화할 때, cli로 email, name, env를 직접 타이핑해서 입력해 줄 수 있다.&lt;/p&gt;
+&lt;p&gt;![chezmoi init](../img/tools/manage-with-rm-rf-erased-setting-file-chezmoi/chezmoi init.png)&lt;/p&gt;
+&lt;p&gt;이런 방식으로 말이다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h3 id=&quot;git-global-ignore&quot; style=&quot;position:relative;&quot;&gt;git global ignore&lt;a href=&quot;#git-global-ignore&quot; aria-label=&quot;git global ignore permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;git이 관리하는 파일에 &lt;code class=&quot;language-text&quot;&gt;.gitignore&lt;/code&gt; 이 있지만, 로컬 컴퓨터 전체에 적용되는 global ignore도 있다. 이를 git config에서&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;toml&quot;&gt;&lt;pre class=&quot;language-toml&quot;&gt;&lt;code class=&quot;language-toml&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token table class-name&quot;&gt;core&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;token key property&quot;&gt;excludesfile&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;chezmoi&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;homeDir &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;/&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;gitignore_global
+  &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이렇게 적어줄 수 있다. macOS라면 &lt;code class=&quot;language-text&quot;&gt;.DS_Store&lt;/code&gt; 를 넣어주는 것을 추천한다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h3 id=&quot;스크립트-파일&quot; style=&quot;position:relative;&quot;&gt;스크립트 파일&lt;a href=&quot;#%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%ED%8C%8C%EC%9D%BC&quot; aria-label=&quot;스크립트 파일 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;스크립트 파일은 특정 시점에 실행되는 bash 스크립트 파일이다. 레파지토리를 살펴보면 &lt;code class=&quot;language-text&quot;&gt;.chezmoiscrips/darwin&lt;/code&gt; 내부에 &lt;code class=&quot;language-text&quot;&gt;run_once_before_01_install-packages-darwin.sh.tmpl&lt;/code&gt; 과 같은 파일이 존재한다. .chezmoiscrips는 특정 시점에 실행할 bash 스크립트가 들어있는 파일임을 디렉토리 명을 통해 chezmoi에게 알려준다. 내부에 darwin이라는 디렉토리가 있는데 이는 맥 OS 환경에서만 실행될 것임을 chezmoi에게 알려준다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;※ darwin?&lt;/p&gt;
+&lt;p&gt;darwin이란, Apple이 만든 오픈 소스 유닉스 컴퓨터 운영체제다. macOS, IOS, watchOS, iPadOS 등의 운영체제들은 모두 Darwin을 기반으로 한다. 맥에서 터미널에 &lt;code class=&quot;language-text&quot;&gt;uname&lt;/code&gt; 을 입력하면 &lt;code class=&quot;language-text&quot;&gt;Darwin&lt;/code&gt; 이 뜨는 것을 볼 수 있을 것이다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;그렇다면 &lt;code class=&quot;language-text&quot;&gt;run_once_before_01_install-packages-darwin.sh.tmpl&lt;/code&gt; 파일은 어떻게 해석해야 하나? chezmoi는 디렉토리 명 또는 파일 명을 통해 어떤 파일인지, 어떤 시점에 실행해야 하는지 알려준다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;run&lt;/code&gt; : 실행한다&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;once&lt;/code&gt; : 단 한 번만&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;before&lt;/code&gt; : 이전에&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;01&lt;/code&gt; : 순서 표기&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;install-package&lt;/code&gt; : 패키지를 설치하는 시점에&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;darwin&lt;/code&gt; : macOS에서&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;sh&lt;/code&gt; : 쉘 스크립트 파일 확장자&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;tmpl&lt;/code&gt; : chezmoi의 템플릿 파일&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;붙여 의미를 설명하면 chezmoi의 초기 설정 단계에서 macOS 시스템에 필요한 패키지를 설치하는 스크립트로 사용되며, 첫 번째 실행 시에만 작동하고, 그 이후에는 실행되지 않도록 설계되어 있다.&lt;/p&gt;
+&lt;p&gt;그럼 파일 내부를 한번 보자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;&lt;span class=&quot;token shebang important&quot;&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# If Homebrew is not installed on the system, it will be installed here&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token builtin class-name&quot;&gt;test&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;which&lt;/span&gt; brew&lt;span class=&quot;token variable&quot;&gt;)&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;then&lt;/span&gt;
+   &lt;span class=&quot;token builtin class-name&quot;&gt;printf&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;\n\n\e[33mHomebrew not found. \e[0mInstalling Homebrew...&apos;&lt;/span&gt;
+   /bin/bash &lt;span class=&quot;token parameter variable&quot;&gt;-c&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token variable&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;curl&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-fsSL&lt;/span&gt; https://raw.githubusercontent.com/Homebrew/install/master/install.sh&lt;span class=&quot;token variable&quot;&gt;)&lt;/span&gt;&lt;/span&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt;
+  &lt;span class=&quot;token builtin class-name&quot;&gt;printf&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;\n\n\e[0mHomebrew found. Continuing...&apos;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;fi&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# If Oh-my-zsh is not installed on the system, it will be installed here&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;token environment constant&quot;&gt;$HOME&lt;/span&gt;/.oh-my-zsh &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;then&lt;/span&gt;
+  &lt;span class=&quot;token builtin class-name&quot;&gt;printf&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;\n\n\e[33mOh-my-zsh not found. \e[0mInstalling Oh-my-zsh...&apos;&lt;/span&gt;
+  &lt;span class=&quot;token function&quot;&gt;sh&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-c&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token variable&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;curl&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-fsSL&lt;/span&gt; https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh&lt;span class=&quot;token variable&quot;&gt;)&lt;/span&gt;&lt;/span&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt;
+  &lt;span class=&quot;token builtin class-name&quot;&gt;printf&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;\n\n\e[0mOh-my-zsh found. Continuing...&apos;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;fi&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Update homebrew packages and apps&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;printf&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;\nInitiating Homebrew update...\n&apos;&lt;/span&gt;
+brew bundle --no-lock &lt;span class=&quot;token parameter variable&quot;&gt;--file&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;{{ .chezmoi.sourceDir }}/Brewfile&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Install age dependency&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;which&lt;/span&gt; age &lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; /dev/null&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;then&lt;/span&gt;
+  &lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&apos;age&apos; is already installed. Skip installation.&quot;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt;
+  &lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&apos;age&apos; is not installed. Start installation.&quot;&lt;/span&gt;
+  brew &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; age
+  &lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Successfully installed &apos;age&apos;.&quot;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;fi&lt;/span&gt;
+
+&lt;span class=&quot;token builtin class-name&quot;&gt;printf&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;\nbefore install package 01 Done!!\n&apos;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ol&gt;
+&lt;li&gt;컴퓨터에 homebrew가 설치되어 있지 않다면 homebrew를 설치한다.&lt;/li&gt;
+&lt;li&gt;컴퓨터에 .oh-my-zsh 파일이 없다면 oh-my-zsh를 설치한다.&lt;/li&gt;
+&lt;li&gt;Brewfile에 명시된 프로그램을 설치한다(Brewfile은 밑에서 설명할 것임).&lt;/li&gt;
+&lt;li&gt;age라는 패키지가 설치되어 있지 않다면 설치한다(age 패키지는 밑에서 설명할 것임).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;br/&gt;
+&lt;h3 id=&quot;Brewfile&quot; style=&quot;position:relative;&quot;&gt;Brewfile&lt;a href=&quot;#Brewfile&quot; aria-label=&quot;Brewfile permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;맥 사용 개발자라면 brew 명령어를 통해 macOS에서 여러 파일을 설치해 봤을 것이다. &lt;code class=&quot;language-text&quot;&gt;$ brew list&lt;/code&gt; 명령어를 터미널에서 입력하면 brew를 통해 설치된 파일 리스트를 볼 수 있다. brew list는 어떤 한 패키지에서 종속성을 가지고 있다면 종속성을 가진 패키지까지 모두 설치하고, 그 리스트 모두를 보여준다. 즉, brew install 명령어로 설치된 파일 외, 컴퓨터에 homebrew로 깔린 모든 파일을 보여준다.&lt;/p&gt;
+&lt;p&gt;Brewfile이란, npm의 &lt;code class=&quot;language-text&quot;&gt;package.json&lt;/code&gt; 파일 또는 gradle의 &lt;code class=&quot;language-text&quot;&gt;build.gradle&lt;/code&gt; 파일과 같다. 즉, 종속성을 관리하는 파일이다. Brewfile을 까보면&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;tap &quot;homebrew/bundle&quot;
+brew &quot;age&quot;
+brew &quot;chezmoi&quot;
+brew &quot;fnm&quot;
+brew &quot;git&quot;
+brew &quot;mas&quot;
+brew &quot;php&quot;
+brew &quot;pnpm&quot;
+brew &quot;pure&quot;
+brew &quot;zsh&quot;
+brew &quot;zsh-autosuggestions&quot;
+brew &quot;zsh-completions&quot;
+brew &quot;zsh-syntax-highlighting&quot;
+cask &quot;alfred&quot;
+cask &quot;alt-tab&quot;
+cask &quot;appcleaner&quot;
+cask &quot;google-chrome&quot;
+cask &quot;iterm2&quot;
+cask &quot;itsycal&quot;
+cask &quot;notion&quot;
+cask &quot;openineditor-lite&quot;
+cask &quot;openinterminal-lite&quot;
+cask &quot;scroll-reverser&quot;
+cask &quot;slack&quot;
+cask &quot;sublime-text&quot;
+cask &quot;typora&quot;
+cask &quot;visual-studio-code&quot;
+mas &quot;Gifski&quot;, id: 1351639930
+mas &quot;Hidden Bar&quot;, id: 1452453066
+mas &quot;jandi&quot;, id: 1551460285
+mas &quot;Keynote&quot;, id: 409183694
+mas &quot;Magnet&quot;, id: 441258766
+mas &quot;Memory Diag&quot;, id: 748212890
+mas &quot;Numbers&quot;, id: 409203825
+mas &quot;Pages&quot;, id: 409201541
+mas &quot;PhotoScape X&quot;, id: 929507092
+mas &quot;카카오톡&quot;, id: 869223134&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이렇게 생겼다. brew, cask가 붙은 녀석들은 실제 &lt;code class=&quot;language-text&quot;&gt;brew install&lt;/code&gt; 을 통해 설치한 어플리케이션을 나타낸다. 따라서, 어플리케이션을 이렇게 관리하고 싶다면 웬만하면 brew 명령어를 통해 설치하는 것을 추천한다. 또한 brew update, brew upgrade 명령어를 통해 손쉽게 패키지를 업데이트할 수 있으므로 매우 편리하다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;※ 얼마 전 xz 패키지 이슈가 있었다.&lt;/p&gt;
+&lt;p&gt;xz 패키지는 압축 유틸리티인데, 많은 패키지에서 종속성을 가지고 있는 패키지다. &lt;a href=&quot;https://news.hada.io/topic?id=14122&amp;#x26;utm_source=slack&amp;#x26;utm_medium=bot&amp;#x26;utm_campaign=T0101GW47QQ&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;취약점이 발견되어 떠들썩했던 사건&lt;/a&gt;이다. 이때, &lt;code class=&quot;language-text&quot;&gt;$ brew update &amp;amp;&amp;amp; brew upgrade&lt;/code&gt; 명령어로 패키지를 빠르게 업데이트해준다면 취약점을 조금 더 빠르게 방지할 수도 있다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;run_once_before_01_install-packages-darwin.sh.tmpl&lt;/code&gt; 스크립트에서 &lt;code class=&quot;language-text&quot;&gt;brew bundle --no-lock --file=&quot;{{ .chezmoi.sourceDir }}/Brewfile&quot;&lt;/code&gt; 명령어로 Brewfile에 명시된 종속성을 설치하고 있다.&lt;/p&gt;
+&lt;p&gt;그렇다면 Brewfile을 생성하는 방법은 &lt;code class=&quot;language-text&quot;&gt;brew bundle dump&lt;/code&gt; 으로 생성할 수 있다. &lt;a href=&quot;https://github.com/Homebrew/homebrew-bundle&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;brew bundle&lt;/a&gt;이란, Homebrew를 위한 번들러다. 이 과정을 &lt;code class=&quot;language-text&quot;&gt;brew install ...&lt;/code&gt; 명령어를 실행하면 자동으로 dump를 뜨게 할 수는 없을까? 아쉽지만 brew bundle에서 hook 기능은 존재하지 않는다. &lt;a href=&quot;https://github.com/Homebrew/brew/issues/3933&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;이 이슈&lt;/a&gt;를 보자. 5건이나 install hook을 만들어 달라고 요청했지만 메인테이너가 이를 들어주지 않았다.&lt;/p&gt;
+&lt;p&gt;어쨌든 Brewfile에 보면 brew로 &lt;code class=&quot;language-text&quot;&gt;mas&lt;/code&gt; 를 설치하고 있고, mas 뒤에 어플리케이션 명이 적힌 것을 볼 수 있다. 이는 맥의 App Store를 통해 설치한 어플리케이션을 말한다. brew로 설치하지 않고 App Store에서 설치한 파일을 명시해두었다. 이들 또한 Brewfile에 명시가 되며 알아서 설치된다. 자세한 사항은 &lt;a href=&quot;https://github.com/mas-cli/mas&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;mac-cli&lt;/a&gt;를 통해 확인할 수 있다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h3 id=&quot;age-암호화-라이브러리&quot; style=&quot;position:relative;&quot;&gt;age (암호화 라이브러리)&lt;a href=&quot;#age-%EC%95%94%ED%98%B8%ED%99%94-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC&quot; aria-label=&quot;age 암호화 라이브러리 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;스크립트에서 &lt;a href=&quot;https://github.com/FiloSottile/age&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;age&lt;/a&gt;를 설치하고 있다. Brewfile에도 명시가 되어있지만, Brewfile을 통해 어플리케이션들을 설치한 뒤 다시 age를 확인하는 이유는 age로 외부에 노출되어서는 안되는 특정 파일을 암호화하고 있으며 이를 chezmoi로 관리하고 있기 때문이다. 즉, age는 암호화, 복호화 라이브러리다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;chezmoi의 암호화 라이브러리&lt;/p&gt;
+&lt;p&gt;chezmoi의 암호화 연동 라이브러리는  age, gpg, rage가 있다. 각각 독립적인 암호화 라이브러리고, gpg가 가장 유명해 보였다. 하지만, gpg는 복잡하고 무거운 기술을 사용한다. 나는 간편하게 공개키 전략을 사용해 비밀키와 공개키 한 쌍으로 암호화, 복호화를 하기 원했고 쉽고 가볍기를 원했다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;age를 brew로 설치했다면 아래 명령어로 먼저 공개키를 만든다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ age-keygen &lt;span class=&quot;token parameter variable&quot;&gt;-o&lt;/span&gt; &lt;span class=&quot;token environment constant&quot;&gt;$HOME&lt;/span&gt;/age-key.txt
+Public key: age1ql3z7hjy54pw3hyww5ayyfg7zqgvc7w3j2elw8zmrj2kg5sfn9aqmcac8p&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;터미널에 즉시 공개키를 알려준다. 그리고 age-key.txt가 생성되는데 이는 비밀키이다. 외부에 노출되면 안 된다. age-key.txt의 형태는 아래와 같다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;# created: 2024-04-14T13:15:05+09:00
+# public key: age1ql3z7hjy54pw3hyww5ayyfg7zqgvc7w3j2elw8zmrj2kg5sfn9aqmcac8p
+AGE-SECRET-KEY-...&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;공개키도 주석 처리되어 함께 적혀있다.&lt;/p&gt;
+&lt;p&gt;그러면, 위에서 봤던 chezmoi 설정 파일인 &lt;code class=&quot;language-text&quot;&gt;~/.config/chezmoi/chezmoi.toml&lt;/code&gt; 에서도 chezmoi에게 age를 통해 암호화하겠다고 명시해 주어야 한다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;toml&quot;&gt;&lt;pre class=&quot;language-toml&quot;&gt;&lt;code class=&quot;language-toml&quot;&gt;~/&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;config/chezmoi/chezmoi&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;toml
+
+&lt;span class=&quot;token key property&quot;&gt;encryption&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;age&quot;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token table class-name&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;token key property&quot;&gt;identity&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;/home/pozafly/age-key.txt&quot;&lt;/span&gt;
+    &lt;span class=&quot;token key property&quot;&gt;recipient&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;age1ql3z7hjy54pw3hyww5ayyfg7zqgvc7w3j2elw8zmrj2kg5sfn9aqmcac8p&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;identity&lt;/code&gt; : 앞으로 암호화하고 복호화 할 비밀키의 경로.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;recipient&lt;/code&gt; : 공개키&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;이러면 이제 &lt;code class=&quot;language-text&quot;&gt;$ chezmoi add --encrypt [파일명]&lt;/code&gt; 을 통해 암호화할 파일을 chezmoi에게 알려주어 관리할 수 있다. 암호화 한 파일은 아래와 같이 생겼다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;-----BEGIN AGE ENCRYPTED FILE-----
+YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBGNHcyMW41dXFaVjlEVGV4
+Y3MxT0RTT0hxUUw4ekN6eW1JYTMxR2RaWEdRCnZPek9WVnp4R0RVQ0FUemhYQW85
+NVNkVnJud0ttQ2Z4L1ZaYkFYQzBXam8KLS0tIHVrdlZJWmYzVzJhTGxzWE1OUUhE
+M08zUDFWRW9Bb1FiRVpTVEFxazlwc0UK9kfzYOoKK+75/heyQp2x4uzkH8y0w7CA
+qJYb4g+muRjhrRL29YpbTNIZy+U/RBa+3qAMP47+DX36TtFj0pQCJSLpKDOqSrpz
+VA3Jfriu01udMoTR5dWEKswp
+-----END AGE ENCRYPTED FILE-----&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;AWS pem 키나, GitHub의 ssh 키 등을 &lt;code class=&quot;language-text&quot;&gt;--encrypt&lt;/code&gt; 옵션을 통해 암호화할 수 있다. 이렇게 암호화된 파일은 GitHub의 public repository에 올라가도 상관없다. 비밀키는 내가 갖고 있기 때문이다. 따라서 비밀키를 안전하게 들고 있는 것이 중요하다.&lt;/p&gt;
+&lt;p&gt;mac을 백업하기 전 반드시 비밀키를 옮겨야 하는데 나는 iCloud Drive 깊숙한 곳에 미리 저장해두었다. 다시 복호화 해서 실제로 필요한 경우에는 &lt;code class=&quot;language-text&quot;&gt;chezmoi apply&lt;/code&gt; 명령어를 사용하면 저장했던 경로로 복호화 된 파일이 나타날 것이다.&lt;/p&gt;
+&lt;p&gt;ssh key뿐 아니라 일반 text 파일도 가능하니, 암호화를 원한다면 age, chezmoi를 이용해 보자.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h3 id=&quot;macos&quot; style=&quot;position:relative;&quot;&gt;.macos&lt;a href=&quot;#macos&quot; aria-label=&quot;macos permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;3번째 스크립트 파일에는 아래와 같은 명령어도 있다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sh&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; .chezmoi.sourceDir &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;/.macos&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;.macos&lt;/code&gt; 쉘 스크립트를 실행하라는 명령어다. 아래와 같이 생겼다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;&lt;span class=&quot;token shebang important&quot;&gt;#!/usr/bin/env bash&lt;/span&gt;
+
+osascript &lt;span class=&quot;token parameter variable&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;tell application &quot;System Preferences&quot; to quit&apos;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# 독 설정&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# 독 아이콘 크기 45&lt;/span&gt;
+defaults &lt;span class=&quot;token function&quot;&gt;write&lt;/span&gt; com.apple.dock &lt;span class=&quot;token string&quot;&gt;&quot;tilesize&quot;&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-int&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;45&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Finder 설정&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# 파일 확장자 모두 표시&lt;/span&gt;
+defaults &lt;span class=&quot;token function&quot;&gt;write&lt;/span&gt; NSGlobalDomain &lt;span class=&quot;token string&quot;&gt;&quot;AppleShowAllExtensions&quot;&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-bool&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;true&quot;&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# 하단 위치 표시줄 표시&lt;/span&gt;
+defaults &lt;span class=&quot;token function&quot;&gt;write&lt;/span&gt; com.apple.finder &lt;span class=&quot;token string&quot;&gt;&quot;ShowPathbar&quot;&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-bool&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;true&quot;&lt;/span&gt;
+// &lt;span class=&quot;token punctuation&quot;&gt;..&lt;/span&gt;.
+
+&lt;span class=&quot;token comment&quot;&gt;# 트랙패트 설정&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# 트랙패드 스피드 (가장 빠르게)&lt;/span&gt;
+defaults &lt;span class=&quot;token function&quot;&gt;write&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-g&lt;/span&gt; com.apple.trackpad.scaling &lt;span class=&quot;token number&quot;&gt;3&lt;/span&gt;
+// &lt;span class=&quot;token punctuation&quot;&gt;..&lt;/span&gt;.
+
+&lt;span class=&quot;token comment&quot;&gt;# 키보드 설정&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# 자동으로 대문자 시작안함&lt;/span&gt;
+defaults &lt;span class=&quot;token function&quot;&gt;write&lt;/span&gt; NSGlobalDomain NSAutomaticCapitalizationEnabled &lt;span class=&quot;token parameter variable&quot;&gt;-bool&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# 자동 수정 안함&lt;/span&gt;
+defaults &lt;span class=&quot;token function&quot;&gt;write&lt;/span&gt; NSGlobalDomain NSAutomaticSpellingCorrectionEnabled &lt;span class=&quot;token parameter variable&quot;&gt;-bool&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;
+// &lt;span class=&quot;token punctuation&quot;&gt;..&lt;/span&gt;.
+
+&lt;span class=&quot;token comment&quot;&gt;# 메뉴바&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# 배터리 잔량 표시&lt;/span&gt;
+defaults &lt;span class=&quot;token function&quot;&gt;write&lt;/span&gt; com.apple.menuextra.battery ShowPercent &lt;span class=&quot;token parameter variable&quot;&gt;-int&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# spotlight 메뉴바에서 감추기&lt;/span&gt;
+defaults &lt;span class=&quot;token parameter variable&quot;&gt;-currentHost&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;write&lt;/span&gt; com.apple.Spotlight MenuItemHidden &lt;span class=&quot;token parameter variable&quot;&gt;-int&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;
+// &lt;span class=&quot;token punctuation&quot;&gt;..&lt;/span&gt;.
+
+&lt;span class=&quot;token function&quot;&gt;killall&lt;/span&gt; Dock
+&lt;span class=&quot;token function&quot;&gt;killall&lt;/span&gt; Finder
+&lt;span class=&quot;token function&quot;&gt;killall&lt;/span&gt; SystemUIServer
+&lt;span class=&quot;token function&quot;&gt;killall&lt;/span&gt; ControlCenter&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;위의 내용은 간추린 버전이고, &lt;a href=&quot;https://github.com/pozafly/dotfiles/blob/main/.macos&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;풀버전은 이곳&lt;/a&gt;이다.&lt;/p&gt;
+&lt;p&gt;osascript는 &lt;a href=&quot;https://pozafly.github.io/tools/alfred-korean-english-converter/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;alfred의 워크플로우를 개발&lt;/a&gt;할 때 사용해 봤었다. apple script이다. &lt;code class=&quot;language-text&quot;&gt;defaults&lt;/code&gt; 로 시작하는 명령어는 맥의 설정을 cli로 조작할 수 있다. 맥을 처음부터 세팅하려면 무척이나 귀찮은 작업이다.&lt;/p&gt;
+&lt;p&gt;defaults 명령어를 모아둔 &lt;a href=&quot;https://macos-defaults.com/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;macOS defaults&lt;/a&gt;라는 곳을 많이 참고했다. 하지만 꼭 적용하고 싶지만 없는 명령어도 있으니 참고해야 한다. 더 많은 defaults 관련 DB는 &lt;a href=&quot;https://www.real-world-systems.com/docs/defaults.1.html&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;real-world-systems&lt;/a&gt;에서 찾아볼 수 있을 것이다.&lt;/p&gt;
+&lt;p&gt;참고로 마지막 줄의 &lt;code class=&quot;language-text&quot;&gt;killall&lt;/code&gt; 명령어는 defaults로 맥의 설정을 변경시켰지만 아직 적용되지 않은 구간을 재부팅 시켜줘서 적용할 수 있게 만들어준다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h3 id=&quot;plist-관리&quot; style=&quot;position:relative;&quot;&gt;plist 관리&lt;a href=&quot;#plist-%EA%B4%80%EB%A6%AC&quot; aria-label=&quot;plist 관리 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;마지막으로 plist에 대해 알아보자. 어플리케이션을 이용하면 자기 입맛대로 설정을 하기 마련이다. 대표적으로 iTerms2을 다시 설치하면 이전 설정 그대로 쓰기 위해 다시 세팅하는 과정을 반드시 거친다.&lt;/p&gt;
+&lt;p&gt;plist란, Property List로, 주로 macOS와 iOS 시스템에서 사용되는 설정 파일 형식이다. 애플리케이션의 설정, 사용자 환경 설정, 시스템 구성 정보 등을 저장하는 데 사용된다. &lt;code class=&quot;language-text&quot;&gt;plist&lt;/code&gt; 파일은 바이너리 파일로 작성되어 있는데, 일련의 과정을 거치면 XML 형식으로 볼 수 있다.&lt;/p&gt;
+&lt;p&gt;iTerms2의 plist의 형태를 한번 보자.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 220.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAsCAYAAABloJjNAAAACXBIWXMAABYlAAAWJQFJUiTwAAAEjklEQVR42qXX11JcRxAG4H0J24gogkgip2XJGQRC5AxFlaDkW/sFeCbf+NqPNuabql6fDUhV1kXvzJlz5u+/48yW7peW059n5bTyWE6z65X0x+/f0pcvh2n/4CAdHR2l4+Pj1+cv6fDwMIv56elpls+fP6f5+fks5XI5zc3NpdLi9ExanZ9MU4vjabZSTlvr62llZSXL6upqWn99Xl5ezs/GqampND09nceJiYk0MjKSBdjMzEwqXV6ep3/+/ut1w0a6urxMZ2dn6e7uLl2+zoPF3t5enn/69Cn19fWl3t7eLOYfPnzI4/b2dlZeWlteSi8vL2mqXEkzr5onJyez9hh93NPTkwGM/f39TSUUlPz88utvqbu7O7W3tzdIZ2dnjXR0dDQV72CUBgYG0sePH6tMgk29xLvvSWYIbH9/Pzt6eHg4O5gJfBPmxJzywcHBpuIdKUHe2NjIoJwvLcbHx7OMjY3lUTTNMWBWPWvroTwDitDJyUk6Pz/P0RVpEb26usp5GBGvVCppd3c3p5D51tZWWltbyykTVpTQvb+/TxcXF3njzc1NHil4enqqgnovgbHFmmsiG0ZHR/8DZDc2tG1ubma2ZGdnJ5vPDRLcO2azyGZSzMWqyX4s0r60tJRHfiLv37/PAsRzceNbUvLR0NBQznL+EPVi1Orlh4AAOBgYXzDje4A/kgzIh9FROB3r/w0omQ9eWxXfzc7OZpaRxD8FyIdMj0r5KUCpIe+w9FwstWLpFaNc9LN5TR5qjMAsAuRXTEXfXP5Zj6S21tXVVU0to+99k9uXpFYRSk5VELWtYgTM89evX6tHgPJbXFzMlYIIhhSpmswwuq3urE5t4FflZqOEVzkYYhPNQIqxCktrmaEFHyt+YwjWgL1vaWlJ7969S62trVXRfDXWaMQUVAF1CyywjXaFPuHfou+kFZ/yYXR0wOH/XMte0MoE0SYUOBqNzF5YWMiKpZbTDzgCzG0ApM0iP0Qw4rSLrsO3FEh+rAMciRqT6wGjsQJT3wLmwMcUgKg6LoBjxTJm1zAs0hYcTRYzbAgggMymhMnhBvvb2tpqGVogGGJ2fX2djwO+ZK5n5w5mTA2W5gKGUA1DL2S6F5joznEVMWKCUVxB6v0oOHxZBVRiFgDSDtCH/BSJHjVuc7T/yMkGk/nPoo9Vx+PjY3p+fs5ye3ubHh4e8prox8UJS8GIgDZNG1pFWWRtZBaRzHFlk+zmsadpYseiOrUJgMpgOj9G8+VLB1bcZ1gVJdjAkAD2kbpVXtEQzAWkeF3h92hrQJuWXrPbFwUahRYWLsAUa1HmggZAmpiETTQG5hevadFMI3W4xjvWNJis0GmO6230vaLTsRA0fZNv5Ws0iYa0EQSAceuqBwxQgECUH5OjMQCsYWjCFMDkLUARBhgVZOTfOMCqgHG480doLIIVGQJgdhwNclYMagCjO0eO1d+ri3kaOSrCGFLiiKj6ULnRQCNQm6OdFSWCwuQoP7nYUHoA+Q9gdA95Zr3+Aq+9UR6+Lv7liAO/enPgG6PW7+O3rhpx2SzeLoo3iH8BOphYFIzaQ5UAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;iTerms2-plist&quot;
+        title=&quot;&quot;
+        src=&quot;/static/509c6ae8590189777e11085f37412952/78d47/iTerms2-plist.png&quot;
+        srcset=&quot;/static/509c6ae8590189777e11085f37412952/0eb09/iTerms2-plist.png 500w,
+/static/509c6ae8590189777e11085f37412952/78d47/iTerms2-plist.png 800w&quot;
+        sizes=&quot;(max-width: 800px) 100vw, 800px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;이렇게 생겼다. plist는 맥에서 주로 ~/Library/Preperences 경로에 있다. iTerm2는 &lt;code class=&quot;language-text&quot;&gt;com.googlecode.iterm2.plist&lt;/code&gt; 라는 이름을 가지고 있다. 이 설정 파일을 chezmoi로부터 복원하면 어플리케이션 설정이 그대로 복원된다.&lt;/p&gt;
+&lt;p&gt;하지만 맥 설정인 &lt;code class=&quot;language-text&quot;&gt;com.apple...&lt;/code&gt; 로 시작하는 설정 파일은 복원했을 경우 그대로 적용이 되지 않는 경우도 있다. 나 같은 경우 단축키 활용을 많이 하는 편인데 &lt;code class=&quot;language-text&quot;&gt;com.apple.symbolichotkeys.plist&lt;/code&gt; 를 그대로 복원해도 단축키가 돌아오지 않았다. 구글링한 결과 애플 측에서 UI를 통해 명시적으로 설정하는 것을 정책으로 삼아두었다는 이야기가 있다.&lt;/p&gt;
+&lt;p&gt;단, plist는 &lt;code class=&quot;language-text&quot;&gt;chezmoi diff&lt;/code&gt; 명령어로 변경된 것을 찾을 때, diff 결과에 무척이나 자주 뜰 것이다. 어플리케이션의 마지막 창 위치를 가지고 있는 plist도 있고, update 체크 날짜를 plist에서 관리하는 어플리케이션도 있기 때문이다.&lt;/p&gt;
+&lt;p&gt;나 같은 경우는 &lt;a href=&quot;https://www.chezmoi.io/user-guide/manage-different-types-of-file/#manage-part-but-not-all-of-a-file&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;chezmoi - Handle configuration files which are externally modified&lt;/a&gt;을 보고 여러 번 따라 해봐도 제대로 적용되지가 않았다.&lt;/p&gt;
+&lt;p&gt;그래서 plist를 ignore 처리해두고 쉘 스크립트로 원할 때 백업(로컬에 저장된 plist를 chezmoi 관리 파일에 덮어씀) 하고, run_once_before… 스크립트로 맨 처음 mac에 설치할 때 복원하는 방법을 선택했다.&lt;/p&gt;
+&lt;h4 id=&quot;백업-스크립트&quot; style=&quot;position:relative;&quot;&gt;백업 스크립트&lt;a href=&quot;#%EB%B0%B1%EC%97%85-%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8&quot; aria-label=&quot;백업 스크립트 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h4&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;&lt;span class=&quot;token shebang important&quot;&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# plist 관리 (백업)&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# .chezmoiignore 파일의 내용을 백업합니다.&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;cp&lt;/span&gt; ~/.local/share/chezmoi/.chezmoiignore ~/.local/share/chezmoi/.chezmoiignore.backup
+
+&lt;span class=&quot;token comment&quot;&gt;# .chezmoiignore 파일의 내용을 비웁니다.&lt;/span&gt;
+&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; ~/.local/share/chezmoi/.chezmoiignore
+
+&lt;span class=&quot;token comment&quot;&gt;# /private_Library/private_Preferences 에 존재하는 plist 파일 이름을 가져와서&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;token for-or-select variable&quot;&gt;file&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; ~/.local/share/chezmoi/private_Library/private_Preferences/*.plist&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;do&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# 파일이 심볼릭 링크인지 확인하고, 심볼릭 링크라면 건너뜀&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-L&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token variable&quot;&gt;$file&lt;/span&gt;&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;then&lt;/span&gt;
+        &lt;span class=&quot;token builtin class-name&quot;&gt;continue&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;fi&lt;/span&gt;
+
+    &lt;span class=&quot;token comment&quot;&gt;# 파일 이름 추출&lt;/span&gt;
+    &lt;span class=&quot;token assign-left variable&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;basename&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token variable&quot;&gt;$file&lt;/span&gt;&quot;&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;)&lt;/span&gt;&lt;/span&gt;
+
+    &lt;span class=&quot;token assign-left variable&quot;&gt;new_filename&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token variable&quot;&gt;$filename&lt;/span&gt;&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;sed&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;s/^private_//&apos;&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;)&lt;/span&gt;&lt;/span&gt;
+    &lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;new_filename&apos;&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;$new_filename&lt;/span&gt;
+
+    &lt;span class=&quot;token comment&quot;&gt;# 파일을 /Library/Preferences로 복사&lt;/span&gt;
+    chezmoi &lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;~/Library/Preferences/&lt;span class=&quot;token variable&quot;&gt;$new_filename&lt;/span&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;done&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# .chezmoiignore 파일을 원래 상태로 되돌립니다.&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;cp&lt;/span&gt; ~/.local/share/chezmoi/.chezmoiignore.backup ~/.local/share/chezmoi/.chezmoiignore
+
+&lt;span class=&quot;token comment&quot;&gt;# 백업 파일을 삭제합니다.&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;rm&lt;/span&gt; ~/.local/share/chezmoi/.chezmoiignore.backup
+
+&lt;span class=&quot;token builtin class-name&quot;&gt;printf&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;\nplist backup Done!!\n&apos;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;.chezmoiignore 파일에 경로를 등록해두면 경로 하위의 파일들은 chezmoi diff, add, apply 등의 명령어에 적용되지 않기 때문에 잠시 ignore 파일을 &lt;code class=&quot;language-text&quot;&gt;.chezmoiignore.backup&lt;/code&gt; 파일로 변경시켜 둔 뒤 chezmoi add 명령어를 통해 chezmoi에 등록하고 다시 &lt;code class=&quot;language-text&quot;&gt;.chezmoiignore.backup&lt;/code&gt; 파일을 &lt;code class=&quot;language-text&quot;&gt;.chezmoiignore&lt;/code&gt; 로 원상복구 시킨다.&lt;/p&gt;
+&lt;h4 id=&quot;복원-스크립트&quot; style=&quot;position:relative;&quot;&gt;복원 스크립트&lt;a href=&quot;#%EB%B3%B5%EC%9B%90-%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8&quot; aria-label=&quot;복원 스크립트 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h4&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;&lt;span class=&quot;token shebang important&quot;&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# plist 관리&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# /private_Library/private_Preferences 에 존재하는 plist 파일 이름을 가져와서&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# /Library/Preferences로 덮어씀(복사).&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;token for-or-select variable&quot;&gt;file&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; .chezmoi.sourceDir &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;/private_Library/private_Preferences/*.plist&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;do&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# 파일이 심볼릭 링크인지 확인하고, 심볼릭 링크라면 건너뜀&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-L&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token variable&quot;&gt;$file&lt;/span&gt;&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;then&lt;/span&gt;
+        &lt;span class=&quot;token builtin class-name&quot;&gt;continue&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;fi&lt;/span&gt;
+
+    &lt;span class=&quot;token comment&quot;&gt;# 파일 이름 추출&lt;/span&gt;
+    &lt;span class=&quot;token assign-left variable&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;basename&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token variable&quot;&gt;$file&lt;/span&gt;&quot;&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;)&lt;/span&gt;&lt;/span&gt;
+
+    &lt;span class=&quot;token assign-left variable&quot;&gt;new_filename&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token variable&quot;&gt;$filename&lt;/span&gt;&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;sed&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;s/^private_//&apos;&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;)&lt;/span&gt;&lt;/span&gt;
+    &lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;new_filename&apos;&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;$new_filename&lt;/span&gt;
+
+    &lt;span class=&quot;token comment&quot;&gt;# 파일을 /Library/Preferences로 복사&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;cp&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token variable&quot;&gt;$file&lt;/span&gt;&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; .chezmoi.homeDir &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;/Library/Preferences/&lt;span class=&quot;token variable&quot;&gt;$new_filename&lt;/span&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;done&lt;/span&gt;
+
+&lt;span class=&quot;token builtin class-name&quot;&gt;printf&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;\nbefore install package 02 Done!!\n&apos;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 594px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 97.60000000000001%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAABYlAAAWJQFJUiTwAAADUUlEQVR42m2U63LaSBCF/RRbW0kcGxsHMKALkpCEJJDQhfvVBK/LtVu17/8QJ30aQ0IlP0YzGql6vj59em5q357R6FiIyznatof+YAQ/ThEmYzRln+sgyeCGCeqtLu7qTdw/tf44+O2m3uqgafQweXmD3R8gySpEaYFRMdUgg1GOOC0RjQoN+PdtDV9qT/h093gZn+/ruH34dgrIR02GF4+xfP0PXaEcDMcaOJS51490nVVzJOMK5Xyt+1yP8imy8rRv9HwNekPU2lMTdjjEaLaG6QTwZB0kqcyJUpI2lLSdINb0DcfXbBhwXC3gDYZodm18fWyQsIXHZhv+MEe5OcLxY6TlDPl0qanGWYnJcotqscF4stB3rp9NB399vrukzWCXlEnZMl1EVS6ne0rpBJFStERf0w1guaHOpCMpiajpORDnD8Kmbny6raN4N+FPTWT5UlKZY7n7rgWibrP1XudiusJ0tVNNz/+QmDrSMZeAXx+a8CcWjMAQgQN0bBc9P0K319dBurblStH6Sss106bGlif0XqDEp4BSlC/3DeRvDvzKxrhYqYar/VEqXCKVovCdGq73r7pPfUlazTfYHP7Rb5ThQnhbayBcCOGgC7MXouv0fyPsiKW4Z3sDHSRz+I/sc/3QaP8kvBXC7NiDV9hI0qlYZYLZan8x9nA8Ud0q0XGxecFcRiz6zkXbSP6hvm2R4CpgsrNhxQZ6XiIkA/jRSCutJFJZNzj5kr4zhJoz6XnoLz78mXK8teFkFoIol27IlOjcy+FHP7OarDz30mKmh+Win+X+oSjZ0UEvNTUg02AX0OgMxLRJxJlBaRVmkEkT9GXmIY/NzjWhV5owI0OCiBX6oVIwVQ4Wg6ZmUPY69WuLtU7kQxkxnp6Na8Li3ZWiWBiNF2qDxfaAQFKO01zSWmpPswjFh4XOFwVbld946BVhvzLFNga6lq8WoYHVJlIYFoGE58E9WknbUnTke7NjXxNW/7oS1NLWW+4OKGYrschB9eIo5TZai6lZrM3Lq9hqp5TMZHs43afXhKJhp99Fo22fCOVk2oItdmm9X945c4/Ejbapl8wV4fR/D+FMWq8UkpejXggkYYtRu+lyh+33N70g9sd3JSM5LwhqStv8APG9k2gNIMZUAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;managed-plists&quot;
+        title=&quot;&quot;
+        src=&quot;/static/1ce2a4094d83fa718f208297c6f5a232/d32a3/managed-plists.png&quot;
+        srcset=&quot;/static/1ce2a4094d83fa718f208297c6f5a232/0eb09/managed-plists.png 500w,
+/static/1ce2a4094d83fa718f208297c6f5a232/d32a3/managed-plists.png 594w&quot;
+        sizes=&quot;(max-width: 594px) 100vw, 594px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;이런 방식으로 chezmoi source 디렉토리에 저장된다. 하지만 자세히 보면 &lt;code class=&quot;language-text&quot;&gt;private_&lt;/code&gt; 라는 접두사가 붙어있는 것을 볼 수 있는데, 해당 파일이 민감한 정보를 포함하고 있어 보안을 강화하기 위한 경우에 자동으로 붙는다.&lt;/p&gt;
+&lt;p&gt;하지만 이 파일들은 &lt;code class=&quot;language-text&quot;&gt;/Library/Preferences&lt;/code&gt; 경로에 원래 plist로 존재할 때는 &lt;code class=&quot;language-text&quot;&gt;private_&lt;/code&gt; 접두사가 붙어버리면 제대로 적용이 되지 않기 때문에 없애주는 것도 스크립트에 포함되어 있다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;마치며&quot; style=&quot;position:relative;&quot;&gt;마치며&lt;a href=&quot;#%EB%A7%88%EC%B9%98%EB%A9%B0&quot; aria-label=&quot;마치며 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;rm -rf ~&lt;/code&gt; 라는 명령어로 시작해 plist까지 맥 운영체제가 어떤 방식으로 설정 파일들을 관리하고 있는지 알아봤다. 맥 OS가 darwin 운영체제 위에서 돌아가는 것과, 모든 어플리케이션을 설정할 때 설정값들을 컴퓨터의 파일에 저장해두고 구동 시 설정 파일을 읽어 적용하는 사실을 알게 되었다.&lt;/p&gt;
+&lt;p&gt;프로그램의 매직은 사실 뒤에서 돌아가고 있는 것이 이렇게 많다는 것을 알 수 있는 시간이었다. 그리고 컴퓨터는 단지 연산과 I/O 작업만 하는 기계라는 생각도 동시에 든다.&lt;/p&gt;
+&lt;p&gt;그리고 사실 chezmoi의 공식 문서는 생각보다 읽기 어려웠다. 삽질을 많이 했고 템플릿에 적응하기도 쉽지 않았다. 특히 plist를 정석대로 관리하고, chezmoi diff 명령어에 걸리지 않게 하고 싶어 무척이나 많은 시간을 날렸다. 결국 우회한 방법을 사용하긴 했지만.. 물론 가볍게 사용하려면 add, apply 정도만 알아도 무난하게 사용할 수 있을 것이다.&lt;/p&gt;
+&lt;p&gt;chezmoi를 사용하면서 회사에서 신규 입사자가 오면 chezmoi를 통해 필수 어플리케이션을 설치하고, 설정해 주면 시간을 아끼고 체크해야 하는 시간을 줄일 수 있겠다는 생각을 했다. 특히 Brewfile을 잘 이용하면 좋겠다고 생각했다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;blockquote&gt;
+&lt;p&gt;참고&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.chezmoi.io/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;chezmoi.io&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.appkr.dev/work-n-play/dotfiles/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;dotfiles 만들기&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://songkg7.github.io/posts/chezmoi-awesome-dotfile-manager/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;chezmoi, 세상 편리하게 dotfile 관리하기&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://zacwe.st/2021/09/14/managing-preference-plists-under-chezmoi/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;Managing preference plists under Chezmoi&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/felipecrs/dotfiles&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;felipecrs/dotfiles&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/mathiasbynens/dotfiles/blob/main/.macos&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;mathiasbynens/dotfiles - .macos&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.lazkani.io/posts/dotfiles-with-chezmoi/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;Dotfiles with Chezmoi&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;</content:encoded></item><item><title><![CDATA[Cloudflare로 배포하는 슬랙 랜덤 추첨기 앱 만들기]]></title><description><![CDATA[팀에서 달에 한 번 오후…]]></description><link>https://pozafly.github.io/tools/create-a-slack-random-drawer-app-to-deploy-with-cloudflare/</link><guid isPermaLink="false">https://pozafly.github.io/tools/create-a-slack-random-drawer-app-to-deploy-with-cloudflare/</guid><pubDate>Fri, 15 Mar 2024 14:25:47 GMT</pubDate><content:encoded>&lt;p&gt;팀에서 달에 한 번 오후 4시부터 팀별 활동을 할 수 있는 시간을 가지고 있다. 그 때마다 팀원 중 한 명을 뽑아 어떤 활동을 할지 정해야 한다. 그 한 명을 뽑는 날이 오면 당첨자 추첨 웹사이트를 찾고, 일일이 이름을 기재하고 한 명을 뽑는 일을 하고 있었다. 이 과정이 아주 번거로운 일은 아니지만, 예전부터 Slack 앱을 만들어보고 싶기도 했고 추첨 앱을 만들어두면 다른 일을 할 때에도 활용할 수 있지 않을까 생각이 들었다.&lt;/p&gt;
 &lt;p&gt;물론 Slack에는 무작위 추첨 기능이 있는 앱이 이미 존재한다. &lt;a href=&quot;https://app-luckydraw.11stcorp.com/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;lucky-draw&lt;/a&gt;라는 앱이다. 11번가에서 제작했으며, &lt;a href=&quot;https://app-luckydraw.11stcorp.com/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;AWS Lambda를 통해 배포 과정&lt;/a&gt;에 대한 글도 있다. 다만, 사용성이 조금 아쉬웠다.&lt;/p&gt;
 &lt;p&gt;추첨을 하기 위해 채널을 새로 생성해야 했고, 생성된 채널에 참여된 대상만 한정 지어 추첨할 수 있으며 매번 추첨을 위한 인원을 초대해야 한다는 점이다. 그리고, 채널을 일일이 만들지 않고, 현재 채널에서 제외하고 싶은 인원(지난주 당첨 되었던 사람)을 제외할 수 없다는 점이다.&lt;/p&gt;
 &lt;p&gt;그래서 체험 겸 Slack 앱을 만들어보기로 했다.&lt;/p&gt;
