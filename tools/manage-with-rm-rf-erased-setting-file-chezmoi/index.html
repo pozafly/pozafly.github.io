@@ -270,7 +270,26 @@ eval "$(fnm env --use-on-cd)"</code></pre></div>
 
 <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span></code></pre></div>
 <p>템플릿 구문을 볼 수 있는데, <code class="language-text">{{- $email := promptStringOnce . "email" "Email address" -}}</code> 이 부분은 무엇인가? <code class="language-text">chezmoi init</code> 명령어로 chezmoi를 초기화할 때, cli로 email, name, env를 직접 타이핑해서 입력해 줄 수 있다.</p>
-<p>![chezmoi init](../img/tools/manage-with-rm-rf-erased-setting-file-chezmoi/chezmoi init.png)</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 356px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 25.280898876404496%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAFCAYAAABFA8wzAAAACXBIWXMAABYlAAAWJQFJUiTwAAABHklEQVR42m2QW0vDQBCF+0cEn9pmk81tc9lselsLEkhbLK1VtLamVbRVEBGf/EfqfzxOtuCD+HDYmWU4881pMFuizRK0nBQsytG2U7RdEpewPEn/CRxXwXYzuH4HjpejRfOWI837V41hWEBxDbvQiDcTiNUI0e0YyeMZxM0ITSGRqVPMFitMZ0uUkwWaVoKjY/6/YRoPEYoBUUl4cQ+BGqBFhCxQpnfDLtEpIjtQhnEfUXqC+4cXMohh1ReRfg2Lco5qu8f27pkIrtEflPCCLjbbJ+z2r1hXO0znS1xeVTi/WEMPx+jpEp9f3zSXww87RqnU4LS0UWfBKRdf9AwJ45nJp+49ojuQKVP7ok/nxhCJxtv7h6kNHckhesYlfgAvVKkAKll9LAAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="chezmoi-init"
+        title=""
+        src="/static/e0c11ea1e416b2583f8c5864d87f90f0/323b2/chezmoi-init.png"
+        srcset="/static/e0c11ea1e416b2583f8c5864d87f90f0/323b2/chezmoi-init.png 356w"
+        sizes="(max-width: 356px) 100vw, 356px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
 <p>이런 방식으로 말이다.</p>
 <br/>
 <h3 id="git-global-ignore" style="position:relative;">git global ignore<a href="#git-global-ignore" aria-label="git global ignore permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>

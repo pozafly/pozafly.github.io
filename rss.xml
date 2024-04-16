@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[Pozafly's Blog]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Tue, 16 Apr 2024 14:54:08 GMT</lastBuildDate><item><title><![CDATA[rm -rf로 날린 컴퓨터, chezmoi로 관리하기]]></title><description><![CDATA[가 얼마나 무서운 명령어인지 아는가? 리눅스 또는 맥 OS에서 사용자의 홈 디렉토리를 삭제하는 명령어다. 얼마 전 warp라는 터미널이 좋아 보여서 맥북에 설치하고 사용해 봤다. 터미널 클라이언트로 iTerm2를 사용한 지 오래되기도 했고 warp…]]></description><link>https://pozafly.github.io/tools/manage-with-rm-rf-erased-setting-file-chezmoi/</link><guid isPermaLink="false">https://pozafly.github.io/tools/manage-with-rm-rf-erased-setting-file-chezmoi/</guid><pubDate>Tue, 16 Apr 2024 14:25:47 GMT</pubDate><content:encoded>&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;$ rm -rf ~&lt;/code&gt; 가 얼마나 무서운 명령어인지 아는가? 리눅스 또는 맥 OS에서 사용자의 홈 디렉토리를 삭제하는 명령어다.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[Pozafly's Blog]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Tue, 16 Apr 2024 15:18:58 GMT</lastBuildDate><item><title><![CDATA[rm -rf로 날린 컴퓨터, chezmoi로 관리하기]]></title><description><![CDATA[가 얼마나 무서운 명령어인지 아는가? 리눅스 또는 맥 OS에서 사용자의 홈 디렉토리를 삭제하는 명령어다. 얼마 전 warp라는 터미널이 좋아 보여서 맥북에 설치하고 사용해 봤다. 터미널 클라이언트로 iTerm2를 사용한 지 오래되기도 했고 warp…]]></description><link>https://pozafly.github.io/tools/manage-with-rm-rf-erased-setting-file-chezmoi/</link><guid isPermaLink="false">https://pozafly.github.io/tools/manage-with-rm-rf-erased-setting-file-chezmoi/</guid><pubDate>Tue, 16 Apr 2024 14:25:47 GMT</pubDate><content:encoded>&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;$ rm -rf ~&lt;/code&gt; 가 얼마나 무서운 명령어인지 아는가? 리눅스 또는 맥 OS에서 사용자의 홈 디렉토리를 삭제하는 명령어다.&lt;/p&gt;
 &lt;p&gt;얼마 전 &lt;a href=&quot;https://www.warp.dev/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;warp&lt;/a&gt;라는 터미널이 좋아 보여서 맥북에 설치하고 사용해 봤다. 터미널 클라이언트로 iTerm2를 사용한 지 오래되기도 했고 warp은 AI로 명령어를 추천해 주기도 한다고 해서 구미가 당겨 사용해 보고 있었다.&lt;/p&gt;
 &lt;p&gt;튜토리얼을 따라 해보다가 잘못해서 &lt;code class=&quot;language-text&quot;&gt;~&lt;/code&gt; 라는 폴더를 home에 만들게 되었다. &lt;code class=&quot;language-text&quot;&gt;~/~&lt;/code&gt; 경로가 생성된 것이다. 홈 경로에서 작업하고 있었고, 쓸모없는 디렉토리가 만들어졌으니 별생각 없이 &lt;code class=&quot;language-text&quot;&gt;rm -rf ~&lt;/code&gt; 라는 명령어를 쳤다.&lt;/p&gt;
 &lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;rm -rf&lt;/code&gt; 명령어는 제거하라(&lt;code class=&quot;language-text&quot;&gt;rm&lt;/code&gt;)는 명령어에 재귀적으로(&lt;code class=&quot;language-text&quot;&gt;-rf&lt;/code&gt;) 라는 옵션이 붙은 명령어이다. 따라서 사용자의 홈 디렉터리와 그 하위에 있는 모든 파일과 디렉터리를 강제로 삭제하게 된다. 하지만 아무것도 들어있지 않은 디렉토리를 제거하기에는 생각보다 시간이 오래걸렸고, 어떤 권한까지 물어보는 것이었다.&lt;/p&gt;
@@ -159,7 +159,26 @@ eval &quot;$(fnm env --use-on-cd)&quot;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;템플릿 구문을 볼 수 있는데, &lt;code class=&quot;language-text&quot;&gt;{{- $email := promptStringOnce . &quot;email&quot; &quot;Email address&quot; -}}&lt;/code&gt; 이 부분은 무엇인가? &lt;code class=&quot;language-text&quot;&gt;chezmoi init&lt;/code&gt; 명령어로 chezmoi를 초기화할 때, cli로 email, name, env를 직접 타이핑해서 입력해 줄 수 있다.&lt;/p&gt;
-&lt;p&gt;![chezmoi init](../img/tools/manage-with-rm-rf-erased-setting-file-chezmoi/chezmoi init.png)&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 356px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 25.280898876404496%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAFCAYAAABFA8wzAAAACXBIWXMAABYlAAAWJQFJUiTwAAABHklEQVR42m2QW0vDQBCF+0cEn9pmk81tc9lselsLEkhbLK1VtLamVbRVEBGf/EfqfzxOtuCD+HDYmWU4881pMFuizRK0nBQsytG2U7RdEpewPEn/CRxXwXYzuH4HjpejRfOWI837V41hWEBxDbvQiDcTiNUI0e0YyeMZxM0ITSGRqVPMFitMZ0uUkwWaVoKjY/6/YRoPEYoBUUl4cQ+BGqBFhCxQpnfDLtEpIjtQhnEfUXqC+4cXMohh1ReRfg2Lco5qu8f27pkIrtEflPCCLjbbJ+z2r1hXO0znS1xeVTi/WEMPx+jpEp9f3zSXww87RqnU4LS0UWfBKRdf9AwJ45nJp+49ojuQKVP7ok/nxhCJxtv7h6kNHckhesYlfgAvVKkAKll9LAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;chezmoi-init&quot;
+        title=&quot;&quot;
+        src=&quot;/static/e0c11ea1e416b2583f8c5864d87f90f0/323b2/chezmoi-init.png&quot;
+        srcset=&quot;/static/e0c11ea1e416b2583f8c5864d87f90f0/323b2/chezmoi-init.png 356w&quot;
+        sizes=&quot;(max-width: 356px) 100vw, 356px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;이런 방식으로 말이다.&lt;/p&gt;
 &lt;br/&gt;
 &lt;h3 id=&quot;git-global-ignore&quot; style=&quot;position:relative;&quot;&gt;git global ignore&lt;a href=&quot;#git-global-ignore&quot; aria-label=&quot;git global ignore permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
