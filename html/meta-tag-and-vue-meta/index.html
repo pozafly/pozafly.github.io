@@ -114,16 +114,16 @@
 <br/>
 <h2 id="Meta-tag" style="position:relative;">Meta tag?<a href="#Meta-tag" aria-label="Meta tag permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
 <p>&#x3C;meta>는 &#x3C;head>안에서 사용하는 meta data를 설정하기 위한 태그다. 여기서 <strong>meta data</strong>란, 데이터를 설명하는 데이터다.</p>
-<p>meta data를 정의하면 브라우저나 검색 엔진, 다른 웹 서비스에서 해당 웹 페이지에 대한 meta data를 토대로 분석, 페이지 최적화의 용도로 사용하게 된다. 실제 페이지에는 보여지지 않고 검색 엔진에서 읽혀지는 하나의 헤더다. SEO에 신경 써야하는 페이지들은 필수로 적용되어 있다.</p>
+<p>meta data를 정의하면 브라우저나 검색 엔진, 다른 웹 서비스에서 해당 웹 페이지에 대한 meta data를 토대로 분석, 페이지 최적화의 용도로 사용하게 된다. 실제 페이지에는 보이지 않고 검색 엔진에서 읽히는 하나의 헤더다. SEO에 신경 써야 하는 페이지들은 필수로 적용되어 있다.</p>
 <p>F12를 눌러 개발자 도구를 켠 후 Element 탭에서 &#x3C;head> 태그를 펼쳐보자. 그러면 &#x3C;meta …> 이라고 정의된 태그들이 있을 것이다. 이 녀석들은 검색 엔진에게 meta 정보를 넘겨주면서 SEO에 도움을 주게 되는 원리인 것이다.</p>
-<p>우선 vue-meta를 적용하기 전 <a href="https://velog.io/@2seunghye/HTML-meta%ED%83%9C%EA%B7%B8" target="_blank" rel="nofollow">HTML &#x3C;meta>태그</a>를 읽고오면 meta tag에 대한 전반적인 사용법에 대해 알 수 있을 것이다.</p>
+<p>우선 vue-meta를 적용하기 전 <a href="https://velog.io/@2seunghye/HTML-meta%ED%83%9C%EA%B7%B8" target="_blank" rel="nofollow">HTML &#x3C;meta>태그</a>를 읽고 오면 meta tag에 대한 전반적인 사용법에 대해 알 수 있을 것이다.</p>
 <br/>
 <br/>
 <h2 id="vue-meta-모듈" style="position:relative;">vue-meta 모듈<a href="#vue-meta-%EB%AA%A8%EB%93%88" aria-label="vue meta 모듈 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
 <h3 id="기본-개념" style="position:relative;">기본 개념<a href="#%EA%B8%B0%EB%B3%B8-%EA%B0%9C%EB%85%90" aria-label="기본 개념 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
-<p>Vue.js는 SPA로 페이지가 단 한개 뿐인 웹 어플리케이션이다. SSR 방식이었다면 페이지를 이동할 때마다 새로운 페이지를 불러오기 때문에 페이지마다 &#x3C;meta> 를 새로 정의해주면 웹 크롤러가 알아서 정보를 수집했을 것이다.</p>
+<p>Vue.js는 SPA로 페이지가 단 한 개뿐인 웹 어플리케이션이다. SSR 방식이었다면 페이지를 이동할 때마다 새로운 페이지를 불러오기 때문에 페이지마다 &#x3C;meta> 를 새로 정의해 주면 웹 크롤러가 알아서 정보를 수집했을 것이다.</p>
 <p>따라서 vue에서 vue-router로 페이지를 이동하면서 동적으로 &#x3C;meta> 를 변화시켜 주어야 했다. 어떻게 적용시킬 수 있을지 찾다가 <a href="https://www.npmjs.com/package/vue-meta" target="_blank" rel="nofollow">vue-meta</a> 라는 npm 모듈을 발견했다. react 진영에서는 <a href="https://www.npmjs.com/package/react-helmet" target="_blank" rel="nofollow">react-helmet</a>이 이 역할을 한다고 알고 있다.</p>
-<p>함께 적용해보자. 자세한 정보는 <a href="https://vue-meta.nuxtjs.org/" target="_blank" rel="nofollow">vue-meta 공식 홈페이지</a>를 참고했다.</p>
+<p>함께 적용해 보자. 자세한 정보는 <a href="https://vue-meta.nuxtjs.org/" target="_blank" rel="nofollow">vue-meta 공식 홈페이지</a>를 참고했다.</p>
 <br/>
 <h3 id="설치" style="position:relative;">설치<a href="#%EC%84%A4%EC%B9%98" aria-label="설치 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
 <div class="gatsby-highlight" data-language="shell"><pre class="language-shell"><code class="language-shell">$ <span class="token function">npm</span> <span class="token function">install</span> vue-meta <span class="token parameter variable">--save</span></code></pre></div>
@@ -137,9 +137,9 @@
 Vue<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>Meta<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
 <p><code class="language-text">Vue.use(Meta, { ... })</code> 이 사이에 몇 가지 옵션을 지정해줄 수 있다.</p>
 <ul>
-<li>keyName : String 형식, component 에서 meta를 지정해줄 때 keyName에 지정된 이름으로 부를 수 있다.</li>
+<li>keyName : String 형식, component에서 meta를 지정해 줄 때 keyName에 지정된 이름으로 부를 수 있다.</li>
 <li>attribute : String 형식, 실제적으로 meta 태그에 vue-meta를 관리한다는 attribute를 구분 값으로 심어준다.</li>
-<li>tagIDKeyName : String 형식, 이 구분 값으로 meta 태그를 새로 만들어 쌓는게 아니라 name에 따라 meta 태그를 변화시킴</li>
+<li>tagIDKeyName : String 형식, 이 구분 값으로 meta 태그를 새로 만들어 쌓는 게 아니라 name에 따라 meta 태그를 변화시킴</li>
 </ul>
 <p>아래는 default 값이다.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js">Vue<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>Meta<span class="token punctuation">,</span> <span class="token punctuation">{</span>
@@ -151,7 +151,7 @@ Vue<span class="token punctuation">.</span><span class="token function">use</spa
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
 <br/>
 <h3 id="컴포넌트에-적용" style="position:relative;">컴포넌트에 적용<a href="#%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EC%97%90-%EC%A0%81%EC%9A%A9" aria-label="컴포넌트에 적용 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
-<p>간단하게 적용해보자.</p>
+<p>간단하게 적용해 보자.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// Component.vue</span>
 <span class="token punctuation">{</span>
   <span class="token literal-property property">metaInfo</span><span class="token operator">:</span> <span class="token punctuation">{</span>
@@ -172,7 +172,7 @@ Vue<span class="token punctuation">.</span><span class="token function">use</spa
 <br/>
 <h2 id="프로젝트에-적용" style="position:relative;">프로젝트에 적용<a href="#%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%97%90-%EC%A0%81%EC%9A%A9" aria-label="프로젝트에 적용 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
 <h3 id="indexhtml" style="position:relative;">index.html<a href="#indexhtml" aria-label="indexhtml permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
-<p>이제 실제적으로 적용해보자. 먼저 public/index.html 이다. 클라이언트가 브라우저에 렌더링 되기 전 가장 먼저 받는 html 파일이다. 기본적인 틀, &#x3C;head> 그리고 &#x3C;body> 안에 &#x3C;div id=“app”>&#x3C;/div>만 있다.</p>
+<p>이제 실제로 적용해 보자. 먼저 public/index.html 이다. 클라이언트가 브라우저에 렌더링 되기 전 가장 먼저 받는 html 파일이다. 기본적인 틀, &#x3C;head> 그리고 &#x3C;body> 안에 &#x3C;div id=“app”>&#x3C;/div>만 있다.</p>
 <p>따라서, 변하지 않을 meta 태그를 미리 작성해두도록 하자.</p>
 <div class="gatsby-highlight" data-language="html"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>header</span><span class="token punctuation">></span></span>
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>utf-8<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
@@ -189,7 +189,7 @@ Vue<span class="token punctuation">.</span><span class="token function">use</spa
 
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">></span></span>Tripllo - 체계적인 계획 공유 플랫폼<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span><span class="token punctuation">></span></span></code></pre></div>
-<p>이곳에 적어준 녀석들은 &#x3C;title> 을 제외하고 전부 변하지 않을 녀석들이다. <code class="language-text">og:image</code> 같은 녀석들은 동적으로 처리해줘도 좋을 것 같다.</p>
+<p>이곳에 적어준 녀석들은 &#x3C;title> 을 제외하고 전부 변하지 않을 녀석들이다. <code class="language-text">og:image</code> 같은 녀석들은 동적으로 처리해 줘도 좋을 것 같다.</p>
 <br/>
 <h3 id="Appvue" style="position:relative;">App.vue<a href="#Appvue" aria-label="Appvue permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> defualtMeta <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@/utils/meta'</span><span class="token punctuation">;</span>
@@ -200,7 +200,7 @@ Vue<span class="token punctuation">.</span><span class="token function">use</spa
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
   <span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre></div>
-<p>위에서 봤던 <code class="language-text">metaInfo</code> 다. App.vue는 전체 어플리케이션의 Base 이므로 여기에 동적으로 변할 &#x3C;meta> 의 default 값을 정의해두자.</p>
+<p>위에서 봤던 <code class="language-text">metaInfo</code> 다. App.vue는 전체 어플리케이션의 Base이므로 여기에 동적으로 변할 &#x3C;meta> 의 default 값을 정의해두자.</p>
 <br/>
 <h3 id="utilsmetajs" style="position:relative;">utils/meta.js<a href="#utilsmetajs" aria-label="utilsmetajs permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">export</span> <span class="token keyword">const</span> defualtMeta <span class="token operator">=</span> <span class="token punctuation">[</span>
@@ -274,14 +274,14 @@ Vue<span class="token punctuation">.</span><span class="token function">use</spa
     </span></p>
 <p>자세히 보면, App.vue에 넣었던 태그는 <code class="language-text">data-vue-meta</code> 라는 녀석이 붙어있다. 가장 처음 Vue에 vue-meta를 적용할 때 main.js에 옵션을 넣을 수 있는 곳이 있었다. 그곳에 <code class="language-text">attribute</code> 를 정의할 수 있었는데 그곳의 디폴트 값은 아래와 같았다.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js">Vue<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>Meta<span class="token punctuation">,</span> <span class="token punctuation">{</span>
-  <span class="token literal-property property">attribute</span><span class="token operator">:</span> <span class="token string">'data-vue-meta'</span><span class="token punctuation">,</span> <span class="token comment">// 안적어 줘도 default로 data-vue-meta 임.</span>
+  <span class="token literal-property property">attribute</span><span class="token operator">:</span> <span class="token string">'data-vue-meta'</span><span class="token punctuation">,</span> <span class="token comment">// 안 적어 줘도 default로 data-vue-meta 임.</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
-<p>attribute 값으로 vue-meta에서 관리하겠다고 지정해주는 역할을 한다.</p>
+<p>attribute 값으로 vue-meta에서 관리하겠다고 지정해 주는 역할을 한다.</p>
 <p>만약에 index.html에서 attribute가 붙지 않은 태그가 생성되었다고 가정하고, App.vue 혹은 컴포넌트에서 meta 태그를 변화시켰다면, 기존의 index.html의 meta 태그가 변하는 것이 아니라, <code class="language-text">data-vue-meta</code> 가 붙은 새로운 meta 태그가 생성되게 된다.</p>
-<p>따라서 위와 같이 index.html에 적어준 meta 태그는 아예 고정적인 녀석이고, App.vue에 default로 넣어준 녀석은 변화 될 녀석인 것.</p>
+<p>따라서 위와 같이 index.html에 적어준 meta 태그는 아예 고정적인 녀석이고, App.vue에 default로 넣어준 녀석은 변화될 녀석인 것.</p>
 <br/>
 <h3 id="고유한-메타-데이터" style="position:relative;">고유한 메타 데이터<a href="#%EA%B3%A0%EC%9C%A0%ED%95%9C-%EB%A9%94%ED%83%80-%EB%8D%B0%EC%9D%B4%ED%84%B0" aria-label="고유한 메타 데이터 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
-<p>App.vue에서 미리 default meta 태그를 지정해준 이유는 바로 <strong>고유한 메타 데이터</strong> 때문이다. utils.meta.js 에 보면, <code class="language-text">vmid</code> 이 녀석이 붙어 있다. 이 녀석은 메타 데이터를 고유하게 만들어준다. 예를 들어 <code class="language-text">description</code> 은 모든 페이지에 대해 고유해야 하기 때문에 겹치면 안된다. <code class="language-text">vmid</code> 를 지정해주지 않으면,</p>
+<p>App.vue에서 미리 default meta 태그를 지정해 준 이유는 바로 <strong>고유한 메타 데이터</strong> 때문이다. utils.meta.js 에 보면, <code class="language-text">vmid</code> 이 녀석이 붙어 있다. 이 녀석은 메타 데이터를 고유하게 만들어준다. 예를 들어 <code class="language-text">description</code> 은 모든 페이지에 대해 고유해야 하기 때문에 겹치면 안 된다. <code class="language-text">vmid</code> 를 지정해 주지 않으면,</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// parent component</span>
 <span class="token punctuation">{</span>
   <span class="token literal-property property">metaInfo</span><span class="token operator">:</span> <span class="token punctuation">{</span>
@@ -297,7 +297,7 @@ Vue<span class="token punctuation">.</span><span class="token function">use</spa
 <div class="gatsby-highlight" data-language="html"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>utf-8<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>description<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>foo<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>description<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>bar<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span></code></pre></div>
-<p>이렇게 겹쳐서 나오게 된다. 이 때 <code class="language-text">vmid</code> 를 지정해주었을 때를 보자.</p>
+<p>이렇게 겹쳐서 나오게 된다. 이 때 <code class="language-text">vmid</code> 를 지정해 주었을 때를 보자.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// parent component</span>
 <span class="token punctuation">{</span>
   <span class="token literal-property property">metaInfo</span><span class="token operator">:</span> <span class="token punctuation">{</span>
@@ -317,7 +317,7 @@ Vue<span class="token punctuation">.</span><span class="token function">use</spa
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">data-vmid</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>description<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>description<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>bar<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span></code></pre></div>
 <p>이런 식으로 나오게 된다. 즉, 1개의 description 이 나오게 되는 것이다. 이 <code class="language-text">vmid</code> 는 main.js에서 옵션으로,</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js">Vue<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>Meta<span class="token punctuation">,</span> <span class="token punctuation">{</span>
-  <span class="token literal-property property">tagIDKeyName</span><span class="token operator">:</span> <span class="token string">'vmid'</span><span class="token punctuation">,</span> <span class="token comment">// 안적어 줘도 default로 vmid 임.</span>
+  <span class="token literal-property property">tagIDKeyName</span><span class="token operator">:</span> <span class="token string">'vmid'</span><span class="token punctuation">,</span> <span class="token comment">// 안 적어 줘도 default로 vmid임.</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
 <p>이 녀석으로 이름을 정해줄 수 있다.</p>
 <br/>
@@ -356,7 +356,7 @@ Vue<span class="token punctuation">.</span><span class="token function">use</spa
   <span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre></div>
 <p>하나의 예시를 가져왔다. 잘 보면, <code class="language-text">metaInfo: { ... }</code> 형식이 아니라, <code class="language-text">metaInfo() { return { ... } }</code> 형식이다.</p>
-<p>왜냐하면, content 에 들어갈 녀석들은 component script 부분에서 연산이 일어난 후 붙어야 하기 때문이다.</p>
+<p>왜냐하면, content에 들어갈 녀석들은 component script 부분에서 연산이 일어난 후 붙어야 하기 때문이다.</p>
 <p>이런 식으로 동적으로 meta 태그를 정의할 수 있게 되었다.</p>
 <br/>
 <br/>
@@ -371,6 +371,6 @@ Vue<span class="token punctuation">.</span><span class="token function">use</spa
           <script
             id="gatsby-chunk-mapping"
           >
-            window.___chunkMapping="{\"app\":[\"/app-06e67faf7a9a2632368e.js\"],\"component---src-pages-404-tsx\":[\"/component---src-pages-404-tsx-6f0ea016634d8aad3324.js\"],\"component---src-pages-about-tsx\":[\"/component---src-pages-about-tsx-e451ce3e8aef4de941c8.js\"],\"component---src-pages-tags-tsx\":[\"/component---src-pages-tags-tsx-fa34e673f14b6b56c56b.js\"],\"component---src-templates-index-tsx\":[\"/component---src-templates-index-tsx-be3239592d6d3be882c5.js\"],\"component---src-templates-post-tsx\":[],\"component---src-templates-tags-tsx\":[\"/component---src-templates-tags-tsx-b0f8a34bd3d57879502d.js\"]}";
+            window.___chunkMapping="{\"app\":[\"/app-02802b16298677e86e0b.js\"],\"component---src-pages-404-tsx\":[\"/component---src-pages-404-tsx-7bcaa4b609b2d88b79d1.js\"],\"component---src-pages-about-tsx\":[\"/component---src-pages-about-tsx-91233ed466eef9044852.js\"],\"component---src-pages-tags-tsx\":[\"/component---src-pages-tags-tsx-a5136c7e7b4f42e40481.js\"],\"component---src-templates-index-tsx\":[\"/component---src-templates-index-tsx-09f658b87b7f796bd782.js\"],\"component---src-templates-post-tsx\":[],\"component---src-templates-tags-tsx\":[\"/component---src-templates-tags-tsx-9766b4e804c4f0ce2093.js\"]}";
           </script>
-        <script>window.___webpackCompilationHash="033b683516ee0ecf1e38";</script><script src="/webpack-runtime-81b18f2b76b94f821f0a.js" async></script><script src="/app-06e67faf7a9a2632368e.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
+        <script>window.___webpackCompilationHash="2772d2fe6225c4cec8b8";</script><script src="/webpack-runtime-962e81c78b4638482b24.js" async></script><script src="/app-02802b16298677e86e0b.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
