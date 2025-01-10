@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[Pozafly's Blog]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Thu, 09 Jan 2025 11:49:03 GMT</lastBuildDate><item><title><![CDATA[rm -rf로 날린 컴퓨터, chezmoi로 관리하기]]></title><description><![CDATA[가 얼마나 무서운 명령어인지 아는가? 리눅스 또는 맥 OS에서 사용자의 홈 디렉토리를 삭제하는 명령어다. 얼마 전 warp라는 터미널이 좋아 보여서 맥북에 설치하고 사용해 봤다. 터미널 클라이언트로 iTerm2를 사용한 지 오래되기도 했고 warp…]]></description><link>https://pozafly.github.io/tools/manage-with-rm-rf-erased-setting-file-chezmoi/</link><guid isPermaLink="false">https://pozafly.github.io/tools/manage-with-rm-rf-erased-setting-file-chezmoi/</guid><pubDate>Tue, 16 Apr 2024 14:25:47 GMT</pubDate><content:encoded>&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;$ rm -rf ~&lt;/code&gt; 가 얼마나 무서운 명령어인지 아는가? 리눅스 또는 맥 OS에서 사용자의 홈 디렉토리를 삭제하는 명령어다.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[Pozafly's Blog]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 10 Jan 2025 06:25:54 GMT</lastBuildDate><item><title><![CDATA[rm -rf로 날린 컴퓨터, chezmoi로 관리하기]]></title><description><![CDATA[가 얼마나 무서운 명령어인지 아는가? 리눅스 또는 맥 OS에서 사용자의 홈 디렉토리를 삭제하는 명령어다. 얼마 전 warp라는 터미널이 좋아 보여서 맥북에 설치하고 사용해 봤다. 터미널 클라이언트로 iTerm2를 사용한 지 오래되기도 했고 warp…]]></description><link>https://pozafly.github.io/tools/manage-with-rm-rf-erased-setting-file-chezmoi/</link><guid isPermaLink="false">https://pozafly.github.io/tools/manage-with-rm-rf-erased-setting-file-chezmoi/</guid><pubDate>Tue, 16 Apr 2024 14:25:47 GMT</pubDate><content:encoded>&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;$ rm -rf ~&lt;/code&gt; 가 얼마나 무서운 명령어인지 아는가? 리눅스 또는 맥 OS에서 사용자의 홈 디렉토리를 삭제하는 명령어다.&lt;/p&gt;
 &lt;p&gt;얼마 전 &lt;a href=&quot;https://www.warp.dev/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;warp&lt;/a&gt;라는 터미널이 좋아 보여서 맥북에 설치하고 사용해 봤다. 터미널 클라이언트로 iTerm2를 사용한 지 오래되기도 했고 warp은 AI로 명령어를 추천해 주기도 한다고 해서 구미가 당겨 사용해 보고 있었다.&lt;/p&gt;
 &lt;p&gt;튜토리얼을 따라 해보다가 잘못해서 &lt;code class=&quot;language-text&quot;&gt;~&lt;/code&gt; 라는 폴더를 home에 만들게 되었다. &lt;code class=&quot;language-text&quot;&gt;~/~&lt;/code&gt; 경로가 생성된 것이다. 홈 경로에서 작업하고 있었고, 쓸모없는 디렉토리가 만들어졌으니 별생각 없이 &lt;code class=&quot;language-text&quot;&gt;rm -rf ~&lt;/code&gt; 라는 명령어를 쳤다.&lt;/p&gt;
 &lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;rm -rf&lt;/code&gt; 명령어는 제거하라(&lt;code class=&quot;language-text&quot;&gt;rm&lt;/code&gt;)는 명령어에 재귀적으로(&lt;code class=&quot;language-text&quot;&gt;-rf&lt;/code&gt;) 라는 옵션이 붙은 명령어이다. 따라서 사용자의 홈 디렉터리와 그 하위에 있는 모든 파일과 디렉터리를 강제로 삭제하게 된다. 하지만 아무것도 들어있지 않은 디렉토리를 제거하기에는 생각보다 시간이 오래걸렸고, 어떤 권한까지 물어보는 것이었다.&lt;/p&gt;
@@ -2735,7 +2735,47 @@ sheet&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span clas
         decoding=&quot;async&quot;
       /&gt;
     &lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;확장자를 명시하지 않은 import 구문에 에러가 발생한다. 확장자를 붙여 에러를 없애주면 성공이다. 아쉽지만 &lt;code class=&quot;language-text&quot;&gt;import/extensions&lt;/code&gt;는 fix 옵션이 존재하지 않기 때문에 수동으로 고쳐줄 수밖에 없다. 폴더에 &lt;code class=&quot;language-text&quot;&gt;a.js&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;a.json&lt;/code&gt; 과같이 확장자가 여러 개일 가능성이 있기 때문에 fix 옵션이 존재하지 않는다.&lt;/p&gt;
+&lt;p&gt;확장자를 명시하지 않은 import 구문에 에러가 발생한다. 확장자를 붙여 에러를 없애주면 성공이다. 아쉽지만 &lt;code class=&quot;language-text&quot;&gt;import/extensions&lt;/code&gt;는 fix 옵션이 존재하지 않기 때문에(&lt;a href=&quot;https://github.com/import-js/eslint-plugin-import/issues/1749#issuecomment-2524894336&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;2024년 12월 아직도 존재하지 않음&lt;/a&gt;) 수동으로 고쳐줄 수밖에 없다. 폴더에 &lt;code class=&quot;language-text&quot;&gt;a.js&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;a.json&lt;/code&gt; 과같이 확장자가 여러 개일 가능성이 있기 때문에 fix 옵션이 존재하지 않는다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;📌 추가 (2025/1/10)
+&lt;code class=&quot;language-text&quot;&gt;import type&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;export type&lt;/code&gt; 은 기본적으로 import/extensions 이 적용되지 않는다.
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 730px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 25%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAFCAYAAABFA8wzAAAACXBIWXMAABYlAAAWJQFJUiTwAAAA8ElEQVR42o2PyVKDQBRF8yvGKFCEIWEIkLExDYQxpqTcurD8/z84PtGFyyxO3dfV/W7fO9utEy7hltSN8O01Ws6BnzBfxsyflywsX/DuZua7IV3ZcTyc2e5yWt1wVCWZqrD9mAcxnRvO/YY/CXR341R1HM4XTmWLKhrK5komn3hBgiupF6bL44Tzi/FP/5gMDSdEFy36XHPMxbDoUeWArl+p+pGqG2W+4gQZhhNgSSNTdkxvgzWRTGp6MU/2ipkd7InkQS71HLnc6JFIDXhZyWpfsxaCl5Hd9Yu0+WA7fLIp3olVT6pvk2bFG3HeS5uUb3pfotW6EIGaAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;type-import&quot;
+        title=&quot;&quot;
+        src=&quot;/static/1d8aa9565d70a8c81c4e91cfa58405b9/9ede6/type-import.png&quot;
+        srcset=&quot;/static/1d8aa9565d70a8c81c4e91cfa58405b9/b30f8/type-import.png 500w,
+/static/1d8aa9565d70a8c81c4e91cfa58405b9/9ede6/type-import.png 730w&quot;
+        sizes=&quot;(max-width: 730px) 100vw, 730px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;
+이 때는 아래와 같이 &lt;code class=&quot;language-text&quot;&gt;checkTypeImports&lt;/code&gt; 옵션을 넣어주면 type import에도 오류가 발생하게 강제할 수 있다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token string-property property&quot;&gt;&apos;import/extensions&apos;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+  &lt;span class=&quot;token string&quot;&gt;&apos;error&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token string&quot;&gt;&apos;ignorePackages&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;checkTypeImports&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;또한&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token string-property property&quot;&gt;&quot;rules&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token string-property property&quot;&gt;&apos;import/newline-after-import&apos;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;error&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// import 후 한 줄 띄우기&lt;/span&gt;
+  &lt;span class=&quot;token string-property property&quot;&gt;&apos;import/no-duplicates&apos;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;error&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 중복 import 방지&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// ...&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이렇게 import후 한 줄 띄우기와, import 구문을 중복해서 사용하지 않도록 rule을 추가로 적용해주면 좋다.&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;VSCode를 사용하는 경우, import 대상에서 자동완성을 해주고 있는데, 자동완성을 통해 import 하면 확장자가 포함되지 않는 경우가 있을 수 있다. (따로 설정하지 않았다면 자동완성 단축키는 맥에서 &lt;code class=&quot;language-text&quot;&gt;⌘(command) + I&lt;/code&gt; 이다)&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
