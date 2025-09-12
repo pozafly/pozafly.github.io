@@ -135,16 +135,15 @@
 <p>pino를 Next.js 프로젝트에 예쁘게 입혔지만 포맷이 마음에 들지 않았기 때문에 pino-pretty 라이브러리를 추가로 설치하고 프로젝트에 설정해주었다.</p>
 <p>로컬에서 두 도구를 사용해 API Routes, SSR 측 fetching API 로그를 콘솔에서 확인 후에 테스트를 해보기 위해 테스트 서버로 올렸다. 하지만, 로컬에선 멀쩡히 예쁘게 찍히던 pino 로그가 테스트 서버로 올리자마자 아래 에러와 함께 /500 페이지로 이동했다.</p>
 <div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">error: unable to determine transport target for "pino-pretty"</code></pre></div>
-<p>처음에는 “설정이 틀렸나?” 했다가, 한참을 돌아보니 Next.js의 standalone 빌드 방식 + pino의 transport 로딩 구조 + pnpm의 심볼릭 링크 특성이 합쳐져 터진 문제였다. 일단 pino 설정 코드부터 보자.</p>
+<p>처음에는 <strong>설정이 틀렸나?</strong> 했다가, 한참을 돌아보니 Next.js의 standalone 빌드 방식 + pino의 transport 로딩 구조 + pnpm의 심볼릭 링크 특성이 합쳐져 터진 문제였다. 일단 pino 설정 코드부터 보자.</p>
 <br/>
 <h2 id="pino-설정-코드" style="position:relative;">pino 설정 코드<a href="#pino-%EC%84%A4%EC%A0%95-%EC%BD%94%EB%93%9C" aria-label="pino 설정 코드 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
-<div class="gatsby-highlight" data-language="ts"><pre class="language-ts"><code class="language-ts"><span class="token keyword">import</span> pino <span class="token keyword">from</span> <span class="token string">'pino'</span><span class="token punctuation">;</span>
+<div class="gatsby-highlight has-highlighted-lines" data-language="ts"><pre class="language-ts"><code class="language-ts"><span class="token keyword">import</span> pino <span class="token keyword">from</span> <span class="token string">'pino'</span><span class="token punctuation">;</span>
 
 <span class="token keyword">const</span> logger <span class="token operator">=</span> <span class="token function">pino</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   <span class="token comment">// level 등은 생략</span>
   transport<span class="token operator">:</span> <span class="token punctuation">{</span>
-    target<span class="token operator">:</span> <span class="token string">'pino-pretty'</span><span class="token punctuation">,</span>
-    options<span class="token operator">:</span> <span class="token punctuation">{</span>
+<span class="gatsby-highlight-code-line">    target<span class="token operator">:</span> <span class="token string">'pino-pretty'</span><span class="token punctuation">,</span></span>    options<span class="token operator">:</span> <span class="token punctuation">{</span>
       colorize<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
       translateTime<span class="token operator">:</span> <span class="token string">'SYS:HH:MM:ss'</span><span class="token punctuation">,</span>
       customColors<span class="token operator">:</span> <span class="token string">'err:red,info:blue'</span><span class="token punctuation">,</span>
@@ -186,11 +185,9 @@
 <li>import로 라이브러리 가져오기</li>
 </ol>
 <p>문자열로 선언해서 라이브러리를 가져오지 못할 것이라 예상해서 아래 코드와 같이 먼저 import 구분으로 가져왔다.</p>
-<div class="gatsby-highlight" data-language="ts"><pre class="language-ts"><code class="language-ts"><span class="token keyword">import</span> pinoPretty <span class="token keyword">from</span> <span class="token string">'pino-pretty'</span><span class="token punctuation">;</span>
-
+<div class="gatsby-highlight has-highlighted-lines" data-language="ts"><pre class="language-ts"><code class="language-ts"><span class="gatsby-highlight-code-line"><span class="token keyword">import</span> pinoPretty <span class="token keyword">from</span> <span class="token string">'pino-pretty'</span><span class="token punctuation">;</span></span>
 transport<span class="token operator">:</span> <span class="token punctuation">{</span>
-  target<span class="token operator">:</span> pinoPretty<span class="token punctuation">,</span>
-  <span class="token comment">// ...</span>
+<span class="gatsby-highlight-code-line">  target<span class="token operator">:</span> pinoPretty<span class="token punctuation">,</span></span>  <span class="token comment">// ...</span>
 <span class="token punctuation">}</span></code></pre></div>
 <p>프로젝트는 package.json에 type module을 통해 프로젝트 전체를 ESM으로 사용하고 있었기 때문에 import 구문이 문제가 없을 것이라 생각했지만,</p>
 <div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">⨯ TypeError: The "path" argument must be of type string. Received function build
@@ -273,12 +270,11 @@ module<span class="token punctuation">.</span>exports<span class="token punctuat
 <h2 id="다시-문제-발생" style="position:relative;">다시 문제 발생<a href="#%EB%8B%A4%EC%8B%9C-%EB%AC%B8%EC%A0%9C-%EB%B0%9C%EC%83%9D" aria-label="다시 문제 발생 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
 <p>기대하는 마음을 안고 다시 테스트 서버로 배포해봤다. 하지만 이번엔 에러 메시지가 바뀌었다.</p>
 <div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">uncaughtException: [Error: Cannot find module 'colorette']</code></pre></div>
-<p>colorette는 뭐지? 프로젝트에서는 사용하지 않는 라이브러리다. 아마도 pino-pretty의 내부 종속성이 아닐까? pino-pretty/index.js에서 사용하고 있는 모듈이었다. 그러면 next.config.js에 <code class="language-text">outputFileTracingIncludes</code> 에 pino-pretty에서 사용하고 있는 모듈을 넣어주면 그만이다.</p>
+<p><code class="language-text">colorette</code>는 뭐지? 프로젝트에서는 사용하지 않는 라이브러리다. 아마도 pino-pretty의 내부 종속성이 아닐까? pino-pretty/index.js에서 사용하고 있는 모듈이었다. 그러면 next.config.js에 <code class="language-text">outputFileTracingIncludes</code> 에 pino-pretty에서 사용하고 있는 모듈을 넣어주면 그만이다.</p>
 <p>종속성을 파악해보자.</p>
 <div class="gatsby-highlight" data-language="sh"><pre class="language-sh"><code class="language-sh"><span class="token function">node</span> <span class="token parameter variable">-e</span> <span class="token string">"console.log(Object.keys(require('pino-pretty/package.json').dependencies || {}))"</span></code></pre></div>
-<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">[
-  'colorette',
-  'dateformat',
+<div class="gatsby-highlight has-highlighted-lines" data-language="text"><pre class="language-text"><code class="language-text">[
+<span class="gatsby-highlight-code-line">  'colorette',</span>  'dateformat',
   'fast-copy',
   'fast-safe-stringify',
   'help-me',
@@ -379,20 +375,17 @@ module<span class="token punctuation">.</span>exports<span class="token punctuat
 <p>소스 코드에서 모듈 경로가 <strong>문자열 리터럴로 고정</strong>되어 있어 빌드 타임에 추적 가능한 참조.</p>
 <h4 id="동적-참조" style="position:relative;">동적 참조<a href="#%EB%8F%99%EC%A0%81-%EC%B0%B8%EC%A1%B0" aria-label="동적 참조 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h4>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">const</span> name <span class="token operator">=</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">LIB</span><span class="token punctuation">;</span>
-
 <span class="token function">require</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ❌ 빌드 시 추적 불가</span>
 <span class="token keyword">await</span> <span class="token keyword">import</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ❌ 빌드 시 추적 불가</span></code></pre></div>
 <p>따라서 정적 import와 동적 import는 ‘정적 참조’ 이므로(리터럴 문자열로 패키지명을 적었으므로) 번들러 및 nft가 추적이 가능하다.
 하지만, pino-pretty는 왜 동적참조인가?</p>
 <p>pino-pretty를 사용하는 pino 라이브러리를 살짝 까보자.</p>
-<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// pino/lib/transport.js</span>
+<div class="gatsby-highlight has-highlighted-lines" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// node_modules/pino/lib/transport.js</span>
 <span class="token keyword">function</span> <span class="token function">fixTarget</span><span class="token punctuation">(</span><span class="token parameter">origin</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token comment">// ...</span>
   <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> filePath <span class="token keyword">of</span> callers<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">try</span> <span class="token punctuation">{</span>
-      <span class="token keyword">const</span> context <span class="token operator">=</span> filePath <span class="token operator">===</span> <span class="token string">'node:repl'</span> <span class="token operator">?</span> process<span class="token punctuation">.</span><span class="token function">cwd</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> sep <span class="token operator">:</span> filePath<span class="token punctuation">;</span>
-      fixTarget <span class="token operator">=</span> <span class="token function">createRequire</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>origin<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token keyword">break</span><span class="token punctuation">;</span>
+<span class="gatsby-highlight-code-line">      <span class="token keyword">const</span> context <span class="token operator">=</span> filePath <span class="token operator">===</span> <span class="token string">'node:repl'</span> <span class="token operator">?</span> process<span class="token punctuation">.</span><span class="token function">cwd</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> sep <span class="token operator">:</span> filePath<span class="token punctuation">;</span></span><span class="gatsby-highlight-code-line">      fixTarget <span class="token operator">=</span> <span class="token function">createRequire</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>origin<span class="token punctuation">)</span><span class="token punctuation">;</span></span>      <span class="token keyword">break</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
       <span class="token keyword">continue</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
@@ -476,7 +469,7 @@ module<span class="token punctuation">.</span>exports<span class="token punctuat
 <li>transport target 동작: pino v9의 transport는 target에 적힌 문자열을 런타임에 require()로 해석한다. -> 동적 참조이다.
 <ul>
 <li>즉, 서버가 실제로 구동될 때 모듈을 찾는다.</li>
-<li>그런데 “구동할 때 찾는다”는 말은, 이미 빌드 산출물에 그 모듈이 들어있어야 한다는 뜻.</li>
+<li>그런데 <strong>구동할 때 찾는다</strong>는 말은, 이미 빌드 산출물에 그 모듈이 들어있어야 한다는 뜻.</li>
 </ul>
 </li>
 </ul>
@@ -484,7 +477,7 @@ module<span class="token punctuation">.</span>exports<span class="token punctuat
 <h3 id="핵심-개념-2-Nextjs-standalone과-vercelnft의-정적-추적" style="position:relative;">핵심 개념 2: Next.js standalone과 @vercel/nft의 정적 추적<a href="#%ED%95%B5%EC%8B%AC-%EA%B0%9C%EB%85%90-2-Nextjs-standalone%EA%B3%BC-vercelnft%EC%9D%98-%EC%A0%95%EC%A0%81-%EC%B6%94%EC%A0%81" aria-label="핵심 개념 2 Nextjs standalone과 vercelnft의 정적 추적 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
 <ul>
 <li>output: ‘standalone’ 빌드 시, .next/standalone 안에 실행에 필요한 최소 파일만 모여든다.</li>
-<li>무엇이 “필요한가?”를 결정하는 엔진이 [@vercel/nft].
+<li>무엇이 **필요한가?**를 결정하는 엔진이 [@vercel/nft].
 <ul>
 <li>빌드할 때 코드를 AST로 파싱해서, 정적으로 판별 가능한 import/require만 따라간다.</li>
 <li>포함됨: import ‘x’, import x from ‘x’, require(‘x’), await import(‘x’) (문자열 리터럴)</li>
@@ -501,11 +494,11 @@ transport.target: ‘pino-pretty’는 런타임 문자열이기 때문에 빌�
 <li>pnpm은 .pnpm 디렉터리에 패키지를 설치하고, node_modules는 심볼릭 링크로 구성한다. (공간 효율 최고)</li>
 <li>npm/yarn처럼 flat하게 파일이 쫙 깔리는 게 아니라, 링크 체인을 타고 들어간다.</li>
 <li>이 구조는 @vercel/nft의 파일 추적이나, Next의 outputFileTracingIncludes에서 경로 패턴/심볼릭 링크 처리가 까다로워지게 만든다.
-→ “겉보기엔 들어온 것 같은데 실행 시점엔 여전히 못 찾는” 상황이 생기기 딱 좋다.</li>
+→ <strong>겉보기엔 들어온 것 같은데 실행 시점엔 여전히 못 찾는</strong> 상황이 생기기 딱 좋다.</li>
 </ul>
 <br/>
 <h2 id="마치며" style="position:relative;">마치며<a href="#%EB%A7%88%EC%B9%98%EB%A9%B0" aria-label="마치며 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
-<p>결론은 굉장히 허무하다. 아무 생각 없이 썼던 import 구문에서 어떤 처리들이 일어나고 있는지를 알게 되었고, standalone 빌드 환경과 pnpm과 Next.js 빌드 관계에 대해 다시 한 번 짚어볼 수 있는 시간이었다. 아직까지도 사용하고 있는 Gatsby도 config 파일에서 문자열로 라이브러리를 등록해 사용하고 있는데, pino와 마찬가지로 리터럴 문자열로 node_modules에 있는 라이브러리를 참조하고 있다는 사실을 추가로 알게 되었다.</p>
+<p>이번 트러블슈팅을 하며 아무 생각 없이 썼던 import 구문에서 어떤 처리들이 일어나고 있는지를 알게 되었고, standalone 빌드 환경과 pnpm과 Next.js 빌드 관계에 대해 다시 한 번 짚어볼 수 있는 시간이었다. 아직까지도 사용하고 있는 Gatsby도 config 파일에서 문자열로 라이브러리를 등록해 사용하고 있는데, pino와 마찬가지로 리터럴 문자열로 node_modules에 있는 라이브러리를 참조하고 있다는 사실을 추가로 알게 되었다.</p>
 <p>참고로, 테스트 서버에서는 pino-pretty를 사용해 로깅하지만 운영 서버에서는 pretty를 실시간성 로그에만 사용하고, pino-pretty를 이용하지 않은 pure log를 파일로 저장해두는 것이 좋을 것 같다.</p>
 <p>프로젝트에서 Next.js의 page router를 사용하고 있어 SSR 환경에서의 API fetching이 일어날 때 자동으로 로깅을 남겨주지 않는다.
 언젠가 app router로 넘어가게 될텐데, 중요한 부분 및 파일로 로그를 적재해야할 부분은 pino로 남겨두어야겠다.</p>
