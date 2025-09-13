@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[Pozafly's Blog]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 12 Sep 2025 13:47:02 GMT</lastBuildDate><item><title><![CDATA[Next.js standalone 종속성 추적 삽질기 (feat. pino)]]></title><description><![CDATA[Next.js를 실행하면 클라이언트 측 로그는 브라우저의 콘솔에 나타나지만, 서버 측 로그는 제대로 된 로그를 출력해주지 않았다. 이번에 프로젝트에 Next.js의 node 환경에서 log…]]></description><link>https://pozafly.github.io/nextjs/nextjs-standalone-dependency-tracing-issue/</link><guid isPermaLink="false">https://pozafly.github.io/nextjs/nextjs-standalone-dependency-tracing-issue/</guid><pubDate>Fri, 12 Sep 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Next.js를 실행하면 클라이언트 측 로그는 브라우저의 콘솔에 나타나지만, 서버 측 로그는 제대로 된 로그를 출력해주지 않았다. 이번에 프로젝트에 Next.js의 node 환경에서 log를 찍기 위해 라이브러리를 사용하면서 만난 트러블슈팅을 기록한다.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[Pozafly's Blog]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 13 Sep 2025 04:45:15 GMT</lastBuildDate><item><title><![CDATA[Next.js standalone 종속성 추적 삽질기 (feat. pino)]]></title><description><![CDATA[Next.js를 실행하면 클라이언트 측 로그는 브라우저의 콘솔에 나타나지만, 서버 측 로그는 제대로 된 로그를 출력해주지 않았다. 이번에 프로젝트에 Next.js의 node 환경에서 log…]]></description><link>https://pozafly.github.io/nextjs/nextjs-standalone-dependency-tracing-issue/</link><guid isPermaLink="false">https://pozafly.github.io/nextjs/nextjs-standalone-dependency-tracing-issue/</guid><pubDate>Fri, 12 Sep 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Next.js를 실행하면 클라이언트 측 로그는 브라우저의 콘솔에 나타나지만, 서버 측 로그는 제대로 된 로그를 출력해주지 않았다. 이번에 프로젝트에 Next.js의 node 환경에서 log를 찍기 위해 라이브러리를 사용하면서 만난 트러블슈팅을 기록한다.&lt;/p&gt;
 &lt;p&gt;먼저 &lt;a href=&quot;https://github.com/pinojs/pino&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;pino&lt;/a&gt;라는 라이브러리를 사용했는데, pino는 node 진영에서 &lt;a href=&quot;https://github.com/winstonjs/winston&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;winston&lt;/a&gt;과 함께 많이 사용되는 로깅 라이브러리다. 짧게 이야기하면 로깅 라이브러리는 비동기를 사용하는 pino로 결정. 그리고 &lt;a href=&quot;https://github.com/pinojs/pino-pretty&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;pino-pretty&lt;/a&gt; 라이브러리는 pino로 찍은 로그를 더 알아보기 쉬운 형태로 포매팅 해주는 도구다.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
@@ -312,13 +312,13 @@ module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports&lt;s
   B &lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&lt;/span&gt;&lt;span class=&quot;token label property&quot;&gt;|target 문자열만 있음|&lt;/span&gt; C&lt;span class=&quot;token text string&quot;&gt;[&quot;@vercel/nft 정적 추적 실패&amp;lt;br/&gt;- 리터럴 import 없음(변수처리 되어 resolve)&amp;lt;br/&gt;- 추적 누락&quot;]&lt;/span&gt;
   B &lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&lt;/span&gt;&lt;span class=&quot;token label property&quot;&gt;|리터럴 import 있음|&lt;/span&gt; C2&lt;span class=&quot;token text string&quot;&gt;[&quot;@vercel/nft 정적 추적 성공&amp;lt;br/&gt;- pino-pretty 의존성 포함&quot;]&lt;/span&gt;
 
-  C &lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&lt;/span&gt; D&lt;span class=&quot;token text string&quot;&gt;[&quot;.next/standalone/node_modules&amp;lt;br/&gt;- pino: O&amp;lt;br/&gt;- pino-pretty: X&quot;]&lt;/span&gt;
+  C &lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&lt;/span&gt; D&lt;span class=&quot;token text string&quot;&gt;[&quot;.next/standalone/node_modules&amp;lt;br/&gt;- pino: O&amp;lt;br/&gt;- pino-pretty: X&amp;lt;br/&gt;- deps: X&quot;]&lt;/span&gt;
   C2 &lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&lt;/span&gt; D2&lt;span class=&quot;token text string&quot;&gt;[&quot;.next/standalone/node_modules&amp;lt;br/&gt;- pino: O&amp;lt;br/&gt;- pino-pretty: O&amp;lt;br/&gt;- deps: O&quot;]&lt;/span&gt;
 
   D &lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&lt;/span&gt; E&lt;span class=&quot;token text string&quot;&gt;[&quot;런타임: transport 로드&amp;lt;br/&gt;require(&apos;pino-pretty&apos;) 시도&quot;]&lt;/span&gt;
   D2 &lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&lt;/span&gt; E2&lt;span class=&quot;token text string&quot;&gt;[&quot;런타임: transport 로드&amp;lt;br/&gt;require(&apos;pino-pretty&apos;) 성공&quot;]&lt;/span&gt;
 
-  E &lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&lt;/span&gt; F&lt;span class=&quot;token text string&quot;&gt;[&quot;에러: unable to determine transport target for `pino-pretty`&quot;]&lt;/span&gt;
+  E &lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&lt;/span&gt; F&lt;span class=&quot;token text string&quot;&gt;[&quot;에러: unable to determine transport target for &apos;pino-pretty&apos;&quot;]&lt;/span&gt;
   E2 &lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&lt;/span&gt; F2&lt;span class=&quot;token text string&quot;&gt;[&quot;예쁜 로그 정상 출력&quot;]&lt;/span&gt;
 
   &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; F bad&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
@@ -355,7 +355,7 @@ module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports&lt;s
 &lt;li&gt;코드 설정: pino({ transport: { target: ‘pino-pretty’, options: {…} } })&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;transport target 동작: pino v9의 transport는 target에 적힌 문자열을 런타임에 require()로 해석한다. -&gt; 동적 참조이다.
+&lt;li&gt;transport target 동작: pino의 transport는 target에 적힌 문자열을 런타임에 require()로 해석한다. -&gt; 동적 참조이다.
 &lt;ul&gt;
 &lt;li&gt;즉, 서버가 실제로 구동될 때 모듈을 찾는다.&lt;/li&gt;
 &lt;li&gt;그런데 &lt;strong&gt;구동할 때 찾는다&lt;/strong&gt;는 말은, 이미 빌드 산출물에 그 모듈이 들어있어야 한다는 뜻.&lt;/li&gt;
@@ -366,7 +366,7 @@ module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports&lt;s
 &lt;h3 id=&quot;핵심-개념-2-Nextjs-standalone과-vercelnft의-정적-추적&quot; style=&quot;position:relative;&quot;&gt;핵심 개념 2: Next.js standalone과 @vercel/nft의 정적 추적&lt;a href=&quot;#%ED%95%B5%EC%8B%AC-%EA%B0%9C%EB%85%90-2-Nextjs-standalone%EA%B3%BC-vercelnft%EC%9D%98-%EC%A0%95%EC%A0%81-%EC%B6%94%EC%A0%81&quot; aria-label=&quot;핵심 개념 2 Nextjs standalone과 vercelnft의 정적 추적 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;output: ‘standalone’ 빌드 시, .next/standalone 안에 실행에 필요한 최소 파일만 모여든다.&lt;/li&gt;
-&lt;li&gt;무엇이 **필요한가?**를 결정하는 엔진이 [@vercel/nft].
+&lt;li&gt;무엇이 필요한가?를 결정하는 엔진이 [@vercel/nft].
 &lt;ul&gt;
 &lt;li&gt;빌드할 때 코드를 AST로 파싱해서, 정적으로 판별 가능한 import/require만 따라간다.&lt;/li&gt;
 &lt;li&gt;포함됨: import ‘x’, import x from ‘x’, require(‘x’), await import(‘x’) (문자열 리터럴)&lt;/li&gt;

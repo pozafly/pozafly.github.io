@@ -423,13 +423,13 @@ module<span class="token punctuation">.</span>exports<span class="token punctuat
   B <span class="token arrow operator">--></span><span class="token label property">|target 문자열만 있음|</span> C<span class="token text string">["@vercel/nft 정적 추적 실패&lt;br/>- 리터럴 import 없음(변수처리 되어 resolve)&lt;br/>- 추적 누락"]</span>
   B <span class="token arrow operator">--></span><span class="token label property">|리터럴 import 있음|</span> C2<span class="token text string">["@vercel/nft 정적 추적 성공&lt;br/>- pino-pretty 의존성 포함"]</span>
 
-  C <span class="token arrow operator">--></span> D<span class="token text string">[".next/standalone/node_modules&lt;br/>- pino: O&lt;br/>- pino-pretty: X"]</span>
+  C <span class="token arrow operator">--></span> D<span class="token text string">[".next/standalone/node_modules&lt;br/>- pino: O&lt;br/>- pino-pretty: X&lt;br/>- deps: X"]</span>
   C2 <span class="token arrow operator">--></span> D2<span class="token text string">[".next/standalone/node_modules&lt;br/>- pino: O&lt;br/>- pino-pretty: O&lt;br/>- deps: O"]</span>
 
   D <span class="token arrow operator">--></span> E<span class="token text string">["런타임: transport 로드&lt;br/>require('pino-pretty') 시도"]</span>
   D2 <span class="token arrow operator">--></span> E2<span class="token text string">["런타임: transport 로드&lt;br/>require('pino-pretty') 성공"]</span>
 
-  E <span class="token arrow operator">--></span> F<span class="token text string">["에러: unable to determine transport target for `pino-pretty`"]</span>
+  E <span class="token arrow operator">--></span> F<span class="token text string">["에러: unable to determine transport target for 'pino-pretty'"]</span>
   E2 <span class="token arrow operator">--></span> F2<span class="token text string">["예쁜 로그 정상 출력"]</span>
 
   <span class="token keyword">class</span> F bad<span class="token punctuation">;</span>
@@ -466,7 +466,7 @@ module<span class="token punctuation">.</span>exports<span class="token punctuat
 <li>코드 설정: pino({ transport: { target: ‘pino-pretty’, options: {…} } })</li>
 </ul>
 </li>
-<li>transport target 동작: pino v9의 transport는 target에 적힌 문자열을 런타임에 require()로 해석한다. -> 동적 참조이다.
+<li>transport target 동작: pino의 transport는 target에 적힌 문자열을 런타임에 require()로 해석한다. -> 동적 참조이다.
 <ul>
 <li>즉, 서버가 실제로 구동될 때 모듈을 찾는다.</li>
 <li>그런데 <strong>구동할 때 찾는다</strong>는 말은, 이미 빌드 산출물에 그 모듈이 들어있어야 한다는 뜻.</li>
@@ -477,7 +477,7 @@ module<span class="token punctuation">.</span>exports<span class="token punctuat
 <h3 id="핵심-개념-2-Nextjs-standalone과-vercelnft의-정적-추적" style="position:relative;">핵심 개념 2: Next.js standalone과 @vercel/nft의 정적 추적<a href="#%ED%95%B5%EC%8B%AC-%EA%B0%9C%EB%85%90-2-Nextjs-standalone%EA%B3%BC-vercelnft%EC%9D%98-%EC%A0%95%EC%A0%81-%EC%B6%94%EC%A0%81" aria-label="핵심 개념 2 Nextjs standalone과 vercelnft의 정적 추적 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
 <ul>
 <li>output: ‘standalone’ 빌드 시, .next/standalone 안에 실행에 필요한 최소 파일만 모여든다.</li>
-<li>무엇이 **필요한가?**를 결정하는 엔진이 [@vercel/nft].
+<li>무엇이 필요한가?를 결정하는 엔진이 [@vercel/nft].
 <ul>
 <li>빌드할 때 코드를 AST로 파싱해서, 정적으로 판별 가능한 import/require만 따라간다.</li>
 <li>포함됨: import ‘x’, import x from ‘x’, require(‘x’), await import(‘x’) (문자열 리터럴)</li>
