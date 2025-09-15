@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[Pozafly's Blog]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 13 Sep 2025 04:45:15 GMT</lastBuildDate><item><title><![CDATA[Next.js standalone 종속성 추적 삽질기 (feat. pino)]]></title><description><![CDATA[Next.js를 실행하면 클라이언트 측 로그는 브라우저의 콘솔에 나타나지만, 서버 측 로그는 제대로 된 로그를 출력해주지 않았다. 이번에 프로젝트에 Next.js의 node 환경에서 log…]]></description><link>https://pozafly.github.io/nextjs/nextjs-standalone-dependency-tracing-issue/</link><guid isPermaLink="false">https://pozafly.github.io/nextjs/nextjs-standalone-dependency-tracing-issue/</guid><pubDate>Fri, 12 Sep 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Next.js를 실행하면 클라이언트 측 로그는 브라우저의 콘솔에 나타나지만, 서버 측 로그는 제대로 된 로그를 출력해주지 않았다. 이번에 프로젝트에 Next.js의 node 환경에서 log를 찍기 위해 라이브러리를 사용하면서 만난 트러블슈팅을 기록한다.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[Pozafly's Blog]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 15 Sep 2025 14:18:56 GMT</lastBuildDate><item><title><![CDATA[Next.js standalone 종속성 추적 삽질기 (feat. pino)]]></title><description><![CDATA[Next.js를 실행하면 클라이언트 측 로그는 브라우저의 콘솔에 나타나지만, 서버 측 로그는 제대로 된 로그를 출력해주지 않았다. 이번에 프로젝트에 Next.js의 node 환경에서 log…]]></description><link>https://pozafly.github.io/nextjs/nextjs-standalone-dependency-tracing-issue/</link><guid isPermaLink="false">https://pozafly.github.io/nextjs/nextjs-standalone-dependency-tracing-issue/</guid><pubDate>Fri, 12 Sep 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Next.js를 실행하면 클라이언트 측 로그는 브라우저의 콘솔에 나타나지만, 서버 측 로그는 제대로 된 로그를 출력해주지 않았다. 이번에 프로젝트에 Next.js의 node 환경에서 log를 찍기 위해 라이브러리를 사용하면서 만난 트러블슈팅을 기록한다.&lt;/p&gt;
 &lt;p&gt;먼저 &lt;a href=&quot;https://github.com/pinojs/pino&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;pino&lt;/a&gt;라는 라이브러리를 사용했는데, pino는 node 진영에서 &lt;a href=&quot;https://github.com/winstonjs/winston&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;winston&lt;/a&gt;과 함께 많이 사용되는 로깅 라이브러리다. 짧게 이야기하면 로깅 라이브러리는 비동기를 사용하는 pino로 결정. 그리고 &lt;a href=&quot;https://github.com/pinojs/pino-pretty&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;pino-pretty&lt;/a&gt; 라이브러리는 pino로 찍은 로그를 더 알아보기 쉬운 형태로 포매팅 해주는 도구다.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
@@ -135,20 +135,20 @@ module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports&lt;s
 그리고 다시 빌드.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 648px; &quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 688px; &quot;
     &gt;
       &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 41.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAABYlAAAWJQFJUiTwAAABF0lEQVR42pVS2U7DMBDMh5SQy3ESX4mTkKMVR0vVCiQekJAQ8P+/MawTtU+gpg9jrWzveGbWXsByxFygGh8xbg9IcgVV94gzCT9KcZtkV8FziyMVdYfh6RlJoZCbBhGXCNNiwrmB7l0k9GNOzQJcaBzfv5HrDqK6g7I9bH8P3QzItMUqZLiJ+DKFDlFKVnuD9WEAy82kMib7TJTIpCXSGqkslyn04xRBQjluDF6/dkRYQtoOmbIoTA1JikXZUt1Muc49f8M7FS7HKBXYv32i3WwnMq4qrAJGSGbLhP+IXD8r9MnynGOSS6x3R+h2BCd7rDAIp32NiKYeXBiKOz9nGJI6RhN++fhB97BHQRadVQdDD7hBLfk2v4Sr68ly2++RAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 38.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAABYlAAAWJQFJUiTwAAABFElEQVR42pWS2U7DMBBF/R+gpFkcZ3HsLE4TpymUggCBEIuEhJD4/8+4jI3Ux7Y8HM2D7aN7R2ZysLj7+IJZ9mjttUdocyBvhn/BeNXC3jzCbHao2tEj6o7okdFMy8aTlPosWJQWWG9vsdm/IhEKsp2gOgttZpRqQBDluFxxhHF+FiziFYkkdu8ThmWGkIakI3ihUTUjSj3QXCPKJAL3KCmOwsK0hJMuTyN6OyHOFEl7pCTMaQrZIaf6K7oXRMJLj8GcNeIlZLPF/ds3BO3UJXKCi5BT3cxzKh2nPbs3PmFCdZSxuHp4oYMWhTK0hhpprn111+BU1ZjuHyrHJDT0XZ4/f7ys7iafUvWWmL38VMK0+Ev4C+oo72TEtpHoAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;get-pino-pretty&quot;
         title=&quot;&quot;
-        src=&quot;/static/6521a2b762ae73384632fce0c941f01e/0ae27/get-pino-pretty.png&quot;
-        srcset=&quot;/static/6521a2b762ae73384632fce0c941f01e/b30f8/get-pino-pretty.png 500w,
-/static/6521a2b762ae73384632fce0c941f01e/0ae27/get-pino-pretty.png 648w&quot;
-        sizes=&quot;(max-width: 648px) 100vw, 648px&quot;
+        src=&quot;/static/a3205c6acc94483a883158927cab50c9/d21f0/get-pino-pretty.png&quot;
+        srcset=&quot;/static/a3205c6acc94483a883158927cab50c9/b30f8/get-pino-pretty.png 500w,
+/static/a3205c6acc94483a883158927cab50c9/d21f0/get-pino-pretty.png 688w&quot;
+        sizes=&quot;(max-width: 688px) 100vw, 688px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
