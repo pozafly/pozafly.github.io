@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[Pozafly's Blog]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 15 Sep 2025 14:18:56 GMT</lastBuildDate><item><title><![CDATA[Next.js standalone 종속성 추적 삽질기 (feat. pino)]]></title><description><![CDATA[Next.js를 실행하면 클라이언트 측 로그는 브라우저의 콘솔에 나타나지만, 서버 측 로그는 제대로 된 로그를 출력해주지 않았다. 이번에 프로젝트에 Next.js의 node 환경에서 log…]]></description><link>https://pozafly.github.io/nextjs/nextjs-standalone-dependency-tracing-issue/</link><guid isPermaLink="false">https://pozafly.github.io/nextjs/nextjs-standalone-dependency-tracing-issue/</guid><pubDate>Fri, 12 Sep 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Next.js를 실행하면 클라이언트 측 로그는 브라우저의 콘솔에 나타나지만, 서버 측 로그는 제대로 된 로그를 출력해주지 않았다. 이번에 프로젝트에 Next.js의 node 환경에서 log를 찍기 위해 라이브러리를 사용하면서 만난 트러블슈팅을 기록한다.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[Pozafly's Blog]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 15 Sep 2025 15:12:14 GMT</lastBuildDate><item><title><![CDATA[Next.js standalone 종속성 추적 삽질기 (feat. pino)]]></title><description><![CDATA[Next.js를 실행하면 클라이언트 측 로그는 브라우저의 콘솔에 나타나지만, 서버 측 로그는 제대로 된 로그를 출력해주지 않았다. 이번에 프로젝트에 Next.js의 node 환경에서 log…]]></description><link>https://pozafly.github.io/nextjs/nextjs-standalone-dependency-tracing-issue/</link><guid isPermaLink="false">https://pozafly.github.io/nextjs/nextjs-standalone-dependency-tracing-issue/</guid><pubDate>Fri, 12 Sep 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Next.js를 실행하면 클라이언트 측 로그는 브라우저의 콘솔에 나타나지만, 서버 측 로그는 제대로 된 로그를 출력해주지 않았다. 이번에 프로젝트에 Next.js의 node 환경에서 log를 찍기 위해 라이브러리를 사용하면서 만난 트러블슈팅을 기록한다.&lt;/p&gt;
 &lt;p&gt;먼저 &lt;a href=&quot;https://github.com/pinojs/pino&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;pino&lt;/a&gt;라는 라이브러리를 사용했는데, pino는 node 진영에서 &lt;a href=&quot;https://github.com/winstonjs/winston&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;winston&lt;/a&gt;과 함께 많이 사용되는 로깅 라이브러리다. 짧게 이야기하면 로깅 라이브러리는 비동기를 사용하는 pino로 결정. 그리고 &lt;a href=&quot;https://github.com/pinojs/pino-pretty&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;pino-pretty&lt;/a&gt; 라이브러리는 pino로 찍은 로그를 더 알아보기 쉬운 형태로 포매팅 해주는 도구다.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
@@ -187,26 +187,26 @@ module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports&lt;s
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 654px; &quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 684px; &quot;
     &gt;
       &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 65.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAABYlAAAWJQFJUiTwAAABw0lEQVR42o1S2W7bMBDUh7SOdUuUqFuy5aPOUdhBA6MIkKAo0A/o///AdHYVIQEC1H4YcUkth7Oz6wRpjqRscXz+hcTWsO3ItcFXL8LCjxU3QXI1HDdM4cUZhv09yQZEWaUI0kLhp1YTl8y7ilAS3TDBt9MZ/faIkCRFN5J8jYIwVa9qBTfBZbXOgkluaBBmBqffWxL1SIsOpuwQ5TVMPSBvVshI7EbZRQsc+QhhYAyOL3eohlFLTopG15h+JkWrvrqRuajSmQOPycPuhMPjT3pnUa92yKhOFH1xQ8XcpP/BWXgMvFhf9pMMZb9l+SXjXBVJwySe91K2R8xxwHMvnrAM0neF0hwhenr9g3Z7q80QH8U/2660SSn3puIZY3lY/kkl8i9v1ghNCSe2LQQJG2GbEXc/ntFublHwQtFtdK1We5TDDs14IMFezyRfmvaORuHMgZDKi/vjmZcOKLuJUJQIWUVMqqimXmv+fPcjnKlrggh+ZJGvDV7+PiAy1VuZrIAKLB8rOZ9Z3dP8eSY/44OHiRrtpwb35yeWuaOnFWeyVe9k9eNcG3HV2Og8knDJ9fv5FZuHR85hOTVEBvtthC4N9j8fV4XmQrrNawAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 161.20000000000002%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAgCAYAAAASYli2AAAACXBIWXMAABYlAAAWJQFJUiTwAAADE0lEQVR42p1WWVIiURDkHjOiQu97P6CBZpNFFtGYCC8w33P/A+RUFrbBOGg8+SjoVjrJrMyqR+vei+DGOeaHX0jKAaK8jzDrod313+vWCayrxReC9icPKEdT+EmBIDVwwkwqRVfqzg217AHlw6aeo149C0iOtDeUGiExQwSZwU3H07IG5Ld3/BgPrxWqxVhY9hAVA3hxIW2okPXGiOXeGvDWCVV2va2F5QpuVGgvKZ2gnrTBjTIr2QrYfpOdljVm2xd0gwSpGQnoAD/vXfy4c/Sdsttd70ujWs3FnRuh6wvL1Q7lcKbsWGRK9yk9lZ6Gcu+npR1gR2Sb6QPyuoaTlPDlYVci5EkF0kMa5Mnfu0FqAaigCZLcw+8/K5SSzVF/CJMWWn0zQNqvhZ350vFWE94buYkcD8Z1cTwcsV1uUIYxhqVBVRjUmcSp6+InHzwL/cd6Z9gWU2LHx8BxcFhtsF8sUUUJpgTLDeZZhtLzBTBUNRY9DMVtiY9cL/cvmD8+IZTmZ0bMEEPi/JRNyxwG/2Rs+njEaLmVGS+0ZzTCF0Osc3gOSDn1ao/hfKOh1vgIGGNzBSD742MhkuvNAUFiZPP0deziopLZrnTGzWim+bwU8IsMxxLuaraWccvfA87Raz7HMf2M7QWGASabJ+nhTpZEqUaEYgjl2+zGi4DznUheH3TxxtI7Mv3W+vpPsrCraIowZP+4wbkwbp1rGW6f1WkyiwoxRZbDOUvLbXMu+VklcwmQnZ4z0kc6zG3DTU5jTuvMt8zhYqNnCo1pnNZto2Ev9cxhG/il545/yTAgWHYauaQc6sJt2JJlLtuHppGtBeD+NCkC2ABwDC9tGAvJO5XMMFMmJ8YTU2zOlU8ZTmT0PMkhx4294rly03EvGmERm6OOH6NCqVl/rO7ScS4JXluO3ptk6V9FlxkbNeF0MPE4ZU/p/LdmWUdPJPPB+I2RToy803Ey5jFrzXAikTnlMFOHdUmQpbzfe/E1s7zFYL5WZymR8VHA1Fzn8vrlVZcsf4nRFMptfppw/Cg3H9T6v4+AfwE6SrV9+DZ0yQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;include-colorette&quot;
         title=&quot;&quot;
-        src=&quot;/static/2baab050539cab7404bb58a136af1286/8179f/include-colorette.png&quot;
-        srcset=&quot;/static/2baab050539cab7404bb58a136af1286/b30f8/include-colorette.png 500w,
-/static/2baab050539cab7404bb58a136af1286/8179f/include-colorette.png 654w&quot;
-        sizes=&quot;(max-width: 654px) 100vw, 654px&quot;
+        src=&quot;/static/276e208c7641fcd28e086616ec75092c/bf424/include-colorette.png&quot;
+        srcset=&quot;/static/276e208c7641fcd28e086616ec75092c/b30f8/include-colorette.png 500w,
+/static/276e208c7641fcd28e086616ec75092c/bf424/include-colorette.png 684w&quot;
+        sizes=&quot;(max-width: 684px) 100vw, 684px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
     &lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;하지만 여전히 테스트 서버에서는 실패한다. 이상하다. 생각해보면 pino-pretty가 로컬에서 내부적으로 모듈을 사용할 때 require 문법으로 모듈을 가져올텐데, &lt;code class=&quot;language-text&quot;&gt;.pnpm&lt;/code&gt; 하위 모듈을 어떻게 가져올 수 있을까?&lt;/p&gt;
+&lt;p&gt;하지만 여전히 테스트 서버에서는 실패한다. 이상하다. 생각해보면 pino-pretty가 &lt;strong&gt;로컬&lt;/strong&gt;에서 내부적으로 모듈을 사용할 때 require 문법으로 모듈을 가져올텐데, &lt;code class=&quot;language-text&quot;&gt;.pnpm&lt;/code&gt; 하위 모듈을 어떻게 가져올 수 있을까?&lt;/p&gt;
 &lt;br/&gt;
 &lt;h2 id=&quot;pnpm의-node_modules-저장-방식&quot; style=&quot;position:relative;&quot;&gt;pnpm의 node_modules 저장 방식&lt;a href=&quot;#pnpm%EC%9D%98-node_modules-%EC%A0%80%EC%9E%A5-%EB%B0%A9%EC%8B%9D&quot; aria-label=&quot;pnpm의 node_modules 저장 방식 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;모든 프로젝트에서 단말기 저장장치의 효율 및 속도 때문에 &lt;a href=&quot;https://pnpm.io/ko/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;pnpm&lt;/a&gt; 을 패키지 매니저로 사용하고 있다.&lt;/p&gt;
@@ -218,9 +218,42 @@ module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports&lt;s
 &lt;li&gt;&lt;a href=&quot;https://engineering.ab180.co/stories/yarn-to-pnpm&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;Yarn 대신 pnpm으로 넘어간 3가지 이유 - ab180&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;지금 빌드 산출물에 포함된 &lt;code class=&quot;language-text&quot;&gt;.pnpm/node_modules&lt;/code&gt; 로 들어간 pino-pretty 하위 종속성은 심볼릭 링크만 가지고 들어간 것이다.
-그렇다면, pnpm으로 패키지 설치 시 npm과 yarn과 같이 심볼링 링크 형태가 아니라 flat 구조로 설치하고 종속성을 가지고 들어가면 되지 않을까?&lt;/p&gt;
-&lt;p&gt;여기서 그냥 GitHub Actions에서 pnpm으로 설치한 node_modules 전체를 artifact에 포함시킬까도 고민했지만 비효율이 발생하므로 그러고 싶지 않았다.&lt;/p&gt;
+&lt;p&gt;기본적으로 node.js는 require 구문을 만나면 루트를 기준으로 node_modules를 찾고, 없으면 상위로 올라가며 탐색한다. (require(‘pkg’) → ./node_modules/pkg → ../node_modules/pkg … )
+그리고 .pnpm은 현재 모듈의 파일 위치에서 시작해, 상위로 올라가며 node_modules/&amp;#x3C;이름&gt; 을 찾는다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;project/
+└─ node_modules/
+   ├─ pino-pretty  -&gt;  .pnpm/pino-pretty@X.Y.Z/node_modules/pino-pretty   (심링크)
+   └─ .pnpm/
+      ├─ pino-pretty@X.Y.Z/
+      │  └─ node_modules/
+      │     └─ pino-pretty/
+      │        └─ index.js   &amp;lt;-- 여기서 require(&apos;colorette&apos;) 호출
+      └─ colorette@A.B.C/
+         └─ node_modules/
+            └─ colorette/&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;따라서, &lt;strong&gt;로컬&lt;/strong&gt;에서 import(require) 구문으로 모듈을 가져오는건 해당 모듈(pino-pretty)를 찾고, 없으면 project/node_modules 에서 관련 모듈(colorette)을 찾아서 가져오는 형태다.&lt;/p&gt;
+&lt;p&gt;즉,&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;pino-pretty/index.js가 require(‘colorette’)를 호출하면,&lt;/li&gt;
+&lt;li&gt;node.js는 먼저 현재 모듈 경로 기준으로 &lt;code class=&quot;language-text&quot;&gt;../node_modules/colorette&lt;/code&gt;를 찾고,&lt;/li&gt;
+&lt;li&gt;pnpm이 만들어 둔 심링크를 따라가서 &lt;code class=&quot;language-text&quot;&gt;.pnpm/colorette@A.B.C/node_modules/colorette&lt;/code&gt;를 로드함.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;테스트 서버&lt;/strong&gt;로 넘어가보자.&lt;/p&gt;
+&lt;p&gt;지금 빌드 artifact는 &lt;code class=&quot;language-text&quot;&gt;.next/standalone/node_modules/pino-pretty&lt;/code&gt;가 설치되었고 그 안에, index.js에서 &lt;code class=&quot;language-text&quot;&gt;require(&apos;colorette&apos;)&lt;/code&gt; 하고 있다. colorette는 &lt;code class=&quot;language-text&quot;&gt;.next/standalone/node_modules/.pnpm/pino-pretty@10.3.1/node_modules/colorette&lt;/code&gt; 에 존재한다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;.next/
+└─ standalone/
+   └─ node_modules/
+      ├─ pino-pretty -&gt; .pnpm/pino-pretty@X.Y.Z/node_modules/pino-pretty     (심링크)
+      ├─ .pnpm/
+      │  └─ pino-pretty@X.Y.Z/
+      │     └─ node_modules/
+      │        └─ pino-pretty/
+      │           ├─ /node_modules
+      │           │   └─ colorette@X.Y.Z       &amp;lt;--  못찾음
+      │           └─ index.js   &amp;lt;-- 여기서 require(&apos;colorette&apos;)
+      └─ (여기 colorette 관련 항목 없음)  ← ← ←  ⚠ MODULE_NOT_FOUND&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;즉, 하위 모듈을 가져가진 했지만, 디렉토리 구조 상 찾을 수 없었다.&lt;/p&gt;
+&lt;p&gt;그렇다면, pnpm으로 패키지 설치 시 npm과 yarn과 같이 심볼링 링크 형태가 아니라 flat 구조로 설치하고 종속성을 가지고 들어가면 되지 않을까? 여기서 그냥 GitHub Actions에서 pnpm으로 설치한 node_modules 전체를 artifact에 포함시킬까도 고민했지만 비효율이 발생하므로 그러고 싶지 않았다.&lt;/p&gt;
 &lt;br/&gt;
 &lt;h2 id=&quot;pnpm의-node-linker&quot; style=&quot;position:relative;&quot;&gt;pnpm의 node-linker&lt;a href=&quot;#pnpm%EC%9D%98-node-linker&quot; aria-label=&quot;pnpm의 node linker permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;pnpm도 npm과 yarn과 마찬가지로 flat하게 설치할 수 있다. pnpm의 &lt;a href=&quot;https://pnpm.io/settings#nodelinker&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;node-linker&lt;/a&gt; 에서 &lt;code class=&quot;language-text&quot;&gt;hoisted&lt;/code&gt; 설정을 해주면 심볼릭 링크 대신 flat한 구조로 설치해준다.&lt;/p&gt;
