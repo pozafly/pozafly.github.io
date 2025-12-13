@@ -1,4 +1,882 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[Pozafly's Blog]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 13 Dec 2025 14:57:32 GMT</lastBuildDate><item><title><![CDATA[Next.js standalone 종속성 추적 삽질기 (feat. pino)]]></title><description><![CDATA[Next.js를 실행하면 클라이언트 측 로그는 브라우저의 콘솔에 나타나지만, 서버 측 로그는 제대로 된 로그를 출력해주지 않았다. 이번에 프로젝트에 Next.js의 node 환경에서 log…]]></description><link>https://pozafly.github.io/nextjs/nextjs-standalone-dependency-tracing-issue/</link><guid isPermaLink="false">https://pozafly.github.io/nextjs/nextjs-standalone-dependency-tracing-issue/</guid><pubDate>Fri, 12 Sep 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Next.js를 실행하면 클라이언트 측 로그는 브라우저의 콘솔에 나타나지만, 서버 측 로그는 제대로 된 로그를 출력해주지 않았다. 이번에 프로젝트에 Next.js의 node 환경에서 log를 찍기 위해 라이브러리를 사용하면서 만난 트러블슈팅을 기록한다.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Pozafly's 블로그]]></title><description><![CDATA[Pozafly's Blog]]></description><link>https://pozafly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 13 Dec 2025 15:37:09 GMT</lastBuildDate><item><title><![CDATA[Playwright PDF 생성 환경을 EKS 기준으로 로컬에서 재현하는 방법(with Next.js)]]></title><description><![CDATA[PDF를 유저에게 보여줘야 하는 일이 생겼다. PDF 생성은 전통적인 방법으로 SpringBoot의 라이브러리(OpenHTMLtoPDF등)를 사용해 서버에서 생성하는 방법이 있다. 하지만, 유저에게 보여주어야 할 PDF…]]></description><link>https://pozafly.github.io/infrastructure/reproducing-nextjs-playwright-pdf-environment-for-eks/</link><guid isPermaLink="false">https://pozafly.github.io/infrastructure/reproducing-nextjs-playwright-pdf-environment-for-eks/</guid><pubDate>Sat, 13 Dec 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;PDF를 유저에게 보여줘야 하는 일이 생겼다. PDF 생성은 전통적인 방법으로 SpringBoot의 라이브러리(OpenHTMLtoPDF등)를 사용해 서버에서 생성하는 방법이 있다. 하지만, 유저에게 보여주어야 할 PDF가 단순히 문자열로만 구성된 것이 아니라 복잡한 layout과 다양한 CSS 기법이 적용되어야 했다. 또한, 유저에 따라 동적인 layout이 적용되어야 했다.&lt;/p&gt;
+&lt;p&gt;SpringBoot의 PDF 라이브러리는 text만 표시하지 않고 HTML을 렌더링해서 PDF 형식으로 만들어내는 방법도 존재했지만, CSS 지원이 제한적이라 미묘한 깨짐이 발생할 수 있다. 그리고 복잡한 layout의 PDF는 FE쪽 리소스를 투입하는게 낫다.&lt;/p&gt;
+&lt;p&gt;FE에서 PDF를 생성할 수 있는 라이브러리로, &lt;a href=&quot;https://pptr.dev/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;Puppeteer&lt;/a&gt;, &lt;a href=&quot;https://playwright.dev/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;Playwright&lt;/a&gt;와 같은 Headless Browser를 이용해 렌더링 하는 방법이 떠올랐다. Playwright를 선택한 이유는 앞으로 Playwright로 E2E Testing을 할 계획을 가지고 있기도 했고, Playwright를 이전 Puppeteer 개발자 주도해 만들었기 때문이다(사실 아주 거창한 이유는 없다).&lt;/p&gt;
+&lt;p&gt;Nextjs를 사용하고 있기 때문에 Node 영역에서 Playwright의 Headless Browser를 구동시켜 페이지를 렌더링 시키고, 그 페이지를 PDF로 만들어내면 되겠다. 자세한 기법은 추후 블로깅 할 생각.&lt;/p&gt;
+&lt;p&gt;이번 글은 개발을 끝낸 뒤, 이걸 어떻게 배포 환경까지 안정적으로 가져갔는지에 대한 기록이다. 특히 ‘로컬에서는 되는데 배포에서는 깨지는’ 문제를 피하기 위해 실행 환경을 통제하고, 재현 가능한 형태로 굳혀간 과정을 정리한다.&lt;/p&gt;
+&lt;h2 id=&quot;얻어갈-수-있는-것&quot; style=&quot;position:relative;&quot;&gt;얻어갈 수 있는 것&lt;a href=&quot;#%EC%96%BB%EC%96%B4%EA%B0%88-%EC%88%98-%EC%9E%88%EB%8A%94-%EA%B2%83&quot; aria-label=&quot;얻어갈 수 있는 것 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Playwright 실행 환경(브라우저/OS 의존성/폰트)을 &lt;strong&gt;Base 이미지로 고정&lt;/strong&gt;하는 방법&lt;/li&gt;
+&lt;li&gt;로컬에서 배포 환경과 유사하게 재현하는 &lt;strong&gt;로컬 Docker 테스트 패턴&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Playwright npm 버전 변화에 맞춰 &lt;strong&gt;Base 이미지 버전과 Dockerfile FROM을 자동 갱신&lt;/strong&gt;하는 방법&lt;/li&gt;
+&lt;li&gt;Docker build cache / tag 문제를 피하는 &lt;strong&gt;timestamp 태깅 전략&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;이미지 이동/적재(docker save/load + gzip)로 &lt;strong&gt;외부 다운로드 의존성 제거&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;전제&quot; style=&quot;position:relative;&quot;&gt;전제&lt;a href=&quot;#%EC%A0%84%EC%A0%9C&quot; aria-label=&quot;전제 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;이 글은 Next.js 기반 애플리케이션의 복잡한 PDF 생성 모듈을 Playwright를 사용하여 Docker/Kubernetes(EKS) 환경에 배포하는 과정을 다룬다. 아래 기술들에 대한 간단한 이해가 있다면 내용을 더 쉽게 파악할 수 있다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Next.js (Page Router / Standalone)&lt;/strong&gt;: next build 이후 standalone 아티팩트가 어떤 식으로 서버를 구성하는지&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Playwright&lt;/strong&gt;: Headless Browser(Chromium)를 제어해서 페이지를 렌더링하고 PDF를 생성한다는 개념&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Docker&lt;/strong&gt;: Dockerfile, 이미지/컨테이너, FROM/ARG/ENV/USER 같은 기본 문법과 컨테이너 네트워크&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ECR/EKS&lt;/strong&gt;: 이미지 push/pull, 그리고 그 이미지를 기반으로 Pod가 뜬다는 흐름&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CI/CD&lt;/strong&gt;: GitHub Actions로 빌드→이미지 생성→레지스트리 push→배포까지 이어지는 전체 흐름&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;기본 쉘 명령&lt;/strong&gt;: apt-get, sed, gzip, docker save/load 같은 명령의 역할&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;환경&quot; style=&quot;position:relative;&quot;&gt;환경&lt;a href=&quot;#%ED%99%98%EA%B2%BD&quot; aria-label=&quot;환경 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id=&quot;FE&quot; style=&quot;position:relative;&quot;&gt;FE&lt;a href=&quot;#FE&quot; aria-label=&quot;FE permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Next.js (Page Router)&lt;/li&gt;
+&lt;li&gt;Playwright&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;Deployment&quot; style=&quot;position:relative;&quot;&gt;Deployment&lt;a href=&quot;#Deployment&quot; aria-label=&quot;Deployment permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://nextjs.org/docs/app/api-reference/config/next-config-js/output#automatically-copying-traced-files&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;Nextjs Standalone&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;GitHub Actions&lt;/li&gt;
+&lt;li&gt;Docker / ECR(Amazon Elastic Container Registry)&lt;/li&gt;
+&lt;li&gt;EKS(Amazon Elastic Kubernetes Service)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;아래는 현재 CI/CD 배포 파이프라인이다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;mermaid&quot;&gt;&lt;pre class=&quot;language-mermaid&quot;&gt;&lt;code class=&quot;language-mermaid&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;sequenceDiagram&lt;/span&gt;
+    actor Developer
+    &lt;span class=&quot;token keyword&quot;&gt;participant&lt;/span&gt; GitHub
+    &lt;span class=&quot;token keyword&quot;&gt;participant&lt;/span&gt; Actions Runner
+    &lt;span class=&quot;token keyword&quot;&gt;participant&lt;/span&gt; ECR
+    &lt;span class=&quot;token keyword&quot;&gt;participant&lt;/span&gt; EKS
+
+    Developer &lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt; GitHub&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; FE commit &lt;span class=&quot;token text string&quot;&gt;(Push)&lt;/span&gt;
+    GitHub &lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&gt;&lt;/span&gt; Actions Runner&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Workflow Trigger
+    &lt;span class=&quot;token keyword&quot;&gt;activate&lt;/span&gt; Actions Runner
+
+    Actions Runner &lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt; Actions Runner&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; nextjs build &lt;span class=&quot;token text string&quot;&gt;(Standalone Artifacts 생성)&lt;/span&gt;
+    Actions Runner &lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt; Actions Runner&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Docker build 시작 &lt;span class=&quot;token text string&quot;&gt;(Dockerfile 실행)&lt;/span&gt;
+
+    Actions Runner &lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt; ECR&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Base Image Pull &lt;span class=&quot;token text string&quot;&gt;(FROM)&lt;/span&gt;
+    ECR &lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&gt;&lt;/span&gt; Actions Runner&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Base Image 제공
+
+    Actions Runner &lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt; Actions Runner&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Nextjs Artifacts Copy &lt;span class=&quot;token text string&quot;&gt;(COPY)&lt;/span&gt;
+    Actions Runner &lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt; Actions Runner&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; 새로운 Docker Image 생성 완료
+    Actions Runner &lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt; ECR&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Docker Image Push
+    ECR &lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&gt;&lt;/span&gt; Actions Runner&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Image Push Success
+
+    Actions Runner &lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt; EKS&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; 배포 요청
+    EKS &lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&gt;&lt;/span&gt; EKS&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; 새로운 Image로 Deployment/Pod 업데이트
+    &lt;span class=&quot;token keyword&quot;&gt;deactivate&lt;/span&gt; Actions Runner&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;PDF가-유저에게-도달하는-흐름-요약&quot; style=&quot;position:relative;&quot;&gt;PDF가 유저에게 도달하는 흐름 (요약)&lt;a href=&quot;#PDF%EA%B0%80-%EC%9C%A0%EC%A0%80%EC%97%90%EA%B2%8C-%EB%8F%84%EB%8B%AC%ED%95%98%EB%8A%94-%ED%9D%90%EB%A6%84-%EC%9A%94%EC%95%BD&quot; aria-label=&quot;PDF가 유저에게 도달하는 흐름 요약 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;mermaid&quot;&gt;&lt;pre class=&quot;language-mermaid&quot;&gt;&lt;code class=&quot;language-mermaid&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;sequenceDiagram&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;autonumber&lt;/span&gt;
+    actor 사용자
+    &lt;span class=&quot;token keyword&quot;&gt;participant&lt;/span&gt; Page as PDF렌더링 페이지&amp;lt;br/&gt;&lt;span class=&quot;token text string&quot;&gt;(PdfViewer)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;participant&lt;/span&gt; API as API Routes
+    &lt;span class=&quot;token keyword&quot;&gt;participant&lt;/span&gt; Headless as Playwright&amp;lt;br/&gt;&lt;span class=&quot;token text string&quot;&gt;(Headless Chrome)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;participant&lt;/span&gt; Backend as 백엔드 API&amp;lt;br/&gt;&lt;span class=&quot;token text string&quot;&gt;(SpringBoot)&lt;/span&gt;
+
+    사용자&lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt;Page&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; /pdf/something 접속
+    Page&lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt;API&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; PDF 요청
+    API&lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt;Headless&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; 헤드리스 브라우저 오픈
+    Headless&lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt;Backend&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; SSR PDF 데이터 API 호출
+    Backend&lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&gt;&lt;/span&gt;Headless&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; 데이터 응답
+    Headless&lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt;Headless&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; 1. SSR 페이지 오픈&amp;lt;br/&gt;2. PDF Buffer 생성
+    Headless&lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&gt;&lt;/span&gt;API&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; PDF Buffer 응답
+    API&lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt;Page&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; PDF Buffer 전달
+    Page&lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt;사용자&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; 환경에 따라 Blob&lt;span class=&quot;token text string&quot;&gt;(네이티브 뷰어)&lt;/span&gt;&amp;lt;br/&gt;혹은 pdf.js&lt;span class=&quot;token text string&quot;&gt;(Canvas)&lt;/span&gt;로 렌더링&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;API Routes 영역부터는 Node.js Runtime 영역이다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;서버(Node)에서 Playwright로 Headless Chromium을 구동한다.&lt;/li&gt;
+&lt;li&gt;Headless Browser가 Next.js로 배포된 “PDF 렌더링 페이지”를 연다.&lt;/li&gt;
+&lt;li&gt;해당 페이지는 SSR 과정에서 백엔드(SpringBoot)로부터 데이터를 받아 렌더링된다.&lt;/li&gt;
+&lt;li&gt;Playwright는 렌더링 결과를 PDF로 변환(&lt;code class=&quot;language-text&quot;&gt;page.pdf()&lt;/code&gt;)한다.&lt;/li&gt;
+&lt;li&gt;생성된 PDF 바이너리를 API Routes가 받아 유저 브라우저로 내려준다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;Playwright-구성-요소&quot; style=&quot;position:relative;&quot;&gt;Playwright 구성 요소&lt;a href=&quot;#Playwright-%EA%B5%AC%EC%84%B1-%EC%9A%94%EC%86%8C&quot; aria-label=&quot;Playwright 구성 요소 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;먼저, Playwright를 사용하기 위해서는 3가지를 알고 있어야 한다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;playwright 패키지&lt;/strong&gt;: 브라우저를 제어하는 코드(런타임 라이브러리)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;브라우저 바이너리(Chromium 등)&lt;/strong&gt;: 실제 실행 엔진&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;브라우저 시스템 종속성(OS Dependencies)&lt;/strong&gt;: 브라우저가 뜨기 위해 필요한 OS 라이브러리/폰트/로케일 등&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;비유를 들면,&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Playwright 패키지 = 운전자 + 운전 매뉴얼&lt;/li&gt;
+&lt;li&gt;브라우저 바이너리 = 실제 자동차&lt;/li&gt;
+&lt;li&gt;OS 종속성 = 자동차가 달릴 수 있는 도로(기반 환경)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;PDF는 결과물이라서, 이 3개 중 하나라도 흔들리면 &lt;strong&gt;폰트/간격/줄바꿈 같은 것이 달라진다.&lt;/strong&gt; 즉, PDF는 코드만 맞추면 끝나는 문제가 아니라 &lt;strong&gt;실행 환경까지 같이 고정해야&lt;/strong&gt; 한다.&lt;/p&gt;
+&lt;h3 id=&quot;브라우저-시스템-종속성OS-Dependencies&quot; style=&quot;position:relative;&quot;&gt;브라우저 시스템 종속성(OS Dependencies)&lt;a href=&quot;#%EB%B8%8C%EB%9D%BC%EC%9A%B0%EC%A0%80-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EC%A2%85%EC%86%8D%EC%84%B1OS-Dependencies&quot; aria-label=&quot;브라우저 시스템 종속성OS Dependencies permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;h4 id=&quot;local-환경mac&quot; style=&quot;position:relative;&quot;&gt;local 환경(mac)&lt;a href=&quot;#local-%ED%99%98%EA%B2%BDmac&quot; aria-label=&quot;local 환경mac permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;local에서 개발할 때는 &lt;code class=&quot;language-text&quot;&gt;$ npx playwright install chromium&lt;/code&gt; 명령어로 local에 headless browser를 설치할 수 있다. 이때 CDN으로 &lt;code class=&quot;language-text&quot;&gt;https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1187/chromium-mac-arm64.zip&lt;/code&gt; 경로를 통해 자동으로 바이너리를 받아온다(맥의 경우임, OS마다 다른 바이너리 파일을 다운 받음).&lt;/p&gt;
+&lt;p&gt;브라우저 시스템 종속성은 local 환경에서는 다운 받을 필요 없다. 브라우저 실행에 필요한 OS 라이브러리가 이미 OS 자체에 있기 때문이다.&lt;/p&gt;
+&lt;h4 id=&quot;배포-환경docker-container---linux&quot; style=&quot;position:relative;&quot;&gt;배포 환경(docker container - linux)&lt;a href=&quot;#%EB%B0%B0%ED%8F%AC-%ED%99%98%EA%B2%BDdocker-container---linux&quot; aria-label=&quot;배포 환경docker container   linux permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;배포 환경은 Docker 이미지를 생성하고 실행하지만, &lt;strong&gt;외부 네트워크 접근에 제약이 있는 환경(내부망)이다.&lt;/strong&gt; 이로 인해 다음과 같은 문제가 존재함.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;npx playwright install&lt;/code&gt; 명령어를 통한 &lt;strong&gt;브라우저 바이너리(Chromium) 다운로드 불가.&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Playwright가 요구하는 &lt;strong&gt;운영체제 종속성(OS Dependencies) 설치 및 버전 관리의 어려움.&lt;/strong&gt; (내부 저장소 부재, 환경 통제의 필요성)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;a href=&quot;https://playwright.dev/docs/docker&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;playwright의 공식 문서에서 docker 이미지&lt;/a&gt;를 따로 제공하고 있다는 걸 알게 되었다. 이 이미지는 headless browser 바이너리와 브라우저 시스템 종속성을 포함하고 있다. 따라서 이미지를 빌드할 때 일일이 바이너리와 종속성을 따로 받지 않아도 된다. 따라서 Nextjs 빌드 결과물을 이 이미지에 입혀 EKS pod에 배포하면 되는 것이다.&lt;/p&gt;
+&lt;h2 id=&quot;문제-발생&quot; style=&quot;position:relative;&quot;&gt;문제 발생&lt;a href=&quot;#%EB%AC%B8%EC%A0%9C-%EB%B0%9C%EC%83%9D&quot; aria-label=&quot;문제 발생 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;처음에는 공식 Playwright Docker 이미지를 쓰면 다 해결될 것이라고 생각했다. 실제로 공식 이미지는 브라우저 바이너리와 대부분의 OS 의존성을 포함하고 있고, Playwright가 기대하는 디렉토리 구조나 권한도 맞춰져 있다.&lt;/p&gt;
+&lt;p&gt;그런데 배포 환경에서 돌려보니, 로컬에서 멀쩡하던 PDF가 깨지거나, 오류가 발생했다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;브라우저 실행 경로 문제(/ms-playwright 하위 경로 등)&lt;/li&gt;
+&lt;li&gt;브라우저 콘솔 에러, 렌더링 타이밍 이슈&lt;/li&gt;
+&lt;li&gt;SSR에서 백엔드 호출 URL/네트워크 설정 문제&lt;/li&gt;
+&lt;li&gt;한글 폰트/이모지 렌더링 문제&lt;/li&gt;
+&lt;li&gt;쿠키/세션 처리 문제, user-agent 차이 등&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;세부 오류는 여기서 다 풀지는 않겠지만 공식 이미지 만으로는 결과물이 고정되지 않는다. 브라우저/폰트/아키텍처/환경변수/네트워크가 조금만 달라도 PDF는 달라진다.&lt;/p&gt;
+&lt;p&gt;그래서 완벽히 동일하진 않더라도, 최소한 &lt;strong&gt;로컬에서 배포 환경과 유사한 조건을 강제&lt;/strong&gt;할 수 있어야 디버깅이 가능하다고 판단했다. 이게 Part 1(로컬 Docker 환경 구축)을 시작한 이유다.&lt;/p&gt;
+&lt;h2 id=&quot;Part-1-로컬-Docker-환경-구축&quot; style=&quot;position:relative;&quot;&gt;Part 1: 로컬 Docker 환경 구축&lt;a href=&quot;#Part-1-%EB%A1%9C%EC%BB%AC-Docker-%ED%99%98%EA%B2%BD-%EA%B5%AC%EC%B6%95&quot; aria-label=&quot;Part 1 로컬 Docker 환경 구축 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id=&quot;Step-1-code-classlanguage-textdockerDockerfilelocalcode-신규-생성&quot; style=&quot;position:relative;&quot;&gt;Step 1. &lt;code class=&quot;language-text&quot;&gt;docker/Dockerfile.local&lt;/code&gt; (신규 생성)&lt;a href=&quot;#Step-1-code-classlanguage-textdockerDockerfilelocalcode-%EC%8B%A0%EA%B7%9C-%EC%83%9D%EC%84%B1&quot; aria-label=&quot;Step 1 code classlanguage textdockerDockerfilelocalcode 신규 생성 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;기존 &lt;code class=&quot;language-text&quot;&gt;docker/Dockerfile&lt;/code&gt; 은 프로덕션 배포용이었기 때문에, 로컬 테스트를 위해 별도의 Dockerfile을 만든다. &lt;code class=&quot;language-text&quot;&gt;Dockerfile.local&lt;/code&gt; 파일을 작성한다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;docker&quot;&gt;&lt;pre class=&quot;language-docker&quot;&gt;&lt;code class=&quot;language-docker&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;#	Dockerfile.local&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# 로컬 Docker 테스트용 Dockerfile (playwright 1.46.1 사용)&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;FROM&lt;/span&gt; mcr.microsoft.com/playwright:v1.46.1-jammy &lt;span class=&quot;token keyword&quot;&gt;AS&lt;/span&gt; base&lt;/span&gt;
+
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;WORKDIR&lt;/span&gt; /app&lt;/span&gt;
+
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;EXPOSE&lt;/span&gt; 3000&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;ENV&lt;/span&gt; PORT=3000&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;ENV&lt;/span&gt; HOST=0.0.0.0&lt;/span&gt;
+
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;COPY&lt;/span&gt; public ./public&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;COPY&lt;/span&gt; .next/standalone ./&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;COPY&lt;/span&gt; .next/static ./.next/static&lt;/span&gt;
+
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;USER&lt;/span&gt; root&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;RUN&lt;/span&gt; mkdir -p .next/cache &amp;amp;&amp;amp; chown -R pwuser:pwuser .next&lt;/span&gt;
+
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;USER&lt;/span&gt; pwuser&lt;/span&gt;
+
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;ENTRYPOINT&lt;/span&gt; [&lt;span class=&quot;token string&quot;&gt;&quot;node&quot;&lt;/span&gt;, &lt;span class=&quot;token string&quot;&gt;&quot;server.js&quot;&lt;/span&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&quot;세부-설명&quot; style=&quot;position:relative;&quot;&gt;세부 설명&lt;a href=&quot;#%EC%84%B8%EB%B6%80-%EC%84%A4%EB%AA%85&quot; aria-label=&quot;세부 설명 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code class=&quot;language-text&quot;&gt;FROM mcr.microsoft.com/playwright:v1.46.1-jammy&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Microsoft 공식 Playwright 이미지 사용&lt;/li&gt;
+&lt;li&gt;npm에 설치된 Playwright 버전과 &lt;strong&gt;명시적으로 맞춘다&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;브라우저 바이너리와 OS 종속성을 직접 설치하지 않아도 됨&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code class=&quot;language-text&quot;&gt;ENV HOST=0.0.0.0&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Next.js 서버를 모든 네트워크 인터페이스에 바인딩&lt;/li&gt;
+&lt;li&gt;컨테이너 내부에서 들어오는 요청을 정상적으로 받기 위함&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code class=&quot;language-text&quot;&gt;USER pwuser&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Playwright 공식 이미지에 포함된 일반 사용자&lt;/li&gt;
+&lt;li&gt;root로 실행하지 않도록 기본 보안 설정 유지&lt;/li&gt;
+&lt;li&gt;단, .next/cache 디렉토리는 root에서 권한만 미리 맞춰준다&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;Step-2-code-classlanguage-textenvlocal-dockercode-신규-생성&quot; style=&quot;position:relative;&quot;&gt;Step 2. &lt;code class=&quot;language-text&quot;&gt;.env.local-docker&lt;/code&gt; (신규 생성)&lt;a href=&quot;#Step-2-code-classlanguage-textenvlocal-dockercode-%EC%8B%A0%EA%B7%9C-%EC%83%9D%EC%84%B1&quot; aria-label=&quot;Step 2 code classlanguage textenvlocal dockercode 신규 생성 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;로컬 개발 서버(pnpm dev)와 Docker 컨테이너에서 실행되는 서버는 네트워크 구조가 완전히 다르다. 그래서 기존 .env.localhost를 그대로 쓰면 의도하지 않은 문제가 생긴다.&lt;/p&gt;
+&lt;p&gt;Docker 환경 전용으로 &lt;code class=&quot;language-text&quot;&gt;.env.local-docker&lt;/code&gt; 를 따로 만들었다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;env&quot;&gt;&lt;pre class=&quot;language-env&quot;&gt;&lt;code class=&quot;language-env&quot;&gt;# .env.local-docker
+NEXT_PUBLIC_APP_ENV=local-docker
+NEXT_PUBLIC_BROWSER_API_URL=http://localhost:3000
+NEXT_PUBLIC_INTERNAL_API_URL=...
+NEXT_PUBLIC_PDF_INTERNAL_URL=http://host.docker.internal:3000
+SERVER_API_URL=...&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;env&quot;&gt;&lt;pre class=&quot;language-env&quot;&gt;&lt;code class=&quot;language-env&quot;&gt;# .env.local
+NEXT_PUBLIC_APP_ENV=localhost
+NEXT_PUBLIC_BROWSER_API_URL=http://localhost:3000
+NEXT_PUBLIC_INTERNAL_API_URL=http://localhost:3000
+NEXT_PUBLIC_PDF_INTERNAL_URL=http://localhost:3000
+SERVER_API_URL=...&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4 id=&quot;envlocal-docker-설명&quot; style=&quot;position:relative;&quot;&gt;.env.local-docker 설명&lt;a href=&quot;#envlocal-docker-%EC%84%A4%EB%AA%85&quot; aria-label=&quot;envlocal docker 설명 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code class=&quot;language-text&quot;&gt;NEXT_PUBLIC_BROWSER_API_URL=http://localhost:3000&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;브라우저(클라이언트)에서 API 호출 시 사용하는 URL&lt;/li&gt;
+&lt;li&gt;사용자가 &lt;code class=&quot;language-text&quot;&gt;http://localhost:3000&lt;/code&gt;으로 접속하므로 그대로 유지&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;단, 여기서 dev 서버는 CORS 때문에 &lt;code class=&quot;language-text&quot;&gt;next.config.js&lt;/code&gt;에 프록시 역할을 하도록 설정해두었었고, docker 환경에서도 프록시 역할을 하도록 해준다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight has-highlighted-lines&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// next.config.js&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;// ...&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;rewrites&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; process&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;env&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;NEXT_PUBLIC_APP_ENV&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;localhost&apos;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;||&lt;/span&gt;
+&lt;span class=&quot;gatsby-highlight-code-line&quot;&gt;    process&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;env&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;NEXT_PUBLIC_APP_ENV&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;local-docker&apos;&lt;/span&gt;&lt;/span&gt;    &lt;span class=&quot;token operator&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;token comment&quot;&gt;// api 프록시&lt;/span&gt;
+          &lt;span class=&quot;token literal-property property&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;/b2c-api/api/:path*&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;token literal-property property&quot;&gt;destination&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token template-string&quot;&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;token interpolation&quot;&gt;&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;${&lt;/span&gt;process&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;env&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;SERVER_API_URL&lt;/span&gt;&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;/api/:path*&lt;/span&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;// ...&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code class=&quot;language-text&quot;&gt;NEXT_PUBLIC_INTERNAL_API_URL=...&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;SSR시, middleware 등 Node.js runtime에서 API 호출에 사용&lt;/li&gt;
+&lt;li&gt;Docker 컨테이너 내부에서 &lt;code class=&quot;language-text&quot;&gt;localhost:3000&lt;/code&gt;은 자기 자신을 가리키므로 외부 테스트 서버 사용&lt;/li&gt;
+&lt;li&gt;EKS 환경에서는 내부에 배포된 pod 서버 주소를 사용한다. (브라우저가 아니라 node 서버에서 SpringBoot 서버로 쏘므로)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code class=&quot;language-text&quot;&gt;NEXT_PUBLIC_PDF_INTERNAL_URL=http://host.docker.internal:3000&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;PDF 생성 시 Playwright가 페이지 접속에 사용하는 URL&lt;/li&gt;
+&lt;li&gt;로컬 개발 서버(호스트 PC)와 달리, Docker 컨테이너 내부에서 &lt;code class=&quot;language-text&quot;&gt;localhost&lt;/code&gt;는 컨테이너 자신을 가리킴&lt;/li&gt;
+&lt;li&gt;따라서 컨테이너에서 **호스트 머신(Next.js 서버가 실행 중인 PC)**으로 루프백 요청을 보내기 위해 Docker Desktop이 제공하는 특수 DNS인 &lt;code class=&quot;language-text&quot;&gt;host.docker.internal&lt;/code&gt;을 사용함.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Playwright는 headless browser에서 PDF 생성 대상이 되는 페이지를 열기 위해 자기 자신을 호출한다. (그래야 FE에서 복잡한 CSS를 가진 페이지를 만들 수 있고, PDF 관리도 FE에서 가능하기 때문이다.)&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;mermaid&quot;&gt;&lt;pre class=&quot;language-mermaid&quot;&gt;&lt;code class=&quot;language-mermaid&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;sequenceDiagram&lt;/span&gt;
+    box &lt;span class=&quot;token string&quot;&gt;&quot;단일 로컬 PC 환경&quot;&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;participant&lt;/span&gt; PlaywrightApp as Playwright/Node.js 서버
+        &lt;span class=&quot;token keyword&quot;&gt;participant&lt;/span&gt; Browser as Playwright 헤드리스 브라우저
+    &lt;span class=&quot;token keyword&quot;&gt;end&lt;/span&gt;
+
+    PlaywrightApp &lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt; Browser&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; 1. 브라우저 실행 &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;launch browser&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;activate&lt;/span&gt; Browser
+
+    PlaywrightApp &lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt; Browser&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; 2. 새 페이지 열기 &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;newPage&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    Browser &lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&gt;&lt;/span&gt; PlaywrightApp&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; 3. 페이지 인스턴스 반환
+
+    &lt;span class=&quot;token keyword&quot;&gt;Note over&lt;/span&gt; PlaywrightApp&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; 4. PDF 생성 대상 URL 결정&amp;lt;br&gt;&lt;span class=&quot;token text string&quot;&gt;(예: http://localhost:3000/content)&lt;/span&gt;
+
+    PlaywrightApp &lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt; Browser&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; 5. page.goto&lt;span class=&quot;token text string&quot;&gt;(&apos;http://localhost:PORT/경로&apos;)&lt;/span&gt;
+
+    Browser &lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt; PlaywrightApp&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; 6. 페이지 콘텐츠를 위한 HTTP 요청 &lt;span class=&quot;token text string&quot;&gt;(Loopback 통신)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;activate&lt;/span&gt; PlaywrightApp
+
+    PlaywrightApp &lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt; Browser&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; 7. HTTP 응답 &lt;span class=&quot;token text string&quot;&gt;(HTML/CSS/JS)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;deactivate&lt;/span&gt; PlaywrightApp
+
+    Browser &lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt; Browser&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; 8. 페이지 콘텐츠 렌더링
+
+    PlaywrightApp &lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt; Browser&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; 9. PDF 파일 생성 명령 &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;page.pdf&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    Browser &lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&gt;&lt;/span&gt; PlaywrightApp&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; 10. PDF 이진 데이터 반환
+
+    &lt;span class=&quot;token keyword&quot;&gt;deactivate&lt;/span&gt; Browser
+    PlaywrightApp &lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt; PlaywrightApp&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; 11. PDF 파일 저장 또는 스트림 처리&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;자기 자신을 호출하는 것을 **로컬 루프백(Local Loopback)**이라고 한다. 이때 local(&lt;code class=&quot;language-text&quot;&gt;pnpm dev&lt;/code&gt;로 실행하는 dev서버)에서는 &lt;code class=&quot;language-text&quot;&gt;http://localhost:3000&lt;/code&gt; 주소를 사용해도 된다. 왜냐하면 Next.js가 떠있는게 localhost:3000 이기 때문이다. 같은 OS(호스트 PC) 위에서 실행되기 때문이다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Host PC (Next.js Server):&lt;/strong&gt; PDF 렌더링에 필요한 HTML/CSS/데이터를 제공하는 웹 서버.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Docker Container (Playwright App):&lt;/strong&gt; Next.js 코드를 실행하며, Headless Browser를 구동하여 PDF를 생성하는 주체.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;하지만 Docker 환경은 다르다. Docker Container 내부에서 localhost는 호스트 PC가 아닌 Docker Container 자기 자신이기 때문이다. 컨테이너 내부 3000번 포트로 요청을 보낸다. 그러면 dev 서버와 동일하게 자기자신을 가리키기 때문에 문제 없이 호출되어야 하는 것이 맞다. 하지만 localhost:3000이 실패했고, &lt;code class=&quot;language-text&quot;&gt;host.docker.internal:3000&lt;/code&gt; 으로 접근했을 경우만 성공했다.&lt;/p&gt;
+&lt;p&gt;왜냐면 docker container 내부에 localhost가 네트워크로 바인딩 되어있지 않기 때문이다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# docker container 내부&lt;/span&gt;
+
+$ &lt;span class=&quot;token function&quot;&gt;cat&lt;/span&gt; /etc/hosts
+&lt;span class=&quot;token number&quot;&gt;127.0&lt;/span&gt;.0.1       localhost
+::1     localhost ip6-localhost ip6-loopback
+fe00::  ip6-localnet
+ff00::  ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+&lt;span class=&quot;token number&quot;&gt;172.17&lt;/span&gt;.0.2      3c2c98fbe2ae&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;DNS로 127.0.0.1에 localhost가 바인딩 되어있지만, 실제로는 172.17.0.2에 Next.js 어플리케이션이 떠있다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# docker container 내부&lt;/span&gt;
+
+$ &lt;span class=&quot;token function&quot;&gt;node&lt;/span&gt; /app/server.js
+ ⨯ Failed to start server
+Error: listen EADDRINUSE: address already &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; use &lt;span class=&quot;token number&quot;&gt;172.17&lt;/span&gt;.0.2:3000
+    at &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;unknown&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;Error: listen EADDRINUSE: address already &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; use &lt;span class=&quot;token number&quot;&gt;172.17&lt;/span&gt;.0.2:3000&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  code: &lt;span class=&quot;token string&quot;&gt;&apos;EADDRINUSE&apos;&lt;/span&gt;,
+  errno: -98,
+  syscall: &lt;span class=&quot;token string&quot;&gt;&apos;listen&apos;&lt;/span&gt;,
+  address: &lt;span class=&quot;token string&quot;&gt;&apos;172.17.0.2&apos;&lt;/span&gt;,
+  port: &lt;span class=&quot;token number&quot;&gt;3000&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Next.js 서버를 다시 한번 실행하는 명령어인데, 이미 &lt;code class=&quot;language-text&quot;&gt;172.17.0.2:3000&lt;/code&gt; 에 떠 있는 것을 볼 수 있기 때문이다. 그렇다면 방법은 두 가지다.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;NEXT_PUBLIC_PDF_INTERNAL_URL&lt;/code&gt;에 localhost:3000 대신, &lt;code class=&quot;language-text&quot;&gt;172.17.0.2:3000&lt;/code&gt; 이 주소를 넣어준다.&lt;/li&gt;
+&lt;li&gt;docker run 시 &lt;code class=&quot;language-text&quot;&gt;--dns=127.0.01&lt;/code&gt; 옵션을 준다.
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1454px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 18%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAYAAACOXx+WAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAuklEQVR42kWP6wrCMAyF+/6vJ4oI+mPrel9vyjYn2zHtigZCTr6EQ8K4MHA+oR8UTucbLtc7jAtwY4KlNC7WamuNjR/atllhxaPsMqkdpvmNmJ6QykIZV7UPCaOPVYeYf+nIyIeMlF+ImfYa09bXXZZpUGKaZnCh0PUCHRcQ0tDVsjKhDPW6cY2BmCRW+qIHoXF/dGQcwNBiXT/oORnyYqLpHQ9Pb4RYLg21HheG2tvRY14W7PuGbfvnF4GCLjuJnRJxAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;dns-option&quot;
+        title=&quot;&quot;
+        src=&quot;/static/c4e19889ca88eb4eb19b6c172744cf7a/b62b2/dns-option.png&quot;
+        srcset=&quot;/static/c4e19889ca88eb4eb19b6c172744cf7a/b30f8/dns-option.png 500w,
+/static/c4e19889ca88eb4eb19b6c172744cf7a/332ff/dns-option.png 1000w,
+/static/c4e19889ca88eb4eb19b6c172744cf7a/b62b2/dns-option.png 1454w&quot;
+        sizes=&quot;(max-width: 1454px) 100vw, 1454px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.docker.com/engine/network/#dns-services&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;https://docs.docker.com/engine/network/#dns-services&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;NEXT_PUBLIC_PDF_INTERNAL_URL&lt;/code&gt;에 host.docker.internal을 주어 &lt;strong&gt;호스트 NAT 우회&lt;/strong&gt; 한다.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;나는 3번을 선택했는데, 호스트 PC를 호출해서 호스트 PC가 다시 docker container의 Next.js 서버를 찌르게 만드는 방법이다. 이는 docker에서 제공하는 특수 DNS 이름이다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;mermaid&quot;&gt;&lt;pre class=&quot;language-mermaid&quot;&gt;&lt;code class=&quot;language-mermaid&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;sequenceDiagram&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;autonumber&lt;/span&gt;
+
+    box &lt;span class=&quot;token string&quot;&gt;&quot;Host PC&quot;&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;participant&lt;/span&gt; Browser as Browser &lt;span class=&quot;token text string&quot;&gt;(Client)&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;participant&lt;/span&gt; NAT as Docker NAT / Port Publish
+    &lt;span class=&quot;token keyword&quot;&gt;end&lt;/span&gt;
+
+    box &lt;span class=&quot;token string&quot;&gt;&quot;Docker Container&quot;&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;participant&lt;/span&gt; App as Next.js + Playwright
+        &lt;span class=&quot;token keyword&quot;&gt;participant&lt;/span&gt; B as Headless Chromium
+    &lt;span class=&quot;token keyword&quot;&gt;end&lt;/span&gt;
+
+    Browser&lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt;App&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; /api/pdf 요청 &lt;span class=&quot;token text string&quot;&gt;(localhost:3000)&lt;/span&gt;
+    App&lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt;B&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; launch + page.newPage
+
+    &lt;span class=&quot;token keyword&quot;&gt;Note over&lt;/span&gt; App&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; 내부 접근 시도&amp;lt;br/&gt;http&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt;//localhost&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt;3000/content
+    B&lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt;App&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; GET localhost&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt;3000 ❌ &lt;span class=&quot;token text string&quot;&gt;(실패)&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;Note over&lt;/span&gt; App&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; 우회 경로 선택&amp;lt;br/&gt;http&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt;//host.docker.internal&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt;3000/content
+    B&lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt;NAT&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; GET host.docker.internal&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt;3000
+    NAT&lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt;App&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; 포트 매핑으로 전달
+    App&lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&gt;&lt;/span&gt;B&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; HTML/CSS/JS
+
+    B&lt;span class=&quot;token arrow operator&quot;&gt;-&gt;&gt;&lt;/span&gt;B&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; 렌더링 + PDF 생성
+    B&lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&gt;&lt;/span&gt;App&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; PDF 바이너리
+    App&lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&gt;&lt;/span&gt;Browser&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; PDF 응답&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;위와 같은 경로로 전달된다. 당연히 local에서 docker를 통해 테스트를 하기 때문에 host.docker.internal을 사용했지만, 실제 배포 환경에서는 저런 방식으로 우회해서 사용하는게 아니라 명확한 주소를 매핑 시켜놓는 것이 좋다. 또한 만약 docker 정책이 container 자신의 주소가 172.17.0.2가 아닌 다른 주소가 된다해도 host.docker.internal를 사용하고 있으므로 local에서 테스트 용도로 적합하다고 생각했다.&lt;/p&gt;
+&lt;h3 id=&quot;Step-3-code-classlanguage-textpackagejsoncode&quot; style=&quot;position:relative;&quot;&gt;Step 3. &lt;code class=&quot;language-text&quot;&gt;package.json&lt;/code&gt;&lt;a href=&quot;#Step-3-code-classlanguage-textpackagejsoncode&quot; aria-label=&quot;Step 3 code classlanguage textpackagejsoncode permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;로컬 Docker 테스트는 &lt;code class=&quot;language-text&quot;&gt;빌드 -&gt; 이미지 생성 -&gt; 실행&lt;/code&gt; 을 매번 손으로 하면 바로 귀찮아진다. 한 줄로 끝나야 한다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// package.json&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;scripts&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;local-docker.build&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;env-cmd -f .env.local-docker next build&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;local-docker.start&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;pnpm local-docker.build &amp;amp;&amp;amp; docker build -f ./docker/Dockerfile.local -t my-next-app:local --platform linux/amd64 . &amp;amp;&amp;amp; docker run --rm -p 3000:3000 my-next-app:local&quot;&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;// ...&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&quot;세부-설명-1&quot; style=&quot;position:relative;&quot;&gt;세부 설명&lt;a href=&quot;#%EC%84%B8%EB%B6%80-%EC%84%A4%EB%AA%85-1&quot; aria-label=&quot;세부 설명 1 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code class=&quot;language-text&quot;&gt;local-docker.build&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;.env.local-docker&lt;/code&gt; 환경변수를 사용하여 Next.js 빌드&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;env-cmd -f&lt;/code&gt; 플래그로 특정 환경 파일 지정&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code class=&quot;language-text&quot;&gt;local-docker.start&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;전체 프로세스를 한 번에 실행하는 통합 스크립트
+&lt;ul&gt;
+&lt;li&gt;Next.js 빌드 -&gt; Docker 이미지 생성 -&gt; 컨테이너 실행&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;-platform linux/amd64&lt;/code&gt;: M1/M2/M3 Mac에서도 호환성 보장&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;-rm&lt;/code&gt;: 컨테이너 종료 시 자동 삭제&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;이제 아래 명령어 한 줄로 현재 작성된 Next.js 코드를 local에서 docker container로 띄운 환경에 접속 가능하다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;pnpm&lt;/span&gt; local-docker.start&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 2000px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 52.800000000000004%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB7ElEQVR42pWS6W7bMBCE9RwFXDu2DovUaV2MJFsW5CM+UrcpigZF2/d/i8mQdtqk//rjw1IrcnZ3SKtoz8jrE1J1QLm8QHUXuGEDW1SwpcJMlJi4ASaONIxt78YcH2cuRLRAlBWIi5oMsPzFGX56gswvkMUTxQaKKTjBPRxJAopLilNYFzDirwUYx7bAaOpxHcOLN7BkdkKQP+IaPyEoLvwxUHhFwRrzZIN5umPcQiweyMHgJzuI7Ghyfrol3BP3sIwICcsnhMUXeFGHOy80I41t/w8TR/zD35zeO/UiNqIF2ZFgd7pDHc2IHO+OG8wBV94OefTMecd4dvVyTC/v3NA0Y8n8TLErWsgJao7bmnG1uP626eXUz1gkJgm7IfPEFLqKvwr22kP6V3xGUH41F6NjWH5DVD0jrn8irL4bkvoX+Y1Y/UCkns3aT498BYriqZlI+2iJdE2D15CLAUHWI8y3SKoDonKPqNgx30HEDWS6NIikJQ1E2iLMeDZW7E6YG3f4Cqzt4YTd8YzNwxH70yOqZoWsuodqOzRdz+8lMlWjrFuzLkn1BtWuEOeKRTN4QQyr3x7M4yzrFZr1gLbfoBv2SLjpw8SmP55hNHXfrUdvcvpirrfuw6pXPWSSm7Zn88DgiIjGy9vT+T9eAFOVVnjZrtKvAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;docker-build-cli.png&quot;
+        title=&quot;&quot;
+        src=&quot;/static/32eb77f9e39ce13b0a2824b76df8492c/99e71/docker-build-cli.png&quot;
+        srcset=&quot;/static/32eb77f9e39ce13b0a2824b76df8492c/b30f8/docker-build-cli.png 500w,
+/static/32eb77f9e39ce13b0a2824b76df8492c/332ff/docker-build-cli.png 1000w,
+/static/32eb77f9e39ce13b0a2824b76df8492c/99e71/docker-build-cli.png 2000w,
+/static/32eb77f9e39ce13b0a2824b76df8492c/c6eff/docker-build-cli.png 2074w&quot;
+        sizes=&quot;(max-width: 2000px) 100vw, 2000px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 2000px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 3.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAABCAYAAADeko4lAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAPklEQVR42k3LMRJAAAwFUfc/qCL5ChLCmFiGxuu22EGayFg455E+Vj4Xf5lJVSEJM6O733Z3IuL5A3Ox7c0NSm5Nd21hDz4AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;docker-desktop-result.png&quot;
+        title=&quot;&quot;
+        src=&quot;/static/adeb59617629efc07580f91f40f9abfe/99e71/docker-desktop-result.png&quot;
+        srcset=&quot;/static/adeb59617629efc07580f91f40f9abfe/b30f8/docker-desktop-result.png 500w,
+/static/adeb59617629efc07580f91f40f9abfe/332ff/docker-desktop-result.png 1000w,
+/static/adeb59617629efc07580f91f40f9abfe/99e71/docker-desktop-result.png 2000w,
+/static/adeb59617629efc07580f91f40f9abfe/ed510/docker-desktop-result.png 2128w&quot;
+        sizes=&quot;(max-width: 2000px) 100vw, 2000px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h3 id=&quot;로컬-Docker에서도-완전히-같지는-않다&quot; style=&quot;position:relative;&quot;&gt;로컬 Docker에서도 완전히 같지는 않다&lt;a href=&quot;#%EB%A1%9C%EC%BB%AC-Docker%EC%97%90%EC%84%9C%EB%8F%84-%EC%99%84%EC%A0%84%ED%9E%88-%EA%B0%99%EC%A7%80%EB%8A%94-%EC%95%8A%EB%8B%A4&quot; aria-label=&quot;로컬 Docker에서도 완전히 같지는 않다 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;PDF 결과물의 폰트 및 간격이 amd64로 빌드 했을 때 달라져 꽤 오랜시간 애를 먹었다. 원인은 docker build 할 때 platform을 설정했기 때문이었다.&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;--platform linux/amd64&lt;/code&gt; 같은 경우 EKS pod 환경이 linux/amd64 이기 때문에 플랫폼을 맞춰주기 위해서 넣은 것이다. 하지만, mac에서 amd64 플랫폼으로 동작하지만, PDF를 브라우저에 렌더링 했을 경우 폰트 및 간격이 실제 EKS에 배포했을 때와는 다르다. 이유는 Mac은 arm64 환경이기 때문이다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.docker.com/blog/faster-multi-platform-builds-dockerfile-cross-compilation-guide/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;멀티 플랫폼 빌드(크로스 컴파일 가이드) - Docker 공식 블로그&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.docker.com/blog/multi-arch-images/&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;Docker Desktop을 사용하여 Arm 및 x86용 멀티 아키텍처 이미지 빌드하기 - Docker 공식 블로그&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;따라서 &lt;code class=&quot;language-text&quot;&gt;--platform&lt;/code&gt; 옵션은 실제 ECR에 올릴 이미지를 생성할 때만 넣어주어야 한다.&lt;/p&gt;
+&lt;p&gt;그래서 로컬 검증은 &lt;strong&gt;기능 동작 여부&lt;/strong&gt; 중심으로 하고, 결과물의 픽셀 단위 동일성은 &lt;strong&gt;실제 아키텍처 amd64(Mac)에서 최종 확인&lt;/strong&gt;하는 방식으로 했다.&lt;/p&gt;
+&lt;br/&gt;
+&lt;h2 id=&quot;Part-2-ECR-Base-이미지-작성-및-배포-프로세스&quot; style=&quot;position:relative;&quot;&gt;Part 2: ECR Base 이미지 작성 및 배포 프로세스&lt;a href=&quot;#Part-2-ECR-Base-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%9E%91%EC%84%B1-%EB%B0%8F-%EB%B0%B0%ED%8F%AC-%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4&quot; aria-label=&quot;Part 2 ECR Base 이미지 작성 및 배포 프로세스 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;로컬에서 Playwright 이미지에 Nextjs 빌드 결과물을 Docker Container로 띄웠다면, 이제 실제 EKS에 배포될 이미지의 기본값이 될 playwright base 이미지를 만들어야 한다.&lt;/p&gt;
+&lt;p&gt;Playwright는 단순한 npm 패키지가 아니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;브라우저 바이너리&lt;/li&gt;
+&lt;li&gt;OS 종속성&lt;/li&gt;
+&lt;li&gt;폰트, locale, timezone&lt;/li&gt;
+&lt;li&gt;Chromium 버전&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;이 모든 것이 &lt;strong&gt;Base 이미지에 강하게 결합&lt;/strong&gt;되어 있다. 즉, Base 이미지가 흔들리면 PDF 결과물도 같이 흔들린다. Playwright Base 이미지를 직접 만들고, ECR에 올리고, 그 버전만 사용하도록 한다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;※ playwright 버전&lt;/p&gt;
+&lt;p&gt;기존에 &lt;a href=&quot;mailto:playwright@1.41.1&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;playwright@1.41.1&lt;/a&gt;을 사용하고 있었지만, 보안 취약점이 발견되어 최신 버전의 이미지(1.57.0)를 사용해야 했다. npm package에서 playwright 버전이 올라가면 playwright docker 이미지도 버전이 올라가야 한다. 만약 npm playwright 버전과 playwright 이미지의 버전이 맞지 않는다면 headless browser가 실행되지 않는다.&lt;/p&gt;
+&lt;p&gt;따라서 FE에서 npm을 통해 playwright를 업데이트하면 당연히 base 이미지도 업데이트 해야 한다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;위에서 봤듯, FE 배포 프로세스를 보면 아래와 같다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;mermaid&quot;&gt;&lt;pre class=&quot;language-mermaid&quot;&gt;&lt;code class=&quot;language-mermaid&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;graph&lt;/span&gt; LR
+		A&lt;span class=&quot;token text string&quot;&gt;[developer]&lt;/span&gt; &lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&lt;/span&gt;&lt;span class=&quot;token label property&quot;&gt;|FE commit push|&lt;/span&gt; B
+    B&lt;span class=&quot;token text string&quot;&gt;[GitHub]&lt;/span&gt; &lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&lt;/span&gt; C&lt;span class=&quot;token text string&quot;&gt;(Actions Runner)&lt;/span&gt;
+    C &lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&lt;/span&gt;&lt;span class=&quot;token label property&quot;&gt;|playwright base 이미지 요청|&lt;/span&gt; D&lt;span class=&quot;token text string&quot;&gt;[(ECR)]&lt;/span&gt;
+    D &lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&lt;/span&gt;&lt;span class=&quot;token label property&quot;&gt;|playwright base 이미지 응답|&lt;/span&gt; C
+    C &lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&lt;/span&gt;&lt;span class=&quot;token label property&quot;&gt;|base 이미지에 Next.js Artifact ㅊ추가|&lt;/span&gt; F&lt;span class=&quot;token text string&quot;&gt;[EKS]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;배포때 GitHub Actions에서 ECR로 playwright base 이미지를 요청하게 된다. 저 base 이미지를 local PC해서 만들고 내부망으로 이동시켜 ECR에 푸시하도록 한다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;mermaid&quot;&gt;&lt;pre class=&quot;language-mermaid&quot;&gt;&lt;code class=&quot;language-mermaid&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;graph&lt;/span&gt; LR
+    A&lt;span class=&quot;token text string&quot;&gt;[로컬 빌드]&lt;/span&gt; &lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&lt;/span&gt; B&lt;span class=&quot;token text string&quot;&gt;(tar 압축)&lt;/span&gt;
+    B &lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&lt;/span&gt; C&lt;span class=&quot;token text string&quot;&gt;[내부망 이동]&lt;/span&gt;
+    C &lt;span class=&quot;token arrow operator&quot;&gt;--&gt;&lt;/span&gt; D&lt;span class=&quot;token text string&quot;&gt;[(ECR 푸시)]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&quot;Step-1-code-classlanguage-textdockerDockerfilebasecode-신규-생성&quot; style=&quot;position:relative;&quot;&gt;Step 1. &lt;code class=&quot;language-text&quot;&gt;docker/Dockerfile.base&lt;/code&gt; (신규 생성)&lt;a href=&quot;#Step-1-code-classlanguage-textdockerDockerfilebasecode-%EC%8B%A0%EA%B7%9C-%EC%83%9D%EC%84%B1&quot; aria-label=&quot;Step 1 code classlanguage textdockerDockerfilebasecode 신규 생성 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Playwright 공식 이미지&lt;/strong&gt;를 기반,&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;한국 시간대 / 한글 + 이모지 폰트 / HTTPS APT / 안정적인 apt-get 패턴 / 이미지 용량 정리&lt;/strong&gt;를 설정하고&lt;/li&gt;
+&lt;li&gt;마지막에 &lt;strong&gt;비루트 계정(pwuser)&lt;/strong&gt; 로 내려서 브라우저와 Node를 구동하는, PDF/스크린샷 생성에 최적화된 베이스 이미지를 만든다.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;dockerfile&quot;&gt;&lt;pre class=&quot;language-dockerfile&quot;&gt;&lt;code class=&quot;language-dockerfile&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# docker/Dockerfile.base&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# 골든 베이스: Playwright + 폰트/타임존&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;FROM&lt;/span&gt; mcr.microsoft.com/playwright:latest&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;USER&lt;/span&gt; root&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;ENV&lt;/span&gt; DEBIAN_FRONTEND=noninteractive&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;ENV&lt;/span&gt; TZ=Asia/Seoul&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# ── 견고한 APT 패턴: HTTPS 미러, 인덱스 초기화, 재시도, 한 RUN에서 update→install→clean ──&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;RUN&lt;/span&gt; set -eux; &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# 0) 미러 HTTPS로 고정(사내 미러 쓰면 여기서 sources.list 교체)&lt;/span&gt;
+    sed -i &lt;span class=&quot;token string&quot;&gt;&apos;s|http://archive.ubuntu.com|https://archive.ubuntu.com|g&apos;&lt;/span&gt; /etc/apt/sources.list; &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+    sed -i &lt;span class=&quot;token string&quot;&gt;&apos;s|http://security.ubuntu.com|https://security.ubuntu.com|g&apos;&lt;/span&gt; /etc/apt/sources.list; &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# 1) 인덱스 초기화 + 재시도 옵션&lt;/span&gt;
+    rm -rf /var/lib/apt/lists/*; mkdir -p /var/lib/apt/lists/partial; &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+    echo &lt;span class=&quot;token string&quot;&gt;&apos;Acquire::Retries &quot;5&quot;;&apos;&lt;/span&gt; &gt; /etc/apt/apt.conf.d/80-retries; &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# 2) 타임존 사전 지정(프롬프트 방지)&lt;/span&gt;
+    ln -snf /usr/share/zoneinfo/&lt;span class=&quot;token variable&quot;&gt;$TZ&lt;/span&gt; /etc/localtime; echo &lt;span class=&quot;token string&quot;&gt;&quot;$TZ&quot;&lt;/span&gt; &gt; /etc/timezone; &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# 3) 업데이트&lt;/span&gt;
+    apt-get update -o Acquire::http::No-Cache=true -o Acquire::http::Pipeline-Depth=0; &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# 4) 필요한 패키지 일괄 설치(폰트 + tzdata + 인증서)&lt;/span&gt;
+    apt-get install -y --no-install-recommends &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+        fonts-noto-cjk &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+        fonts-noto-color-emoji &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+        tzdata &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+        ca-certificates &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+    ; &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# (환경에 따라) tzdata 재설정도 비대화식으로 강제&lt;/span&gt;
+    dpkg-reconfigure -f noninteractive tzdata; &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# 5) 클린업&lt;/span&gt;
+    rm -rf /var/lib/apt/lists/*&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# 권장: 기본 유저를 Playwright의 pwuser로&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;USER&lt;/span&gt; pwuser&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4 id=&quot;세부-설명-2&quot; style=&quot;position:relative;&quot;&gt;세부 설명&lt;a href=&quot;#%EC%84%B8%EB%B6%80-%EC%84%A4%EB%AA%85-2&quot; aria-label=&quot;세부 설명 2 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h4&gt;
+&lt;h3 id=&quot;code-classlanguage-textFROM-mcrmicrosoftcomplaywrightlatestcode&quot; style=&quot;position:relative;&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;FROM mcr.microsoft.com/playwright:latest&lt;/code&gt;&lt;a href=&quot;#code-classlanguage-textFROM-mcrmicrosoftcomplaywrightlatestcode&quot; aria-label=&quot;code classlanguage textFROM mcrmicrosoftcomplaywrightlatestcode permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;브라우저 설치, OS 의존성, 디스플레이 관련 설정 등을 직접 신경쓰지 않아도 됨.&lt;/li&gt;
+&lt;li&gt;Playwright가 기대하는 디렉토리 구조, 유저, 퍼미션이 맞춰져 있음.&lt;/li&gt;
+&lt;li&gt;즉, Node + 브라우저까지 설치 되어 있는 OS&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;code-classlanguage-textENV-TZAsiaSeoulcode&quot; style=&quot;position:relative;&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;ENV TZ=Asia/Seoul&lt;/code&gt;&lt;a href=&quot;#code-classlanguage-textENV-TZAsiaSeoulcode&quot; aria-label=&quot;code classlanguage textENV TZAsiaSeoulcode permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;컨테이너 기본 타임존을 한국 시간으로 맞춘다.&lt;/li&gt;
+&lt;li&gt;PDF 생성 시각/로그 타임스탬프/서버 시간 해석이 로컬/서버에서 어긋나는 문제를 줄인다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;code-classlanguage-textapt-get-update-code&quot; style=&quot;position:relative;&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;apt-get update ...&lt;/code&gt;&lt;a href=&quot;#code-classlanguage-textapt-get-update-code&quot; aria-label=&quot;code classlanguage textapt get update code permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;No-Cache&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;Pipeline-Depth=0&lt;/code&gt; 같은 옵션으로 네트워크/프록시 환경에서 실패율을 낮추려는 설정.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;code-classlanguage-textapt-get-install--y---no-install-recommends-code&quot; style=&quot;position:relative;&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;apt-get install -y --no-install-recommends ...&lt;/code&gt;&lt;a href=&quot;#code-classlanguage-textapt-get-install--y---no-install-recommends-code&quot; aria-label=&quot;code classlanguage textapt get install  y   no install recommends code permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;필요한 것만 최소 설치.&lt;/li&gt;
+&lt;li&gt;설치 항목 의미:
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;fonts-noto-cjk&lt;/code&gt;: 한글(CJK) 폰트. PDF에서 한글 깨짐 방지&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;fonts-noto-color-emoji&lt;/code&gt;: 컬러 이모지 렌더링&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;tzdata&lt;/code&gt;: 타임존 데이터&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;ca-certificates&lt;/code&gt;: HTTPS 통신(내부/외부) 인증서 신뢰 기반&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;code-classlanguage-textdpkg-reconfigure--f-noninteractive-tzdatacode&quot; style=&quot;position:relative;&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;dpkg-reconfigure -f noninteractive tzdata&lt;/code&gt;&lt;a href=&quot;#code-classlanguage-textdpkg-reconfigure--f-noninteractive-tzdatacode&quot; aria-label=&quot;code classlanguage textdpkg reconfigure  f noninteractive tzdatacode permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;tzdata 설치 후 재설정도 &lt;strong&gt;비대화식으로 강제&lt;/strong&gt; 시킴.&lt;/li&gt;
+&lt;li&gt;빌드 환경에 따라 타임존 적용이 안되는 것을 막음.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;code-classlanguage-textrm--rf-varlibaptlistscode&quot; style=&quot;position:relative;&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;rm -rf /var/lib/apt/lists/*&lt;/code&gt;&lt;a href=&quot;#code-classlanguage-textrm--rf-varlibaptlistscode&quot; aria-label=&quot;code classlanguage textrm  rf varlibaptlistscode permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;레이어 용량을 줄이기 위해 apt-get으로 설치한 라이브러리 리스트 제거.&lt;/li&gt;
+&lt;li&gt;이미지 사이즈 감소 + 캐시 오염 방지 목적.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;Step-2-Base-이미지-빌드-로컬&quot; style=&quot;position:relative;&quot;&gt;Step 2. Base 이미지 빌드 (로컬)&lt;a href=&quot;#Step-2-Base-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%B9%8C%EB%93%9C-%EB%A1%9C%EC%BB%AC&quot; aria-label=&quot;Step 2 Base 이미지 빌드 로컬 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;package.json에 스크립트를 생성하자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;scripts&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;// ...&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;docker.build-base:amd64&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;docker build -f ./docker/Dockerfile.base -t [...].dkr.ecr.ap-northeast-2.amazonaws.com/common/playwright:latest-with-font --platform linux/amd64 .&quot;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;build -f ./docker/Dockerfile.base&lt;/code&gt; : &lt;code class=&quot;language-text&quot;&gt;./docker/Dockerfile.base&lt;/code&gt; 파일을 사용해 빌드&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;-t [...].dkr.ecr.ap-northeast-2.amazonaws.com/common/playwright:latest-with-font&lt;/code&gt; : ECR 리포지토리: &lt;code class=&quot;language-text&quot;&gt;common/playwright&lt;/code&gt; 주소 설정과 태그를 붙임&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;--platform linux/amd64&lt;/code&gt;: ECR은 linux/amd64이므로 플랫폼 강제 고정&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;pnpm&lt;/span&gt; docker.build-base:amd64&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1804px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 4.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAABCAYAAADeko4lAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAL0lEQVR42lWJSQoAMAwC+//fZsWbIUKhFWQGPQDo7szMjxEhf/dbMxM33a1/WVUcMctNLzMJMMEAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;docker-build-base-amd64.png&quot;
+        title=&quot;&quot;
+        src=&quot;/static/b7a465c545342b5133a3adba5f0c5021/e9bfc/docker-build-base-amd64.png&quot;
+        srcset=&quot;/static/b7a465c545342b5133a3adba5f0c5021/b30f8/docker-build-base-amd64.png 500w,
+/static/b7a465c545342b5133a3adba5f0c5021/332ff/docker-build-base-amd64.png 1000w,
+/static/b7a465c545342b5133a3adba5f0c5021/e9bfc/docker-build-base-amd64.png 1804w&quot;
+        sizes=&quot;(max-width: 1804px) 100vw, 1804px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h3 id=&quot;Step-3-Base-이미지를-tar-파일로-고정&quot; style=&quot;position:relative;&quot;&gt;Step 3. Base 이미지를 tar 파일로 고정&lt;a href=&quot;#Step-3-Base-%EC%9D%B4%EB%AF%B8%EC%A7%80%EB%A5%BC-tar-%ED%8C%8C%EC%9D%BC%EB%A1%9C-%EA%B3%A0%EC%A0%95&quot; aria-label=&quot;Step 3 Base 이미지를 tar 파일로 고정 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;docker image를 내부 망으로 들이기위해 tar 파일로 저장한다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;docker&lt;/span&gt; save &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;..&lt;/span&gt;.&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;.dkr.ecr.ap-northeast-2.amazonaws.com/common/playwright:latest-with-font &lt;span class=&quot;token parameter variable&quot;&gt;-o&lt;/span&gt; playwright-base.tar&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&quot;Step-4-내부망으로-전송-및-ECR-push&quot; style=&quot;position:relative;&quot;&gt;Step 4. 내부망으로 전송 및 ECR push&lt;a href=&quot;#Step-4-%EB%82%B4%EB%B6%80%EB%A7%9D%EC%9C%BC%EB%A1%9C-%EC%A0%84%EC%86%A1-%EB%B0%8F-ECR-push&quot; aria-label=&quot;Step 4 내부망으로 전송 및 ECR push permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;내부망으로 들일 때는 tar로 압축해서 보내면 리소스를 아낄 수 있다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;gzip&lt;/span&gt; playwright-base.tar&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 198px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 139.3939393939394%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAcCAYAAABh2p9gAAAACXBIWXMAABYlAAAWJQFJUiTwAAACyUlEQVR42q2V60/aYBTG+buXLEuWZR+WLPugkUYuCopzyRY1mvnFfUAWFy/RkcBwAbkoYROBXqAthbbPzjmzCU7cqFmTk5a276/P+5wLEcxweJ4H3/dneRUR/OdjKpDVBOG6LjRNg67rjwcOh0No+m9Ip9PBq9dvsKAswrKsxwEt2xZVqqoKNBpLIpFagUHX/X4/PNAe2jAMQ2ADAijxJSixBBxnKB/hZ6G3zEp4oWWaiBIwvpxG9eIClcoFGo0GwZ3ZgfzyYDAQqEPw5y9eIrG0DJs8bLfbuLm5kY+GApqkjIHj8RhPnj7D/IIi191ul6ITEjhyYFNiGMrw/dxnnJ19pXuWeNjr9cIBR6ORLAigrjume454augGVE0N5yFvjRcwlIOh7GngK2c/NJBV8lknRcViEaVSSUAmQVmpQ89DAbnlOLg7uEwal5eiVJI16MsH/wkMJgp7x8ZLUBKCruE25OCymWnLPKaCEJVj9872WfGk+tDja3LqPGp8cdGen5+jXC7j+vpaolarodVqyb1qtSpxenoqSQp6evKDkckbW1tbWF1dRTweRzQaxfb2NtLpNFKpFLLZrFwrioLNzU1sbGzg5OTknpd3FDabTcmqdduzV1dXkqBgZNXrdeTzeRHA9cleT91yoJCzF2yDzefgZ1x/nOlgggedxCX0JzQSZJeP/VwOsdgikskkMmtv6TqO9fV3KBQKtN0VzM3N4+j4GHt7n5DJZLCzs3OvHu8o5Bpjs0ulb2jUaPaVv6NerVA9dlGtlFEqFmTgHn45wO7uR7HE972/FPbt2XB81HouuqaPNtlnku8tw4dm+/hpuGiqVKs+ZilsX7A/1BF2830s5zS8O9RRbA7x4VjH2oGG90cGElnqHpML+/7/9VSFztgnVaTI8iT6tgfV9NAbuNDpd5fOUxIc/o9+loaJPLSQ17ID/gPxEPAXTKBqUyi5H/8AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;base-image-gzip&quot;
+        title=&quot;&quot;
+        src=&quot;/static/fdc3afe38070999d9115b1f3568d7512/920f7/base-image-gzip.png&quot;
+        srcset=&quot;/static/fdc3afe38070999d9115b1f3568d7512/920f7/base-image-gzip.png 198w&quot;
+        sizes=&quot;(max-width: 198px) 100vw, 198px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h3 id=&quot;Step-5-내부망에서-ECR-푸시&quot; style=&quot;position:relative;&quot;&gt;Step 5. 내부망에서 ECR 푸시&lt;a href=&quot;#Step-5-%EB%82%B4%EB%B6%80%EB%A7%9D%EC%97%90%EC%84%9C-ECR-%ED%91%B8%EC%8B%9C&quot; aria-label=&quot;Step 5 내부망에서 ECR 푸시 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ gunzip playwright-base.tar.gz&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;압축을 푼다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;docker&lt;/span&gt; load &lt;span class=&quot;token parameter variable&quot;&gt;-i&lt;/span&gt; playwright-base.tar
+$ &lt;span class=&quot;token function&quot;&gt;docker&lt;/span&gt; images &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;grep&lt;/span&gt; playwright&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;docker image를 내부망 컴퓨터에 로드시킨 후, docker images 명령어로 이미지가 제대로 로드 되었는지 확인한다.&lt;/p&gt;
+&lt;p&gt;그다음 PC에서 aws cli로 ECR에 로그인 후, push 하면 된다.&lt;/p&gt;
+&lt;h3 id=&quot;결과-확인&quot; style=&quot;position:relative;&quot;&gt;결과 확인&lt;a href=&quot;#%EA%B2%B0%EA%B3%BC-%ED%99%95%EC%9D%B8&quot; aria-label=&quot;결과 확인 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;이제 FE에서 playwright 버전(1.57.0)을 업데이트하고 commit 후 push해서 GitHub Actions가 돌게 한 후, 배포를 기다려보자. 완료 이후 PDF를 출력해보니 문제가 생겼다.&lt;/p&gt;
+&lt;p&gt;Next.js node runtime의 playwright 버전은 1.57.0 버전이지만, 이미지 버전은 여전히 1.46.1 버전이라는 에러 문구다.&lt;/p&gt;
+&lt;p&gt;어떻게 된건지 GitHub Actions의 Dockerfile을 보자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;dockerfile&quot;&gt;&lt;pre class=&quot;language-dockerfile&quot;&gt;&lt;code class=&quot;language-dockerfile&quot;&gt;&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;FROM&lt;/span&gt;  [...].dkr.ecr.ap-northeast-2.amazonaws.com/common/playwright:latest-with-font &lt;span class=&quot;token keyword&quot;&gt;AS&lt;/span&gt; base&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# ...&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;ECR에 push 했을 때 분명 새로운 이미지로 교체 되었는데 여전히 새로운 이미지로 빌드되지 않았다. 문제는 &lt;strong&gt;태그&lt;/strong&gt;였는데, 새로운 이미지의 태그도 &lt;code class=&quot;language-text&quot;&gt;latest-with-font&lt;/code&gt; 였고, &lt;code class=&quot;language-text&quot;&gt;docker build --pull&lt;/code&gt; 명령어가 아닌 &lt;code class=&quot;language-text&quot;&gt;docker build&lt;/code&gt;로만 실행되었기 때문에 기존에 있는 base 이미지로만 사용했기 때문에 문제가 되었다. 같은 태그를 쓰면 Docker는 로컬에 캐시된 이미지를 우선 사용해서, ECR에 새 이미지를 올려도 빌드가 그대로 지난 이미지가 사용된다.&lt;/p&gt;
+&lt;h3 id=&quot;태그를-timestamp-기반으로&quot; style=&quot;position:relative;&quot;&gt;태그를 timestamp 기반으로&lt;a href=&quot;#%ED%83%9C%EA%B7%B8%EB%A5%BC-timestamp-%EA%B8%B0%EB%B0%98%EC%9C%BC%EB%A1%9C&quot; aria-label=&quot;태그를 timestamp 기반으로 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;새로운 이미지는 새로운 태그로 대체하기로 했다. &lt;code class=&quot;language-text&quot;&gt;docker build --pull&lt;/code&gt; 옵션을 주면 docker 이미지 digest가 변경되었다면 새로 pull 받아 이미지를 생성한다. 하지만, 사람이 알아보는 것은 쉽지 않다. 따라서 현재 빌드 시점을 태깅해서 ECR로 push 하고, 빌드 시 해당 태그의 이미지를 사용하도록 한다.&lt;/p&gt;
+&lt;p&gt;이렇게 하면 Docker cache가 무력화되고 FROM 단계에서 반드시 새 이미지를 사용하게 된다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# scripts/build-and-update-base.sh&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-e&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Timestamp 생성&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;TIMESTAMP&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;date&lt;/span&gt; +%Y%m%d-%H%M%S&lt;span class=&quot;token variable&quot;&gt;)&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;VERSION_TAG&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;v&lt;span class=&quot;token variable&quot;&gt;${TIMESTAMP}&lt;/span&gt;&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# ECR 정보&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;ECR_REGISTRY&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;[...].dkr.ecr.ap-northeast-2.amazonaws.com&quot;&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;IMAGE_NAME&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;common/playwright&quot;&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;FULL_IMAGE&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token variable&quot;&gt;${ECR_REGISTRY}&lt;/span&gt;/&lt;span class=&quot;token variable&quot;&gt;${IMAGE_NAME}&lt;/span&gt;:&lt;span class=&quot;token variable&quot;&gt;${VERSION_TAG}&lt;/span&gt;&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;🚀 Docker base 이미지 빌드 중...&quot;&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;   Version: &lt;span class=&quot;token variable&quot;&gt;${VERSION_TAG}&lt;/span&gt;&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Docker 빌드&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;docker&lt;/span&gt; build &lt;span class=&quot;token punctuation&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;token parameter variable&quot;&gt;-f&lt;/span&gt; ./docker/Dockerfile.base &lt;span class=&quot;token punctuation&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;token parameter variable&quot;&gt;-t&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token variable&quot;&gt;${FULL_IMAGE}&lt;/span&gt;&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;token parameter variable&quot;&gt;--platform&lt;/span&gt; linux/amd64 &lt;span class=&quot;token punctuation&quot;&gt;\&lt;/span&gt;
+  --no-cache &lt;span class=&quot;token punctuation&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;token builtin class-name&quot;&gt;.&lt;/span&gt;
+
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&quot;&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;✅ Docker 이미지 빌드 완료: &lt;span class=&quot;token variable&quot;&gt;${FULL_IMAGE}&lt;/span&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;자동화 스크립트를 작성하고 package.json에서 명령어에 이 sh 파일을 실행시킨다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token property&quot;&gt;&quot;docker.build-base:amd64&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;sh ./scripts/build-and-update-base.sh&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;하지만, GitHub Actions에서 도는 Dockerfile은 하드코딩으로 태그 값이 박혀있다. 조금 위험할 수도 있지만 이것도 자동화 해보자. Dockerfile FROM절에 방금 만든 timestamp로 태그 명을 대체하고 자동 commit을 생성하는 방법이다. 쉘 스크립트에 이어서 추가한다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# scripts/build-and-update-base.sh 이어서&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# ...&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Dockerfile 업데이트&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;DOCKERFILE_PATH&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;./docker/Dockerfile&quot;&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;📝 &lt;span class=&quot;token variable&quot;&gt;${DOCKERFILE_PATH}&lt;/span&gt; 태그 업데이트 중...&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# FROM 절 업데이트 (sed를 사용하여 기존 태그를 새 버전으로 변경)&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token environment constant&quot;&gt;$OSTYPE&lt;/span&gt;&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;darwin&quot;&lt;/span&gt;* &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;then&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;# macOS&lt;/span&gt;
+  &lt;span class=&quot;token function&quot;&gt;sed&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-i&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;&apos;&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;s|FROM  &lt;span class=&quot;token variable&quot;&gt;${ECR_REGISTRY}&lt;/span&gt;/&lt;span class=&quot;token variable&quot;&gt;${IMAGE_NAME}&lt;/span&gt;:.*AS base|FROM  &lt;span class=&quot;token variable&quot;&gt;${ECR_REGISTRY}&lt;/span&gt;/&lt;span class=&quot;token variable&quot;&gt;${IMAGE_NAME}&lt;/span&gt;:&lt;span class=&quot;token variable&quot;&gt;${VERSION_TAG}&lt;/span&gt; AS base|g&quot;&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token variable&quot;&gt;${DOCKERFILE_PATH}&lt;/span&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;# Linux&lt;/span&gt;
+  &lt;span class=&quot;token function&quot;&gt;sed&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-i&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;s|FROM  &lt;span class=&quot;token variable&quot;&gt;${ECR_REGISTRY}&lt;/span&gt;/&lt;span class=&quot;token variable&quot;&gt;${IMAGE_NAME}&lt;/span&gt;:.*AS base|FROM  &lt;span class=&quot;token variable&quot;&gt;${ECR_REGISTRY}&lt;/span&gt;/&lt;span class=&quot;token variable&quot;&gt;${IMAGE_NAME}&lt;/span&gt;:&lt;span class=&quot;token variable&quot;&gt;${VERSION_TAG}&lt;/span&gt; AS base|g&quot;&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token variable&quot;&gt;${DOCKERFILE_PATH}&lt;/span&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;fi&lt;/span&gt;
+
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;✅ Dockerfile 업데이트 완료 (버전: &lt;span class=&quot;token variable&quot;&gt;${VERSION_TAG}&lt;/span&gt;)&quot;&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Git commit&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;📦 변경사항 커밋 중...&quot;&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token variable&quot;&gt;${DOCKERFILE_PATH}&lt;/span&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; commit &lt;span class=&quot;token parameter variable&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;chore: bump version docker golden image &lt;span class=&quot;token variable&quot;&gt;${VERSION_TAG}&lt;/span&gt;&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&quot;&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;🎉 완료!&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이렇게 해주면 &lt;code class=&quot;language-text&quot;&gt;pnpm docker.build-base:amd64&lt;/code&gt; 한 줄로&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;playwright 최신 버전 이미지 pull&lt;/li&gt;
+&lt;li&gt;Dockerfile.base에서 font, tz 등 작업&lt;/li&gt;
+&lt;li&gt;이미지 생성(태그 timestamp)&lt;/li&gt;
+&lt;li&gt;ECR에서 pull 받아 작업할 Dockerfile FROM절에 timestamp 태깅&lt;/li&gt;
+&lt;li&gt;Dockerfile commit&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;자동화가 완성되었다.&lt;/p&gt;
+&lt;h3 id=&quot;playwright-버전-자동화&quot; style=&quot;position:relative;&quot;&gt;playwright 버전 자동화&lt;a href=&quot;#playwright-%EB%B2%84%EC%A0%84-%EC%9E%90%EB%8F%99%ED%99%94&quot; aria-label=&quot;playwright 버전 자동화 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;다시 돌아가보자. playwright가 1.47.1 버전이 취약함에 따라 버전 업데이트가 필요했고, 베이스 이미지도 업데이트가 필요했으므로 일일이 버전 업데이트를 진행해주어야 한다. 일일이 변경해주기보다, package.json에 playwright를 업데이트하면 그 버전 값을 보고 그 버전에 해당하는 playwright docker 이미지를 base로 하도록 하자.&lt;/p&gt;
+&lt;p&gt;Dockerfile에서 ARG 를 이용해 외부에서 값을 받아올 수 있도록 하자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;dockerfile&quot;&gt;&lt;pre class=&quot;language-dockerfile&quot;&gt;&lt;code class=&quot;language-dockerfile&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Dockerfile.base&lt;/span&gt;
+
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;ARG&lt;/span&gt; PLAYWRIGHT_VERSION&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;FROM&lt;/span&gt; mcr.microsoft.com/playwright:v&lt;span class=&quot;token variable&quot;&gt;${PLAYWRIGHT_VERSION}&lt;/span&gt;-jammy&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# ...&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;그리고 local docker image 빌드, ECR에 배포할 이미지 빌드시 &lt;code class=&quot;language-text&quot;&gt;--build-arg&lt;/code&gt; 에 playwright 버전 값을 넣어주도록 하자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token property&quot;&gt;&quot;local-docker.build-base&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;docker build -f ./docker/Dockerfile.base -t application-base:local --build-arg PLAYWRIGHT_VERSION=$(node -p \&quot;require(&apos;./package.json&apos;).dependencies.playwright\&quot;) .&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;$ node -p &quot;require(&apos;./package.json&apos;).dependencies.playwright&quot;&lt;/code&gt; 로 package.json을 참조하도록 한다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1052px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 7.3999999999999995%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAABCAYAAADeko4lAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAS0lEQVR42h3KSRKAIAwFUQ8jmhCgHHBMIQfw/uf5Rha96XpdzhWqL+K0wfECjgUkJ3qawUEhqYLC1XK8wqdiPeYUoxxm7ub+P/gdH+IIH0R8sEDLAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;node-p-reference&quot;
+        title=&quot;&quot;
+        src=&quot;/static/b0b165a161a14e1b5523aa078967f04d/8f870/node-p-reference.png&quot;
+        srcset=&quot;/static/b0b165a161a14e1b5523aa078967f04d/b30f8/node-p-reference.png 500w,
+/static/b0b165a161a14e1b5523aa078967f04d/332ff/node-p-reference.png 1000w,
+/static/b0b165a161a14e1b5523aa078967f04d/8f870/node-p-reference.png 1052w&quot;
+        sizes=&quot;(max-width: 1052px) 100vw, 1052px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;이제 FE에서 npm playwright 패키지만 업데이트 하면 base 이미지는 자동으로 해당 버전에 맞는 이미지를 가져오도록 설정 되었다.&lt;/p&gt;
+&lt;h3 id=&quot;local-docker-image와-ECR에-배포할-base를-한-파일로&quot; style=&quot;position:relative;&quot;&gt;local docker image와 ECR에 배포할 base를 한 파일로&lt;a href=&quot;#local-docker-image%EC%99%80-ECR%EC%97%90-%EB%B0%B0%ED%8F%AC%ED%95%A0-base%EB%A5%BC-%ED%95%9C-%ED%8C%8C%EC%9D%BC%EB%A1%9C&quot; aria-label=&quot;local docker image와 ECR에 배포할 base를 한 파일로 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;현재 local에서 테스트용 docker image, ECR에 배포할 base 이미지를 만드는 Dockerfile은 다르지만 내용은 동일하게 맞춰주어야 local에서 테스트하는 의미가 있다.&lt;/p&gt;
+&lt;p&gt;따라서, 아래와 같이 base 용 이미지 생성 Dockerfile과 어플리케이션 전용 Dockerfile만 나누어 진행하도록 하자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;docker/
+  ├── Dockerfile.base    # 공통 Base 이미지 - 로컬/프로덕션 모두 사용
+  ├── Dockerfile.local   # 로컬 테스트용 애플리케이션
+  └── Dockerfile         # 프로덕션용 애플리케이션&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;최종 Dockerfile이다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;dockerfile&quot;&gt;&lt;pre class=&quot;language-dockerfile&quot;&gt;&lt;code class=&quot;language-dockerfile&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Dockerfile.base&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# ============================================&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# 골든 베이스: Playwright + 폰트/타임존&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# ============================================&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;ARG&lt;/span&gt; PLAYWRIGHT_VERSION&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;FROM&lt;/span&gt; mcr.microsoft.com/playwright:v&lt;span class=&quot;token variable&quot;&gt;${PLAYWRIGHT_VERSION}&lt;/span&gt;-jammy&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# FROM 이후 ARG 재선언 (scope 유지)&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;ARG&lt;/span&gt; PLAYWRIGHT_VERSION&lt;/span&gt;
+
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;USER&lt;/span&gt; root&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;ENV&lt;/span&gt; DEBIAN_FRONTEND=noninteractive&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;ENV&lt;/span&gt; TZ=Asia/Seoul&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# ARG 검증: PLAYWRIGHT_VERSION이 비어있으면 빌드 실패&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;RUN&lt;/span&gt; test -n &lt;span class=&quot;token string&quot;&gt;&quot;${PLAYWRIGHT_VERSION}&quot;&lt;/span&gt; || (echo &lt;span class=&quot;token string&quot;&gt;&quot;ERROR: PLAYWRIGHT_VERSION is required&quot;&lt;/span&gt; &amp;amp;&amp;amp; exit 1)&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# 견고한 APT 패턴: HTTPS 미러, 인덱스 초기화, 재시도, 한 RUN에서 update→install→clean&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;RUN&lt;/span&gt; set -eux; &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# 0) 미러 HTTPS로 고정&lt;/span&gt;
+    sed -i &lt;span class=&quot;token string&quot;&gt;&apos;s|http://archive.ubuntu.com|https://archive.ubuntu.com|g&apos;&lt;/span&gt; /etc/apt/sources.list; &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+    sed -i &lt;span class=&quot;token string&quot;&gt;&apos;s|http://security.ubuntu.com|https://security.ubuntu.com|g&apos;&lt;/span&gt; /etc/apt/sources.list; &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# 1) 인덱스 초기화 + 재시도 옵션&lt;/span&gt;
+    rm -rf /var/lib/apt/lists/*; mkdir -p /var/lib/apt/lists/partial; &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+    echo &lt;span class=&quot;token string&quot;&gt;&apos;Acquire::Retries &quot;5&quot;;&apos;&lt;/span&gt; &gt; /etc/apt/apt.conf.d/80-retries; &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# 2) 타임존 사전 지정(프롬프트 방지)&lt;/span&gt;
+    ln -snf /usr/share/zoneinfo/&lt;span class=&quot;token variable&quot;&gt;$TZ&lt;/span&gt; /etc/localtime; echo &lt;span class=&quot;token string&quot;&gt;&quot;$TZ&quot;&lt;/span&gt; &gt; /etc/timezone; &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# 3) 업데이트&lt;/span&gt;
+    apt-get update -o Acquire::http::No-Cache=true -o Acquire::http::Pipeline-Depth=0; &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# 4) 필요한 패키지 일괄 설치(폰트 + tzdata + 인증서)&lt;/span&gt;
+    apt-get install -y --no-install-recommends &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+        fonts-noto-cjk &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+        fonts-noto-color-emoji &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+        tzdata &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+        ca-certificates &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+    ; &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# 5) tzdata 재설정도 비대화식으로 강제&lt;/span&gt;
+    dpkg-reconfigure -f noninteractive tzdata; &lt;span class=&quot;token operator&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# 6) 클린업&lt;/span&gt;
+    rm -rf /var/lib/apt/lists/*&lt;/span&gt;
+
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;USER&lt;/span&gt; pwuser&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;dockerfile&quot;&gt;&lt;pre class=&quot;language-dockerfile&quot;&gt;&lt;code class=&quot;language-dockerfile&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Dockerfile.local&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# ============================================&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# Application (Base 이미지 참조)&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# ============================================&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;ARG&lt;/span&gt; BASE_IMAGE&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;${BASE_IMAGE}&lt;/span&gt;&lt;/span&gt;
+
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;WORKDIR&lt;/span&gt; /app&lt;/span&gt;
+
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;EXPOSE&lt;/span&gt; 3000&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;ENV&lt;/span&gt; PORT=3000&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;ENV&lt;/span&gt; HOST=0.0.0.0&lt;/span&gt;
+
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;COPY&lt;/span&gt; public ./public&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;COPY&lt;/span&gt; .next/standalone ./&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;COPY&lt;/span&gt; .next/static ./.next/static&lt;/span&gt;
+
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;USER&lt;/span&gt; root&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;RUN&lt;/span&gt; mkdir -p .next/cache &amp;amp;&amp;amp; chown -R pwuser:pwuser .next&lt;/span&gt;
+
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;USER&lt;/span&gt; pwuser&lt;/span&gt;
+
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;ENTRYPOINT&lt;/span&gt; [&lt;span class=&quot;token string&quot;&gt;&quot;node&quot;&lt;/span&gt;, &lt;span class=&quot;token string&quot;&gt;&quot;server.js&quot;&lt;/span&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;dockerfile&quot;&gt;&lt;pre class=&quot;language-dockerfile&quot;&gt;&lt;code class=&quot;language-dockerfile&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Dockerfile&lt;/span&gt;
+
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;FROM&lt;/span&gt;  [...].dkr.ecr.ap-northeast-2.amazonaws.com/common/playwright:v20205... &lt;span class=&quot;token keyword&quot;&gt;AS&lt;/span&gt; base&lt;/span&gt;
+
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;WORKDIR&lt;/span&gt; /app&lt;/span&gt;
+
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;EXPOSE&lt;/span&gt; 3000&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;ENV&lt;/span&gt; PORT 3000&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;ENV&lt;/span&gt; HOST 0.0.0.0&lt;/span&gt;
+
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;COPY&lt;/span&gt; public ./public&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;COPY&lt;/span&gt; .next/standalone ./&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;COPY&lt;/span&gt; .next/static ./.next/static&lt;/span&gt;
+
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;USER&lt;/span&gt; root&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;RUN&lt;/span&gt; mkdir -p .next/cache &amp;amp;&amp;amp; chown -R pwuser:pwuser .next&lt;/span&gt;
+
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;USER&lt;/span&gt; pwuser&lt;/span&gt;
+
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;ENTRYPOINT&lt;/span&gt; [&lt;span class=&quot;token string&quot;&gt;&quot;node&quot;&lt;/span&gt;, &lt;span class=&quot;token string&quot;&gt;&quot;server.js&quot;&lt;/span&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// package.json&lt;/span&gt;
+
+&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;scripts&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;local-docker.build&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;env-cmd -f .env.local-docker next build&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;local-docker.build-base&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;docker build -f ./docker/Dockerfile.base -t application-base:local --build-arg PLAYWRIGHT_VERSION=$(node -p \&quot;require(&apos;./package.json&apos;).dependencies.playwright\&quot;) .&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;local-docker.start&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;pnpm local-docker.build-base &amp;amp;&amp;amp; pnpm local-docker.build &amp;amp;&amp;amp; docker build -f ./docker/Dockerfile.local -t application-local:local --build-arg BASE_IMAGE=application-base:local . &amp;amp;&amp;amp; docker run --rm -p 3000:3000 application-local:local&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;docker.build-base:amd64&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;sh ./scripts/build-and-update-base.sh&quot;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# scripts/build-and-update-base.sh&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-e&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Timestamp 생성&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;TIMESTAMP&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;date&lt;/span&gt; +%Y%m%d-%H%M%S&lt;span class=&quot;token variable&quot;&gt;)&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;VERSION_TAG&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;v&lt;span class=&quot;token variable&quot;&gt;${TIMESTAMP}&lt;/span&gt;&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# ECR 정보&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;ECR_REGISTRY&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;[...].dkr.ecr.ap-northeast-2.amazonaws.com&quot;&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;IMAGE_NAME&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;common/playwright&quot;&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;FULL_IMAGE&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token variable&quot;&gt;${ECR_REGISTRY}&lt;/span&gt;/&lt;span class=&quot;token variable&quot;&gt;${IMAGE_NAME}&lt;/span&gt;:&lt;span class=&quot;token variable&quot;&gt;${VERSION_TAG}&lt;/span&gt;&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Playwright 버전 가져오기&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;PLAYWRIGHT_VERSION&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;node&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-p&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;require(&apos;./package.json&apos;).dependencies.playwright&quot;&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;)&lt;/span&gt;&lt;/span&gt;
+
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;🚀 Docker base 이미지 빌드 중...&quot;&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;   Version: &lt;span class=&quot;token variable&quot;&gt;${VERSION_TAG}&lt;/span&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;   Playwright: &lt;span class=&quot;token variable&quot;&gt;${PLAYWRIGHT_VERSION}&lt;/span&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Docker 빌드&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;docker&lt;/span&gt; build &lt;span class=&quot;token punctuation&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;token parameter variable&quot;&gt;-f&lt;/span&gt; ./docker/Dockerfile.base &lt;span class=&quot;token punctuation&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;token parameter variable&quot;&gt;-t&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token variable&quot;&gt;${FULL_IMAGE}&lt;/span&gt;&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;token parameter variable&quot;&gt;--platform&lt;/span&gt; linux/amd64 &lt;span class=&quot;token punctuation&quot;&gt;\&lt;/span&gt;
+  --build-arg &lt;span class=&quot;token assign-left variable&quot;&gt;PLAYWRIGHT_VERSION&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token variable&quot;&gt;${PLAYWRIGHT_VERSION}&lt;/span&gt;&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;\&lt;/span&gt;
+  --no-cache &lt;span class=&quot;token punctuation&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;token builtin class-name&quot;&gt;.&lt;/span&gt;
+
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&quot;&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;✅ Docker 이미지 빌드 완료: &lt;span class=&quot;token variable&quot;&gt;${FULL_IMAGE}&lt;/span&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Dockerfile 업데이트&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;DOCKERFILE_PATH&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;./docker/Dockerfile&quot;&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;📝 &lt;span class=&quot;token variable&quot;&gt;${DOCKERFILE_PATH}&lt;/span&gt; 태그 업데이트 중...&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# FROM 절 업데이트 (sed를 사용하여 기존 태그를 새 버전으로 변경)&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token environment constant&quot;&gt;$OSTYPE&lt;/span&gt;&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;darwin&quot;&lt;/span&gt;* &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;then&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;# macOS&lt;/span&gt;
+  &lt;span class=&quot;token function&quot;&gt;sed&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-i&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;&apos;&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;s|FROM  &lt;span class=&quot;token variable&quot;&gt;${ECR_REGISTRY}&lt;/span&gt;/&lt;span class=&quot;token variable&quot;&gt;${IMAGE_NAME}&lt;/span&gt;:.*AS base|FROM  &lt;span class=&quot;token variable&quot;&gt;${ECR_REGISTRY}&lt;/span&gt;/&lt;span class=&quot;token variable&quot;&gt;${IMAGE_NAME}&lt;/span&gt;:&lt;span class=&quot;token variable&quot;&gt;${VERSION_TAG}&lt;/span&gt; AS base|g&quot;&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token variable&quot;&gt;${DOCKERFILE_PATH}&lt;/span&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;# Linux&lt;/span&gt;
+  &lt;span class=&quot;token function&quot;&gt;sed&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-i&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;s|FROM  &lt;span class=&quot;token variable&quot;&gt;${ECR_REGISTRY}&lt;/span&gt;/&lt;span class=&quot;token variable&quot;&gt;${IMAGE_NAME}&lt;/span&gt;:.*AS base|FROM  &lt;span class=&quot;token variable&quot;&gt;${ECR_REGISTRY}&lt;/span&gt;/&lt;span class=&quot;token variable&quot;&gt;${IMAGE_NAME}&lt;/span&gt;:&lt;span class=&quot;token variable&quot;&gt;${VERSION_TAG}&lt;/span&gt; AS base|g&quot;&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token variable&quot;&gt;${DOCKERFILE_PATH}&lt;/span&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;fi&lt;/span&gt;
+
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;✅ Dockerfile 업데이트 완료 (버전: &lt;span class=&quot;token variable&quot;&gt;${VERSION_TAG}&lt;/span&gt;)&quot;&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Git commit&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;📦 변경사항 커밋 중...&quot;&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token variable&quot;&gt;${DOCKERFILE_PATH}&lt;/span&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; commit &lt;span class=&quot;token parameter variable&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;chore: bump version docker golden image &lt;span class=&quot;token variable&quot;&gt;${VERSION_TAG}&lt;/span&gt;&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&quot;&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;🎉 완료!&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id=&quot;마치며&quot; style=&quot;position:relative;&quot;&gt;마치며&lt;a href=&quot;#%EB%A7%88%EC%B9%98%EB%A9%B0&quot; aria-label=&quot;마치며 permalink&quot; class=&quot;auto-link after&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;환경 통제에 관련한 부분은 쉽지 않은 것 같다. 환경이 서로 다르기 때문에 개발 결과물과 배포 시 결과물이 서로 다를 때는 어떤 부분을 어떻게 접근해야하는지 때로는 감이 오지 않는 경우가 많다. 이번 기회에 docker로 local에서 배포 환경과 최대한 비슷하게 환경을 맞추고 어떤 부분에서 문제가 생겼는지 디버깅 하면서 인프라에 대한 지식을 조금이나마 얻을 수 있었던 것 같다.&lt;/p&gt;
+&lt;p&gt;덤으로, 이 구조의 단점은 이미지가 크다는 점이다. local에서 확인하기 위해 만들어지는 이미지는 총 2개로, playwright base 이미지와 base 이미지에 Next.js 빌드 결과물을 COPY 한 이미지(application 이미지) 총 2가지인데, 각각 3.5GB, 3.79GB이다. 그리고 ECR에 push할 이미지는 802MB다. 이는 playwright의 이미지 자체가 alpine처럼 최소화 한 이미지가 아닌, ubuntu 기반의 이미지라서인데 &lt;a href=&quot;https://playwright.dev/docs/docker#build-your-own-image&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;playwright 공식 문서에서 Docker 커스텀 이미지 생성 방법&lt;/a&gt;도 제안하고 있다. 단, Node.js, Playwight 브라우저 바이너리, OS 종속성을 직접 설치하는 방법이다. 이 방법을 통해 추후에 이미지 용량을 최적화해볼 수 있을 것 같다.&lt;/p&gt;
+&lt;p&gt;그리고 작업을 하면서 Next.js가 동작할 Application 이미지에 굳이 playwright 용 이미지 위에 올릴 필요는 없겠다는 생각도 들었다. 지금이야 하나의 어플리케이션이 pod에 배포되는 구조이지만, PDF 렌더링만 담당하는 Node.js 서버를 따로 만들고 해당 서버에서 Next.js 페이지를 참조할 통로를 열고 Next.js -&gt; Playwright PDF 렌더링 서버 -&gt; Nest.js 리턴 하는 방법을 사용하면 서로를 격리시키면서 단일 책임만 가져가게끔 작업하면 좋겠다는 생각도 했다.&lt;/p&gt;
+&lt;p&gt;그리고 build-and-update-base.sh에서 이미지 버전을 자동으로 commit을 남겨주는 방법을 사용한건 GitHub Actions를 최대한 건들이고 싶지 않았는데, 충분히 다른 방법을 통해 개선할 수 있을 것 같다. 예를 들면, GitHub Actions에서 BASE_IMAGE_TAG를 입력값/환경변수로 받아 Dockerfile을 건드리지 않고 빌드하도록 만드는 방법이 있을 것 같다.&lt;/p&gt;</content:encoded><dc:creator>Pozafly</dc:creator></item><item><title><![CDATA[Next.js standalone 종속성 추적 삽질기 (feat. pino)]]></title><description><![CDATA[Next.js를 실행하면 클라이언트 측 로그는 브라우저의 콘솔에 나타나지만, 서버 측 로그는 제대로 된 로그를 출력해주지 않았다. 이번에 프로젝트에 Next.js의 node 환경에서 log…]]></description><link>https://pozafly.github.io/nextjs/nextjs-standalone-dependency-tracing-issue/</link><guid isPermaLink="false">https://pozafly.github.io/nextjs/nextjs-standalone-dependency-tracing-issue/</guid><pubDate>Fri, 12 Sep 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Next.js를 실행하면 클라이언트 측 로그는 브라우저의 콘솔에 나타나지만, 서버 측 로그는 제대로 된 로그를 출력해주지 않았다. 이번에 프로젝트에 Next.js의 node 환경에서 log를 찍기 위해 라이브러리를 사용하면서 만난 트러블슈팅을 기록한다.&lt;/p&gt;
 &lt;p&gt;먼저 &lt;a href=&quot;https://github.com/pinojs/pino&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;pino&lt;/a&gt;라는 라이브러리를 사용했는데, pino는 node 진영에서 &lt;a href=&quot;https://github.com/winstonjs/winston&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;winston&lt;/a&gt;과 함께 많이 사용되는 로깅 라이브러리다. 짧게 이야기하면 로깅 라이브러리는 비동기를 사용하는 pino로 결정. 그리고 &lt;a href=&quot;https://github.com/pinojs/pino-pretty&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;pino-pretty&lt;/a&gt; 라이브러리는 pino로 찍은 로그를 더 알아보기 쉬운 형태로 포매팅 해주는 도구다.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
