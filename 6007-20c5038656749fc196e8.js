@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkrecord_journey=self.webpackChunkrecord_journey||[]).push([[6007],{6007:function(e,r,n){n.d(r,{createInfoServices:function(){return c.v}});var c=n(3741);n(473)}}]);
