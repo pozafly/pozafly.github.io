@@ -579,28 +579,28 @@ Error: listen EADDRINUSE: address already <span class="token keyword">in</span> 
 <span class="token instruction"><span class="token keyword">ENV</span> DEBIAN_FRONTEND=noninteractive</span>
 <span class="token instruction"><span class="token keyword">ENV</span> TZ=Asia/Seoul</span>
 <span class="token comment"># ── 견고한 APT 패턴: HTTPS 미러, 인덱스 초기화, 재시도, 한 RUN에서 update→install→clean ──</span>
-<span class="token instruction"><span class="token keyword">RUN</span> set -eux; <span class="token operator">\</span>
-    <span class="token comment"># 0) 미러 HTTPS로 고정(사내 미러 쓰면 여기서 sources.list 교체)</span>
-    sed -i <span class="token string">'s|http://archive.ubuntu.com|https://archive.ubuntu.com|g'</span> /etc/apt/sources.list; <span class="token operator">\</span>
-    sed -i <span class="token string">'s|http://security.ubuntu.com|https://security.ubuntu.com|g'</span> /etc/apt/sources.list; <span class="token operator">\</span>
+<span class="token instruction"><span class="token keyword">RUN</span> set -eux <span class="token operator">\</span>
+    <span class="token comment"># 0) 미러 HTTPS로 고정</span>
+    &amp;&amp; sed -i <span class="token string">'s|http://archive.ubuntu.com|https://archive.ubuntu.com|g'</span> /etc/apt/sources.list <span class="token operator">\</span>
+    &amp;&amp; sed -i <span class="token string">'s|http://security.ubuntu.com|https://security.ubuntu.com|g'</span> /etc/apt/sources.list <span class="token operator">\</span>
     <span class="token comment"># 1) 인덱스 초기화 + 재시도 옵션</span>
-    rm -rf /var/lib/apt/lists/*; mkdir -p /var/lib/apt/lists/partial; <span class="token operator">\</span>
-    echo <span class="token string">'Acquire::Retries "5";'</span> > /etc/apt/apt.conf.d/80-retries; <span class="token operator">\</span>
+    &amp;&amp; rm -rf /var/lib/apt/lists/*; mkdir -p /var/lib/apt/lists/partial <span class="token operator">\</span>
+    &amp;&amp; echo <span class="token string">'Acquire::Retries "5";'</span> > /etc/apt/apt.conf.d/80-retries <span class="token operator">\</span>
     <span class="token comment"># 2) 타임존 사전 지정(프롬프트 방지)</span>
-    ln -snf /usr/share/zoneinfo/<span class="token variable">$TZ</span> /etc/localtime; echo <span class="token string">"$TZ"</span> > /etc/timezone; <span class="token operator">\</span>
+    &amp;&amp; ln -snf /usr/share/zoneinfo/<span class="token variable">$TZ</span> /etc/localtime; echo <span class="token string">"$TZ"</span> > /etc/timezone <span class="token operator">\</span>
     <span class="token comment"># 3) 업데이트</span>
-    apt-get update -o Acquire::http::No-Cache=true -o Acquire::http::Pipeline-Depth=0; <span class="token operator">\</span>
+    &amp;&amp; apt-get update -o Acquire::http::No-Cache=true -o Acquire::http::Pipeline-Depth=0 <span class="token operator">\</span>
     <span class="token comment"># 4) 필요한 패키지 일괄 설치(폰트 + tzdata + 인증서)</span>
-    apt-get install -y --no-install-recommends <span class="token operator">\</span>
+    &amp;&amp; apt-get install -y --no-install-recommends <span class="token operator">\</span>
         fonts-noto-cjk <span class="token operator">\</span>
         fonts-noto-color-emoji <span class="token operator">\</span>
         tzdata <span class="token operator">\</span>
         ca-certificates <span class="token operator">\</span>
-    ; <span class="token operator">\</span>
-    <span class="token comment"># (환경에 따라) tzdata 재설정도 비대화식으로 강제</span>
-    dpkg-reconfigure -f noninteractive tzdata; <span class="token operator">\</span>
-    <span class="token comment"># 5) 클린업</span>
-    rm -rf /var/lib/apt/lists/*</span>
+    <span class="token comment"># 5) tzdata 재설정도 비대화식으로 강제</span>
+    &amp;&amp; dpkg-reconfigure -f noninteractive tzdata <span class="token operator">\</span>
+    <span class="token comment"># 6) 클린업</span>
+    &amp;&amp; rm -rf /var/lib/apt/lists/*</span>
+
 <span class="token comment"># 권장: 기본 유저를 Playwright의 pwuser로</span>
 <span class="token instruction"><span class="token keyword">USER</span> pwuser</span></code></pre></div>
 <h4 id="세부-설명-2" style="position:relative;">세부 설명<a href="#%EC%84%B8%EB%B6%80-%EC%84%A4%EB%AA%85-2" aria-label="세부 설명 2 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h4>
@@ -851,28 +851,27 @@ $ <span class="token function">docker</span> images <span class="token operator"
 <span class="token instruction"><span class="token keyword">RUN</span> test -n <span class="token string">"${PLAYWRIGHT_VERSION}"</span> || (echo <span class="token string">"ERROR: PLAYWRIGHT_VERSION is required"</span> &amp;&amp; exit 1)</span>
 
 <span class="token comment"># 견고한 APT 패턴: HTTPS 미러, 인덱스 초기화, 재시도, 한 RUN에서 update→install→clean</span>
-<span class="token instruction"><span class="token keyword">RUN</span> set -eux; <span class="token operator">\</span>
+<span class="token instruction"><span class="token keyword">RUN</span> set -eux <span class="token operator">\</span>
     <span class="token comment"># 0) 미러 HTTPS로 고정</span>
-    sed -i <span class="token string">'s|http://archive.ubuntu.com|https://archive.ubuntu.com|g'</span> /etc/apt/sources.list; <span class="token operator">\</span>
-    sed -i <span class="token string">'s|http://security.ubuntu.com|https://security.ubuntu.com|g'</span> /etc/apt/sources.list; <span class="token operator">\</span>
+    &amp;&amp; sed -i <span class="token string">'s|http://archive.ubuntu.com|https://archive.ubuntu.com|g'</span> /etc/apt/sources.list <span class="token operator">\</span>
+    &amp;&amp; sed -i <span class="token string">'s|http://security.ubuntu.com|https://security.ubuntu.com|g'</span> /etc/apt/sources.list <span class="token operator">\</span>
     <span class="token comment"># 1) 인덱스 초기화 + 재시도 옵션</span>
-    rm -rf /var/lib/apt/lists/*; mkdir -p /var/lib/apt/lists/partial; <span class="token operator">\</span>
-    echo <span class="token string">'Acquire::Retries "5";'</span> > /etc/apt/apt.conf.d/80-retries; <span class="token operator">\</span>
+    &amp;&amp; rm -rf /var/lib/apt/lists/*; mkdir -p /var/lib/apt/lists/partial <span class="token operator">\</span>
+    &amp;&amp; echo <span class="token string">'Acquire::Retries "5";'</span> > /etc/apt/apt.conf.d/80-retries <span class="token operator">\</span>
     <span class="token comment"># 2) 타임존 사전 지정(프롬프트 방지)</span>
-    ln -snf /usr/share/zoneinfo/<span class="token variable">$TZ</span> /etc/localtime; echo <span class="token string">"$TZ"</span> > /etc/timezone; <span class="token operator">\</span>
+    &amp;&amp; ln -snf /usr/share/zoneinfo/<span class="token variable">$TZ</span> /etc/localtime; echo <span class="token string">"$TZ"</span> > /etc/timezone <span class="token operator">\</span>
     <span class="token comment"># 3) 업데이트</span>
-    apt-get update -o Acquire::http::No-Cache=true -o Acquire::http::Pipeline-Depth=0; <span class="token operator">\</span>
+    &amp;&amp; apt-get update -o Acquire::http::No-Cache=true -o Acquire::http::Pipeline-Depth=0 <span class="token operator">\</span>
     <span class="token comment"># 4) 필요한 패키지 일괄 설치(폰트 + tzdata + 인증서)</span>
-    apt-get install -y --no-install-recommends <span class="token operator">\</span>
+    &amp;&amp; apt-get install -y --no-install-recommends <span class="token operator">\</span>
         fonts-noto-cjk <span class="token operator">\</span>
         fonts-noto-color-emoji <span class="token operator">\</span>
         tzdata <span class="token operator">\</span>
         ca-certificates <span class="token operator">\</span>
-    ; <span class="token operator">\</span>
     <span class="token comment"># 5) tzdata 재설정도 비대화식으로 강제</span>
-    dpkg-reconfigure -f noninteractive tzdata; <span class="token operator">\</span>
+    &amp;&amp; dpkg-reconfigure -f noninteractive tzdata <span class="token operator">\</span>
     <span class="token comment"># 6) 클린업</span>
-    rm -rf /var/lib/apt/lists/*</span>
+    &amp;&amp; rm -rf /var/lib/apt/lists/*</span>
 
 <span class="token instruction"><span class="token keyword">USER</span> pwuser</span></code></pre></div>
 <div class="gatsby-highlight" data-language="dockerfile"><pre class="language-dockerfile"><code class="language-dockerfile"><span class="token comment"># Dockerfile.local</span>
@@ -1001,4 +1000,4 @@ $ <span class="token function">docker</span> images <span class="token operator"
           >
             window.___chunkMapping="{\"app\":[\"/app-6806b4783039cafaee55.js\"],\"component---src-pages-404-tsx\":[\"/component---src-pages-404-tsx-947aa41e5ed6d6a1aac3.js\"],\"component---src-pages-about-tsx\":[\"/component---src-pages-about-tsx-810b6b9bc1c05c47a5d1.js\"],\"component---src-pages-tags-tsx\":[\"/component---src-pages-tags-tsx-fabe1e527e20208fcbab.js\"],\"component---src-templates-index-tsx\":[\"/component---src-templates-index-tsx-90df82a9744d14bb9b08.js\"],\"component---src-templates-post-tsx\":[],\"component---src-templates-tags-tsx\":[\"/component---src-templates-tags-tsx-d02e5745eba65c93e661.js\"]}";
           </script>
-        <script>window.___webpackCompilationHash="d0119d5b56c0c22f109f";</script><script src="/webpack-runtime-e216c28282c6e0603a62.js" async></script><script src="/app-6806b4783039cafaee55.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
+        <script>window.___webpackCompilationHash="20f8c825784be7d6d978";</script><script src="/webpack-runtime-e216c28282c6e0603a62.js" async></script><script src="/app-6806b4783039cafaee55.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
