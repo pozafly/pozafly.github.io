@@ -179,8 +179,8 @@
 <li>
 <p>그런데 super에 props를 넘겨주지 않아도 props를 render() 메서드 내부에서 사용할 수 있다.</p>
 <div class="gatsby-highlight" data-language="jsx"><pre class="language-jsx"><code class="language-jsx"><span class="token comment">// Inside React</span>
-  <span class="token keyword">const</span> instance <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">YourComponent</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  instance<span class="token punctuation">.</span>props <span class="token operator">=</span> props<span class="token punctuation">;</span></code></pre></div>
+<span class="token keyword">const</span> instance <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">YourComponent</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span><span class="token punctuation">;</span>
+instance<span class="token punctuation">.</span>props <span class="token operator">=</span> props<span class="token punctuation">;</span></code></pre></div>
 <p>이렇게 props를 전달 받고, 또 instance.props에 props를 할당한다.</p>
 </li>
 <li>
@@ -240,7 +240,7 @@
 <ul>
 <li>class 컴포넌트는 반드시 render 메서드가 존재해야 하고, 렌더링 하고 싶은 jsx를 return 하면 된다.</li>
 <li>return 문 안에는 button에 onClick이 있고, 클릭 시 실행되는 handleClick이 <code class="language-text">()</code> 실행문이 붙지 않은 상태로 함수 자체를 넘겨주고 있다.</li>
-<li>render return에 들어가는 jsx는 <code class="language-text">React.createElement()</code>  함수로 dom을 생성하는데, 이때 create 인자로 ‘값’만 들어갈 수 있다. 즉, ‘문’이 들어갈 수 없고 ‘식’ 만 들어갈 수 있다.
+<li>render return에 들어가는 jsx는 <code class="language-text">React.createElement()</code> 함수로 dom을 생성하는데, 이때 create 인자로 ‘값’만 들어갈 수 있다. 즉, ‘문’이 들어갈 수 없고 ‘식’ 만 들어갈 수 있다.
 <ul>
 <li>문이란, 기본적인 프로그램 실행 단위이며(if, for…) 식이란 값으로 평가되는 문이다. 따라서 <code class="language-text">&amp;&amp;</code> 와 삼항 연산자와 같은 평가된 값만 들어갈 수 있다. 조건부 렌더링에서 &#x26;&#x26; 가 사용되는 이유다.</li>
 </ul>
@@ -364,4 +364,4 @@ console<span class="token punctuation">.</span><span class="token function">log<
           >
             window.___chunkMapping="{\"app\":[\"/app-fb0a2691505f1c357f87.js\"],\"component---src-pages-404-tsx\":[\"/component---src-pages-404-tsx-38ff579fddc260d8378d.js\"],\"component---src-pages-about-tsx\":[\"/component---src-pages-about-tsx-14882bb99622fb549a04.js\"],\"component---src-pages-notes-tsx\":[\"/component---src-pages-notes-tsx-e5ae0ca2062e3e63dc94.js\"],\"component---src-pages-tags-tsx\":[\"/component---src-pages-tags-tsx-f1e0c7ebb7dbea169a26.js\"],\"component---src-templates-index-tsx\":[\"/component---src-templates-index-tsx-fca29a33afd61cffd9a1.js\"],\"component---src-templates-post-tsx\":[],\"component---src-templates-tags-tsx\":[\"/component---src-templates-tags-tsx-8911f31e97a331d13939.js\"]}";
           </script>
-        <script>window.___webpackCompilationHash="866576b027747bed2c42";</script><script src="/webpack-runtime-f42bd262f720f529f53e.js" async></script><script src="/app-fb0a2691505f1c357f87.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
+        <script>window.___webpackCompilationHash="0c74f32ae2e1aaed25a6";</script><script src="/webpack-runtime-f42bd262f720f529f53e.js" async></script><script src="/app-fb0a2691505f1c357f87.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>

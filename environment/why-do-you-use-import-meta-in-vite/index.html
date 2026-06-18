@@ -118,7 +118,7 @@
 <p>대부분의 bundler는 Node.js 환경 위에서 동작한다. Node.js에서는 <code class="language-text">process</code> 라는 특별한 이름의 예약어를 사용해 환경 변수에 접근할 수 있다. <code class="language-text">process</code> 예약어는 현재 실행되고 있는 Node.js 프로세스에 대한 정보를 가지고 있고 이를 제어할 수 있는 객체다.</p>
 <p>대부분의 JavaScript 프레임워크에서는 <code class="language-text">process.env</code> 변수를 통해 환경 변수에 접근한다. process.env는 런타임에 동적으로 변수를 추가 및 수정할 수 있다.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">TEST</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// undefined</span>
-process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">TEST</span> <span class="token operator">=</span> <span class="token string">"test!"</span><span class="token punctuation">;</span>
+process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">TEST</span> <span class="token operator">=</span> <span class="token string">'test!'</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">TEST</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// test!</span></code></pre></div>
 <p>위 코드를 Node.js의 <code class="language-text">node</code> 명령어로 실행하면 주석과 같은 결과를 얻을 수 있다. 프레임워크에서는 <code class="language-text">.env</code> 파일을 통해 process.env 변수에 개발자가 설정한 변수를 process.env에 주입시켜주는데, 주로 <code class="language-text">dotenv</code> 라이브러리를 통해 주입한다.</p>
 <h3 id="dotenv" style="position:relative;">dotenv<a href="#dotenv" aria-label="dotenv permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
@@ -133,21 +133,21 @@ TEST=ENV_TEST!</code></pre></div>
 <p>main.js 파일을 생성하고, dotenv 라이브러리를 통해 <code class="language-text">.env</code> 파일의 환경 변수 값을 가져와보자.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// src/main.js</span>
 
-<span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"dotenv"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">config</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">TEST</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// ENV_TEST!</span></code></pre></div>
+<span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'dotenv'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">config</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">TEST</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ENV_TEST!</span></code></pre></div>
 <p>이제 <code class="language-text">node</code> 명령어로 Node.js 환경에서 이를 실행시켜보자.</p>
 <div class="gatsby-highlight" data-language="sh"><pre class="language-sh"><code class="language-sh">$ <span class="token function">node</span> src/main.js
 
 <span class="token operator">=</span><span class="token operator">></span> ENV_TEST<span class="token operator">!</span></code></pre></div>
 <p>어떻게 이런 결과가 나올까? dotenv 라이브러리를 살짝 까보자. 시작은 <code class="language-text">require("dotenv").config();</code> 줄이다. config 메서드를 실행한다.</p>
-<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">config</span> <span class="token punctuation">(</span><span class="token parameter">options</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">config</span><span class="token punctuation">(</span><span class="token parameter">options</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">_dotenvKey</span><span class="token punctuation">(</span>options<span class="token punctuation">)</span><span class="token punctuation">.</span>length <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">return</span> DotenvModule<span class="token punctuation">.</span><span class="token function">configDotenv</span><span class="token punctuation">(</span>options<span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
   <span class="token comment">// ...</span>
 <span class="token punctuation">}</span></code></pre></div>
 <p><code class="language-text">configDotenv()</code> 함수를 실행한다. <a href="https://github.com/motdotla/dotenv/blob/8076cbb4ae64b531308b42b5f27d35f49b74ed83/lib/main.js#L205" target="_blank" rel="nofollow">lib/main.js의 configDotenv 함수</a>. <code class="language-text">.env</code> 파일의 경로를 읽고 파싱 해 process 환경을 파싱 된 값으로 채우고 반환한다.</p>
-<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">configDotenv</span> <span class="token punctuation">(</span><span class="token parameter">options</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">configDotenv</span><span class="token punctuation">(</span><span class="token parameter">options</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">let</span> dotenvPath <span class="token operator">=</span> path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>process<span class="token punctuation">.</span><span class="token function">cwd</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">'.env'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token comment">// ...</span>
   <span class="token keyword">const</span> parsed <span class="token operator">=</span> DotenvModule<span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>fs<span class="token punctuation">.</span><span class="token function">readFileSync</span><span class="token punctuation">(</span>dotenvPath<span class="token punctuation">,</span> <span class="token punctuation">{</span> encoding <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -186,7 +186,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p><code class="language-text">populate(processEnv, parsed, options)</code> 실행한다. populate는 ‘덧붙이다’라는 뜻을 가지고 있다.</p>
 </li>
 </ol>
-<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">populate</span> <span class="token punctuation">(</span><span class="token parameter">processEnv<span class="token punctuation">,</span> parsed<span class="token punctuation">,</span> options <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">populate</span><span class="token punctuation">(</span><span class="token parameter">processEnv<span class="token punctuation">,</span> parsed<span class="token punctuation">,</span> options <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token comment">// Set process.env</span>
   <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> key <span class="token keyword">of</span> Object<span class="token punctuation">.</span><span class="token function">keys</span><span class="token punctuation">(</span>parsed<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token comment">// ...</span>
@@ -195,7 +195,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token punctuation">}</span></code></pre></div>
 <p>위에서 <code class="language-text">processEnv = process.env</code> 로 레퍼런스 주소를 묶어주었기 때문에 key로 즉시 할당한다. 다시 우리가 작성했던 main.js 구문을 보자.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'dotenv'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">config</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">TEST</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// ENV_TEST!</span></code></pre></div>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">TEST</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ENV_TEST!</span></code></pre></div>
 <p>정리하면, dotenv 라이브러리는 Node.js 환경에서 <code class="language-text">.env</code> 를 파싱 해 text 값을 통해 객체를 생성하고, process.env에 값을 추가해 Node.js 환경의 전역에 노출된다. JavaScript 프레임워크에서는 보통 Node.js를 한 번만 실행하기 때문에 <code class="language-text">.env</code> 파일의 환경 변수 값이 변경되면 devServer를 껐다 켜주어야 값을 변경된 값으로 반영할 수 있는 이유이다.</p>
 <p>Vite는 바로 반영이 되는데 devServer를 순간적으로 다시 시작시켜준다. .env 파일에서 변수를 변경하면 터미널 log에 <code class="language-text">server restarted.</code>라고 알려준다. Vite는 Webpack처럼 모든 파일을 번들링 하지 않기 때문에 무척 빠르기에 가능하다.</p>
 <p>dotenv에서 ESM 환경 또한 지원한다.</p>
@@ -227,41 +227,45 @@ PORT=3000</code></pre></div>
 <span class="token keyword">const</span> Dotenv <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'dotenv-webpack'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
-  <span class="token literal-property property">plugins</span><span class="token operator">:</span> <span class="token punctuation">[</span>
-    <span class="token keyword">new</span> <span class="token class-name">Dotenv</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">path</span><span class="token operator">:</span> <span class="token string">'.env.production'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">plugins</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token keyword">new</span> <span class="token class-name">Dotenv</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">path</span><span class="token operator">:</span> <span class="token string">'.env.production'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre></div>
 <p>webpack 설정 파일에 <code class="language-text">new Dotenv()</code> 를 통해 인스턴스를 만든다. 인자로 path key를 가진 객체를 넣어주는데, 빌드 시 적용할 <code class="language-text">.env.production</code> 파일의 경로를 적어준다. 그럼, dotenv-webpack 플러그인을 보자. <a href="https://github.com/mrsteele/dotenv-webpack/blob/97a864d72302d25fad0cef618fcd3f09e94bc4e4/src/index.js#L22" target="_blank" rel="nofollow">dotenv-webpack 소스</a></p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">import</span> dotenv <span class="token keyword">from</span> <span class="token string">'dotenv-defaults'</span><span class="token punctuation">;</span>
 
 <span class="token keyword">class</span> <span class="token class-name">Dotenv</span> <span class="token punctuation">{</span>
   <span class="token comment">// 1.</span>
-  <span class="token function">constructor</span> <span class="token punctuation">(</span><span class="token parameter">config <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">this</span><span class="token punctuation">.</span>config <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">assign</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
-      <span class="token literal-property property">path</span><span class="token operator">:</span> <span class="token string">'./.env'</span><span class="token punctuation">,</span>
-      <span class="token literal-property property">prefix</span><span class="token operator">:</span> <span class="token string">'process.env.'</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span> config<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token parameter">config <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>config <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">assign</span><span class="token punctuation">(</span>
+      <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        <span class="token literal-property property">path</span><span class="token operator">:</span> <span class="token string">'./.env'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">prefix</span><span class="token operator">:</span> <span class="token string">'process.env.'</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      config<span class="token punctuation">,</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
-  
+
   <span class="token comment">// 3.</span>
-  <span class="token function">getEnvs</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">getEnvs</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">const</span> <span class="token punctuation">{</span> path <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>config<span class="token punctuation">;</span>
-    <span class="token keyword">const</span> env <span class="token operator">=</span> dotenv<span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">loadFile</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-      <span class="token literal-property property">file</span><span class="token operator">:</span> path<span class="token punctuation">,</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> env <span class="token operator">=</span> dotenv<span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">loadFile</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        <span class="token literal-property property">file</span><span class="token operator">:</span> path<span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token keyword">return</span> <span class="token punctuation">{</span>
-      env
+      env<span class="token punctuation">,</span>
     <span class="token punctuation">}</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
-  
-  <span class="token function">gatherVariables</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+  <span class="token function">gatherVariables</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">const</span> <span class="token punctuation">{</span> env <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getEnvs</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 2.</span>
     <span class="token keyword">const</span> vars <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">assign</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> process<span class="token punctuation">.</span>env<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 4.</span>
 
-    Object<span class="token punctuation">.</span><span class="token function">keys</span><span class="token punctuation">(</span>env<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token parameter">key</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    Object<span class="token punctuation">.</span><span class="token function">keys</span><span class="token punctuation">(</span>env<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">key</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
       <span class="token keyword">const</span> value <span class="token operator">=</span> <span class="token class-name">Object</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function">hasOwnProperty</span><span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>vars<span class="token punctuation">,</span> key<span class="token punctuation">)</span> <span class="token operator">?</span> vars<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">:</span> env<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">;</span>
       vars<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> value<span class="token punctuation">;</span> <span class="token comment">// 5.</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
     <span class="token keyword">return</span> vars<span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
@@ -297,7 +301,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
  *   resolve: [Function: resolve],
  *   url: 'file:///Users/pozafly/Documents/dev/play-ground/esm-exam/src/main.js'
  * }
-*/</span></code></pre></div>
+ */</span></code></pre></div>
 <p>위와 같은 결과를 얻었다. dirname, filename, resolve, url 등의 정보가 들어있다. 절대 경로로 내 파일(모듈)의 위치를 가리키고 있다. 그렇다면 브라우저에서는 어떻게 동작하는가?</p>
 <p>간단하게 <a href="https://github.com/johnpapa/lite-server" target="_blank" rel="nofollow">lite-server</a>를 설치하고 index.html 파일을 브라우저로 서빙해보자.</p>
 <div class="gatsby-highlight" data-language="sh"><pre class="language-sh"><code class="language-sh">$ <span class="token function">npm</span> i <span class="token parameter variable">-D</span> lite-server</code></pre></div>
@@ -311,8 +315,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
   <span class="token property">"devDependencies"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
     <span class="token property">"lite-server"</span><span class="token operator">:</span> <span class="token string">"^2.6.1"</span>
   <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-</code></pre></div>
+<span class="token punctuation">}</span></code></pre></div>
 <p>dev 스크립트를 입력해 주고, index.html 파일을 만들어 <code class="language-text">npm run dev</code> 명령어를 실행한다.</p>
 <div class="gatsby-highlight has-highlighted-lines" data-language="html"><pre class="language-html"><code class="language-html"><span class="token comment">&lt;!-- index.html --></span>
 <span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span>
@@ -663,7 +666,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
   <span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre></div>
 <p><code class="language-text">qualifiedCallbacks</code> 은 허용된 콜백이라는 뜻인데, 허용된 목록 안에 있는 acceptedPath가 모듈 path(dep) 와 동일하다면 fn을 실행하는 구조로 되어있다. 외부로 노출된 <code class="language-text">import.meta.hot</code> 을 통해 콜백이 허용되었는지를 검사 후, 모듈을 교체하는 작업이다.</p>
-<p>이후의 동작은 Vite 공식 문서의 <a href="https://ko.vitejs.dev/guide/features.html#hot-module-replacement" target="_blank" rel="nofollow">Hot Module Replacement</a>를 통해  사용하고 있는 프레임워크의 plugin으로 이어져 동작하게 된다.</p>
+<p>이후의 동작은 Vite 공식 문서의 <a href="https://ko.vitejs.dev/guide/features.html#hot-module-replacement" target="_blank" rel="nofollow">Hot Module Replacement</a>를 통해 사용하고 있는 프레임워크의 plugin으로 이어져 동작하게 된다.</p>
 <br/>
 <h2 id="마이그레이션-결과" style="position:relative;">마이그레이션 결과<a href="#%EB%A7%88%EC%9D%B4%EA%B7%B8%EB%A0%88%EC%9D%B4%EC%85%98-%EA%B2%B0%EA%B3%BC" aria-label="마이그레이션 결과 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h2>
 <p>vue-cli를 Vite로 마이그레이션 한 결과 devServer 실행 속도뿐 아니라 build 속도도 개선되었다. 아래는 GitHub Actions 빌드 결과이다.</p>
@@ -730,7 +733,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre></div>
 <p>하지만, Node.js 환경에서는 fs와 path 라이브러리를 항상 가지고 있어야 하며 브라우저 환경에서는 현재 실행되고 있는 스크립트가 반드시 library.js 모듈일지는 불명확했기 때문에 문제가 되었다. 따라서 TC39에 import.meta에 대한 제안이 올라왔고 구현되었다.</p>
 <p>import.meta는 비교적 최신 문법이며 따라서 구형 브라우저에서는 동작하지 않는다. Vite는 import.meta를 사용하기 때문에 자연스럽게 <a href="https://ko.vitejs.dev/guide/#browser-support" target="_blank" rel="nofollow">구형 브라우저에서는 사용할 수 없다</a>. 하지만, <a href="https://github.com/vitejs/vite/tree/main/packages/plugin-legacy" target="_blank" rel="nofollow">@vitejs/plugin-legacy</a>를 사용한다면 가능하다.</p>
-<p>또한 Vite의 <a href="https://github.com/vitejs/vite/discussions/8132" target="_blank" rel="nofollow">discussions</a>를 보면 process.env 대신 import.meta를 사용하는 이유에 대한 답변으로 ECMAScript 모듈의 ‘새로운’ 표준이기 때문에 사용한다라는 답변이 있다. 물론 import.meta는  ECMAScript의 새로운 표준이기도 하지만 Vite가 개발 모드에서 브라우저에 모듈을 서빙하는 과정을 보면 브라우저 자체가 모듈을 다룰 수 있도록 하고, 빠른 번들링 및 모듈 교체를 위함임을 알 수 있다. 이는 Vite의 철학과도 연관되어 있다.</p>
+<p>또한 Vite의 <a href="https://github.com/vitejs/vite/discussions/8132" target="_blank" rel="nofollow">discussions</a>를 보면 process.env 대신 import.meta를 사용하는 이유에 대한 답변으로 ECMAScript 모듈의 ‘새로운’ 표준이기 때문에 사용한다라는 답변이 있다. 물론 import.meta는 ECMAScript의 새로운 표준이기도 하지만 Vite가 개발 모드에서 브라우저에 모듈을 서빙하는 과정을 보면 브라우저 자체가 모듈을 다룰 수 있도록 하고, 빠른 번들링 및 모듈 교체를 위함임을 알 수 있다. 이는 Vite의 철학과도 연관되어 있다.</p>
 <p>Vite로 마이그레이션 하면서 process.env대신 import.meta를 사용하는 이유가 궁금했다. 결과, import.meta MDN 문서도 함께 번역해 보면서 번들러가 어떻게 이를 사용하고 있는지 살펴볼 수 있는 시간이었다.</p>
 <blockquote>
 <p>참고</p>
@@ -749,4 +752,4 @@ console<span class="token punctuation">.</span><span class="token function">log<
           >
             window.___chunkMapping="{\"app\":[\"/app-fb0a2691505f1c357f87.js\"],\"component---src-pages-404-tsx\":[\"/component---src-pages-404-tsx-38ff579fddc260d8378d.js\"],\"component---src-pages-about-tsx\":[\"/component---src-pages-about-tsx-14882bb99622fb549a04.js\"],\"component---src-pages-notes-tsx\":[\"/component---src-pages-notes-tsx-e5ae0ca2062e3e63dc94.js\"],\"component---src-pages-tags-tsx\":[\"/component---src-pages-tags-tsx-f1e0c7ebb7dbea169a26.js\"],\"component---src-templates-index-tsx\":[\"/component---src-templates-index-tsx-fca29a33afd61cffd9a1.js\"],\"component---src-templates-post-tsx\":[],\"component---src-templates-tags-tsx\":[\"/component---src-templates-tags-tsx-8911f31e97a331d13939.js\"]}";
           </script>
-        <script>window.___webpackCompilationHash="866576b027747bed2c42";</script><script src="/webpack-runtime-f42bd262f720f529f53e.js" async></script><script src="/app-fb0a2691505f1c357f87.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
+        <script>window.___webpackCompilationHash="0c74f32ae2e1aaed25a6";</script><script src="/webpack-runtime-f42bd262f720f529f53e.js" async></script><script src="/app-fb0a2691505f1c357f87.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>

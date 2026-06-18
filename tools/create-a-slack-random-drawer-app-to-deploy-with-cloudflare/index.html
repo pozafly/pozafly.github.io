@@ -277,7 +277,7 @@ $ <span class="token function">open</span> <span class="token parameter variable
     </span></p>
 <p>위와 같은 scope을 설정해 주었다.</p>
 <h3 id="Slack-Bot-Token-및-Signing-Secret" style="position:relative;">Slack Bot Token 및 Signing Secret<a href="#Slack-Bot-Token-%EB%B0%8F-Signing-Secret" aria-label="Slack Bot Token 및 Signing Secret permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
-<p>Slcak Bot Token을 얻기 위해서는 먼저 데스트탑 앱에 우리 서드파티 앱을 설치해야 한다. 스크롤을 조금 올리면 ‘OAuth Tokens for Your Workspace’  란에 ‘Install to Workspace’ 버튼을 눌러준다.</p>
+<p>Slcak Bot Token을 얻기 위해서는 먼저 데스트탑 앱에 우리 서드파티 앱을 설치해야 한다. 스크롤을 조금 올리면 ‘OAuth Tokens for Your Workspace’ 란에 ‘Install to Workspace’ 버튼을 눌러준다.</p>
 <p><span
       class="gatsby-resp-image-wrapper"
       style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 1438px; "
@@ -351,7 +351,7 @@ SLACK_SIGNING_SECRET=...</code></pre></div>
 dotenv<span class="token punctuation">.</span><span class="token function">config</span><span class="token punctuation">(</span><span class="token string">'./.env'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
 <p>그리고 프로젝트 root에 src/app.ts 파일을 만든다.</p>
 <div class="gatsby-highlight" data-language="ts"><pre class="language-ts"><code class="language-ts"><span class="token comment">// src/app.ts</span>
-<span class="token keyword">import</span> <span class="token string">'./utils/env'</span><span class="token punctuation">;</span>  <span class="token comment">// dotenv import 구문</span>
+<span class="token keyword">import</span> <span class="token string">'./utils/env'</span><span class="token punctuation">;</span> <span class="token comment">// dotenv import 구문</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> App <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@slack/bolt'</span><span class="token punctuation">;</span>
 
 <span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">App</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -519,7 +519,9 @@ dotenv<span class="token punctuation">.</span><span class="token function">confi
       view<span class="token operator">:</span> <span class="token punctuation">{</span>
         type<span class="token operator">:</span> <span class="token string">'modal'</span><span class="token punctuation">,</span>
         callback_id<span class="token operator">:</span> <span class="token string">'random'</span><span class="token punctuation">,</span> <span class="token comment">// app.view() 의 첫 번째 인자로 들어가는 id</span>
-        blocks<span class="token operator">:</span> <span class="token punctuation">[</span> <span class="token comment">/* 모달 요소들 정의 */</span> <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        blocks<span class="token operator">:</span> <span class="token punctuation">[</span>
+          <span class="token comment">/* 모달 요소들 정의 */</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span>
       <span class="token punctuation">}</span><span class="token punctuation">,</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     logger<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -537,8 +539,10 @@ dotenv<span class="token punctuation">.</span><span class="token function">confi
 <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">generateBlocks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> View <span class="token punctuation">{</span>
   <span class="token keyword">return</span> <span class="token punctuation">{</span>
     type<span class="token operator">:</span> <span class="token string">'modal'</span><span class="token punctuation">,</span>
-		<span class="token comment">// ...</span>
-    blocks<span class="token operator">:</span> <span class="token punctuation">[</span> <span class="token comment">/* */</span> <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token comment">// ...</span>
+    blocks<span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token comment">/* */</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
   <span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre></div>
 <h4 id="전체-선택-버튼-만들기" style="position:relative;">전체 선택 버튼 만들기<a href="#%EC%A0%84%EC%B2%B4-%EC%84%A0%ED%83%9D-%EB%B2%84%ED%8A%BC-%EB%A7%8C%EB%93%A4%EA%B8%B0" aria-label="전체 선택 버튼 만들기 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h4>
@@ -547,12 +551,12 @@ dotenv<span class="token punctuation">.</span><span class="token function">confi
 <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">commands</span><span class="token punctuation">(</span><span class="token comment">/* ... */</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">try</span> <span class="token punctuation">{</span>
     <span class="token keyword">await</span> <span class="token function">ack</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    
+
     <span class="token comment">// 현재 채널의 멤버 목록을 가져온다.</span>
     <span class="token keyword">const</span> <span class="token punctuation">{</span> members <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">await</span> client<span class="token punctuation">.</span>conversations<span class="token punctuation">.</span><span class="token function">members</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
       channel<span class="token operator">:</span> body<span class="token punctuation">.</span>channel_id<span class="token punctuation">,</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    
+
 		<span class="token comment">// ...</span>
   <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     logger<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -668,7 +672,7 @@ app<span class="token punctuation">.</span><span class="token function">command<
   members <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
   isInitModal <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token operator">:</span> Props<span class="token punctuation">)</span><span class="token operator">:</span> View <span class="token punctuation">{</span>
-<span class="gatsby-highlight-code-line">  <span class="token keyword">const</span> privateMetadata <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span><span class="token punctuation">{</span> members<span class="token punctuation">,</span> channelId <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>  
+<span class="gatsby-highlight-code-line">  <span class="token keyword">const</span> privateMetadata <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span><span class="token punctuation">{</span> members<span class="token punctuation">,</span> channelId <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
   <span class="token keyword">return</span> <span class="token punctuation">{</span>
     type<span class="token operator">:</span> <span class="token string">'modal'</span><span class="token punctuation">,</span>
 		<span class="token comment">// ...</span>
@@ -695,11 +699,7 @@ app<span class="token punctuation">.</span><span class="token function">action</
 <span class="gatsby-highlight-code-line">app<span class="token punctuation">.</span><span class="token generic-function"><span class="token function">view</span><span class="token generic class-name"><span class="token operator">&lt;</span>ViewSubmitAction<span class="token operator">></span></span></span><span class="token punctuation">(</span><span class="token string">'random'</span><span class="token punctuation">,</span> responseModal<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="token comment">// ...</span></code></pre></div>
 <p>띄워졌던 모달의 <code class="language-text">callback_id</code> 는 <code class="language-text">random</code> 이었기 때문에 식별자는 <code class="language-text">'random'</code> 이다. responseModal 함수를 보자.</p>
-<div class="gatsby-highlight" data-language="ts"><pre class="language-ts"><code class="language-ts"><span class="token keyword">import</span> <span class="token keyword">type</span> <span class="token punctuation">{</span>
-  AllMiddlewareArgs<span class="token punctuation">,</span>
-  SlackViewAction<span class="token punctuation">,</span>
-  SlackViewMiddlewareArgs<span class="token punctuation">,</span>
-<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@slack/bolt'</span><span class="token punctuation">;</span>
+<div class="gatsby-highlight" data-language="ts"><pre class="language-ts"><code class="language-ts"><span class="token keyword">import</span> <span class="token keyword">type</span> <span class="token punctuation">{</span> AllMiddlewareArgs<span class="token punctuation">,</span> SlackViewAction<span class="token punctuation">,</span> SlackViewMiddlewareArgs <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@slack/bolt'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> getResponseMessage <span class="token keyword">from</span> <span class="token string">'../utils/getResponseResult'</span><span class="token punctuation">;</span>
 
 <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">responseModal</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -761,11 +761,7 @@ app<span class="token punctuation">.</span><span class="token function">action</
   count<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">getResponseMessage</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  author <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">,</span>
-  members <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-  count <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span>
-<span class="token punctuation">}</span><span class="token operator">:</span> Props<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">getResponseMessage</span><span class="token punctuation">(</span><span class="token punctuation">{</span> author <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">,</span> members <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> count <span class="token operator">=</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token operator">:</span> Props<span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">const</span> selectedUsers <span class="token operator">=</span> <span class="token function">getRandomUsers</span><span class="token punctuation">(</span>members<span class="token punctuation">,</span> count<span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token keyword">const</span> mentionedUser <span class="token operator">=</span> selectedUsers
     <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> index<span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">>• </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>index <span class="token operator">+</span> <span class="token number">1</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">등 : &lt;@</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>
@@ -828,7 +824,7 @@ app<span class="token punctuation">.</span><span class="token function">action</
       />
     </span></p>
 <p>이미지와 같이 더보기 > 사람 > 사용자 그룹 > 사용자 그룹 새로 만들기에 들어가면 그룹을 만들 수 있다. 나는 <code class="language-text">product</code> 그룹을 생성했다.</p>
-<p>이제  <code class="language-text">commands</code> 함수를 수정해야 한다.</p>
+<p>이제 <code class="language-text">commands</code> 함수를 수정해야 한다.</p>
 <div class="gatsby-highlight" data-language="ts"><pre class="language-ts"><code class="language-ts"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">commands</span><span class="token punctuation">(</span><span class="token comment">/**/</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">const</span> <span class="token punctuation">[</span>rawGroupText<span class="token punctuation">,</span> count <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> payload<span class="token punctuation">.</span>text<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">' '</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token comment">// NOTE: rawGroupText: '&lt;!subteam^S06MDLGF4RY|@product>',</span>
@@ -868,11 +864,7 @@ app<span class="token punctuation">.</span><span class="token function">action</
 <p>다만, 문제점이 하나 있었다. Bolt-js는 애초에 serverless 환경을 염두에 두고 만들어진 프레임워크가 아니라는 점이다. AWS Lambda는 이제는 무척 보편화된 서비스이기 때문에 Bolt-js에서 연결할 수 있는 리시버를 만들어두었다지만, Cloudflare 버전은 없었다.</p>
 <p>Workers의 생김새를 보자.</p>
 <div class="gatsby-highlight" data-language="ts"><pre class="language-ts"><code class="language-ts"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
-  <span class="token keyword">async</span> <span class="token function">fetch</span><span class="token punctuation">(</span>
-    request<span class="token operator">:</span> Request<span class="token punctuation">,</span>
-    env<span class="token operator">:</span> Env<span class="token punctuation">,</span>
-    ctx<span class="token operator">:</span> ExecutionContext
-  <span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Promise</span><span class="token operator">&lt;</span>Response<span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">async</span> <span class="token function">fetch</span><span class="token punctuation">(</span>request<span class="token operator">:</span> Request<span class="token punctuation">,</span> env<span class="token operator">:</span> Env<span class="token punctuation">,</span> ctx<span class="token operator">:</span> ExecutionContext<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Promise</span><span class="token operator">&lt;</span>Response<span class="token operator">></span> <span class="token punctuation">{</span>
     <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Response</span><span class="token punctuation">(</span><span class="token string">'Hello World!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre></div>
@@ -898,14 +890,10 @@ SLACK_SIGNING_SECRET=...</code></pre></div>
 $ wrangler secret put SLACK_BOT_TOKEN</code></pre></div>
 <p>이 명령어는 <code class="language-text">.dev.vars</code> 파일에 있는 환경 변수를 로컬에서 wrangler 명령어로 실행한 Workers에 환경변수를 등록시켜준다.</p>
 <p>app.ts에 가장 기본이 되는 소스를 넣고 실행시킬 것이다.</p>
-<div class="gatsby-highlight" data-language="ts"><pre class="language-ts"><code class="language-ts"><span class="token keyword">type</span> <span class="token class-name">Env</span> <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<div class="gatsby-highlight" data-language="ts"><pre class="language-ts"><code class="language-ts"><span class="token keyword">type</span> <span class="token class-name">Env</span> <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
 
 <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
-  <span class="token keyword">async</span> <span class="token function">fetch</span><span class="token punctuation">(</span>
-    request<span class="token operator">:</span> Request<span class="token punctuation">,</span>
-    env<span class="token operator">:</span> Env<span class="token punctuation">,</span>
-    ctx<span class="token operator">:</span> ExecutionContext
-  <span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Promise</span><span class="token operator">&lt;</span>Response<span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">async</span> <span class="token function">fetch</span><span class="token punctuation">(</span>request<span class="token operator">:</span> Request<span class="token punctuation">,</span> env<span class="token operator">:</span> Env<span class="token punctuation">,</span> ctx<span class="token operator">:</span> ExecutionContext<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Promise</span><span class="token operator">&lt;</span>Response<span class="token operator">></span> <span class="token punctuation">{</span>
     <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Response</span><span class="token punctuation">(</span><span class="token string">'Hello World!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre></div>
@@ -940,18 +928,10 @@ $ wrangler secret put SLACK_BOT_TOKEN</code></pre></div>
 <div class="gatsby-highlight" data-language="ts"><pre class="language-ts"><code class="language-ts"><span class="token keyword">import</span> commands <span class="token keyword">from</span> <span class="token string">'./handlers/commands'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> responseModal <span class="token keyword">from</span> <span class="token string">'./handlers/responseModal'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> insertAllUsers <span class="token keyword">from</span> <span class="token string">'./handlers/insertAllUsers'</span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span>
-  SlackApp<span class="token punctuation">,</span>
-  SlackEdgeAppEnv<span class="token punctuation">,</span>
-  ExecutionContext<span class="token punctuation">,</span>
-<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'slack-cloudflare-workers'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> SlackApp<span class="token punctuation">,</span> SlackEdgeAppEnv<span class="token punctuation">,</span> ExecutionContext <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'slack-cloudflare-workers'</span><span class="token punctuation">;</span>
 
 <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
-  <span class="token keyword">async</span> <span class="token function">fetch</span><span class="token punctuation">(</span>
-    request<span class="token operator">:</span> Request<span class="token punctuation">,</span>
-    env<span class="token operator">:</span> SlackEdgeAppEnv<span class="token punctuation">,</span>
-    ctx<span class="token operator">:</span> ExecutionContext
-  <span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Promise</span><span class="token operator">&lt;</span>Response<span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">async</span> <span class="token function">fetch</span><span class="token punctuation">(</span>request<span class="token operator">:</span> Request<span class="token punctuation">,</span> env<span class="token operator">:</span> SlackEdgeAppEnv<span class="token punctuation">,</span> ctx<span class="token operator">:</span> ExecutionContext<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Promise</span><span class="token operator">&lt;</span>Response<span class="token operator">></span> <span class="token punctuation">{</span>
     <span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SlackApp</span><span class="token punctuation">(</span><span class="token punctuation">{</span> env <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     app<span class="token punctuation">.</span><span class="token function">command</span><span class="token punctuation">(</span><span class="token string">'/random'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> commands<span class="token punctuation">)</span><span class="token punctuation">;</span>
     app<span class="token punctuation">.</span><span class="token function">action</span><span class="token punctuation">(</span><span class="token string">'insert_all_users'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> insertAllUsers<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -1111,4 +1091,4 @@ $ wrangler secret put SLACK_BOT_TOKEN</code></pre></div>
           >
             window.___chunkMapping="{\"app\":[\"/app-fb0a2691505f1c357f87.js\"],\"component---src-pages-404-tsx\":[\"/component---src-pages-404-tsx-38ff579fddc260d8378d.js\"],\"component---src-pages-about-tsx\":[\"/component---src-pages-about-tsx-14882bb99622fb549a04.js\"],\"component---src-pages-notes-tsx\":[\"/component---src-pages-notes-tsx-e5ae0ca2062e3e63dc94.js\"],\"component---src-pages-tags-tsx\":[\"/component---src-pages-tags-tsx-f1e0c7ebb7dbea169a26.js\"],\"component---src-templates-index-tsx\":[\"/component---src-templates-index-tsx-fca29a33afd61cffd9a1.js\"],\"component---src-templates-post-tsx\":[],\"component---src-templates-tags-tsx\":[\"/component---src-templates-tags-tsx-8911f31e97a331d13939.js\"]}";
           </script>
-        <script>window.___webpackCompilationHash="866576b027747bed2c42";</script><script src="/webpack-runtime-f42bd262f720f529f53e.js" async></script><script src="/app-fb0a2691505f1c357f87.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
+        <script>window.___webpackCompilationHash="0c74f32ae2e1aaed25a6";</script><script src="/webpack-runtime-f42bd262f720f529f53e.js" async></script><script src="/app-fb0a2691505f1c357f87.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>

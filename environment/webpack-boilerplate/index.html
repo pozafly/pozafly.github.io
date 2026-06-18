@@ -457,10 +457,7 @@ husky는 pre-commit을 촉발 시키는 역할만 하며, 명령어로 <code cla
 <div class="gatsby-highlight" data-language="sh"><pre class="language-sh"><code class="language-sh">$ <span class="token function">npm</span> i <span class="token parameter variable">-D</span> lint-staged</code></pre></div>
 <p>이제 lint-staged 설정 파일을 만들자. 설정은 package.json 파일에서 해도 되지만, 나는 따로 파일로 분리시키고 싶어 <code class="language-text">.lintstagedrc.js</code> 파일을 생성했다.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
-  <span class="token string-property property">'src/**/*.{js,jsx,ts,tsx}'</span><span class="token operator">:</span> <span class="token punctuation">[</span>
-    <span class="token string">'eslint --fix --cache'</span><span class="token punctuation">,</span>
-    <span class="token string">'prettier --write --cache'</span><span class="token punctuation">,</span>
-  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token string-property property">'src/**/*.{js,jsx,ts,tsx}'</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'eslint --fix --cache'</span><span class="token punctuation">,</span> <span class="token string">'prettier --write --cache'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre></div>
 <p>어떤 파일 확장자를 검사할 것인지 적어주고, 배열에 차례로 실행할 명령어를 적어주면 된다. 이 때, <code class="language-text">npm run eslint</code>나, <code class="language-text">npm run prettier</code> 등의 package.json 파일에 있는 script로 진행하면 안된다. 이유는, npm run eslint 스크립트 명령어는 <code class="language-text">eslint --fix --cache .</code> 으로, 맨 뒤 <code class="language-text">.</code>이 붙어있기 때문에 lint-staged를 사용해도 모든 파일에 적용이 되는 것이기 때문이다. 그러면 lint-staged를 사용하는 이유가 없어지게 된다. 따라서, <code class="language-text">.</code> 이 붙지 않은 명령어를 실행하도록 하자.</p>
 <p>그리고 husky에 설정한 pre-commit의 명령어를 lint-staged를 실행시키도록 변경해보자. .husky/pre-commit 파일을 아래와 같이 수정한다.</p>
@@ -597,10 +594,7 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 <li>[contenthash] : 변경된 <code class="language-text">파일만</code> hash가 변경된다. (주로 CSS, Image 파일에 설정)</li>
 </ul>
 <p>위와 같은 캐시 버스팅을 해주었다 하더라도 결국 JS 파일을 요청하는 index.html 파일은 절대 캐시 되면 안된다. html의 meta 태그에 아래와 같이 설정해주자.</p>
-<div class="gatsby-highlight" data-language="html"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span>
-  <span class="token attr-name">http-equiv</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>cache-control<span class="token punctuation">"</span></span>
-  <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>no-cache, no-store, must-revalidate<span class="token punctuation">"</span></span>
-<span class="token punctuation">/></span></span></code></pre></div>
+<div class="gatsby-highlight" data-language="html"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">http-equiv</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>cache-control<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>no-cache, no-store, must-revalidate<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span></code></pre></div>
 <p><code class="language-text">http-equive="cache-control"</code> 같은 경우는 표준이 아니라고는 하지만, 붙여주는것이 좋아보인다. 위 content에 들어가는 내용은 서버에서 index.html 파일을 보내줄 때, response header, cache-control에 들어갈 수 있는 내용이다.</p>
 <ul>
 <li>no-cache : 캐시는 하되, 원서버(CDN을 지나)에 검증을 받아라.</li>
@@ -699,11 +693,7 @@ module<span class="token punctuation">.</span>exports <span class="token operato
     <span class="token literal-property property">rules</span><span class="token operator">:</span> <span class="token punctuation">[</span>
       <span class="token punctuation">{</span>
         <span class="token literal-property property">test</span><span class="token operator">:</span> <span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">\.(sa|sc|c)ss$</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">,</span>
-        <span class="token literal-property property">use</span><span class="token operator">:</span> <span class="token punctuation">[</span>
-          devMode <span class="token operator">?</span> <span class="token string">'style-loader'</span> <span class="token operator">:</span> MiniCssExtractPlugin<span class="token punctuation">.</span>loader<span class="token punctuation">,</span>
-          <span class="token string">'css-loader'</span><span class="token punctuation">,</span>
-          <span class="token string">'sass-loader'</span><span class="token punctuation">,</span>
-        <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">use</span><span class="token operator">:</span> <span class="token punctuation">[</span>devMode <span class="token operator">?</span> <span class="token string">'style-loader'</span> <span class="token operator">:</span> MiniCssExtractPlugin<span class="token punctuation">.</span>loader<span class="token punctuation">,</span> <span class="token string">'css-loader'</span><span class="token punctuation">,</span> <span class="token string">'sass-loader'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
       <span class="token punctuation">}</span><span class="token punctuation">,</span>
     <span class="token punctuation">]</span><span class="token punctuation">,</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
@@ -770,9 +760,9 @@ module<span class="token punctuation">.</span>exports <span class="token operato
           <span class="token literal-property property">filename</span><span class="token operator">:</span> <span class="token string">'assets/images/[name]_[contenthash:8][ext]'</span><span class="token punctuation">,</span>
         <span class="token punctuation">}</span><span class="token punctuation">,</span>
       <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token punctuation">]</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre></div>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre></div>
 <p>parser.dataUrlCondition.maxSize를 사용하면 용량 기준을 정해줄 수 있다. 그렇다면, 하위의 generator.filename은 무엇일까? build 했을 경우 dist 폴더 하위의 경로를 정해주고, 파일 명을 정해줄 수 있다.</p>
 <ul>
 <li>[name] : output과 동일하게 entry 파일 기준이다.</li>
@@ -1193,4 +1183,4 @@ module<span class="token punctuation">.</span>exports <span class="token operato
           >
             window.___chunkMapping="{\"app\":[\"/app-fb0a2691505f1c357f87.js\"],\"component---src-pages-404-tsx\":[\"/component---src-pages-404-tsx-38ff579fddc260d8378d.js\"],\"component---src-pages-about-tsx\":[\"/component---src-pages-about-tsx-14882bb99622fb549a04.js\"],\"component---src-pages-notes-tsx\":[\"/component---src-pages-notes-tsx-e5ae0ca2062e3e63dc94.js\"],\"component---src-pages-tags-tsx\":[\"/component---src-pages-tags-tsx-f1e0c7ebb7dbea169a26.js\"],\"component---src-templates-index-tsx\":[\"/component---src-templates-index-tsx-fca29a33afd61cffd9a1.js\"],\"component---src-templates-post-tsx\":[],\"component---src-templates-tags-tsx\":[\"/component---src-templates-tags-tsx-8911f31e97a331d13939.js\"]}";
           </script>
-        <script>window.___webpackCompilationHash="866576b027747bed2c42";</script><script src="/webpack-runtime-f42bd262f720f529f53e.js" async></script><script src="/app-fb0a2691505f1c357f87.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
+        <script>window.___webpackCompilationHash="0c74f32ae2e1aaed25a6";</script><script src="/webpack-runtime-f42bd262f720f529f53e.js" async></script><script src="/app-fb0a2691505f1c357f87.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>

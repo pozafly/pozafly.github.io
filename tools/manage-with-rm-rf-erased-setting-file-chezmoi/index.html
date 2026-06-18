@@ -410,7 +410,7 @@ mas "카카오톡", id: 869223134</code></pre></div>
 <p>스크립트에서 <a href="https://github.com/FiloSottile/age" target="_blank" rel="nofollow">age</a>를 설치하고 있다. Brewfile에도 명시가 되어있지만, Brewfile을 통해 어플리케이션들을 설치한 뒤 다시 age를 확인하는 이유는 age로 외부에 노출되어서는 안되는 특정 파일을 암호화하고 있으며 이를 chezmoi로 관리하고 있기 때문이다. 즉, age는 암호화, 복호화 라이브러리다.</p>
 <blockquote>
 <p>chezmoi의 암호화 라이브러리</p>
-<p>chezmoi의 암호화 연동 라이브러리는  age, gpg, rage가 있다. 각각 독립적인 암호화 라이브러리고, gpg가 가장 유명해 보였다. 하지만, gpg는 복잡하고 무거운 기술을 사용한다. 나는 간편하게 공개키 전략을 사용해 비밀키와 공개키 한 쌍으로 암호화, 복호화를 하기 원했고 쉽고 가볍기를 원했다.</p>
+<p>chezmoi의 암호화 연동 라이브러리는 age, gpg, rage가 있다. 각각 독립적인 암호화 라이브러리고, gpg가 가장 유명해 보였다. 하지만, gpg는 복잡하고 무거운 기술을 사용한다. 나는 간편하게 공개키 전략을 사용해 비밀키와 공개키 한 쌍으로 암호화, 복호화를 하기 원했고 쉽고 가볍기를 원했다.</p>
 </blockquote>
 <p>age를 brew로 설치했다면 아래 명령어로 먼저 공개키를 만든다.</p>
 <div class="gatsby-highlight" data-language="sh"><pre class="language-sh"><code class="language-sh">$ age-keygen <span class="token parameter variable">-o</span> <span class="token environment constant">$HOME</span>/age-key.txt
@@ -631,4 +631,4 @@ defaults <span class="token parameter variable">-currentHost</span> <span class=
           >
             window.___chunkMapping="{\"app\":[\"/app-fb0a2691505f1c357f87.js\"],\"component---src-pages-404-tsx\":[\"/component---src-pages-404-tsx-38ff579fddc260d8378d.js\"],\"component---src-pages-about-tsx\":[\"/component---src-pages-about-tsx-14882bb99622fb549a04.js\"],\"component---src-pages-notes-tsx\":[\"/component---src-pages-notes-tsx-e5ae0ca2062e3e63dc94.js\"],\"component---src-pages-tags-tsx\":[\"/component---src-pages-tags-tsx-f1e0c7ebb7dbea169a26.js\"],\"component---src-templates-index-tsx\":[\"/component---src-templates-index-tsx-fca29a33afd61cffd9a1.js\"],\"component---src-templates-post-tsx\":[],\"component---src-templates-tags-tsx\":[\"/component---src-templates-tags-tsx-8911f31e97a331d13939.js\"]}";
           </script>
-        <script>window.___webpackCompilationHash="866576b027747bed2c42";</script><script src="/webpack-runtime-f42bd262f720f529f53e.js" async></script><script src="/app-fb0a2691505f1c357f87.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
+        <script>window.___webpackCompilationHash="0c74f32ae2e1aaed25a6";</script><script src="/webpack-runtime-f42bd262f720f529f53e.js" async></script><script src="/app-fb0a2691505f1c357f87.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>

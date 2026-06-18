@@ -430,12 +430,7 @@
 <p>이런 형식으로 가져오게 했다.</p>
 <p>📌 추가</p>
 <p>이렇게 v-bind를 사용해서 DOM에 붙이는 방법을 사용하지 않고, data에 초기화 후 이벤트가 일어날 때마다 methods에서 처리하는 방법을 사용했다. 즉, 사실은 DOM에 데이터를 붙이는 방법 자체가 Vue 스럽지 않은 방법이다. 어떻게 수정했는지 한번 보면,</p>
-<div class="gatsby-highlight" data-language="html"><pre class="language-html"><code class="language-html">&lt;div
-  v-for="board in personalBoard"
-  :key="board.id"
-  :lastCreatedAt="board.createdAt"  // 🌈
->
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<div class="gatsby-highlight" data-language="html"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">v-for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>board in personalBoard<span class="token punctuation">"</span></span> <span class="token attr-name">:key</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>board.id<span class="token punctuation">"</span></span> <span class="token attr-name">:lastCreatedAt</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>board.createdAt<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
 (...)
 
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
@@ -568,12 +563,7 @@ Vue<span class="token punctuation">.</span><span class="token function">use</spa
 <p>JSON.stringify, JSON.parse는 null이나 undifined 값이 들어가게 되면 어플리케이션 전체가 뻗는 상황이 생긴다. 따라서 안정성을 위해 null 처리를 반드시 해주도록 하자.</p>
 <div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// utils/libs.js</span>
 <span class="token keyword">const</span> <span class="token function-variable function">isEmpty</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">value</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
-  <span class="token keyword">if</span> <span class="token punctuation">(</span>
-    value <span class="token operator">===</span> <span class="token string">''</span> <span class="token operator">||</span>
-    value <span class="token operator">===</span> <span class="token keyword">null</span> <span class="token operator">||</span>
-    value <span class="token operator">===</span> <span class="token keyword">undefined</span> <span class="token operator">||</span>
-    value<span class="token punctuation">.</span>length <span class="token operator">===</span> <span class="token number">0</span>
-  <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>value <span class="token operator">===</span> <span class="token string">''</span> <span class="token operator">||</span> value <span class="token operator">===</span> <span class="token keyword">null</span> <span class="token operator">||</span> value <span class="token operator">===</span> <span class="token keyword">undefined</span> <span class="token operator">||</span> value<span class="token punctuation">.</span>length <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
     <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
@@ -613,4 +603,4 @@ Vue<span class="token punctuation">.</span><span class="token function">use</spa
           >
             window.___chunkMapping="{\"app\":[\"/app-fb0a2691505f1c357f87.js\"],\"component---src-pages-404-tsx\":[\"/component---src-pages-404-tsx-38ff579fddc260d8378d.js\"],\"component---src-pages-about-tsx\":[\"/component---src-pages-about-tsx-14882bb99622fb549a04.js\"],\"component---src-pages-notes-tsx\":[\"/component---src-pages-notes-tsx-e5ae0ca2062e3e63dc94.js\"],\"component---src-pages-tags-tsx\":[\"/component---src-pages-tags-tsx-f1e0c7ebb7dbea169a26.js\"],\"component---src-templates-index-tsx\":[\"/component---src-templates-index-tsx-fca29a33afd61cffd9a1.js\"],\"component---src-templates-post-tsx\":[],\"component---src-templates-tags-tsx\":[\"/component---src-templates-tags-tsx-8911f31e97a331d13939.js\"]}";
           </script>
-        <script>window.___webpackCompilationHash="866576b027747bed2c42";</script><script src="/webpack-runtime-f42bd262f720f529f53e.js" async></script><script src="/app-fb0a2691505f1c357f87.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
+        <script>window.___webpackCompilationHash="0c74f32ae2e1aaed25a6";</script><script src="/webpack-runtime-f42bd262f720f529f53e.js" async></script><script src="/app-fb0a2691505f1c357f87.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
