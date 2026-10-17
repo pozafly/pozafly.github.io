@@ -284,18 +284,18 @@
 <h3 id="Step-2-code-classlanguage-textenvlocal-dockercode" style="position:relative;">Step 2. <code class="language-text">.env.local-docker</code><a href="#Step-2-code-classlanguage-textenvlocal-dockercode" aria-label="Step 2 code classlanguage textenvlocal dockercode permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h3>
 <p>로컬 개발 서버(pnpm dev)와 Docker 컨테이너에서 실행되는 서버는 네트워크 구조가 완전히 다르다. 그래서 기존 .env.localhost를 그대로 쓰면 의도하지 않은 문제가 생긴다.</p>
 <p>Docker 환경 전용으로 <code class="language-text">.env.local-docker</code> 를 따로 만들었다.</p>
-<div class="gatsby-highlight" data-language="env"><pre class="language-env"><code class="language-env"># .env.local-docker
-NEXT_PUBLIC_APP_ENV=local-docker
-NEXT_PUBLIC_BROWSER_API_URL=http://localhost:3000
-NEXT_PUBLIC_INTERNAL_API_URL=...
-NEXT_PUBLIC_PDF_INTERNAL_URL=http://host.docker.internal:3000
-SERVER_API_URL=...</code></pre></div>
-<div class="gatsby-highlight" data-language="env"><pre class="language-env"><code class="language-env"># .env.local
-NEXT_PUBLIC_APP_ENV=localhost
-NEXT_PUBLIC_BROWSER_API_URL=http://localhost:3000
-NEXT_PUBLIC_INTERNAL_API_URL=http://localhost:3000
-NEXT_PUBLIC_PDF_INTERNAL_URL=http://localhost:3000
-SERVER_API_URL=...</code></pre></div>
+<div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash"><span class="token comment"># .env.local-docker</span>
+<span class="token assign-left variable">NEXT_PUBLIC_APP_ENV</span><span class="token operator">=</span>local-docker
+<span class="token assign-left variable">NEXT_PUBLIC_BROWSER_API_URL</span><span class="token operator">=</span>http://localhost:3000
+<span class="token assign-left variable">NEXT_PUBLIC_INTERNAL_API_URL</span><span class="token operator">=</span><span class="token punctuation">..</span>.
+<span class="token assign-left variable">NEXT_PUBLIC_PDF_INTERNAL_URL</span><span class="token operator">=</span>http://host.docker.internal:3000
+<span class="token assign-left variable">SERVER_API_URL</span><span class="token operator">=</span><span class="token punctuation">..</span>.</code></pre></div>
+<div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash"><span class="token comment"># .env.local</span>
+<span class="token assign-left variable">NEXT_PUBLIC_APP_ENV</span><span class="token operator">=</span>localhost
+<span class="token assign-left variable">NEXT_PUBLIC_BROWSER_API_URL</span><span class="token operator">=</span>http://localhost:3000
+<span class="token assign-left variable">NEXT_PUBLIC_INTERNAL_API_URL</span><span class="token operator">=</span>http://localhost:3000
+<span class="token assign-left variable">NEXT_PUBLIC_PDF_INTERNAL_URL</span><span class="token operator">=</span>http://localhost:3000
+<span class="token assign-left variable">SERVER_API_URL</span><span class="token operator">=</span><span class="token punctuation">..</span>.</code></pre></div>
 <h4 id="envlocal-docker-설명" style="position:relative;">.env.local-docker 설명<a href="#envlocal-docker-%EC%84%A4%EB%AA%85" aria-label="envlocal docker 설명 permalink" class="auto-link after"><svg viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a></h4>
 <p><strong><code class="language-text">NEXT_PUBLIC_BROWSER_API_URL=http://localhost:3000</code></strong></p>
 <ul>
@@ -998,4 +998,4 @@ $ <span class="token function">docker</span> images <span class="token operator"
           >
             window.___chunkMapping="{\"app\":[\"/app-389acd9bc1de471692c4.js\"],\"component---src-pages-404-tsx\":[\"/component---src-pages-404-tsx-4ec722cc7bcf3e1636eb.js\"],\"component---src-pages-about-tsx\":[\"/component---src-pages-about-tsx-dfc1b1766721d70ba3ca.js\"],\"component---src-pages-notes-tsx\":[\"/component---src-pages-notes-tsx-f67c78bc411940f434c8.js\"],\"component---src-pages-tags-tsx\":[\"/component---src-pages-tags-tsx-d9f1a0deb471872585b2.js\"],\"component---src-templates-index-tsx\":[\"/component---src-templates-index-tsx-a551e17eff524d4597a7.js\"],\"component---src-templates-post-tsx\":[],\"component---src-templates-tags-tsx\":[\"/component---src-templates-tags-tsx-bbaaac943dc4bd6dedec.js\"]}";
           </script>
-        <script>window.___webpackCompilationHash="93288e8998aff8e6816f";</script><script src="/webpack-runtime-20beca7b8d9926f155c3.js" async></script><script src="/fd6103b9-043bc25e3834029abba9.js" async></script><script src="/app-389acd9bc1de471692c4.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
+        <script>window.___webpackCompilationHash="5da78e40fd466402fa37";</script><script src="/webpack-runtime-046425f84485cfeafbb0.js" async></script><script src="/fd6103b9-043bc25e3834029abba9.js" async></script><script src="/app-389acd9bc1de471692c4.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
