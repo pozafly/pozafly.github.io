@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkrecord_journey=self.webpackChunkrecord_journey||[]).push([[6771],{6771:function(e,r,c){c.d(r,{createPacketServices:function(){return n.$}});var n=c(5450);c(1966)}}]);
